@@ -15,7 +15,6 @@ def findLatIndex(lat, lat_array):
     
     if lat >= 0:
         indices = np.where(lat_array > lat)[0]
-       
         print np.where(lat_array > 2)
 
         if len(indices) == 0: 

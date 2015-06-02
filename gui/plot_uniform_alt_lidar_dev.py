@@ -7,7 +7,6 @@
 import sys
 import matplotlib.pyplot as plt 
 import matplotlib as mpl
-import numpy as np
 from numpy import ma
 from ccplot.hdf import HDF
 import ccplot.utils
@@ -16,7 +15,7 @@ from uniform_alt_2 import uniform_alt_2
 from regrid_lidar import regrid_lidar
 from findLatIndex import findLatIndex
 
-from PCF_genTimeUtils import calipsoISO_to_times, extractDatetime
+from PCF_genTimeUtils import extractDatetime
 #from gui.CALIPSO_Visualization_Tool import filename
 
 MIN_VALUE = 1.0e-4

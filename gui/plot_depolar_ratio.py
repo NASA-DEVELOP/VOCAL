@@ -7,15 +7,13 @@
 import sys
 import matplotlib.pyplot as plt 
 import matplotlib as mpl
-import numpy as np
-from numpy import ma
 from ccplot.hdf import HDF
 import ccplot.utils
 from avg_lidar_data import avg_horz_data
 from uniform_alt_2 import uniform_alt_2
 from regrid_lidar import regrid_lidar
 from findLatIndex import findLatIndex
-from PCF_genTimeUtils import calipsoISO_to_times, extractDatetime
+from PCF_genTimeUtils import extractDatetime
 
 AVGING_WIDTH = 15
 

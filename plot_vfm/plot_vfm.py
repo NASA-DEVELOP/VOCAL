@@ -6,20 +6,15 @@
 #
 #   An example of extracting and plotting VFM data using Python.
 #
-import sys
-import os
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-import matplotlib.image as mpimg
 from findLatIndex import findLatIndex
 
 from ccplot.hdf import HDF
-import ccplot.utils
 
 from vfm_row2block import vfm_row2block
 from ConfigParser import SafeConfigParser
-from PCF_genTimeUtils import calipsoISO_to_times, extractDatetime
+from PCF_genTimeUtils import extractDatetime
 import interpret_vfm_type as interpVFM
 
 from uniform_alt_2 import uniform_alt_2
