@@ -15,6 +15,9 @@ class calipso:
         self.lblFileDialog = Label()
         self.zoomValue=0
         self.imageFilename = ''
+        self.zimg_id = None
+        self.orig_img = None
+        
         
         m1 = PanedWindow()
         m1.pack(fill=BOTH, expand = 1)
@@ -113,6 +116,9 @@ class calipso:
         menuHelp.add_command(label="About", command=self.about)
         menuBar.add_cascade(label="Help", menu=menuHelp)
         
+        self.root.bind("<MouseWheel>", self.zoom)
+        self.canvasLower.bind("<Motion>", self.crop)
+        
         #configure menu to screen
         self.root.config(menu=menuBar)
 
@@ -128,6 +134,7 @@ class calipso:
         #           width = desired width of image
         #           height = desired height of image
         imageToLoad = Image.open(imageFilename1)
+        self.orig_img = imageToLoad
         imageToLoad = imageToLoad.resize((width, height))
         loadedPhotoImage = ImageTk.PhotoImage(imageToLoad)
         return loadedPhotoImage
@@ -203,7 +210,30 @@ class calipso:
             photoImage = self.loadPic(self.imageFilename, 1265, 665)
             self.addToCanvas(photoImage)
             self.canvasLower.config(scrollregion=(0, 0, 0, 0))
+    
+    def zoom(self, event):
+        if(event.delta > 0):
+            if self.zoomValue != 4 : self.zoomValue += 1
+        elif(event.delta < 0):
+            if self.zoomValue != 0 : self.zoomValue -= 1
+        self.crop(event)
         
+    def crop(self, event):
+        if self.zimg_id: self.canvasLower.delete(self.zimg_id)
+        if (self.zoomValue) != 0:
+            x, y = event.x, event.y
+            if self.zoomValue == 1:
+                tmp = self.orig_img.crop((x-45, y-30, x+45, y+30))
+            elif self.zoomValue == 2:
+                tmp = self.orig_img.crop((x-30, y-20, x+30, y+20))
+            elif self.zoomValue == 3:
+                tmp = self.orig_img.crop((x-15, y-10, x+15, y+10))
+            elif self.zoomValue == 4:
+                tmp = self.orig_img.crop((x-6, y-4, x+6, y+4))
+            size = 300, 200
+            self.zimg = ImageTk.PhotoImage(tmp.resize(size))
+            self.zimg_id = self.canvasLower.create_image(event.x, event.y, image=self.zimg)
+                
         
     def reset(self):
         #reset radio-buttons
