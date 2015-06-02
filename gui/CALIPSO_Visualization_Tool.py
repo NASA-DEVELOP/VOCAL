@@ -1,15 +1,19 @@
 #### IMPORTS #######################################################################################
-from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, TOP, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, NW, CENTER, Scrollbar, BOTTOM, RIGHT, LEFT, X, Y, SUNKEN
+from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
+    RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, CENTER, Scrollbar, BOTTOM, RIGHT, LEFT, X, Y, SUNKEN
 import tkFileDialog
 from PIL import Image, ImageTk, ImageOps
 import sys
 from bokeh.colors import white
 
+#### PROGRAM CONSTANTS ####
+BASE_PLOT       = 0
+BACKSCATTERED   = 1
+DEPOLARIZED     = 2
+VFM             = 3
+
 #### START OF CLASS ################################################################################
 class Calipso:
-    
-    __w = 2
     
     def __init__ (self, r):
         self.root = r
@@ -149,13 +153,12 @@ class Calipso:
 
     def selPlot(self, plotType):
         #parameter: plotType = int value(0-2) associated with desired plotType
-        if (plotType) == 0:
-            self.imageFilename = "test.png"
-            #self.imageFilename = "CALIPSO_A_Train.jpg"
+        if (plotType) == BASE_PLOT:
+            self.imageFilename = "CALIPSO_A_Train.jpg"
             loadedPhotoImage = self.loadPic(self.imageFilename, 1265, 665)
             self.addToCanvas(loadedPhotoImage)
             
-        elif (plotType.get()) == 1:
+        elif (plotType.get()) == BACKSCATTERED:
             try:
                 filename = self.file
                 sys.argv = [filename]
@@ -172,7 +175,7 @@ class Calipso:
                 T.pack()
                 T.insert(END, "No File Exists \n")
         
-        elif (plotType.get()) == 2:
+        elif (plotType.get()) == DEPOLARIZED:
             try:
                 filename = self.file
                 sys.argv = [filename]
@@ -189,7 +192,7 @@ class Calipso:
                 T.pack()
                 T.insert(END, "No File Exists \n") 
         
-        elif (plotType.get()) == 3:
+        elif (plotType.get()) == VFM:
             filewin = Toplevel(self.root)
             T = Text(filewin, height=5, width=30)
             T.pack()
@@ -250,7 +253,7 @@ class Calipso:
         #reset radio-buttons
         self.zoomValue = 0
         self.canvasLower.config(scrollregion=(0, 0, 0, 0))
-        self.selPlot(0)
+        self.selPlot(BASE_PLOT)
         self.file = ''
         self.lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
         
@@ -309,7 +312,7 @@ class Calipso:
     #Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
     def setupMainScreen(self):
         self.topPanedWindow()
-        self.selPlot(0)
+        self.selPlot(BASE_PLOT)
 
 #### RUN LINES ##################################################################################        
 if __name__ == "__main__":
