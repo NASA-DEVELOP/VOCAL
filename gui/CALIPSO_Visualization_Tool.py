@@ -2,12 +2,12 @@
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, TOP, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, NW, Scrollbar, BOTTOM, RIGHT, LEFT, X, Y, SUNKEN
 import tkFileDialog
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageOps
 import sys
 from bokeh.colors import white
 
 #### START OF CLASS ################################################################################
-class calipso:
+class Calipso:
     def __init__ (self, r):
         self.root = r
         
@@ -24,11 +24,13 @@ class calipso:
         m2 = PanedWindow(orient=VERTICAL)
         m1.add(m2)
         
+        self.child = Toplevel()
+        
         pndwinTop = PanedWindow(m2, orient=HORIZONTAL)
         m2.add(pndwinTop)
         
         self.frmTop = Frame(pndwinTop)
-        self.frmTop.pack(side = TOP)
+        self.frmTop.pack(side = LEFT)
         
         pndwinBottom = PanedWindow(m2)
         m2.add(pndwinBottom)
@@ -38,7 +40,6 @@ class calipso:
         xscrollbar.pack(side = BOTTOM, fill = X)
         yscrollbar = Scrollbar(frmBottom)
         yscrollbar.pack(side = RIGHT, fill = Y)
-        
         self.canvasLower = Canvas(frmBottom, height=665, width=1265, scrollregion=(0, 0, 0, 0), xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
         
         xscrollbar.config(command=self.canvasLower.xview)
@@ -48,13 +49,16 @@ class calipso:
 
 #### MAIN WINDOW SETUP #############################################################################    
     def centerWindow(self):
-        w = 1275
-        h = 700
+        pw = 1275
+        ph = 700
+        cw = 200
+        ch = 350
         sw = self.root.winfo_screenwidth()
         sh = self.root.winfo_screenheight()
-        x = (sw - w)/2
-        y = (sh - h)/2
-        self.root.geometry('%dx%d+%d+%d' % (w, h, x, y))
+        x = (sw - pw)/2
+        y = (sh - ph)/2
+        self.root.geometry('%dx%d+%d+%d' % (pw, ph, x, y))
+        self.child.geometry('%dx%d+%d+%d' % (cw, ch, x + x*4 + 20, y + y/2))
         
     #Creates the GUI window
     def setupWindow(self):
@@ -116,8 +120,9 @@ class calipso:
         menuHelp.add_command(label="About", command=self.about)
         menuBar.add_cascade(label="Help", menu=menuHelp)
         
-        self.root.bind("<MouseWheel>", self.zoom)
-        self.canvasLower.bind("<Motion>", self.crop)
+        #self.root.bind("<Button-1>", self.zoomIn)
+        #self.root.bind("<Button-3>", self.zoomOut)
+        #self.canvasLower.bind("<Motion>", self.crop)
         
         #configure menu to screen
         self.root.config(menu=menuBar)
@@ -142,6 +147,7 @@ class calipso:
     def selPlot(self, plotType):
         #parameter: plotType = int value(0-2) associated with desired plotType
         if (plotType) == 0:
+            #self.imageFilename = "test.png"
             self.imageFilename = "CALIPSO_A_Train.jpg"
             loadedPhotoImage = self.loadPic(self.imageFilename, 1265, 665)
             self.addToCanvas(loadedPhotoImage)
@@ -186,7 +192,7 @@ class calipso:
             T.pack()
             T.insert(END, "Sorry, this plot is currently not implemented. \n")
     
-    def zoomIn(self):
+    def zoomIn_(self):
         self.zoomValue= self.zoomValue + 1
         if (self.zoomValue) != 0: 
             updatedWidth =  self.zoomValue*2000
@@ -195,7 +201,7 @@ class calipso:
             self.addToCanvas(photoImage)
             self.canvasLower.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
     
-    def zoomOut(self):
+    def zoomOut_(self):
         if (self.zoomValue) >= 1:
             self.zoomValue = self.zoomValue-1 
                        
@@ -211,11 +217,12 @@ class calipso:
             self.addToCanvas(photoImage)
             self.canvasLower.config(scrollregion=(0, 0, 0, 0))
     
-    def zoom(self, event):
-        if(event.delta > 0):
-            if self.zoomValue != 4 : self.zoomValue += 1
-        elif(event.delta < 0):
-            if self.zoomValue != 0 : self.zoomValue -= 1
+    def zoomIn(self, event):
+        if self.zoomValue != 4 : self.zoomValue += 1
+        self.crop(event)
+        
+    def zoomOut(self, event):
+        if self.zoomValue != 0 : self.zoomValue -= 1
         self.crop(event)
         
     def crop(self, event):
@@ -233,6 +240,7 @@ class calipso:
             size = 300, 200
             self.zimg = ImageTk.PhotoImage(tmp.resize(size))
             self.zimg_id = self.canvasLower.create_image(event.x, event.y, image=self.zimg)
+            
                 
         
     def reset(self):
@@ -254,14 +262,14 @@ class calipso:
         lblFile=Label(self.frmTop, text="File:")
         lblFile.grid(row=1, column=0)
         self.lblFileDialog = Label(self.frmTop, width = 50, bg = white, relief = SUNKEN)
-        self.lblFileDialog.grid(row=1, column=1)
+        self.lblFileDialog.grid(row=1, column=1, padx=10)
         
         #Buttons - possible commands
         btnBrowse = Button(self.frmTop, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
-        btnZoomIn = Button(self.frmTop, text = "Zoom In", width = 10, command=self.zoomIn)
+        btnZoomIn = Button(self.frmTop, text = "Zoom In", width = 10, command=self.zoomIn_)
         btnZoomIn.grid(row=1, column=5)
-        btnZoomOut = Button(self.frmTop, text = "Zoom Out", width = 10, command=self.zoomOut)
+        btnZoomOut = Button(self.frmTop, text = "Zoom Out", width = 10, command=self.zoomOut_)
         btnZoomOut.grid(row=1, column=7)
         btnReset = Button(self.frmTop, text = "Reset", width = 10, command=self.reset)
         btnReset.grid(row=1, column=9)
@@ -303,7 +311,7 @@ class calipso:
 #### RUN LINES ##################################################################################        
 if __name__ == "__main__":
     rt = Tk()
-    program = calipso(rt)
+    program = Calipso(rt)
 
     program.setupWindow()
     program.setupMenu()
