@@ -1,6 +1,6 @@
 #### IMPORTS #######################################################################################
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, TOP, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, NW, Scrollbar, BOTTOM, RIGHT, LEFT, X, Y, SUNKEN
+    RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, NW, CENTER, Scrollbar, BOTTOM, RIGHT, LEFT, X, Y, SUNKEN
 import tkFileDialog
 from PIL import Image, ImageTk, ImageOps
 import sys
@@ -8,6 +8,9 @@ from bokeh.colors import white
 
 #### START OF CLASS ################################################################################
 class Calipso:
+    
+    __w = 2
+    
     def __init__ (self, r):
         self.root = r
         
@@ -130,7 +133,7 @@ class Calipso:
 #### MAIN SCREEN #############################################################################
     def addToCanvas(self, pimage):
         # parameter: pimage = image to be drawn on Canvas
-        self.canvasLower.create_image(0,0, image=pimage, anchor=NW)
+        self.canvasLower.create_image(1265 // 2, 665 // 2, image=pimage, anchor=CENTER)
         self.canvasLower.image = pimage
         self.canvasLower.pack()
     
@@ -147,8 +150,8 @@ class Calipso:
     def selPlot(self, plotType):
         #parameter: plotType = int value(0-2) associated with desired plotType
         if (plotType) == 0:
-            #self.imageFilename = "test.png"
-            self.imageFilename = "CALIPSO_A_Train.jpg"
+            self.imageFilename = "test.png"
+            #self.imageFilename = "CALIPSO_A_Train.jpg"
             loadedPhotoImage = self.loadPic(self.imageFilename, 1265, 665)
             self.addToCanvas(loadedPhotoImage)
             
