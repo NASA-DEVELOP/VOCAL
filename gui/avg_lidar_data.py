@@ -9,12 +9,13 @@
 # than 3 or 5.  (Perhaps incorporate it into a separate function?)
 # 
 #
+
 import numpy as np
 from numpy import ma
 
 def avg_horz_data(data, N):
   """
-  This function will avgerage lidar data for N profiles.
+  This function will average lidar data for N profiles.
   Inputs: 
       data - the lidar data to average. Profiles are assumed to be stored in columns and to be a masked array.
       N    - the number of profile to average
@@ -24,15 +25,14 @@ def avg_horz_data(data, N):
 
   """
 
-  nAlts      = data.shape[0]
+  nAlts     = data.shape[0]
   nProfiles = data.shape[1]                                                  
 
 
   nOutProfiles = np.floor(nProfiles/N) 
   out = np.zeros((nAlts, nOutProfiles))
   
-  for i in range(0, int(nOutProfiles) - 1):
-  
+  for i in range(0, int(nOutProfiles) - 1): 
     out[:, i] = ma.mean(data[:, i*N:(i+1)*N - 1], axis=1)  
   
   return out

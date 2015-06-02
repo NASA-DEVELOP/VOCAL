@@ -5,7 +5,6 @@
 #
 import numpy as np
 
-def uniform_alt_2(max_altitude, old_altitude_array):
 #
 # Description (8/2013):  Builds a uniformly spaced altitude grid above region 2
 # of the CALIOP lidar data.  The spacing is 30 km.  From what I have been told
@@ -18,13 +17,14 @@ def uniform_alt_2(max_altitude, old_altitude_array):
 #
 #   new_alt             - [out] output array with region 2 and above
 #
+def uniform_alt_2(max_altitude, old_altitude_array):
 
     D_ALT = 0.03 # spacing is 30 km
     MID_RES_TOP = 288
     MID_RES_BOT = 576
 
-#   Altitude indices for high res altitude region (region 2):
-#   288:576
+    # Altitude indices for high res altitude region (region 2):
+    # 288:576
     
     alt2 = old_altitude_array[MID_RES_TOP:MID_RES_BOT]
 

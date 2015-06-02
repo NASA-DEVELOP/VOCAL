@@ -37,19 +37,13 @@ with HDF(filename) as product:
     start_lat = 35.
     end_lat = -15.
 
-# Retrieve only latitudes of interest
-
+    # Retrieve only latitudes of interest
     if latitude[0] > latitude[-1]:
-
-#   Nighttime granule
-
+        # Nighttime granule
         min_indx = findLatIndex(start_lat, latitude)
         max_indx = findLatIndex(end_lat, latitude)
-
     else:
-
-#   Daytime granule
-
+        # Daytime granule
         min_indx = findLatIndex(end_lat, latitude)
         max_indx = findLatIndex(start_lat, latitude)
 
@@ -82,7 +76,7 @@ fig = plt.figure(figsize=(10,7))
 
 
 # Setup extent of axis values for image.  
-#   Note that altitude values are stored from top to bottom
+# Note that altitude values are stored from top to bottom
 
 min_alt  = unif_alt[-1]
 max_alt  = unif_alt[0]

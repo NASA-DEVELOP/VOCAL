@@ -31,23 +31,18 @@ with HDF(filename) as product:
 
     latitude = product["Latitude"][::]
 
-#  start_lat = 60.
-#  end_lat = 0.
+    #  start_lat = 60.
+    #  end_lat = 0.
 
     start_lat = 10.
     end_lat = -30.
 
     if latitude[0] > latitude[-1]:
-
-#   Nighttime granule
-
+    #   Nighttime granule
         min_indx = findLatIndex(start_lat, latitude)
         max_indx = findLatIndex(end_lat, latitude)
-
     else:
-
-#   Daytime granule
-
+    #   Daytime granule
         min_indx = findLatIndex(end_lat, latitude)
         max_indx = findLatIndex(start_lat, latitude)
 

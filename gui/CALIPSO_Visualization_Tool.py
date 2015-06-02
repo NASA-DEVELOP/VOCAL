@@ -203,7 +203,7 @@ class calipso:
             photoImage = self.loadPic(self.imageFilename, 1265, 665)
             self.addToCanvas(photoImage)
             self.canvasLower.config(scrollregion=(0, 0, 0, 0))
-
+        
         
     def reset(self):
         #reset radio-buttons

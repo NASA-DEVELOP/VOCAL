@@ -17,10 +17,8 @@ def fixISO_format(date_time):
     parse = re.compile("(\d{4})-(\d{2})-(\d{2})T(\d{2})-(\d{2})-(\d{2})") 
     date_list = parse.match(date_time)
     
-    if date_list == None:
-    
+    if date_list == None: 
         return None
-    
     fix_isoStr = "%s-%s-%sT%s:%s:%s" % date_list.groups()
     
     return fix_isoStr   
@@ -32,7 +30,6 @@ def calipsoISO_to_times(iso_date_time):
     date_list = parse.match(iso_date_time)
 
     if date_list == None:
-    
         return None
 
     (year, month, day, hour, minute, sec) = map(int, date_list.groups())
@@ -44,9 +41,7 @@ def extractDatetime(name):
 #    result = re.search("(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})Z(\w)", "A2010-10-01T02-48-44ZN")    
     result = re.search("(\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2})Z(\w)", name)
     if result == None:
-    
         return None
-
     granuleDatetime = result.groups()
     
     return granuleDatetime
@@ -58,7 +53,6 @@ if __name__ == "__main__":
 #    testDate = "2010-10-01T02-48-44"
     
     print testDate, " => ", fixISO_format(testDate) 
-
     print testDate, " => ", calipsoISO_to_times(testDate) 
 
     filename = "CAL_LID_L1-ValStage1-V3-01.2010-10-01T02-48-44ZD.hdf"
