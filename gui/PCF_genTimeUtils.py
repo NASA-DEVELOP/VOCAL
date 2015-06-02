@@ -7,7 +7,6 @@
 #   Tools for manipulating and determining dates and times for filling in
 #   Level 2 PCF's
 #
-from datetime import datetime
 import re
 
 def fixISO_format(date_time):
