@@ -64,16 +64,16 @@ class Calipso:
         ph = 700
         cw = 200
         ch = 350
-        sw = self.root.winfo_screenwidth()
-        sh = self.root.winfo_screenheight()
+        sw = self.__root.winfo_screenwidth()
+        sh = self.__root.winfo_screenheight()
         x = (sw - pw)/2
         y = (sh - ph)/2
-        self.root.geometry('%dx%d+%d+%d' % (pw, ph, x, y))
+        self.__root.geometry('%dx%d+%d+%d' % (pw, ph, x, y))
         self.__child.geometry('%dx%d+%d+%d' % (cw, ch, x + x*4 + 20, y + y/2))
         
     #Creates the GUI window
     def setupWindow(self):
-        self.root.title("CALIPSO Visualization Tool")
+        self.__root.title("CALIPSO Visualization Tool")
         self.centerWindow()
        
 #### MENU BAR ######################################################################################   
@@ -99,7 +99,7 @@ class Calipso:
         tkFileDialog.asksaveasfile(mode='w', **options)
         
     def about(self): 
-        filewin = Toplevel(self.root)
+        filewin = Toplevel(self.__root)
         filewin.title("About")
         T = Message(filewin, text="NASA DEVELOP \nLaRC Spring 2015 Term \n \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal")
         T.pack()
@@ -108,13 +108,13 @@ class Calipso:
         btnClose.pack()
         
     def tutorial(self):
-        filewin = Toplevel(self.root)
+        filewin = Toplevel(self.__root)
         T = Text(filewin, height=10, width=40, wrap='word')
         T.pack()
         T.insert(END, "This is a tutorial of how to use the CALIPSO Visualization Tool")   
                
     def setupMenu(self):
-        self.__menuBar = Menu(self.root)
+        self.__menuBar = Menu(self.__root)
         
         #File Menu
         self.__menuFile = Menu(self.__menuBar, tearoff=0)
@@ -124,7 +124,7 @@ class Calipso:
         self.__menuFile.add_command(label="Save", command=self.saveImage)
         self.__menuFile.add_command(label="Save as", command=self.saveAs)
         self.__menuFile.add_separator()
-        self.__menuFile.add_command(label="Exit", command=self.root.quit)
+        self.__menuFile.add_command(label="Exit", command=self.__root.quit)
         self.__menuBar.add_cascade(label="File", menu=self.__menuFile)
         
         #Help Menu
@@ -139,7 +139,7 @@ class Calipso:
         #self.__canvasLower.bind("<Motion>", self.crop)
         
         #configure menu to screen
-        self.root.config(menu=self.__menuBar)
+        self.__root.config(menu=self.__menuBar)
 
 #### MAIN SCREEN #############################################################################
     def addToCanvas(self, pimage):
@@ -177,7 +177,7 @@ class Calipso:
                 self.addToCanvas(loadedPhotoImage)
             
             except IOError:
-                filewin = Toplevel(self.root)
+                filewin = Toplevel(self.__root)
                 T = Text(filewin, height=5, width=30)
                 T.pack()
                 T.insert(END, "No File Exists \n")
@@ -194,13 +194,13 @@ class Calipso:
                 self.addToCanvas(loadedPhotoImage)
             
             except IOError:
-                filewin = Toplevel(self.root)
+                filewin = Toplevel(self.__root)
                 T = Text(filewin, height=5, width=30)
                 T.pack()
                 T.insert(END, "No File Exists \n") 
         
         elif (plotType.get()) == VFM:
-            filewin = Toplevel(self.root)
+            filewin = Toplevel(self.__root)
             T = Text(filewin, height=5, width=30)
             T.pack()
             T.insert(END, "Sorry, this plot is currently not implemented. \n")
