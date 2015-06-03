@@ -11,6 +11,8 @@ BASE_PLOT       = 0
 BACKSCATTERED   = 1
 DEPOLARIZED     = 2
 VFM             = 3
+HEIGHT          = 665
+WIDTH           = 1265
 
 #### START OF CLASS ################################################################################
 class Calipso:
@@ -47,7 +49,7 @@ class Calipso:
         xscrollbar.pack(side = BOTTOM, fill = X)
         yscrollbar = Scrollbar(frmBottom)
         yscrollbar.pack(side = RIGHT, fill = Y)
-        self.canvasLower = Canvas(frmBottom, height=665, width=1265, scrollregion=(0, 0, 0, 0), xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
+        self.canvasLower = Canvas(frmBottom, height=HEIGHT, width=WIDTH, scrollregion=(0, 0, 0, 0), xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
         
         xscrollbar.config(command=self.canvasLower.xview)
         yscrollbar.config(command=self.canvasLower.yview)
@@ -89,7 +91,10 @@ class Calipso:
         pass
     
     def saveAs(self):
-        pass
+        options = {}
+        options['defaultextension'] = '.hdf'
+        options['filetypes'] = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
+        tkFileDialog.asksaveasfile(mode='w', **options)
         
     def about(self): 
         filewin = Toplevel(self.root)
@@ -137,7 +142,7 @@ class Calipso:
 #### MAIN SCREEN #############################################################################
     def addToCanvas(self, pimage):
         # parameter: pimage = image to be drawn on Canvas
-        self.canvasLower.create_image(1265 // 2, 665 // 2, image=pimage, anchor=CENTER)
+        self.canvasLower.create_image(WIDTH // 2, HEIGHT // 2, image=pimage, anchor=CENTER)
         self.canvasLower.image = pimage
         self.canvasLower.pack()
     
@@ -155,7 +160,7 @@ class Calipso:
         #parameter: plotType = int value(0-2) associated with desired plotType
         if (plotType) == BASE_PLOT:
             self.imageFilename = "CALIPSO_A_Train.jpg"
-            loadedPhotoImage = self.loadPic(self.imageFilename, 1265, 665)
+            loadedPhotoImage = self.loadPic(self.imageFilename, WIDTH, HEIGHT)
             self.addToCanvas(loadedPhotoImage)
             
         elif (plotType.get()) == BACKSCATTERED:
@@ -166,7 +171,7 @@ class Calipso:
                 self.imageFilename = "lidar_backscatter.png"
                 
                 #refresh image in lower frame 
-                loadedPhotoImage = self.loadPic(self.imageFilename, 1265, 665)
+                loadedPhotoImage = self.loadPic(self.imageFilename, WIDTH, HEIGHT)
                 self.addToCanvas(loadedPhotoImage)
             
             except IOError:
@@ -183,7 +188,7 @@ class Calipso:
                 self.imageFilename = "depolarization_ratio.png"
                 
                 #refresh image in lower frame
-                loadedPhotoImage = self.loadPic(self.imageFilename, 1265, 665)
+                loadedPhotoImage = self.loadPic(self.imageFilename, WIDTH, HEIGHT)
                 self.addToCanvas(loadedPhotoImage)
             
             except IOError:
@@ -219,7 +224,7 @@ class Calipso:
             self.canvasLower.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
             
         if (self.zoomValue) == 0:
-            photoImage = self.loadPic(self.imageFilename, 1265, 665)
+            photoImage = self.loadPic(self.imageFilename, WIDTH, HEIGHT)
             self.addToCanvas(photoImage)
             self.canvasLower.config(scrollregion=(0, 0, 0, 0))
     
