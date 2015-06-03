@@ -144,7 +144,7 @@ Visualization software
 - [ ] Populate github wiki
 - [ ] Move buttons to new child window
 - [ ] Refactor use of Tkinter panes because of the introduction of the new child window
-- [ x ] Determine which functions/variables above should be private and which should be public
+- [x] Determine which functions/variables above should be private and which should be public
 - [ ] Streamline method of adding new plot types
 - [ ] Add native ccplot functionality 
   - [ ] including ability to manipulate the production of plots to a finer extent than current
