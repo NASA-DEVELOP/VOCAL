@@ -2,7 +2,7 @@
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, CENTER, Scrollbar, BOTTOM, RIGHT, LEFT, X, Y, SUNKEN
 import tkFileDialog
-from PIL import Image, ImageTk, ImageOps
+from PIL import Image, ImageTk
 import sys
 from bokeh.colors import white
 
