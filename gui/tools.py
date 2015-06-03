@@ -1,4 +1,6 @@
-from Tkinter import TclError, Label, LEFT, SOLID, Toplevel
+from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, RAISED, \
+    SUNKEN
+    
 
 class ToolTip(object):
 
@@ -45,3 +47,32 @@ def createToolTip(widget, text):
         toolTip.hidetip()
     widget.bind('<Enter>', enter)
     widget.bind('<Leave>', leave)
+    
+class ToggleableButton(Button):
+    
+    __isToggled = False
+    __button = None
+    __root = None
+    __bindMap = []
+    
+    def __init__(self, master=None, cnf={}, **kw):
+        Button.__init__(self, master, cnf, kw)
+        
+    def bind(self, root, bindKey):
+        self.__bindMap.append((root, bindKey))
+    
+    def Toggle(self, toggle=False):
+        if toggle:
+            self.__root.config(cursor="")
+            self.__button.config(relief=RAISED)
+        else:
+            self.__isToggled = not self.__isToggled
+            if self.__isToggled:
+                self.__root.config(cursor=self.cursor)
+                self.__button.config(relief=SUNKEN)
+                self.__keyBinds()
+            else:
+                self.__root.unbind(self.__bind)
+                self.__drawplotCanvas.unbind(self.__bind)
+                self.__root.config(cursor="")
+                self.__button.config(relief=RAISED)

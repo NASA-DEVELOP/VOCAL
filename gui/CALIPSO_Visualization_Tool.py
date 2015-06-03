@@ -36,12 +36,14 @@ class Calipso:
         self.__menuBar = None               # menu bar appearing at top of screen
         self.__menuFile = None              # sub menu
         self.__menuHelp = None              # sub menu
+        self.__toggleIsActive = False       # there cannot be more than one toggable tool active at any time
         self.__magnifyMode = False          # zoom in and out boolean
         self.__magnifyButton = None         # zoom in and out button
         self.__polygonMode = False
         self.__polygonButton = None
         self.__freedrawMode = False
         self.__freedrawButton = None
+        self.__toggleableMap = []
         
         basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
         basePane.pack(fill=BOTH, expand = 1)                # fill and expand
@@ -262,11 +264,11 @@ class Calipso:
             self.__drawplotCanvas.config(scrollregion=(0, 0, 0, 0))
     
     def EGzoomIn(self, event):
-        if self.__EGzoomValue != 4 and self.__magnifyMode : self.__EGzoomValue += 1
+        if self.__EGzoomValue != 4: self.__EGzoomValue += 1
         self.crop(event)
         
     def EGzoomOut(self, event):
-        if self.__EGzoomValue != 0 and self.__magnifyMode : self.__EGzoomValue -= 1
+        if self.__EGzoomValue != 0: self.__EGzoomValue -= 1
         self.crop(event)
     
     # Parameters: event object containing the mouse position
@@ -352,7 +354,7 @@ class Calipso:
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="magnify.png")
         self.__magnifyButton = Button(self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30, command=self.toggleEyeGlassZoom)
-        createToolTip(self.__magnifyButton, "Interactive Magnify")
+        createToolTip(self.__magnifyButton, "Eye Glass")
         self.__magnifyButton.grid(row=0, column=3, padx=2, pady=5)
         
         # 'hacky' solution to execute multiple commands in a lambda, ensures any active buttons are restored
@@ -397,6 +399,7 @@ class Calipso:
         if toggle:
             self.__root.config(cursor="")
             self.__polygonButton.config(relief=RAISED)
+            self.__polygonMode = False
         else:
             self.__polygonMode = not self.__polygonMode
             if self.__polygonMode:
@@ -424,6 +427,12 @@ class Calipso:
                 self.__root.unbind_all(self.freeDraw())
                 self.__root.config(cursor="")
                 self.__freedrawButton.config(relief=RAISED)
+                
+    # Parameters: takes a widget that is to be left alone, and untoggles all toggable options
+    def unToggleAllBut(self, exception):
+        
+            
+        
 
 #### RUN LINES ##################################################################################        
 if __name__ == "__main__":
