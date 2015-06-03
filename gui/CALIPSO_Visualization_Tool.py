@@ -40,16 +40,30 @@ class Calipso:
         basePane.add(sectionedPane)
         
         self.__child = Toplevel()
+        baseChildPane = PanedWindow(self.__child)
+        baseChildPane.pack(fill=BOTH, expand = 1)
+        sectionedChildPane = PanedWindow(self.__child, orient=VERTICAL)
+        baseChildPane.add(sectionedChildPane)
+        
+        upperPane = PanedWindow(sectionedChildPane, orient=HORIZONTAL)
+        sectionedChildPane.add(upperPane)
+        lowerPane = PanedWindow(sectionedChildPane)
+        sectionedChildPane.add(lowerPane)
+        
         
         pndwinTop = PanedWindow(sectionedPane, orient=HORIZONTAL)                   # the paned window which holds all buttons
         sectionedPane.add(pndwinTop)                                                # add pndwinTop to sectionedPane
         
-        self.__buttonFrame = Frame(self.__child)                                       # button frame for child window
-        self.__buttonFrame.pack(side = TOP)
+        self.__upperButtonFrame = Frame(upperPane)                                       # button frame for child window
+        self.__upperButtonFrame.pack()
+        
+        self.__lowerButtonFrame = Frame(lowerPane)
+        self.__lowerButtonFrame.config(highlightthickness=1)
+        self.__lowerButtonFrame.config(highlightbackground="grey")
+        self.__lowerButtonFrame.pack()
         
         self.__dialogFrame = Frame(pndwinTop)                                       # frame to hold dialog for browsing files
         self.__dialogFrame.pack(side = LEFT)
-        
         
         pndwinBottom = PanedWindow(sectionedPane)                           # expands the distance below the button
         sectionedPane.add(pndwinBottom)
@@ -290,27 +304,30 @@ class Calipso:
         btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
         
-        btnZoomIn = Button(self.__buttonFrame, text = "Zoom In", width = 10, command=self.zoomIn_)
+        btnZoomIn = Button(self.__upperButtonFrame, text = "Zoom In", width = 10, command=self.zoomIn_)
         btnZoomIn.grid(row=0, column=0, padx=10, pady=5)
-        btnZoomOut = Button(self.__buttonFrame, text = "Zoom Out", width = 10, command=self.zoomOut_)
+        btnZoomOut = Button(self.__upperButtonFrame, text = "Zoom Out", width = 10, command=self.zoomOut_)
         btnZoomOut.grid(row=0, column=1, padx=10, pady=5)
-        btnReset = Button(self.__buttonFrame, text = "Reset", width = 10, command=self.reset)
+        btnReset = Button(self.__upperButtonFrame, text = "Reset", width = 10, command=self.reset)
         btnReset.grid(row=1, column=0, padx=10, pady=5)
-        btnDrawBox = Button(self.__buttonFrame, text = "Polygon", width = 10, command=self.polygon)
-        btnDrawBox.grid(row=1, column=1, padx=10, pady=5)
+        
+        self.polygonIMG = ImageTk.PhotoImage(file="polygon.png")
+        btnDrawBox = Button(self.__lowerButtonFrame, image=self.polygonIMG, width = 30, command=self.polygon)
+        createToolTip(btnDrawBox, "Draw Rect")
+        btnDrawBox.grid(row=2, column=1, padx=2, pady=5)
         
         self.freedrawIMG = ImageTk.PhotoImage(file="freedraw.png")
-        btnFreeDraw = Button(self.__buttonFrame, image=self.freedrawIMG, width = 30, command=self.freeDraw)
+        btnFreeDraw = Button(self.__lowerButtonFrame, image=self.freedrawIMG, width = 30, command=self.freeDraw)
         createToolTip(btnFreeDraw, "Free Draw")
-        btnFreeDraw.grid(row=2, column=0, padx= 10, pady=5)
+        btnFreeDraw.grid(row=2, column=0, padx= 2, pady=5)
         
-        zoomInButton = Button(self.__buttonFrame, text="Magnify In", width=10, command=self.zoomInEvent)
+        zoomInButton = Button(self.__upperButtonFrame, text="Magnify In", width=10, command=self.zoomInEvent)
         zoomInButton.grid(row=3, column=0)
-        zoomOutButton = Button(self.__buttonFrame, text="Magnify Out", width=10, command=self.zoomOutEvent)
+        zoomOutButton = Button(self.__upperButtonFrame, text="Magnify Out", width=10, command=self.zoomOutEvent)
         zoomOutButton.grid(row=3, column=1)
         
         #Plot Type Selection - Radio-button determining how to plot the __file
-        menubtnPlotSelection = Menubutton(self.__buttonFrame, text="Plot Type", relief=RAISED, width = 10)
+        menubtnPlotSelection = Menubutton(self.__upperButtonFrame, text="Plot Type", relief=RAISED, width = 10)
         menubtnPlotSelection.grid(row=4, column=0, padx=10, pady=5)
         menubtnPlotSelection.menu = Menu(menubtnPlotSelection, tearoff=0)
         menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
