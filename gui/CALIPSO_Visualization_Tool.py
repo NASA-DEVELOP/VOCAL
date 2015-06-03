@@ -18,28 +18,30 @@ WIDTH           = 1265
 class Calipso:
     
     def __init__ (self, r):
-        self.root = r
+        self.__root = r
         
-        self.file = ''
-        self.lblFileDialog = Label()
-        self.zoomValue=0
-        self.imageFilename = ''
-        self.zimg_id = None
-        self.orig_img = None
-        
+        self.__file = ''
+        self.__lblFileDialog = Label()
+        self.__zoomValue=0
+        self.__imageFilename = ''
+        self.__zimg_id = None
+        self.__orig_img = None
+        self.__menuBar = None
+        self.__menuFile = None
+        self.__menuHelp = None
         
         m1 = PanedWindow()
         m1.pack(fill=BOTH, expand = 1)
         m2 = PanedWindow(orient=VERTICAL)
         m1.add(m2)
         
-        self.child = Toplevel()
+        self.__child = Toplevel()
         
         pndwinTop = PanedWindow(m2, orient=HORIZONTAL)
         m2.add(pndwinTop)
         
-        self.frmTop = Frame(pndwinTop)
-        self.frmTop.pack(side = LEFT)
+        self.__frmTop = Frame(pndwinTop)
+        self.__frmTop.pack(side = LEFT)
         
         pndwinBottom = PanedWindow(m2)
         m2.add(pndwinBottom)
@@ -49,10 +51,10 @@ class Calipso:
         xscrollbar.pack(side = BOTTOM, fill = X)
         yscrollbar = Scrollbar(frmBottom)
         yscrollbar.pack(side = RIGHT, fill = Y)
-        self.canvasLower = Canvas(frmBottom, height=HEIGHT, width=WIDTH, scrollregion=(0, 0, 0, 0), xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
+        self.__canvasLower = Canvas(frmBottom, height=HEIGHT, width=WIDTH, scrollregion=(0, 0, 0, 0), xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
         
-        xscrollbar.config(command=self.canvasLower.xview)
-        yscrollbar.config(command=self.canvasLower.yview)
+        xscrollbar.config(command=self.__canvasLower.xview)
+        yscrollbar.config(command=self.__canvasLower.yview)
         
         frmBottom.pack()
 
@@ -67,7 +69,7 @@ class Calipso:
         x = (sw - pw)/2
         y = (sh - ph)/2
         self.root.geometry('%dx%d+%d+%d' % (pw, ph, x, y))
-        self.child.geometry('%dx%d+%d+%d' % (cw, ch, x + x*4 + 20, y + y/2))
+        self.__child.geometry('%dx%d+%d+%d' % (cw, ch, x + x*4 + 20, y + y/2))
         
     #Creates the GUI window
     def setupWindow(self):
@@ -80,9 +82,9 @@ class Calipso:
         dlg = tkFileDialog.Open(filetypes = ftypes)
         fl = dlg.show()
         if fl != '':
-            self.file = fl
-            Segments = self.file.rpartition('/')
-            self.lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
+            self.__file = fl
+            Segments = self.__file.rpartition('/')
+            self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
     
     def exportImage(self):
         pass
@@ -112,46 +114,46 @@ class Calipso:
         T.insert(END, "This is a tutorial of how to use the CALIPSO Visualization Tool")   
                
     def setupMenu(self):
-        menuBar = Menu(self.root)
+        self.__menuBar = Menu(self.root)
         
         #File Menu
-        menuFile = Menu(menuBar, tearoff=0)
-        menuFile.add_command(label="Import File", command=self.importFile)
-        menuFile.add_command(label="Export Image", command=self.exportImage)
-        menuFile.add_separator()
-        menuFile.add_command(label="Save", command=self.saveImage)
-        menuFile.add_command(label="Save as", command=self.saveAs)
-        menuFile.add_separator()
-        menuFile.add_command(label="Exit", command=self.root.quit)
-        menuBar.add_cascade(label="File", menu=menuFile)
+        self.__menuFile = Menu(self.__menuBar, tearoff=0)
+        self.__menuFile.add_command(label="Import File", command=self.importFile)
+        self.__menuFile.add_command(label="Export Image", command=self.exportImage)
+        self.__menuFile.add_separator()
+        self.__menuFile.add_command(label="Save", command=self.saveImage)
+        self.__menuFile.add_command(label="Save as", command=self.saveAs)
+        self.__menuFile.add_separator()
+        self.__menuFile.add_command(label="Exit", command=self.root.quit)
+        self.__menuBar.add_cascade(label="File", menu=self.__menuFile)
         
         #Help Menu
-        menuHelp = Menu(menuBar, tearoff=0)
-        menuHelp.add_command(label="Tutorial", command=self.tutorial)
-        menuHelp.add_separator()
-        menuHelp.add_command(label="About", command=self.about)
-        menuBar.add_cascade(label="Help", menu=menuHelp)
+        self.__menuHelp = Menu(self.__menuBar, tearoff=0)
+        self.__menuHelp.add_command(label="Tutorial", command=self.tutorial)
+        self.__menuHelp.add_separator()
+        self.__menuHelp.add_command(label="About", command=self.about)
+        self.__menuBar.add_cascade(label="Help", menu=self.__menuHelp)
         
         #self.root.bind("<Button-1>", self.zoomIn)
         #self.root.bind("<Button-3>", self.zoomOut)
-        #self.canvasLower.bind("<Motion>", self.crop)
+        #self.__canvasLower.bind("<Motion>", self.crop)
         
         #configure menu to screen
-        self.root.config(menu=menuBar)
+        self.root.config(menu=self.__menuBar)
 
 #### MAIN SCREEN #############################################################################
     def addToCanvas(self, pimage):
         # parameter: pimage = image to be drawn on Canvas
-        self.canvasLower.create_image(WIDTH // 2, HEIGHT // 2, image=pimage, anchor=CENTER)
-        self.canvasLower.image = pimage
-        self.canvasLower.pack()
+        self.__canvasLower.create_image(WIDTH // 2, HEIGHT // 2, image=pimage, anchor=CENTER)
+        self.__canvasLower.image = pimage
+        self.__canvasLower.pack()
     
     def loadPic(self, imageFilename1, width, height):
         #parameter: imageFilename1 = File name of image to load as PhotoImage
         #           width = desired width of image
         #           height = desired height of image
         imageToLoad = Image.open(imageFilename1)
-        self.orig_img = imageToLoad
+        self.__orig_img = imageToLoad
         imageToLoad = imageToLoad.resize((width, height))
         loadedPhotoImage = ImageTk.PhotoImage(imageToLoad)
         return loadedPhotoImage
@@ -159,19 +161,19 @@ class Calipso:
     def selPlot(self, plotType):
         #parameter: plotType = int value(0-2) associated with desired plotType
         if (plotType) == BASE_PLOT:
-            self.imageFilename = "CALIPSO_A_Train.jpg"
-            loadedPhotoImage = self.loadPic(self.imageFilename, WIDTH, HEIGHT)
+            self.__imageFilename = "CALIPSO_A_Train.jpg"
+            loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
             self.addToCanvas(loadedPhotoImage)
             
         elif (plotType.get()) == BACKSCATTERED:
             try:
-                filename = self.file
+                filename = self.__file
                 sys.argv = [filename]
                 execfile("plot_uniform_alt_lidar_dev.py")
-                self.imageFilename = "lidar_backscatter.png"
+                self.__imageFilename = "lidar_backscatter.png"
                 
                 #refresh image in lower frame 
-                loadedPhotoImage = self.loadPic(self.imageFilename, WIDTH, HEIGHT)
+                loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
                 self.addToCanvas(loadedPhotoImage)
             
             except IOError:
@@ -182,13 +184,13 @@ class Calipso:
         
         elif (plotType.get()) == DEPOLARIZED:
             try:
-                filename = self.file
+                filename = self.__file
                 sys.argv = [filename]
                 execfile("plot_depolar_ratio.py")
-                self.imageFilename = "depolarization_ratio.png"
+                self.__imageFilename = "depolarization_ratio.png"
                 
                 #refresh image in lower frame
-                loadedPhotoImage = self.loadPic(self.imageFilename, WIDTH, HEIGHT)
+                loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
                 self.addToCanvas(loadedPhotoImage)
             
             except IOError:
@@ -204,63 +206,63 @@ class Calipso:
             T.insert(END, "Sorry, this plot is currently not implemented. \n")
     
     def zoomIn_(self):
-        self.zoomValue= self.zoomValue + 1
-        if (self.zoomValue) != 0: 
-            updatedWidth =  self.zoomValue*2000
-            updatedHeight = self.zoomValue*1051
-            photoImage = self.loadPic(self.imageFilename, updatedWidth, updatedHeight)
+        self.__zoomValue= self.__zoomValue + 1
+        if (self.__zoomValue) != 0: 
+            updatedWidth =  self.__zoomValue*2000
+            updatedHeight = self.__zoomValue*1051
+            photoImage = self.loadPic(self.__imageFilename, updatedWidth, updatedHeight)
             self.addToCanvas(photoImage)
-            self.canvasLower.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
+            self.__canvasLower.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
     
     def zoomOut_(self):
-        if (self.zoomValue) >= 1:
-            self.zoomValue = self.zoomValue-1 
+        if (self.__zoomValue) >= 1:
+            self.__zoomValue = self.__zoomValue-1 
                        
-        if (self.zoomValue) > 0:            
-            updatedWidth = (1/self.zoomValue)*2000
-            updatedHeight = (1/self.zoomValue)*1051
-            photoImage = self.loadPic(self.imageFilename, updatedWidth, updatedHeight)
+        if (self.__zoomValue) > 0:            
+            updatedWidth = (1/self.__zoomValue)*2000
+            updatedHeight = (1/self.__zoomValue)*1051
+            photoImage = self.loadPic(self.__imageFilename, updatedWidth, updatedHeight)
             self.addToCanvas(photoImage)
-            self.canvasLower.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
+            self.__canvasLower.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
             
-        if (self.zoomValue) == 0:
-            photoImage = self.loadPic(self.imageFilename, WIDTH, HEIGHT)
+        if (self.__zoomValue) == 0:
+            photoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
             self.addToCanvas(photoImage)
-            self.canvasLower.config(scrollregion=(0, 0, 0, 0))
+            self.__canvasLower.config(scrollregion=(0, 0, 0, 0))
     
     def zoomIn(self, event):
-        if self.zoomValue != 4 : self.zoomValue += 1
+        if self.__zoomValue != 4 : self.__zoomValue += 1
         self.crop(event)
         
     def zoomOut(self, event):
-        if self.zoomValue != 0 : self.zoomValue -= 1
+        if self.__zoomValue != 0 : self.__zoomValue -= 1
         self.crop(event)
         
     def crop(self, event):
-        if self.zimg_id: self.canvasLower.delete(self.zimg_id)
-        if (self.zoomValue) != 0:
+        if self.__zimg_id: self.__canvasLower.delete(self.__zimg_id)
+        if (self.__zoomValue) != 0:
             x, y = event.x, event.y
-            if self.zoomValue == 1:
-                tmp = self.orig_img.crop((x-45, y-30, x+45, y+30))
-            elif self.zoomValue == 2:
-                tmp = self.orig_img.crop((x-30, y-20, x+30, y+20))
-            elif self.zoomValue == 3:
-                tmp = self.orig_img.crop((x-15, y-10, x+15, y+10))
-            elif self.zoomValue == 4:
-                tmp = self.orig_img.crop((x-6, y-4, x+6, y+4))
+            if self.__zoomValue == 1:
+                tmp = self.__orig_img.crop((x-45, y-30, x+45, y+30))
+            elif self.__zoomValue == 2:
+                tmp = self.__orig_img.crop((x-30, y-20, x+30, y+20))
+            elif self.__zoomValue == 3:
+                tmp = self.__orig_img.crop((x-15, y-10, x+15, y+10))
+            elif self.__zoomValue == 4:
+                tmp = self.__orig_img.crop((x-6, y-4, x+6, y+4))
             size = 300, 200
             self.zimg = ImageTk.PhotoImage(tmp.resize(size))
-            self.zimg_id = self.canvasLower.create_image(event.x, event.y, image=self.zimg)
+            self.__zimg_id = self.__canvasLower.create_image(event.x, event.y, image=self.zimg)
             
                 
         
     def reset(self):
         #reset radio-buttons
-        self.zoomValue = 0
-        self.canvasLower.config(scrollregion=(0, 0, 0, 0))
+        self.__zoomValue = 0
+        self.__canvasLower.config(scrollregion=(0, 0, 0, 0))
         self.selPlot(BASE_PLOT)
-        self.file = ''
-        self.lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
+        self.__file = ''
+        self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
         
     def polygon(self):
         pass
@@ -269,28 +271,28 @@ class Calipso:
         pass
 
     def topPanedWindow(self):
-        #File Dialog box, - shows the selected file
-        lblFile=Label(self.frmTop, text="File:")
+        #File Dialog box, - shows the selected __file
+        lblFile=Label(self.__frmTop, text="File:")
         lblFile.grid(row=1, column=0)
-        self.lblFileDialog = Label(self.frmTop, width = 50, bg = white, relief = SUNKEN)
-        self.lblFileDialog.grid(row=1, column=1, padx=10)
+        self.__lblFileDialog = Label(self.__frmTop, width = 50, bg = white, relief = SUNKEN)
+        self.__lblFileDialog.grid(row=1, column=1, padx=10)
         
         #Buttons - possible commands
-        btnBrowse = Button(self.frmTop, text ='Browse', width = 10, command=self.importFile)
+        btnBrowse = Button(self.__frmTop, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
-        btnZoomIn = Button(self.frmTop, text = "Zoom In", width = 10, command=self.zoomIn_)
+        btnZoomIn = Button(self.__frmTop, text = "Zoom In", width = 10, command=self.zoomIn_)
         btnZoomIn.grid(row=1, column=5)
-        btnZoomOut = Button(self.frmTop, text = "Zoom Out", width = 10, command=self.zoomOut_)
+        btnZoomOut = Button(self.__frmTop, text = "Zoom Out", width = 10, command=self.zoomOut_)
         btnZoomOut.grid(row=1, column=7)
-        btnReset = Button(self.frmTop, text = "Reset", width = 10, command=self.reset)
+        btnReset = Button(self.__frmTop, text = "Reset", width = 10, command=self.reset)
         btnReset.grid(row=1, column=9)
-        btnDrawBox = Button(self.frmTop, text = "Polygon", width = 10, command=self.polygon)
+        btnDrawBox = Button(self.__frmTop, text = "Polygon", width = 10, command=self.polygon)
         btnDrawBox.grid(row=1, column=11)
-        btnFreeDraw = Button(self.frmTop, text = "Free Draw", width = 10, command=self.freeDraw)
+        btnFreeDraw = Button(self.__frmTop, text = "Free Draw", width = 10, command=self.freeDraw)
         btnFreeDraw.grid(row=1, column=13)
         
-        #Plot Type Selection - Radio-button determining how to plot the file
-        menubtnPlotSelection = Menubutton(self.frmTop, text="Plot Type", relief=RAISED, width = 23)
+        #Plot Type Selection - Radio-button determining how to plot the __file
+        menubtnPlotSelection = Menubutton(self.__frmTop, text="Plot Type", relief=RAISED, width = 23)
         menubtnPlotSelection.grid(row=1, column=15)
         menubtnPlotSelection.menu = Menu(menubtnPlotSelection, tearoff=0)
         menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
@@ -301,17 +303,17 @@ class Calipso:
         menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=3, command=lambda: self.selPlot(plotType))
         
         #Spaces between buttons
-        lblSpace1 = Label(self.frmTop, width=2)
+        lblSpace1 = Label(self.__frmTop, width=2)
         lblSpace1.grid(row=1, column=4)
-        lblSpace2 = Label(self.frmTop)
+        lblSpace2 = Label(self.__frmTop)
         lblSpace2.grid(row=1, column=6)
-        lblSpace3 = Label(self.frmTop)
+        lblSpace3 = Label(self.__frmTop)
         lblSpace3.grid(row=1, column=8)
-        lblSpace4 = Label(self.frmTop)
+        lblSpace4 = Label(self.__frmTop)
         lblSpace4.grid(row=1, column=10)
-        lblSpace5 = Label(self.frmTop)
+        lblSpace5 = Label(self.__frmTop)
         lblSpace5.grid(row=1, column=12)
-        lblSpace6 = Label(self.frmTop, width=2)
+        lblSpace6 = Label(self.__frmTop, width=2)
         lblSpace6.grid(row=1, column=14)
     
     #Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
