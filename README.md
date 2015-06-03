@@ -26,13 +26,13 @@ Visualization software
   * ####Top-Level Widget
     * **fileDialog** `.......` Label that holds the string representing 'file'		
     * **lowerLabel** ` .....` Label that the main image is saved
-    * **m1** `............` Base Paned Window conaining other paned Windows. Stretches to fit whole window 
-    * **m2** `............` The Paned Window that splits the window into a top and bottom section 
-    * **frmTop** `........` Frame that holds the buttons and file dialog
-    * **frmBottom** `.....` Frame holds the canvas object upon which the plots/default image are displayed
+    * **basepane** `............` Base Paned Window conaining other paned Windows. Stretches to fit whole window 
+    * **sectionedpane** `............` The Paned Window that splits the window into a top and bottom section 
+    * **buttonFrame** `........` Frame that holds the buttons and file dialog
+    * **drawplotFrame** `.....` Frame holds the canvas object upon which the plots/default image are displayed
     * **pndwintop** `.....` The Paned window that the upper frame sits on where the buttons are
     * **pndwinbottom** `.` The Paned Window that contains the canvas.
-    * **canvasLower** `..` Canvas that holds the default image as well as the plots
+    * **drawplotCanvas** `..` Canvas that holds the default image as well as the plots
     * **xscrollbar** `.....` Scrollbar for scrolling up and down
     * **yscrollbar** `.....` Scrollbar for scrolling side to side			
 		
