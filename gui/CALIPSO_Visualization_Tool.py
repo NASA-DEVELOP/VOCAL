@@ -1,10 +1,12 @@
 #### IMPORTS #######################################################################################
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, CENTER, Scrollbar, BOTTOM, RIGHT, LEFT, X, Y, SUNKEN
+    RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, CENTER, Scrollbar, TOP, BOTTOM, RIGHT, LEFT, X, Y, \
+    SUNKEN
 import tkFileDialog
 from PIL import Image, ImageTk
 import sys
 from bokeh.colors import white
+from tools import createToolTip
 
 #### PROGRAM CONSTANTS ####
 BASE_PLOT       = 0
@@ -39,11 +41,15 @@ class Calipso:
         
         self.__child = Toplevel()
         
-        pndwinTop = PanedWindow(sectionedPane, orient=HORIZONTAL)                  # the paned window which holds all buttons
-        sectionedPane.add(pndwinTop)                                               # add pndwinTop to sectionedPane
+        pndwinTop = PanedWindow(sectionedPane, orient=HORIZONTAL)                   # the paned window which holds all buttons
+        sectionedPane.add(pndwinTop)                                                # add pndwinTop to sectionedPane
         
-        self.__buttonFrame = Frame(pndwinTop)
-        self.__buttonFrame.pack(side = LEFT)
+        self.__buttonFrame = Frame(self.__child)                                       # button frame for child window
+        self.__buttonFrame.pack(side = TOP)
+        
+        self.__dialogFrame = Frame(pndwinTop)                                       # frame to hold dialog for browsing files
+        self.__dialogFrame.pack(side = LEFT)
+        
         
         pndwinBottom = PanedWindow(sectionedPane)                           # expands the distance below the button
         sectionedPane.add(pndwinBottom)
@@ -137,8 +143,8 @@ class Calipso:
         self.__menuHelp.add_command(label="About", command=self.about)
         self.__menuBar.add_cascade(label="Help", menu=self.__menuHelp)
         
-        #self.root.bind("<Button-1>", self.zoomIn)
-        #self.root.bind("<Button-3>", self.zoomOut)
+        #self.__root.bind("<Button-1>", self.zoomIn)
+        #self.__root.bind("<Button-3>", self.zoomOut)
         #self.__drawplotCanvas.bind("<Motion>", self.crop)
         
         #configure menu to screen
@@ -277,28 +283,30 @@ class Calipso:
 
     def topPanedWindow(self):
         #File Dialog box, - shows the selected __file
-        lblFile=Label(self.__buttonFrame, text="File:")
+        lblFile=Label(self.__dialogFrame, text="File:")
         lblFile.grid(row=1, column=0)
-        self.__lblFileDialog = Label(self.__buttonFrame, width = 50, bg = white, relief = SUNKEN)
+        self.__lblFileDialog = Label(self.__dialogFrame, width = 50, bg = white, relief = SUNKEN)
         self.__lblFileDialog.grid(row=1, column=1, padx=10)
-        
-        #Buttons - possible commands
-        btnBrowse = Button(self.__buttonFrame, text ='Browse', width = 10, command=self.importFile)
+        btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
+        
         btnZoomIn = Button(self.__buttonFrame, text = "Zoom In", width = 10, command=self.zoomIn_)
-        btnZoomIn.grid(row=1, column=5)
+        btnZoomIn.grid(row=0, column=0, padx=10, pady=5)
         btnZoomOut = Button(self.__buttonFrame, text = "Zoom Out", width = 10, command=self.zoomOut_)
-        btnZoomOut.grid(row=1, column=7)
+        btnZoomOut.grid(row=0, column=1, padx=10, pady=5)
         btnReset = Button(self.__buttonFrame, text = "Reset", width = 10, command=self.reset)
-        btnReset.grid(row=1, column=9)
+        btnReset.grid(row=1, column=0, padx=10, pady=5)
         btnDrawBox = Button(self.__buttonFrame, text = "Polygon", width = 10, command=self.polygon)
-        btnDrawBox.grid(row=1, column=11)
-        btnFreeDraw = Button(self.__buttonFrame, text = "Free Draw", width = 10, command=self.freeDraw)
-        btnFreeDraw.grid(row=1, column=13)
+        btnDrawBox.grid(row=1, column=1, padx=10, pady=5)
+        
+        self.freedrawIMG = ImageTk.PhotoImage(file="freedraw.png")
+        btnFreeDraw = Button(self.__buttonFrame, image=self.freedrawIMG, width = 30, command=self.freeDraw)
+        createToolTip(btnFreeDraw, "Free Draw")
+        btnFreeDraw.grid(row=2, column=0, padx= 10, pady=5)
         
         #Plot Type Selection - Radio-button determining how to plot the __file
-        menubtnPlotSelection = Menubutton(self.__buttonFrame, text="Plot Type", relief=RAISED, width = 23)
-        menubtnPlotSelection.grid(row=1, column=15)
+        menubtnPlotSelection = Menubutton(self.__buttonFrame, text="Plot Type", relief=RAISED, width = 10)
+        menubtnPlotSelection.grid(row=3, column=0, padx=10, pady=5)
         menubtnPlotSelection.menu = Menu(menubtnPlotSelection, tearoff=0)
         menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
         
@@ -308,6 +316,7 @@ class Calipso:
         menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=3, command=lambda: self.selPlot(plotType))
         
         #Spaces between buttons
+        """
         lblSpace1 = Label(self.__buttonFrame, width=2)
         lblSpace1.grid(row=1, column=4)
         lblSpace2 = Label(self.__buttonFrame)
@@ -320,6 +329,7 @@ class Calipso:
         lblSpace5.grid(row=1, column=12)
         lblSpace6 = Label(self.__buttonFrame, width=2)
         lblSpace6.grid(row=1, column=14)
+        """
     
     #Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
     def setupMainScreen(self):
