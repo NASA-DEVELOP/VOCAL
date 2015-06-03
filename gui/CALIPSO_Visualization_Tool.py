@@ -29,6 +29,7 @@ class Calipso:
         self.__file = ''                    # current file in use
         self.__lblFileDialog = Label()      # shows the selected file
         self.__zoomValue=0                  # zoom value in program
+        self.__EGzoomValue=0          # zoom value for eye glass
         self.__imageFilename = ''           # name of image file
         self.__zimg_id = None               # for use with crop function, saves previous state
         self.__orig_img = None              # saves original state of image for use with crop
@@ -260,26 +261,26 @@ class Calipso:
             self.addToCanvas(photoImage)
             self.__drawplotCanvas.config(scrollregion=(0, 0, 0, 0))
     
-    def zoomIn(self, event):
-        if self.__zoomValue != 4 and self.__magnifyMode : self.__zoomValue += 1
+    def EGzoomIn(self, event):
+        if self.__EGzoomValue != 4 and self.__magnifyMode : self.__EGzoomValue += 1
         self.crop(event)
         
-    def zoomOut(self, event):
-        if self.__zoomValue != 0 and self.__magnifyMode : self.__zoomValue -= 1
+    def EGzoomOut(self, event):
+        if self.__EGzoomValue != 0 and self.__magnifyMode : self.__EGzoomValue -= 1
         self.crop(event)
     
     # Parameters: event object containing the mouse position
     def crop(self, event):
         if self.__zimg_id: self.__drawplotCanvas.delete(self.__zimg_id)
-        if (self.__zoomValue) != 0:
+        if (self.__EGzoomValue) != 0:
             x, y = event.x, event.y
-            if self.__zoomValue == 1:
+            if self.__EGzoomValue == 1:
                 tmp = self.__orig_img.crop((x-45, y-30, x+45, y+30))
-            elif self.__zoomValue == 2:
+            elif self.__EGzoomValue == 2:
                 tmp = self.__orig_img.crop((x-30, y-20, x+30, y+20))
-            elif self.__zoomValue == 3:
+            elif self.__EGzoomValue == 3:
                 tmp = self.__orig_img.crop((x-15, y-10, x+15, y+10))
-            elif self.__zoomValue == 4:
+            elif self.__EGzoomValue == 4:
                 tmp = self.__orig_img.crop((x-6, y-4, x+6, y+4))
             size = 300, 200
             self.zimg = ImageTk.PhotoImage(tmp.resize(size))
@@ -350,13 +351,15 @@ class Calipso:
 
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="magnify.png")
-        self.__magnifyButton = Button(self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30, command=self.toggleZoom)
+        self.__magnifyButton = Button(self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30, command=self.toggleEyeGlassZoom)
         createToolTip(self.__magnifyButton, "Interactive Magnify")
         self.__magnifyButton.grid(row=0, column=3, padx=2, pady=5)
         
         # 'hacky' solution to execute multiple commands in a lambda, ensures any active buttons are restored
         self.__child.bind("<FocusIn>", 
-                          lambda x: [self.toggleZoom(toggle=True), self.togglePolygon(toggle=True), self.toggleFreeDraw(toggle=True)])
+                          lambda x: [self.toggleEyeGlassZoom(toggle=True), 
+                                     self.togglePolygon(toggle=True), 
+                                     self.toggleFreeDraw(toggle=True)])
         
     
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
@@ -366,11 +369,11 @@ class Calipso:
         
     # Parameters: toggle is the override argument that can manually turn off zoom, it is used in the
     #    case that the tools window is re-focused.
-    def toggleZoom(self, toggle=False):
+    def toggleEyeGlassZoom(self, toggle=False):
         if toggle:              
             self.__root.config(cursor="")                                       # unbind cursor
             self.__magnifyButton.config(relief=RAISED)                          # raise button
-            self.__zoomValue = 0                                                # reset zoom value
+            self.__EGzoomValue = 0                                                # reset zoom value
             if self.__zimg_id: self.__drawplotCanvas.delete(self.__zimg_id)     # remove eye glass
             self.__magnifyMode = False                                          # disable magnify mode
         else:
@@ -378,11 +381,12 @@ class Calipso:
             if self.__magnifyMode:
                 self.__root.config(cursor="circle")                             # new cursor icon for magnify
                 self.__magnifyButton.config(relief=SUNKEN)                      # sink button to show eye glass is active
-                self.__root.bind("<Button-1>", self.zoomIn)                     # bind left and right mouse button to zoom in / zoom out
-                self.__root.bind("<Button-3>", self.zoomOut)
+                self.__root.bind("<Button-1>", self.EGzoomIn)                     # bind left and right mouse button to zoom in / zoom out
+                self.__root.bind("<Button-3>", self.EGzoomOut)
                 self.__drawplotCanvas.bind("<Motion>", self.crop)               # bind any motion to recrop eye glass
             else:
-                self.__root.unbind_all(self.toggleZoom)                         # unbind mouseb 1 & 3
+                self.__root.unbind("<Button-1>")
+                self.__root.unbind("<Button-3>")                                # unbind mouseb 1 & 3
                 self.__drawplotCanvas.unbind("<Motion>")                        # unbind motion
                 self.__root.config(cursor="")                                   # put cursor back to normal
                 self.__magnifyButton.config(relief=RAISED)                      # raise back button
