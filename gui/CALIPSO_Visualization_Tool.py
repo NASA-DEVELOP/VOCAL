@@ -13,6 +13,8 @@ DEPOLARIZED     = 2
 VFM             = 3
 HEIGHT          = 665
 WIDTH           = 1265
+CHILDWIDTH      = 200
+CHILDHEIGHT     = 300
 
 #### START OF CLASS ################################################################################
 class Calipso:
@@ -28,24 +30,24 @@ class Calipso:
         self.orig_img = None
         
         
-        m1 = PanedWindow()
-        m1.pack(fill=BOTH, expand = 1)
-        m2 = PanedWindow(orient=VERTICAL)
-        m1.add(m2)
+        basepane = PanedWindow()                # main paned window that stretches to fit entire screen
+        basepane.pack(fill=BOTH, expand = 1)    # fill and expand
+        m2 = PanedWindow(orient=VERTICAL)       # paned window that splits into a top and bottom section
+        basepane.add(m2)
         
         self.child = Toplevel()
         
-        pndwinTop = PanedWindow(m2, orient=HORIZONTAL)
-        m2.add(pndwinTop)
+        pndwinTop = PanedWindow(m2, orient=HORIZONTAL, cursor = "Boat") # the paned window which holds all buttons
+        m2.add(pndwinTop)                                               # add pndwinTop to M2
         
         self.frmTop = Frame(pndwinTop)
         self.frmTop.pack(side = LEFT)
         
-        pndwinBottom = PanedWindow(m2)
+        pndwinBottom = PanedWindow(m2)                                  # expands the distance below the button
         m2.add(pndwinBottom)
-        frmBottom = Frame(pndwinBottom)
+        frmBottom = Frame(pndwinBottom)                                 # the frame on which we will add our canvas for drawing etc.
         
-        xscrollbar = Scrollbar(frmBottom, orient=HORIZONTAL)
+        xscrollbar = Scrollbar(frmBottom, orient=HORIZONTAL)            # define scroll bars
         xscrollbar.pack(side = BOTTOM, fill = X)
         yscrollbar = Scrollbar(frmBottom)
         yscrollbar.pack(side = RIGHT, fill = Y)
@@ -54,7 +56,7 @@ class Calipso:
         xscrollbar.config(command=self.canvasLower.xview)
         yscrollbar.config(command=self.canvasLower.yview)
         
-        frmBottom.pack()
+        #frmBottom.pack()
 
 #### MAIN WINDOW SETUP #############################################################################    
     def centerWindow(self):
