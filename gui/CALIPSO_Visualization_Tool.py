@@ -42,8 +42,8 @@ class Calipso:
         pndwinTop = PanedWindow(sectionedPane, orient=HORIZONTAL)                  # the paned window which holds all buttons
         sectionedPane.add(pndwinTop)                                               # add pndwinTop to sectionedPane
         
-        self.__frmTop = Frame(pndwinTop)
-        self.__frmTop.pack(side = LEFT)
+        self.__buttonFrame = Frame(pndwinTop)
+        self.__buttonFrame.pack(side = LEFT)
         
         pndwinBottom = PanedWindow(sectionedPane)                           # expands the distance below the button
         sectionedPane.add(pndwinBottom)
@@ -277,27 +277,27 @@ class Calipso:
 
     def topPanedWindow(self):
         #File Dialog box, - shows the selected __file
-        lblFile=Label(self.__frmTop, text="File:")
+        lblFile=Label(self.__buttonFrame, text="File:")
         lblFile.grid(row=1, column=0)
-        self.__lblFileDialog = Label(self.__frmTop, width = 50, bg = white, relief = SUNKEN)
+        self.__lblFileDialog = Label(self.__buttonFrame, width = 50, bg = white, relief = SUNKEN)
         self.__lblFileDialog.grid(row=1, column=1, padx=10)
         
         #Buttons - possible commands
-        btnBrowse = Button(self.__frmTop, text ='Browse', width = 10, command=self.importFile)
+        btnBrowse = Button(self.__buttonFrame, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
-        btnZoomIn = Button(self.__frmTop, text = "Zoom In", width = 10, command=self.zoomIn_)
+        btnZoomIn = Button(self.__buttonFrame, text = "Zoom In", width = 10, command=self.zoomIn_)
         btnZoomIn.grid(row=1, column=5)
-        btnZoomOut = Button(self.__frmTop, text = "Zoom Out", width = 10, command=self.zoomOut_)
+        btnZoomOut = Button(self.__buttonFrame, text = "Zoom Out", width = 10, command=self.zoomOut_)
         btnZoomOut.grid(row=1, column=7)
-        btnReset = Button(self.__frmTop, text = "Reset", width = 10, command=self.reset)
+        btnReset = Button(self.__buttonFrame, text = "Reset", width = 10, command=self.reset)
         btnReset.grid(row=1, column=9)
-        btnDrawBox = Button(self.__frmTop, text = "Polygon", width = 10, command=self.polygon)
+        btnDrawBox = Button(self.__buttonFrame, text = "Polygon", width = 10, command=self.polygon)
         btnDrawBox.grid(row=1, column=11)
-        btnFreeDraw = Button(self.__frmTop, text = "Free Draw", width = 10, command=self.freeDraw)
+        btnFreeDraw = Button(self.__buttonFrame, text = "Free Draw", width = 10, command=self.freeDraw)
         btnFreeDraw.grid(row=1, column=13)
         
         #Plot Type Selection - Radio-button determining how to plot the __file
-        menubtnPlotSelection = Menubutton(self.__frmTop, text="Plot Type", relief=RAISED, width = 23)
+        menubtnPlotSelection = Menubutton(self.__buttonFrame, text="Plot Type", relief=RAISED, width = 23)
         menubtnPlotSelection.grid(row=1, column=15)
         menubtnPlotSelection.menu = Menu(menubtnPlotSelection, tearoff=0)
         menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
@@ -308,17 +308,17 @@ class Calipso:
         menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=3, command=lambda: self.selPlot(plotType))
         
         #Spaces between buttons
-        lblSpace1 = Label(self.__frmTop, width=2)
+        lblSpace1 = Label(self.__buttonFrame, width=2)
         lblSpace1.grid(row=1, column=4)
-        lblSpace2 = Label(self.__frmTop)
+        lblSpace2 = Label(self.__buttonFrame)
         lblSpace2.grid(row=1, column=6)
-        lblSpace3 = Label(self.__frmTop)
+        lblSpace3 = Label(self.__buttonFrame)
         lblSpace3.grid(row=1, column=8)
-        lblSpace4 = Label(self.__frmTop)
+        lblSpace4 = Label(self.__buttonFrame)
         lblSpace4.grid(row=1, column=10)
-        lblSpace5 = Label(self.__frmTop)
+        lblSpace5 = Label(self.__buttonFrame)
         lblSpace5.grid(row=1, column=12)
-        lblSpace6 = Label(self.__frmTop, width=2)
+        lblSpace6 = Label(self.__buttonFrame, width=2)
         lblSpace6.grid(row=1, column=14)
     
     #Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
