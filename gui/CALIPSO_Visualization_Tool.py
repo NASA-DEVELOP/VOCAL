@@ -22,56 +22,57 @@ class Calipso:
     def __init__ (self, r):
         self.__root = r
         
-        self.__file = ''
-        self.__lblFileDialog = Label()
-        self.__zoomValue=0
-        self.__imageFilename = ''
-        self.__zimg_id = None
-        self.__orig_img = None
-        self.__menuBar = None
-        self.__menuFile = None
-        self.__menuHelp = None
+        self.__file = ''                    # current file in use
+        self.__lblFileDialog = Label()      # shows the selected file
+        self.__zoomValue=0                  # zoom value in program
+        self.__imageFilename = ''           # name of image file
+        self.__zimg_id = None               # for use with crop function, saves previous state
+        self.__orig_img = None              # saves original state of image for use with crop
+        self.__menuBar = None               # menu bar appearing at top of screen
+        self.__menuFile = None              # sub menu
+        self.__menuHelp = None              # sub menu
         
-        basepane = PanedWindow()                # main paned window that stretches to fit entire screen
-        basepane.pack(fill=BOTH, expand = 1)    # fill and expand
-        m2 = PanedWindow(orient=VERTICAL)       # paned window that splits into a top and bottom section
-        basepane.add(m2)
+        basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
+        basePane.pack(fill=BOTH, expand = 1)                # fill and expand
+        sectionedPane = PanedWindow(orient=VERTICAL)        # paned window that splits into a top and bottom section
+        basePane.add(sectionedPane)
         
         self.__child = Toplevel()
         
-        pndwinTop = PanedWindow(m2, orient=HORIZONTAL, cursor = "Boat") # the paned window which holds all buttons
-        m2.add(pndwinTop)                                               # add pndwinTop to M2
+        pndwinTop = PanedWindow(sectionedPane, orient=HORIZONTAL)                  # the paned window which holds all buttons
+        sectionedPane.add(pndwinTop)                                               # add pndwinTop to sectionedPane
         
         self.__frmTop = Frame(pndwinTop)
         self.__frmTop.pack(side = LEFT)
         
-        pndwinBottom = PanedWindow(m2)                                  # expands the distance below the button
-        m2.add(pndwinBottom)
-        frmBottom = Frame(pndwinBottom)                                 # the frame on which we will add our canvas for drawing etc.
+        pndwinBottom = PanedWindow(sectionedPane)                           # expands the distance below the button
+        sectionedPane.add(pndwinBottom)
+        drawplotFrame = Frame(pndwinBottom)                                 # the frame on which we will add our canvas for drawing etc.
         
-        xscrollbar = Scrollbar(frmBottom, orient=HORIZONTAL)            # define scroll bars
+        xscrollbar = Scrollbar(drawplotFrame, orient=HORIZONTAL)            # define scroll bars
         xscrollbar.pack(side = BOTTOM, fill = X)
-        yscrollbar = Scrollbar(frmBottom)
+        yscrollbar = Scrollbar(drawplotFrame)
         yscrollbar.pack(side = RIGHT, fill = Y)
-        self.__canvasLower = Canvas(frmBottom, height=HEIGHT, width=WIDTH, scrollregion=(0, 0, 0, 0), xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
         
-        xscrollbar.config(command=self.__canvasLower.xview)
-        yscrollbar.config(command=self.__canvasLower.yview)
+        # the main canvas we will be drawing our data to
+        self.__drawplotCanvas = Canvas(drawplotFrame, height=HEIGHT, width=WIDTH, scrollregion=(0, 0, 0, 0), xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
         
-        #frmBottom.pack()
+        xscrollbar.config(command=self.__drawplotCanvas.xview)
+        yscrollbar.config(command=self.__drawplotCanvas.yview)
+        
+        drawplotFrame.pack()
 
 #### MAIN WINDOW SETUP #############################################################################    
     def centerWindow(self):
-        pw = 1275
-        ph = 700
-        cw = 200
-        ch = 350
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
-        x = (sw - pw)/2
-        y = (sh - ph)/2
-        self.__root.geometry('%dx%d+%d+%d' % (pw, ph, x, y))
-        self.__child.geometry('%dx%d+%d+%d' % (cw, ch, x + x*4 + 20, y + y/2))
+        x = (sw - WIDTH)/2                      # ensure center screen
+        y = (sh - HEIGHT)/2
+        self.__root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, x, y))
+        # the child is designed to appear off to the right of the parent window, so the x location
+        #     is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
+        #     plus half the distance of the window
+        self.__child.geometry('%dx%d+%d+%d' % (CHILDWIDTH, CHILDHEIGHT, x + x*4 + 20, y + y/2))
         
     #Creates the GUI window
     def setupWindow(self):
@@ -138,30 +139,31 @@ class Calipso:
         
         #self.root.bind("<Button-1>", self.zoomIn)
         #self.root.bind("<Button-3>", self.zoomOut)
-        #self.__canvasLower.bind("<Motion>", self.crop)
+        #self.__drawplotCanvas.bind("<Motion>", self.crop)
         
         #configure menu to screen
         self.__root.config(menu=self.__menuBar)
 
 #### MAIN SCREEN #############################################################################
+
+    # parameter: pimage = image to be drawn on Canvas in the center location
     def addToCanvas(self, pimage):
-        # parameter: pimage = image to be drawn on Canvas
-        self.__canvasLower.create_image(WIDTH // 2, HEIGHT // 2, image=pimage, anchor=CENTER)
-        self.__canvasLower.image = pimage
-        self.__canvasLower.pack()
+        self.__drawplotCanvas.create_image(WIDTH // 2, HEIGHT // 2, image=pimage, anchor=CENTER)
+        self.__drawplotCanvas.image = pimage
+        self.__drawplotCanvas.pack()
     
+    # parameter: imageFilename1 = File name of image to load as PhotoImage
+    #           width = desired width of image
+    #           height = desired height of image
     def loadPic(self, imageFilename1, width, height):
-        #parameter: imageFilename1 = File name of image to load as PhotoImage
-        #           width = desired width of image
-        #           height = desired height of image
         imageToLoad = Image.open(imageFilename1)
         self.__orig_img = imageToLoad
         imageToLoad = imageToLoad.resize((width, height))
         loadedPhotoImage = ImageTk.PhotoImage(imageToLoad)
         return loadedPhotoImage
 
+    # parameter: plotType = int value(0-2) associated with desired plotType
     def selPlot(self, plotType):
-        #parameter: plotType = int value(0-2) associated with desired plotType
         if (plotType) == BASE_PLOT:
             self.__imageFilename = "CALIPSO_A_Train.jpg"
             loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
@@ -214,7 +216,7 @@ class Calipso:
             updatedHeight = self.__zoomValue*1051
             photoImage = self.loadPic(self.__imageFilename, updatedWidth, updatedHeight)
             self.addToCanvas(photoImage)
-            self.__canvasLower.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
+            self.__drawplotCanvas.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
     
     def zoomOut_(self):
         if (self.__zoomValue) >= 1:
@@ -225,12 +227,12 @@ class Calipso:
             updatedHeight = (1/self.__zoomValue)*1051
             photoImage = self.loadPic(self.__imageFilename, updatedWidth, updatedHeight)
             self.addToCanvas(photoImage)
-            self.__canvasLower.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
+            self.__drawplotCanvas.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
             
         if (self.__zoomValue) == 0:
             photoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
             self.addToCanvas(photoImage)
-            self.__canvasLower.config(scrollregion=(0, 0, 0, 0))
+            self.__drawplotCanvas.config(scrollregion=(0, 0, 0, 0))
     
     def zoomIn(self, event):
         if self.__zoomValue != 4 : self.__zoomValue += 1
@@ -239,9 +241,10 @@ class Calipso:
     def zoomOut(self, event):
         if self.__zoomValue != 0 : self.__zoomValue -= 1
         self.crop(event)
-        
+    
+    # Parameters: event object containing the mouse position
     def crop(self, event):
-        if self.__zimg_id: self.__canvasLower.delete(self.__zimg_id)
+        if self.__zimg_id: self.__drawplotCanvas.delete(self.__zimg_id)
         if (self.__zoomValue) != 0:
             x, y = event.x, event.y
             if self.__zoomValue == 1:
@@ -254,14 +257,14 @@ class Calipso:
                 tmp = self.__orig_img.crop((x-6, y-4, x+6, y+4))
             size = 300, 200
             self.zimg = ImageTk.PhotoImage(tmp.resize(size))
-            self.__zimg_id = self.__canvasLower.create_image(event.x, event.y, image=self.zimg)
+            self.__zimg_id = self.__drawplotCanvas.create_image(event.x, event.y, image=self.zimg)
             
                 
-        
+    # Reload the initial image
     def reset(self):
         #reset radio-buttons
         self.__zoomValue = 0
-        self.__canvasLower.config(scrollregion=(0, 0, 0, 0))
+        self.__drawplotCanvas.config(scrollregion=(0, 0, 0, 0))
         self.selPlot(BASE_PLOT)
         self.__file = ''
         self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
