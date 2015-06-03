@@ -37,6 +37,10 @@ class Calipso:
         self.__menuHelp = None              # sub menu
         self.__magnifyMode = False          # zoom in and out boolean
         self.__magnifyButton = None         # zoom in and out button
+        self.__polygonMode = False
+        self.__polygonButton = None
+        self.__freedrawMode = False
+        self.__freedrawButton = None
         
         basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
         basePane.pack(fill=BOTH, expand = 1)                # fill and expand
@@ -291,10 +295,10 @@ class Calipso:
         self.__file = ''
         self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
         
-    def polygon(self):
+    def polygon(self, event):
         pass
         
-    def freeDraw(self):
+    def freeDraw(self, event):
         pass
 
     def topPanedWindow(self):
@@ -320,9 +324,9 @@ class Calipso:
         menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
         
         plotType = IntVar()
-        menubtnPlotSelection.menu.add_radiobutton(label="Backscattered", variable=plotType, value=1, command=lambda: self.selPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="Depolarization Ratio", variable=plotType, value=2, command=lambda: self.selPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=3, command=lambda: self.selPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="Backscattered", variable=plotType, value=BACKSCATTERED, command=lambda: self.selPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="Depolarization Ratio", variable=plotType, value=DEPOLARIZED, command=lambda: self.selPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=VFM, command=lambda: self.selPlot(plotType))
         
         ###################################Lower Frame##############################################
         
@@ -334,19 +338,19 @@ class Calipso:
         
         # polygon icon
         self.polygonIMG = ImageTk.PhotoImage(file="polygon.png")
-        btnDrawBox = Button(self.__lowerButtonFrame, image=self.polygonIMG, width = 30, command=self.polygon)
-        createToolTip(btnDrawBox, "Draw Rect")
-        btnDrawBox.grid(row=0, column=1, padx=2, pady=5)
+        self.__polygonButton = Button(self.__lowerButtonFrame, image=self.polygonIMG, width = 30, command=self.togglePolygon)
+        createToolTip(self.__polygonButton, "Draw Rect")
+        self.__polygonButton.grid(row=0, column=1, padx=2, pady=5)
         
         # free draw icon
         self.freedrawIMG = ImageTk.PhotoImage(file="freedraw.png")
-        btnFreeDraw = Button(self.__lowerButtonFrame, image=self.freedrawIMG, width = 30, command=self.freeDraw)
-        createToolTip(btnFreeDraw, "Free Draw")
-        btnFreeDraw.grid(row=0, column=2, padx= 2, pady=5)
+        self.__freedrawButton = Button(self.__lowerButtonFrame, image=self.freedrawIMG, width = 30, command=self.toggleFreeDraw)
+        createToolTip(self.__freedrawButton, "Free Draw")
+        self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
 
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="magnify.png")
-        self.__magnifyButton = Button(self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30, command=lambda: self.toggleZoom())
+        self.__magnifyButton = Button(self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30, command=self.toggleZoom)
         createToolTip(self.__magnifyButton, "Interactive Magnify")
         self.__magnifyButton.grid(row=0, column=3, padx=2, pady=5)
         
@@ -386,11 +390,36 @@ class Calipso:
     # Parameters: toggle is the override argument that can manually turn off polygon, it is used in the
     #    case that the tools window is re-focused
     def togglePolygon(self, toggle=False):
-        pass
+        if toggle:
+            self.__root.config(cursor="")
+            self.__polygonButton.config(relief=RAISED)
+        else:
+            self.__polygonMode = not self.__polygonMode
+            if self.__polygonMode:
+                self.__root.config(cursor="tcross")
+                self.__polygonButton.config(relief=SUNKEN)
+                self.__root.bind("<Button-1>", self.polygon)
+            else:
+                self.__root.unbind_all(self.polygon)
+                self.__root.config(cursor="")
+                self.__polygonButton.config(relief=RAISED)
     # Parameters: toggle is the override argument that can manually turn off free draw, it is used in the
     #    case that the tools window is re-focused  
     def toggleFreeDraw(self, toggle=False):
-        pass
+        if toggle:
+            self.__root.config(cursor="")
+            self.__freedrawButton.config(relief=RAISED)
+        else:
+            self.__freedrawMode = not self.__freedrawMode
+            if self.__freedrawMode:
+                # TO-DO custom cursor
+                self.__root.config(cursor="tcross")
+                self.__freedrawButton.config(relief=SUNKEN)
+                self.__root.bind("<Button-1>", self.freeDraw)
+            else:
+                self.__root.unbind_all(self.freeDraw())
+                self.__root.config(cursor="")
+                self.__freedrawButton.config(relief=RAISED)
 
 #### RUN LINES ##################################################################################        
 if __name__ == "__main__":
