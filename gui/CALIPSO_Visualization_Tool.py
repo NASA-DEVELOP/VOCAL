@@ -143,9 +143,9 @@ class Calipso:
         self.__menuHelp.add_command(label="About", command=self.about)
         self.__menuBar.add_cascade(label="Help", menu=self.__menuHelp)
         
-        #self.__root.bind("<Button-1>", self.zoomIn)
-        #self.__root.bind("<Button-3>", self.zoomOut)
-        #self.__drawplotCanvas.bind("<Motion>", self.crop)
+        self.__root.bind("<<zoomIn>>", self.zoomIn)
+        self.__root.bind("<<zoomOut>>", self.zoomOut)
+        self.__drawplotCanvas.bind("<Motion>", self.crop)
         
         #configure menu to screen
         self.__root.config(menu=self.__menuBar)
@@ -304,9 +304,14 @@ class Calipso:
         createToolTip(btnFreeDraw, "Free Draw")
         btnFreeDraw.grid(row=2, column=0, padx= 10, pady=5)
         
+        zoomInButton = Button(self.__buttonFrame, text="Magnify In", width=10, command=self.zoomInEvent)
+        zoomInButton.grid(row=3, column=0)
+        zoomOutButton = Button(self.__buttonFrame, text="Magnify Out", width=10, command=self.zoomOutEvent)
+        zoomOutButton.grid(row=3, column=1)
+        
         #Plot Type Selection - Radio-button determining how to plot the __file
         menubtnPlotSelection = Menubutton(self.__buttonFrame, text="Plot Type", relief=RAISED, width = 10)
-        menubtnPlotSelection.grid(row=3, column=0, padx=10, pady=5)
+        menubtnPlotSelection.grid(row=4, column=0, padx=10, pady=5)
         menubtnPlotSelection.menu = Menu(menubtnPlotSelection, tearoff=0)
         menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
         
@@ -335,6 +340,12 @@ class Calipso:
     def setupMainScreen(self):
         self.topPanedWindow()
         self.selPlot(BASE_PLOT)
+        
+    def zoomInEvent(self):
+        self.__root.event_generate("<<zoomIn>>")
+        
+    def zoomOutEvent(self):
+        self.__root.event_generate("<<zoomOut>>")
 
 #### RUN LINES ##################################################################################        
 if __name__ == "__main__":
