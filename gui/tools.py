@@ -58,8 +58,8 @@ class ToggleableButton(Button):
     def __init__(self, master=None, cnf={}, **kw):
         Button.__init__(self, master, cnf, kw)
         
-    def bind(self, root, bindKey):
-        self.__bindMap.append((root, bindKey))
+    def bind(self, root, bindKey, func):
+        self.__bindMap.append((root, bindKey, func))
     
     def Toggle(self, toggle=False):
         if toggle:
@@ -70,7 +70,8 @@ class ToggleableButton(Button):
             if self.__isToggled:
                 self.__root.config(cursor=self.cursor)
                 self.__button.config(relief=SUNKEN)
-                self.__keyBinds()
+                for pair in bindMap:
+                    self.pair[0].bind(pair[1], self.pair[2])
             else:
                 self.__root.unbind(self.__bind)
                 self.__drawplotCanvas.unbind(self.__bind)
