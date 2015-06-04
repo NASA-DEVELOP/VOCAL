@@ -321,15 +321,15 @@ class Calipso:
         self.polygonIMG = ImageTk.PhotoImage(file="polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30)
         self.__polygonButton.latch(key="<Button-1>", command=self.__polygons.anchorRectangle, cursor="tcross")
-        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygons.drawRectangle, cursor="tcross")
-        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygons.fillRectangle)
+        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygons.drag, cursor="tcross")
+        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygons.fillRectangle, cursor="tcross")
         self.__polygonButton.grid(row=0, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
         
         # free draw icon
         self.freedrawIMG = ImageTk.PhotoImage(file="freedraw.png")
         self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30)
-        self.__freedrawButton.latch(key="<Button-1>", command=self.freeDraw, cursor="tcross")
+        self.__freedrawButton.latch(key="<Button-1>", command=self.__polygons.plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
 
