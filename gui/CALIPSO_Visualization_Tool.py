@@ -289,7 +289,7 @@ class Calipso:
             self.__zimg_id = self.__drawplotCanvas.create_image(event.x, event.y, image=self.zimg)
             
     def EGcleanUp(self):
-        if self.z__img_id : self.__drawplotCanvas.delete(self.__zimg_id)
+        if self.__zimg_id : self.__drawplotCanvas.delete(self.__zimg_id)
 
     # Reload the initial image
     def reset(self):
@@ -343,34 +343,37 @@ class Calipso:
         
         # polygon icon
         self.polygonIMG = ImageTk.PhotoImage(file="polygon.png")
-        self.__polygonButton = Button(self.__lowerButtonFrame, image=self.polygonIMG, width = 30, command=self.togglePolygon)
-        createToolTip(self.__polygonButton, "Draw Rect")
+        self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30)
+        self.__polygonButton.latch(key="<Button-1>", command=self.polygon, cursor="tcross")
         self.__polygonButton.grid(row=0, column=1, padx=2, pady=5)
+        createToolTip(self.__polygonButton, "Draw Rect")
         
         # free draw icon
         self.freedrawIMG = ImageTk.PhotoImage(file="freedraw.png")
-        self.__freedrawButton = Button(self.__lowerButtonFrame, image=self.freedrawIMG, width = 30, command=self.toggleFreeDraw)
-        createToolTip(self.__freedrawButton, "Free Draw")
+        self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30)
+        self.__freedrawButton.latch(key="<Button-1>", command=self.freeDraw, cursor="tcross")
         self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
+        createToolTip(self.__freedrawButton, "Free Draw")
 
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="magnify.png")
-        self.__magnifyButton = Button(self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30, command=self.toggleEyeGlassZoom)
-        createToolTip(self.__magnifyButton, "Eye Glass")
+        self.__magnifyButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30)
+        self.__magnifyButton.latch(key="<Button-1>", command=self.EGzoomIn, cursor="circle")
+        self.__magnifyButton.latch(key="<Motion>", command=self.crop)
+        self.__magnifyButton.latch(key="<Button-3>", command=self.EGzoomOut, destructor=self.EGcleanUp)
         self.__magnifyButton.grid(row=0, column=3, padx=2, pady=5)
+        createToolTip(self.__magnifyButton, "Eye Glass")
+        
        
-        self.testButton = ToggleableButton(self.__root, self.__lowerButtonFrame, text="this", width=10)
-        self.testButton.bind(key="<Button-1>" , command=self.EGzoomIn, cursor="circle")
-        self.testButton.bind(key="<Motion>", command=self.crop)
-        self.testButton.bind(key="<Button-3>", command=self.EGzoomOut, destructor=self.EGcleanUp)
-        self.testButton.grid(row=1, column=0, padx=2, pady=5)
-
-        # 'hacky' solution to execute multiple commands in a lambda, ensures any active buttons are restored
+        # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
+        # evaluate an array so we can use some arbitrary array and place our commands inside that 
+        # array. Here we simply bind focusing back into the child window as a way to automatically
+        # unbind the toggleable buttons
         self.__child.bind("<FocusIn>", 
-                          lambda x: [self.toggleEyeGlassZoom(toggle=True), 
-                                     self.togglePolygon(toggle=True), 
-                                     self.toggleFreeDraw(toggle=True),
-                                     self.testButton.unToggle()])
+                          lambda x: [ 
+                                     self.__polygonButton.unToggle(), 
+                                     self.__freedrawButton.unToggle(),
+                                     self.__magnifyButton.unToggle()])
         
     
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
@@ -378,70 +381,7 @@ class Calipso:
         self.topPanedWindow()
         self.selPlot(BASE_PLOT)
         
-    # Parameters: toggle is the override argument that can manually turn off zoom, it is used in the
-    #    case that the tools window is re-focused.
-    def toggleEyeGlassZoom(self, toggle=False):
-        if toggle:              
-            self.__root.config(cursor="")                                       # unbind cursor
-            self.__magnifyButton.config(relief=RAISED)                          # raise button
-            self.__EGzoomValue = 0                                                # reset zoom value
-            if self.__zimg_id: self.__drawplotCanvas.delete(self.__zimg_id)     # remove eye glass
-            self.__magnifyMode = False                                          # disable magnify mode
-        else:
-            self.__magnifyMode = not self.__magnifyMode                         # switch value of magnify mode
-            if self.__magnifyMode:
-                self.__root.config(cursor="circle")                             # new cursor icon for magnify
-                self.__magnifyButton.config(relief=SUNKEN)                      # sink button to show eye glass is active
-                self.__root.bind("<Button-1>", self.EGzoomIn)                     # bind left and right mouse button to zoom in / zoom out
-                self.__root.bind("<Button-3>", self.EGzoomOut)
-                self.__drawplotCanvas.bind("<Motion>", self.crop)               # bind any motion to recrop eye glass
-            else:
-                self.__root.unbind("<Button-1>")
-                self.__root.unbind("<Button-3>")                                # unbind mouseb 1 & 3
-                self.__drawplotCanvas.unbind("<Motion>")                        # unbind motion
-                self.__root.config(cursor="")                                   # put cursor back to normal
-                self.__magnifyButton.config(relief=RAISED)                      # raise back button
-                
-    # Parameters: toggle is the override argument that can manually turn off polygon, it is used in the
-    #    case that the tools window is re-focused
-    def togglePolygon(self, toggle=False):
-        if toggle:
-            self.__root.config(cursor="")
-            self.__polygonButton.config(relief=RAISED)
-            self.__polygonMode = False
-        else:
-            self.__polygonMode = not self.__polygonMode
-            if self.__polygonMode:
-                self.__root.config(cursor="tcross")
-                self.__polygonButton.config(relief=SUNKEN)
-                self.__root.bind("<Button-1>", self.polygon)
-            else:
-                self.__root.unbind_all(self.polygon)
-                self.__root.config(cursor="")
-                self.__polygonButton.config(relief=RAISED)
-    # Parameters: toggle is the override argument that can manually turn off free draw, it is used in the
-    #    case that the tools window is re-focused  
-    def toggleFreeDraw(self, toggle=False):
-        if toggle:
-            self.__root.config(cursor="")
-            self.__freedrawButton.config(relief=RAISED)
-        else:
-            self.__freedrawMode = not self.__freedrawMode
-            if self.__freedrawMode:
-                # TO-DO custom cursor
-                self.__root.config(cursor="tcross")
-                self.__freedrawButton.config(relief=SUNKEN)
-                self.__root.bind("<Button-1>", self.freeDraw)
-            else:
-                self.__root.unbind_all(self.freeDraw())
-                self.__root.config(cursor="")
-                self.__freedrawButton.config(relief=RAISED)
-                
-    # Parameters: takes a widget that is to be left alone, and untoggles all toggable options
-    def unToggleAllBut(self, exception):
-        pass    
-            
-        
+
 
 #### RUN LINES ##################################################################################        
 if __name__ == "__main__":

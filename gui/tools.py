@@ -49,20 +49,20 @@ def createToolTip(widget, text):
     widget.bind('<Leave>', leave)
     
 class ToggleableButton(Button):
-    
-    __isToggled = False
-    __button = None
-    __root = None
-    __bindMap = []
-    __cursor = ""
-    __destructor = None
+
     
     def __init__(self, root, master=None, cnf={}, **kw):
+        self.__bindMap = []
+        self.__isToggled = False
+        self.__root = None
+        self.__cursor = ""
+        self.__destructor = None
         self.__root = root
+        
         Button.__init__(self, master, cnf, **kw)
         self.configure(command=self.__Toggle)
 
-    def bind(self, key="", command=None, cursor="", destructor=None):
+    def latch(self, key="", command=None, cursor="", destructor=None):
         if cursor != "" : self.__cursor = cursor
         if key != "" and command != None : self.__bindMap.append((self.__root, key, command))
         if destructor != None : self.__destructor = destructor
@@ -73,8 +73,10 @@ class ToggleableButton(Button):
     def __Toggle(self, toggle=False):
         if toggle:
             self.__root.config(cursor="")
+            for pair in self.__bindMap:
+                pair[0].unbind(pair[1])
             self.config(relief=RAISED)
-            self.destructor()
+            self.__destructor()
         else:
             self.__isToggled = not self.__isToggled
             if self.__isToggled:
