@@ -355,6 +355,8 @@ class Calipso:
         lblSpace2 = Label(self.__lowerButtonFrame, width=2)
         lblSpace2.grid(row=0, column=4)
         
+        # NOTE : See tools.py for documentation on the ToggleableButton class
+        
         # polygon icon
         self.polygonIMG = ImageTk.PhotoImage(file="polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30)
