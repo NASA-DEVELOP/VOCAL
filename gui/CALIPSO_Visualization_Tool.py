@@ -7,6 +7,7 @@ from PIL import Image, ImageTk
 import sys
 from bokeh.colors import white
 from tools import createToolTip, ToggleableButton
+from gui.PolygonDrawing import PolygonDrawing
 
 
 #### PROGRAM CONSTANTS ####
@@ -85,6 +86,7 @@ class Calipso:
         
         # the main canvas we will be drawing our data to
         self.__drawplotCanvas = Canvas(drawplotFrame, height=HEIGHT, width=WIDTH, scrollregion=(0, 0, 0, 0), xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
+        self.__polygons = PolygonDrawing(self.__drawplotCanvas)
         
         xscrollbar.config(command=self.__drawplotCanvas.xview)
         yscrollbar.config(command=self.__drawplotCanvas.yview)
@@ -235,7 +237,6 @@ class Calipso:
             T.insert(END, "Sorry, this plot is currently not implemented. \n")
     
     def enlarge(self):
-        print("Enlarging")
         self.__zoomValue= self.__zoomValue + 1
         if (self.__zoomValue) != 0: 
             updatedWidth =  self.__zoomValue*2000
@@ -245,7 +246,6 @@ class Calipso:
             self.__drawplotCanvas.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
     
     def shrink(self):
-        print("Shrinking")
         if (self.__zoomValue) >= 1:
             self.__zoomValue = self.__zoomValue-1 
                        
@@ -303,6 +303,7 @@ class Calipso:
         self.selPlot(BASE_PLOT)
         self.__file = ''
         self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
+        self.__polygons.reset()
         
     def polygon(self, event):
         pass
@@ -376,6 +377,12 @@ class Calipso:
         self.__magnifyButton.grid(row=0, column=3, padx=2, pady=5)
         createToolTip(self.__magnifyButton, "Eye Glass")
         
+        # vertices icon
+        self.verticesdrawIMG = ImageTk.PhotoImage(file="vertices.png")
+        self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=30)
+        self.__verticesButton.latch(key="<Button-1>", command=self.__polygons.addVertex, cursor="tcross")
+        self.__verticesButton.grid(row=1, column=1, padx=2, pady=5)
+        createToolTip(self.__verticesButton, "Add Vertex")
        
         # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
         # evaluate an array so we can use some arbitrary array and place our commands inside that 
@@ -386,7 +393,8 @@ class Calipso:
                                      self.__polygonButton.unToggle(), 
                                      self.__freedrawButton.unToggle(),
                                      self.__magnifyButton.unToggle(),
-                                     self.__zoomButton.unToggle()])
+                                     self.__zoomButton.unToggle(),
+                                     self.__verticesButton.unToggle()])
         
     
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
