@@ -1,7 +1,15 @@
+#
+#   tools.py
+#   Grant Mercer
+#   6/3/2015
+#
+#   a set of tools that can be used to simplify the means of creating out GUI program
+#
+
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, RAISED, \
     SUNKEN
-    
 
+# Allows for tool tips to be displayed just below buttons
 class ToolTip(object):
 
     def __init__(self, widget):
@@ -10,8 +18,8 @@ class ToolTip(object):
         self.id = None
         self.x = self.y = 0
 
+    # Parameter: text to display as tooltip
     def showtip(self, text):
-        "Display text in tooltip window"
         self.text = text
         if self.tipwindow or not self.text:
             return
@@ -48,35 +56,50 @@ def createToolTip(widget, text):
     widget.bind('<Enter>', enter)
     widget.bind('<Leave>', leave)
     
+# Button wrapper which simulates the toggled button as you see in the draw, magnify, etc. 
+#    buttons. Interally keeps a bind map which on toggle binds the keys in the map, and 
+#    unbinds them on untoggle or forced untoggle.
 class ToggleableButton(Button):
 
     
     def __init__(self, root, master=None, cnf={}, **kw):
-        self.__bindMap = []
-        self.__isToggled = False
-        self.__root = None
-        self.__cursor = ""
-        self.__destructor = None
-        self.__root = root
+        self.__bindMap = []         # bind map to be bound once toggled
+        self.__isToggled = False    # internal var to keep track of toggling
+        self.__root = root          # root variable for setting the cursor
+        self.__cursor = ""          # cursor private var
+        self.__destructor = None    # destructor var called when untoggled
         
-        Button.__init__(self, master, cnf, **kw)
-        self.configure(command=self.__Toggle)
+        Button.__init__(self, master, cnf, **kw)    # call button constructor
+        self.configure(command=self.__Toggle)       # button command is always bound internally to toggle
 
+    # Parameters: 
+    #    key         -> a string which accepts a valid Tkinter key
+    #    command     -> the command to be bound to string
+    #    cursor      -> the cursor to be set when toggled
+    #    destructor  -> a function called when untoggled
     def latch(self, key="", command=None, cursor="", destructor=None):
+        # only set these variables if the user entered one
         if cursor != "" : self.__cursor = cursor
         if key != "" and command != None : self.__bindMap.append((self.__root, key, command))
         if destructor != None : self.__destructor = destructor
 
+    # Wrapper function to call the private toggle function. As the design of 
+    #    toggleable button was to internalize this method, we keep it private
     def unToggle(self):
         self.__Toggle(toggle=True)
 
+    # The bread and potatos of the class, __Toggle uses a boolean variable to keep track
+    #    of the current state of the class and will toggle the button accordingly. Addtionally,
+    #    the unToggle function will forcefully untoggle by setting the toggle var to True, this
+    #    is useful if you wish to set binds where the button untoggles outside of the button
+    #    just being clicked a second time
     def __Toggle(self, toggle=False):
         if toggle:
             self.__root.config(cursor="")
-            for pair in self.__bindMap:
+            for pair in self.__bindMap: 
                 pair[0].unbind(pair[1])
             self.config(relief=RAISED)
-            self.__destructor()
+            if self.__destructor : self.__destructor()
         else:
             self.__isToggled = not self.__isToggled
             if self.__isToggled:
@@ -89,5 +112,6 @@ class ToggleableButton(Button):
                     pair[0].unbind(pair[1])
                 self.__root.config(cursor="")
                 self.config(relief=RAISED)
+                if self.__destructor : self.__destructor()
 
 
