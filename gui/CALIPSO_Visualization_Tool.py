@@ -55,7 +55,9 @@ class Calipso:
         basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
         basePane.pack(fill=BOTH, expand = 1)                # fill and expand
         sectionedPane = PanedWindow(orient=VERTICAL)        # paned window that splits into a top and bottom section
-        basePane.add(sectionedPane)
+        basePane.add(sectionedPane)\
+        
+        self.__root.protocol('WM_DELETE_WINDOW', lambda : sys.exit(1))
         
         self.__child = Toplevel()
         self.__child.title("Tools")
@@ -71,7 +73,6 @@ class Calipso:
         lowerPane = PanedWindow(sectionedChildPane)
         sectionedChildPane.add(lowerPane)
         
-        
         pndwinTop = PanedWindow(sectionedPane, orient=HORIZONTAL)                   # the paned window which holds all buttons
         sectionedPane.add(pndwinTop)                                                # add pndwinTop to sectionedPane
         
@@ -81,34 +82,30 @@ class Calipso:
         self.__lowerButtonFrame = Frame(lowerPane)
         self.__lowerButtonFrame.config(highlightthickness=1)
         self.__lowerButtonFrame.config(highlightbackground="grey")
+        self.__lowerButtonFrame.pack()
         
         self.__dialogFrame = Frame(pndwinTop)                                       # frame to hold dialog for browsing files
         self.__dialogFrame.pack(side = LEFT)
         
         pndwinBottom = PanedWindow(sectionedPane)                           # expands the distance below the button
         sectionedPane.add(pndwinBottom)
-        drawplotFrame = Frame(pndwinBottom, width=WIDTH, height=HEIGHT)                                 # the frame on which we will add our canvas for drawing etc.
-        
-        #xscrollbar = Scrollbar(drawplotFrame, orient=HORIZONTAL)            # define scroll bars
-        #xscrollbar.pack(side = BOTTOM, fill = X)
-        #yscrollbar = Scrollbar(drawplotFrame)
-        #yscrollbar.pack(side = RIGHT, fill = Y)
+        self.__drawplotFrame = Frame(pndwinBottom, width=WIDTH, height=HEIGHT)                                 # the frame on which we will add our canvas for drawing etc.
         
         self.__fig = plt.figure(figsize=(16,11))
         
         # the main canvas we will be drawing our data to
-        self.__drawplotCanvas = FigureCanvasTkAgg(self.__fig, master=drawplotFrame)
-        #self.__drawplotCanvas.resize(WIDTH, height=HEIGHT)
-        
+        self.__drawplotCanvas = FigureCanvasTkAgg(self.__fig, master=self.__drawplotFrame)   
+        self.__drawplotCanvas.mpl_connect(
+                                          'button_press_event', 
+                                          lambda event:self.__drawplotCanvas._tkcanvas.focus_set()
+        )
+                                          
         
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas)
         
         self.__polygons = PolygonDrawing(self.__drawplotCanvas)
         
-        #xscrollbar.config(command=self.__drawplotCanvas.xview)
-        #yscrollbar.config(command=self.__drawplotCanvas.yview)
-        self.__lowerButtonFrame.pack()
-        drawplotFrame.pack()
+        self.__drawplotFrame.pack()
 
 #### MAIN WINDOW SETUP #############################################################################    
     def centerWindow(self):
@@ -218,6 +215,8 @@ class Calipso:
         elif (plotType.get()) == BACKSCATTERED:
             try:
                 draw(self.__drawplotCanvas, self.__toolbar, self.__fig)
+                self.__child.focus()
+                self.__drawplotFrame.focus()
                 #filename = self.__file
                 #sys.argv = [filename]
                 #execfile("plot_uniform_alt_lidar_dev.py")
@@ -382,30 +381,28 @@ class Calipso:
         # NOTE : See tools.py for documentation on the ToggleableButton class
         
         # polygon icon
-        self.polygonIMG = ImageTk.PhotoImage(file="polygon.png")
+        self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=20, height=20)
         self.__polygonButton.latch(key="<Button-1>", command=self.polygon, cursor="tcross")
         self.__polygonButton.grid(row=0, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
         
         # free draw icon
-        self.freedrawIMG = ImageTk.PhotoImage(file="freedraw.png")
+        self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
         self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=20, height=20)
         self.__freedrawButton.latch(key="<Button-1>", command=self.__toolbar.zoom, cursor="tcross")
         self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
 
         # magnify icon
-        self.magnifydrawIMG = ImageTk.PhotoImage(file="magnify.png")
+        self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
         self.__magnifyButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.magnifydrawIMG, width=20, height=20)
-        self.__magnifyButton.latch(key="<Button-1>", command=self.EGzoomIn, cursor="circle")
-        self.__magnifyButton.latch(key="<Motion>", command=self.crop)
-        self.__magnifyButton.latch(key="<Button-3>", command=self.EGzoomOut, destructor=self.EGcleanUp)
+        self.__magnifyButton.latch(key="<Button-1>", command=self.__toolbar.zoom, cursor="tcross")
         self.__magnifyButton.grid(row=0, column=3, padx=2, pady=5)
         createToolTip(self.__magnifyButton, "Eye Glass")
         
         # vertices icon
-        self.verticesdrawIMG = ImageTk.PhotoImage(file="vertices.png")
+        self.verticesdrawIMG = ImageTk.PhotoImage(file="ico/vertices.png")
         self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=20, height=20)
         self.__verticesButton.latch(key="<Button-1>", command=self.__polygons.addVertex, cursor="tcross")
         self.__verticesButton.grid(row=0, column=4, padx=2, pady=5)
@@ -441,3 +438,4 @@ if __name__ == "__main__":
     program.setupMainScreen()
         
     rt.mainloop()
+sys.exit(1)

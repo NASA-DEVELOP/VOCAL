@@ -110,6 +110,7 @@ class ToggleableButton(Button):
                 self.config(relief=SUNKEN)
                 for pair in self.__bindMap:
                     pair[0].bind(pair[1], pair[2])
+                self.__root.grab_set()
             else:
                 for pair in self.__bindMap:
                     pair[0].unbind(pair[1])
