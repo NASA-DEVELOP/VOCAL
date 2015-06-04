@@ -1,13 +1,15 @@
 #### IMPORTS #######################################################################################
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, CENTER, Scrollbar, TOP, BOTTOM, RIGHT, LEFT, X, Y, \
+    RAISED, BOTH, VERTICAL, Menubutton, Canvas, CENTER, Scrollbar, BOTTOM, RIGHT, LEFT, X, Y, \
     SUNKEN
-import tkFileDialog
-from PIL import Image, ImageTk
 import sys
+
 from bokeh.colors import white
-from tools import createToolTip, ToggleableButton
+
+from PIL import Image, ImageTk
 from gui.PolygonDrawing import PolygonDrawing
+from tools import createToolTip, ToggleableButton
+from gui import MenuFunctions
 
 
 #### PROGRAM CONSTANTS ####
@@ -111,61 +113,25 @@ class Calipso:
         self.centerWindow()
        
 #### MENU BAR ######################################################################################   
-    def importFile(self):
-        ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        dlg = tkFileDialog.Open(filetypes = ftypes)
-        fl = dlg.show()
-        if fl != '':
-            self.__file = fl
-            Segments = self.__file.rpartition('/')
-            self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
-    
-    def exportImage(self):
-        pass
-    
-    def saveImage(self):
-        pass
-    
-    def saveAs(self):
-        options = {}
-        options['defaultextension'] = '.hdf'
-        options['filetypes'] = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        tkFileDialog.asksaveasfile(mode='w', **options)
-        
-    def about(self): 
-        filewin = Toplevel(self.__root)
-        filewin.title("About")
-        T = Message(filewin, text="NASA DEVELOP \nLaRC Spring 2015 Term \n \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal")
-        T.pack()
-        
-        btnClose = Button(filewin, text="Close", command=filewin.destroy)
-        btnClose.pack()
-        
-    def tutorial(self):
-        filewin = Toplevel(self.__root)
-        T = Text(filewin, height=10, width=40, wrap='word')
-        T.pack()
-        T.insert(END, "This is a tutorial of how to use the CALIPSO Visualization Tool")   
-               
     def setupMenu(self):
         self.__menuBar = Menu(self.__root)
         
         #File Menu
         self.__menuFile = Menu(self.__menuBar, tearoff=0)
-        self.__menuFile.add_command(label="Import File", command=self.importFile)
-        self.__menuFile.add_command(label="Export Image", command=self.exportImage)
+        self.__menuFile.add_command(label="Import File", command=lambda: MenuFunctions.importFile(self.__file, self.__lblFileDialog))
+        self.__menuFile.add_command(label="Export Image", command=MenuFunctions.exportImage)
         self.__menuFile.add_separator()
-        self.__menuFile.add_command(label="Save", command=self.saveImage)
-        self.__menuFile.add_command(label="Save as", command=self.saveAs)
+        self.__menuFile.add_command(label="Save", command=MenuFunctions.saveImage)
+        self.__menuFile.add_command(label="Save as", command=MenuFunctions.saveAs)
         self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Exit", command=self.__root.quit)
         self.__menuBar.add_cascade(label="File", menu=self.__menuFile)
         
         #Help Menu
         self.__menuHelp = Menu(self.__menuBar, tearoff=0)
-        self.__menuHelp.add_command(label="Tutorial", command=self.tutorial)
+        self.__menuHelp.add_command(label="Tutorial", command=lambda: MenuFunctions.tutorial(self.__root))
         self.__menuHelp.add_separator()
-        self.__menuHelp.add_command(label="About", command=self.about)
+        self.__menuHelp.add_command(label="About", command=lambda: MenuFunctions.about(self.__root))
         self.__menuBar.add_cascade(label="Help", menu=self.__menuHelp)
         
         #configure menu to screen
@@ -317,7 +283,7 @@ class Calipso:
         lblFile.grid(row=1, column=0)
         self.__lblFileDialog = Label(self.__dialogFrame, width = 50, bg = white, relief = SUNKEN)
         self.__lblFileDialog.grid(row=1, column=1, padx=10)
-        btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
+        btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=lambda: MenuFunctions.importFile(self.__file, self.__lblFileDialog))
         btnBrowse.grid(row=1, column=3)
         
 #         btnZoomIn = Button(self.__upperButtonFrame, text = "Zoom In", width = 10, command=self.zoomIn_)
