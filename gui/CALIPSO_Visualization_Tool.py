@@ -271,9 +271,6 @@ class Calipso:
         self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
         self.__polygons.reset()
         
-    def polygon(self, event):
-        pass
-        
     def freeDraw(self, event):
         pass
 
@@ -323,7 +320,9 @@ class Calipso:
         # polygon icon
         self.polygonIMG = ImageTk.PhotoImage(file="polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30)
-        self.__polygonButton.latch(key="<Button-1>", command=self.polygon, cursor="tcross")
+        self.__polygonButton.latch(key="<Button-1>", command=self.__polygons.anchorRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygons.drawRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygons.fillRectangle)
         self.__polygonButton.grid(row=0, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
         
