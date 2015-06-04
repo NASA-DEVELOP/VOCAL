@@ -54,26 +54,35 @@ class ToggleableButton(Button):
     __button = None
     __root = None
     __bindMap = []
+    __cursor = ""
     
-    def __init__(self, master=None, cnf={}, **kw):
-        Button.__init__(self, master, cnf, kw)
-        
-    def bind(self, root, bindKey, func):
-        self.__bindMap.append((root, bindKey, func))
-    
-    def Toggle(self, toggle=False):
+    def __init__(self, root, master=None, cnf={}, **kw):
+        self.__root = root
+        Button.__init__(self, master, cnf, **kw)
+        self.configure(command=self.__Toggle)
+
+    def bind(self, bindKey, func, cursor="",):
+        if cursor != "" : self.__cursor = cursor
+        self.__bindMap.append((self.__root, bindKey, func))
+
+    def unToggle(self):
+        self.__Toggle(toggle=True)
+
+    def __Toggle(self, toggle=False):
         if toggle:
             self.__root.config(cursor="")
-            self.__button.config(relief=RAISED)
+            self.config(relief=RAISED)
         else:
             self.__isToggled = not self.__isToggled
             if self.__isToggled:
-                self.__root.config(cursor=self.cursor)
-                self.__button.config(relief=SUNKEN)
-                for pair in bindMap:
-                    self.pair[0].bind(pair[1], self.pair[2])
+                self.__root.config(cursor=self.__cursor)
+                self.config(relief=SUNKEN)
+                for pair in self.__bindMap:
+                    pair[0].bind(pair[1], pair[2])
             else:
-                self.__root.unbind(self.__bind)
-                self.__drawplotCanvas.unbind(self.__bind)
+                for pair in self.__bindMap:
+                    pair[0].unbind(pair[1])
                 self.__root.config(cursor="")
-                self.__button.config(relief=RAISED)
+                self.config(relief=RAISED)
+
+

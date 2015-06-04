@@ -7,7 +7,7 @@ import tkFileDialog
 from PIL import Image, ImageTk
 import sys
 from bokeh.colors import white
-from tools import createToolTip
+from tools import createToolTip, ToggleableButton
 
 
 #### PROGRAM CONSTANTS ####
@@ -356,12 +356,19 @@ class Calipso:
         self.__magnifyButton = Button(self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30, command=self.toggleEyeGlassZoom)
         createToolTip(self.__magnifyButton, "Eye Glass")
         self.__magnifyButton.grid(row=0, column=3, padx=2, pady=5)
-        
+       
+        self.testButton = ToggleableButton(self.__root, self.__lowerButtonFrame, text="this", width=10)
+        self.testButton.bind("<Button-1>" , self.EGzoomIn, cursor="circle")
+        self.testButton.bind("<Motion>", self.crop)
+        self.testButton.bind("<Button-3>", self.EGzoomOut)
+        self.testButton.grid(row=1, column=0, padx=2, pady=5)
+
         # 'hacky' solution to execute multiple commands in a lambda, ensures any active buttons are restored
         self.__child.bind("<FocusIn>", 
                           lambda x: [self.toggleEyeGlassZoom(toggle=True), 
                                      self.togglePolygon(toggle=True), 
-                                     self.toggleFreeDraw(toggle=True)])
+                                     self.toggleFreeDraw(toggle=True),
+                                     self.testButton.unToggle()])
         
     
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
@@ -430,7 +437,7 @@ class Calipso:
                 
     # Parameters: takes a widget that is to be left alone, and untoggles all toggable options
     def unToggleAllBut(self, exception):
-        
+        pass    
             
         
 
