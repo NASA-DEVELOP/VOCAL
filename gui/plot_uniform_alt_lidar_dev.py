@@ -111,17 +111,13 @@ def draw(canvas, toolbar, fig):
     cbar = plt.colorbar(extend='both',use_gridspec=True)
     cbar.set_label(cbar_label)
     
-    plt.savefig("lidar_backscatter.png")
+    #plt.savefig("lidar_backscatter.png")
     #plt.show()
-    
-    #canvas = FigureCanvasTkAgg(fig, master=root)
     
     canvas.show()
     canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=0)
-    
-    #toolbar = NavigationToolbar2TkAgg( canvas, root )
     toolbar.update()
-    canvas._tkcanvas.pack(side=Tk.TOP, fill=Tk.BOTH, expand=0)
+    canvas._tkcanvas.pack(side=Tk.LEFT, fill=Tk.BOTH, expand=0)
     
 
 

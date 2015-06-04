@@ -3,20 +3,21 @@
 #####################EXPERIMENTAL IMPORTS#################################
 import matplotlib
 matplotlib.use('TkAgg')
+
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, \
-    NavigationToolbar2TkAgg
+    NavigationToolbar2TkAgg, NavigationToolbar2
 import matplotlib.pyplot as plt
 from plot_uniform_alt_lidar_dev import draw
 #####################END EXPERIEMENTAL IMPORTS############################
 
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, CENTER, Scrollbar, TOP, BOTTOM, RIGHT, LEFT, X, Y, \
-    SUNKEN
+    SUNKEN, FALSE
 import tkFileDialog
 from PIL import Image, ImageTk
 import sys
 from bokeh.colors import white
-from tools import createToolTip, ToggleableButton
+from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO
 from gui.PolygonDrawing import PolygonDrawing
 
 #### PROGRAM CONSTANTS ####
@@ -58,13 +59,14 @@ class Calipso:
         
         self.__child = Toplevel()
         self.__child.title("Tools")
+        self.__child.resizable(width=FALSE, height=FALSE)
         baseChildPane = PanedWindow(self.__child)
         baseChildPane.pack(fill=BOTH, expand = 1)
         sectionedChildPane = PanedWindow(self.__child, orient=VERTICAL)
         baseChildPane.add(sectionedChildPane)
         
         
-        upperPane = PanedWindow(sectionedChildPane, orient=HORIZONTAL)
+        upperPane = PanedWindow(sectionedChildPane, orient=HORIZONTAL, width=5)
         sectionedChildPane.add(upperPane)
         lowerPane = PanedWindow(sectionedChildPane)
         sectionedChildPane.add(lowerPane)
@@ -80,7 +82,6 @@ class Calipso:
         self.__lowerButtonFrame.config(highlightthickness=1)
         self.__lowerButtonFrame.config(highlightbackground="grey")
         
-        
         self.__dialogFrame = Frame(pndwinTop)                                       # frame to hold dialog for browsing files
         self.__dialogFrame.pack(side = LEFT)
         
@@ -93,18 +94,19 @@ class Calipso:
         #yscrollbar = Scrollbar(drawplotFrame)
         #yscrollbar.pack(side = RIGHT, fill = Y)
         
-        self.__fig = plt.figure(figsize=(10,7))
+        self.__fig = plt.figure(figsize=(16,11))
         
         # the main canvas we will be drawing our data to
-        self.__drawplotCanvas = FigureCanvasTkAgg(self.__fig, master=pndwinBottom)
+        self.__drawplotCanvas = FigureCanvasTkAgg(self.__fig, master=drawplotFrame)
         #self.__drawplotCanvas.resize(WIDTH, height=HEIGHT)
-        self.__toolbar = NavigationToolbar2TkAgg(self.__drawplotCanvas, drawplotFrame)
+        
+        
+        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas)
         
         self.__polygons = PolygonDrawing(self.__drawplotCanvas)
         
         #xscrollbar.config(command=self.__drawplotCanvas.xview)
         #yscrollbar.config(command=self.__drawplotCanvas.yview)
-        
         self.__lowerButtonFrame.pack()
         drawplotFrame.pack()
 
@@ -208,6 +210,7 @@ class Calipso:
     def selPlot(self, plotType):
         if (plotType) == BASE_PLOT:
             pass
+            #draw(self.__drawplotCanvas, self.__toolbar, self.__fig)
             #self.__imageFilename = "CALIPSO_A_Train.jpg"
             #loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
             #self.addToCanvas(loadedPhotoImage)
@@ -374,27 +377,27 @@ class Calipso:
         lblSpace1.grid(row=0, column=0)
         
         lblSpace2 = Label(self.__lowerButtonFrame, width=2)
-        lblSpace2.grid(row=0, column=4)
+        lblSpace2.grid(row=0, column=5)
         
         # NOTE : See tools.py for documentation on the ToggleableButton class
         
         # polygon icon
         self.polygonIMG = ImageTk.PhotoImage(file="polygon.png")
-        self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30)
+        self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=20, height=20)
         self.__polygonButton.latch(key="<Button-1>", command=self.polygon, cursor="tcross")
         self.__polygonButton.grid(row=0, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
         
         # free draw icon
         self.freedrawIMG = ImageTk.PhotoImage(file="freedraw.png")
-        self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30)
-        self.__freedrawButton.latch(key="<Button-1>", command=self.freeDraw, cursor="tcross")
+        self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=20, height=20)
+        self.__freedrawButton.latch(key="<Button-1>", command=self.__toolbar.zoom, cursor="tcross")
         self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
 
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="magnify.png")
-        self.__magnifyButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30)
+        self.__magnifyButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.magnifydrawIMG, width=20, height=20)
         self.__magnifyButton.latch(key="<Button-1>", command=self.EGzoomIn, cursor="circle")
         self.__magnifyButton.latch(key="<Motion>", command=self.crop)
         self.__magnifyButton.latch(key="<Button-3>", command=self.EGzoomOut, destructor=self.EGcleanUp)
@@ -403,9 +406,9 @@ class Calipso:
         
         # vertices icon
         self.verticesdrawIMG = ImageTk.PhotoImage(file="vertices.png")
-        self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=30)
+        self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=20, height=20)
         self.__verticesButton.latch(key="<Button-1>", command=self.__polygons.addVertex, cursor="tcross")
-        self.__verticesButton.grid(row=1, column=1, padx=2, pady=5)
+        self.__verticesButton.grid(row=0, column=4, padx=2, pady=5)
         createToolTip(self.__verticesButton, "Add Vertex")
        
         # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
