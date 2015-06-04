@@ -55,15 +55,17 @@ class ToggleableButton(Button):
     __root = None
     __bindMap = []
     __cursor = ""
+    __destructor = None
     
     def __init__(self, root, master=None, cnf={}, **kw):
         self.__root = root
         Button.__init__(self, master, cnf, **kw)
         self.configure(command=self.__Toggle)
 
-    def bind(self, bindKey, func, cursor="",):
+    def bind(self, key="", command=None, cursor="", destructor=None):
         if cursor != "" : self.__cursor = cursor
-        self.__bindMap.append((self.__root, bindKey, func))
+        if key != "" and command != None : self.__bindMap.append((self.__root, key, command))
+        if destructor != None : self.__destructor = destructor
 
     def unToggle(self):
         self.__Toggle(toggle=True)
@@ -72,6 +74,7 @@ class ToggleableButton(Button):
         if toggle:
             self.__root.config(cursor="")
             self.config(relief=RAISED)
+            self.destructor()
         else:
             self.__isToggled = not self.__isToggled
             if self.__isToggled:

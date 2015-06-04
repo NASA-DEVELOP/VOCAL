@@ -288,7 +288,9 @@ class Calipso:
             self.zimg = ImageTk.PhotoImage(tmp.resize(size))
             self.__zimg_id = self.__drawplotCanvas.create_image(event.x, event.y, image=self.zimg)
             
-                
+    def EGcleanUp(self):
+        if self.z__img_id : self.__drawplotCanvas.delete(self.__zimg_id)
+
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
@@ -358,9 +360,9 @@ class Calipso:
         self.__magnifyButton.grid(row=0, column=3, padx=2, pady=5)
        
         self.testButton = ToggleableButton(self.__root, self.__lowerButtonFrame, text="this", width=10)
-        self.testButton.bind("<Button-1>" , self.EGzoomIn, cursor="circle")
-        self.testButton.bind("<Motion>", self.crop)
-        self.testButton.bind("<Button-3>", self.EGzoomOut)
+        self.testButton.bind(key="<Button-1>" , command=self.EGzoomIn, cursor="circle")
+        self.testButton.bind(key="<Motion>", command=self.crop)
+        self.testButton.bind(key="<Button-3>", command=self.EGzoomOut, destructor=self.EGcleanUp)
         self.testButton.grid(row=1, column=0, padx=2, pady=5)
 
         # 'hacky' solution to execute multiple commands in a lambda, ensures any active buttons are restored
