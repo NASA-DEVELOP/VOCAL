@@ -28,9 +28,11 @@ argv = sys.argv
 
 filename = argv[0]
 
+print filename
+
 # Read CALIPSO Data from Level 1B file
 with HDF(filename) as product:
-
+    print "nope"
     latitude = product["Latitude"][::]
 
     start_lat = 35.

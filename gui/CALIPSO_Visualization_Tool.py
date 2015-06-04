@@ -1,5 +1,4 @@
 #### IMPORTS #######################################################################################
-from __future__ import print_function
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, CENTER, Scrollbar, TOP, BOTTOM, RIGHT, LEFT, X, Y, \
     SUNKEN
@@ -24,26 +23,23 @@ CHILDHEIGHT     = 300
 class Calipso:
     
     def __init__ (self, r):
-        self.__root = r
+        self.__root = r                     # root of program
+        
+        self.__zoomButton = None            # zoom button
+        self.__polygonButton = None         # polygon button
+        self.__freedrawButton = None        # free draw button
+        self.__magnifyButton = None         # magnify button
         
         self.__file = ''                    # current file in use
         self.__lblFileDialog = Label()      # shows the selected file
         self.__zoomValue=0                  # zoom value in program
-        self.__EGzoomValue=0          # zoom value for eye glass
+        self.__EGzoomValue=0                # zoom value for eye glass
         self.__imageFilename = ''           # name of image file
         self.__zimg_id = None               # for use with crop function, saves previous state
         self.__orig_img = None              # saves original state of image for use with crop
         self.__menuBar = None               # menu bar appearing at top of screen
         self.__menuFile = None              # sub menu
         self.__menuHelp = None              # sub menu
-        self.__toggleIsActive = False       # there cannot be more than one toggable tool active at any time
-        self.__magnifyMode = False          # zoom in and out boolean
-        self.__magnifyButton = None         # zoom in and out button
-        self.__polygonMode = False
-        self.__polygonButton = None
-        self.__freedrawMode = False
-        self.__freedrawButton = None
-        self.__toggleableMap = []
         
         basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
         basePane.pack(fill=BOTH, expand = 1)                # fill and expand
