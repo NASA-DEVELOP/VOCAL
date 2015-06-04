@@ -238,7 +238,8 @@ class Calipso:
             T.pack()
             T.insert(END, "Sorry, this plot is currently not implemented. \n")
     
-    def zoomIn_(self):
+    def enlarge(self):
+        print("Enlarging")
         self.__zoomValue= self.__zoomValue + 1
         if (self.__zoomValue) != 0: 
             updatedWidth =  self.__zoomValue*2000
@@ -247,7 +248,8 @@ class Calipso:
             self.addToCanvas(photoImage)
             self.__drawplotCanvas.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
     
-    def zoomOut_(self):
+    def shrink(self):
+        print("Shrinking")
         if (self.__zoomValue) >= 1:
             self.__zoomValue = self.__zoomValue-1 
                        
@@ -262,6 +264,12 @@ class Calipso:
             photoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
             self.addToCanvas(photoImage)
             self.__drawplotCanvas.config(scrollregion=(0, 0, 0, 0))
+            
+    def mouseWheelZoom(self, event):
+        if event.delta/120 > 0:
+            self.enlarge()
+        else:
+            self.shrink()
     
     def EGzoomIn(self, event):
         if self.__EGzoomValue != 4: self.__EGzoomValue += 1
@@ -315,10 +323,16 @@ class Calipso:
         btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
         
-        btnZoomIn = Button(self.__upperButtonFrame, text = "Zoom In", width = 10, command=self.zoomIn_)
-        btnZoomIn.grid(row=0, column=0, padx=10, pady=5)
-        btnZoomOut = Button(self.__upperButtonFrame, text = "Zoom Out", width = 10, command=self.zoomOut_)
-        btnZoomOut.grid(row=0, column=1, padx=10, pady=5)
+#         btnZoomIn = Button(self.__upperButtonFrame, text = "Zoom In", width = 10, command=self.zoomIn_)
+#         btnZoomIn.grid(row=0, column=0, padx=10, pady=5)
+#         btnZoomOut = Button(self.__upperButtonFrame, text = "Zoom Out", width = 10, command=self.zoomOut_)
+#         btnZoomOut.grid(row=0, column=1, padx=10, pady=5)
+
+        self.__zoomButton = ToggleableButton(self.__root, self.__upperButtonFrame, text="Zoom", width=10)
+        self.__zoomButton.latch(key="<MouseWheel>", command=self.mouseWheelZoom, cursor="")                                 # <"MouseWheel>" is for Windows and OSX
+        self.__zoomButton.latch(key="<MouseWheel>", command=self.mouseWheelZoom, cursor="", destructor=self.EGcleanUp)      # "<Button-4>" and "<Button-5>" is for linux systems
+        self.__zoomButton.grid(row=0, column=0, padx=2, pady=5)
+        
         btnReset = Button(self.__upperButtonFrame, text = "Reset", width = 10, command=self.reset)
         btnReset.grid(row=1, column=0, padx=10, pady=5)
         
@@ -373,7 +387,8 @@ class Calipso:
                           lambda x: [ 
                                      self.__polygonButton.unToggle(), 
                                      self.__freedrawButton.unToggle(),
-                                     self.__magnifyButton.unToggle()])
+                                     self.__magnifyButton.unToggle(),
+                                     self.__zoomButton.unToggle()])
         
     
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
