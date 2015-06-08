@@ -1,16 +1,22 @@
 #### IMPORTS #######################################################################################
+
+#####################EXPERIMENTAL IMPORTS#################################
+import matplotlib
+matplotlib.use('TkAgg')
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+from plot_uniform_alt_lidar_dev import draw
+#####################END EXPERIEMENTAL IMPORTS############################
+
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, Canvas, CENTER, Scrollbar, BOTTOM, RIGHT, LEFT, X, Y, \
-    SUNKEN
-import sys
-
-from bokeh.colors import white
-
+    RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE
 from PIL import Image, ImageTk
+import sys, os
+from bokeh.colors import white
+from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO
 from gui.PolygonDrawing import PolygonDrawing
-from tools import createToolTip, ToggleableButton
 from gui import MenuFunctions
-
 
 #### PROGRAM CONSTANTS ####
 BASE_PLOT       = 0
@@ -52,17 +58,17 @@ class Calipso:
         
         self.__child = Toplevel()
         self.__child.title("Tools")
+        self.__child.resizable(width=FALSE, height=FALSE)
         baseChildPane = PanedWindow(self.__child)
         baseChildPane.pack(fill=BOTH, expand = 1)
         sectionedChildPane = PanedWindow(self.__child, orient=VERTICAL)
         baseChildPane.add(sectionedChildPane)
         
         
-        upperPane = PanedWindow(sectionedChildPane, orient=HORIZONTAL)
+        upperPane = PanedWindow(sectionedChildPane, orient=HORIZONTAL, width=5)
         sectionedChildPane.add(upperPane)
         lowerPane = PanedWindow(sectionedChildPane)
         sectionedChildPane.add(lowerPane)
-        
         
         pndwinTop = PanedWindow(sectionedPane, orient=HORIZONTAL)                   # the paned window which holds all buttons
         sectionedPane.add(pndwinTop)                                                # add pndwinTop to sectionedPane
@@ -80,21 +86,22 @@ class Calipso:
         
         pndwinBottom = PanedWindow(sectionedPane)                           # expands the distance below the button
         sectionedPane.add(pndwinBottom)
-        drawplotFrame = Frame(pndwinBottom)                                 # the frame on which we will add our canvas for drawing etc.
+        self.__drawplotFrame = Frame(pndwinBottom, width=WIDTH, height=HEIGHT)                                 # the frame on which we will add our canvas for drawing etc.
         
-        xscrollbar = Scrollbar(drawplotFrame, orient=HORIZONTAL)            # define scroll bars
-        xscrollbar.pack(side = BOTTOM, fill = X)
-        yscrollbar = Scrollbar(drawplotFrame)
-        yscrollbar.pack(side = RIGHT, fill = Y)
-        
+        self.__Parentfig = Figure(figsize=(16,11))
+        #self.__Parentfig = plt.figure(figsize=(16,11))
         # the main canvas we will be drawing our data to
-        self.__drawplotCanvas = Canvas(drawplotFrame, height=HEIGHT, width=WIDTH, scrollregion=(0, 0, 0, 0), xscrollcommand=xscrollbar.set, yscrollcommand=yscrollbar.set)
+        self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)   
+        #self.__drawplotCanvas.mpl_connect(
+        #                                  'button_press_event', 
+        #                                  lambda event:self.__drawplotCanvas._tkcanvas.focus_set()
+        #)          
+        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas)
+        
         self.__polygons = PolygonDrawing(self.__drawplotCanvas)
         
-        xscrollbar.config(command=self.__drawplotCanvas.xview)
-        yscrollbar.config(command=self.__drawplotCanvas.yview)
-        
-        drawplotFrame.pack()
+        self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+        self.__drawplotFrame.pack()
 
 #### MAIN WINDOW SETUP #############################################################################    
     def centerWindow(self):
@@ -141,10 +148,10 @@ class Calipso:
 #### MAIN SCREEN #############################################################################
 
     # parameter: pimage = image to be drawn on Canvas in the center location
-    def addToCanvas(self, pimage):
-        self.__drawplotCanvas.create_image(WIDTH // 2, HEIGHT // 2, image=pimage, anchor=CENTER)
-        self.__drawplotCanvas.image = pimage
-        self.__drawplotCanvas.pack()
+    #def addToCanvas(self, pimage):
+        #self.__drawplotCanvas.create_image(WIDTH // 2, HEIGHT // 2, image=pimage, anchor=CENTER)
+        #self.__drawplotCanvas.image = pimage
+        #self.__drawplotCanvas.pack()
     
     # parameter: imageFilename1 = File name of image to load as PhotoImage
     #           width = desired width of image
@@ -159,20 +166,22 @@ class Calipso:
     # parameter: plotType = int value(0-2) associated with desired plotType
     def selPlot(self, plotType):
         if (plotType) == BASE_PLOT:
-            self.__imageFilename = "CALIPSO_A_Train.jpg"
-            loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
-            self.addToCanvas(loadedPhotoImage)
+            pass
+            #draw(self.__drawplotCanvas, self.__toolbar, self.__fig)
+            #self.__imageFilename = "CALIPSO_A_Train.jpg"
+            #loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
+            #self.addToCanvas(loadedPhotoImage)
             
         elif (plotType.get()) == BACKSCATTERED:
             try:
-                filename = self.__file
-                sys.argv = [filename]
-                execfile("plot_uniform_alt_lidar_dev.py")
-                self.__imageFilename = "lidar_backscatter.png"
-                
-                #refresh image in lower frame 
-                loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
-                self.addToCanvas(loadedPhotoImage)
+                self.__Parentfig.clear()
+                self.__fig = self.__Parentfig.add_subplot(1,1,1)
+                draw(self.__drawplotCanvas, self.__toolbar, self.__fig, self.__Parentfig)
+                self.__drawplotCanvas.show()
+                self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
+                self.__toolbar.update()
+                self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
+                #self.__drawplotCanvas._tkcanvas.focus_set()
             
             except IOError:
                 filewin = Toplevel(self.__root)
@@ -188,8 +197,8 @@ class Calipso:
                 self.__imageFilename = "depolarization_ratio.png"
                 
                 #refresh image in lower frame
-                loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
-                self.addToCanvas(loadedPhotoImage)
+                #loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
+                #self.addToCanvas(loadedPhotoImage)
             
             except IOError:
                 filewin = Toplevel(self.__root)
@@ -209,8 +218,8 @@ class Calipso:
             updatedWidth =  self.__zoomValue*2000
             updatedHeight = self.__zoomValue*1051
             photoImage = self.loadPic(self.__imageFilename, updatedWidth, updatedHeight)
-            self.addToCanvas(photoImage)
-            self.__drawplotCanvas.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
+            #self.addToCanvas(photoImage)
+            #self.__drawplotCanvas.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
     
     def shrink(self):
         if (self.__zoomValue) >= 1:
@@ -220,13 +229,13 @@ class Calipso:
             updatedWidth = (1/self.__zoomValue)*2000
             updatedHeight = (1/self.__zoomValue)*1051
             photoImage = self.loadPic(self.__imageFilename, updatedWidth, updatedHeight)
-            self.addToCanvas(photoImage)
-            self.__drawplotCanvas.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
+            #self.addToCanvas(photoImage)
+            #self.__drawplotCanvas.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
             
         if (self.__zoomValue) == 0:
             photoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
-            self.addToCanvas(photoImage)
-            self.__drawplotCanvas.config(scrollregion=(0, 0, 0, 0))
+            #self.addToCanvas(photoImage)
+            #self.__drawplotCanvas.config(scrollregion=(0, 0, 0, 0))
             
     def mouseWheelZoom(self, event):
         if event.delta/120 > 0:
@@ -244,6 +253,8 @@ class Calipso:
     
     # Parameters: event object containing the mouse position
     def crop(self, event):
+        pass
+        """
         if self.__zimg_id: self.__drawplotCanvas.delete(self.__zimg_id)
         if (self.__EGzoomValue) != 0:
             x, y = event.x, event.y
@@ -258,19 +269,24 @@ class Calipso:
             size = 300, 200
             self.zimg = ImageTk.PhotoImage(tmp.resize(size))
             self.__zimg_id = self.__drawplotCanvas.create_image(event.x, event.y, image=self.zimg)
+        """
             
     def EGcleanUp(self):
-        if self.__zimg_id : self.__drawplotCanvas.delete(self.__zimg_id)
+        pass
+        #if self.__zimg_id : self.__drawplotCanvas.delete(self.__zimg_id)
 
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
+        pass
+        """
         self.__zoomValue = 0
         self.__drawplotCanvas.config(scrollregion=(0, 0, 0, 0))
         self.selPlot(BASE_PLOT)
         self.__file = ''
         self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
         self.__polygons.reset()
+        """
         
     def topPanedWindow(self):
         #File Dialog box, - shows the selected __file
@@ -311,11 +327,11 @@ class Calipso:
         lblSpace1.grid(row=0, column=0)
         
         lblSpace2 = Label(self.__lowerButtonFrame, width=2)
-        lblSpace2.grid(row=0, column=4)
+        lblSpace2.grid(row=0, column=5)
         
         # NOTE : See tools.py for documentation on the ToggleableButton class
         
-        # polygon icon
+
         self.polygonIMG = ImageTk.PhotoImage(file="polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30)
         self.__polygonButton.latch(key="<Button-1>", command=self.__polygons.anchorRectangle, cursor="tcross")
@@ -325,26 +341,25 @@ class Calipso:
         createToolTip(self.__polygonButton, "Draw Rect")
         
         # free draw icon
+
         self.freedrawIMG = ImageTk.PhotoImage(file="freedraw.png")
         self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30)
         self.__freedrawButton.latch(key="<Button-1>", command=self.__polygons.plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
-
+        
         # magnify icon
-        self.magnifydrawIMG = ImageTk.PhotoImage(file="magnify.png")
-        self.__magnifyButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30)
-        self.__magnifyButton.latch(key="<Button-1>", command=self.EGzoomIn, cursor="circle")
-        self.__magnifyButton.latch(key="<Motion>", command=self.crop)
-        self.__magnifyButton.latch(key="<Button-3>", command=self.EGzoomOut, destructor=self.EGcleanUp)
+        self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
+        self.__magnifyButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.magnifydrawIMG, width=20, height=20)
+        self.__magnifyButton.latch(key="<Button-1>", command=self.__toolbar.zoom, cursor="tcross")
         self.__magnifyButton.grid(row=0, column=3, padx=2, pady=5)
         createToolTip(self.__magnifyButton, "Eye Glass")
         
         # vertices icon
-        self.verticesdrawIMG = ImageTk.PhotoImage(file="vertices.png")
-        self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=30)
+        self.verticesdrawIMG = ImageTk.PhotoImage(file="ico/vertices.png")
+        self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=20, height=20)
         self.__verticesButton.latch(key="<Button-1>", command=self.__polygons.addVertex, cursor="tcross")
-        self.__verticesButton.grid(row=1, column=1, padx=2, pady=5)
+        self.__verticesButton.grid(row=0, column=4, padx=2, pady=5)
         createToolTip(self.__verticesButton, "Add Vertex")
         
         # drag icon
@@ -368,6 +383,8 @@ class Calipso:
                                      self.__dragButton.unToggle()])
         
     
+        
+        
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
     def setupMainScreen(self):
         self.topPanedWindow()
@@ -385,3 +402,4 @@ if __name__ == "__main__":
     program.setupMainScreen()
         
     rt.mainloop()
+    os._exit(1)

@@ -5,9 +5,12 @@
 #
 #   a set of tools that can be used to simplify the means of creating out GUI program
 #
-
+import matplotlib
+matplotlib.use('TkAgg')
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, RAISED, \
     SUNKEN
+import tkFileDialog
+from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
 # Allows for tool tips to be displayed just below buttons
 class ToolTip(object):
@@ -107,6 +110,7 @@ class ToggleableButton(Button):
                 self.config(relief=SUNKEN)
                 for pair in self.__bindMap:
                     pair[0].bind(pair[1], pair[2])
+                self.__root.grab_set()
             else:
                 for pair in self.__bindMap:
                     pair[0].unbind(pair[1])
@@ -114,4 +118,43 @@ class ToggleableButton(Button):
                 self.config(relief=RAISED)
                 if self.__destructor : self.__destructor()
 
+class NavigationToolbar2CALIPSO(NavigationToolbar2):
+    def __init__(self, canvas):
+        NavigationToolbar2.__init__(self, canvas)
+        
+    def _init_toolbar(self):
+        pass
 
+    def draw_rubberband(self, event, x0, y0, x1, y1):
+        height = self.canvas.figure.bbox.height
+        y0 =  height-y0
+        y1 =  height-y1
+        try: self.lastrect
+        except AttributeError: pass
+        else: self.canvas._tkcanvas.delete(self.lastrect)
+        self.lastrect = self.canvas._tkcanvas.create_rectangle(x0, y0, x1, y1)
+        
+    def release(self, event):
+        try: self.lastrect
+        except AttributeError: pass
+        else:
+            self.canvas._tkcanvas.delete(self.lastrect)
+            del self.lastrect
+        
+    def set_cursor(self, event):
+        pass
+    
+    def save_figure(self, *args):
+        pass
+    
+    def configure_subplots(self):
+        pass
+    
+    def set_active(self, ind):
+        pass
+    
+    def update(self):
+        NavigationToolbar2.update(self)
+
+    def dynamic_update(self):
+        pass
