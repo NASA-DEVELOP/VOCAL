@@ -278,6 +278,7 @@ class Calipso:
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
+        self.__polygons.reset()
         pass
         """
         self.__zoomValue = 0
@@ -332,7 +333,7 @@ class Calipso:
         # NOTE : See tools.py for documentation on the ToggleableButton class
         
 
-        self.polygonIMG = ImageTk.PhotoImage(file="polygon.png")
+        self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30)
         self.__polygonButton.latch(key="<Button-1>", command=self.__polygons.anchorRectangle, cursor="tcross")
         self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygons.drag, cursor="tcross")
@@ -342,7 +343,7 @@ class Calipso:
         
         # free draw icon
 
-        self.freedrawIMG = ImageTk.PhotoImage(file="freedraw.png")
+        self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
         self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30)
         self.__freedrawButton.latch(key="<Button-1>", command=self.__polygons.plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
