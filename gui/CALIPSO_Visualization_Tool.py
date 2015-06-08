@@ -1,4 +1,6 @@
 #### IMPORTS #######################################################################################
+import matplotlib
+matplotlib.use('TkAgg')
 
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE
