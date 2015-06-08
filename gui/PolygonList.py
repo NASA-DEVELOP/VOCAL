@@ -53,4 +53,6 @@ class PolygonList(object):
         self.__polygonList[-1].toggleDrag(event)
         
     def reset(self):
+        self.__canvas._tkcanvas.delete("polygon")
+        self.__canvas._tkcanvas.delete("line")
         self.__polygonList = [PolygonDrawing(self.__canvas)]

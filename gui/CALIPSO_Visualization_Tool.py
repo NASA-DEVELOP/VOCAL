@@ -3,18 +3,13 @@
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE
 import sys, os
-import sys, os
-import tkFileDialog
 import tkFileDialog
 
 from bokeh.colors import white
-from bokeh.colors import white
-import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from PIL import Image, ImageTk
-from gui.PolygonDrawing import PolygonDrawing
 from gui.PolygonList import PolygonList
 from gui.plot_uniform_alt_lidar_dev import draw
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
@@ -41,7 +36,6 @@ class Calipso:
         self.__polygonButton = None         # polygon button
         self.__freedrawButton = None        # free draw button
         self.__magnifyButton = None         # magnify button
-        self.__verticesButton = None
         self.__dragButton = None
         self.__file = ''                    # current file in use
         self.__lblFileDialog = Label()      # shows the selected file
@@ -333,13 +327,6 @@ class Calipso:
         self.__redoButton = Button(self.__lowerButtonFrame, image=self.redoIMG, width=30, height=30, command=lambda : self.__toolbar.forward(True))
         self.__redoButton.grid(row=0, column=4, padx=2, pady=5)
         
-#         # vertices icon
-#         self.verticesdrawIMG = ImageTk.PhotoImage(file="ico/vertices.png")
-#         self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=30, height=30)
-#         self.__verticesButton.latch(key="<Button-1>", command=self.__polygonList.addVertex, cursor="tcross")
-#         self.__verticesButton.grid(row=1, column=2, padx=2, pady=5)
-#         createToolTip(self.__verticesButton, "Add Vertex")
-
         # drag icon
         self.dragIMG = ImageTk.PhotoImage(file="ico/cursorhand.png")
         self.__dragButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.dragIMG, width=30, height=30)
