@@ -6,7 +6,6 @@ Created on Jun 4, 2015
 
 from Tkinter import Widget
 from numpy import empty_like, dot, array
-from Tkconstants import CURRENT
 
 class PolygonDrawing(Widget):
     '''
@@ -70,6 +69,8 @@ class PolygonDrawing(Widget):
         create a rectangle. Used in "Draw Rect" button
         '''
         self.__vertices.append((event.x, event.y))
+        self.__prevX = event.x
+        self.__prevY = event.y
         
     def plotPoint(self, event):
         '''
@@ -98,17 +99,25 @@ class PolygonDrawing(Widget):
         
     def drag(self, event):
         print 'Widget=%s x=%s y=%s' % (event.widget, event.x, event.y)
-        
-    def shift(self, event):
-        self.drag(event)
-        for vertex in self.__vertices:
-            vertex = (vertex[0] + event.x, vertex[1] + event.y)
+        try:
+            self.lastrect
+        except AttributeError:
+            pass
+        else:
+            self.__canvas._tkcanvas.delete(self.lastrect)
+        self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prevX, self.__prevY, event.x, event.y)
         
     def fillRectangle(self, event):
         '''
         Draws the rectangle and stores the vertices of the rectangle internally. Used in "Draw Rect"
         '''
-        print self.__vertices[0]
+        try:
+            self.lastrect
+        except AttributeError:
+            pass
+        else:
+            self.__canvas._tkcanvas.delete(self.lastrect)
+            del self.lastrect
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
         identifier = self.generateTag()
@@ -135,15 +144,6 @@ class PolygonDrawing(Widget):
     def drawPolygon(self):
         identifier = self.generateTag()
         self.__canvas._tkcanvas.create_polygon(self.__vertices, outline="red", fill=PolygonDrawing.colors[PolygonDrawing.num%8], width=2, tags=("polygon", identifier))
-        
-    def reset(self):
-        self.__vertices = []
-        self.__canvas._tkcanvas.delete("line")
-        self.__canvas._tkcanvas.delete("polygon")
-        
-    def select(self, event):
-        self.__canvas.gettags(CURRENT)
-        pass
     
     def toggleDrag(self, event):
         self.__dragMode = not self.__dragMode

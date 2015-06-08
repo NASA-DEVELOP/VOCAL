@@ -7,9 +7,8 @@ from gui.PolygonDrawing import PolygonDrawing
 
 class PolygonList(object):
     '''
-    classdocs
+    Handles multiple instances of PolygonDrawing to support multiple polygons on a screen
     '''
-
 
     def __init__(self, canvas):
         '''
@@ -22,9 +21,6 @@ class PolygonList(object):
     def getNewestPolygon(self):
         return self.__polygonList[-1]
     
-    def addPolygon(self, poly):
-        self.__polygonList.append(poly)
-        
     def addVertex(self, event):
         print "Adding vertex"
         check = self.__polygonList[-1].addVertex(event)
@@ -55,4 +51,5 @@ class PolygonList(object):
     def reset(self):
         self.__canvas._tkcanvas.delete("polygon")
         self.__canvas._tkcanvas.delete("line")
+        PolygonDrawing.num = 0
         self.__polygonList = [PolygonDrawing(self.__canvas)]
