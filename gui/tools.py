@@ -11,7 +11,12 @@
                                            creation of buttons that remain sunken until reclicked, and
                                            allows for a bind map to bind any keys to functions once 
                                            toggled
-        L130 -> NavigationToolbar2CALIPSO  A custom implementation of NavigationToolbar2TkAgg, inherits from
+        L134 -> ToolbarToggleableButton    A wrapper FOR a wrapper , a bit confusing but simply put it 
+                                           allows simple declarations of toggleable buttons that do not
+                                           require binds. This is for the Matplotlib backend buttons, as
+                                           they bind the mouse buttons internally thus we only need to call
+                                           a function when toggled
+        L144 -> NavigationToolbar2CALIPSO  A custom implementation of NavigationToolbar2TkAgg, inherits from
                                            the matplotlib backend and purposely does not implement the GUI
                                            for the toolbar, instead we custom create our own buttons in the
                                            main program implementation
@@ -73,7 +78,7 @@ def createToolTip(widget, text):
 # Button wrapper which simulates the toggled button as you see in the draw, magnify, etc. 
 #    buttons. Interally keeps a bind map which on toggle binds the keys in the map, and 
 #    unbinds them on untoggle or forced untoggle.
-class ToggleableButton(Button):
+class ToggleableButton(Button, object):
 
     
     def __init__(self, root, master=None, cnf={}, **kw):
@@ -84,7 +89,7 @@ class ToggleableButton(Button):
         self.__destructor = None    # destructor var called when untoggled
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
-        self.configure(command=self.__Toggle)       # button command is always bound internally to toggle
+        self.configure(command=self.Toggle)       # button command is always bound internally to toggle
 
     # Parameters: 
     #    key         -> a string which accepts a valid Tkinter key
@@ -97,17 +102,17 @@ class ToggleableButton(Button):
         if key != "" and command != None : self.__bindMap.append((self.__root, key, command))
         if destructor != None : self.__destructor = destructor
 
-    # Wrapper function to call the private toggle function. As the design of 
+    # Wrapper function to call the toggle function. As the design of 
     #    toggleable button was to internalize this method, we keep it private
     def unToggle(self):
-        self.__Toggle(toggle=True)
+        self.Toggle(toggle=True)
 
     # The bread and potatos of the class, __Toggle uses a boolean variable to keep track
     #    of the current state of the class and will toggle the button accordingly. Addtionally,
     #    the unToggle function will forcefully untoggle by setting the toggle var to True, this
     #    is useful if you wish to set binds where the button untoggles outside of the button
     #    just being clicked a second time
-    def __Toggle(self, toggle=False):
+    def Toggle(self, toggle=False):
         if toggle:
             self.__root.config(cursor="")
             for pair in self.__bindMap: 
@@ -129,6 +134,16 @@ class ToggleableButton(Button):
                 self.config(relief=RAISED)
                 if self.__destructor : self.__destructor()
 
+
+class ToolbarToggleableButton(ToggleableButton):
+    def __init__(self, root, master=None, func=None, cnf={}, **kw):
+        ToggleableButton.__init__(self, root, master, kw)
+        self.configure(command=self.__toggle)
+        self.__func = func
+        
+    def __toggle(self, toggle=False):
+        if self.__func : self.__func()
+        super(ToolbarToggleableButton, self).Toggle()
 
 class NavigationToolbar2CALIPSO(NavigationToolbar2):
     def __init__(self, canvas):
@@ -170,3 +185,8 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
 
     def dynamic_update(self):
         pass
+    
+def createToolBarToggle(master, cnf={}, **kw):
+        button = Button(master, kw)
+        
+        return button
