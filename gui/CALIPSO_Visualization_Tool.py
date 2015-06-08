@@ -4,16 +4,13 @@
 import matplotlib
 matplotlib.use('TkAgg')
 
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, \
-    NavigationToolbar2TkAgg, NavigationToolbar2
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-import matplotlib.pyplot as plt
 from plot_uniform_alt_lidar_dev import draw
 #####################END EXPERIEMENTAL IMPORTS############################
 
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, Message, Canvas, CENTER, Scrollbar, TOP, BOTTOM, RIGHT, LEFT, X, Y, \
-    SUNKEN, FALSE
+    RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE
 import tkFileDialog
 from PIL import Image, ImageTk
 import sys, os
@@ -219,15 +216,7 @@ class Calipso:
                 self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
                 self.__toolbar.update()
                 self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
-                self.__drawplotCanvas._tkcanvas.focus_set()
-                #filename = self.__file
-                #sys.argv = [filename]
-                #execfile("plot_uniform_alt_lidar_dev.py")
-                #self.__imageFilename = "lidar_backscatter.png"
-                
-                #refresh image in lower frame 
-                #loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
-                #self.addToCanvas(loadedPhotoImage)
+                #self.__drawplotCanvas._tkcanvas.focus_set()
             
             except IOError:
                 filewin = Toplevel(self.__root)
@@ -396,7 +385,7 @@ class Calipso:
         self.__freedrawButton.latch(key="<Button-1>", command=self.__toolbar.zoom, cursor="tcross")
         self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
-
+        
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
         self.__magnifyButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.magnifydrawIMG, width=20, height=20)
