@@ -17,11 +17,11 @@ from findLatIndex import findLatIndex
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.backend_bases import key_press_handler
 import Tkinter as Tk
-
+import matplotlib.cbook as cbook
 from PCF_genTimeUtils import extractDatetime
 #from gui.CALIPSO_Visualization_Tool import filename
 
-def draw(canvas, toolbar, fig):
+def draw(canvas, toolbar, fig, pfig):
     MIN_VALUE = 1.0e-4
     AVGING_WIDTH = 15
     
@@ -95,29 +95,28 @@ def draw(canvas, toolbar, fig):
     cm.set_over(cmap['over']/255.0)
     cm.set_bad(cmap['bad']/255.0)
     plot_norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
+    #ax1 = fig.add_axes([0.07, 0.07, 0.85, 0.9, ])
     
-    ax1 = fig.add_axes([0.07, 0.07, 0.85, 0.9, ])
-    im = plt.imshow(regrid_atten_back, cmap = cm, aspect = 'auto',  
+    im = fig.imshow(regrid_atten_back, cmap = cm, aspect = 'auto',  
                             norm = plot_norm, extent = extents, interpolation = None)
     
-    plt.ylabel('Altitude (km)')    
-    plt.xlabel('Latitude (degrees)')   
+    
+    
+    fig.set_ylabel('Altitude (km)')    
+    fig.set_xlabel('Latitude (degrees)')   
     granule = "%sZ%s" % extractDatetime(filename)
     title = 'Averaged 532 nm Total Attenuated Backscatter for granule %s' % granule
-    plt.title(title)                 
-    plt.title("Averaged 532 nm Total Attenuated Backscatter")
-    
+    fig.set_title(title)                 
+    fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
+
     cbar_label = 'Total Attenuated Backscatter 532nm (km$^{-1}$ sr$^{-1}$)'
-    cbar = plt.colorbar(extend='both',use_gridspec=True)
+    cbar = pfig.colorbar(im)
+    #cbar = plt.colorbar(extend='both',use_gridspec=True)
     cbar.set_label(cbar_label)
     
     #plt.savefig("lidar_backscatter.png")
     #plt.show()
     
-    canvas.show()
-    canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=0)
-    toolbar.update()
-    canvas._tkcanvas.pack(side=Tk.LEFT, fill=Tk.BOTH, expand=0)
     
 
 

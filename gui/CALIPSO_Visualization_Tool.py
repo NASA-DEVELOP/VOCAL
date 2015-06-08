@@ -6,6 +6,7 @@ matplotlib.use('TkAgg')
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, \
     NavigationToolbar2TkAgg, NavigationToolbar2
+from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 from plot_uniform_alt_lidar_dev import draw
 #####################END EXPERIEMENTAL IMPORTS############################
@@ -15,7 +16,7 @@ from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Bu
     SUNKEN, FALSE
 import tkFileDialog
 from PIL import Image, ImageTk
-import sys
+import sys, os
 from bokeh.colors import white
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO
 from gui.PolygonDrawing import PolygonDrawing
@@ -55,9 +56,7 @@ class Calipso:
         basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
         basePane.pack(fill=BOTH, expand = 1)                # fill and expand
         sectionedPane = PanedWindow(orient=VERTICAL)        # paned window that splits into a top and bottom section
-        basePane.add(sectionedPane)\
-        
-        self.__root.protocol('WM_DELETE_WINDOW', lambda : sys.exit(1))
+        basePane.add(sectionedPane)
         
         self.__child = Toplevel()
         self.__child.title("Tools")
@@ -91,20 +90,19 @@ class Calipso:
         sectionedPane.add(pndwinBottom)
         self.__drawplotFrame = Frame(pndwinBottom, width=WIDTH, height=HEIGHT)                                 # the frame on which we will add our canvas for drawing etc.
         
-        self.__fig = plt.figure(figsize=(16,11))
-        
+        self.__Parentfig = Figure(figsize=(16,11))
+        #self.__Parentfig = plt.figure(figsize=(16,11))
         # the main canvas we will be drawing our data to
-        self.__drawplotCanvas = FigureCanvasTkAgg(self.__fig, master=self.__drawplotFrame)   
-        self.__drawplotCanvas.mpl_connect(
-                                          'button_press_event', 
-                                          lambda event:self.__drawplotCanvas._tkcanvas.focus_set()
-        )
-                                          
-        
+        self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)   
+        #self.__drawplotCanvas.mpl_connect(
+        #                                  'button_press_event', 
+        #                                  lambda event:self.__drawplotCanvas._tkcanvas.focus_set()
+        #)          
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas)
         
         self.__polygons = PolygonDrawing(self.__drawplotCanvas)
         
+        self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplotFrame.pack()
 
 #### MAIN WINDOW SETUP #############################################################################    
@@ -214,9 +212,14 @@ class Calipso:
             
         elif (plotType.get()) == BACKSCATTERED:
             try:
-                draw(self.__drawplotCanvas, self.__toolbar, self.__fig)
-                self.__child.focus()
-                self.__drawplotFrame.focus()
+                self.__Parentfig.clear()
+                self.__fig = self.__Parentfig.add_subplot(1,1,1)
+                draw(self.__drawplotCanvas, self.__toolbar, self.__fig, self.__Parentfig)
+                self.__drawplotCanvas.show()
+                self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
+                self.__toolbar.update()
+                self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
+                self.__drawplotCanvas._tkcanvas.focus_set()
                 #filename = self.__file
                 #sys.argv = [filename]
                 #execfile("plot_uniform_alt_lidar_dev.py")
@@ -421,6 +424,8 @@ class Calipso:
                                      self.__verticesButton.unToggle()])
         
     
+        
+        
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
     def setupMainScreen(self):
         self.topPanedWindow()
@@ -438,4 +443,4 @@ if __name__ == "__main__":
     program.setupMainScreen()
         
     rt.mainloop()
-sys.exit(1)
+    os._exit(1)
