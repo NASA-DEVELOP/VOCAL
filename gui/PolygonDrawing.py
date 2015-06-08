@@ -12,6 +12,9 @@ class PolygonDrawing(Widget):
     '''
     Displays the polygon objects onto the canvas by supplying draw methods.
     '''
+    
+    num = 0
+    colors = ["white", "black", "red", "green", "blue", "cyan", "yellow", "magenta"]
 
     def __init__(self, canvas):
         '''
@@ -31,7 +34,7 @@ class PolygonDrawing(Widget):
         
     def OnTokenButtonPress(self, event):
         if self.__dragMode:
-            self.__drag_data["item"] = self.__canvas.find_closest(event.x, event.y)[0]
+            self.__drag_data["item"] = self.__canvas._tkcanvas.find_closest(event.x, event.y)[0]
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
         
@@ -42,6 +45,7 @@ class PolygonDrawing(Widget):
             self.__drag_data["y"] = 0
         
     def OnTokenMotion(self, event):
+        print self.__canvas._tkcanvas.gettags(self.__drag_data["item"])
         if self.__dragMode:
             dx = event.x - self.__drag_data["x"]
             dy = event.y - self.__drag_data["y"]
@@ -58,6 +62,7 @@ class PolygonDrawing(Widget):
         print("Added vertex at (" + str(event.x) + "," + str(event.y) + ")")
         if self.__canDrawPolygon():
             self.drawPolygon()
+            return True
             
     def anchorRectangle(self, event):
         '''
@@ -73,7 +78,7 @@ class PolygonDrawing(Widget):
         '''
         self.__vertices.append((event.x, event.y))
         if len(self.__vertices) > 1:
-            self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill="red", width="2", tags="line")
+            self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawing.colors[PolygonDrawing.num%8], width="2", tags="line")
         if len(self.__vertices) > 3:
             # TODO: check if polygon besides the first line
             a1 = tupleToNpArray(self.__vertices[0])
@@ -87,6 +92,7 @@ class PolygonDrawing(Widget):
                 self.__vertices.pop()
                 self.drawPolygon()
                 self.__canvas._tkcanvas.delete("line")
+                return True
         self.__prevX = event.x
         self.__prevY = event.y
         
@@ -102,9 +108,11 @@ class PolygonDrawing(Widget):
         '''
         Draws the rectangle and stores the vertices of the rectangle internally. Used in "Draw Rect"
         '''
+        print self.__vertices[0]
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
-        self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline="red", fill="red", tags="polygon")
+        identifier = self.generateTag()
+        self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline="red", fill=PolygonDrawing.colors[PolygonDrawing.num%8], tags=("polygon", identifier))
         self.__vertices.append((event.x, iy))
         self.__vertices.append((event.x, event.y))
         self.__vertices.append((ix, event.y))
@@ -125,7 +133,8 @@ class PolygonDrawing(Widget):
             return False
             
     def drawPolygon(self):
-        self.__canvas._tkcanvas.create_polygon(self.__vertices, outline="red", fill="red", width=2, tags="polygon")
+        identifier = self.generateTag()
+        self.__canvas._tkcanvas.create_polygon(self.__vertices, outline="red", fill=PolygonDrawing.colors[PolygonDrawing.num%8], width=2, tags=("polygon", identifier))
         
     def reset(self):
         self.__vertices = []
@@ -139,6 +148,11 @@ class PolygonDrawing(Widget):
     def toggleDrag(self, event):
         self.__dragMode = not self.__dragMode
         print self.__dragMode
+        
+    def generateTag(self):
+        string = "shape" + str(PolygonDrawing.num)
+        PolygonDrawing.num += 1
+        return string
         
 def perpendicular(a):
     '''

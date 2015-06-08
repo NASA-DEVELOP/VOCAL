@@ -1,21 +1,26 @@
 #### IMPORTS #######################################################################################
 
-import matplotlib
-matplotlib.use('TkAgg')
-
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
-from plot_uniform_alt_lidar_dev import draw
-
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE
-from PIL import Image, ImageTk
-import tkFileDialog
 import sys, os
+import tkFileDialog
+
 from bokeh.colors import white
-from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO
-from gui.PolygonDrawing import PolygonDrawing
+import matplotlib
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
+from PIL import Image, ImageTk
 from gui import MenuFunctions
+from gui.PolygonDrawing import PolygonDrawing
+from gui.PolygonList import PolygonList
+from plot_uniform_alt_lidar_dev import draw
+from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO
+
+
+matplotlib.use('TkAgg')
+
+
 
 #### PROGRAM CONSTANTS ####
 BASE_PLOT       = 0
@@ -96,8 +101,9 @@ class Calipso:
         #                                  lambda event:self.__drawplotCanvas._tkcanvas.focus_set()
         #)          
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas)
+        self.__polygonList = PolygonList(self.__drawplotCanvas)
+#         self.__currentPolygon = PolygonDrawing(self.__drawplotCanvas)
         
-        self.__polygons = PolygonDrawing(self.__drawplotCanvas)
         
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplotFrame.pack()
@@ -291,7 +297,7 @@ class Calipso:
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
-        self.__polygons.reset()
+        self.__polygonList.reset()
         pass
         """
         self.__zoomValue = 0
@@ -299,7 +305,7 @@ class Calipso:
         self.selPlot(BASE_PLOT)
         self.__file = ''
         self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
-        self.__polygons.reset()
+        self.__currentPolygon.reset()
         """
         
     def topPanedWindow(self):
@@ -348,9 +354,9 @@ class Calipso:
 
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30)
-        self.__polygonButton.latch(key="<Button-1>", command=self.__polygons.anchorRectangle, cursor="tcross")
-        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygons.drag, cursor="tcross")
-        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygons.fillRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<Button-1>", command=self.__polygonList.anchorRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonList.drag, cursor="tcross")
+        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygonList.fillRectangle, cursor="tcross")
         self.__polygonButton.grid(row=0, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
         
@@ -358,7 +364,7 @@ class Calipso:
 
         self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
         self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30)
-        self.__freedrawButton.latch(key="<Button-1>", command=self.__polygons.plotPoint, cursor="tcross")
+        self.__freedrawButton.latch(key="<Button-1>", command=self.__polygonList.plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
         
@@ -370,16 +376,16 @@ class Calipso:
         createToolTip(self.__magnifyButton, "Eye Glass")
         
         # vertices icon
-        self.verticesdrawIMG = ImageTk.PhotoImage(file="ico/vertices.png")
-        self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=20, height=20)
-        self.__verticesButton.latch(key="<Button-1>", command=self.__polygons.addVertex, cursor="tcross")
-        self.__verticesButton.grid(row=0, column=4, padx=2, pady=5)
-        createToolTip(self.__verticesButton, "Add Vertex")
+#         self.verticesdrawIMG = ImageTk.PhotoImage(file="ico/vertices.png")
+#         self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=20, height=20)
+#         self.__verticesButton.latch(key="<Button-1>", command=self.__polygonList.addVertex, cursor="tcross")
+#         self.__verticesButton.grid(row=0, column=4, padx=2, pady=5)
+#         createToolTip(self.__verticesButton, "Add Vertex")
         
         # drag icon
         self.dragIMG = ImageTk.PhotoImage(file="Cursor_Hand.png")
         self.__dragButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.dragIMG, width=30)
-        self.__dragButton.latch(key="<Button-2>", command=self.__polygons.toggleDrag, cursor="hand1")
+        self.__dragButton.latch(key="<Button-2>", command=self.__polygonList.toggleDrag, cursor="hand1")
         self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
         createToolTip(self.__dragButton, "Drag")
        
@@ -393,10 +399,7 @@ class Calipso:
                                      self.__freedrawButton.unToggle(),
                                      self.__magnifyButton.unToggle(),
                                      self.__zoomButton.unToggle(),
-                                     self.__verticesButton.unToggle(),
                                      self.__dragButton.unToggle()])
-        
-    
         
         
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
