@@ -34,17 +34,20 @@ class PolygonDrawing(Widget):
     def plotPoint(self, event):
         self.__vertices.append((event.x, event.y))
         if len(self.__vertices) > 1:
-            self.__canvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill="red", width="2")
-#             if self.isPolygon():
-#                 self.drawPolygon()
-#                 return
+            self.__canvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill="red", width="2", tags="line")
         if len(self.__vertices) > 3:
+            # TODO: check if polygon besides the first line
             a1 = toPoint(self.__vertices[0])
             a2 = toPoint(self.__vertices[1])
             b1 = toPoint(self.__vertices[-1])
             b2 = toPoint(self.__vertices[-2])
             if isIntersecting(a1, a2, b1, b2):
+                x = getIntersection(a1, a2, b1, b2)
+                pair = npArrayToTuple(x)
+                self.__vertices[0] = pair
+                self.__vertices.pop()
                 self.drawPolygon()
+                self.__canvas.delete("line")
         self.__prevX = event.x
         self.__prevY = event.y
         
@@ -124,3 +127,8 @@ def isIntersecting(a1, a2, b1, b2):
     
 def toPoint(pair):
         return array([pair[0], pair[1]])
+    
+def npArrayToTuple(array):
+    x = array[0]
+    y = array[1]
+    return (x, y)
