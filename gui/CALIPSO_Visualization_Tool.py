@@ -32,7 +32,8 @@ class Calipso:
         self.__polygonButton = None         # polygon button
         self.__freedrawButton = None        # free draw button
         self.__magnifyButton = None         # magnify button
-        
+        self.__verticesButton = None
+        self.__dragButton = None
         self.__file = ''                    # current file in use
         self.__lblFileDialog = Label()      # shows the selected file
         self.__zoomValue=0                  # zoom value in program
@@ -345,6 +346,13 @@ class Calipso:
         self.__verticesButton.latch(key="<Button-1>", command=self.__polygons.addVertex, cursor="tcross")
         self.__verticesButton.grid(row=1, column=1, padx=2, pady=5)
         createToolTip(self.__verticesButton, "Add Vertex")
+        
+        # drag icon
+        self.dragIMG = ImageTk.PhotoImage(file="Cursor_Hand.png")
+        self.__dragButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.dragIMG, width=30)
+        self.__dragButton.latch(key="<Button-2>", command=self.__polygons.toggleDrag, cursor="hand1")
+        self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
+        createToolTip(self.__dragButton, "Drag")
        
         # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
         # evaluate an array so we can use some arbitrary array and place our commands inside that 
@@ -356,7 +364,8 @@ class Calipso:
                                      self.__freedrawButton.unToggle(),
                                      self.__magnifyButton.unToggle(),
                                      self.__zoomButton.unToggle(),
-                                     self.__verticesButton.unToggle()])
+                                     self.__verticesButton.unToggle(),
+                                     self.__dragButton.unToggle()])
         
     
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)

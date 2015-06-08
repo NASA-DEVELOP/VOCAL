@@ -8,4 +8,5 @@ WIDTH  = 1265
 HEIGHT = 665
 
 def EGzoomIn(event):
+    pass
     

@@ -6,6 +6,7 @@ Created on Jun 4, 2015
 
 from Tkinter import Widget
 from numpy import empty_like, dot, array
+from Tkconstants import CURRENT
 
 class PolygonDrawing(Widget):
     '''
@@ -21,6 +22,32 @@ class PolygonDrawing(Widget):
         self.__canvas = canvas
         self.__prevX = -1.0
         self.__prevY = -1.0
+        self.__drag_data = {"x": 0, "y": 0, "item": None}
+        self.__dragMode = False
+        
+        self.__canvas.tag_bind("polygon", "<Button-1>", self.OnTokenButtonPress)
+        self.__canvas.tag_bind("polygon", "<ButtonRelease-1>", self.OnTokenButtonRelease)
+        self.__canvas.tag_bind("polygon", "<B1-Motion>", self.OnTokenMotion)
+        
+    def OnTokenButtonPress(self, event):
+        if self.__dragMode:
+            self.__drag_data["item"] = self.__canvas.find_closest(event.x, event.y)[0]
+            self.__drag_data["x"] = event.x
+            self.__drag_data["y"] = event.y
+        
+    def OnTokenButtonRelease(self, event):
+        if self.__dragMode:
+            self.__drag_data["item"] = None
+            self.__drag_data["x"] = 0
+            self.__drag_data["y"] = 0
+        
+    def OnTokenMotion(self, event):
+        if self.__dragMode:
+            dx = event.x - self.__drag_data["x"]
+            dy = event.y - self.__drag_data["y"]
+            self.__canvas.move(self.__drag_data["item"], dx, dy)
+            self.__drag_data["x"] = event.x
+            self.__drag_data["y"] = event.y
         
     def addVertex(self, event):
         '''
@@ -66,13 +93,18 @@ class PolygonDrawing(Widget):
     def drag(self, event):
         print 'Widget=%s x=%s y=%s' % (event.widget, event.x, event.y)
         
+    def shift(self, event):
+        self.drag(event)
+        for vertex in self.__vertices:
+            vertex = (vertex[0] + event.x, vertex[1] + event.y)
+        
     def fillRectangle(self, event):
         '''
         Draws the rectangle and stores the vertices of the rectangle internally. Used in "Draw Rect"
         '''
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
-        self.__canvas.create_rectangle(ix, iy, event.x, event.y, outline="red", fill="red")
+        self.__canvas.create_rectangle(ix, iy, event.x, event.y, outline="red", fill="red", tags="polygon")
         self.__vertices.append((event.x, iy))
         self.__vertices.append((event.x, event.y))
         self.__vertices.append((ix, event.y))
@@ -93,10 +125,18 @@ class PolygonDrawing(Widget):
             return False
             
     def drawPolygon(self):
-        self.__canvas.create_polygon(self.__vertices, outline="red", fill="red", width=2)
+        self.__canvas.create_polygon(self.__vertices, outline="red", fill="red", width=2, tags="polygon")
         
     def reset(self):
         self.__vertices = []
+        
+    def select(self, event):
+        self.__canvas.gettags(CURRENT)
+        pass
+    
+    def toggleDrag(self, event):
+        self.__dragMode = not self.__dragMode
+        print self.__dragMode
         
 def perpendicular(a):
     '''

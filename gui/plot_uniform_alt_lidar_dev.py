@@ -26,7 +26,7 @@ EXCESSIVE_SCATTER = 0.1
 
 argv = sys.argv
 
-filename = argv[0]
+filename = 'C:\\Users\\nqian\Desktop\\CAL_LID_L1-Standard-V4-00.2006-06-13T00-44-41ZD.hdf'
 
 print filename
 
