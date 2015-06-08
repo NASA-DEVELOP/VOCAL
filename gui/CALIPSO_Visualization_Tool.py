@@ -15,7 +15,6 @@ import sys, os
 from bokeh.colors import white
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO
 from gui.PolygonDrawing import PolygonDrawing
-from gui import MenuFunctions
 
 #### PROGRAM CONSTANTS ####
 BASE_PLOT       = 0
@@ -125,20 +124,20 @@ class Calipso:
         
         #File Menu
         self.__menuFile = Menu(self.__menuBar, tearoff=0)
-        self.__menuFile.add_command(label="Import File", command=lambda: self.importFile())
-        self.__menuFile.add_command(label="Export Image", command=MenuFunctions.exportImage)
+        self.__menuFile.add_command(label="Import File", command=self.importFile)
+        self.__menuFile.add_command(label="Export Image", command=self.exportImage)
         self.__menuFile.add_separator()
-        self.__menuFile.add_command(label="Save", command=MenuFunctions.saveImage)
-        self.__menuFile.add_command(label="Save as", command=MenuFunctions.saveAs)
+        self.__menuFile.add_command(label="Save", command=self.saveImage)
+        self.__menuFile.add_command(label="Save as", command=self.saveAs)
         self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Exit", command=self.__root.quit)
         self.__menuBar.add_cascade(label="File", menu=self.__menuFile)
         
         #Help Menu
         self.__menuHelp = Menu(self.__menuBar, tearoff=0)
-        self.__menuHelp.add_command(label="Tutorial", command=lambda: MenuFunctions.tutorial(self.__root))
+        self.__menuHelp.add_command(label="Tutorial", command=self.tutorial)
         self.__menuHelp.add_separator()
-        self.__menuHelp.add_command(label="About", command=lambda: MenuFunctions.about(self.__root))
+        self.__menuHelp.add_command(label="About", command=self.about)
         self.__menuBar.add_cascade(label="Help", menu=self.__menuHelp)
         
         #configure menu to screen
@@ -172,19 +171,14 @@ class Calipso:
             #self.addToCanvas(loadedPhotoImage)
             
         elif (plotType.get()) == BACKSCATTERED:
-            print "ok"
             try:
                 self.__Parentfig.clear()
-                print "hum"
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)
-                print self.__file
-                print "k"
                 draw(self.__file, self.__drawplotCanvas, self.__toolbar, self.__fig, self.__Parentfig)
                 self.__drawplotCanvas.show()
                 self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
                 self.__toolbar.update()
                 self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
-                #self.__drawplotCanvas._tkcanvas.focus_set()
             
             except IOError:
                 filewin = Toplevel(self.__root)
@@ -278,16 +272,6 @@ class Calipso:
         pass
         #if self.__zimg_id : self.__drawplotCanvas.delete(self.__zimg_id)
 
-    def importFile(self):
-        ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        dlg = tkFileDialog.Open(filetypes = ftypes)
-        fl = dlg.show()
-        if fl != '':
-            self.__file = fl
-            Segments = self.__file.rpartition('/')
-            self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
-        return ''
-
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
@@ -310,23 +294,20 @@ class Calipso:
         self.__lblFileDialog.grid(row=1, column=1, padx=10)
         btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
-        
-#         btnZoomIn = Button(self.__upperButtonFrame, text = "Zoom In", width = 10, command=self.zoomIn_)
-#         btnZoomIn.grid(row=0, column=0, padx=10, pady=5)
-#         btnZoomOut = Button(self.__upperButtonFrame, text = "Zoom Out", width = 10, command=self.zoomOut_)
-#         btnZoomOut.grid(row=0, column=1, padx=10, pady=5)
 
+        """
         self.__zoomButton = ToggleableButton(self.__root, self.__upperButtonFrame, text="Zoom", width=10)
         self.__zoomButton.latch(key="<MouseWheel>", command=self.mouseWheelZoom, cursor="")                                 # <"MouseWheel>" is for Windows and OSX
         self.__zoomButton.latch(key="<MouseWheel>", command=self.mouseWheelZoom, cursor="", destructor=self.EGcleanUp)      # "<Button-4>" and "<Button-5>" is for linux systems
         self.__zoomButton.grid(row=0, column=0, padx=2, pady=5)
+        """
         
         btnReset = Button(self.__upperButtonFrame, text = "Reset", width = 10, command=self.reset)
-        btnReset.grid(row=1, column=0, padx=10, pady=5)
+        btnReset.grid(row=0, column=0, padx=10, pady=5)
         
         #Plot Type Selection - Radio-button determining how to plot the __file
         menubtnPlotSelection = Menubutton(self.__upperButtonFrame, text="Plot Type", relief=RAISED, width = 10)
-        menubtnPlotSelection.grid(row=4, column=0, padx=10, pady=5)
+        menubtnPlotSelection.grid(row=0, column=1, padx=10, pady=5)
         menubtnPlotSelection.menu = Menu(menubtnPlotSelection, tearoff=0)
         menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
         
@@ -347,7 +328,7 @@ class Calipso:
         
 
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
-        self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30)
+        self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
         self.__polygonButton.latch(key="<Button-1>", command=self.__polygons.anchorRectangle, cursor="tcross")
         self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygons.drag, cursor="tcross")
         self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygons.fillRectangle, cursor="tcross")
@@ -357,28 +338,28 @@ class Calipso:
         # free draw icon
 
         self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
-        self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30)
+        self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30, height=30)
         self.__freedrawButton.latch(key="<Button-1>", command=self.__polygons.plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
         
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
-        self.__magnifyButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.magnifydrawIMG, width=20, height=20)
+        self.__magnifyButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30, height=30)
         self.__magnifyButton.latch(key="<Button-1>", command=self.__toolbar.zoom, cursor="tcross")
         self.__magnifyButton.grid(row=0, column=3, padx=2, pady=5)
         createToolTip(self.__magnifyButton, "Eye Glass")
         
         # vertices icon
         self.verticesdrawIMG = ImageTk.PhotoImage(file="ico/vertices.png")
-        self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=20, height=20)
+        self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=30, height=30)
         self.__verticesButton.latch(key="<Button-1>", command=self.__polygons.addVertex, cursor="tcross")
         self.__verticesButton.grid(row=0, column=4, padx=2, pady=5)
         createToolTip(self.__verticesButton, "Add Vertex")
         
         # drag icon
-        self.dragIMG = ImageTk.PhotoImage(file="Cursor_Hand.png")
-        self.__dragButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.dragIMG, width=30)
+        self.dragIMG = ImageTk.PhotoImage(file="ico/cursorhand.png")
+        self.__dragButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.dragIMG, width=30, height=30)
         self.__dragButton.latch(key="<Button-2>", command=self.__polygons.toggleDrag, cursor="hand1")
         self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
         createToolTip(self.__dragButton, "Drag")
@@ -392,13 +373,47 @@ class Calipso:
                                      self.__polygonButton.unToggle(), 
                                      self.__freedrawButton.unToggle(),
                                      self.__magnifyButton.unToggle(),
-                                     self.__zoomButton.unToggle(),
                                      self.__verticesButton.unToggle(),
                                      self.__dragButton.unToggle()])
-        
+         
+    def importFile(self):
+        ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
+        dlg = tkFileDialog.Open(filetypes = ftypes)
+        fl = dlg.show()
+        if fl != '':
+            self.__file = fl
+            Segments = self.__file.rpartition('/')
+            self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
+        return ''
     
+    def exportImage(self):
+        pass
+
+    def saveImage(self):
+        pass
+    
+    def saveAs(self):
+        options = {}
+        options['defaultextension'] = '.hdf'
+        options['filetypes'] = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
+        tkFileDialog.asksaveasfile(mode='w', **options)
         
+    def about(self): 
+        filewin = Toplevel(self.__root)
+        filewin.title("About")
+        T = Message(filewin, text="NASA DEVELOP \nLaRC Spring 2015 Term \n \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal")
+        T.pack()
+            
+        btnClose = Button(filewin, text="Close", command=filewin.destroy)
+        btnClose.pack()
         
+    def tutorial(self):
+        filewin = Toplevel(self.__root)
+        T = Text(filewin, height=10, width=40, wrap='word')
+        T.pack()
+        T.insert(END, "This is a tutorial of how to use the CALIPSO Visualization Tool")   
+
+    
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
     def setupMainScreen(self):
         self.topPanedWindow()
