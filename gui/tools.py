@@ -1,15 +1,26 @@
-#
-#   tools.py
-#   Grant Mercer
-#   6/3/2015
-#
-#   a set of tools that can be used to simplify the means of creating out GUI program
-#
+"""
+    tools.py
+    @author: Grant Mercer
+    6/3/2015
+
+    a set of tools that can be used to simplify the means of creating out GUI program
+    CONTENTS:
+        L18 -> ToolTip                     A class that creates tiny tool tip windows when a mouse hovered
+                                           over a button, useful for button with no text and rather images
+        L69 -> ToggleableButton            A wrapper class for Button that allows for quick and easy
+                                           creation of buttons that remain sunken until reclicked, and
+                                           allows for a bind map to bind any keys to functions once 
+                                           toggled
+        L130 -> NavigationToolbar2CALIPSO  A custom implementation of NavigationToolbar2TkAgg, inherits from
+                                           the matplotlib backend and purposely does not implement the GUI
+                                           for the toolbar, instead we custom create our own buttons in the
+                                           main program implementation
+"""
+
 import matplotlib
 matplotlib.use('TkAgg')
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, RAISED, \
     SUNKEN
-import tkFileDialog
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
 # Allows for tool tips to be displayed just below buttons
@@ -117,6 +128,7 @@ class ToggleableButton(Button):
                 self.__root.config(cursor="")
                 self.config(relief=RAISED)
                 if self.__destructor : self.__destructor()
+
 
 class NavigationToolbar2CALIPSO(NavigationToolbar2):
     def __init__(self, canvas):

@@ -4,8 +4,6 @@
 # Brian Magill
 # 8/11/2014
 #
-import sys
-import matplotlib.pyplot as plt 
 import matplotlib as mpl
 from numpy import ma
 from ccplot.hdf import HDF
@@ -14,22 +12,15 @@ from avg_lidar_data import avg_horz_data
 from uniform_alt_2 import uniform_alt_2
 from regrid_lidar import regrid_lidar
 from findLatIndex import findLatIndex
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
-from matplotlib.backend_bases import key_press_handler
 from PCF_genTimeUtils import extractDatetime
 #from gui.CALIPSO_Visualization_Tool import filename
 
-def draw(canvas, toolbar, fig, pfig):
+def draw(filename, canvas, toolbar, fig, pfig):
     MIN_VALUE = 1.0e-4
     AVGING_WIDTH = 15
     
     MIN_SCATTER = -0.1
     EXCESSIVE_SCATTER = 0.1
-    
-    argv = sys.argv
-    
-    filename = "C:\Users\gamercer\Documents\CAL_LID_L1-Standard-V4-00.2006-06-13T00-44-41ZD.hdf"
-    #argv[0]
     
     # Read CALIPSO Data from Level 1B file
     with HDF(filename) as product:
@@ -73,9 +64,6 @@ def draw(canvas, toolbar, fig, pfig):
     
     regrid_atten_back = regrid_lidar(alt, avg_tot_532, unif_alt)
     
-    #fig = plt.figure(figsize=(10,7))
-    
-    
     # Setup extent of axis values for image.  
     # Note that altitude values are stored from top to bottom
     
@@ -93,12 +81,9 @@ def draw(canvas, toolbar, fig, pfig):
     cm.set_over(cmap['over']/255.0)
     cm.set_bad(cmap['bad']/255.0)
     plot_norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
-    #ax1 = fig.add_axes([0.07, 0.07, 0.85, 0.9, ])
     
     im = fig.imshow(regrid_atten_back, cmap = cm, aspect = 'auto',  
-                            norm = plot_norm, extent = extents, interpolation = None)
-    
-    
+                    norm = plot_norm, extent = extents, interpolation = None)
     
     fig.set_ylabel('Altitude (km)')    
     fig.set_xlabel('Latitude (degrees)')   
@@ -111,7 +96,4 @@ def draw(canvas, toolbar, fig, pfig):
     cbar = pfig.colorbar(im)
     #cbar = plt.colorbar(extend='both',use_gridspec=True)
     cbar.set_label(cbar_label)
-    
-    #plt.savefig("lidar_backscatter.png")
-    #plt.show()
 

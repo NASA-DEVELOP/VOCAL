@@ -1,13 +1,11 @@
 #### IMPORTS #######################################################################################
 
-#####################EXPERIMENTAL IMPORTS#################################
 import matplotlib
 matplotlib.use('TkAgg')
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from plot_uniform_alt_lidar_dev import draw
-#####################END EXPERIEMENTAL IMPORTS############################
 
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE
