@@ -13,7 +13,8 @@ from PIL import Image, ImageTk
 import tkFileDialog
 import sys, os
 from bokeh.colors import white
-from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO
+from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
+    ToolbarToggleableButton
 from gui.PolygonDrawing import PolygonDrawing
 
 #### PROGRAM CONSTANTS ####
@@ -240,51 +241,11 @@ class Calipso:
         else:
             self.shrink()
     
-    def EGzoomIn(self, event):
-        if self.__EGzoomValue != 4: self.__EGzoomValue += 1
-        self.crop(event)
-        
-    def EGzoomOut(self, event):
-        if self.__EGzoomValue != 0: self.__EGzoomValue -= 1
-        self.crop(event)
-    
-    # Parameters: event object containing the mouse position
-    def crop(self, event):
-        pass
-        """
-        if self.__zimg_id: self.__drawplotCanvas.delete(self.__zimg_id)
-        if (self.__EGzoomValue) != 0:
-            x, y = event.x, event.y
-            if self.__EGzoomValue == 1:
-                tmp = self.__orig_img.crop((x-45, y-30, x+45, y+30))
-            elif self.__EGzoomValue == 2:
-                tmp = self.__orig_img.crop((x-30, y-20, x+30, y+20))
-            elif self.__EGzoomValue == 3:
-                tmp = self.__orig_img.crop((x-15, y-10, x+15, y+10))
-            elif self.__EGzoomValue == 4:
-                tmp = self.__orig_img.crop((x-6, y-4, x+6, y+4))
-            size = 300, 200
-            self.zimg = ImageTk.PhotoImage(tmp.resize(size))
-            self.__zimg_id = self.__drawplotCanvas.create_image(event.x, event.y, image=self.zimg)
-        """
-            
-    def EGcleanUp(self):
-        pass
-        #if self.__zimg_id : self.__drawplotCanvas.delete(self.__zimg_id)
-
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
         self.__polygons.reset()
-        pass
-        """
-        self.__zoomValue = 0
-        self.__drawplotCanvas.config(scrollregion=(0, 0, 0, 0))
-        self.selPlot(BASE_PLOT)
-        self.__file = ''
-        self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
-        self.__polygons.reset()
-        """
+        self.__toolbar.home()
         
     def topPanedWindow(self):
         #File Dialog box, - shows the selected __file
@@ -294,13 +255,6 @@ class Calipso:
         self.__lblFileDialog.grid(row=1, column=1, padx=10)
         btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
-
-        """
-        self.__zoomButton = ToggleableButton(self.__root, self.__upperButtonFrame, text="Zoom", width=10)
-        self.__zoomButton.latch(key="<MouseWheel>", command=self.mouseWheelZoom, cursor="")                                 # <"MouseWheel>" is for Windows and OSX
-        self.__zoomButton.latch(key="<MouseWheel>", command=self.mouseWheelZoom, cursor="", destructor=self.EGcleanUp)      # "<Button-4>" and "<Button-5>" is for linux systems
-        self.__zoomButton.grid(row=0, column=0, padx=2, pady=5)
-        """
         
         btnReset = Button(self.__upperButtonFrame, text = "Reset", width = 10, command=self.reset)
         btnReset.grid(row=0, column=0, padx=10, pady=5)
@@ -318,21 +272,21 @@ class Calipso:
         
         ###################################Lower Frame##############################################
         
-        lblSpace1 = Label(self.__lowerButtonFrame, width=2)     # create space between frame outline
-        lblSpace1.grid(row=0, column=0)
+        for i in range(0,2):
+            lblSpace1 = Label(self.__lowerButtonFrame, width=2)     # create space between frame outline
+            lblSpace1.grid(row=0, column=0)
+            
+            lblSpace2 = Label(self.__lowerButtonFrame, width=2)
+            lblSpace2.grid(row=0, column=5)
         
-        lblSpace2 = Label(self.__lowerButtonFrame, width=2)
-        lblSpace2.grid(row=0, column=5)
-        
-        # NOTE : See tools.py for documentation on the ToggleableButton class
-        
+        # NOTE : See tools.py for documentation on these wrapper classes
 
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
         self.__polygonButton.latch(key="<Button-1>", command=self.__polygons.anchorRectangle, cursor="tcross")
         self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygons.drag, cursor="tcross")
         self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygons.fillRectangle, cursor="tcross")
-        self.__polygonButton.grid(row=0, column=1, padx=2, pady=5)
+        self.__polygonButton.grid(row=1, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
         
         # free draw icon
@@ -340,28 +294,43 @@ class Calipso:
         self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
         self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30, height=30)
         self.__freedrawButton.latch(key="<Button-1>", command=self.__polygons.plotPoint, cursor="tcross")
-        self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
+        self.__freedrawButton.grid(row=1, column=4, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
         
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
-        self.__magnifyButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.magnifydrawIMG, width=30, height=30)
-        self.__magnifyButton.latch(key="<Button-1>", command=self.__toolbar.zoom, cursor="tcross")
-        self.__magnifyButton.grid(row=0, column=3, padx=2, pady=5)
-        createToolTip(self.__magnifyButton, "Eye Glass")
+        self.__zoomButton = ToolbarToggleableButton(self.__root, self.__lowerButtonFrame, lambda : self.__toolbar.zoom(True), image=self.magnifydrawIMG, width=30, height=30)
+        self.__zoomButton.latch(cursor="tcross", destructor=lambda : self.__toolbar.zoom(False))
+        self.__zoomButton.grid(row=0, column=2, padx=2, pady=5)
+        createToolTip(self.__zoomButton, "Zoom to rect")
         
+        # plot move cursor icon
+        self.plotcursorIMG = ImageTk.PhotoImage(file="ico/plotcursor.png")
+        self.__plotCursorButton = ToolbarToggleableButton(self.__root, self.__lowerButtonFrame, lambda : self.__toolbar.pan(True), image=self.plotcursorIMG, width=30, height=30)
+        self.__plotCursorButton.latch(cursor="hand1", destructor=self.__toolbar.pan(False))
+        self.__plotCursorButton.grid(row=0, column=1, padx=2, pady=5)
+        createToolTip(self.__plotCursorButton, "Move about plot")
+        
+        # plot undo icon
+        self.undoIMG = ImageTk.PhotoImage(file="ico/back.png")
+        self.__undoButton = Button(self.__lowerButtonFrame, image=self.undoIMG, width=30, height=30, command=lambda : self.__toolbar.back(True))
+        self.__undoButton.grid(row=0, column=3, padx=2, pady=5)
+        
+        self.redoIMG = ImageTk.PhotoImage(file="ico/forward.png")
+        self.__redoButton = Button(self.__lowerButtonFrame, image=self.redoIMG, width=30, height=30, command=lambda : self.__toolbar.forward(True))
+        self.__redoButton.grid(row=0, column=4, padx=2, pady=5)
         # vertices icon
         self.verticesdrawIMG = ImageTk.PhotoImage(file="ico/vertices.png")
         self.__verticesButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.verticesdrawIMG, width=30, height=30)
         self.__verticesButton.latch(key="<Button-1>", command=self.__polygons.addVertex, cursor="tcross")
-        self.__verticesButton.grid(row=0, column=4, padx=2, pady=5)
+        self.__verticesButton.grid(row=1, column=2, padx=2, pady=5)
         createToolTip(self.__verticesButton, "Add Vertex")
-        
+
         # drag icon
         self.dragIMG = ImageTk.PhotoImage(file="ico/cursorhand.png")
         self.__dragButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.dragIMG, width=30, height=30)
         self.__dragButton.latch(key="<Button-2>", command=self.__polygons.toggleDrag, cursor="hand1")
-        self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
+        self.__dragButton.grid(row=1, column=3, padx=2, pady=5)
         createToolTip(self.__dragButton, "Drag")
        
         # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
@@ -372,7 +341,7 @@ class Calipso:
                           lambda x: [ 
                                      self.__polygonButton.unToggle(), 
                                      self.__freedrawButton.unToggle(),
-                                     self.__magnifyButton.unToggle(),
+                                     self.__zoomButton.unToggle(),
                                      self.__verticesButton.unToggle(),
                                      self.__dragButton.unToggle()])
          
