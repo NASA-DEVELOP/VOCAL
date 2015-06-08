@@ -271,9 +271,6 @@ class Calipso:
         self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
         self.__polygons.reset()
         
-    def freeDraw(self, event):
-        pass
-
     def topPanedWindow(self):
         #File Dialog box, - shows the selected __file
         lblFile=Label(self.__dialogFrame, text="File:")
