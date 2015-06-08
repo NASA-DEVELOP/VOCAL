@@ -25,9 +25,9 @@ class PolygonDrawing(Widget):
         self.__drag_data = {"x": 0, "y": 0, "item": None}
         self.__dragMode = False
         
-        self.__canvas.tag_bind("polygon", "<Button-1>", self.OnTokenButtonPress)
-        self.__canvas.tag_bind("polygon", "<ButtonRelease-1>", self.OnTokenButtonRelease)
-        self.__canvas.tag_bind("polygon", "<B1-Motion>", self.OnTokenMotion)
+        self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.OnTokenButtonPress)
+        self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.OnTokenButtonRelease)
+        self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.OnTokenMotion)
         
     def OnTokenButtonPress(self, event):
         if self.__dragMode:
@@ -45,7 +45,7 @@ class PolygonDrawing(Widget):
         if self.__dragMode:
             dx = event.x - self.__drag_data["x"]
             dy = event.y - self.__drag_data["y"]
-            self.__canvas.move(self.__drag_data["item"], dx, dy)
+            self.__canvas._tkcanvas.move(self.__drag_data["item"], dx, dy)
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
         
@@ -73,7 +73,7 @@ class PolygonDrawing(Widget):
         '''
         self.__vertices.append((event.x, event.y))
         if len(self.__vertices) > 1:
-            self.__canvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill="red", width="2", tags="line")
+            self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill="red", width="2", tags="line")
         if len(self.__vertices) > 3:
             # TODO: check if polygon besides the first line
             a1 = tupleToNpArray(self.__vertices[0])
@@ -86,7 +86,7 @@ class PolygonDrawing(Widget):
                 self.__vertices[0] = pair
                 self.__vertices.pop()
                 self.drawPolygon()
-                self.__canvas.delete("line")
+                self.__canvas._tkcanvas.delete("line")
         self.__prevX = event.x
         self.__prevY = event.y
         
@@ -104,7 +104,7 @@ class PolygonDrawing(Widget):
         '''
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
-        self.__canvas.create_rectangle(ix, iy, event.x, event.y, outline="red", fill="red", tags="polygon")
+        self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline="red", fill="red", tags="polygon")
         self.__vertices.append((event.x, iy))
         self.__vertices.append((event.x, event.y))
         self.__vertices.append((ix, event.y))
@@ -125,10 +125,12 @@ class PolygonDrawing(Widget):
             return False
             
     def drawPolygon(self):
-        self.__canvas.create_polygon(self.__vertices, outline="red", fill="red", width=2, tags="polygon")
+        self.__canvas._tkcanvas.create_polygon(self.__vertices, outline="red", fill="red", width=2, tags="polygon")
         
     def reset(self):
         self.__vertices = []
+        self.__canvas._tkcanvas.delete("line")
+        self.__canvas._tkcanvas.delete("polygon")
         
     def select(self, event):
         self.__canvas.gettags(CURRENT)
