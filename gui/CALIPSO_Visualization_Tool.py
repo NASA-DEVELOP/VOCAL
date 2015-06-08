@@ -10,6 +10,7 @@ from plot_uniform_alt_lidar_dev import draw
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE
 from PIL import Image, ImageTk
+import tkFileDialog
 import sys, os
 from bokeh.colors import white
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO
@@ -124,7 +125,7 @@ class Calipso:
         
         #File Menu
         self.__menuFile = Menu(self.__menuBar, tearoff=0)
-        self.__menuFile.add_command(label="Import File", command=lambda: MenuFunctions.importFile(self.__file, self.__lblFileDialog))
+        self.__menuFile.add_command(label="Import File", command=lambda: self.importFile())
         self.__menuFile.add_command(label="Export Image", command=MenuFunctions.exportImage)
         self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Save", command=MenuFunctions.saveImage)
@@ -171,10 +172,14 @@ class Calipso:
             #self.addToCanvas(loadedPhotoImage)
             
         elif (plotType.get()) == BACKSCATTERED:
+            print "ok"
             try:
                 self.__Parentfig.clear()
+                print "hum"
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)
-                draw(self.__drawplotCanvas, self.__toolbar, self.__fig, self.__Parentfig)
+                print self.__file
+                print "k"
+                draw(self.__file, self.__drawplotCanvas, self.__toolbar, self.__fig, self.__Parentfig)
                 self.__drawplotCanvas.show()
                 self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
                 self.__toolbar.update()
@@ -273,6 +278,16 @@ class Calipso:
         pass
         #if self.__zimg_id : self.__drawplotCanvas.delete(self.__zimg_id)
 
+    def importFile(self):
+        ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
+        dlg = tkFileDialog.Open(filetypes = ftypes)
+        fl = dlg.show()
+        if fl != '':
+            self.__file = fl
+            Segments = self.__file.rpartition('/')
+            self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
+        return ''
+
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
@@ -291,9 +306,9 @@ class Calipso:
         #File Dialog box, - shows the selected __file
         lblFile=Label(self.__dialogFrame, text="File:")
         lblFile.grid(row=1, column=0)
-        self.__lblFileDialog = Label(self.__dialogFrame, width = 50, bg = white, relief = SUNKEN)
+        self.__lblFileDialog = Label(self.__dialogFrame, width = 50, justify=LEFT, bg = white, relief = SUNKEN)
         self.__lblFileDialog.grid(row=1, column=1, padx=10)
-        btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=lambda: MenuFunctions.importFile(self.__file, self.__lblFileDialog))
+        btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
         
 #         btnZoomIn = Button(self.__upperButtonFrame, text = "Zoom In", width = 10, command=self.zoomIn_)

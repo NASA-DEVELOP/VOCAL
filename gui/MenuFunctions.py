@@ -9,16 +9,6 @@ import tkFileDialog
 
 from bokeh.colors import white
 
-
-def importFile(f, label):
-    ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-    dlg = tkFileDialog.Open(filetypes = ftypes)
-    fl = dlg.show()
-    if fl != '':
-        f = fl
-        Segments = f.rpartition('/')
-        label.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
-    
 def exportImage():
     pass
 
