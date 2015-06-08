@@ -16,8 +16,6 @@ from regrid_lidar import regrid_lidar
 from findLatIndex import findLatIndex
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.backend_bases import key_press_handler
-import Tkinter as Tk
-import matplotlib.cbook as cbook
 from PCF_genTimeUtils import extractDatetime
 #from gui.CALIPSO_Visualization_Tool import filename
 
@@ -116,7 +114,4 @@ def draw(canvas, toolbar, fig, pfig):
     
     #plt.savefig("lidar_backscatter.png")
     #plt.show()
-    
-    
-
 

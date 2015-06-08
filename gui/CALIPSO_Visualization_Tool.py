@@ -11,12 +11,12 @@ from plot_uniform_alt_lidar_dev import draw
 
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE
-import tkFileDialog
 from PIL import Image, ImageTk
 import sys, os
 from bokeh.colors import white
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO
 from gui.PolygonDrawing import PolygonDrawing
+from gui import MenuFunctions
 
 #### PROGRAM CONSTANTS ####
 BASE_PLOT       = 0
@@ -38,7 +38,8 @@ class Calipso:
         self.__polygonButton = None         # polygon button
         self.__freedrawButton = None        # free draw button
         self.__magnifyButton = None         # magnify button
-        
+        self.__verticesButton = None
+        self.__dragButton = None
         self.__file = ''                    # current file in use
         self.__lblFileDialog = Label()      # shows the selected file
         self.__zoomValue=0                  # zoom value in program
@@ -120,61 +121,25 @@ class Calipso:
         self.centerWindow()
        
 #### MENU BAR ######################################################################################   
-    def importFile(self):
-        ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        dlg = tkFileDialog.Open(filetypes = ftypes)
-        fl = dlg.show()
-        if fl != '':
-            self.__file = fl
-            Segments = self.__file.rpartition('/')
-            self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
-    
-    def exportImage(self):
-        pass
-    
-    def saveImage(self):
-        pass
-    
-    def saveAs(self):
-        options = {}
-        options['defaultextension'] = '.hdf'
-        options['filetypes'] = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        tkFileDialog.asksaveasfile(mode='w', **options)
-        
-    def about(self): 
-        filewin = Toplevel(self.__root)
-        filewin.title("About")
-        T = Message(filewin, text="NASA DEVELOP \nLaRC Spring 2015 Term \n \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal")
-        T.pack()
-        
-        btnClose = Button(filewin, text="Close", command=filewin.destroy)
-        btnClose.pack()
-        
-    def tutorial(self):
-        filewin = Toplevel(self.__root)
-        T = Text(filewin, height=10, width=40, wrap='word')
-        T.pack()
-        T.insert(END, "This is a tutorial of how to use the CALIPSO Visualization Tool")   
-               
     def setupMenu(self):
         self.__menuBar = Menu(self.__root)
         
         #File Menu
         self.__menuFile = Menu(self.__menuBar, tearoff=0)
-        self.__menuFile.add_command(label="Import File", command=self.importFile)
-        self.__menuFile.add_command(label="Export Image", command=self.exportImage)
+        self.__menuFile.add_command(label="Import File", command=lambda: MenuFunctions.importFile(self.__file, self.__lblFileDialog))
+        self.__menuFile.add_command(label="Export Image", command=MenuFunctions.exportImage)
         self.__menuFile.add_separator()
-        self.__menuFile.add_command(label="Save", command=self.saveImage)
-        self.__menuFile.add_command(label="Save as", command=self.saveAs)
+        self.__menuFile.add_command(label="Save", command=MenuFunctions.saveImage)
+        self.__menuFile.add_command(label="Save as", command=MenuFunctions.saveAs)
         self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Exit", command=self.__root.quit)
         self.__menuBar.add_cascade(label="File", menu=self.__menuFile)
         
         #Help Menu
         self.__menuHelp = Menu(self.__menuBar, tearoff=0)
-        self.__menuHelp.add_command(label="Tutorial", command=self.tutorial)
+        self.__menuHelp.add_command(label="Tutorial", command=lambda: MenuFunctions.tutorial(self.__root))
         self.__menuHelp.add_separator()
-        self.__menuHelp.add_command(label="About", command=self.about)
+        self.__menuHelp.add_command(label="About", command=lambda: MenuFunctions.about(self.__root))
         self.__menuBar.add_cascade(label="Help", menu=self.__menuHelp)
         
         #configure menu to screen
@@ -323,19 +288,13 @@ class Calipso:
         self.__polygons.reset()
         """
         
-    def polygon(self, event):
-        pass
-        
-    def freeDraw(self, event):
-        pass
-
     def topPanedWindow(self):
         #File Dialog box, - shows the selected __file
         lblFile=Label(self.__dialogFrame, text="File:")
         lblFile.grid(row=1, column=0)
         self.__lblFileDialog = Label(self.__dialogFrame, width = 50, bg = white, relief = SUNKEN)
         self.__lblFileDialog.grid(row=1, column=1, padx=10)
-        btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
+        btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=lambda: MenuFunctions.importFile(self.__file, self.__lblFileDialog))
         btnBrowse.grid(row=1, column=3)
         
 #         btnZoomIn = Button(self.__upperButtonFrame, text = "Zoom In", width = 10, command=self.zoomIn_)
@@ -372,17 +331,20 @@ class Calipso:
         
         # NOTE : See tools.py for documentation on the ToggleableButton class
         
-        # polygon icon
-        self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
-        self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=20, height=20)
-        self.__polygonButton.latch(key="<Button-1>", command=self.polygon, cursor="tcross")
+
+        self.polygonIMG = ImageTk.PhotoImage(file="polygon.png")
+        self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30)
+        self.__polygonButton.latch(key="<Button-1>", command=self.__polygons.anchorRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygons.drag, cursor="tcross")
+        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygons.fillRectangle, cursor="tcross")
         self.__polygonButton.grid(row=0, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
         
         # free draw icon
-        self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
-        self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=20, height=20)
-        self.__freedrawButton.latch(key="<Button-1>", command=self.__toolbar.zoom, cursor="tcross")
+
+        self.freedrawIMG = ImageTk.PhotoImage(file="freedraw.png")
+        self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30)
+        self.__freedrawButton.latch(key="<Button-1>", command=self.__polygons.plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=0, column=2, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
         
@@ -399,6 +361,13 @@ class Calipso:
         self.__verticesButton.latch(key="<Button-1>", command=self.__polygons.addVertex, cursor="tcross")
         self.__verticesButton.grid(row=0, column=4, padx=2, pady=5)
         createToolTip(self.__verticesButton, "Add Vertex")
+        
+        # drag icon
+        self.dragIMG = ImageTk.PhotoImage(file="Cursor_Hand.png")
+        self.__dragButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.dragIMG, width=30)
+        self.__dragButton.latch(key="<Button-2>", command=self.__polygons.toggleDrag, cursor="hand1")
+        self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
+        createToolTip(self.__dragButton, "Drag")
        
         # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
         # evaluate an array so we can use some arbitrary array and place our commands inside that 
@@ -410,7 +379,8 @@ class Calipso:
                                      self.__freedrawButton.unToggle(),
                                      self.__magnifyButton.unToggle(),
                                      self.__zoomButton.unToggle(),
-                                     self.__verticesButton.unToggle()])
+                                     self.__verticesButton.unToggle(),
+                                     self.__dragButton.unToggle()])
         
     
         
