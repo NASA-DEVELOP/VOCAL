@@ -12,6 +12,9 @@ class PolygonDrawer(Widget):
     Displays the polygon objects onto the canvas by supplying draw methods.
     '''
     
+    toggleFocus = False
+    polygonList = []
+    polygonDict = {}
     num = 0
     COLORS = ['snow', 'ghost white', 'white smoke', 'gainsboro', 'floral white', 'old lace',
           'linen', 'antique white', 'papaya whip', 'blanched almond', 'bisque', 'peach puff',
@@ -164,7 +167,7 @@ class PolygonDrawer(Widget):
         self.__prevX = event.x
         self.__prevY = event.y
         
-    def drag(self, event):
+    def rubberBand(self, event):
 #         print 'Widget=%s x=%s y=%s' % (event.widget, event.x, event.y)
         try:
             self.lastrect
@@ -188,7 +191,9 @@ class PolygonDrawer(Widget):
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
         identifier = self.generateTag()
-        self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], tags=("polygon", identifier))
+        poly = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], tags=("polygon", identifier))
+        PolygonDrawer.polygonList.append(poly)
+        PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
         self.__clear()
         
     def setHDF(self, HDFFilename):
@@ -212,7 +217,9 @@ class PolygonDrawer(Widget):
             
     def drawPolygon(self):
         identifier = self.generateTag()
-        self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width=2, tags=("polygon", identifier))
+        poly = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width=2, tags=("polygon", identifier))
+        PolygonDrawer.polygonList.append(poly)
+        PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
         self.__clear()
     
     def toggleDrag(self, event):
@@ -239,6 +246,14 @@ class PolygonDrawer(Widget):
         self.__drag_data["item"] = None
         self.__drag_data["x"] = 0
         self.__drag_data["y"] = 0
+        
+    def outline(self, event):
+        PolygonDrawer.toggleFocus = not PolygonDrawer.toggleFocus
+        for shape in PolygonDrawer.polygonDict:
+            if PolygonDrawer.toggleFocus:
+                self.__canvas._tkcanvas.itemconfigure(shape, fill=PolygonDrawer.polygonDict[shape])
+            else:
+                self.__canvas._tkcanvas.itemconfigure(shape, fill="")
         
 def perpendicular(a):
     '''

@@ -260,7 +260,7 @@ class Calipso(object):
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
         self.__polygonButton.latch(key="<Button-1>", command=self.__polygonDrawer.anchorRectangle, cursor="tcross")
-        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonDrawer.drag, cursor="tcross")
+        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonDrawer.rubberBand, cursor="tcross")
         self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygonDrawer.fillRectangle, cursor="tcross")
         self.__polygonButton.grid(row=1, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
@@ -285,6 +285,23 @@ class Calipso(object):
         self.__eraseButton.latch(key="<Button-1>", command=self.__polygonDrawer.delete, cursor="X_cursor")
         self.__eraseButton.grid(row=1, column=4, padx=2, pady=5)
         createToolTip(self.__eraseButton, "Erase polygon")
+        
+        self.outlineIMG = ImageTk.PhotoImage(file="ico/focus.png")
+        self.__outlineButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.outlineIMG, width=30, height=30)
+        self.__outlineButton.latch(key="<Button-1>", command=self.__polygonDrawer.outline, cursor="circle")
+        self.__outlineButton.grid(row=2, column=1, padx=2, pady=5)
+        createToolTip(self.__outlineButton, "Focus")
+       
+        # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
+        # evaluate an array so we can use some arbitrary array and place our commands inside that 
+        # array. Here we simply bind focusing back into the child window as a way to automatically
+        # unbind the toggleable buttons
+        #self.__child.bind("<FocusIn>", 
+        #                  lambda x: [ 
+        #                             self.__polygonButton.unToggle(), 
+        #                             self.__freedrawButton.unToggle(),
+        #                             self.__zoomButton.unToggle(),
+        #                             self.__dragButton.unToggle()])
 
     def importFile(self):
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
