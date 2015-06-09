@@ -120,41 +120,53 @@ class ToggleableButton(Button, object):
         print "calling destructor: "
         if self.__destructor : self.__destructor()
 
-    # The bread and potatos of the class, __Toggle uses a boolean variable to keep track
-    #    of the current state of the class and will toggle the button accordingly. Addtionally,
+    # The toggle function ensures that the button is either correctly toggled, or not. The
+    #    button command is bound here and additionally any functions 'latched' to a command
+    #    will be binded here when toggled. Also internally ensures no two toggled buttons can
+    #    exist at any one time
     def Toggle(self):
         # first flip the toggle switch
         self.isToggled = not self.isToggled
-        # if any buttons are currently active, untoggle them and set their state
+        # if any buttons are currently active, untoggle them
         for s in [x for x in self.__toggleContainer if x.isToggled == True and x is not self]:  
             s.unToggle()
-        print [x for x in self.__toggleContainer if x.isToggled == True and x is not self]
             
-        for r in self.__toggleContainer: print r.isToggled,
-        print ""
         # else if next state it false
         if self.isToggled == False:
-            self.config(relief='raised')
-            for pair in self.__bindMap: 
+            self.config(relief='raised')                # raise the button, e.g. deactivated
+            for pair in self.__bindMap:                 # unbind using the bindmap
                 pair[0].unbind(pair[1])
-            if self.__destructor : self.__destructor()
+            if self.__destructor : self.__destructor()  # call the pseudo 'destructor'
         # else if next state is true
         else:
-            self.config(relief='sunken')
-            for pair in self.__bindMap:
+            self.config(relief='sunken')                # sink the button, e.g. activate
+            for pair in self.__bindMap:                 # bind using the bindmap
                 pair[0].bind(pair[1], pair[2])
 
 
+# Wrapper of a wrapper of a button, it's a mouthful but it useful for having 
+#    additional functionality the matplotlib buttons would require. Instead
+#    of placing more overhead in the ToggleableButton another class is created 
+#    since the number of matplotlib functions will remain constant, while we
+#    may continue creating new tools that use ToggleableButton
 class ToolbarToggleableButton(ToggleableButton):
+    # Parameters: 
+    #    root, master, cnf, kw    -> forwarded args to the ToggleableButton class
+    #    func                     -> function to be called along with the invocation of Toggle
     def __init__(self, root, master=None, func=None, cnf={}, **kw):
         ToggleableButton.__init__(self, root, master, kw)
-        self.configure(command=self.__toggle)
+        self.configure(command=self.Toggle)
         self.__func = func
         
-    def __toggle(self):
+    # Call the super classes Toggle, and execute our function as well
+    def Toggle(self):
         super(ToolbarToggleableButton, self).Toggle()
         if self.__func : self.__func()
 
+# Custom toolbar derived from matplotlib.backend, since we won't be specifically displaying
+#    any of their provided TkGUI, we will be creating our own GUI outside of the toolbar and
+#    simply using the functions provided by NavigationToolbar2. Thus we strip the toolbar of
+#    anything GUI related 
 class NavigationToolbar2CALIPSO(NavigationToolbar2):
     def __init__(self, canvas):
         NavigationToolbar2.__init__(self, canvas)
@@ -195,18 +207,3 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
 
     def dynamic_update(self):
         pass
-    
-def createToolBarToggle(master, cnf={}, **kw):
-        button = Button(master, kw)
-        
-        return button
-
-class ref:
-    def __init__(self, val):
-        self._value = val
-        
-    def get(self):
-        return self._value
-    
-    def set(self, val):
-        self._value = val
