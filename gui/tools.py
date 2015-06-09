@@ -84,7 +84,7 @@ class ToggleableButton(Button, object):
     
     def __init__(self, root, master=None, cnf={}, **kw):
         self.__bindMap = []         # bind map to be bound once toggled
-        self.isToggled = True       # internal var to keep track of toggling
+        self.isToggled = False      # internal var to keep track of toggling
         self.__root = root          # root variable for setting the cursor
         self.__cursor = ""          # cursor private var
         self.__destructor = None    # destructor var called when untoggled
@@ -121,25 +121,24 @@ class ToggleableButton(Button, object):
     #    just being clicked a second time
     
     def Toggle(self):
-        sz = [x for x in self.__toggleContainer if x.isToggled == False and x is not self]
+        self.isToggled = not self.isToggled
+        sz = [x for x in self.__toggleContainer if x.isToggled == True and x is not self]
         for s in sz:
             s.unToggle()
-            s.isToggled = True
+            s.isToggled = False
                 
         # else if next state it false
         if self.isToggled == False:
             self.config(relief='raised')
-            for pair in self.__bindMap:
-                pair[0].bind(pair[1], pair[2])
+            for pair in self.__bindMap: 
+                pair[0].unbind(pair[1])
             if self.__destructor : self.__destructor
         # else if next state is true
         else:
             self.config(relief='sunken')
-            for pair in self.__bindMap: 
-                pair[0].unbind(pair[1])
-                
+            for pair in self.__bindMap:
+                pair[0].bind(pair[1], pair[2])
         #if not sz : 
-        self.isToggled = not self.isToggled
         for s in sz : print s.__bindMap
         print ""
 
