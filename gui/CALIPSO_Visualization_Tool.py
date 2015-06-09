@@ -51,35 +51,14 @@ class Calipso(object):
         self.__menuFile = None              # sub menu
         self.__menuHelp = None              # sub menu
         
+        ######################################### CREATE MAIN WINDOW #########################################
         basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
         basePane.pack(fill=BOTH, expand = 1)                # fill and expand
         sectionedPane = PanedWindow(orient=VERTICAL)        # paned window that splits into a top and bottom section
         basePane.add(sectionedPane)
         
-        self.__child = Toplevel()
-        self.__child.title("Tools")
-        self.__child.resizable(width=FALSE, height=FALSE)
-        baseChildPane = PanedWindow(self.__child)
-        baseChildPane.pack(fill=BOTH, expand = 1)
-        sectionedChildPane = PanedWindow(self.__child, orient=VERTICAL)
-        baseChildPane.add(sectionedChildPane)
-        
-        
-        upperPane = PanedWindow(sectionedChildPane, orient=HORIZONTAL, width=5)
-        sectionedChildPane.add(upperPane)
-        lowerPane = PanedWindow(sectionedChildPane)
-        sectionedChildPane.add(lowerPane)
-        
         pndwinTop = PanedWindow(sectionedPane, orient=HORIZONTAL)                   # the paned window which holds all buttons
         sectionedPane.add(pndwinTop)                                                # add pndwinTop to sectionedPane
-        
-        self.__upperButtonFrame = Frame(upperPane)                                  # button frame for child window
-        self.__upperButtonFrame.pack()
-        
-        self.__lowerButtonFrame = Frame(lowerPane)
-        self.__lowerButtonFrame.config(highlightthickness=1)
-        self.__lowerButtonFrame.config(highlightbackground="grey")
-        self.__lowerButtonFrame.pack()
         
         self.__dialogFrame = Frame(pndwinTop)                                       # frame to hold dialog for browsing files
         self.__dialogFrame.pack(side = LEFT)
@@ -89,24 +68,44 @@ class Calipso(object):
         self.__drawplotFrame = Frame(pndwinBottom, width=WIDTH, height=HEIGHT)      # the frame on which we will add our canvas for drawing etc.
         
         self.__Parentfig = Figure(figsize=(16,11))
-        #self.__Parentfig = plt.figure(figsize=(16,11))
+        
         # the main canvas we will be drawing our data to
-        self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)   
-        #self.__drawplotCanvas.mpl_connect(
-        #                                  'button_press_event', 
-        #                                  lambda event:self.__drawplotCanvas._tkcanvas.focus_set()
-        #)          
+        self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)    
+        # create tool bar and polygonDrawer     
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas)
         self.__polygonDrawer = PolygonDrawer(self.__drawplotCanvas)
         
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplotFrame.pack()
+        
+        ######################################### CREATE CHILD WINDOW #########################################
+        
+        self.__child = Toplevel()
+        self.__child.title("Tools")
+        self.__child.resizable(width=FALSE, height=FALSE)
+        baseChildPane = PanedWindow(self.__child)
+        baseChildPane.pack(fill=BOTH, expand = 1)
+        sectionedChildPane = PanedWindow(self.__child, orient=VERTICAL)
+        baseChildPane.add(sectionedChildPane)
+                
+        upperPane = PanedWindow(sectionedChildPane, orient=HORIZONTAL, width=5)
+        sectionedChildPane.add(upperPane)
+        lowerPane = PanedWindow(sectionedChildPane)
+        sectionedChildPane.add(lowerPane)
+        
+        self.__upperButtonFrame = Frame(upperPane)                                  # upper button frame holding text buttons
+        self.__upperButtonFrame.pack()                                              
+            
+        self.__lowerButtonFrame = Frame(lowerPane)                                  # lower button frame for tools
+        self.__lowerButtonFrame.config(highlightthickness=1)                        # create a small border around the frame
+        self.__lowerButtonFrame.config(highlightbackground="grey")
+        self.__lowerButtonFrame.pack()
 
 #### MAIN WINDOW SETUP #############################################################################    
     def centerWindow(self):
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
-        x = (sw - WIDTH)/2                      # ensure center screen
+        x = (sw - WIDTH)/2
         y = (sh - HEIGHT)/2
         self.__root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, x, y))
         # the child is designed to appear off to the right of the parent window, so the x location
@@ -195,7 +194,7 @@ class Calipso(object):
     def toolbarCleanup(self, str):
         self._active=str
         
-    def topPanedWindow(self):
+    def createTopScreenGUI(self):
         #File Dialog box, - shows the selected __file
         lblFile=Label(self.__dialogFrame, text="File:")
         lblFile.grid(row=1, column=0)
@@ -204,6 +203,9 @@ class Calipso(object):
         btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
         
+
+        
+    def createChildWindowGUI(self):
         btnReset = Button(self.__upperButtonFrame, text = "Reset", width = 10, command=self.reset)
         btnReset.grid(row=0, column=0, padx=10, pady=5)
         
@@ -220,12 +222,11 @@ class Calipso(object):
         
         ###################################Lower Frame##############################################
         
-        for i in range(0,2):
-            lblSpace1 = Label(self.__lowerButtonFrame, width=2)     # create space between frame outline
-            lblSpace1.grid(row=0, column=0)
+        lblSpace1 = Label(self.__lowerButtonFrame, width=1)     # create space between frame outline
+        lblSpace1.grid(row=0, column=0)
             
-            lblSpace2 = Label(self.__lowerButtonFrame, width=2)
-            lblSpace2.grid(row=0, column=5)
+        lblSpace2 = Label(self.__lowerButtonFrame, width=1)
+        lblSpace2.grid(row=0, column=5)
         
         # NOTE : See tools.py for documentation on these wrapper classes
         
@@ -247,10 +248,13 @@ class Calipso(object):
         self.undoIMG = ImageTk.PhotoImage(file="ico/back.png")
         self.__undoButton = Button(self.__lowerButtonFrame, image=self.undoIMG, width=30, height=30, command=lambda : self.__toolbar.back(True))
         self.__undoButton.grid(row=0, column=3, padx=2, pady=5)
+        createToolTip(self.__undoButton, "Previous View")
         
+        # plot redo icon
         self.redoIMG = ImageTk.PhotoImage(file="ico/forward.png")
         self.__redoButton = Button(self.__lowerButtonFrame, image=self.redoIMG, width=30, height=30, command=lambda : self.__toolbar.forward(True))
         self.__redoButton.grid(row=0, column=4, padx=2, pady=5)
+        createToolTip(self.__redoButton, "Next View")
         
         # draw rectangle shape
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
@@ -282,11 +286,11 @@ class Calipso(object):
         self.__eraseButton.grid(row=1, column=4, padx=2, pady=5)
         createToolTip(self.__eraseButton, "Erase polygon")
         
-        self.focusIMG = ImageTk.PhotoImage(file="ico/focus.png")
-        self.__focusButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.focusIMG, width=30, height=30)
-        self.__focusButton.latch(key="<Button-1>", command=self.__polygonDrawer.focus, cursor="circle")
-        self.__focusButton.grid(row=2, column=1, padx=2, pady=5)
-        createToolTip(self.__focusButton, "Focus")
+        self.outlineIMG = ImageTk.PhotoImage(file="ico/outline.png")
+        self.__outlineButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.outlineIMG, width=30, height=30)
+        self.__outlineButton.latch(key="<Button-1>", command=self.__polygonDrawer.outline, cursor="circle")
+        self.__outlineButton.grid(row=2, column=1, padx=2, pady=5)
+        createToolTip(self.__outlineButton, "Focus")
        
         # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
         # evaluate an array so we can use some arbitrary array and place our commands inside that 
@@ -338,7 +342,8 @@ class Calipso(object):
     
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
     def setupMainScreen(self):
-        self.topPanedWindow()
+        self.createTopScreenGUI()
+        self.createChildWindowGUI()
         self.selPlot(BASE_PLOT)
         
 
