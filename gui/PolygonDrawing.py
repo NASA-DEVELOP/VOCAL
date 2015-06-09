@@ -51,18 +51,7 @@ class PolygonDrawing(Widget):
             self.__canvas._tkcanvas.move(self.__drag_data["item"], dx, dy)
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
-        
-    def addVertex(self, event):
-        '''
-        Draws a polygon by connecting vertices created by the user. Every click generates
-        a vertex and the canvas redraws to include the new vertex. Used in "Add Vertex" button
-        '''
-        self.__vertices.append((event.x, event.y))
-        print("Added vertex at (" + str(event.x) + "," + str(event.y) + ")")
-        if self.__canDrawPolygon():
-            self.drawPolygon()
-            return True
-            
+                    
     def anchorRectangle(self, event):
         '''
         Establishes a corner of a rectangle as anchor for when the user drags the cursor to 
@@ -136,10 +125,14 @@ class PolygonDrawing(Widget):
         return self.__hdf
     
     def __canDrawPolygon(self):
-        if len(self.__vertices) >= 3:
-            return True
-        else:
-            return False
+        b1 = tupleToNpArray(self.__vertices[-1])
+        b2 = tupleToNpArray(self.__vertices[-2])
+        for i in range(0, len(self.__vertices)-2):
+            a1 = tupleToNpArray(self.__vertices[i])
+            a2 = tupleToNpArray(self.__vertices[i+1])
+            if isIntersecting(a1, a2, b1, b2):
+                return True
+        return False
             
     def drawPolygon(self):
         identifier = self.generateTag()
@@ -153,6 +146,7 @@ class PolygonDrawing(Widget):
         string = "shape" + str(PolygonDrawing.num)
         PolygonDrawing.num += 1
         return string
+    
         
 def perpendicular(a):
     '''

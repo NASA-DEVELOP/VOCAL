@@ -335,6 +335,14 @@ class Calipso:
         self.__dragButton.latch(key="<Button-2>", command=self.__polygonList.toggleDrag, cursor="hand1")
         self.__dragButton.grid(row=1, column=3, padx=2, pady=5)
         createToolTip(self.__dragButton, "Drag")
+        
+        
+        #TODO: add erase functionality
+        self.eraseIMG = ImageTk.PhotoImage(file="ico/eraser.png")
+        self.__eraseButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.eraseIMG, width=30, height=30)
+        self.__eraseButton.latch(key="<Button-1>", command=self.__polygonList.delete, cursor="X_cursor")
+        self.__eraseButton.grid(row=1, column=2, padx=2, pady=5)
+        createToolTip(self.__eraseButton, "Erase polygon")
        
         # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
         # evaluate an array so we can use some arbitrary array and place our commands inside that 

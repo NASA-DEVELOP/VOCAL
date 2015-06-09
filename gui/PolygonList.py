@@ -22,17 +22,14 @@ class PolygonList(object):
         return self.__polygonList[-1]
     
     def addVertex(self, event):
-        print "Adding vertex"
         check = self.__polygonList[-1].addVertex(event)
         if check:
             self.__polygonList.append(PolygonDrawing(self.__canvas))
     
     def anchorRectangle(self, event):
-        print "Anchor's aweigh"
         self.__polygonList[-1].anchorRectangle(event)
     
     def plotPoint(self, event):
-        print "Plotting point"
         check = self.__polygonList[-1].plotPoint(event)
         if check:
             self.__polygonList.append(PolygonDrawing(self.__canvas))
@@ -41,7 +38,6 @@ class PolygonList(object):
         self.__polygonList[-1].drag(event)
     
     def fillRectangle(self, event):
-        print "Filling rectangle"
         self.__polygonList[-1].fillRectangle(event)
         self.__polygonList.append(PolygonDrawing(self.__canvas))
         
@@ -53,3 +49,7 @@ class PolygonList(object):
         self.__canvas._tkcanvas.delete("line")
         PolygonDrawing.num = 0
         self.__polygonList = [PolygonDrawing(self.__canvas)]
+        
+    def delete(self, event):
+        target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
+        self.__canvas._tkcanvas.delete(target)
