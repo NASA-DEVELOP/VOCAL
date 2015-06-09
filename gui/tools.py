@@ -89,8 +89,8 @@ class ToggleableButton(Button, object):
         self.__destructor = None    # destructor var called when untoggled
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
+        self.config(relief='raised')
         self.configure(command=self.Toggle)       # button command is always bound internally to toggle
-
     # Parameters: 
     #    key         -> a string which accepts a valid Tkinter key
     #    command     -> the command to be bound to string
@@ -112,27 +112,47 @@ class ToggleableButton(Button, object):
     #    the unToggle function will forcefully untoggle by setting the toggle var to True, this
     #    is useful if you wish to set binds where the button untoggles outside of the button
     #    just being clicked a second time
+    
+    def Toggle(self, toggle=False):
+        if toggle:
+            print toggle,"== True ? ...",self.config('relief'),"== sunken ?"
+            if self.config('relief')[-1] == 'sunken':
+                print "toggle : raised"
+                self.config(relief='raised')
+        elif self.config('relief')[-1] == 'sunken':
+            print "raising"
+            self.config(relief='raised')
+        else:
+            print "sinking"
+            self.config(relief='sunken')
+    """
     def Toggle(self, toggle=False):
         if toggle:
             self.__root.config(cursor="")
             for pair in self.__bindMap: 
                 pair[0].unbind(pair[1])
             self.config(relief=RAISED)
+            self.__isToggled = 'RAISED'
             if self.__destructor : self.__destructor()
         else:
-            self.__isToggled = not self.__isToggled
-            if self.__isToggled:
+            if self.__isToggled == 'BEG':
+                self.__isToggled = 'RAISED'
+            elif self.__isToggled == 'RAISED':
                 self.__root.config(cursor=self.__cursor)
                 self.config(relief=SUNKEN)
                 for pair in self.__bindMap:
                     pair[0].bind(pair[1], pair[2])
                 self.__root.grab_set()
+                self.__isToggled = 'PROC'
             else:
                 for pair in self.__bindMap:
                     pair[0].unbind(pair[1])
                 self.__root.config(cursor="")
                 self.config(relief=RAISED)
+                self.__isToggled = 'RAISED'
                 if self.__destructor : self.__destructor()
+    """
+            
 
 
 class ToolbarToggleableButton(ToggleableButton):
