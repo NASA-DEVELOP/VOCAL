@@ -12,6 +12,7 @@ class PolygonDrawer(Widget):
     Displays the polygon objects onto the canvas by supplying draw methods.
     '''
     
+    toggleFocus = False
     polygonList = []
     num = 0
     COLORS = ['snow', 'ghost white', 'white smoke', 'gainsboro', 'floral white', 'old lace',
@@ -189,7 +190,8 @@ class PolygonDrawer(Widget):
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
         identifier = self.generateTag()
-        self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], tags=("polygon", identifier))
+        poly = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], tags=("polygon", identifier))
+        PolygonDrawer.polygonList.append(poly)
         self.__clear()
         
     def setHDF(self, HDFFilename):
@@ -213,7 +215,8 @@ class PolygonDrawer(Widget):
             
     def drawPolygon(self):
         identifier = self.generateTag()
-        self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width=2, tags=("polygon", identifier))
+        poly = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width=2, tags=("polygon", identifier))
+        PolygonDrawer.polygonList.append(poly)
         self.__clear()
     
     def toggleDrag(self, event):
@@ -242,7 +245,13 @@ class PolygonDrawer(Widget):
         self.__drag_data["y"] = 0
         
     def focus(self, event):
-        self.__canvas._tkcanvas.lift(self.__canvas)
+        PolygonDrawer.toggleFocus = not PolygonDrawer.toggleFocus
+        for shape in PolygonDrawer.polygonList:
+            if PolygonDrawer.toggleFocus:
+                print shape.cget("fill")
+                pass
+            else:
+                self.__canvas._tkcanvas.itemconfigure(shape, fill="")
         
 def perpendicular(a):
     '''
