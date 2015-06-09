@@ -80,8 +80,15 @@ def createToolTip(widget, text):
 #    unbinds them on untoggle or forced untoggle.
 class ToggleableButton(Button, object):
 
+    # static class container to keep track of all active and unactive buttons
+    # currently living
     __toggleContainer = []
     
+    # Parameters:
+    #    root        -> the root of the program, which handles the cursor
+    #    master      -> the parent of the actual button 
+    #    cnf         -> button forward args
+    #    kw          -> button forward args
     def __init__(self, root, master=None, cnf={}, **kw):
         self.__bindMap = []         # bind map to be bound once toggled
         self.isToggled = False      # internal var to keep track of toggling
@@ -91,9 +98,9 @@ class ToggleableButton(Button, object):
         self.__master = master
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
-        self.config(relief='raised')
-        self.configure(command=self.Toggle)       # button command is always bound internally to toggle
-        self.__toggleContainer.append(self)
+        self.configure(command=self.Toggle)         # button command is always bound internally to toggle
+        self.__toggleContainer.append(self)         # push button to static container
+        
     # Parameters: 
     #    key         -> a string which accepts a valid Tkinter key
     #    command     -> the command to be bound to string
@@ -105,10 +112,10 @@ class ToggleableButton(Button, object):
         if key != "" and command != None : self.__bindMap.append((self.__root, key, command))
         if destructor != None : self.__destructor = destructor
 
-    # Wrapper function to call the toggle function. As the design of 
-    #    toggleable button was to internalize this method, we keep it private
+    # Clone to toggle, except the only functionality of unToggle is to forceably
+    #    untoggle the button and set the state accordingly
     def unToggle(self):
-        self.isToggled = True
+        self.isToggled = False
         self.config(relief='raised')
         for pair in self.__bindMap:
             pair[0].unbind(pair[1])
@@ -116,15 +123,13 @@ class ToggleableButton(Button, object):
 
     # The bread and potatos of the class, __Toggle uses a boolean variable to keep track
     #    of the current state of the class and will toggle the button accordingly. Addtionally,
-    #    the unToggle function will forcefully untoggle by setting the toggle var to True, this
-    #    is useful if you wish to set binds where the button untoggles outside of the button
-    #    just being clicked a second time
     def Toggle(self):
+        # first flip the toggle switch
         self.isToggled = not self.isToggled
+        # if any buttons are currently active, untoggle them and set their state
         for s in [x for x in self.__toggleContainer if x.isToggled == True and x is not self]:
             s.unToggle()
-            s.isToggled = False
-                
+
         # else if next state it false
         if self.isToggled == False:
             self.config(relief='raised')
