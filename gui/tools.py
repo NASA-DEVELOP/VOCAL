@@ -121,11 +121,10 @@ class ToggleableButton(Button, object):
     #    just being clicked a second time
     
     def Toggle(self):
-        sz = [x for x in self.__toggleContainer if x.isToggled == True and x is not self]
-        if sz:
-            for s in sz:
-                s.unToggle()
-                s.isToggled = True
+        sz = [x for x in self.__toggleContainer if x.isToggled == False and x is not self]
+        for s in sz:
+            s.unToggle()
+            s.isToggled = True
                 
         # else if next state it false
         if self.isToggled == False:
@@ -139,8 +138,9 @@ class ToggleableButton(Button, object):
             for pair in self.__bindMap: 
                 pair[0].unbind(pair[1])
                 
-        if not sz : self.isToggled = not self.isToggled
-        for rf in self.__toggleContainer : print rf.isToggled,
+        #if not sz : 
+        self.isToggled = not self.isToggled
+        for s in sz : print s.__bindMap
         print ""
 
     """
