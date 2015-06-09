@@ -291,12 +291,12 @@ class Calipso(object):
         # evaluate an array so we can use some arbitrary array and place our commands inside that 
         # array. Here we simply bind focusing back into the child window as a way to automatically
         # unbind the toggleable buttons
-        self.__child.bind("<FocusIn>", 
-                          lambda x: [ 
-                                     self.__polygonButton.unToggle(), 
-                                     self.__freedrawButton.unToggle(),
-                                     self.__zoomButton.unToggle(),
-                                     self.__dragButton.unToggle()])
+        #self.__child.bind("<FocusIn>", 
+        #                  lambda x: [ 
+        #                             self.__polygonButton.unToggle(), 
+        #                             self.__freedrawButton.unToggle(),
+        #                             self.__zoomButton.unToggle(),
+        #                             self.__dragButton.unToggle()])
 
     def importFile(self):
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]

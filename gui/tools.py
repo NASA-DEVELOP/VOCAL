@@ -25,7 +25,7 @@
 import matplotlib
 matplotlib.use('TkAgg')
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, RAISED, \
-    SUNKEN
+    SUNKEN, Message
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
 # Allows for tool tips to be displayed just below buttons
@@ -80,17 +80,20 @@ def createToolTip(widget, text):
 #    unbinds them on untoggle or forced untoggle.
 class ToggleableButton(Button, object):
 
+    __toggleContainer = []
     
     def __init__(self, root, master=None, cnf={}, **kw):
         self.__bindMap = []         # bind map to be bound once toggled
-        self.__isToggled = False    # internal var to keep track of toggling
+        self.isToggled = False      # internal var to keep track of toggling
         self.__root = root          # root variable for setting the cursor
         self.__cursor = ""          # cursor private var
         self.__destructor = None    # destructor var called when untoggled
+        self.__master = master
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
+        self.config(relief='raised')
         self.configure(command=self.Toggle)       # button command is always bound internally to toggle
-
+        self.__toggleContainer.append(self)
     # Parameters: 
     #    key         -> a string which accepts a valid Tkinter key
     #    command     -> the command to be bound to string
@@ -105,34 +108,35 @@ class ToggleableButton(Button, object):
     # Wrapper function to call the toggle function. As the design of 
     #    toggleable button was to internalize this method, we keep it private
     def unToggle(self):
-        self.Toggle(toggle=True)
+        self.isToggled = True
+        self.config(relief='raised')
+        for pair in self.__bindMap:
+            pair[0].unbind(pair[1])
+        if self.__destructor : self.__destructor()
 
     # The bread and potatos of the class, __Toggle uses a boolean variable to keep track
     #    of the current state of the class and will toggle the button accordingly. Addtionally,
     #    the unToggle function will forcefully untoggle by setting the toggle var to True, this
     #    is useful if you wish to set binds where the button untoggles outside of the button
     #    just being clicked a second time
-    def Toggle(self, toggle=False):
-        if toggle:
-            self.__root.config(cursor="")
+    def Toggle(self):
+        self.isToggled = not self.isToggled
+        for s in [x for x in self.__toggleContainer if x.isToggled == True and x is not self]:
+            s.unToggle()
+            s.isToggled = False
+                
+        # else if next state it false
+        if self.isToggled == False:
+            self.config(relief='raised')
             for pair in self.__bindMap: 
                 pair[0].unbind(pair[1])
-            self.config(relief=RAISED)
-            if self.__destructor : self.__destructor()
+            if self.__destructor : self.__destructor
+        # else if next state is true
         else:
-            self.__isToggled = not self.__isToggled
-            if self.__isToggled:
-                self.__root.config(cursor=self.__cursor)
-                self.config(relief=SUNKEN)
-                for pair in self.__bindMap:
-                    pair[0].bind(pair[1], pair[2])
-                self.__root.grab_set()
-            else:
-                for pair in self.__bindMap:
-                    pair[0].unbind(pair[1])
-                self.__root.config(cursor="")
-                self.config(relief=RAISED)
-                if self.__destructor : self.__destructor()
+            self.config(relief='sunken')
+            for pair in self.__bindMap:
+                pair[0].bind(pair[1], pair[2])
+            
 
 
 class ToolbarToggleableButton(ToggleableButton):
@@ -190,3 +194,13 @@ def createToolBarToggle(master, cnf={}, **kw):
         button = Button(master, kw)
         
         return button
+
+class ref:
+    def __init__(self, val):
+        self._value = val
+        
+    def get(self):
+        return self._value
+    
+    def set(self, val):
+        self._value = val
