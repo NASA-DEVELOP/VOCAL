@@ -119,11 +119,9 @@ class ToggleableButton(Button, object):
     #    the unToggle function will forcefully untoggle by setting the toggle var to True, this
     #    is useful if you wish to set binds where the button untoggles outside of the button
     #    just being clicked a second time
-    
     def Toggle(self):
         self.isToggled = not self.isToggled
-        sz = [x for x in self.__toggleContainer if x.isToggled == True and x is not self]
-        for s in sz:
+        for s in [x for x in self.__toggleContainer if x.isToggled == True and x is not self]:
             s.unToggle()
             s.isToggled = False
                 
@@ -138,37 +136,6 @@ class ToggleableButton(Button, object):
             self.config(relief='sunken')
             for pair in self.__bindMap:
                 pair[0].bind(pair[1], pair[2])
-        #if not sz : 
-        for s in sz : print s.__bindMap
-        print ""
-
-    """
-    def Toggle(self, toggle=False):
-        if toggle:
-            self.__root.config(cursor="")
-            for pair in self.__bindMap: 
-                pair[0].unbind(pair[1])
-            self.config(relief=RAISED)
-            self.isToggled = 'RAISED'
-            if self.__destructor : self.__destructor()
-        else:
-            if self.isToggled == 'BEG':
-                self.isToggled = 'RAISED'
-            elif self.isToggled == 'RAISED':
-                self.__root.config(cursor=self.__cursor)
-                self.config(relief=SUNKEN)
-                for pair in self.__bindMap:
-                    pair[0].bind(pair[1], pair[2])
-                self.__root.grab_set()
-                self.isToggled = 'PROC'
-            else:
-                for pair in self.__bindMap:
-                    pair[0].unbind(pair[1])
-                self.__root.config(cursor="")
-                self.config(relief=RAISED)
-                self.isToggled = 'RAISED'
-                if self.__destructor : self.__destructor()
-    """
             
 
 
