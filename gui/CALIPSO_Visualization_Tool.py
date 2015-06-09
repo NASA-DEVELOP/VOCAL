@@ -1,21 +1,25 @@
 #### IMPORTS #######################################################################################
-import matplotlib
-matplotlib.use('TkAgg')
-
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE
 import os
 import tkFileDialog
 
 from bokeh.colors import white
+import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from PIL import Image, ImageTk
-from gui.PolygonList import PolygonList
+from PolygonDrawer import PolygonDrawer
 from gui.plot_uniform_alt_lidar_dev import draw
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
     ToolbarToggleableButton
+
+
+matplotlib.use('TkAgg')
+
+
+
 
 
 #### PROGRAM CONSTANTS ####
@@ -96,8 +100,8 @@ class Calipso(object):
         #                                  lambda event:self.__drawplotCanvas._tkcanvas.focus_set()
         #)          
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas)
-        self.__polygonList = PolygonList(self.__drawplotCanvas)
-#         self.__currentPolygon = PolygonDrawing(self.__drawplotCanvas)
+        self.__polygonDrawer = PolygonDrawer(self.__drawplotCanvas)
+#         self.__currentPolygon = PolygonDrawer(self.__drawplotCanvas)
         
         
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
@@ -190,7 +194,7 @@ class Calipso(object):
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
-        self.__polygonList.reset()
+        self.__polygonDrawer.reset()
         self.__toolbar.home()
         
     def topPanedWindow(self):
@@ -253,23 +257,23 @@ class Calipso(object):
         # draw rectangle shape
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
-        self.__polygonButton.latch(key="<Button-1>", command=self.__polygonList.anchorRectangle, cursor="tcross")
-        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonList.drag, cursor="tcross")
-        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygonList.fillRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<Button-1>", command=self.__polygonDrawer.anchorRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonDrawer.drag, cursor="tcross")
+        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygonDrawer.fillRectangle, cursor="tcross")
         self.__polygonButton.grid(row=1, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
         
         # free form shape creation
         self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
         self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30, height=30)
-        self.__freedrawButton.latch(key="<Button-1>", command=self.__polygonList.plotPoint, cursor="tcross")
+        self.__freedrawButton.latch(key="<Button-1>", command=self.__polygonDrawer.plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=1, column=3, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
         
         # move polygon and rectangles around
         self.dragIMG = ImageTk.PhotoImage(file="ico/cursorhand.png")
         self.__dragButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.dragIMG, width=30, height=30)
-        self.__dragButton.latch(key="<Button-2>", command=self.__polygonList.toggleDrag, cursor="hand1")
+        self.__dragButton.latch(key="<Button-2>", command=self.__polygonDrawer.toggleDrag, cursor="hand1")
         self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
         createToolTip(self.__dragButton, "Drag")
         
@@ -277,8 +281,8 @@ class Calipso(object):
         #TODO: add erase functionality
         self.eraseIMG = ImageTk.PhotoImage(file="ico/eraser.png")
         self.__eraseButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.eraseIMG, width=30, height=30)
-        self.__eraseButton.latch(key="<Button-1>", command=self.__polygonList.delete, cursor="X_cursor")
-        self.__eraseButton.grid(row=1, column=2, padx=2, pady=5)
+        self.__eraseButton.latch(key="<Button-1>", command=self.__polygonDrawer.delete, cursor="X_cursor")
+        self.__eraseButton.grid(row=1, column=4, padx=2, pady=5)
         createToolTip(self.__eraseButton, "Erase polygon")
        
         # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will

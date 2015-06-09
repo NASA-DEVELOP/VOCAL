@@ -7,7 +7,7 @@ Created on Jun 4, 2015
 from Tkinter import Widget
 from numpy import empty_like, dot, array
 
-class PolygonDrawing(Widget):
+class PolygonDrawer(Widget):
     '''
     Displays the polygon objects onto the canvas by supplying draw methods.
     '''
@@ -68,7 +68,7 @@ class PolygonDrawing(Widget):
         '''
         self.__vertices.append((event.x, event.y))
         if len(self.__vertices) > 1:
-            self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawing.colors[PolygonDrawing.num%8], width="2", tags="line")
+            self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.colors[PolygonDrawer.num%8], width="2", tags="line")
         if len(self.__vertices) > 3:
             # TODO: check if polygon besides the first line
             a1 = tupleToNpArray(self.__vertices[0])
@@ -82,6 +82,7 @@ class PolygonDrawing(Widget):
                 self.__vertices.pop()
                 self.drawPolygon()
                 self.__canvas._tkcanvas.delete("line")
+                self.__clear()
                 return True
         self.__prevX = event.x
         self.__prevY = event.y
@@ -110,10 +111,8 @@ class PolygonDrawing(Widget):
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
         identifier = self.generateTag()
-        self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline="red", fill=PolygonDrawing.colors[PolygonDrawing.num%8], tags=("polygon", identifier))
-        self.__vertices.append((event.x, iy))
-        self.__vertices.append((event.x, event.y))
-        self.__vertices.append((ix, event.y))
+        self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline="red", fill=PolygonDrawer.colors[PolygonDrawer.num%8], tags=("polygon", identifier))
+        self.__clear()
         
     def setHDF(self, HDFFilename):
         self.__hdf = HDFFilename
@@ -136,17 +135,33 @@ class PolygonDrawing(Widget):
             
     def drawPolygon(self):
         identifier = self.generateTag()
-        self.__canvas._tkcanvas.create_polygon(self.__vertices, outline="red", fill=PolygonDrawing.colors[PolygonDrawing.num%8], width=2, tags=("polygon", identifier))
+        self.__canvas._tkcanvas.create_polygon(self.__vertices, outline="red", fill=PolygonDrawer.colors[PolygonDrawer.num%8], width=2, tags=("polygon", identifier))
+        self.__clear()
     
     def toggleDrag(self, event):
         self.__dragMode = not self.__dragMode
         print self.__dragMode
         
     def generateTag(self):
-        string = "shape" + str(PolygonDrawing.num)
-        PolygonDrawing.num += 1
+        string = "shape" + str(PolygonDrawer.num)
+        PolygonDrawer.num += 1
         return string
     
+    def reset(self):
+        self.__canvas._tkcanvas.delete("polygon")
+        self.__canvas._tkcanvas.delete("line")
+        PolygonDrawer.num = 0
+        
+    def delete(self, event):
+        target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
+        self.__canvas._tkcanvas.delete(target)
+
+    
+    def __clear(self):
+        self.__vertices = []
+        self.__drag_data["item"] = None
+        self.__drag_data["x"] = 0
+        self.__drag_data["y"] = 0
         
 def perpendicular(a):
     '''
