@@ -238,8 +238,8 @@ class Calipso(object):
         
         # plot move cursor icon
         self.plotcursorIMG = ImageTk.PhotoImage(file="ico/plotcursor.png")
-        self.__plotCursorButton = ToolbarToggleableButton(self.__root, self.__lowerButtonFrame, lambda : self.__toolbar.pan(True), image=self.plotcursorIMG, width=30, height=30)
-        self.__plotCursorButton.latch(cursor="hand1", destructor=self.__toolbar.pan(False))
+        self.__plotCursorButton = ToolbarToggleableButton(self.__root, self.__lowerButtonFrame, self.__toolbar.pan, image=self.plotcursorIMG, width=30, height=30)
+        self.__plotCursorButton.latch(cursor="hand1", destructor= self.__toolbar.pan)
         self.__plotCursorButton.grid(row=0, column=1, padx=2, pady=5)
         createToolTip(self.__plotCursorButton, "Move about plot")
         
