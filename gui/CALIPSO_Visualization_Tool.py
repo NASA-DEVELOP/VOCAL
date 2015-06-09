@@ -4,7 +4,7 @@ matplotlib.use('TkAgg')
 
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE
-import sys, os
+import os
 import tkFileDialog
 
 from bokeh.colors import white
@@ -29,7 +29,7 @@ CHILDWIDTH      = 200
 CHILDHEIGHT     = 300
 
 #### START OF CLASS ################################################################################
-class Calipso:
+class Calipso(object):
     
     def __init__ (self, r):
         self.__root = r                     # root of program
@@ -146,12 +146,6 @@ class Calipso:
         self.__root.config(menu=self.__menuBar)
 
 #### MAIN SCREEN #############################################################################
-
-    # parameter: pimage = image to be drawn on Canvas in the center location
-    #def addToCanvas(self, pimage):
-        #self.__drawplotCanvas.create_image(WIDTH // 2, HEIGHT // 2, image=pimage, anchor=CENTER)
-        #self.__drawplotCanvas.image = pimage
-        #self.__drawplotCanvas.pack()
     
     # parameter: imageFilename1 = File name of image to load as PhotoImage
     #           width = desired width of image
@@ -167,11 +161,6 @@ class Calipso:
     def selPlot(self, plotType):
         if (plotType) == BASE_PLOT:
             pass
-            #draw(self.__drawplotCanvas, self.__toolbar, self.__fig)
-            #self.__imageFilename = "CALIPSO_A_Train.jpg"
-            #loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
-            #self.addToCanvas(loadedPhotoImage)
-            
         elif (plotType.get()) == BACKSCATTERED:
             try:
                 self.__Parentfig.clear()
@@ -181,79 +170,27 @@ class Calipso:
                 self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
                 self.__toolbar.update()
                 self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
-            
             except IOError:
                 filewin = Toplevel(self.__root)
                 T = Text(filewin, height=5, width=30)
                 T.pack()
                 T.insert(END, "No File Exists \n")
-        
         elif (plotType.get()) == DEPOLARIZED:
-            try:
-                filename = self.__file
-                sys.argv = [filename]
-                execfile("plot_depolar_ratio.py")
-                self.__imageFilename = "depolarization_ratio.png"
-                
-                #refresh image in lower frame
-                #loadedPhotoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
-                #self.addToCanvas(loadedPhotoImage)
-            
-            except IOError:
-                filewin = Toplevel(self.__root)
-                T = Text(filewin, height=5, width=30)
-                T.pack()
-                T.insert(END, "No File Exists \n") 
-        
+            filewin = Toplevel(self.__root)
+            T = Text(filewin, height=5, width=30)
+            T.pack()
+            T.insert(END, "Sorry, this plot is currently not implemented. \n")
         elif (plotType.get()) == VFM:
             filewin = Toplevel(self.__root)
             T = Text(filewin, height=5, width=30)
             T.pack()
             T.insert(END, "Sorry, this plot is currently not implemented. \n")
     
-    def enlarge(self):
-        self.__zoomValue= self.__zoomValue + 1
-        if (self.__zoomValue) != 0: 
-            updatedWidth =  self.__zoomValue*2000
-            updatedHeight = self.__zoomValue*1051
-            photoImage = self.loadPic(self.__imageFilename, updatedWidth, updatedHeight)
-            #self.addToCanvas(photoImage)
-            #self.__drawplotCanvas.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
-    
-    def shrink(self):
-        if (self.__zoomValue) >= 1:
-            self.__zoomValue = self.__zoomValue-1 
-                       
-        if (self.__zoomValue) > 0:            
-            updatedWidth = (1/self.__zoomValue)*2000
-            updatedHeight = (1/self.__zoomValue)*1051
-            photoImage = self.loadPic(self.__imageFilename, updatedWidth, updatedHeight)
-            #self.addToCanvas(photoImage)
-            #self.__drawplotCanvas.config(scrollregion=(0, 0, updatedWidth, updatedHeight))
-            
-        if (self.__zoomValue) == 0:
-            photoImage = self.loadPic(self.__imageFilename, WIDTH, HEIGHT)
-            #self.addToCanvas(photoImage)
-            #self.__drawplotCanvas.config(scrollregion=(0, 0, 0, 0))
-            
-    def mouseWheelZoom(self, event):
-        if event.delta/120 > 0:
-            self.enlarge()
-        else:
-            self.shrink()
-    
+ 
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
         self.__polygonList.reset()
-        """
-        self.__zoomValue = 0
-        self.__drawplotCanvas.config(scrollregion=(0, 0, 0, 0))
-        self.selPlot(BASE_PLOT)
-        self.__file = ''
-        self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = '')
-        self.__currentPolygon.reset()
-        """
         self.__toolbar.home()
         
     def topPanedWindow(self):
@@ -289,22 +226,6 @@ class Calipso:
             lblSpace2.grid(row=0, column=5)
         
         # NOTE : See tools.py for documentation on these wrapper classes
-
-        self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
-        self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
-        self.__polygonButton.latch(key="<Button-1>", command=self.__polygonList.anchorRectangle, cursor="tcross")
-        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonList.drag, cursor="tcross")
-        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygonList.fillRectangle, cursor="tcross")
-        self.__polygonButton.grid(row=1, column=1, padx=2, pady=5)
-        createToolTip(self.__polygonButton, "Draw Rect")
-        
-        # free draw icon
-
-        self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
-        self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30, height=30)
-        self.__freedrawButton.latch(key="<Button-1>", command=self.__polygonList.plotPoint, cursor="tcross")
-        self.__freedrawButton.grid(row=1, column=4, padx= 2, pady=5)
-        createToolTip(self.__freedrawButton, "Free Draw")
         
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
@@ -329,11 +250,27 @@ class Calipso:
         self.__redoButton = Button(self.__lowerButtonFrame, image=self.redoIMG, width=30, height=30, command=lambda : self.__toolbar.forward(True))
         self.__redoButton.grid(row=0, column=4, padx=2, pady=5)
         
-        # drag icon
+        # draw rectangle shape
+        self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
+        self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
+        self.__polygonButton.latch(key="<Button-1>", command=self.__polygonList.anchorRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonList.drag, cursor="tcross")
+        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygonList.fillRectangle, cursor="tcross")
+        self.__polygonButton.grid(row=1, column=1, padx=2, pady=5)
+        createToolTip(self.__polygonButton, "Draw Rect")
+        
+        # free form shape creation
+        self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
+        self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30, height=30)
+        self.__freedrawButton.latch(key="<Button-1>", command=self.__polygonList.plotPoint, cursor="tcross")
+        self.__freedrawButton.grid(row=1, column=3, padx= 2, pady=5)
+        createToolTip(self.__freedrawButton, "Free Draw")
+        
+        # move polygon and rectangles around
         self.dragIMG = ImageTk.PhotoImage(file="ico/cursorhand.png")
         self.__dragButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.dragIMG, width=30, height=30)
         self.__dragButton.latch(key="<Button-2>", command=self.__polygonList.toggleDrag, cursor="hand1")
-        self.__dragButton.grid(row=1, column=3, padx=2, pady=5)
+        self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
         createToolTip(self.__dragButton, "Drag")
         
         
