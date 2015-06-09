@@ -256,7 +256,7 @@ class Calipso(object):
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
         self.__polygonButton.latch(key="<Button-1>", command=self.__polygonDrawer.anchorRectangle, cursor="tcross")
-        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonDrawer.drag, cursor="tcross")
+        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonDrawer.rubberBand, cursor="tcross")
         self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygonDrawer.fillRectangle, cursor="tcross")
         self.__polygonButton.grid(row=1, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
@@ -281,6 +281,11 @@ class Calipso(object):
         self.__eraseButton.latch(key="<Button-1>", command=self.__polygonDrawer.delete, cursor="X_cursor")
         self.__eraseButton.grid(row=1, column=4, padx=2, pady=5)
         createToolTip(self.__eraseButton, "Erase polygon")
+        
+        self.focusIMG = ImageTk.PhotoImage(file="ico/focus.png")
+        self.__focusButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.focusIMG, width=30, height=30)
+        self.__focusButton.grid(row=2, column=1, padx=2, pady=5)
+        createToolTip(self.__focusButton, "Focus")
        
         # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
         # evaluate an array so we can use some arbitrary array and place our commands inside that 

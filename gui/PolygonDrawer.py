@@ -164,7 +164,7 @@ class PolygonDrawer(Widget):
         self.__prevX = event.x
         self.__prevY = event.y
         
-    def drag(self, event):
+    def rubberBand(self, event):
 #         print 'Widget=%s x=%s y=%s' % (event.widget, event.x, event.y)
         try:
             self.lastrect
@@ -239,6 +239,9 @@ class PolygonDrawer(Widget):
         self.__drag_data["item"] = None
         self.__drag_data["x"] = 0
         self.__drag_data["y"] = 0
+        
+    def focus(self, event):
+        pass
         
 def perpendicular(a):
     '''
