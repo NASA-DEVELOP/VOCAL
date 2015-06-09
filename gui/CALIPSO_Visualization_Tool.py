@@ -76,7 +76,7 @@ class Calipso(object):
         pndwinTop = PanedWindow(sectionedPane, orient=HORIZONTAL)                   # the paned window which holds all buttons
         sectionedPane.add(pndwinTop)                                                # add pndwinTop to sectionedPane
         
-        self.__upperButtonFrame = Frame(upperPane)                                       # button frame for child window
+        self.__upperButtonFrame = Frame(upperPane)                                  # button frame for child window
         self.__upperButtonFrame.pack()
         
         self.__lowerButtonFrame = Frame(lowerPane)
@@ -87,9 +87,9 @@ class Calipso(object):
         self.__dialogFrame = Frame(pndwinTop)                                       # frame to hold dialog for browsing files
         self.__dialogFrame.pack(side = LEFT)
         
-        pndwinBottom = PanedWindow(sectionedPane)                           # expands the distance below the button
+        pndwinBottom = PanedWindow(sectionedPane)                                   # expands the distance below the button
         sectionedPane.add(pndwinBottom)
-        self.__drawplotFrame = Frame(pndwinBottom, width=WIDTH, height=HEIGHT)                                 # the frame on which we will add our canvas for drawing etc.
+        self.__drawplotFrame = Frame(pndwinBottom, width=WIDTH, height=HEIGHT)      # the frame on which we will add our canvas for drawing etc.
         
         self.__Parentfig = Figure(figsize=(16,11))
         #self.__Parentfig = plt.figure(figsize=(16,11))
@@ -101,8 +101,6 @@ class Calipso(object):
         #)          
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas)
         self.__polygonDrawer = PolygonDrawer(self.__drawplotCanvas)
-#         self.__currentPolygon = PolygonDrawer(self.__drawplotCanvas)
-        
         
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplotFrame.pack()
@@ -277,8 +275,7 @@ class Calipso(object):
         self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
         createToolTip(self.__dragButton, "Drag")
         
-        
-        #TODO: add erase functionality
+        # erase polygon drawings
         self.eraseIMG = ImageTk.PhotoImage(file="ico/eraser.png")
         self.__eraseButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.eraseIMG, width=30, height=30)
         self.__eraseButton.latch(key="<Button-1>", command=self.__polygonDrawer.delete, cursor="X_cursor")
