@@ -154,8 +154,8 @@ class PolygonDrawer(Widget):
         
     def delete(self, event):
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
-        self.__canvas._tkcanvas.delete(target)
-
+        if target[0] > 2:
+            self.__canvas._tkcanvas.delete(target)
     
     def __clear(self):
         self.__vertices = []
