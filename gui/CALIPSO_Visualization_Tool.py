@@ -220,12 +220,11 @@ class Calipso(object):
         
         ###################################Lower Frame##############################################
         
-        for i in range(0,2):
-            lblSpace1 = Label(self.__lowerButtonFrame, width=2)     # create space between frame outline
-            lblSpace1.grid(row=0, column=0)
+        lblSpace1 = Label(self.__lowerButtonFrame, width=1)     # create space between frame outline
+        lblSpace1.grid(row=0, column=0)
             
-            lblSpace2 = Label(self.__lowerButtonFrame, width=2)
-            lblSpace2.grid(row=0, column=5)
+        lblSpace2 = Label(self.__lowerButtonFrame, width=1)
+        lblSpace2.grid(row=0, column=5)
         
         # NOTE : See tools.py for documentation on these wrapper classes
         
