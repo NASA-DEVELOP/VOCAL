@@ -286,7 +286,7 @@ class Calipso(object):
         self.__eraseButton.grid(row=1, column=4, padx=2, pady=5)
         createToolTip(self.__eraseButton, "Erase polygon")
         
-        self.outlineIMG = ImageTk.PhotoImage(file="ico/outline.png")
+        self.outlineIMG = ImageTk.PhotoImage(file="ico/focus.png")
         self.__outlineButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.outlineIMG, width=30, height=30)
         self.__outlineButton.latch(key="<Button-1>", command=self.__polygonDrawer.outline, cursor="circle")
         self.__outlineButton.grid(row=2, column=1, padx=2, pady=5)
