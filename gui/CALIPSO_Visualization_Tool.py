@@ -284,6 +284,7 @@ class Calipso(object):
         
         self.focusIMG = ImageTk.PhotoImage(file="ico/focus.png")
         self.__focusButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.focusIMG, width=30, height=30)
+        self.__focusButton.latch(key="<Button-1>", command=self.__polygonDrawer.focus, cursor="circle")
         self.__focusButton.grid(row=2, column=1, padx=2, pady=5)
         createToolTip(self.__focusButton, "Focus")
        

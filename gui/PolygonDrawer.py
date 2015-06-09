@@ -12,6 +12,7 @@ class PolygonDrawer(Widget):
     Displays the polygon objects onto the canvas by supplying draw methods.
     '''
     
+    polygonList = []
     num = 0
     COLORS = ['snow', 'ghost white', 'white smoke', 'gainsboro', 'floral white', 'old lace',
           'linen', 'antique white', 'papaya whip', 'blanched almond', 'bisque', 'peach puff',
@@ -241,7 +242,7 @@ class PolygonDrawer(Widget):
         self.__drag_data["y"] = 0
         
     def focus(self, event):
-        pass
+        self.__canvas._tkcanvas.lift(self.__canvas)
         
 def perpendicular(a):
     '''
