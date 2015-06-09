@@ -21,9 +21,6 @@
                                            for the toolbar, instead we custom create our own buttons in the
                                            main program implementation
 """
-
-import matplotlib
-matplotlib.use('TkAgg')
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, RAISED, \
     SUNKEN, Message
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
@@ -118,7 +115,9 @@ class ToggleableButton(Button, object):
         self.isToggled = False
         self.config(relief='raised')
         for pair in self.__bindMap:
+            print "unbinding:",pair[1],pair[0]
             pair[0].unbind(pair[1])
+        print "calling destructor: "
         if self.__destructor : self.__destructor()
 
     # The bread and potatos of the class, __Toggle uses a boolean variable to keep track
@@ -127,21 +126,23 @@ class ToggleableButton(Button, object):
         # first flip the toggle switch
         self.isToggled = not self.isToggled
         # if any buttons are currently active, untoggle them and set their state
-        for s in [x for x in self.__toggleContainer if x.isToggled == True and x is not self]:
+        for s in [x for x in self.__toggleContainer if x.isToggled == True and x is not self]:  
             s.unToggle()
-
+        print [x for x in self.__toggleContainer if x.isToggled == True and x is not self]
+            
+        for r in self.__toggleContainer: print r.isToggled,
+        print ""
         # else if next state it false
         if self.isToggled == False:
             self.config(relief='raised')
             for pair in self.__bindMap: 
                 pair[0].unbind(pair[1])
-            if self.__destructor : self.__destructor
+            if self.__destructor : self.__destructor()
         # else if next state is true
         else:
             self.config(relief='sunken')
             for pair in self.__bindMap:
                 pair[0].bind(pair[1], pair[2])
-            
 
 
 class ToolbarToggleableButton(ToggleableButton):
@@ -150,9 +151,9 @@ class ToolbarToggleableButton(ToggleableButton):
         self.configure(command=self.__toggle)
         self.__func = func
         
-    def __toggle(self, toggle=False):
-        if self.__func : self.__func()
+    def __toggle(self):
         super(ToolbarToggleableButton, self).Toggle()
+        if self.__func : self.__func()
 
 class NavigationToolbar2CALIPSO(NavigationToolbar2):
     def __init__(self, canvas):
