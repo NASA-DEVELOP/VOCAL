@@ -11,35 +11,52 @@ Abstract
 This section will contain the abstract written by the Summer LaRC 2015 team
 
 ----------------------------------------
-Information
+Structure
 ----------------------------------------
 
-* **Applied Sciences Natinoal Applications Addressed:**
-     National App1, National App2, etc
+The program has the following file layout::
 
-* **Study Area:**
-     Global
+    CALIPSO_Visualization/
+    |-- dat/
+    |   |
+    |   |-- Testing data
+    |   |
+    |-- gui/
+    |   |
+    |   |-- GUI interface program
+    |   |
+    |-- plot_vfm/
+    |   |
+    |   |-- HDF conversion files for plotting
+    |   |
+    |-- docs/
+    |   |
+    |   |-- build/
+    |   |   |
+    |   |   |-- sphinx built docs
+    |   |   |
+    |   |-- source/
+    |   |   |-- sphinx source docs
+    |   |   |
+    |   |   |-- _static/
+    |   |   |   |
+    |   |   |   |-- static doc images
+    |   |   |   |
+    |   |   |-- _templates/
+    |   |   |   |
+    |   |   |   |-- templated css
+    |   |   |   |
+    |   |   |-- classes/
+    |   |   |   |
+    |   |   |   |-- class docs
+    |   |   |   |
+    |   |   |-- functions/
+    |   |   |   |
+    |   |   |   |-- free function docs
+    |   |   |   |
 
-* **Study Period:**
-     May 2000 - Nov 2010
 
-* **Earth Observations & Parameters:**
-     CALIPSO, CALIOP - Vertial Profile of Aerosols
-
-* **Ancillary Datasets Utilized:**
-     Provider & Dataset - Parameter (*examples below* )
-
-     * USGS National Land Cover Dataset (NLCD)
-     * NOAA Coastal Change Analysis Program (C-CAP) - regional land cover
-     * EPA AIRNow PM:sub:`2.5` dataset - PM:sub:`2.5` measurements
-
-* **Models Utilized:**
-     Agency & Model Name ( *examples below* )
-
-     * USGS National Invasive Species Forecasting System (ISFS)
-     * NASA Regional Ocean Model System (ROMS)
-     * NOAA Sea, Lake and Overland Surges from Hurricanes (SLOSH) model
-
+----------------------------------------
 Features
 ----------------------------------------
 
@@ -82,4 +99,33 @@ Once a plot is displayed, the user can select from a range of features in the *t
 
 Additional features are still to come!
 
+----------------------------------------
+Additional Information
+----------------------------------------
+
+* **Applied Sciences Natinoal Applications Addressed:**
+     National App1, National App2, etc
+
+* **Study Area:**
+     Global
+
+* **Study Period:**
+     May 2000 - Nov 2010
+
+* **Earth Observations & Parameters:**
+     CALIPSO, CALIOP - Vertial Profile of Aerosols
+
+* **Ancillary Datasets Utilized:**
+     Provider & Dataset - Parameter (*examples below* )
+
+     * USGS National Land Cover Dataset (NLCD)
+     * NOAA Coastal Change Analysis Program (C-CAP) - regional land cover
+     * EPA AIRNow PM:sub:`2.5` dataset - PM:sub:`2.5` measurements
+
+* **Models Utilized:**
+     Agency & Model Name ( *examples below* )
+
+     * USGS National Invasive Species Forecasting System (ISFS)
+     * NASA Regional Ocean Model System (ROMS)
+     * NOAA Sea, Lake and Overland Surges from Hurricanes (SLOSH) model
 
