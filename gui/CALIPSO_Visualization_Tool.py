@@ -277,8 +277,7 @@ class Calipso(object):
         createToolTip(self.__eraseButton, "Erase polygon")
         
         self.outlineIMG = ImageTk.PhotoImage(file="ico/focus.png")
-        self.__outlineButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.outlineIMG, width=30, height=30)
-        self.__outlineButton.latch(key="<Button-1>", command=self.__polygonDrawer.outline, cursor="circle")
+        self.__outlineButton = Button(self.__lowerButtonFrame, image=self.outlineIMG, width=30, height=30, command=lambda: self.__polygonDrawer.outline())
         self.__outlineButton.grid(row=2, column=1, padx=2, pady=5)
         createToolTip(self.__outlineButton, "Focus")
         
@@ -287,6 +286,12 @@ class Calipso(object):
         self.__paintButton.latch(key="<Button-1>", command=self.__polygonDrawer.paint, cursor="")
         self.__paintButton.grid(row=2, column=2, padx=2, pady=5)
         createToolTip(self.__paintButton, "Paint")
+        
+        self.plotIMG = ImageTk.PhotoImage(file="ico/hide.png")
+        self.__plotButton = Button(self.__lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__polygonDrawer.hide())
+#         self.__plotButton.latch(key="<Button-1>", command=self.__polygonDrawer.hide, cursor="")
+        self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
+        createToolTip(self.__plotButton, "Hide polygons")
        
         # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
         # evaluate an array so we can use some arbitrary array and place our commands inside that 
