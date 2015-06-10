@@ -7,6 +7,7 @@ Created on Jun 4, 2015
 from Tkinter import Widget
 from numpy import empty_like, dot, array
 from tkColorChooser import askcolor
+from astropy.tests.pytest_plugins import Pair
 
 class PolygonDrawer(Widget):
     '''
@@ -143,23 +144,20 @@ class PolygonDrawer(Widget):
         self.__prevY = event.y
         
     def plotPoint(self, event):
-        '''
-        Draws a line whenever a user clicks on a point on the canvas. When the lines form a polygon,
-        the polygon is drawn and any extending lines are removed. Used in "Free Draw"
-        '''
         self.__vertices.append((event.x, event.y))
         if len(self.__vertices) > 1:
             self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width="2", tags="line")
         if len(self.__vertices) > 3:
-            # TODO: check if polygon besides the first line
-            a1 = tupleToNpArray(self.__vertices[0])
-            a2 = tupleToNpArray(self.__vertices[1])
-            b1 = tupleToNpArray(self.__vertices[-1])
-            b2 = tupleToNpArray(self.__vertices[-2])
-            if isIntersecting(a1, a2, b1, b2):
+            index = self.__canDrawPolygon()
+            if index > -1:
+                a1 = tupleToNpArray(self.__vertices[index])
+                a2 = tupleToNpArray(self.__vertices[index+1])
+                b1 = tupleToNpArray(self.__vertices[-1])
+                b2 = tupleToNpArray(self.__vertices[-2])
                 x = getIntersection(a1, a2, b1, b2)
                 pair = npArrayToTuple(x)
-                self.__vertices[0] = pair
+                self.__vertices[index] = pair
+                del self.__vertices[:index]
                 self.__vertices.pop()
                 self.drawPolygon()
                 self.__canvas._tkcanvas.delete("line")
@@ -167,7 +165,7 @@ class PolygonDrawer(Widget):
                 return True
         self.__prevX = event.x
         self.__prevY = event.y
-        
+                
     def rubberBand(self, event):
 #         print 'Widget=%s x=%s y=%s' % (event.widget, event.x, event.y)
         try:
