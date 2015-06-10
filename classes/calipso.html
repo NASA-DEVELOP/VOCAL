@@ -57,6 +57,16 @@
             
   <div class="section" id="calipso">
 <h1>Calipso<a class="headerlink" href="#calipso" title="Permalink to this headline">¶</a></h1>
+<p>The main class of the application. Calipso manages all Tkinter and widget related entities, and ensures all parts of the GUI are initialized and created before the start of the program. The order of functions calls in the beginning of the program is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre>__init__
+setupWindow
+setupMenu
+setupMainScreen
+    * calls createTopScreenGUI
+    * calls createChildWindowGUI
+    * calls selPlot(BASE_PLOT)
+</pre></div>
+</div>
 <dl class="class">
 <dt id="Calipso">
 <em class="property">class </em><tt class="descname">Calipso</tt><big>(</big><em>r</em><big>)</big><a class="headerlink" href="#Calipso" title="Permalink to this definition">¶</a></dt>
