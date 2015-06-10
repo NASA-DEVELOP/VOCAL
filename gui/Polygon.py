@@ -7,7 +7,6 @@ Created on Jun 4, 2015
 from Tkinter import Widget
 from numpy import empty_like, dot, array
 from tkColorChooser import askcolor
-from astropy.tests.pytest_plugins import Pair
 
 class PolygonDrawer(Widget):
     '''

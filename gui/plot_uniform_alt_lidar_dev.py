@@ -15,7 +15,7 @@ from findLatIndex import findLatIndex
 from PCF_genTimeUtils import extractDatetime
 #from gui.CALIPSO_Visualization_Tool import filename
 
-def draw(filename, canvas, toolbar, fig, pfig):
+def drawBackscattered(filename, fig, pfig):
     MIN_VALUE = 1.0e-4
     AVGING_WIDTH = 15
     
