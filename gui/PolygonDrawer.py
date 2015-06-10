@@ -6,6 +6,7 @@ Created on Jun 4, 2015
 
 from Tkinter import Widget
 from numpy import empty_like, dot, array
+from tkColorChooser import askcolor
 
 class PolygonDrawer(Widget):
     '''
@@ -13,7 +14,6 @@ class PolygonDrawer(Widget):
     '''
     
     toggleFocus = False
-    polygonList = []
     polygonDict = {}
     num = 0
     COLORS = ['snow', 'ghost white', 'white smoke', 'gainsboro', 'floral white', 'old lace',
@@ -192,7 +192,6 @@ class PolygonDrawer(Widget):
         iy = self.__vertices[0][1]
         identifier = self.generateTag()
         poly = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], tags=("polygon", identifier))
-        PolygonDrawer.polygonList.append(poly)
         PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
         self.__clear()
         
@@ -218,7 +217,6 @@ class PolygonDrawer(Widget):
     def drawPolygon(self):
         identifier = self.generateTag()
         poly = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width=2, tags=("polygon", identifier))
-        PolygonDrawer.polygonList.append(poly)
         PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
         self.__clear()
     
@@ -235,6 +233,7 @@ class PolygonDrawer(Widget):
         self.__canvas._tkcanvas.delete("polygon")
         self.__canvas._tkcanvas.delete("line")
         PolygonDrawer.num = 0
+        PolygonDrawer.polygonDict = {}
         
     def delete(self, event):
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
@@ -254,6 +253,12 @@ class PolygonDrawer(Widget):
                 self.__canvas._tkcanvas.itemconfigure(shape, fill=PolygonDrawer.polygonDict[shape])
             else:
                 self.__canvas._tkcanvas.itemconfigure(shape, fill="")
+                
+    def paint(self, event):
+        target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
+        color = askcolor()
+        self.__canvas._tkcanvas.itemconfigure(target, fill=color[1], outline=color[1])
+        PolygonDrawer.polygonDict[target] = color[1]
         
 def perpendicular(a):
     '''
