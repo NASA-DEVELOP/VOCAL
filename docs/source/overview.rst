@@ -8,7 +8,25 @@ The CALIPSO: Global Health & Air Quality project aims at creating a tool with th
 Abstract
 ----------------------------------------
 
-This section will contain the abstract written by the Summer LaRC 2015 team
+The CALISPO satellite (Cloud-Aerosol Lidar and Infrafred Pathfinder Satellite Observation) is a NASA
+earth observation that analyzes aerosol particles suspended in the Earth's atmosphere. Researchers use 
+CALIPSO data to track the aerosol's global distribution, dispersion and source. However, researchers 
+have a hard time tracking specific airborne objects as the current visualization tool that reads CALIPSO 
+data lacks the feature to highlight unique aerosols and has not method of sharing aerosol data. This tool 
+is written in a propriety language, which prevents users from making the necessary adjustments. To 
+rectify these issues, a NASA DEVELOP team created a new visualization tool written in Python that is 
+open source and displays CALIPSO data. For this summer term, another DEVELOP team implemented 
+new features that will help scientists track aerosols and share this data with each other. These additional 
+features will allow scientists to more easily identify the source of the aerosol and its impact on the Earth.
+
+.. rubric:: Community Concerns
+
+* The current CALISPO visualization tool is not easily configurable or adaptable
+* The CALIPSO science team lacks a method for storing and sharing specific features of CALISPO imagery
+
+.. rubric:: Current Management Practices & Policies 
+
+* The tool currently used to visualize CALIPSO data is written in IDL, a proprietary language which lacks many features and hinders open source updates.
 
 ----------------------------------------
 Structure
