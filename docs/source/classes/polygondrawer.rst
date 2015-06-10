@@ -2,33 +2,7 @@
 PolygonDrawer
 =============
 
-..
-   POPULATING METHODS
-
-   The general structure of populating a method is as follows:
-
-   py:method:: <name>           # let sphinx know the following is a method
-   :noindex:                    # do not populate in index tab because
-                                # this is a class method
-
-   <description>                # description of what method does
-
-   :param <type> <name>:        # parameter passed, do not do this for self
-   :param <name>:               # parameter with no type
-
-   EXAMPLE
-
-   py:class:: foo
-   
-      py:method:: func(self, arg1, arg2)
-      :noindex:
-
-      does stuff and more stuff
-
-      :param int arg1: argument 1
-      :param arg2: argument 2
-
-   Markup docs: http://sphinx-doc.org/rest.html#rst-primer
+The class in charge of managing any drawing on the canvas. 
 
 .. py:module:: PolygonDrawer
 

@@ -165,10 +165,9 @@ class ToolbarToggleableButton(Button):
         self.configure(command=self.Toggle)         # button command is always bound internally to toggle
         toggleContainer.append(self)         # push button to static container
         
-    def latch(self, key="", cursor="", destructor=None):
+    def latch(self, cursor=""):
         # only set these variables if the user entered one
         if cursor != "" : self.__cursor = cursor
-        if destructor : self.__destructor = destructor
         
     # Clone to toggle, except the only functionality of unToggle is to forceably
     #    untoggle the button and set the state accordingly
