@@ -76,7 +76,7 @@ def createToolTip(widget, text):
 # Button wrapper which simulates the toggled button as you see in the draw, magnify, etc. 
 #    buttons. Interally keeps a bind map which on toggle binds the keys in the map, and 
 #    unbinds them on untoggle or forced untoggle.
-class ToggleableButton(Button, object):
+class ToggleableButton(Button):
 
     # static class container to keep track of all active and unactive buttons
     # currently living

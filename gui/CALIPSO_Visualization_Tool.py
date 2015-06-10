@@ -220,8 +220,6 @@ class Calipso(object):
         lblSpace2 = Label(self.__lowerButtonFrame, width=1)
         lblSpace2.grid(row=0, column=5)
         
-        # NOTE : See tools.py for documentation on these wrapper classes
-        
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
         self.__zoomButton = ToolbarToggleableButton(self.__root, self.__lowerButtonFrame, lambda : self.__toolbar.zoom(True), image=self.magnifydrawIMG, width=30, height=30)
@@ -291,20 +289,9 @@ class Calipso(object):
         
         self.plotIMG = ImageTk.PhotoImage(file="ico/hide.png")
         self.__plotButton = Button(self.__lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__polygonDrawer.hide())
-#         self.__plotButton.latch(key="<Button-1>", command=self.__polygonDrawer.hide, cursor="")
+#       self.__plotButton.latch(key="<Button-1>", command=self.__polygonDrawer.hide, cursor="")
         self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
         createToolTip(self.__plotButton, "Hide polygons")
-       
-        # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
-        # evaluate an array so we can use some arbitrary array and place our commands inside that 
-        # array. Here we simply bind focusing back into the child window as a way to automatically
-        # unbind the toggleable buttons
-        #self.__child.bind("<FocusIn>", 
-        #                  lambda x: [ 
-        #                             self.__polygonButton.unToggle(), 
-        #                             self.__freedrawButton.unToggle(),
-        #                             self.__zoomButton.unToggle(),
-        #                             self.__dragButton.unToggle()])
 
     def importFile(self):
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
