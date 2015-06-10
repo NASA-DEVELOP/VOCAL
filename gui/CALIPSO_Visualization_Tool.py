@@ -5,7 +5,6 @@ import os
 import tkFileDialog
 
 from bokeh.colors import white
-import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
@@ -232,8 +231,8 @@ class Calipso(object):
         
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
-        self.__zoomButton = ToolbarToggleableButton(self.__root, self.__lowerButtonFrame, self.__toolbar.zoom, image=self.magnifydrawIMG, width=30, height=30)
-        self.__zoomButton.latch(cursor="tcross", destructor=self.__toolbar.zoom)
+        self.__zoomButton = ToolbarToggleableButton(self.__root, self.__lowerButtonFrame, lambda : self.__toolbar.zoom(True), image=self.magnifydrawIMG, width=30, height=30)
+        self.__zoomButton.latch(cursor="tcross", destructor=lambda : self.toolbarCleanup('ZOOM'))
         self.__zoomButton.grid(row=0, column=2, padx=2, pady=5)
         createToolTip(self.__zoomButton, "Zoom to rect")
         
