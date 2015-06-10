@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>PolygonDrawer &mdash; CALIPSO 0.0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.0.5 documentation" href="../index.html" />
+    <link rel="up" title="Classes" href="classes.html" />
+    <link rel="next" title="ToolTip" href="tooltip.html" />
+    <link rel="prev" title="Calipso" href="calipso.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tooltip.html" title="ToolTip"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="calipso.html" title="Calipso"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">CALIPSO 0.0.5 documentation</a> &raquo;</li>
+          <li><a href="classes.html" accesskey="U">Classes</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="polygondrawer">
+<h1>PolygonDrawer<a class="headerlink" href="#polygondrawer" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-PolygonDrawer"></span><dl class="class">
+<dt id="PolygonDrawer.PolygonDrawer">
+<em class="property">class </em><tt class="descclassname">PolygonDrawer.</tt><tt class="descname">PolygonDrawer</tt><big>(</big><em>Widget</em><big>)</big><a class="headerlink" href="#PolygonDrawer.PolygonDrawer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt>
+<tt class="descname">__init__</tt><big>(</big><em>self</em>, <em>canvas</em><big>)</big></dt>
+<dd><p>Creates a drawer that handles all polygon manipulations on the canvas</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>canvas</strong> (<em>tkcanvas</em>) &#8211; A tkinter canvas that will hold all the polygons</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">OnTokenButtonPress</tt><big>(</big><em>self</em>, <em>event</em><big>)</big></dt>
+<dd><p>An observer that determines which polygon has been selected for dragging</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<em>event</em>) &#8211; An event object generated at the selected polygon</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">OnTokenButtonRelease</tt><big>(</big><em>self</em>, <em>event</em><big>)</big></dt>
+<dd><p>An observer that resets the internal attributes for polygon dragging</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<em>event</em>) &#8211; An event object generated at the selected polygon</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">OnTokenMotion</tt><big>(</big><em>self</em>, <em>event</em><big>)</big></dt>
+<dd><p>An observer that redraws the polygon at the new coordinates</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<em>event</em>) &#8211; An event object generated at the polygon&#8217;s new position</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">anchorRectangle</tt><big>(</big><em>self</em>, <em>event</em><big>)</big></dt>
+<dd><p>Establishes a corner of a rectangle as an anchor for when the user drags the cursor to create the rectangle</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<em>event</em>) &#8211; An event object at the anchor point</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">plotPoint</tt><big>(</big><em>self</em>, <em>event</em><big>)</big></dt>
+<dd><p>Plots the sides of the vertices as line segments. When a segment crosses over another, a polygon is generated from the resulting figure</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<em>event</em>) &#8211; An event object at the end point of each line segment</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">rubberBand</tt><big>(</big><em>self</em>, <em>event</em><big>)</big></dt>
+<dd><p>Draws temporary rectangles to help the user visualize the rectangle he/she is drawing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<em>event</em>) &#8211; An event object generated as the user sizes the rectangle</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">fillRectangle</tt><big>(</big><em>self</em>, <em>event</em><big>)</big></dt>
+<dd><p>Draws the rectangle</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<em>event</em>) &#8211; An event object at the opposite corner of the anchor point that bounds the rectangle</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">setHDF</tt><big>(</big><em>self</em>, <em>HDFFilename</em><big>)</big></dt>
+<dd><p>Saves the HDF file that the polygon is associated with</p>
+<p>param: str HDFFilename: the name of the HDF file</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">getVertices</tt><big>(</big><em>self</em><big>)</big></dt>
+<dd><p>Returns the plotted points of the undrawn polygon</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">getHDF</tt><big>(</big><em>self</em><big>)</big></dt>
+<dd><p>Returns the HDF file associated with the polygons</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">__canDrawPolygon</tt><big>(</big><em>self</em><big>)</big></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">drawPolygon</tt><big>(</big><em>self</em><big>)</big></dt>
+<dd><p>Determines if the last drawn line segment produces a polygon with any of the previously drawn lines</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">toggleDrag</tt><big>(</big><em>self</em>, <em>event</em><big>)</big></dt>
+<dd><p>Enables or disables polygon dragging</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<em>event</em>) &#8211; An event object that toggles dragging</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">generateTag</tt><big>(</big><em>self</em><big>)</big></dt>
+<dd><p>Produces a unique tag for each polygon drawn</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">reset</tt><big>(</big><em>self</em><big>)</big></dt>
+<dd><p>Deletes all polygons and lines drawn and resets internal attributes</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">delete</tt><big>(</big><em>self</em>, <em>event</em><big>)</big></dt>
+<dd><p>Deletes the specified polygon</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<em>event</em>) &#8211; An event object generated at a specified polygon</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">__clear</tt><big>(</big><em>self</em><big>)</big></dt>
+<dd><p>Resets internal attributes to allow the user to draw a separate polygon</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">outline</tt><big>(</big><em>self</em><big>)</big></dt>
+<dd><p>Redraws the polygons from shaded to outline and vice-versa</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">paint</tt><big>(</big><em>self</em>, <em>event</em><big>)</big></dt>
+<dd><p>Redraws a polygon with the specified color. Creates a new prompt for the user to select the color</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> (<em>event</em>) &#8211; An event object that selects the polygon to be recolored</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descname">hide</tt><big>(</big><em>self</em><big>)</big></dt>
+<dd><p>Switches between hiding and displaying all the polygons drawn on the canvas</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="calipso.html"
+                        title="previous chapter">Calipso</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tooltip.html"
+                        title="next chapter">ToolTip</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/classes/polygondrawer.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tooltip.html" title="ToolTip"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="calipso.html" title="Calipso"
+             >previous</a> |</li>
+        <li><a href="../index.html">CALIPSO 0.0.5 documentation</a> &raquo;</li>
+          <li><a href="classes.html" >Classes</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
