@@ -10,7 +10,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from PIL import Image, ImageTk
-from PolygonDrawer import PolygonDrawer
+from Polygon import PolygonDrawer
 from gui.plot_uniform_alt_lidar_dev import draw
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
     ToolbarToggleableButton
