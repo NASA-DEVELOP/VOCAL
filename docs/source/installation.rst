@@ -2,7 +2,12 @@
 Installation
 ====================
 
-Installation guide for both Windows [#f1]_ and Linux users
+Installation guide for both Windows [#f1]_ and Linux users List of required packages:
+
+.. toctree::
+   :maxdepth: 1
+
+   packages
 
 *********************
 Windows [#f1]_
