@@ -16,7 +16,6 @@ from PCF_genTimeUtils import extractDatetime
 #from gui.CALIPSO_Visualization_Tool import filename
 
 def drawBackscattered(filename, fig, pfig):
-    MIN_VALUE = 1.0e-4
     AVGING_WIDTH = 15
     
     MIN_SCATTER = -0.1

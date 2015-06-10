@@ -5,19 +5,15 @@ import os
 import tkFileDialog
 
 from bokeh.colors import white
-import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from PIL import Image, ImageTk
 from Polygon import PolygonDrawer
+from gui.plot_depolar_ratio import drawDepolar
 from gui.plot_uniform_alt_lidar_dev import drawBackscattered
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
     ToolbarToggleableButton
-from gui.plot_depolar_ratio import drawDepolar
-
-
-
 
 
 #### PROGRAM CONSTANTS ####
@@ -39,15 +35,9 @@ class Calipso(object):
         self.__zoomButton = None            # zoom button
         self.__polygonButton = None         # polygon button
         self.__freedrawButton = None        # free drawBackscattered button
-        self.__magnifyButton = None         # magnify button
         self.__dragButton = None
         self.__file = ''                    # current file in use
         self.__lblFileDialog = Label()      # shows the selected file
-        self.__zoomValue=0                  # zoom value in program
-        self.__EGzoomValue=0                # zoom value for eye glass
-        self.__imageFilename = ''           # name of image file
-        self.__zimg_id = None               # for use with crop function, saves previous state
-        self.__orig_img = None              # saves original state of image for use with crop
         self.__menuBar = None               # menu bar appearing at top of screen
         self.__menuFile = None              # sub menu
         self.__menuHelp = None              # sub menu
@@ -88,6 +78,7 @@ class Calipso(object):
         baseChildPane.pack(fill=BOTH, expand = 1)
         sectionedChildPane = PanedWindow(self.__child, orient=VERTICAL)
         baseChildPane.add(sectionedChildPane)
+        self.__child.protocol("WM_DELETE_WINDOW", Calipso.ignore)
                 
         upperPane = PanedWindow(sectionedChildPane, orient=HORIZONTAL, width=5)
         sectionedChildPane.add(upperPane)
@@ -101,9 +92,15 @@ class Calipso(object):
         self.__lowerButtonFrame.config(highlightthickness=1)                        # create a small border around the frame
         self.__lowerButtonFrame.config(highlightbackground="grey")
         self.__lowerButtonFrame.pack()
+        
+    @staticmethod
+    def ignore():
+        pass
 
-#### MAIN WINDOW SETUP #############################################################################    
-    def centerWindow(self):
+#### MAIN WINDOW SETUP #############################################################################            
+    #Creates the GUI window
+    def setupWindow(self):
+        self.__root.title("CALIPSO Visualization Tool")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
         x = (sw - WIDTH)/2
@@ -113,11 +110,6 @@ class Calipso(object):
         #     is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
         #     plus half the distance of the window
         self.__child.geometry('%dx%d+%d+%d' % (CHILDWIDTH, CHILDHEIGHT, x + x*4 + 20, y + y/2))
-        
-    #Creates the GUI window
-    def setupWindow(self):
-        self.__root.title("CALIPSO Visualization Tool")
-        self.centerWindow()
        
 #### MENU BAR ######################################################################################   
     def setupMenu(self):
