@@ -11,9 +11,10 @@ from matplotlib.figure import Figure
 
 from PIL import Image, ImageTk
 from Polygon import PolygonDrawer
-from gui.plot_uniform_alt_lidar_dev import draw
+from gui.plot_uniform_alt_lidar_dev import drawBackscattered
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
     ToolbarToggleableButton
+from gui.plot_depolar_ratio import drawDepolar
 
 
 
@@ -37,7 +38,7 @@ class Calipso(object):
         
         self.__zoomButton = None            # zoom button
         self.__polygonButton = None         # polygon button
-        self.__freedrawButton = None        # free draw button
+        self.__freedrawButton = None        # free drawBackscattered button
         self.__magnifyButton = None         # magnify button
         self.__dragButton = None
         self.__file = ''                    # current file in use
@@ -153,7 +154,7 @@ class Calipso(object):
             try:
                 self.__Parentfig.clear()
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)
-                draw(self.__file, self.__drawplotCanvas, self.__toolbar, self.__fig, self.__Parentfig)
+                drawBackscattered(self.__file, self.__fig, self.__Parentfig)
                 self.__drawplotCanvas.show()
                 self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
                 self.__toolbar.update()
@@ -164,10 +165,19 @@ class Calipso(object):
                 T.pack()
                 T.insert(END, "No File Exists \n")
         elif (plotType.get()) == DEPOLARIZED:
-            filewin = Toplevel(self.__root)
-            T = Text(filewin, height=5, width=30)
-            T.pack()
-            T.insert(END, "Sorry, this plot is currently not implemented. \n")
+            try:
+                self.__Parentfig.clear()
+                self.__fig = self.__Parentfig.add_subplot(1, 1, 1)
+                drawDepolar(self.__file, self.__fig, self.__Parentfig)
+                self.__drawplotCanvas.show()
+                self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
+                self.__toolbar.update()
+                self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
+            except IOError:
+                filewin = Toplevel(self.__root)
+                T = Text(filewin, height=5, width=30)
+                T.pack()
+                T.insert(END, "No File Exists \n")
         elif (plotType.get()) == VFM:
             filewin = Toplevel(self.__root)
             T = Text(filewin, height=5, width=30)
@@ -246,7 +256,7 @@ class Calipso(object):
         self.__redoButton.grid(row=0, column=4, padx=2, pady=5)
         createToolTip(self.__redoButton, "Next View")
         
-        # draw rectangle shape
+        # drawBackscattered rectangle shape
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
         self.__polygonButton.latch(key="<Button-1>", command=self.__polygonDrawer.anchorRectangle, cursor="tcross")
