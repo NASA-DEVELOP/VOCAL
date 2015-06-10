@@ -144,16 +144,6 @@ class Calipso(object):
         self.__root.config(menu=self.__menuBar)
 
 #### MAIN SCREEN #############################################################################
-    
-    # parameter: imageFilename1 = File name of image to load as PhotoImage
-    #           width = desired width of image
-    #           height = desired height of image
-    def loadPic(self, imageFilename1, width, height):
-        imageToLoad = Image.open(imageFilename1)
-        self.__orig_img = imageToLoad
-        imageToLoad = imageToLoad.resize((width, height))
-        loadedPhotoImage = ImageTk.PhotoImage(imageToLoad)
-        return loadedPhotoImage
 
     # parameter: plotType = int value(0-2) associated with desired plotType
     def selPlot(self, plotType):
@@ -191,8 +181,8 @@ class Calipso(object):
         self.__polygonDrawer.reset()
         self.__toolbar.home()
         
-    def toolbarCleanup(self, str):
-        self._active=str
+    def toolbarCleanup(self, str_):
+        self.__toolbar._active = str_
         
     def createTopScreenGUI(self):
         #File Dialog box, - shows the selected __file
