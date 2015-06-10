@@ -21,8 +21,7 @@
                                            for the toolbar, instead we custom create our own buttons in the
                                            main program implementation
 """
-from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, RAISED, \
-    SUNKEN, Message
+from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
 toggleContainer = []
