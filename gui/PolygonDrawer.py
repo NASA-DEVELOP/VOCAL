@@ -14,6 +14,7 @@ class PolygonDrawer(Widget):
     '''
     
     toggleFocus = False
+    toggleHide = False
     polygonDict = {}
     num = 0
     COLORS = ['snow', 'ghost white', 'white smoke', 'gainsboro', 'floral white', 'old lace',
@@ -259,6 +260,14 @@ class PolygonDrawer(Widget):
         color = askcolor()
         self.__canvas._tkcanvas.itemconfigure(target, fill=color[1], outline=color[1])
         PolygonDrawer.polygonDict[target] = color[1]
+        
+    def hide(self, event):
+        PolygonDrawer.toggleHide = not PolygonDrawer.toggleHide
+        for shape in PolygonDrawer.polygonDict:
+            if PolygonDrawer.toggleHide:
+                self.__canvas._tkcanvas.itemconfigure(shape, fill=PolygonDrawer.polygonDict[shape], outline=PolygonDrawer.polygonDict[shape])
+            else:
+                self.__canvas._tkcanvas.itemconfigure(shape, fill="", outline="")
         
 def perpendicular(a):
     '''
