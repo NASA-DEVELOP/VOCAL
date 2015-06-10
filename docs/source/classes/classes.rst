@@ -12,9 +12,15 @@ General
 .. toctree::
 
    calipso
+
+Polygon Module
+------------------
+
+.. toctree::
+
    polygondrawer
 
-Tools
+Tools Module
 ------------------
 
 .. toctree::
