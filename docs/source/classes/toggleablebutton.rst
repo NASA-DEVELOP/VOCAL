@@ -2,11 +2,11 @@
 ToggleableButton
 ==================
 
+A Class which wraps the Tkinter Button object and simulates the toggled button you commonly see in draw, magnify, etc. buttons. Keeps a static container of toggleable buttons to only allow one button at any time to be toggled.
+
 .. py:module:: tools
 
 .. py:class:: ToggleableButton(Button, object)
-
-   A Class which wraps the Tkinter Button object and simulates the toggled button you commonly see in draw, magnify, etc. buttons. Keeps a static container of toggleable buttons to only allow one button at any time to be toggled.
 
    .. py:method:: __init__(self, root, master=None, cnf={}, **kw)
       :noindex: 
