@@ -4,6 +4,7 @@ Created on Jun 4, 2015
 @author: Nathan Qian
 '''
 
+# import antigravity
 from Tkinter import Widget
 from numpy import empty_like, dot, array
 from tkColorChooser import askcolor
