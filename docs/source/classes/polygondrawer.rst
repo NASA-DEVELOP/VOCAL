@@ -36,6 +36,8 @@ PolygonDrawer
 
    .. py:method:: __init__(self, canvas)
       :noindex:
+      
+      Creates a drawer that handles all polygon manipulations on the canvas
 
    .. py:method:: OnTokenButtonPress(self, event)
       :noindex:
