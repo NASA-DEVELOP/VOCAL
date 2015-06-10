@@ -4,8 +4,6 @@
 # Brian Magill
 # 8/11/2014
 #
-import sys
-import matplotlib.pyplot as plt 
 import matplotlib as mpl
 from ccplot.hdf import HDF
 import ccplot.utils
@@ -17,9 +15,6 @@ from PCF_genTimeUtils import extractDatetime
 
 def drawDepolar(filename, fig, pfig):
     AVGING_WIDTH = 15
-
-    MIN_SCATTER = -0.1
-    EXCESSIVE_SCATTER = 0.1
 
     # Read CALIPSO Data from Level 1B file
     with HDF(filename) as product:
