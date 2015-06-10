@@ -6,12 +6,24 @@
 Welcome to CALIPSO's documentation!
 ===================================
 
+Everything you'll need to know about the CALIPSO Visualization project from a developer standpoint can be read about here! If you're looking to add to the doc chain, please ensure you reference current .rst documents to build your new documentation. Conforming to previous style is *highly* recommended
+
 Contents:
+=========
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    overview
+   installation
+   troubleshoot
+
+Documentation:
+==============
+
+.. toctree::
+   :maxdepth: 1
+
    classes/classes
    functions/functions
 
