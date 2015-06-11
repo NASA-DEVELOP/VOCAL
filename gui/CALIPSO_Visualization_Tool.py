@@ -31,11 +31,6 @@ class Calipso(object):
     
     def __init__ (self, r):
         self.__root = r                     # root of program
-        
-        self.__zoomButton = None            # zoom button
-        self.__polygonButton = None         # polygon button
-        self.__freedrawButton = None        # free drawBackscattered button
-        self.__dragButton = None
         self.__file = ''                    # current file in use
         self.__lblFileDialog = Label()      # shows the selected file
         self.__menuBar = None               # menu bar appearing at top of screen
@@ -208,8 +203,6 @@ class Calipso(object):
             
         btnClose = Button(filewin, text="Close", command=filewin.destroy)
         btnClose.pack()
-        
-
         
     def createChildWindowGUI(self):
         ###################################Upper Frame##############################################
