@@ -112,23 +112,23 @@ class PolygonDrawer(Widget):
         self.__shape = 0
         self.__polyWriter = PolygonWriter("C:\\Users\\nqian\\Desktop\\poly.json")
         
-        self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.OnTokenButtonPress)
-        self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.OnTokenButtonRelease)
-        self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.OnTokenMotion)
+        self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.onTokenButtonPress)
+        self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.onTokenButtonRelease)
+        self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.onTokenMotion)
         
-    def OnTokenButtonPress(self, event):
+    def onTokenButtonPress(self, event):
         if self.__dragMode:
             self.__drag_data["item"] = self.__canvas._tkcanvas.find_closest(event.x, event.y)[0]
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
         
-    def OnTokenButtonRelease(self, event):
+    def onTokenButtonRelease(self, event):
         if self.__dragMode:
             self.__drag_data["item"] = None
             self.__drag_data["x"] = 0
             self.__drag_data["y"] = 0
         
-    def OnTokenMotion(self, event):
+    def onTokenMotion(self, event):
 #         print self.__canvas._tkcanvas.gettags(self.__drag_data["item"])
         if self.__dragMode:
             dx = event.x - self.__drag_data["x"]

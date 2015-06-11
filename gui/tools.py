@@ -36,7 +36,7 @@ class ToolTip(object):
         self.x = self.y = 0
 
     # Parameter: text to display as tooltip
-    def showtip(self, text):
+    def showTip(self, text):
         self.text = text
         if self.tipwindow or not self.text:
             return
@@ -58,7 +58,7 @@ class ToolTip(object):
                       font=("tahoma", "8", "normal"))
         label.pack(ipadx=1)
 
-    def hidetip(self):
+    def hideTip(self):
         tw = self.tipwindow
         self.tipwindow = None
         if tw:
@@ -67,9 +67,9 @@ class ToolTip(object):
 def createToolTip(widget, text):
     toolTip = ToolTip(widget)
     def enter(event):
-        toolTip.showtip(text)
+        toolTip.showTip(text)
     def leave(event):
-        toolTip.hidetip()
+        toolTip.hideTip()
     widget.bind('<Enter>', enter)
     widget.bind('<Leave>', leave)
     
@@ -95,7 +95,7 @@ class ToggleableButton(Button):
         self.__master = master
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
-        self.configure(command=self.Toggle)         # button command is always bound internally to toggle
+        self.configure(command=self.toggle)         # button command is always bound internally to toggle
         toggleContainer.append(self)         # push button to static container
         
     # Parameters: 
@@ -115,16 +115,14 @@ class ToggleableButton(Button):
         self.isToggled = False
         self.config(relief='raised')
         for pair in self.__bindMap:
-            print "unbinding:",pair[1],pair[0]
             pair[0].unbind(pair[1])
-        print "calling destructor: "
         if self.__destructor : self.__destructor()
 
     # The toggle function ensures that the button is either correctly toggled, or not. The
     #    button command is bound here and additionally any functions 'latched' to a command
     #    will be binded here when toggled. Also internally ensures no two toggled buttons can
     #    exist at any one time
-    def Toggle(self):
+    def toggle(self):
         # first flip the toggle switch
         self.isToggled = not self.isToggled
         # if any buttons are currently active, untoggle them
@@ -162,7 +160,7 @@ class ToolbarToggleableButton(Button):
         self.__destructor= None
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
-        self.configure(command=self.Toggle)         # button command is always bound internally to toggle
+        self.configure(command=self.toggle)         # button command is always bound internally to toggle
         toggleContainer.append(self)         # push button to static container
         
     def latch(self, cursor=""):
@@ -177,7 +175,7 @@ class ToolbarToggleableButton(Button):
         if self.__func : self.__func()
         
     # Call the super classes Toggle, and execute our function as well
-    def Toggle(self):
+    def toggle(self):
         if self.__func : self.__func()
         # first flip the toggle switch
         self.isToggled = not self.isToggled

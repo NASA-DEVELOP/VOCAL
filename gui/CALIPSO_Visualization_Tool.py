@@ -183,9 +183,6 @@ class Calipso(object):
         self.__polygonDrawer.reset()
         self.__toolbar.home()
         
-    def toolbarCleanup(self, str_):
-        self.__toolbar._active = str_
-        
     def createTopScreenGUI(self):
         #File Dialog box, - shows the selected __file
         lblFile=Label(self.__dialogFrame, text="File:")
@@ -198,6 +195,9 @@ class Calipso(object):
 
         
     def createChildWindowGUI(self):
+        
+        ###################################Upper Frame##############################################
+        
         btnReset = Button(self.__upperButtonFrame, text = "Reset", width = 10, command=self.reset)
         btnReset.grid(row=0, column=0, padx=10, pady=5)
         
@@ -297,17 +297,6 @@ class Calipso(object):
         self.__testButton = Button(self.__lowerButtonFrame, image=self.buttonIMG, width=30, height=30, command=lambda: self.__polygonDrawer.save())
         self.__testButton.grid(row=2, column=4, padx=2, pady=5)
         createToolTip(self.__testButton, "Test function")
-       
-        # 'hacky' solution. Lambdas cannot have more than one statement ... however a lambda will
-        # evaluate an array so we can use some arbitrary array and place our commands inside that 
-        # array. Here we simply bind focusing back into the child window as a way to automatically
-        # unbind the toggleable buttons
-        #self.__child.bind("<FocusIn>", 
-        #                  lambda x: [ 
-        #                             self.__polygonButton.unToggle(), 
-        #                             self.__freedrawButton.unToggle(),
-        #                             self.__zoomButton.unToggle(),
-        #                             self.__dragButton.unToggle()])
 
     def importFile(self):
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
