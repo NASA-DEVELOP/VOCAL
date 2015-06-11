@@ -6,6 +6,10 @@ Allows for the easy creation of tool tips that are displayed below buttons. Requ
 
 .. py:module:: tools
 
+.. py:data:: toggleableButton
+
+   global container holding all toggleable button. Used to ensure only one toggleablebutton my be active at any one time.
+
 .. py:class:: ToolTip(object)
 
    .. py:data:: self.widget

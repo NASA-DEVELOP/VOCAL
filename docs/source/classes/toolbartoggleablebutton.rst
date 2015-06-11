@@ -6,6 +6,11 @@ A simplified version of ``ToggleableButton``, also inherits from ``Button``. Thi
 
 .. py:module:: tools
 
+.. py:data:: toggleableButton
+   :noindex:
+
+   global container holding all toggleable button. Used to ensure only one toggleablebutton my be active at any one time.
+
 .. py:class:: ToolbarToggleableButton(Button)
 
    .. py:data:: self.isToggled
