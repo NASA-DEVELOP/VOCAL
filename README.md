@@ -9,3 +9,4 @@ http://develop-larc-calipso.github.io/CALIPSO_Visualization/
 * [ ] JSON writer and reader
 * [ ] Show plot coordinates in lower left hand corner of screen
 * [ ] Discuss global variable `toggleContainer`
+* [ ] Make shapes not fill in when `focus` is toggled
