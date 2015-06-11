@@ -13,7 +13,7 @@ class PolygonWriter(object):
     '''
 
 
-    def __init__(self, fileName="polygons.json"):
+    def __init__(self, fileName="objs/polygons.json"):
         '''
         Constructor
         '''
