@@ -109,6 +109,7 @@ class PolygonDrawer(Widget):
         self.__prevY = -1.0
         self.__drag_data = {"x": 0, "y": 0, "item": None}
         self.__dragMode = False
+        self.__shape = 0
         self.__polyWriter = PolygonWriter("C:\\Users\\nqian\\Desktop\\poly.json")
         
         self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.OnTokenButtonPress)
@@ -194,8 +195,8 @@ class PolygonDrawer(Widget):
         identifier = self.generateTag()
         poly = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], tags=("polygon", identifier))
         PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
-        self.__polyWriter.add('vertices', self.__vertices)
-        self.__polyWriter.add('color', PolygonDrawer.COLORS[PolygonDrawer.num%479])
+        tmpValue = {'vertices': self.__vertices, 'color': PolygonDrawer.COLORS[PolygonDrawer.num%479]}
+        self.__polyWriter.add(identifier, tmpValue)
         self.__clear()
         
     def setHDF(self, HDFFilename):
@@ -221,8 +222,8 @@ class PolygonDrawer(Widget):
         identifier = self.generateTag()
         poly = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width=2, tags=("polygon", identifier))
         PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
-        self.__polyWriter.add('vertices', self.__vertices)
-        self.__polyWriter.add('color', PolygonDrawer.COLORS[PolygonDrawer.num%479])
+        tmpValue = {'vertices': self.__vertices, 'color': PolygonDrawer.COLORS[PolygonDrawer.num%479]}
+        self.__polyWriter.add(identifier, tmpValue)
         self.__clear()
     
     def toggleDrag(self, event):
@@ -230,7 +231,8 @@ class PolygonDrawer(Widget):
         print self.__dragMode
         
     def generateTag(self):
-        string = "shape" + str(PolygonDrawer.num)
+        string = "shape" + str(self.__shape)
+        self.__shape += 1
         PolygonDrawer.num += 16
         return string
     
