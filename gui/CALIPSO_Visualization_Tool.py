@@ -1,6 +1,6 @@
 #### IMPORTS #######################################################################################
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE
+    RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE, BOTTOM
 import os
 import tkFileDialog
 
@@ -60,15 +60,6 @@ class Calipso(object):
         
         self.__Parentfig = Figure(figsize=(16,11))
         
-        # the main canvas we will be drawing our data to
-        self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)    
-        # create tool bar and polygonDrawer     
-        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas)
-        self.__polygonDrawer = PolygonDrawer(self.__drawplotCanvas)
-        
-        self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
-        self.__drawplotFrame.pack()
-        
         ######################################### CREATE CHILD WINDOW #########################################
         
         self.__child = Toplevel()
@@ -92,6 +83,22 @@ class Calipso(object):
         self.__lowerButtonFrame.config(highlightthickness=1)                        # create a small border around the frame
         self.__lowerButtonFrame.config(highlightbackground="grey")
         self.__lowerButtonFrame.pack()
+        
+        self.__coordinateFrame = Frame(lowerPane, width=50, height=50)
+        self.__coordinateFrame.config(highlightthickness=1)                        # create a small border around the frame
+        self.__coordinateFrame.config(highlightbackground="grey")
+        self.__coordinateFrame.pack(side=BOTTOM, fill=BOTH)
+        
+######################################### INIT CANVAS #########################################
+
+                # the main canvas we will be drawing our data to
+        self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)    
+        # create tool bar and polygonDrawer     
+        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas, self.__coordinateFrame)
+        self.__polygonDrawer = PolygonDrawer(self.__drawplotCanvas)
+        
+        self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+        self.__drawplotFrame.pack()
         
     @staticmethod
     def ignore():
@@ -297,6 +304,7 @@ class Calipso(object):
         self.__testButton = Button(self.__lowerButtonFrame, image=self.buttonIMG, width=30, height=30, command=lambda: self.__polygonDrawer.save())
         self.__testButton.grid(row=2, column=4, padx=2, pady=5)
         createToolTip(self.__testButton, "Test function")
+
 
     def importFile(self):
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
