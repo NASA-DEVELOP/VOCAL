@@ -194,6 +194,9 @@ class PolygonDrawer(Widget):
         iy = self.__vertices[0][1]
         identifier = self.generateTag()
         poly = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], tags=("polygon", identifier))
+        self.__vertices.append((event.x, iy))
+        self.__vertices.append((event.x, event.y))
+        self.__vertices.append((ix, event.y))
         PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
         tmpValue = {'vertices': self.__vertices, 'color': PolygonDrawer.COLORS[PolygonDrawer.num%479]}
         self.__polyWriter.add(identifier, tmpValue)
