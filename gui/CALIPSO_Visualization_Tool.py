@@ -291,7 +291,7 @@ class Calipso(object):
         createToolTip(self.__paintButton, "Paint")
 
         self.outlineIMG = ImageTk.PhotoImage(file="ico/focus.png")
-        self.__outlineButton = Button(self.__lowerButtonFrame, image=self.outlineIMG, width=30, height=30, command=lambda: self.__polygonDrawer.outline())
+        self.__outlineButton = Button(self.__lowerButtonFrame, image=self.outlineIMG, width=30, height=30, command=lambda: self.__polygonList.outline())
         self.__outlineButton.grid(row=2, column=1, padx=2, pady=5)
         createToolTip(self.__outlineButton, "Focus")
         
