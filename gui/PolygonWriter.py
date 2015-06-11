@@ -22,7 +22,7 @@ class PolygonWriter(object):
         self.__hdf = ''
         self.__dict = {}
         
-    def add(self, key, value):
+    def set(self, key, value):
 #         try:
 #             lst = self.__dict[key]
 #             if type(value) is not list:
@@ -59,6 +59,7 @@ class PolygonWriter(object):
         with open(self.__fileName, 'w') as outfile:
             json.dump(self.__dict, outfile)
         
-    def decode(self):
-        f = open(self.__fileName, 'r')
-        self.__dict = json.load(f)
+    def reset(self):
+        for key in self.__dict:
+            if key is not "HDFFile" or key is not "plotype":
+                del key

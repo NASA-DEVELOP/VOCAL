@@ -98,18 +98,19 @@ class PolygonDrawer(Widget):
     
     
 
-    def __init__(self, canvas):
+    def __init__(self, canvas, hdf="", tag="", color=""):
         '''
         Constructor
         '''
         self.__vertices = []
-        self.__hdf = ""
+        self.__hdf = hdf
         self.__canvas = canvas
         self.__prevX = -1.0
         self.__prevY = -1.0
         self.__drag_data = {"x": 0, "y": 0, "item": None}
         self.__dragMode = False
-        self.__shape = 0
+        self.__tag = tag
+        self.__color = color
         self.__polyWriter = PolygonWriter("C:\\Users\\nqian\\Desktop\\poly.json")
         
         self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.OnTokenButtonPress)
@@ -164,7 +165,6 @@ class PolygonDrawer(Widget):
                 self.__vertices.pop()
                 self.drawPolygon()
                 self.__canvas._tkcanvas.delete("line")
-                self.__clear()
                 return True
         self.__prevX = event.x
         self.__prevY = event.y
@@ -192,24 +192,35 @@ class PolygonDrawer(Widget):
             del self.lastrect
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
-        identifier = self.generateTag()
-        poly = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], tags=("polygon", identifier))
+        poly = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], tags=("polygon", self.__tag))
         self.__vertices.append((event.x, iy))
         self.__vertices.append((event.x, event.y))
         self.__vertices.append((ix, event.y))
         PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
         tmpValue = {'vertices': self.__vertices, 'color': PolygonDrawer.COLORS[PolygonDrawer.num%479]}
-        self.__polyWriter.add(identifier, tmpValue)
-        self.__clear()
+        self.__polyWriter.set(identifier, tmpValue)
         
-    def setHDF(self, HDFFilename):
-        self.__hdf = HDFFilename
+#     def setHDF(self, HDFFilename):
+#         self.__hdf = HDFFilename
+#         self.__polyWriter.set("HDFFile", self.__hdf)
         
     def getVertices(self):
         return self.__vertices
     
-    def getHDF(self):
-        return self.__hdf
+    def getColor(self):
+        return self.__color
+    
+    def setTag(self, tag):
+        self.__tag = tag;
+        
+    def setColor(self, color):
+        self.__color = color
+    
+#     def getHDF(self):
+#         return self.__hdf
+
+    def getTag(self):
+        return self.__tag
     
     def __canDrawPolygon(self):
         b1 = tupleToNpArray(self.__vertices[-1])
@@ -222,40 +233,20 @@ class PolygonDrawer(Widget):
         return -1
             
     def drawPolygon(self):
-        identifier = self.generateTag()
-        poly = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width=2, tags=("polygon", identifier))
+        poly = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width=2, tags=("polygon", self.__tag))
         PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
         tmpValue = {'vertices': self.__vertices, 'color': PolygonDrawer.COLORS[PolygonDrawer.num%479]}
-        self.__polyWriter.add(identifier, tmpValue)
-        self.__clear()
+        self.__polyWriter.set(identifier, tmpValue)
     
     def toggleDrag(self, event):
         self.__dragMode = not self.__dragMode
         print self.__dragMode
-        
-    def generateTag(self):
-        string = "shape" + str(self.__shape)
-        self.__shape += 1
-        PolygonDrawer.num += 16
-        return string
-    
-    def reset(self):
-        self.__canvas._tkcanvas.delete("polygon")
-        self.__canvas._tkcanvas.delete("line")
-        PolygonDrawer.num = 0
-        PolygonDrawer.polygonDict = {}
-        
+                    
     def delete(self, event):
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
         if target[0] > 2:
             self.__canvas._tkcanvas.delete(target)
-    
-    def __clear(self):
-        self.__vertices = []
-        self.__drag_data["item"] = None
-        self.__drag_data["x"] = 0
-        self.__drag_data["y"] = 0
-        
+            
     def outline(self):
         PolygonDrawer.toggleFocus = not PolygonDrawer.toggleFocus
         for shape in PolygonDrawer.polygonDict:
@@ -277,10 +268,7 @@ class PolygonDrawer(Widget):
                 self.__canvas._tkcanvas.itemconfigure(shape, fill=PolygonDrawer.polygonDict[shape], outline=PolygonDrawer.polygonDict[shape])
             else:
                 self.__canvas._tkcanvas.itemconfigure(shape, fill="", outline="")
-                
-    def save(self):
-        self.__polyWriter.encode()
-        
+                        
 def perpendicular(a):
     '''
     Returns a numpy array that's orthogonal to the param
