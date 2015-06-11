@@ -100,7 +100,7 @@ class PolygonList(object):
     def __findPolygonByItemHandler(self, itemHandler):
         for shape in self.__polygonList:
             poly = shape.getItemHandler()
-            if poly == itemHandler:
+            if poly == itemHandler[0]:
                 return shape
     
     def save(self):
