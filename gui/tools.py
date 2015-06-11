@@ -24,6 +24,8 @@
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
+toggleContainer = []
+
 # Allows for tool tips to be displayed just below buttons
 class ToolTip(object):
 
@@ -74,11 +76,10 @@ def createToolTip(widget, text):
 # Button wrapper which simulates the toggled button as you see in the draw, magnify, etc. 
 #    buttons. Interally keeps a bind map which on toggle binds the keys in the map, and 
 #    unbinds them on untoggle or forced untoggle.
-class ToggleableButton(Button, object):
+class ToggleableButton(Button):
 
     # static class container to keep track of all active and unactive buttons
     # currently living
-    __toggleContainer = []
     
     # Parameters:
     #    root        -> the root of the program, which handles the cursor
@@ -95,7 +96,7 @@ class ToggleableButton(Button, object):
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
         self.configure(command=self.Toggle)         # button command is always bound internally to toggle
-        self.__toggleContainer.append(self)         # push button to static container
+        toggleContainer.append(self)         # push button to static container
         
     # Parameters: 
     #    key         -> a string which accepts a valid Tkinter key
@@ -127,7 +128,7 @@ class ToggleableButton(Button, object):
         # first flip the toggle switch
         self.isToggled = not self.isToggled
         # if any buttons are currently active, untoggle them
-        for s in [x for x in self.__toggleContainer if x.isToggled == True and x is not self]:  
+        for s in [x for x in toggleContainer if x.isToggled == True and x is not self]:  
             s.unToggle()
             
         # else if next state it false
@@ -148,20 +149,50 @@ class ToggleableButton(Button, object):
 #    of placing more overhead in the ToggleableButton another class is created 
 #    since the number of matplotlib functions will remain constant, while we
 #    may continue creating new tools that use ToggleableButton
-class ToolbarToggleableButton(ToggleableButton):
+class ToolbarToggleableButton(Button):
     # Parameters: 
     #    root, master, cnf, kw    -> forwarded args to the ToggleableButton class
     #    func                     -> function to be called along with the invocation of Toggle
     def __init__(self, root, master=None, func=None, cnf={}, **kw):
-        ToggleableButton.__init__(self, root, master, kw)
-        self.configure(command=self.Toggle)
+        self.isToggled = False      # internal var to keep track of toggling
+        self.__root = root          # root variable for setting the cursor
+        self.__cursor = ""          # cursor private var
+        self.__master = master
         self.__func = func
+        self.__destructor= None
+        
+        Button.__init__(self, master, cnf, **kw)    # call button constructor
+        self.configure(command=self.Toggle)         # button command is always bound internally to toggle
+        toggleContainer.append(self)         # push button to static container
+        
+    def latch(self, cursor=""):
+        # only set these variables if the user entered one
+        if cursor != "" : self.__cursor = cursor
+        
+    # Clone to toggle, except the only functionality of unToggle is to forceably
+    #    untoggle the button and set the state accordingly
+    def unToggle(self):
+        self.isToggled = False
+        self.config(relief='raised')
+        if self.__func : self.__func()
         
     # Call the super classes Toggle, and execute our function as well
     def Toggle(self):
-        super(ToolbarToggleableButton, self).Toggle()
         if self.__func : self.__func()
-
+        # first flip the toggle switch
+        self.isToggled = not self.isToggled
+        # if any buttons are currently active, untoggle them
+        for s in [x for x in toggleContainer if x.isToggled == True and x is not self]:  
+            s.unToggle()
+            
+        # else if next state it false
+        if self.isToggled == False:
+            self.config(relief='raised')                # raise the button, e.g. deactivated
+            self.__root.config(cursor="")
+        # else if next state is true
+        else:
+            self.__root.config(cursor=self.__cursor)
+            self.config(relief='sunken')                # sink the button, e.g. activate
 # Custom toolbar derived from matplotlib.backend, since we won't be specifically displaying
 #    any of their provided TkGUI, we will be creating our own GUI outside of the toolbar and
 #    simply using the functions provided by NavigationToolbar2. Thus we strip the toolbar of

@@ -2,6 +2,16 @@
 Calipso
 =============
 
+The main class of the application. Calipso manages all Tkinter and widget related entities, and ensures all parts of the GUI are initialized and created before the start of the program. The order of functions calls in the beginning of the program is as follows::
+
+    __init__
+    setupWindow
+    setupMenu
+    setupMainScreen
+        * calls createTopScreenGUI
+        * calls createChildWindowGUI
+        * calls selPlot(BASE_PLOT)
+
 .. py:class:: Calipso(r)
 
    .. py:method:: __init__(self, r)

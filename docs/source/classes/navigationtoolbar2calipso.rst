@@ -2,11 +2,11 @@
 NavigationToolbar2Calipso
 ==========================
 
+Custom toolbar implementation deriving from the matplotlib.backend *NavigationToolbar2*, The TkAgg port is not used because we specifically implement our own GUI and therefore to not want to draw the TkAgg's navigation bar. So we declare this class and leave it mostly bare, thus nothing will be rendered to the screen but we still have access to the button functions and can bind them to our own GUI
+
 .. py:module:: tools
 
-.. py:class:: NavigationToolbar2CALIPSO(NavigationToolbar2)
-
-   Custom toolbar implementation deriving from the matplotlib.backend *NavigationToolbar2*, The TkAgg port is not used because we specifically implement our own GUI and therefore to not want to draw the TkAgg's navigation bar. So we declare this class and leave it mostly bare, thus nothing will be rendered to the screen but we still have access to the button functions and can bind them to our own GUI
+.. py:class:: NavigationToolbar2CALIPSO(NavigationToolbar2)   
 
    .. py:method:: __init__(self, canvas)
       :noindex:
