@@ -49,14 +49,14 @@ class Calipso(object):
         basePane.add(sectionedPane)
         
         pndwinTop = PanedWindow(sectionedPane, orient=HORIZONTAL)                   # the paned window which holds all buttons
-        sectionedPane.add(pndwinTop)                                                # add pndwinTop to sectionedPane
+        sectionedPane.add(pndwinTop)                                                # set pndwinTop to sectionedPane
         
         self.__dialogFrame = Frame(pndwinTop)                                       # frame to hold dialog for browsing files
         self.__dialogFrame.pack(side = LEFT)
         
         pndwinBottom = PanedWindow(sectionedPane)                                   # expands the distance below the button
         sectionedPane.add(pndwinBottom)
-        self.__drawplotFrame = Frame(pndwinBottom, width=WIDTH, height=HEIGHT)      # the frame on which we will add our canvas for drawing etc.
+        self.__drawplotFrame = Frame(pndwinBottom, width=WIDTH, height=HEIGHT)      # the frame on which we will set our canvas for drawing etc.
         
         self.__Parentfig = Figure(figsize=(16,11))
         
@@ -317,6 +317,7 @@ class Calipso(object):
             self.__file = fl
             Segments = self.__file.rpartition('/')
             self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
+            self.__polygonDrawer.setHDF(self.__file)
         return ''
     
     def exportImage(self):
