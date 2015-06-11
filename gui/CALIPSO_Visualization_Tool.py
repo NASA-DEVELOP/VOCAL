@@ -9,18 +9,15 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from PIL import Image, ImageTk
+from gui import Constants
+from gui.PolygonList import PolygonList
 from gui.plot_depolar_ratio import drawDepolar
 from gui.plot_uniform_alt_lidar_dev import drawBackscattered
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
     ToolbarToggleableButton
-from gui.PolygonList import PolygonList
 
 
 #### PROGRAM CONSTANTS ####
-BASE_PLOT       = 0
-BACKSCATTERED   = 1
-DEPOLARIZED     = 2
-VFM             = 3
 HEIGHT          = 665
 WIDTH           = 1265
 CHILDWIDTH      = 200
@@ -94,7 +91,7 @@ class Calipso(object):
         self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)    
         # create tool bar and polygonDrawer     
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas, self.__coordinateFrame)
-        self.__polygonList = PolygonList(self.__drawplotCanvas)
+        self.__currentList = PolygonList(self.__drawplotCanvas)
         
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplotFrame.pack()
@@ -146,14 +143,15 @@ class Calipso(object):
 
     # parameter: plotType = int value(0-2) associated with desired plotType
     def selPlot(self, plotType):
-        if (plotType) == BASE_PLOT:
-            pass
-        elif (plotType.get()) == BACKSCATTERED:
+        if (plotType) == Constants.BASE_PLOT:
+            self.__currentList.setPlot(Constants.BASE_PLOT)
+        elif (plotType.get()) == Constants.BACKSCATTERED:
             try:
                 self.__Parentfig.clear()
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)
                 drawBackscattered(self.__file, self.__fig, self.__Parentfig)
                 self.__drawplotCanvas.show()
+                self.__currentList.setPlot(Constants.BACKSCATTERED)
                 self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
                 self.__toolbar.update()
                 self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
@@ -162,11 +160,12 @@ class Calipso(object):
                 T = Text(filewin, height=5, width=30)
                 T.pack()
                 T.insert(END, "No File Exists \n")
-        elif (plotType.get()) == DEPOLARIZED:
+        elif (plotType.get()) == Constants.DEPOLARIZED:
             try:
                 self.__Parentfig.clear()
                 self.__fig = self.__Parentfig.add_subplot(1, 1, 1)
                 drawDepolar(self.__file, self.__fig, self.__Parentfig)
+                self.__currentList.setPlot(Constants.DEPOLARIZED)
                 self.__drawplotCanvas.show()
                 self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
                 self.__toolbar.update()
@@ -176,7 +175,7 @@ class Calipso(object):
                 T = Text(filewin, height=5, width=30)
                 T.pack()
                 T.insert(END, "No File Exists \n")
-        elif (plotType.get()) == VFM:
+        elif (plotType.get()) == Constants.VFM:
             filewin = Toplevel(self.__root)
             T = Text(filewin, height=5, width=30)
             T.pack()
@@ -186,7 +185,7 @@ class Calipso(object):
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
-        self.__polygonList.reset()
+        self.__currentList.reset()
         self.__toolbar.home()
         
     def createTopScreenGUI(self):
@@ -213,9 +212,9 @@ class Calipso(object):
         menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
         
         plotType = IntVar()
-        menubtnPlotSelection.menu.add_radiobutton(label="Backscattered", variable=plotType, value=BACKSCATTERED, command=lambda: self.selPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="Depolarization Ratio", variable=plotType, value=DEPOLARIZED, command=lambda: self.selPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=VFM, command=lambda: self.selPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="Backscattered", variable=plotType, value=Constants.BACKSCATTERED, command=lambda: self.selPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="Depolarization Ratio", variable=plotType, value=Constants.DEPOLARIZED, command=lambda: self.selPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=Constants.VFM, command=lambda: self.selPlot(plotType))
         
         ###################################Lower Frame##############################################
         
@@ -254,36 +253,36 @@ class Calipso(object):
         # drawBackscattered rectangle shape
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
-        self.__polygonButton.latch(key="<Button-1>", command=self.__polygonList.anchorRectangle, cursor="tcross")
-        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonList.rubberBand, cursor="tcross")
-        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygonList.fillRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<Button-1>", command=self.__currentList.anchorRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<B1-Motion>", command=self.__currentList.rubberBand, cursor="tcross")
+        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__currentList.fillRectangle, cursor="tcross")
         self.__polygonButton.grid(row=1, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
         
         # free form shape creation
         self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
         self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30, height=30)
-        self.__freedrawButton.latch(key="<Button-1>", command=self.__polygonList.plotPoint, cursor="tcross")
+        self.__freedrawButton.latch(key="<Button-1>", command=self.__currentList.plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=1, column=3, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
         
         # move polygon and rectangles around
         self.dragIMG = ImageTk.PhotoImage(file="ico/cursorhand.png")
         self.__dragButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.dragIMG, width=30, height=30)
-        self.__dragButton.latch(key="<Button-2>", command=self.__polygonList.toggleDrag, cursor="hand1")
+        self.__dragButton.latch(key="<Button-2>", command=self.__currentList.toggleDrag, cursor="hand1")
         self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
         createToolTip(self.__dragButton, "Drag")
         
         # erase polygon drawings
         self.eraseIMG = ImageTk.PhotoImage(file="ico/eraser.png")
         self.__eraseButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.eraseIMG, width=30, height=30)
-        self.__eraseButton.latch(key="<Button-1>", command=self.__polygonList.delete, cursor="X_cursor")
+        self.__eraseButton.latch(key="<Button-1>", command=self.__currentList.delete, cursor="X_cursor")
         self.__eraseButton.grid(row=1, column=4, padx=2, pady=5)
         createToolTip(self.__eraseButton, "Erase polygon")
 
         self.paintIMG = ImageTk.PhotoImage(file="ico/paint.png")
         self.__paintButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.paintIMG, width=30, height=30)
-        self.__paintButton.latch(key="<Button-1>", command=self.__polygonList.paint, cursor="")
+        self.__paintButton.latch(key="<Button-1>", command=self.__currentList.paint, cursor="")
         self.__paintButton.grid(row=2, column=2, padx=2, pady=5)
         createToolTip(self.__paintButton, "Paint")
 
@@ -293,13 +292,13 @@ class Calipso(object):
         createToolTip(self.__outlineButton, "Focus")
         
         self.plotIMG = ImageTk.PhotoImage(file="ico/hide.png")
-        self.__plotButton = Button(self.__lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__polygonList.hide())
-#       self.__plotButton.latch(key="<Button-1>", command=self.__polygonList.hide, cursor="")
+        self.__plotButton = Button(self.__lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__currentList.hide())
+#       self.__plotButton.latch(key="<Button-1>", command=self.__currentList.hide, cursor="")
         self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
         createToolTip(self.__plotButton, "Hide polygons")
         
         self.buttonIMG = ImageTk.PhotoImage(file="ico/button.png")
-        self.__testButton = Button(self.__lowerButtonFrame, image=self.buttonIMG, width=30, height=30, command=lambda: self.__polygonList.save())
+        self.__testButton = Button(self.__lowerButtonFrame, image=self.buttonIMG, width=30, height=30, command=lambda: self.__currentList.save())
         self.__testButton.grid(row=2, column=4, padx=2, pady=5)
         createToolTip(self.__testButton, "Test function")
 
@@ -312,7 +311,7 @@ class Calipso(object):
             self.__file = fl
             Segments = self.__file.rpartition('/')
             self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
-            self.__polygonList.setHDF(self.__file)
+            self.__currentList.setHDF(self.__file)
         return ''
     
     def exportImage(self):
@@ -346,7 +345,7 @@ class Calipso(object):
     def setupMainScreen(self):
         self.createTopScreenGUI()
         self.createChildWindowGUI()
-        self.selPlot(BASE_PLOT)
+        self.selPlot(Constants.BASE_PLOT)
         
 
 
