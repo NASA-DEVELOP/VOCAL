@@ -3,25 +3,9 @@
     @author: Grant Mercer
     6/3/2015
 
-    a set of tools that can be used to simplify the means of creating out GUI program
-    CONTENTS:
-        L18 -> ToolTip                     A class that creates tiny tool tip windows when a mouse hovered
-                                           over a button, useful for button with no text and rather images
-        L69 -> ToggleableButton            A wrapper class for Button that allows for quick and easy
-                                           creation of buttons that remain sunken until reclicked, and
-                                           allows for a bind map to bind any keys to functions once 
-                                           toggled
-        L134 -> ToolbarToggleableButton    A wrapper FOR a wrapper , a bit confusing but simply put it 
-                                           allows simple declarations of toggleable buttons that do not
-                                           require binds. This is for the Matplotlib backend buttons, as
-                                           they bind the mouse buttons internally thus we only need to call
-                                           a function when toggled
-        L144 -> NavigationToolbar2CALIPSO  A custom implementation of NavigationToolbar2TkAgg, inherits from
-                                           the matplotlib backend and purposely does not implement the GUI
-                                           for the toolbar, instead we custom create our own buttons in the
-                                           main program implementation
 """
-from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button
+from Tkinter import TclError, Label, LEFT, SOLID, CENTER, Toplevel, Button, \
+    StringVar
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
 toggleContainer = []
@@ -36,7 +20,7 @@ class ToolTip(object):
         self.x = self.y = 0
 
     # Parameter: text to display as tooltip
-    def showtip(self, text):
+    def showTip(self, text):
         self.text = text
         if self.tipwindow or not self.text:
             return
@@ -58,7 +42,7 @@ class ToolTip(object):
                       font=("tahoma", "8", "normal"))
         label.pack(ipadx=1)
 
-    def hidetip(self):
+    def hideTip(self):
         tw = self.tipwindow
         self.tipwindow = None
         if tw:
@@ -67,9 +51,9 @@ class ToolTip(object):
 def createToolTip(widget, text):
     toolTip = ToolTip(widget)
     def enter(event):
-        toolTip.showtip(text)
+        toolTip.showTip(text)
     def leave(event):
-        toolTip.hidetip()
+        toolTip.hideTip()
     widget.bind('<Enter>', enter)
     widget.bind('<Leave>', leave)
     
@@ -95,7 +79,7 @@ class ToggleableButton(Button):
         self.__master = master
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
-        self.configure(command=self.Toggle)         # button command is always bound internally to toggle
+        self.configure(command=self.toggle)         # button command is always bound internally to toggle
         toggleContainer.append(self)         # push button to static container
         
     # Parameters: 
@@ -115,16 +99,14 @@ class ToggleableButton(Button):
         self.isToggled = False
         self.config(relief='raised')
         for pair in self.__bindMap:
-            print "unbinding:",pair[1],pair[0]
             pair[0].unbind(pair[1])
-        print "calling destructor: "
         if self.__destructor : self.__destructor()
 
     # The toggle function ensures that the button is either correctly toggled, or not. The
     #    button command is bound here and additionally any functions 'latched' to a command
     #    will be binded here when toggled. Also internally ensures no two toggled buttons can
     #    exist at any one time
-    def Toggle(self):
+    def toggle(self):
         # first flip the toggle switch
         self.isToggled = not self.isToggled
         # if any buttons are currently active, untoggle them
@@ -162,7 +144,7 @@ class ToolbarToggleableButton(Button):
         self.__destructor= None
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
-        self.configure(command=self.Toggle)         # button command is always bound internally to toggle
+        self.configure(command=self.toggle)         # button command is always bound internally to toggle
         toggleContainer.append(self)         # push button to static container
         
     def latch(self, cursor=""):
@@ -172,19 +154,20 @@ class ToolbarToggleableButton(Button):
     # Clone to toggle, except the only functionality of unToggle is to forceably
     #    untoggle the button and set the state accordingly
     def unToggle(self):
+        print "untoggling",self.__cursor
         self.isToggled = False
         self.config(relief='raised')
         if self.__func : self.__func()
         
     # Call the super classes Toggle, and execute our function as well
-    def Toggle(self):
-        if self.__func : self.__func()
-        # first flip the toggle switch
+    def toggle(self):
         self.isToggled = not self.isToggled
         # if any buttons are currently active, untoggle them
         for s in [x for x in toggleContainer if x.isToggled == True and x is not self]:  
             s.unToggle()
-            
+        
+        # first flip the toggle switch
+        if self.__func : self.__func()
         # else if next state it false
         if self.isToggled == False:
             self.config(relief='raised')                # raise the button, e.g. deactivated
@@ -198,11 +181,15 @@ class ToolbarToggleableButton(Button):
 #    simply using the functions provided by NavigationToolbar2. Thus we strip the toolbar of
 #    anything GUI related 
 class NavigationToolbar2CALIPSO(NavigationToolbar2):
-    def __init__(self, canvas):
+    def __init__(self, canvas, master):
+        self.canvas = canvas
+        self.master = master
         NavigationToolbar2.__init__(self, canvas)
         
     def _init_toolbar(self):
-        pass
+        self.message = StringVar(master=self.master)
+        self._message_label = Label(master=self.master, textvariable=self.message)
+        self._message_label.grid(row=3, column=1)
 
     def draw_rubberband(self, event, x0, y0, x1, y1):
         height = self.canvas.figure.bbox.height
@@ -219,6 +206,9 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
         else:
             self.canvas._tkcanvas.delete(self.lastrect)
             del self.lastrect
+        
+    def set_message(self, s):
+        self.message.set(s)
         
     def set_cursor(self, event):
         pass
