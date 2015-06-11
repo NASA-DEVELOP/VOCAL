@@ -7,7 +7,6 @@ Created on Jun 4, 2015
 # import antigravity
 from Tkinter import Widget
 from numpy import empty_like, dot, array
-from tkColorChooser import askcolor
 from PolygonWriter import PolygonWriter
 
 class PolygonDrawer(Widget):
@@ -115,6 +114,7 @@ class PolygonDrawer(Widget):
         self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.onTokenButtonRelease)
         self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.onTokenMotion)
         
+    #TODO: adjust drag button
     def onTokenButtonPress(self, event):
         if PolygonDrawer.dragToggle:
             self.__drag_data["item"] = self.__canvas._tkcanvas.find_closest(event.x, event.y)[0]
