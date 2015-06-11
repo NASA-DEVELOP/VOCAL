@@ -136,9 +136,9 @@ class PolygonList(object):
         for i in range(len(self.__polygonList)):
             plotDict = {}
             for j in range(len(self.__polygonList[i])-1):
-                tag = self.__currentList[j].getTag()
-                vertices = self.__currentList[j].getVertices()
-                color = self.__currentList[j].getColor()
+                tag = self.__polygonList[i][j].getTag()
+                vertices = self.__polygonList[i][j].getVertices()
+                color = self.__polygonList[i][j].getColor()
                 value = {"vertices": vertices, "color": color}
                 plotDict = {tag: value}
             self.__data[self.__plotInttoString(i)] = plotDict

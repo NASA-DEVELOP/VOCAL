@@ -14,6 +14,26 @@ The main class of the application. Calipso manages all Tkinter and widget relate
 
 .. py:class:: Calipso(r)
 
+   .. py:data:: self.__root
+
+      the root widget of the program, passed into __init__ and will always be ``Tk()``
+
+   .. py:data:: self.__file
+
+      current loaded file being displayed in the program, file extension *hdf*
+
+   .. py:data:: self.__menuBar
+
+      menu bar appearing at the top of the screen
+
+   .. py:data:: self.__menuFile
+
+      sub menu
+
+   .. py:data:: self.__menuHelp
+
+      sub menu
+
    .. py:method:: __init__(self, r)
       :noindex:
     

@@ -8,6 +8,26 @@ A Class which wraps the Tkinter Button object and simulates the toggled button y
 
 .. py:class:: ToggleableButton(Button, object)
 
+   .. py:data:: self.__bindMap
+
+      bind map consisting of a list of tuples containing a key and function to bind to that key. bindMap is iterated over and sets the keys accordingly during a toggle
+
+   .. py:data:: self.isToggled
+
+      internal var to keep track of toggling
+
+   .. py:data:: self.__root
+
+      copy of ``root`` for use with changing cursor
+
+   .. py:data:: self.__destructor
+
+      desctructor called after the button is 'untoggled' and the keys are unbound
+
+   .. py:data:: self.__master
+
+      widget to draw the button to
+
    .. py:method:: __init__(self, root, master=None, cnf={}, **kw)
       :noindex: 
 
