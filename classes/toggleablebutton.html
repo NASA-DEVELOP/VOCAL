@@ -61,7 +61,37 @@
 <span class="target" id="module-tools"></span><dl class="class">
 <dt id="tools.ToggleableButton">
 <em class="property">class </em><tt class="descclassname">tools.</tt><tt class="descname">ToggleableButton</tt><big>(</big><em>Button</em>, <em>object</em><big>)</big><a class="headerlink" href="#tools.ToggleableButton" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><dl class="data">
+<dt id="tools.ToggleableButton.self.__bindMap">
+<tt class="descclassname">self.</tt><tt class="descname">__bindMap</tt><a class="headerlink" href="#tools.ToggleableButton.self.__bindMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>bind map consisting of a list of tuples containing a key and function to bind to that key. bindMap is iterated over and sets the keys accordingly during a toggle</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="tools.ToggleableButton.self.isToggled">
+<tt class="descclassname">self.</tt><tt class="descname">isToggled</tt><a class="headerlink" href="#tools.ToggleableButton.self.isToggled" title="Permalink to this definition">¶</a></dt>
+<dd><p>internal var to keep track of toggling</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="tools.ToggleableButton.self.__root">
+<tt class="descclassname">self.</tt><tt class="descname">__root</tt><a class="headerlink" href="#tools.ToggleableButton.self.__root" title="Permalink to this definition">¶</a></dt>
+<dd><p>copy of <tt class="docutils literal"><span class="pre">root</span></tt> for use with changing cursor</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="tools.ToggleableButton.self.__destructor">
+<tt class="descclassname">self.</tt><tt class="descname">__destructor</tt><a class="headerlink" href="#tools.ToggleableButton.self.__destructor" title="Permalink to this definition">¶</a></dt>
+<dd><p>desctructor called after the button is &#8216;untoggled&#8217; and the keys are unbound</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="tools.ToggleableButton.self.__master">
+<tt class="descclassname">self.</tt><tt class="descname">__master</tt><a class="headerlink" href="#tools.ToggleableButton.self.__master" title="Permalink to this definition">¶</a></dt>
+<dd><p>widget to draw the button to</p>
+</dd></dl>
+
+<dl class="method">
 <dt>
 <tt class="descname">__init__</tt><big>(</big><em>self</em>, <em>root</em>, <em>master=None</em>, <em>cnf={}</em>, <em>**kw</em><big>)</big></dt>
 <dd><p>Creates button and binds command to internal function <tt class="xref py py-meth docutils literal"><span class="pre">Toggle()</span></tt></p>

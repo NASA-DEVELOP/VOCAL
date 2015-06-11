@@ -58,10 +58,46 @@
   <div class="section" id="toolbartoggleablebutton">
 <h1>ToolbarToggleableButton<a class="headerlink" href="#toolbartoggleablebutton" title="Permalink to this headline">¶</a></h1>
 <p>A simplified version of <tt class="docutils literal"><span class="pre">ToggleableButton</span></tt>, also inherits from <tt class="docutils literal"><span class="pre">Button</span></tt>. This class manages an internal toggled state which is globally kept track of for all toggle buttons. The button is always bound to the <tt class="xref py py-meth docutils literal"><span class="pre">Toggle()</span></tt> function, which internally invokes the passed <tt class="docutils literal"><span class="pre">func</span></tt> argument</p>
-<span class="target" id="module-tools"></span><dl class="class">
+<span class="target" id="module-tools"></span><dl class="data">
+<dt>
+<tt class="descclassname">tools.</tt><tt class="descname">toggleableButton</tt></dt>
+<dd><p>global container holding all toggleable button. Used to ensure only one toggleablebutton my be active at any one time.</p>
+</dd></dl>
+
+<dl class="class">
 <dt id="tools.ToolbarToggleableButton">
 <em class="property">class </em><tt class="descclassname">tools.</tt><tt class="descname">ToolbarToggleableButton</tt><big>(</big><em>Button</em><big>)</big><a class="headerlink" href="#tools.ToolbarToggleableButton" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><dl class="data">
+<dt id="tools.ToolbarToggleableButton.self.isToggled">
+<tt class="descclassname">self.</tt><tt class="descname">isToggled</tt><a class="headerlink" href="#tools.ToolbarToggleableButton.self.isToggled" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal var to keep track of toggling</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="tools.ToolbarToggleableButton.self.__root">
+<tt class="descclassname">self.</tt><tt class="descname">__root</tt><a class="headerlink" href="#tools.ToolbarToggleableButton.self.__root" title="Permalink to this definition">¶</a></dt>
+<dd><p>copy of root passed into init. For use with changing cursor</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="tools.ToolbarToggleableButton.self.__cursor">
+<tt class="descclassname">self.</tt><tt class="descname">__cursor</tt><a class="headerlink" href="#tools.ToolbarToggleableButton.self.__cursor" title="Permalink to this definition">¶</a></dt>
+<dd><p>cursor to be changed to when toggled</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="tools.ToolbarToggleableButton.self.__master">
+<tt class="descclassname">self.</tt><tt class="descname">__master</tt><a class="headerlink" href="#tools.ToolbarToggleableButton.self.__master" title="Permalink to this definition">¶</a></dt>
+<dd><p>widget to draw to</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="tools.ToolbarToggleableButton.self.__func">
+<tt class="descclassname">self.</tt><tt class="descname">__func</tt><a class="headerlink" href="#tools.ToolbarToggleableButton.self.__func" title="Permalink to this definition">¶</a></dt>
+<dd><p>function executed during toggle</p>
+</dd></dl>
+
+<dl class="method">
 <dt>
 <tt class="descname">__init__</tt><big>(</big><em>self</em>, <em>root</em>, <em>master=None</em>, <em>func=None</em>, <em>cnf={}</em>, <em>**kw</em><big>)</big></dt>
 <dd><p>Sets private variables and initializes Button constructor, also appends <em>self</em> to the global toggle container <tt class="docutils literal"><span class="pre">toggleContainer</span></tt>.</p>
