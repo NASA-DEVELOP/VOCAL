@@ -12,9 +12,9 @@ from PIL import Image, ImageTk
 from Polygon import PolygonDrawer
 from gui.plot_depolar_ratio import drawDepolar
 from gui.plot_uniform_alt_lidar_dev import drawBackscattered
-from toolbaritems import toolbaritems_toggleablebutton
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
     ToolbarToggleableButton
+from gui.PolygonList import PolygonList
 
 
 #### PROGRAM CONSTANTS ####
@@ -95,7 +95,7 @@ class Calipso(object):
         self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)    
         # create tool bar and polygonDrawer     
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas, self.__coordinateFrame)
-        self.__polygonDrawer = PolygonDrawer(self.__drawplotCanvas)
+        self.__polygonList = PolygonList(self.__drawplotCanvas)
         
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplotFrame.pack()
@@ -187,7 +187,7 @@ class Calipso(object):
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
-        self.__polygonDrawer.reset()
+        self.__polygonList.reset()
         self.__toolbar.home()
         
     def createTopScreenGUI(self):
@@ -255,36 +255,36 @@ class Calipso(object):
         # drawBackscattered rectangle shape
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
-        self.__polygonButton.latch(key="<Button-1>", command=self.__polygonDrawer.anchorRectangle, cursor="tcross")
-        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonDrawer.rubberBand, cursor="tcross")
-        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygonDrawer.fillRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<Button-1>", command=self.__polygonList.anchorRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<B1-Motion>", command=self.__polygonList.rubberBand, cursor="tcross")
+        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__polygonList.fillRectangle, cursor="tcross")
         self.__polygonButton.grid(row=1, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
         
         # free form shape creation
         self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
         self.__freedrawButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.freedrawIMG, width=30, height=30)
-        self.__freedrawButton.latch(key="<Button-1>", command=self.__polygonDrawer.plotPoint, cursor="tcross")
+        self.__freedrawButton.latch(key="<Button-1>", command=self.__polygonList.plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=1, column=3, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
         
         # move polygon and rectangles around
         self.dragIMG = ImageTk.PhotoImage(file="ico/cursorhand.png")
         self.__dragButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.dragIMG, width=30, height=30)
-        self.__dragButton.latch(key="<Button-2>", command=self.__polygonDrawer.toggleDrag, cursor="hand1")
+        self.__dragButton.latch(key="<Button-2>", command=self.__polygonList.toggleDrag, cursor="hand1")
         self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
         createToolTip(self.__dragButton, "Drag")
         
         # erase polygon drawings
         self.eraseIMG = ImageTk.PhotoImage(file="ico/eraser.png")
         self.__eraseButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.eraseIMG, width=30, height=30)
-        self.__eraseButton.latch(key="<Button-1>", command=self.__polygonDrawer.delete, cursor="X_cursor")
+        self.__eraseButton.latch(key="<Button-1>", command=self.__polygonList.delete, cursor="X_cursor")
         self.__eraseButton.grid(row=1, column=4, padx=2, pady=5)
         createToolTip(self.__eraseButton, "Erase polygon")
-           
+
         self.paintIMG = ImageTk.PhotoImage(file="ico/paint.png")
         self.__paintButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.paintIMG, width=30, height=30)
-        self.__paintButton.latch(key="<Button-1>", command=self.__polygonDrawer.paint, cursor="")
+        self.__paintButton.latch(key="<Button-1>", command=self.__polygonList.paint, cursor="")
         self.__paintButton.grid(row=2, column=2, padx=2, pady=5)
         createToolTip(self.__paintButton, "Paint")
 
@@ -294,13 +294,13 @@ class Calipso(object):
         createToolTip(self.__outlineButton, "Focus")
         
         self.plotIMG = ImageTk.PhotoImage(file="ico/hide.png")
-        self.__plotButton = Button(self.__lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__polygonDrawer.hide())
-#       self.__plotButton.latch(key="<Button-1>", command=self.__polygonDrawer.hide, cursor="")
+        self.__plotButton = Button(self.__lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__polygonList.hide())
+#       self.__plotButton.latch(key="<Button-1>", command=self.__polygonList.hide, cursor="")
         self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
         createToolTip(self.__plotButton, "Hide polygons")
         
         self.buttonIMG = ImageTk.PhotoImage(file="ico/button.png")
-        self.__testButton = Button(self.__lowerButtonFrame, image=self.buttonIMG, width=30, height=30, command=lambda: self.__polygonDrawer.save())
+        self.__testButton = Button(self.__lowerButtonFrame, image=self.buttonIMG, width=30, height=30, command=lambda: self.__polygonList.save())
         self.__testButton.grid(row=2, column=4, padx=2, pady=5)
         createToolTip(self.__testButton, "Test function")
 
@@ -313,7 +313,7 @@ class Calipso(object):
             self.__file = fl
             Segments = self.__file.rpartition('/')
             self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
-            self.__polygonDrawer.setHDF(self.__file)
+            self.__polygonList.setHDF(self.__file)
         return ''
     
     def exportImage(self):

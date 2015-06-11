@@ -55,9 +55,9 @@ class PolygonWriter(object):
     def getDictionary(self):
         return self.__dict
     
-    def encode(self):
+    def encode(self, data):
         with open(self.__fileName, 'w') as outfile:
-            json.dump(self.__dict, outfile)
+            json.dump(data, outfile)
         
     def reset(self):
         for key in self.__dict:
