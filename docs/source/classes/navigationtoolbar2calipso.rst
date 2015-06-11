@@ -8,6 +8,14 @@ Custom toolbar implementation deriving from the matplotlib.backend *NavigationTo
 
 .. py:class:: NavigationToolbar2CALIPSO(NavigationToolbar2)   
 
+   .. py:data:: self.canvas
+
+      canvas to draw to
+
+   .. py:data:: self.mastr
+
+      widget to draw the x and y coordinates of the graph to
+
    .. py:method:: __init__(self, canvas)
       :noindex:
 

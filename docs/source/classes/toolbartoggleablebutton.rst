@@ -6,7 +6,32 @@ A simplified version of ``ToggleableButton``, also inherits from ``Button``. Thi
 
 .. py:module:: tools
 
+.. py:data:: toggleableButton
+   :noindex:
+
+   global container holding all toggleable button. Used to ensure only one toggleablebutton my be active at any one time.
+
 .. py:class:: ToolbarToggleableButton(Button)
+
+   .. py:data:: self.isToggled
+      
+      Internal var to keep track of toggling
+
+   .. py:data:: self.__root
+
+      copy of root passed into init. For use with changing cursor
+
+   .. py:data:: self.__cursor
+
+      cursor to be changed to when toggled
+
+   .. py:data:: self.__master
+
+      widget to draw to
+
+   .. py:data:: self.__func
+
+      function executed during toggle
 
    .. py:method:: __init__(self, root, master=None, func=None, cnf={}, **kw)
       :noindex:
