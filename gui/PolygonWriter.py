@@ -23,6 +23,15 @@ class PolygonWriter(object):
         self.__dict = {}
         
     def add(self, key, value):
+#         try:
+#             lst = self.__dict[key]
+#             if type(value) is not list:
+#                 lst.append(value)
+#             else:
+#                 for item in value:
+#                     lst.append(item)
+#         except KeyError:
+#             self.__dict[key] = value
         self.__dict[key] = value
         
     def setJsonFile(self, fileName):

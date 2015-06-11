@@ -223,14 +223,14 @@ class Calipso(object):
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
         self.__zoomButton = ToolbarToggleableButton(self.__root, self.__lowerButtonFrame, lambda : self.__toolbar.zoom(True), image=self.magnifydrawIMG, width=30, height=30)
-        self.__zoomButton.latch(cursor="tcross", destructor=lambda : self.toolbarCleanup('ZOOM'))
+        self.__zoomButton.latch(cursor="tcross")
         self.__zoomButton.grid(row=0, column=2, padx=2, pady=5)
         createToolTip(self.__zoomButton, "Zoom to rect")
         
         # plot move cursor icon
         self.plotcursorIMG = ImageTk.PhotoImage(file="ico/plotcursor.png")
         self.__plotCursorButton = ToolbarToggleableButton(self.__root, self.__lowerButtonFrame, lambda : self.__toolbar.pan(True), image=self.plotcursorIMG, width=30, height=30)
-        self.__plotCursorButton.latch(cursor="hand1", destructor=lambda : self.toolbarCleanup('PAN'))
+        self.__plotCursorButton.latch(cursor="hand1")
         self.__plotCursorButton.grid(row=0, column=1, padx=2, pady=5)
         createToolTip(self.__plotCursorButton, "Move about plot")
         
