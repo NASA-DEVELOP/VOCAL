@@ -8,6 +8,7 @@ Created on Jun 4, 2015
 from Tkinter import Widget
 from numpy import empty_like, dot, array
 from tkColorChooser import askcolor
+from PolygonWriter import PolygonWriter
 
 class PolygonDrawer(Widget):
     '''
@@ -108,6 +109,7 @@ class PolygonDrawer(Widget):
         self.__prevY = -1.0
         self.__drag_data = {"x": 0, "y": 0, "item": None}
         self.__dragMode = False
+        self.__polyWriter = PolygonWriter("C:\\Users\\nqian\\Desktop\\poly.json")
         
         self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.OnTokenButtonPress)
         self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.OnTokenButtonRelease)
@@ -192,6 +194,8 @@ class PolygonDrawer(Widget):
         identifier = self.generateTag()
         poly = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], tags=("polygon", identifier))
         PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
+        self.__polyWriter.add('vertices', self.__vertices)
+        self.__polyWriter.add('color', PolygonDrawer.COLORS[PolygonDrawer.num%479])
         self.__clear()
         
     def setHDF(self, HDFFilename):
@@ -217,6 +221,8 @@ class PolygonDrawer(Widget):
         identifier = self.generateTag()
         poly = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width=2, tags=("polygon", identifier))
         PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
+        self.__polyWriter.add('vertices', self.__vertices)
+        self.__polyWriter.add('color', PolygonDrawer.COLORS[PolygonDrawer.num%479])
         self.__clear()
     
     def toggleDrag(self, event):
@@ -266,6 +272,9 @@ class PolygonDrawer(Widget):
                 self.__canvas._tkcanvas.itemconfigure(shape, fill=PolygonDrawer.polygonDict[shape], outline=PolygonDrawer.polygonDict[shape])
             else:
                 self.__canvas._tkcanvas.itemconfigure(shape, fill="", outline="")
+                
+    def save(self):
+        self.__polyWriter.encode()
         
 def perpendicular(a):
     '''
