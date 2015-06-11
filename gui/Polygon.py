@@ -15,10 +15,9 @@ class PolygonDrawer(Widget):
     Displays the polygon objects onto the canvas by supplying draw methods.
     '''
     
-    toggleFocus = True
-    toggleHide = True
+    dragToggle = False
     polygonDict = {}
-    num = 0
+    colorCounter = 0
     COLORS = ['snow', 'ghost white', 'white smoke', 'gainsboro', 'floral white', 'old lace',
           'linen', 'antique white', 'papaya whip', 'blanched almond', 'bisque', 'peach puff',
           'navajo white', 'lemon chiffon', 'mint cream', 'azure', 'alice blue', 'lavender',
@@ -98,40 +97,39 @@ class PolygonDrawer(Widget):
     
     
 
-    def __init__(self, canvas, hdf="", tag="", color=""):
+    def __init__(self, canvas, tag="", color=""):
         '''
         Constructor
         '''
         self.__vertices = []
-        self.__hdf = hdf
         self.__canvas = canvas
         self.__prevX = -1.0
         self.__prevY = -1.0
         self.__drag_data = {"x": 0, "y": 0, "item": None}
-        self.__dragMode = False
         self.__tag = tag
         self.__color = color
         self.__polyWriter = PolygonWriter("C:\\Users\\nqian\\Desktop\\poly.json")
+        self.__itemHandler = 0
         
         self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.onTokenButtonPress)
         self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.onTokenButtonRelease)
         self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.onTokenMotion)
         
     def onTokenButtonPress(self, event):
-        if self.__dragMode:
+        if PolygonDrawer.dragToggle:
             self.__drag_data["item"] = self.__canvas._tkcanvas.find_closest(event.x, event.y)[0]
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
         
     def onTokenButtonRelease(self, event):
-        if self.__dragMode:
+        if PolygonDrawer.dragToggle:
             self.__drag_data["item"] = None
             self.__drag_data["x"] = 0
             self.__drag_data["y"] = 0
         
     def onTokenMotion(self, event):
 #         print self.__canvas._tkcanvas.gettags(self.__drag_data["item"])
-        if self.__dragMode:
+        if PolygonDrawer.dragToggle:
             dx = event.x - self.__drag_data["x"]
             dy = event.y - self.__drag_data["y"]
             self.__canvas._tkcanvas.move(self.__drag_data["item"], dx, dy)
@@ -150,7 +148,7 @@ class PolygonDrawer(Widget):
     def plotPoint(self, event):
         self.__vertices.append((event.x, event.y))
         if len(self.__vertices) > 1:
-            self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width="2", tags="line")
+            self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width="2", tags="line")
         if len(self.__vertices) > 3:
             index = self.__canDrawPolygon()
             if index > -1:
@@ -165,6 +163,7 @@ class PolygonDrawer(Widget):
                 self.__vertices.pop()
                 self.drawPolygon()
                 self.__canvas._tkcanvas.delete("line")
+                PolygonDrawer.colorCounter += 16
                 return True
         self.__prevX = event.x
         self.__prevY = event.y
@@ -192,35 +191,30 @@ class PolygonDrawer(Widget):
             del self.lastrect
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
-        poly = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], tags=("polygon", self.__tag))
+        self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], tags=("polygon", self.__tag))
+        self.__color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
         self.__vertices.append((event.x, iy))
         self.__vertices.append((event.x, event.y))
         self.__vertices.append((ix, event.y))
-        PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
-        tmpValue = {'vertices': self.__vertices, 'color': PolygonDrawer.COLORS[PolygonDrawer.num%479]}
-        self.__polyWriter.set(identifier, tmpValue)
+        PolygonDrawer.colorCounter += 16
         
-#     def setHDF(self, HDFFilename):
-#         self.__hdf = HDFFilename
-#         self.__polyWriter.set("HDFFile", self.__hdf)
+    def setTag(self, tag):
+        self.__tag = tag;
         
+    def setColor(self, color):
+        self.__color = color    
+    
     def getVertices(self):
         return self.__vertices
     
     def getColor(self):
         return self.__color
-    
-    def setTag(self, tag):
-        self.__tag = tag;
-        
-    def setColor(self, color):
-        self.__color = color
-    
-#     def getHDF(self):
-#         return self.__hdf
 
     def getTag(self):
         return self.__tag
+    
+    def getItemHandler(self):
+        return self.__itemHandler
     
     def __canDrawPolygon(self):
         b1 = tupleToNpArray(self.__vertices[-1])
@@ -233,42 +227,14 @@ class PolygonDrawer(Widget):
         return -1
             
     def drawPolygon(self):
-        poly = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.num%479], fill=PolygonDrawer.COLORS[PolygonDrawer.num%479], width=2, tags=("polygon", self.__tag))
-        PolygonDrawer.polygonDict[poly] = PolygonDrawer.COLORS[PolygonDrawer.num%479]
-        tmpValue = {'vertices': self.__vertices, 'color': PolygonDrawer.COLORS[PolygonDrawer.num%479]}
-        self.__polyWriter.set(identifier, tmpValue)
+        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width=2, tags=("polygon", self.__tag))
+        self.__color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
+        PolygonDrawer.colorCounter += 16
     
-    def toggleDrag(self, event):
-        self.__dragMode = not self.__dragMode
-        print self.__dragMode
-                    
-    def delete(self, event):
-        target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
-        if target[0] > 2:
-            self.__canvas._tkcanvas.delete(target)
-            
-    def outline(self):
-        PolygonDrawer.toggleFocus = not PolygonDrawer.toggleFocus
-        for shape in PolygonDrawer.polygonDict:
-            if PolygonDrawer.toggleFocus:
-                self.__canvas._tkcanvas.itemconfigure(shape, fill=PolygonDrawer.polygonDict[shape])
-            else:
-                self.__canvas._tkcanvas.itemconfigure(shape, fill="")
-                
-    def paint(self, event):
-        target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
-        color = askcolor()
-        self.__canvas._tkcanvas.itemconfigure(target, fill=color[1], outline=color[1])
-        PolygonDrawer.polygonDict[target] = color[1]
-        
-    def hide(self):
-        PolygonDrawer.toggleHide = not PolygonDrawer.toggleHide
-        for shape in PolygonDrawer.polygonDict:
-            if PolygonDrawer.toggleHide:
-                self.__canvas._tkcanvas.itemconfigure(shape, fill=PolygonDrawer.polygonDict[shape], outline=PolygonDrawer.polygonDict[shape])
-            else:
-                self.__canvas._tkcanvas.itemconfigure(shape, fill="", outline="")
-                        
+    @staticmethod
+    def toggleDrag(event):
+        PolygonDrawer.dragToggle = not PolygonDrawer.dragToggle
+                            
 def perpendicular(a):
     '''
     Returns a numpy array that's orthogonal to the param
@@ -290,8 +256,8 @@ def getIntersection(a1, a2, b1, b2):
     dp = a1 - b1
     dap = perpendicular(da)
     denom = dot(dap, db)
-    num = dot(dap, dp)
-    return (num /denom.astype(float))*db + b1
+    colorCounter = dot(dap, dp)
+    return (colorCounter /denom.astype(float))*db + b1
 
 def isIntersecting(a1, a2, b1, b2):
     '''
