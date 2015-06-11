@@ -12,6 +12,7 @@ from PIL import Image, ImageTk
 from Polygon import PolygonDrawer
 from gui.plot_depolar_ratio import drawDepolar
 from gui.plot_uniform_alt_lidar_dev import drawBackscattered
+from toolbaritems import toolbaritems_toggleablebutton
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
     ToolbarToggleableButton
 
@@ -41,7 +42,6 @@ class Calipso(object):
         self.__menuBar = None               # menu bar appearing at top of screen
         self.__menuFile = None              # sub menu
         self.__menuHelp = None              # sub menu
-        
         ######################################### CREATE MAIN WINDOW #########################################
         basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
         basePane.pack(fill=BOTH, expand = 1)                # fill and expand
@@ -202,7 +202,6 @@ class Calipso(object):
 
         
     def createChildWindowGUI(self):
-        
         ###################################Upper Frame##############################################
         
         btnReset = Button(self.__upperButtonFrame, text = "Reset", width = 10, command=self.reset)
@@ -252,7 +251,7 @@ class Calipso(object):
         self.__redoButton = Button(self.__lowerButtonFrame, image=self.redoIMG, width=30, height=30, command=lambda : self.__toolbar.forward(True))
         self.__redoButton.grid(row=0, column=4, padx=2, pady=5)
         createToolTip(self.__redoButton, "Next View")
-        
+
         # drawBackscattered rectangle shape
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
@@ -282,17 +281,17 @@ class Calipso(object):
         self.__eraseButton.latch(key="<Button-1>", command=self.__polygonDrawer.delete, cursor="X_cursor")
         self.__eraseButton.grid(row=1, column=4, padx=2, pady=5)
         createToolTip(self.__eraseButton, "Erase polygon")
-        
-        self.outlineIMG = ImageTk.PhotoImage(file="ico/focus.png")
-        self.__outlineButton = Button(self.__lowerButtonFrame, image=self.outlineIMG, width=30, height=30, command=lambda: self.__polygonDrawer.outline())
-        self.__outlineButton.grid(row=2, column=1, padx=2, pady=5)
-        createToolTip(self.__outlineButton, "Focus")
-        
+           
         self.paintIMG = ImageTk.PhotoImage(file="ico/paint.png")
         self.__paintButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.paintIMG, width=30, height=30)
         self.__paintButton.latch(key="<Button-1>", command=self.__polygonDrawer.paint, cursor="")
         self.__paintButton.grid(row=2, column=2, padx=2, pady=5)
         createToolTip(self.__paintButton, "Paint")
+
+        self.outlineIMG = ImageTk.PhotoImage(file="ico/focus.png")
+        self.__outlineButton = Button(self.__lowerButtonFrame, image=self.outlineIMG, width=30, height=30, command=lambda: self.__polygonDrawer.outline())
+        self.__outlineButton.grid(row=2, column=1, padx=2, pady=5)
+        createToolTip(self.__outlineButton, "Focus")
         
         self.plotIMG = ImageTk.PhotoImage(file="ico/hide.png")
         self.__plotButton = Button(self.__lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__polygonDrawer.hide())
