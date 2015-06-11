@@ -43,6 +43,8 @@ class PolygonList(object):
             self.__currentList = self.__polygonList[2]
         else:
             self.__currentList = self.__polygonList[3]
+        self.__canvas._tkcanvas.delete("polygon")
+        self.__canvas._tkcanvas.delete("line")
     
     def anchorRectangle(self, event):
         self.__currentList[-1].anchorRectangle(event)
@@ -77,6 +79,8 @@ class PolygonList(object):
     def reset(self):
         self.__currentList = [PolygonDrawer(self.__canvas)]
         self.__count = 0
+        self.__canvas._tkcanvas.delete("polygon")
+        self.__canvas._tkcanvas.delete("line")
     
     def delete(self, event):
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
