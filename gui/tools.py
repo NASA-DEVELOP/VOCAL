@@ -3,25 +3,9 @@
     @author: Grant Mercer
     6/3/2015
 
-    a set of tools that can be used to simplify the means of creating out GUI program
-    CONTENTS:
-        L18 -> ToolTip                     A class that creates tiny tool tip windows when a mouse hovered
-                                           over a button, useful for button with no text and rather images
-        L69 -> ToggleableButton            A wrapper class for Button that allows for quick and easy
-                                           creation of buttons that remain sunken until reclicked, and
-                                           allows for a bind map to bind any keys to functions once 
-                                           toggled
-        L134 -> ToolbarToggleableButton    A wrapper FOR a wrapper , a bit confusing but simply put it 
-                                           allows simple declarations of toggleable buttons that do not
-                                           require binds. This is for the Matplotlib backend buttons, as
-                                           they bind the mouse buttons internally thus we only need to call
-                                           a function when toggled
-        L144 -> NavigationToolbar2CALIPSO  A custom implementation of NavigationToolbar2TkAgg, inherits from
-                                           the matplotlib backend and purposely does not implement the GUI
-                                           for the toolbar, instead we custom create our own buttons in the
-                                           main program implementation
 """
-from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button
+from Tkinter import TclError, Label, LEFT, SOLID, CENTER, Toplevel, Button, \
+    StringVar
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
 toggleContainer = []
@@ -197,11 +181,15 @@ class ToolbarToggleableButton(Button):
 #    simply using the functions provided by NavigationToolbar2. Thus we strip the toolbar of
 #    anything GUI related 
 class NavigationToolbar2CALIPSO(NavigationToolbar2):
-    def __init__(self, canvas):
+    def __init__(self, canvas, master):
+        self.canvas = canvas
+        self.master = master
         NavigationToolbar2.__init__(self, canvas)
         
     def _init_toolbar(self):
-        pass
+        self.message = StringVar(master=self.master)
+        self._message_label = Label(master=self.master, textvariable=self.message)
+        self._message_label.grid(row=3, column=1)
 
     def draw_rubberband(self, event, x0, y0, x1, y1):
         height = self.canvas.figure.bbox.height
@@ -218,6 +206,9 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
         else:
             self.canvas._tkcanvas.delete(self.lastrect)
             del self.lastrect
+        
+    def set_message(self, s):
+        self.message.set(s)
         
     def set_cursor(self, event):
         pass
