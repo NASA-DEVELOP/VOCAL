@@ -1,8 +1,5 @@
 *.pyc
-
 gui/*.pyc
-
 plot_vfm/*.pyc
-
-docs/build
-gui/objs
+docs/build/
+gui/objs/
