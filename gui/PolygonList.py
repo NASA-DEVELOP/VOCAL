@@ -34,6 +34,7 @@ class PolygonList(object):
     def plotPoint(self, event):
         check = self.__polygonList[-1].plotPoint(event)
         if check:
+            self.generateTag()
             self.__polygonList.append(PolygonDrawer(self.__canvas))
             
     def rubberBand(self, event):
@@ -61,11 +62,12 @@ class PolygonList(object):
         self.__polygonList = [PolygonDrawer(self.__canvas)]
         self.__count = 0
     
-    #TODO: figure out deleting
-    def delete(self, event, PolygonDrawer):
+    def delete(self, event):
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
         if target[0] > 2:
             self.__canvas._tkcanvas.delete(target)
+        polyShape = self.__findPolygonByItemHandler(target)
+        self.__polygonList.remove(polyShape)
             
     def outline(self):
         PolygonList.outlineToggle = not PolygonList.outlineToggle
@@ -105,10 +107,10 @@ class PolygonList(object):
     
     def save(self):
         self.__data["hdfFile"] = self.__hdf
-        for shape in self.__polygonList:
-            tag = shape.getTag()
-            vertices = shape.getVertices()
-            color = shape.getColor()
+        for i in range(len(self.__polygonList)-1):
+            tag = self.__polygonList[i].getTag()
+            vertices = self.__polygonList[i].getVertices()
+            color = self.__polygonList[i].getColor()
             value = {"vertices": vertices, "color": color}
             self.__data[tag] = value
-            self.__polyWritier.encode(self.__data)
+        self.__polyWritier.encode(self.__data)          # something is adding the blank entries into self.__data
