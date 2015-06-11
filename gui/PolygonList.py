@@ -26,6 +26,7 @@ class PolygonList(object):
         self.__polyWritier = PolygonWriter()
         self.__hdf = ''
         self.__count = 0
+        self.__data = {}
     
     def anchorRectangle(self, event):
         self.__polygonList[-1].anchorRectangle(event)
@@ -40,6 +41,7 @@ class PolygonList(object):
         
     def fillRectangle(self, event):
         self.__polygonList[-1].fillRectangle(event)
+        self.generateTag()
         self.__polygonList.append(PolygonDrawer(self.__canvas))
         
     def setHDF(self, HDFFilename):
@@ -47,6 +49,7 @@ class PolygonList(object):
         
     def drawPolygon(self):
         self.__polygonList[-1].drawPolygon()
+        self.generateTag()
         self.__polygonList.append(PolygonDrawer(self.__canvas))
         
     def generateTag(self, index=-1):
@@ -100,5 +103,12 @@ class PolygonList(object):
             if poly == itemHandler:
                 return shape
     
-    def pack(self):
-        pass
+    def save(self):
+        self.__data["hdfFile"] = self.__hdf
+        for shape in self.__polygonList:
+            tag = shape.getTag()
+            vertices = shape.getVertices()
+            color = shape.getColor()
+            value = {"vertices": vertices, "color": color}
+            self.__data[tag] = value
+            self.__polyWritier.encode(self.__data)
