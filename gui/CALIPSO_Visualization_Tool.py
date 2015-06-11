@@ -220,12 +220,10 @@ class Calipso(object):
         lblSpace2 = Label(self.__lowerButtonFrame, width=1)
         lblSpace2.grid(row=0, column=5)
         
-        # NOTE : See tools.py for documentation on these wrapper classes
-        
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
-        self.__zoomButton = ToolbarToggleableButton(self.__root, self.__lowerButtonFrame, self.__toolbar.zoom, image=self.magnifydrawIMG, width=30, height=30)
-        self.__zoomButton.latch(cursor="tcross", destructor=self.__toolbar.zoom)
+        self.__zoomButton = ToolbarToggleableButton(self.__root, self.__lowerButtonFrame, lambda : self.__toolbar.zoom(True), image=self.magnifydrawIMG, width=30, height=30)
+        self.__zoomButton.latch(cursor="tcross", destructor=lambda : self.toolbarCleanup('ZOOM'))
         self.__zoomButton.grid(row=0, column=2, padx=2, pady=5)
         createToolTip(self.__zoomButton, "Zoom to rect")
         
@@ -291,7 +289,7 @@ class Calipso(object):
         
         self.plotIMG = ImageTk.PhotoImage(file="ico/hide.png")
         self.__plotButton = Button(self.__lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__polygonDrawer.hide())
-#         self.__plotButton.latch(key="<Button-1>", command=self.__polygonDrawer.hide, cursor="")
+#       self.__plotButton.latch(key="<Button-1>", command=self.__polygonDrawer.hide, cursor="")
         self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
         createToolTip(self.__plotButton, "Hide polygons")
         
