@@ -138,12 +138,12 @@ class PolygonList(object):
     def save(self):
         self.__data["hdfFile"] = self.__hdf
         for i in range(len(self.__polygonList)):
-            plotDict = {}
+            shapeDict = {}
             for j in range(len(self.__polygonList[i])-1):
                 tag = self.__polygonList[i][j].getTag()
                 vertices = self.__polygonList[i][j].getVertices()
                 color = self.__polygonList[i][j].getColor()
                 value = {"vertices": vertices, "color": color}
-                plotDict = {tag: value}
-            self.__data[self.__plotInttoString(i)] = plotDict
+                shapeDict[tag] = value
+            self.__data[self.__plotInttoString(i)] = shapeDict
         self.__polyWritier.encode(self.__data)    
