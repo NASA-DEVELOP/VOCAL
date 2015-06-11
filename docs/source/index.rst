@@ -24,6 +24,7 @@ Documentation:
 .. toctree::
    :maxdepth: 1
 
+   conventions
    classes/classes
    functions/functions
 
