@@ -170,19 +170,20 @@ class ToolbarToggleableButton(Button):
     # Clone to toggle, except the only functionality of unToggle is to forceably
     #    untoggle the button and set the state accordingly
     def unToggle(self):
+        print "untoggling",self.__cursor
         self.isToggled = False
         self.config(relief='raised')
         if self.__func : self.__func()
         
     # Call the super classes Toggle, and execute our function as well
     def toggle(self):
-        if self.__func : self.__func()
-        # first flip the toggle switch
         self.isToggled = not self.isToggled
         # if any buttons are currently active, untoggle them
         for s in [x for x in toggleContainer if x.isToggled == True and x is not self]:  
             s.unToggle()
-            
+        
+        # first flip the toggle switch
+        if self.__func : self.__func()
         # else if next state it false
         if self.isToggled == False:
             self.config(relief='raised')                # raise the button, e.g. deactivated
