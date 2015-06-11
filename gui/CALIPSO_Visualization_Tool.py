@@ -1,6 +1,6 @@
 #### IMPORTS #######################################################################################
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE, BOTTOM
+    RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE, BOTTOM, SW
 import os
 import tkFileDialog
 
@@ -109,13 +109,13 @@ class Calipso(object):
         self.__root.title("CALIPSO Visualization Tool")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
-        x = (sw - WIDTH)/2
-        y = (sh - HEIGHT)/2
-        self.__root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, x, y))
+        self.x = (sw - WIDTH)/2
+        self.y = (sh - HEIGHT)/2
+        self.__root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, self.x, self.y))
         # the child is designed to appear off to the right of the parent window, so the x location
         #     is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
         #     plus half the distance of the window
-        self.__child.geometry('%dx%d+%d+%d' % (CHILDWIDTH, CHILDHEIGHT, x + x*4 + 20, y + y/2))
+        self.__child.geometry('%dx%d+%d+%d' % (CHILDWIDTH, CHILDHEIGHT, self.x + self.x*4 + 20, self.y + self.y/2))
        
 #### MENU BAR ######################################################################################   
     def setupMenu(self):
@@ -197,6 +197,17 @@ class Calipso(object):
         self.__lblFileDialog.grid(row=1, column=1, padx=10)
         btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
+        
+    def noticeJSON(self):
+        self.__polygonList.save()
+        filewin = Toplevel(self.__root)
+        filewin.title("Notice")
+        filewin.geometry('%dx%d+%d+%d' % (100, 75, self.x + self.x*2 - 60, self.y + self.y/2 + 160))
+        T = Message(filewin, text="JSON written to gui/objs/", anchor=SW)
+        T.pack()
+            
+        btnClose = Button(filewin, text="Close", command=filewin.destroy)
+        btnClose.pack()
         
 
         
@@ -299,7 +310,7 @@ class Calipso(object):
         createToolTip(self.__plotButton, "Hide polygons")
         
         self.buttonIMG = ImageTk.PhotoImage(file="ico/button.png")
-        self.__testButton = Button(self.__lowerButtonFrame, image=self.buttonIMG, width=30, height=30, command=lambda: self.__polygonList.save())
+        self.__testButton = Button(self.__lowerButtonFrame, image=self.buttonIMG, width=30, height=30, command=self.noticeJSON)
         self.__testButton.grid(row=2, column=4, padx=2, pady=5)
         createToolTip(self.__testButton, "Test function")
 
