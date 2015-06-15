@@ -4,9 +4,14 @@ Created on Jun 11, 2015
 @author: nqian
 '''
 # import antigravity
+import json
+from tkColorChooser import askcolor
+
+import yaml
+
+from gui import Constants
 from gui.Polygon import PolygonDrawer
 from gui.PolygonWriter import PolygonWriter
-from tkColorChooser import askcolor
 
 
 class PolygonList(object):
@@ -29,22 +34,33 @@ class PolygonList(object):
         self.__currentList = None
         self.__polyWritier = PolygonWriter()
         self.__hdf = ''
-        self.__plot = -1
+        self.__plot = ""
         self.__count = 0
         self.__data = {}
     
     def setPlot(self, plot):
-        self.__plot = plot
-        if self.__plot == 0:
+        newPlot = ""
+        oldData = self.readPlot()
+        if plot == 0:
             self.__currentList = self.__polygonList[0]
-        elif self.__plot == 1:
+        elif plot == 1:
             self.__currentList = self.__polygonList[1]
-        elif self.__plot == 2:
+            newPlot = Constants.BACKSCATTERED_STR
+            if oldData["Backscattered"] is not {}:
+                self.drawFromJson(oldData["Backscattered"])
+        elif plot == 2:
             self.__currentList = self.__polygonList[2]
+            newPlot = Constants.DEPOLARIZED_STR
+            if oldData["Depolarized"] is not {}:
+                self.drawFromJson(oldData["Depolarized"])
         else:
             self.__currentList = self.__polygonList[3]
-        self.__canvas._tkcanvas.delete("polygon")
+            newPlot = Constants.VFM_STR
+            if oldData["VFM"] is not {}:
+                self.drawFromJson(oldData["VFM"])
+        self.__canvas._tkcanvas.delete(self.__plot)
         self.__canvas._tkcanvas.delete("line")
+        self.__plot = newPlot
     
     def anchorRectangle(self, event):
         self.__currentList[-1].anchorRectangle(event)
@@ -134,7 +150,25 @@ class PolygonList(object):
             return "Depolarized"
         else:
             return "VFM"
-    
+        
+    def drawFromJson(self, plotDict):
+        for shape in plotDict:
+            color = plotDict[shape]["color"]
+            vertices = plotDict[shape]["vertices"]
+            self.__canvas._tkcanvas.create_polygon(vertices, outline=color, fill=color, width=2, tags="Polygon")
+        
+    def readPlot(self):
+        with open("C:\\Users\\nqian\\git\\CALIPSO_Visualization\\gui\\objs\\polygons.json", 'r') as infile:
+            data = json.load(infile)
+            test = json.dumps(data, sort_keys=True,
+                             indent=2, separators=(',', ': '))
+#             print test
+#             print data["Backscattered"]
+#             print data["Depolarized"]
+            yaml.safe_load(test)
+#             print type(test)
+            return data
+        
     def save(self):
         self.__data["hdfFile"] = self.__hdf
         for i in range(len(self.__polygonList)):

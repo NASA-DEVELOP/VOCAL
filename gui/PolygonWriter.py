@@ -5,7 +5,6 @@ Created on Jun 11, 2015
 '''
 # import antigravity
 import json
-from Tkinter import Message, Toplevel, Button
 
 class PolygonWriter(object):
     '''

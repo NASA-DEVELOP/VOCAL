@@ -8,6 +8,7 @@ Created on Jun 4, 2015
 from Tkinter import Widget
 from numpy import empty_like, dot, array
 from PolygonWriter import PolygonWriter
+from gui import Constants
 
 class PolygonDrawer(Widget):
     '''
@@ -109,6 +110,7 @@ class PolygonDrawer(Widget):
         self.__color = color
         self.__polyWriter = PolygonWriter("C:\\Users\\nqian\\Desktop\\poly.json")
         self.__itemHandler = 0
+        self.__plot = -1
         
         self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.onTokenButtonPress)
         self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.onTokenButtonRelease)
@@ -145,7 +147,7 @@ class PolygonDrawer(Widget):
         self.__prevX = event.x
         self.__prevY = event.y
         
-    def plotPoint(self, event):
+    def plotPoint(self, event, plot=Constants.BASE_PLOT_STR):
         self.__vertices.append((event.x, event.y))
         if len(self.__vertices) > 1:
             self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width="2", tags="line")
@@ -161,7 +163,7 @@ class PolygonDrawer(Widget):
                 self.__vertices[index] = pair
                 del self.__vertices[:index]
                 self.__vertices.pop()
-                self.drawPolygon()
+                self.drawPolygon(plot)
                 self.__canvas._tkcanvas.delete("line")
                 PolygonDrawer.colorCounter += 16
                 return True
@@ -178,7 +180,7 @@ class PolygonDrawer(Widget):
             self.__canvas._tkcanvas.delete(self.lastrect)
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prevX, self.__prevY, event.x, event.y)
         
-    def fillRectangle(self, event):
+    def fillRectangle(self, event, plot=Constants.BASE_PLOT_STR):
         '''
         Draws the rectangle and stores the vertices of the rectangle internally. Used in "Draw Rect"
         '''
@@ -191,7 +193,8 @@ class PolygonDrawer(Widget):
             del self.lastrect
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
-        self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], tags=("polygon", self.__tag))
+        color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
+        self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=color, fill=color, tags=("polygon", self.__tag, plot))
         self.__color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
         self.__vertices.append((event.x, iy))
         self.__vertices.append((event.x, event.y))
@@ -226,8 +229,9 @@ class PolygonDrawer(Widget):
                 return i
         return -1
             
-    def drawPolygon(self):
-        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width=2, tags=("polygon", self.__tag))
+    def drawPolygon(self, plot=Constants.BASE_PLOT_STR):
+        color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
+        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=color, fill=color, width=2, tags=("polygon", self.__tag, plot))
         self.__color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
         PolygonDrawer.colorCounter += 16
     
