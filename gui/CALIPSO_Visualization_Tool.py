@@ -301,15 +301,15 @@ class Calipso(object):
         self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
         createToolTip(self.__plotButton, "Hide polygons")
         
-        self.buttonIMG = ImageTk.PhotoImage(file="ico/button.png")
-        self.__testButton = Button(self.__lowerButtonFrame, image=self.buttonIMG, width=30, height=30, command=self.noticeJSON)
+        self.saveIMG = ImageTk.PhotoImage(file="ico/save.png")
+        self.__testButton = Button(self.__lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.noticeJSON)
         self.__testButton.grid(row=2, column=4, padx=2, pady=5)
-        createToolTip(self.__testButton, "Test function")
+        createToolTip(self.__testButton, "Save to JSON")
         
-        self.button2IMG = ImageTk.PhotoImage(file="ico/button2.png")
-        self.__testButton2 = Button(self.__lowerButtonFrame, image=self.button2IMG, width=30, height=30, command=self.__polygonList.readPlot)
+        self.loadIMG = ImageTk.PhotoImage(file="ico/load.png")
+        self.__testButton2 = Button(self.__lowerButtonFrame, image=self.loadIMG, width=30, height=30, command=self.__polygonList.readPlot)
         self.__testButton2.grid(row=3, column=1, padx=2, pady=5)
-        createToolTip(self.__testButton2, "Test function 2")
+        createToolTip(self.__testButton2, "Load JSON")
 
 
     def importFile(self):
