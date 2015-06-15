@@ -6,7 +6,7 @@ Created on Jun 11, 2015
 # import antigravity
 from tkColorChooser import askcolor
 
-from datetime import datetime, tzinfo
+from datetime import datetime
 
 from gui import Constants
 from gui.Polygon import PolygonDrawer
@@ -179,7 +179,8 @@ class PolygonList(object):
 #             self.__currentList[-1].drawFromJSON()
 #             self.generateTag()
         
-    def readPlot(self):
+    def readPlot(self, fileName="C:\\Users\\nqian\\Documents\\Carol.json"):
+        self.__polyReader.setFileName(fileName)
         self.__polyReader.readJSON()
         plot = 0
         for lst in self.__polygonList:
@@ -190,7 +191,8 @@ class PolygonList(object):
                         shape.redrawShape()
             plot += 1
         
-    def save(self):
+    def save(self, fileName="objs/polygons.json"):
+        self.__polyWritier.setJsonFile(fileName)
         today = datetime.utcnow()
         year = today.year
         month = today.month
@@ -210,10 +212,7 @@ class PolygonList(object):
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
         self.__polyWritier.encode(self.__data)
-        
-class TZ(tzinfo):
-    pass
-        
+                
 if __name__=="__main__":
     print PolygonList.plotStringtoInt(Constants.PLOTS[0])
     print PolygonList.plotStringtoInt(Constants.PLOTS[1])

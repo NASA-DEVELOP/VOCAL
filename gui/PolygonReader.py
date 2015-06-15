@@ -16,12 +16,15 @@ class PolygonReader(object):
     '''
 
 
-    def __init__(self, fileName="C:\\Users\\nqian\\git\\CALIPSO_Visualization\\gui\\objs\\test.json"):
+    def __init__(self, fileName="C:\\Users\\nqian\\Documents\\Carol.json"):
         '''
         Initializes attributes
         '''
         self.__fileName = fileName
         self.__data = {} 
+        
+    def setFileName(self, fileName):
+        self.__fileName = fileName
         
     def readJSON(self):   
         with open(self.__fileName, 'r') as infile:

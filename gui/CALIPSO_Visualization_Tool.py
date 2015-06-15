@@ -193,7 +193,7 @@ class Calipso(object):
         btnBrowse.grid(row=1, column=3)
         
     def noticeJSON(self):
-        self.__polygonList.save()
+        self.saveAs()
         filewin = Toplevel(self.__root)
         filewin.title("Notice")
         filewin.geometry('%dx%d+%d+%d' % (100, 75, self.x + self.x*2 - 60, self.y + self.y/2 + 160))
@@ -307,7 +307,7 @@ class Calipso(object):
         createToolTip(self.__testButton, "Save to JSON")
         
         self.loadIMG = ImageTk.PhotoImage(file="ico/load.png")
-        self.__testButton2 = Button(self.__lowerButtonFrame, image=self.loadIMG, width=30, height=30, command=self.__polygonList.readPlot)
+        self.__testButton2 = Button(self.__lowerButtonFrame, image=self.loadIMG, width=30, height=30, command=self.load)
         self.__testButton2.grid(row=3, column=1, padx=2, pady=5)
         createToolTip(self.__testButton2, "Load JSON")
 
@@ -331,9 +331,21 @@ class Calipso(object):
     
     def saveAs(self):
         options = {}
-        options['defaultextension'] = '.hdf'
-        options['filetypes'] = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        tkFileDialog.asksaveasfile(mode='w', **options)
+        options['defaultextension'] = '.json'
+        options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
+        f = tkFileDialog.asksaveasfilename(**options)
+        if f is None:
+            return
+        self.__polygonList.save(f)
+        
+    def load(self):
+        options = {}
+        options['defaultextension'] = '.json'
+        options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
+        f = tkFileDialog.askopenfilename(**options)
+        if f is None:
+            return
+        self.__polygonList.readPlot(f)
         
     def about(self): 
         filewin = Toplevel(self.__root)
