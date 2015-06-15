@@ -11,8 +11,8 @@ from matplotlib.figure import Figure
 from PIL import Image, ImageTk
 from gui import Constants
 from gui.PolygonList import PolygonList
-from gui.plot_depolar_ratio import drawDepolar
-from gui.plot_uniform_alt_lidar_dev import drawBackscattered
+from gui.plot.plot_depolar_ratio import drawDepolar
+from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
     ToolbarToggleableButton
 from toolswindow import toolsWindow
