@@ -1,19 +1,10 @@
 #### IMPORTS #######################################################################################
-from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, Message, TOP, LEFT, SUNKEN, FALSE, BOTTOM, SW
-import os
-import tkFileDialog
-
-from bokeh.colors import white
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
+from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
+    RAISED, BOTH, VERTICAL, Menubutton,FALSE, BOTTOM
 
 from PIL import Image, ImageTk
 from gui import Constants
-from gui.PolygonList import PolygonList
-from gui.plot.plot_depolar_ratio import drawDepolar
-from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
-from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
+from tools import createToolTip, ToggleableButton, \
     ToolbarToggleableButton
 
 class toolsWindow(Toplevel):
