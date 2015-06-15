@@ -73,7 +73,7 @@ class PolygonList(object):
         self.__currentList[-1].anchorRectangle(event)
         
     def plotPoint(self, event):
-        check = self.__currentList[-1].plotPoint(event)
+        check = self.__currentList[-1].plotPoint(event, self.__plot)
         if check:
             self.generateTag()
             self.__currentList.append(PolygonDrawer(self.__canvas))
