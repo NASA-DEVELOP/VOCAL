@@ -36,13 +36,12 @@ class PolygonWriter(object):
         
         self.__Session = sessionmaker(bind=self.__dbEngine)
         
-        """ delete empty objects and display database
+        #delete empty objects and display database
         session = self.__Session()
-        for db in session.query(dbPolygon).filter_by(color='').all():
-            session.delete(db)
-        session.commit()
-        """
-        session = self.__Session()
+        #for db in session.query(dbPolygon).filter_by(color='').all():
+        #    session.delete(db)
+        #session.commit()
+        
         lst = session.query(dbPolygon).all()
         print lst
         session.close()
@@ -58,29 +57,12 @@ class PolygonWriter(object):
         
     def commitToDB(self, polyList):
         session = self.__Session()
-        for polygon in polyList:
-            session.add(
-                dbPolygon(vertices=str(polygon.getVertices()), color=polygon.getColor()))
+        for polygon in polyList[:-1]:
+            if polygon.getVertices != None:
+                session.add(
+                    dbPolygon(vertices=str(polygon.getVertices()), color=polygon.getColor()))
         session.commit()
         session.close()
-        
-    def getTest(self):
-        session = self.__Session()
-        poly = session.query(dbPolygon).filter_by(color="#FFFFF").first()
-        print poly
-        
-        
-    def set(self, key, value):
-#         try:
-#             lst = self.__dict[key]
-#             if type(value) is not list:
-#                 lst.append(value)
-#             else:
-#                 for item in value:
-#                     lst.append(item)
-#         except KeyError:
-#             self.__dict[key] = value
-        self.__dict[key] = value
         
     def setJsonFile(self, fileName):
         self.__fileName = fileName

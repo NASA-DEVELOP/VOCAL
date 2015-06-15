@@ -28,10 +28,6 @@ class Calipso(object):
     def __init__ (self, r):
         self.__root = r                     # root of program
         self.__file = ''                    # current file in use
-        self.__lblFileDialog = Label()      # shows the selected file
-        self.__menuBar = None               # menu bar appearing at top of screen
-        self.__menuFile = None              # sub menu
-        self.__menuHelp = None              # sub menu
         ######################################### CREATE MAIN WINDOW #########################################
         basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
         basePane.pack(fill=BOTH, expand = 1)                # fill and expand
@@ -123,12 +119,18 @@ class Calipso(object):
         self.__menuFile.add_command(label="Exit", command=self.__root.quit)
         self.__menuBar.add_cascade(label="File", menu=self.__menuFile)
         
+        #Polygon Menu
+        self.__menuPolygon = Menu(self.__menuBar, tearoff=0)
+        self.__menuPolygon.add_command(label="Import from Database", command=self.dbOpenDialog)
+        self.__menuPolygon.add_command(label="Export to Database", command=self.notifySaveDB)
+        self.__menuBar.add_cascade(label="Polygon", menu=self.__menuPolygon)
+        
         #Help Menu
         self.__menuHelp = Menu(self.__menuBar, tearoff=0)
-        self.__menuHelp.add_command(label="Tutorial", command=self.tutorial)
-        self.__menuHelp.add_separator()
         self.__menuHelp.add_command(label="About", command=self.about)
         self.__menuBar.add_cascade(label="Help", menu=self.__menuHelp)
+        
+        
         
         #configure menu to screen
         self.__root.config(menu=self.__menuBar)
@@ -191,7 +193,7 @@ class Calipso(object):
         btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
         btnBrowse.grid(row=1, column=3)
         
-    def noticeJSON(self):
+    def notifySaveDB(self):
         self.__polygonList.save()
         filewin = Toplevel(self.__root)
         filewin.title("Notice")
@@ -201,6 +203,9 @@ class Calipso(object):
             
         btnClose = Button(filewin, text="Close", command=filewin.destroy)
         btnClose.pack()
+        
+    def dbOpenDialog(self):
+        pass
         
     def createChildWindowGUI(self):
         ###################################Upper Frame##############################################
@@ -299,11 +304,6 @@ class Calipso(object):
 #       self.__plotButton.latch(key="<Button-1>", command=self.__polygonList.hide, cursor="")
         self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
         createToolTip(self.__plotButton, "Hide polygons")
-        
-        self.buttonIMG = ImageTk.PhotoImage(file="ico/button.png")
-        self.__testButton = Button(self.__lowerButtonFrame, image=self.buttonIMG, width=30, height=30, command=self.noticeJSON)
-        self.__testButton.grid(row=2, column=4, padx=2, pady=5)
-        createToolTip(self.__testButton, "Store to BD")
 
 
     def importFile(self):
@@ -336,13 +336,7 @@ class Calipso(object):
         T.pack()
             
         btnClose = Button(filewin, text="Close", command=filewin.destroy)
-        btnClose.pack()
-        
-    def tutorial(self):
-        filewin = Toplevel(self.__root)
-        T = Text(filewin, height=10, width=40, wrap='word')
-        T.pack()
-        T.insert(END, "This is a tutorial of how to use the CALIPSO Visualization Tool")   
+        btnClose.pack()  
     
     # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
     def setupMainScreen(self):
