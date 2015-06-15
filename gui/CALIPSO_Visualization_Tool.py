@@ -303,7 +303,7 @@ class Calipso(object):
         self.buttonIMG = ImageTk.PhotoImage(file="ico/button.png")
         self.__testButton = Button(self.__lowerButtonFrame, image=self.buttonIMG, width=30, height=30, command=self.noticeJSON)
         self.__testButton.grid(row=2, column=4, padx=2, pady=5)
-        createToolTip(self.__testButton, "Test function")
+        createToolTip(self.__testButton, "Store to BD")
 
 
     def importFile(self):
