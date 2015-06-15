@@ -35,18 +35,32 @@ class PolygonWriter(object):
         dbBase.metadata.create_all(self.__dbEngine)
         
         self.__Session = sessionmaker(bind=self.__dbEngine)
-        #self.addTest()
-        self.getTest()
+        
+        """ delete empty objects and display database
+        session = self.__Session()
+        for db in session.query(dbPolygon).filter_by(color='').all():
+            session.delete(db)
+        session.commit()
+        lst = session.query(dbPolygon).all()
+        print lst
+        """
 
         
-    def addTest(self):
-        self.__session = self.__Session()
+    def notifyDeletion(self, polygon):
+        session = self.__Session()
+        session.delete(
+            dbPolygon(vertices=str(polygon.getVertices()), color=(polygon.getColor())))
+        session.commit()
+        session.close()
         
-        test = dbPolygon(vertices="1,2,3", color="#FFFFF")
-        self.__session.add(test)
-        self.__session.commit()
-        self.__session.close()
-        print ("added")
+    def notifyAddition(self, polygon):
+        session = self.__Session()
+        print polygon.getVertices(), polygon.getColor()
+        session.add(
+            dbPolygon(vertices=str(polygon.getVertices()), color=(polygon.getColor())))
+        session.commit()
+        session.close()
+    
         
     def getTest(self):
         session = self.__Session()

@@ -53,7 +53,7 @@ class PolygonList(object):
         check = self.__currentList[-1].plotPoint(event)
         if check:
             self.generateTag()
-            self.__currentList.append(PolygonDrawer(self.__canvas))
+            self.addPolygon()
             
     def rubberBand(self, event):
         self.__currentList[-1].rubberBand(event)
@@ -61,7 +61,11 @@ class PolygonList(object):
     def fillRectangle(self, event):
         self.__currentList[-1].fillRectangle(event)
         self.generateTag()
+        self.addPolygon()
+        
+    def addPolygon(self):
         self.__currentList.append(PolygonDrawer(self.__canvas))
+        self.__polyWritier.notifyAddition(self.__currentList[-2])
         
     def setHDF(self, HDFFilename):
         self.__hdf = HDFFilename
@@ -69,7 +73,7 @@ class PolygonList(object):
     def drawPolygon(self):
         self.__currentList[-1].drawPolygon()
         self.generateTag()
-        self.__currentList.append(PolygonDrawer(self.__canvas))
+        self.addPolygon()
         
     def generateTag(self, index=-1):
         string = "shape" + str(self.__count)
