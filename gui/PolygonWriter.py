@@ -11,7 +11,7 @@ from Tkinter import Message, Toplevel, Button
 #from CALIPSO_Visualization_Tool import dbBase
 
 import sqlalchemy
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 from dbPolygon import dbBase, dbPolygon
@@ -41,9 +41,12 @@ class PolygonWriter(object):
         for db in session.query(dbPolygon).filter_by(color='').all():
             session.delete(db)
         session.commit()
+        """
+        session = self.__Session()
         lst = session.query(dbPolygon).all()
         print lst
-        """
+        session.close()
+        
 
         
     def notifyDeletion(self, polygon):
@@ -53,14 +56,13 @@ class PolygonWriter(object):
         session.commit()
         session.close()
         
-    def notifyAddition(self, polygon):
+    def commitToDB(self, polyList):
         session = self.__Session()
-        print polygon.getVertices(), polygon.getColor()
-        session.add(
-            dbPolygon(vertices=str(polygon.getVertices()), color=(polygon.getColor())))
+        for polygon in polyList:
+            session.add(
+                dbPolygon(vertices=str(polygon.getVertices()), color=polygon.getColor()))
         session.commit()
         session.close()
-    
         
     def getTest(self):
         session = self.__Session()
