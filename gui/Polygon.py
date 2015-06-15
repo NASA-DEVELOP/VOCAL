@@ -135,6 +135,9 @@ class PolygonDrawer(Widget):
             dx = event.x - self.__drag_data["x"]
             dy = event.y - self.__drag_data["y"]
             self.__canvas._tkcanvas.move(self.__drag_data["item"], dx, dy)
+            for point in self.__vertices:
+                point[0] += dx
+                point[1] += dy
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
                     
@@ -207,7 +210,16 @@ class PolygonDrawer(Widget):
         self.__tag = tag;
         
     def setColor(self, color):
-        self.__color = color    
+        self.__color = color
+        
+    def setVertices(self, vertexList):
+        self.__vertices = vertexList
+        
+    def setPlot(self, plot):
+        self.__plot = plot
+        
+    def getPlot(self):
+        return self.__plot 
     
     def getVertices(self):
         return self.__vertices

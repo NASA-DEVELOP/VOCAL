@@ -12,3 +12,5 @@ BASE_PLOT_STR       = "base_plot"
 BACKSCATTERED_STR   = "backscattered"
 DEPOLARIZED_STR     = "depolarized"
 VFM_STR             = "vfm"
+
+PLOTS = ["base_plot", "backscattered", "depolarized", "vfm"]
