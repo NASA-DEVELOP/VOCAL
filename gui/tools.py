@@ -152,7 +152,6 @@ class ToolbarToggleableButton(Button):
     # Clone to toggle, except the only functionality of unToggle is to forceably
     #    untoggle the button and set the state accordingly
     def unToggle(self):
-        print "untoggling",self.__cursor
         self.isToggled = False
         self.config(relief='raised')
         if self.__func : self.__func()
