@@ -4,13 +4,11 @@ Created on Jun 11, 2015
 @author: nqian
 '''
 # import antigravity
-import json
 from tkColorChooser import askcolor
-
-import yaml
 
 from gui import Constants
 from gui.Polygon import PolygonDrawer
+from gui.PolygonReader import PolygonReader
 from gui.PolygonWriter import PolygonWriter
 
 
@@ -33,6 +31,7 @@ class PolygonList(object):
                               [PolygonDrawer(canvas)]]      # vfm list
         self.__currentList = None
         self.__polyWritier = PolygonWriter()
+        self.__polyReader = PolygonReader()
         self.__hdf = ''
         self.__plot = Constants.BASE_PLOT_STR
         self.__count = 0
@@ -148,15 +147,27 @@ class PolygonList(object):
             if poly == itemHandler[0]:
                 return shape
             
-    def __plotInttoString(self, plot):
+    @staticmethod
+    def __plotInttoString(plot):
         if plot == 0:
-            return "Base_Plot"
+            return "base_plot"
         elif plot == 1:
-            return "Backscattered"
+            return "backscattered"
         elif plot == 2:
-            return "Depolarized"
+            return "depolarized"
         else:
-            return "VFM"
+            return "vfm"
+        
+    @staticmethod
+    def plotStringtoInt(plot):
+        if plot.lower() == "base_plot":
+            return 0
+        elif plot.lower() == "backscattered":
+            return 1
+        elif plot.lower() == "depolarized":
+            return 2
+        elif plot.lower() == "vfm":
+            return 3
         
     def drawFromJson(self, plotDict):
         for shape in plotDict:
@@ -167,16 +178,16 @@ class PolygonList(object):
 #             self.generateTag()
         
     def readPlot(self):
-        with open("C:\\Users\\nqian\\git\\CALIPSO_Visualization\\gui\\objs\\polygons.json", 'r') as infile:
-            data = json.load(infile)
-            test = json.dumps(data, sort_keys=True,
-                             indent=2, separators=(',', ': '))
-#             print test
-#             print data["Backscattered"]
-#             print data["Depolarized"]
-            yaml.safe_load(test)
-#             print type(test)
-            return data
+        self.__polyReader.readJSON()
+        plot = 0
+        for lst in self.__polygonList:
+            self.__polyReader.packPolygonDrawer(lst, Constants.PLOTS[plot], self.__canvas)
+            result = PolygonList.plotStringtoInt(self.__plot)
+            if PolygonList.plotStringtoInt(self.__plot) == plot:
+                for shape in lst:
+                    if not shape.isEmpty():
+                        shape.redrawShape()
+            plot += 1
         
     def save(self):
         self.__data["hdfFile"] = self.__hdf
@@ -190,3 +201,9 @@ class PolygonList(object):
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
         self.__polyWritier.encode(self.__data)    
+        
+if __name__=="__main__":
+    print PolygonList.plotStringtoInt(Constants.PLOTS[0])
+    print PolygonList.plotStringtoInt(Constants.PLOTS[1])
+    print PolygonList.plotStringtoInt(Constants.PLOTS[2])
+    print PolygonList.plotStringtoInt(Constants.PLOTS[3])

@@ -307,7 +307,7 @@ class Calipso(object):
         createToolTip(self.__testButton, "Test function")
         
         self.button2IMG = ImageTk.PhotoImage(file="ico/button2.png")
-        self.__testButton2 = Button(self.__lowerButtonFrame, image=self.button2IMG, width=30, height=30)
+        self.__testButton2 = Button(self.__lowerButtonFrame, image=self.button2IMG, width=30, height=30, command=self.__polygonList.readPlot)
         self.__testButton2.grid(row=3, column=1, padx=2, pady=5)
         createToolTip(self.__testButton2, "Test function 2")
 
