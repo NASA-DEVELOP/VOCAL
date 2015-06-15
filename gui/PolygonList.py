@@ -6,6 +6,8 @@ Created on Jun 11, 2015
 # import antigravity
 from tkColorChooser import askcolor
 
+from datetime import datetime, tzinfo
+
 from gui import Constants
 from gui.Polygon import PolygonDrawer
 from gui.PolygonReader import PolygonReader
@@ -182,7 +184,6 @@ class PolygonList(object):
         plot = 0
         for lst in self.__polygonList:
             self.__polyReader.packPolygonDrawer(lst, Constants.PLOTS[plot], self.__canvas)
-            result = PolygonList.plotStringtoInt(self.__plot)
             if PolygonList.plotStringtoInt(self.__plot) == plot:
                 for shape in lst:
                     if not shape.isEmpty():
@@ -190,6 +191,14 @@ class PolygonList(object):
             plot += 1
         
     def save(self):
+        today = datetime.utcnow()
+        year = today.year
+        month = today.month
+        day = today.day
+        hour = today.hour
+        minute = today.minute
+        second = today.second
+        self.__data['time'] = str(year) + "-" + str(month) + "-" + str(day) + "T" + str(hour) + ":" + str(minute) + ":" + str(second) + "Z"
         self.__data["hdfFile"] = self.__hdf
         for i in range(len(self.__polygonList)):
             shapeDict = {}
@@ -200,7 +209,10 @@ class PolygonList(object):
                 value = {"vertices": vertices, "color": color}
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
-        self.__polyWritier.encode(self.__data)    
+        self.__polyWritier.encode(self.__data)
+        
+class TZ(tzinfo):
+    pass
         
 if __name__=="__main__":
     print PolygonList.plotStringtoInt(Constants.PLOTS[0])
