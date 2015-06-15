@@ -27,37 +27,44 @@ class PolygonList(object):
         Constructor
         '''
         self.__canvas = canvas
-        self.__polygonList = [[PolygonDrawer(canvas)],
-                              [PolygonDrawer(canvas)],
-                              [PolygonDrawer(canvas)],
-                              [PolygonDrawer(canvas)]]
+        self.__polygonList = [[PolygonDrawer(canvas)],      # base plot list
+                              [PolygonDrawer(canvas)],      # backscattered list
+                              [PolygonDrawer(canvas)],      # depolarized list
+                              [PolygonDrawer(canvas)]]      # vfm list
         self.__currentList = None
         self.__polyWritier = PolygonWriter()
         self.__hdf = ''
-        self.__plot = ""
+        self.__plot = Constants.BASE_PLOT_STR
         self.__count = 0
         self.__data = {}
     
     def setPlot(self, plot):
         newPlot = ""
-        oldData = self.readPlot()
+#         oldData = self.readPlot()
         if plot == 0:
-            self.__currentList = self.__polygonList[0]
+            self.__currentList = self.__polygonList[Constants.BASE_PLOT]
+            newPlot = Constants.BASE_PLOT_STR
         elif plot == 1:
-            self.__currentList = self.__polygonList[1]
+            self.__currentList = self.__polygonList[Constants.BACKSCATTERED]
             newPlot = Constants.BACKSCATTERED_STR
-            if oldData["Backscattered"] is not {}:
-                self.drawFromJson(oldData["Backscattered"])
+            if len(self.__polygonList[Constants.BACKSCATTERED]) > 1:
+                for shape in self.__polygonList[Constants.BACKSCATTERED]:
+                    if not shape.isEmpty():
+                        shape.redrawShape()
         elif plot == 2:
-            self.__currentList = self.__polygonList[2]
+            self.__currentList = self.__polygonList[Constants.DEPOLARIZED]
             newPlot = Constants.DEPOLARIZED_STR
-            if oldData["Depolarized"] is not {}:
-                self.drawFromJson(oldData["Depolarized"])
+            if len(self.__polygonList[Constants.DEPOLARIZED]) > 1:
+                for shape in self.__polygonList[Constants.DEPOLARIZED]:
+                    if not shape.isEmpty():
+                        shape.redrawShape()
         else:
-            self.__currentList = self.__polygonList[3]
+            self.__currentList = self.__polygonList[Constants.VFM]
             newPlot = Constants.VFM_STR
-            if oldData["VFM"] is not {}:
-                self.drawFromJson(oldData["VFM"])
+            if len(self.__polygonList[Constants.VFM]) > 1:
+                for shape in self.__polygonList[Constants.VFM]:
+                    if not shape.isEmpty():
+                        shape.redrawShape()
         self.__canvas._tkcanvas.delete(self.__plot)
         self.__canvas._tkcanvas.delete("line")
         self.__plot = newPlot
@@ -75,7 +82,7 @@ class PolygonList(object):
         self.__currentList[-1].rubberBand(event)
         
     def fillRectangle(self, event):
-        self.__currentList[-1].fillRectangle(event)
+        self.__currentList[-1].fillRectangle(event, self.__plot)
         self.generateTag()
         self.__currentList.append(PolygonDrawer(self.__canvas))
         
@@ -83,7 +90,7 @@ class PolygonList(object):
         self.__hdf = HDFFilename
         
     def drawPolygon(self):
-        self.__currentList[-1].drawPolygon()
+        self.__currentList[-1].drawPolygon(self.__plot)
         self.generateTag()
         self.__currentList.append(PolygonDrawer(self.__canvas))
         
@@ -156,6 +163,8 @@ class PolygonList(object):
             color = plotDict[shape]["color"]
             vertices = plotDict[shape]["vertices"]
             self.__canvas._tkcanvas.create_polygon(vertices, outline=color, fill=color, width=2, tags="Polygon")
+#             self.__currentList[-1].drawFromJSON()
+#             self.generateTag()
         
     def readPlot(self):
         with open("C:\\Users\\nqian\\git\\CALIPSO_Visualization\\gui\\objs\\polygons.json", 'r') as infile:
