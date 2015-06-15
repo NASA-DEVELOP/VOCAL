@@ -62,10 +62,6 @@ class Calipso(object):
         # show the frame
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplotFrame.pack()
-        
-    @staticmethod
-    def ignore():
-        pass
 
 #### MAIN WINDOW SETUP #############################################################################            
     #Creates the GUI window
@@ -106,8 +102,6 @@ class Calipso(object):
         self.__menuHelp = Menu(self.__menuBar, tearoff=0)
         self.__menuHelp.add_command(label="About", command=self.about)
         self.__menuBar.add_cascade(label="Help", menu=self.__menuHelp)
-        
-        
         
         #configure menu to screen
         self.__root.config(menu=self.__menuBar)
