@@ -16,7 +16,6 @@ from gui.plot_uniform_alt_lidar_dev import drawBackscattered
 from tools import createToolTip, ToggleableButton, NavigationToolbar2CALIPSO, \
     ToolbarToggleableButton
 
-
 #### PROGRAM CONSTANTS ####
 HEIGHT          = 665
 WIDTH           = 1265
@@ -357,7 +356,7 @@ class Calipso(object):
 if __name__ == "__main__":
     rt = Tk()
     program = Calipso(rt)
-
+    
     program.setupWindow()
     program.setupMenu()
     program.setupMainScreen()

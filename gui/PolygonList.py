@@ -16,6 +16,7 @@ class PolygonList(object):
 
     outlineToggle = True
     hideToggle = True
+    __polyWritier = PolygonWriter()
 
     def __init__(self, canvas):
         '''
@@ -27,7 +28,6 @@ class PolygonList(object):
                               [PolygonDrawer(canvas)],
                               [PolygonDrawer(canvas)]]
         self.__currentList = None
-        self.__polyWritier = PolygonWriter()
         self.__hdf = ''
         self.__plot = -1
         self.__count = 0
