@@ -80,7 +80,7 @@ def drawDepolar(filename, fig, pfig):
         end_lat     = latitude[-1][0]
         extents = [start_lat, end_lat, min_alt, max_alt]
 
-        colormap = 'calipso-depolar.cmap'
+        colormap = 'dat/calipso-depolar.cmap'
 
         cmap = ccplot.utils.cmap(colormap)
         cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
