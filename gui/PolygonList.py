@@ -146,4 +146,4 @@ class PolygonList(object):
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
         db.dbManager.commitToDB(self.__currentList)
-        db.dbManager.encode(self.__data)    
+        db.dbManager.encode("objs/polygons.json", self.__data)    

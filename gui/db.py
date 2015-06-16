@@ -35,7 +35,7 @@ class DatabaseManager(object):
         '''
         Constructor
         '''
-        self.__fileName = ""
+        
         self.__plotType = 0
         self.__hdf = ''
         self.__dict = {}
@@ -54,7 +54,8 @@ class DatabaseManager(object):
         print lst
         session.close()
         
-
+    def createTable(self):
+        dbBase.metadata.create_all(self.__dbEngine)
         
     def notifyDeletion(self, polygon):
         session = self.__Session()
@@ -80,9 +81,6 @@ class DatabaseManager(object):
         
     def setHDFFile(self, hdf):
         self.__hdf = hdf
-        
-    def getJsonFile(self):
-        return self.__fileName
     
     def getPlotType(self):
         return self.__plotType
@@ -93,8 +91,8 @@ class DatabaseManager(object):
     def getDictionary(self):
         return self.__dict
     
-    def encode(self, data):
-        with open(self.__fileName, 'w') as outfile:
+    def encode(self, filename, data):
+        with open(filename, 'w') as outfile:
             json.dump(data, outfile)
         
     def reset(self):
@@ -102,6 +100,4 @@ class DatabaseManager(object):
             if key is not "HDFFile" or key is not "plotype":
                 del key
                 
-def createManager():
-    global dbManager
-    dbManager = DatabaseManager()
+dbManager = DatabaseManager()

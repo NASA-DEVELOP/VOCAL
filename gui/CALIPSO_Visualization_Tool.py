@@ -217,13 +217,13 @@ class Calipso(object):
 #### RUN LINES ##################################################################################        
 if __name__ == "__main__":
     rt = Tk()
-    program = Calipso(rt)
+    program = Calipso(rt)       # Create main GUI window
     
-    db.createManager()
+    db.dbManager.createTable()  # define out global database manager
     
-    program.setupWindow()
-    program.setupMenu()
-    program.setupMainScreen()
+    program.setupWindow()       # create window in center screen
+    program.setupMenu()         # create top menu
+    program.setupMainScreen()   # create top buttons, initialize child and display base_plt
         
-    rt.mainloop()
+    rt.mainloop()               # program main loop
     os._exit(1)
