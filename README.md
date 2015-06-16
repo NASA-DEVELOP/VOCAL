@@ -24,8 +24,9 @@ http://develop-larc-calipso.github.io/CALIPSO_Visualization/
 
 ## Experimental To-Do:
 
-* [ ] Create dialog for listing database objects
-* [ ] Move exporting of data to DB to the menu bar
-* [ ] Remove save function button
-* [ ] Create some sort of DB monitoring system to catch empty and bad objects
+* [x] Create dialog for listing database objects
+  * [ ] Introduce filtering of objects
+* [x] Move exporting of data to DB to the menu bar
+* [x] Remove save function button
+* [x] Create some sort of DB monitoring system to catch empty and bad objects
 * [ ] Inside import dialog give ability to delete
