@@ -15,6 +15,7 @@ from gui.plot.plot_depolar_ratio import drawDepolar
 from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from tools import NavigationToolbar2CALIPSO
 from toolswindow import toolsWindow
+from importdbwindow import dbDialog
 
 #### PROGRAM CONSTANTS ####
 HEIGHT          = 665
@@ -175,7 +176,7 @@ class Calipso(object):
         btnClose.pack()
         
     def dbOpenDialog(self):
-        pass
+        d = dbDialog(self.__root)
 
     def importFile(self):
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
