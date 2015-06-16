@@ -11,6 +11,7 @@ from datetime import datetime
 from gui import Constants
 from gui.Polygon import PolygonDrawer
 from gui.PolygonReader import PolygonReader
+from gui.db import db
 
 class PolygonList(object):
     '''
@@ -20,11 +21,10 @@ class PolygonList(object):
     outlineToggle = True
     hideToggle = True
 
-    def __init__(self, canvas, db):
+    def __init__(self, canvas):
         '''
         Constructor
         '''
-        self.__db = db
         self.__canvas = canvas
         self.__polygonList = [[PolygonDrawer(canvas)],      # base plot list
                               [PolygonDrawer(canvas)],      # backscattered list
@@ -238,8 +238,8 @@ class PolygonList(object):
                 value = {"vertices": vertices, "color": color}
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
-        self.__db.commitToDB(self.__currentList)
-        self.__db.encode("objs/polygons.json", self.__data)    
+        db.commitToDB(self.__currentList)
+        db.encode("objs/polygons.json", self.__data)    
                 
 if __name__=="__main__":
     print PolygonList.plotStringtoInt(Constants.PLOTS[0])

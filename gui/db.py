@@ -32,12 +32,12 @@ class DatabaseManager(object):
         '''
         Constructor
         '''
+        print "hi"
         self.__plotType = 0
         self.__hdf = ''
         self.__dict = {}
         self.__Session = None
         
-    def createTable(self):
         self.__dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=True)
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)
@@ -47,10 +47,14 @@ class DatabaseManager(object):
         #for db in session.query(dbPolygon).filter_by(color='').all():
         #    session.delete(db)
         #session.commit()
-        
         lst = session.query(dbPolygon).all()
         print lst
         session.close()
+        
+    def createTable(self):
+        pass
+        
+
         
     def notifyDeletion(self, polygon):
         session = self.__Session()
@@ -80,4 +84,18 @@ class DatabaseManager(object):
             if key is not "HDFFile" or key is not "plotype":
                 del key
                 
-dbManager = DatabaseManager()
+
+db = DatabaseManager()
+
+"""          
+class Singleton(type):
+    _instances = {}
+    def __call__(self, *args, **kwargs):
+        if self not in self._instances:
+            self._instances[self] = super(Singleton, self).__call__(*args, **kwargs)
+        return self._instances[self]
+    
+class Database(object):
+    __metaclass__ = Singleton
+    dbManager = DatabaseManager()
+"""
