@@ -5,8 +5,8 @@ Created on Jun 11, 2015
 '''
 # import antigravity
 from gui.Polygon import PolygonDrawer
-from gui.PolygonWriter import PolygonWriter
 from tkColorChooser import askcolor
+import db
 
 
 class PolygonList(object):
@@ -16,7 +16,6 @@ class PolygonList(object):
 
     outlineToggle = True
     hideToggle = True
-    __polyWritier = PolygonWriter()
 
     def __init__(self, canvas):
         '''
@@ -146,5 +145,5 @@ class PolygonList(object):
                 value = {"vertices": vertices, "color": color}
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
-        self.__polyWritier.commitToDB(self.__currentList)
-        self.__polyWritier.encode(self.__data)    
+        db.dbManager.commitToDB(self.__currentList)
+        db.dbManager.encode(self.__data)    

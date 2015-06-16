@@ -7,7 +7,6 @@ Created on Jun 4, 2015
 # import antigravity
 from Tkinter import Widget
 from numpy import empty_like, dot, array
-from PolygonWriter import PolygonWriter
 
 class PolygonDrawer(Widget):
     '''
@@ -107,7 +106,6 @@ class PolygonDrawer(Widget):
         self.__drag_data = {"x": 0, "y": 0, "item": None}
         self.__tag = tag
         self.__color = color
-        #self.__polyWriter = PolygonWriter("C:\\Users\\nqian\\Desktop\\poly.json")
         self.__itemHandler = 0
         
         self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.onTokenButtonPress)

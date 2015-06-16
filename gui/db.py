@@ -7,27 +7,35 @@ Created on Jun 11, 2015
 '''
 # import antigravity
 import json
-from Tkinter import Message, Toplevel, Button
 #from CALIPSO_Visualization_Tool import dbBase
-
-import sqlalchemy
 from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import sessionmaker, relationship, backref
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from dbPolygon import dbBase, dbPolygon
 
-class PolygonWriter(object):
+dbBase = declarative_base()
+
+class dbPolygon(dbBase):
+    __tablename__ = 'objects'
+    
+    id = Column(Integer, primary_key=True)
+    vertices = Column(String)
+    color = Column(String)
+    
+    def __repr__(self):
+        return "<Polygon(vertices='%s', color='%s')>" % (self.vertices, self.color)
+
+class DatabaseManager(object):
     '''
     classdocs
     '''
 
     __dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=True)
 
-    def __init__(self, fileName="objs/polygons.json"):
+    def __init__(self):
         '''
         Constructor
         '''
-        self.__fileName = fileName
+        self.__fileName = ""
         self.__plotType = 0
         self.__hdf = ''
         self.__dict = {}
@@ -93,3 +101,7 @@ class PolygonWriter(object):
         for key in self.__dict:
             if key is not "HDFFile" or key is not "plotype":
                 del key
+                
+def createManager():
+    global dbManager
+    dbManager = DatabaseManager()
