@@ -137,6 +137,27 @@ class toolsWindow(Toplevel):
         
         self.plotIMG = ImageTk.PhotoImage(file="ico/hide.png")
         self.__plotButton = Button(self.lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__parent.polygonList.hide())
-#       self.__plotButton.latch(key="<Button-1>", command=self.__polygonList.hide, cursor="")
         self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
         createToolTip(self.__plotButton, "Hide polygons")
+        
+        self.saveIMG = ImageTk.PhotoImage(file="ico/save.png")
+        self.__saveButton = Button(self.lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.__parent.saveAs)
+        self.__saveButton.grid(row=2, column=4, padx=2, pady=5)
+        createToolTip(self.__saveButton, "Save to JSON")
+        
+        self.loadIMG = ImageTk.PhotoImage(file="ico/load.png")
+        self.__loadButton = Button(self.lowerButtonFrame, image=self.loadIMG, width=30, height=30, command=self.__parent.load)
+        self.__loadButton.grid(row=3, column=1, padx=2, pady=5)
+        createToolTip(self.__loadButton, "Load JSON")
+        
+        self.propIMG = ImageTk.PhotoImage(file="ico/cog.png")
+        self.__propButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.propIMG, width=30, height=30)
+        self.__propButton.latch(key="<Button-1>", command=self.__parent.polygonList.properties)
+        self.__propButton.grid(row=3, column=2, padx=2, pady=5)
+        createToolTip(self.__propButton, "Polygon Properties")
+        
+        self.testIMG = ImageTk.PhotoImage(file="ico/button.png")
+        self.__testButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.testIMG, width=30, height=30)
+        self.__testButton.latch(key="<Button-1>", command=self.__parent.test)
+        self.__testButton.grid(row=3, column=2, padx=2, pady=5)
+        createToolTip(self.__testButton, "Test")

@@ -1,5 +1,5 @@
 #### IMPORTS #######################################################################################
-from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, \
+from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN
 import os
 import tkFileDialog
@@ -179,8 +179,11 @@ class Calipso(object):
     def saveImage(self):
         pass
     
+    def test(self, event):
+        result = self.__toolbar.message.get()
+        print type(result)
+        print self.__toolbar.message.get()
     
-    # TODO: fix bug when user cancels in saving and loading
     def saveAs(self):
         options = {}
         options['defaultextension'] = '.json'

@@ -42,7 +42,6 @@ class PolygonList(object):
         self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.onTokenButtonRelease)
         self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.onTokenMotion)
         
-    #TODO: adjust drag button
     def onTokenButtonPress(self, event):
         if PolygonDrawer.dragToggle:
             self.__drag_data["item"] = self.__canvas._tkcanvas.find_closest(event.x, event.y)[0]
