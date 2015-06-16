@@ -1,6 +1,6 @@
-from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, LEFT, Frame, \
-    RIGHT, TOP, Text, Label, RAISED, Menubutton, IntVar, Menu, END, Scrollbar, \
-    VERTICAL, CENTER
+from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
+    RIGHT, Label, RAISED, Menubutton, IntVar, Menu, END, Scrollbar, \
+    VERTICAL
     
 from tools import center
 import Constants
@@ -10,8 +10,7 @@ class dbDialog(Toplevel):
         Toplevel.__init__(self, parent)
         
         self.title("Import from existing database")
-        self.geometry('%dx%d+%d+%d' % (400, 600, 0, 0))
-        center(self)
+        center(self, (400,600))
         
         self.container = Frame(self)
         self.container.pack(side="top", fill="both", expand=True)
@@ -21,16 +20,16 @@ class dbDialog(Toplevel):
         
     def createTopFrame(self):
         # create top frame, do not expand out
-        self.top_frame = Frame(self.container)
-        self.top_frame.pack(side="top", fill="x", expand=False)
+        self.topFrame = Frame(self.container)
+        self.topFrame.pack(side="top", fill="x", expand=False)
         
         # search label and entry
-        self.label = Label(self.top_frame, text="Search ")
+        self.label = Label(self.topFrame, text="Search ")
         self.label.grid(row=0, column=0, padx=5, pady=10)
-        self.e = Entry(self.top_frame)
+        self.e = Entry(self.topFrame)
         self.e.grid(row=0, column=1, padx=5, pady=10)
         
-        self.orderSelectionButton = Menubutton(self.top_frame, text="Order by", 
+        self.orderSelectionButton = Menubutton(self.topFrame, text="Order by", 
                                                relief=RAISED, width=10)
         self.orderSelectionButton.grid(row=0, column=2, padx=5, pady=10)
         self.orderSelectionButton.menu = Menu(self.orderSelectionButton, tearoff=0)
@@ -46,19 +45,19 @@ class dbDialog(Toplevel):
                                                            value=tx[1],
                                                            command=self.order)
             
-        self.filterButton = Button(self.top_frame, text="Filter", command=self.filterDialog,
+        self.filterButton = Button(self.topFrame, text="Filter", command=self.filterDialog,
                                    width=10)
         self.filterButton.grid(row=0, column=3, padx=5, pady=10)
         
     def createBottomFrame(self):
-        self.bottom_frame = Frame(self.container)
-        self.bottom_frame.pack(side="bottom", fill="both", expand=True)
-        self.separator = Frame(self.bottom_frame, relief="ridge", height=2, bg="gray")
+        self.bottomFrame = Frame(self.container)
+        self.bottomFrame.pack(side="bottom", fill="both", expand=True)
+        self.separator = Frame(self.bottomFrame, relief="ridge", height=2, bg="gray")
         self.separator.pack(side="top", fill="x", expand=False)
-        self.bottomButtonFrame = Frame(self.bottom_frame)
+        self.bottomButtonFrame = Frame(self.bottomFrame)
         self.bottomButtonFrame.pack(side="bottom", fill="x", expand=False)
         
-        self.listbox = Listbox(self.bottom_frame)
+        self.listbox = Listbox(self.bottomFrame)
         self.listbox.pack(fill=BOTH, expand=True)
         
         self.scrollbar = Scrollbar(self.listbox, orient=VERTICAL)
@@ -68,10 +67,14 @@ class dbDialog(Toplevel):
         for i in range(1, 10000):
             self.listbox.insert(END, str(i))
             
-        self.button = Button(self.bottomButtonFrame, text="Import", width=30)
+        self.button = Button(self.bottomButtonFrame, text="Import", width=30,
+                             command=self.importSelection)
         self.button.pack(side="bottom", pady=10)
         
     def order(self):
+        pass
+    
+    def importSelection(self):
         pass
     
     def filterDialog(self):

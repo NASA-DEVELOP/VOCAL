@@ -32,7 +32,7 @@ class PolygonWriter(object):
         self.__hdf = ''
         self.__dict = {}
         
-        dbBase.metadata.create_all(self.__dbEngine)
+        dbBase.metadata.create_all(self.__dbEngine)  # @UndefinedVariable
         
         self.__Session = sessionmaker(bind=self.__dbEngine)
         
