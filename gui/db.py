@@ -63,7 +63,7 @@ class DatabaseManager(object):
             if polygon.getVertices != None:
                 session.add(
                     dbPolygon(time_=time,
-                              hdf=f,
+                              hdf=f.rpartition('/')[2],
                               plot=polygon.getPlot(),
                               vertices=str(polygon.getVertices()), 
                               color=polygon.getColor()))

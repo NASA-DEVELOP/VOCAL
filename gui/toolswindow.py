@@ -136,7 +136,7 @@ class toolsWindow(Toplevel):
         createToolTip(self.__outlineButton, "Focus")
         
         self.plotIMG = ImageTk.PhotoImage(file="ico/hide.png")
-        self.__plotButton = Button(self.lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.paren.polygonList.hide())
+        self.__plotButton = Button(self.lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.parent.polygonList.hide())
 #       self.__plotButton.latch(key="<Button-1>", command=self.__polygonList.hide, cursor="")
         self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
         createToolTip(self.__plotButton, "Hide polygons")
