@@ -3,6 +3,7 @@ from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN, SW
 import os
 import tkFileDialog
+import tkMessageBox
 
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -166,14 +167,7 @@ class Calipso(object):
         
     def notifySaveDB(self):
         self.polygonList.save()
-        filewin = Toplevel(self.__root)
-        filewin.title("Notice")
-        filewin.geometry('%dx%d+%d+%d' % (100, 75, self.x + self.x*2 - 60, self.y + self.y/2 + 160))
-        T = Message(filewin, text="JSON written to gui/objs/", anchor=SW)
-        T.pack()
-            
-        btnClose = Button(filewin, text="Close", command=filewin.destroy)
-        btnClose.pack()
+        tkMessageBox.showinfo("database", "All objects saved to database")
         
     def dbOpenDialog(self):
         dbDialog(self.__root)
