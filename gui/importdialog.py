@@ -14,6 +14,10 @@ from gui.tools import center
 #import db
 
 class dbDialog(Toplevel):
+    '''
+    Dialog window which prompts user for a selection of objects to import as well as
+    showing a customizable list for displaying the data
+    '''
     def __init__(self, parent):
         Toplevel.__init__(self, parent)
         

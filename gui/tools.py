@@ -11,9 +11,10 @@ from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
 toggleContainer = []
 
-# Allows for tool tips to be displayed just below buttons
 class ToolTip(object):
-
+    '''
+    Allows for tool tips to be displayed just below buttons
+    '''
     def __init__(self, widget):
         self.widget = widget
         self.tipWindow = None
@@ -57,11 +58,13 @@ def createToolTip(widget, text):
     widget.bind('<Enter>', enter)
     widget.bind('<Leave>', leave)
     
-# Button wrapper which simulates the toggled button as you see in the draw, magnify, etc. 
-#    buttons. Interally keeps a bind map which on toggle binds the keys in the map, and 
-#    unbinds them on untoggle or forced untoggle.
-class ToggleableButton(Button):
 
+class ToggleableButton(Button):
+    '''
+    Button wrapper which simulates the toggled button as you see in the draw, magnify, etc. 
+    buttons. Interally keeps a bind map which on toggle binds the keys in the map, and 
+    unbinds them on untoggle or forced untoggle.
+    '''
     # static class container to keep track of all active and unactive buttons
     # currently living
     
@@ -126,12 +129,15 @@ class ToggleableButton(Button):
                 pair[0].bind(pair[1], pair[2])
 
 
-# Wrapper of a wrapper of a button, it's a mouthful but it useful for having 
-#    additional functionality the matplotlib buttons would require. Instead
-#    of placing more overhead in the ToggleableButton another class is created 
-#    since the number of matplotlib functions will remain constant, while we
-#    may continue creating new tools that use ToggleableButton
+
 class ToolbarToggleableButton(Button):
+    '''
+    Wrapper of a wrapper of a button, it's a mouthful but it useful for having 
+    additional functionality the matplotlib buttons would require. Instead
+    of placing more overhead in the ToggleableButton another class is created 
+    since the number of matplotlib functions will remain constant, while we
+    may continue creating new tools that use ToggleableButton
+    '''
     # Parameters: 
     #    root, master, cnf, kw    -> forwarded args to the ToggleableButton class
     #    func                     -> function to be called along with the invocation of Toggle
@@ -175,11 +181,15 @@ class ToolbarToggleableButton(Button):
             self.__root.config(cursor=self.__cursor)
             self.config(relief='sunken')                # sink the button, e.g. activate
             
-# Custom toolbar derived from matplotlib.backend, since we won't be specifically displaying
-#    any of their provided TkGUI, we will be creating our own GUI outside of the toolbar and
-#    simply using the functions provided by NavigationToolbar2. Thus we strip the toolbar of
-#    anything GUI related 
+
 class NavigationToolbar2CALIPSO(NavigationToolbar2):
+    '''
+    Custom toolbar derived from matplotlib.backend, since we won't be specifically displaying
+    any of their provided TkGUI, we will be creating our own GUI outside of the toolbar and
+    simply using the functions provided by NavigationToolbar2. Thus we strip the toolbar of
+    anything GUI related 
+    '''
+    
     def __init__(self, canvas, master):
         self.canvas = canvas
         self.master = master

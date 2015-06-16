@@ -15,6 +15,9 @@ from sqlalchemy import create_engine, Column, Integer, String
 dbBase = declarative_base()
 
 class dbPolygon(dbBase):
+    '''
+    Sqlalchemy class object, contains all data that is stored inside the database
+    '''
     __tablename__ = 'objects'
     
     id = Column(Integer, primary_key=True)  # primary key
@@ -32,9 +35,13 @@ class dbPolygon(dbBase):
                                           "vetices":self.vertices, 
                                           "color":self.color})
 
-# Internally manages the data base and offers abstractions to talk with it
-class DatabaseManager(object):
 
+class DatabaseManager(object):
+    '''
+    Internally manages the database engine and any sql related objects.
+    Hands out sessions with getSession() but only offers abstractions for
+    other functionality. The database is INDEPENDENT from the application
+    '''
     def __init__(self):
         # Create engine, session and generate table
         self.__dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=True)
