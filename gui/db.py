@@ -32,7 +32,6 @@ class DatabaseManager(object):
         '''
         Constructor
         '''
-        print "hi"
         self.__plotType = 0
         self.__hdf = ''
         self.__dict = {}
@@ -41,15 +40,6 @@ class DatabaseManager(object):
         self.__dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=True)
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)
-        
-        #delete empty objects and display database
-        session = self.__Session()
-        #for db in session.query(dbPolygon).filter_by(color='').all():
-        #    session.delete(db)
-        #session.commit()
-        lst = session.query(dbPolygon).all()
-        print lst
-        session.close()
         
     def createTable(self):
         pass
