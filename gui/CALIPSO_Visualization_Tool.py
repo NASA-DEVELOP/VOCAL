@@ -16,14 +16,11 @@ from gui.plot.plot_depolar_ratio import drawDepolar
 from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from gui.tools import NavigationToolbar2CALIPSO
 from gui.toolswindow import toolsWindow
-from gui.importdbwindow import dbDialog
-import gui.Constants
+from gui.importdialog import dbDialog
 
 #### START OF CLASS ################################################################################
 class Calipso(object):
-    
-    
-    
+
     def __init__ (self, r):
         self.__root = r                     # root of program
         self.__file = ''                    # current file in use
