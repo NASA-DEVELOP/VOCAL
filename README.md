@@ -18,6 +18,14 @@ http://develop-larc-calipso.github.io/CALIPSO_Visualization/
 * [x] Fix JSON parsing empty objects
 * [x] Fix JSON not storing free draw shapes
 * [x] Add popup window for JSON creation
-* [ ] Fix coordinate system displayed on matplotlib backend
+* [x] Fix coordinate system displayed on matplotlib backend
 * [ ] Update drag functionality
-* [ ] Rewrite `polygonWriter`
+* [x] Rewrite `polygonWriter`
+
+## Experimental To-Do:
+
+* [ ] Create dialog for listing database objects
+* [ ] Move exporting of data to DB to the menu bar
+* [ ] Remove save function button
+* [ ] Create some sort of DB monitoring system to catch empty and bad objects
+* [ ] Inside import dialog give ability to delete

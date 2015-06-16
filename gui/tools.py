@@ -4,7 +4,7 @@
     6/3/2015
 
 """
-from Tkinter import TclError, Label, LEFT, SOLID, CENTER, Toplevel, Button, \
+from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, \
     StringVar
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
@@ -23,7 +23,7 @@ class ToolTip(object):
         self.text = text
         if self.tipWindow or not self.text:
             return
-        x, y, cx, cy = self.widget.bbox("insert")
+        x, y, cx, cy = self.widget.bbox("insert")  # @UnusedVariable
         x = x + self.widget.winfo_rootx() + 27
         y = y + cy + self.widget.winfo_rooty() +27
         self.tipWindow = tw = Toplevel(self.widget)
@@ -152,7 +152,6 @@ class ToolbarToggleableButton(Button):
     # Clone to toggle, except the only functionality of unToggle is to forceably
     #    untoggle the button and set the state accordingly
     def unToggle(self):
-        print "untoggling",self.__cursor
         self.isToggled = False
         self.config(relief='raised')
         if self.__func : self.__func()
@@ -225,3 +224,10 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
 
     def dynamic_update(self):
         pass
+    
+def center(toplevel, size):
+    w = toplevel.winfo_screenwidth()
+    h = toplevel.winfo_screenheight()
+    x = w/2 - size[0]/2
+    y = h/2 - size[1]/2
+    toplevel.geometry("%dx%d+%d+%d" % (size + (x, y)))
