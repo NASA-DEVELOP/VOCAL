@@ -9,7 +9,7 @@ from tools import createToolTip, ToggleableButton, \
 
 class toolsWindow(Toplevel):
     def __init__(self, parent, root):
-        Toplevel.__init__(self)
+        Toplevel.__init__(self, root)
         
         self.__parent = parent
         self.__root = root
