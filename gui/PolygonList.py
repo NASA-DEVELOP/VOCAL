@@ -140,6 +140,14 @@ class PolygonList(object):
             else:
                 self.__canvas._tkcanvas.itemconfigure(poly, fill="", outline="")
                 
+    def properties(self, event):
+        target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
+        for shape in self.__currentList:
+            if shape.getItemHandler() is target[0]:
+                print shape
+                return
+        print "Polygon shape not found"
+                
     def toggleDrag(self, event):
         PolygonDrawer.toggleDrag(event)
         
@@ -170,15 +178,7 @@ class PolygonList(object):
             return 2
         elif plot.lower() == "vfm":
             return 3
-        
-    def drawFromJson(self, plotDict):
-        for shape in plotDict:
-            color = plotDict[shape]["color"]
-            vertices = plotDict[shape]["vertices"]
-            self.__canvas._tkcanvas.create_polygon(vertices, outline=color, fill=color, width=2, tags="Polygon")
-#             self.__currentList[-1].drawFromJSON()
-#             self.generateTag()
-        
+            
     def readPlot(self, fileName="C:\\Users\\nqian\\Documents\\Carol.json"):
         self.__polyReader.setFileName(fileName)
         self.__polyReader.readJSON()

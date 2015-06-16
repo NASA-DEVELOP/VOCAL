@@ -5,12 +5,11 @@ Created on Jun 4, 2015
 '''
 
 # import antigravity
-from Tkinter import Widget
 from numpy import empty_like, dot, array
 from PolygonWriter import PolygonWriter
 from gui import Constants
 
-class PolygonDrawer(Widget):
+class PolygonDrawer(object):
     '''
     Displays the polygon objects onto the canvas by supplying draw methods.
     '''
@@ -262,6 +261,12 @@ class PolygonDrawer(Widget):
             return True
         else:
             return False
+        
+    def __str__(self):
+        string = "Vertices: "
+        for point in self.__vertices:
+            string += "(" + str(point[0]) + "," + str(point[1]) + ")\n"
+        return string
     
     @staticmethod
     def toggleDrag(event):
