@@ -15,12 +15,15 @@ from gui.PolygonList import PolygonList
 from gui.plot.plot_depolar_ratio import drawDepolar
 from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from gui.tools import NavigationToolbar2CALIPSO
-from gui.toolswindow import toolsWindow
+from gui.toolswindow import ToolsWindow
 from gui.importdialog import dbDialog
 
-#### START OF CLASS ################################################################################
-class Calipso(object):
 
+class Calipso(object):
+    '''
+    Main class of the application, handles all GUI related events as well as 
+    creating other GUI windows such as the toolbar or import dialog
+    '''
     def __init__ (self, r):
         self.__root = r                     # root of program
         self.__file = ''                    # current file in use
@@ -44,11 +47,10 @@ class Calipso(object):
                                      width=Constants.WIDTH, 
                                      height=Constants.HEIGHT)      # the frame on which we will set our canvas for drawing etc.
         
-        self.__Parentfig = Figure(figsize=(16,11))
         
-        self.__child = toolsWindow(self, r)
-        
+        self.__child = ToolsWindow(self, r)       
         # the main canvas we will be drawing our data to
+        self.__Parentfig = Figure(figsize=(16,11))
         self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)    
         # create tool bar and polygonDrawer     
         self.toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas, self.__child.coordinateFrame)
@@ -57,9 +59,6 @@ class Calipso(object):
         # show the frame
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplotFrame.pack()
-
-#### MAIN WINDOW SETUP #############################################################################            
-    #Creates the GUI window
     
     def setupWindow(self):
         self.__root.title("CALIPSO Visualization Tool")

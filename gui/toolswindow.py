@@ -10,7 +10,12 @@ from gui import Constants
 from gui.tools import createToolTip, ToggleableButton, \
     ToolbarToggleableButton
 
-class toolsWindow(Toplevel):
+class ToolsWindow(Toplevel):
+    '''
+    Other main portion of the program, the tools window is in charge of managing all
+    tool and manipulation related buttons , and is created bound to root but is 
+    technically a standalone window.
+    '''
     def __init__(self, parent, root):
         Toplevel.__init__(self, root)
         
