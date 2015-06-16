@@ -1,7 +1,6 @@
 '''
-Created on Jun 11, 2015
+Created on Jun 16, 2015
 
-@author: nqian
 @author: Grant Mercer
 
 '''
@@ -68,23 +67,8 @@ class DatabaseManager(object):
         session.commit()
         session.close()
         
-    def setJsonFile(self, fileName):
-        self.__fileName = fileName
-        
-    def setPlotType(self, plotType):
-        self.__plotType = plotType
-        
-    def setHDFFile(self, hdf):
-        self.__hdf = hdf
-    
-    def getPlotType(self):
-        return self.__plotType
-    
-    def getHDFFile(self):
-        return self.__hdf
-        
-    def getDictionary(self):
-        return self.__dict
+    def getDB(self):
+        pass
     
     def encode(self, filename, data):
         with open(filename, 'w') as outfile:
