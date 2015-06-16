@@ -38,6 +38,36 @@ class PolygonList(object):
         self.__plot = Constants.BASE_PLOT_STR
         self.__count = 0
         self.__data = {}
+        self.__drag_data = {"x": 0, "y": 0, "item": None}
+        
+        self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.onTokenButtonPress)
+        self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.onTokenButtonRelease)
+        self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.onTokenMotion)
+        
+    #TODO: adjust drag button
+    def onTokenButtonPress(self, event):
+        if PolygonDrawer.dragToggle:
+            self.__drag_data["item"] = self.__canvas._tkcanvas.find_closest(event.x, event.y)[0]
+            self.__drag_data["x"] = event.x
+            self.__drag_data["y"] = event.y
+        
+    def onTokenButtonRelease(self, event):
+        if PolygonDrawer.dragToggle:
+            self.__drag_data["item"] = None
+            self.__drag_data["x"] = 0
+            self.__drag_data["y"] = 0
+        
+    def onTokenMotion(self, event):
+#         print self.__canvas._tkcanvas.gettags(self.__drag_data["item"])
+        if PolygonDrawer.dragToggle:
+            dx = event.x - self.__drag_data["x"]
+            dy = event.y - self.__drag_data["y"]
+            self.__canvas._tkcanvas.move(self.__drag_data["item"], dx, dy)
+            for shape in self.__currentList:
+                if shape.getItemHandler() is self.__drag_data["item"]:
+                    shape.move(dx, dy)
+            self.__drag_data["x"] = event.x
+            self.__drag_data["y"] = event.y
     
     def setPlot(self, plot):
         newPlot = ""
