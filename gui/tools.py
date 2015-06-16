@@ -174,6 +174,7 @@ class ToolbarToggleableButton(Button):
         else:
             self.__root.config(cursor=self.__cursor)
             self.config(relief='sunken')                # sink the button, e.g. activate
+            
 # Custom toolbar derived from matplotlib.backend, since we won't be specifically displaying
 #    any of their provided TkGUI, we will be creating our own GUI outside of the toolbar and
 #    simply using the functions provided by NavigationToolbar2. Thus we strip the toolbar of

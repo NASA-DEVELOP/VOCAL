@@ -25,6 +25,8 @@ class Calipso(object):
         self.__root = r                     # root of program
         self.__file = ''                    # current file in use
         
+        # TODO: Add icon for window an task bar
+        
         basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
         basePane.pack(fill=BOTH, expand = 1)                # fill and expand
         sectionedPane = PanedWindow(orient=VERTICAL)        # paned window that splits into a top and bottom section
@@ -119,10 +121,7 @@ class Calipso(object):
                 self.toolbar.update()
                 self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
             except IOError:
-                filewin = Toplevel(self.__root)
-                T = Text(filewin, height=5, width=30)
-                T.pack()
-                T.insert(END, "No File Exists \n")
+                tkMessageBox.showerror("File Not Found", "No File Exists")
         elif (plotType.get()) == Constants.DEPOLARIZED:
             try:
                 self.__Parentfig.clear()
@@ -134,15 +133,9 @@ class Calipso(object):
                 self.toolbar.update()
                 self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
             except IOError:
-                filewin = Toplevel(self.__root)
-                T = Text(filewin, height=5, width=30)
-                T.pack()
-                T.insert(END, "No File Exists \n")
+                tkMessageBox.showerror("File Not Found", "No File Exists")
         elif (plotType.get()) == Constants.VFM:
-            filewin = Toplevel(self.__root)
-            T = Text(filewin, height=5, width=30)
-            T.pack()
-            T.insert(END, "Sorry, this plot is currently not implemented. \n")
+            tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")
     
  
     # Reload the initial image
@@ -161,6 +154,8 @@ class Calipso(object):
         btnBrowse.grid(row=1, column=3)
         
     def notifySaveDB(self):
+        # TODO: Check if no objects to be saved, notify if not, 
+        # have save returns true false maybe?
         self.polygonList.save()
         tkMessageBox.showinfo("database", "All objects saved to database")
         
