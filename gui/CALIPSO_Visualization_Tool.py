@@ -17,14 +17,12 @@ from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from tools import NavigationToolbar2CALIPSO
 from toolswindow import toolsWindow
 from importdbwindow import dbDialog
-import db
 
 #### PROGRAM CONSTANTS ####
 HEIGHT          = 665
 WIDTH           = 1265
 CHILDWIDTH      = 200
 CHILDHEIGHT     = 300
-database = None
 #### START OF CLASS ################################################################################
 class Calipso(object):
     
@@ -51,9 +49,6 @@ class Calipso(object):
         
         self.__Parentfig = Figure(figsize=(16,11))
         
-        self.__db = db.DatabaseManager()
-        self.__db.createTable()
-        
         self.__child = toolsWindow(self, r)
         
         # the main canvas we will be drawing our data to
@@ -61,7 +56,7 @@ class Calipso(object):
         # create tool bar and polygonDrawer     
         self.toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas, self.__child.coordinateFrame)
         # list of object drawn to the screen
-        self.polygonList = PolygonList(self.__drawplotCanvas, self.__db)
+        self.polygonList = PolygonList(self.__drawplotCanvas)
         # show the frame
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplotFrame.pack()

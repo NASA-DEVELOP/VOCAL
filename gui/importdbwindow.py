@@ -10,6 +10,7 @@ from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
     
 from tools import center
 import Constants
+from gui.db import db
 #import db
 
 class dbDialog(Toplevel):
