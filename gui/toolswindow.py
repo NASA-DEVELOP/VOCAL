@@ -7,7 +7,7 @@ from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, H
     RAISED, BOTH, VERTICAL, Menubutton,FALSE, BOTTOM
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 from gui import Constants
-from tools import createToolTip, ToggleableButton, \
+from gui.tools import createToolTip, ToggleableButton, \
     ToolbarToggleableButton
 
 class toolsWindow(Toplevel):

@@ -8,9 +8,9 @@ from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
     RIGHT, Label, RAISED, Menubutton, IntVar, Menu, END, Scrollbar, \
     VERTICAL
     
-from tools import center
-import Constants
+from gui import Constants
 from gui.db import db, dbPolygon
+from gui.tools import center
 #import db
 
 class dbDialog(Toplevel):

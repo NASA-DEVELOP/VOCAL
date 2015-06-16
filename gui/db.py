@@ -6,10 +6,10 @@ Created on Jun 16, 2015
 '''
 # import antigravity
 import json
-#from CALIPSO_Visualization_Tool import dbBase
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import sessionmaker
+
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy import create_engine, Column, Integer, String
 
 dbBase = declarative_base()
 
