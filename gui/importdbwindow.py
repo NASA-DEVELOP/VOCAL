@@ -10,7 +10,7 @@ from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
     
 from tools import center
 import Constants
-from gui.db import db
+from gui.db import db, dbPolygon
 #import db
 
 class dbDialog(Toplevel):
@@ -72,8 +72,10 @@ class dbDialog(Toplevel):
         self.scrollbar.config(command=self.listbox.yview)
         self.scrollbar.pack(side=RIGHT, fill="y")
         
-        for i in range(1, 10000):
-            self.listbox.insert(END, str(i))
+        session = db.getSession()
+        for obj in session.query(dbPolygon).all():
+            self.listbox.insert(END, obj)
+        session.close()
             
         self.button = Button(self.bottomButtonFrame, text="Import", width=30,
                              command=self.importSelection)
