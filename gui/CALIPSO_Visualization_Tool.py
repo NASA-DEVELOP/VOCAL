@@ -121,6 +121,8 @@ class Calipso(object):
         self.__menuFile.add_command(label="Save", command=self.saveImage)
         self.__menuFile.add_command(label="Save as", command=self.saveAs)
         self.__menuFile.add_separator()
+        self.__menuFile.add_command(label="Properties", command=self.properties)
+        self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Exit", command=self.__root.quit)
         self.__menuBar.add_cascade(label="File", menu=self.__menuFile)
         
@@ -302,7 +304,7 @@ class Calipso(object):
         createToolTip(self.__plotButton, "Hide polygons")
         
         self.saveIMG = ImageTk.PhotoImage(file="ico/save.png")
-        self.__testButton = Button(self.__lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.noticeJSON)
+        self.__testButton = Button(self.__lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.saveAs)
         self.__testButton.grid(row=2, column=4, padx=2, pady=5)
         createToolTip(self.__testButton, "Save to JSON")
         
@@ -310,6 +312,12 @@ class Calipso(object):
         self.__testButton2 = Button(self.__lowerButtonFrame, image=self.loadIMG, width=30, height=30, command=self.load)
         self.__testButton2.grid(row=3, column=1, padx=2, pady=5)
         createToolTip(self.__testButton2, "Load JSON")
+        
+        self.propIMG = ImageTk.PhotoImage(file="ico/cog.png")
+        self.__propButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.propIMG, width=30, height=30)
+        self.__propButton.latch(key="<Button-1>", command=self.__polygonList.properties)
+        self.__propButton.grid(row=3, column=2, padx=2, pady=5)
+        createToolTip(self.__propButton, "Polygon Properties")
 
 
     def importFile(self):
@@ -329,12 +337,14 @@ class Calipso(object):
     def saveImage(self):
         pass
     
+    
+    # TODO: fix bug when user cancels in saving and loading
     def saveAs(self):
         options = {}
         options['defaultextension'] = '.json'
         options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
         f = tkFileDialog.asksaveasfilename(**options)
-        if f is None:
+        if f is "":
             return
         self.__polygonList.save(f)
         
@@ -343,9 +353,12 @@ class Calipso(object):
         options['defaultextension'] = '.json'
         options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
         f = tkFileDialog.askopenfilename(**options)
-        if f is None:
+        if f is "":
             return
         self.__polygonList.readPlot(f)
+        
+    def properties(self):
+        pass
         
     def about(self): 
         filewin = Toplevel(self.__root)
