@@ -4,6 +4,7 @@ from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
     
 from tools import center
 import Constants
+#import db
 
 class dbDialog(Toplevel):
     def __init__(self, parent):

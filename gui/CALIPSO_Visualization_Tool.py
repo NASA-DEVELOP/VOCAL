@@ -17,6 +17,8 @@ from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from tools import NavigationToolbar2CALIPSO
 from toolswindow import toolsWindow
 from importdbwindow import dbDialog
+from sqlalchemy.ext.declarative import declarative_base
+import db
 
 #### PROGRAM CONSTANTS ####
 HEIGHT          = 665
@@ -216,6 +218,8 @@ class Calipso(object):
 if __name__ == "__main__":
     rt = Tk()
     program = Calipso(rt)
+    
+    db.createManager()
     
     program.setupWindow()
     program.setupMenu()
