@@ -1,6 +1,6 @@
 #### IMPORTS #######################################################################################
 from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, \
-    Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN, SW
+    Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN
 import os
 import tkFileDialog
 import tkMessageBox
@@ -17,7 +17,6 @@ from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from tools import NavigationToolbar2CALIPSO
 from toolswindow import toolsWindow
 from importdbwindow import dbDialog
-from sqlalchemy.ext.declarative import declarative_base
 import db
 
 #### PROGRAM CONSTANTS ####
@@ -25,14 +24,16 @@ HEIGHT          = 665
 WIDTH           = 1265
 CHILDWIDTH      = 200
 CHILDHEIGHT     = 300
-
+database = None
 #### START OF CLASS ################################################################################
 class Calipso(object):
+    
+    
     
     def __init__ (self, r):
         self.__root = r                     # root of program
         self.__file = ''                    # current file in use
-        ######################################### CREATE MAIN WINDOW #########################################
+        
         basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
         basePane.pack(fill=BOTH, expand = 1)                # fill and expand
         sectionedPane = PanedWindow(orient=VERTICAL)        # paned window that splits into a top and bottom section
@@ -50,24 +51,24 @@ class Calipso(object):
         
         self.__Parentfig = Figure(figsize=(16,11))
         
-        ######################################### CREATE CHILD WINDOW #########################################
+        self.__db = db.DatabaseManager()
+        self.__db.createTable()
         
         self.__child = toolsWindow(self, r)
         
-        ######################################### INIT CANVAS #########################################
-
         # the main canvas we will be drawing our data to
         self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)    
         # create tool bar and polygonDrawer     
         self.toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas, self.__child.coordinateFrame)
         # list of object drawn to the screen
-        self.polygonList = PolygonList(self.__drawplotCanvas)
+        self.polygonList = PolygonList(self.__drawplotCanvas, self.__db)
         # show the frame
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplotFrame.pack()
 
 #### MAIN WINDOW SETUP #############################################################################            
     #Creates the GUI window
+    
     def setupWindow(self):
         self.__root.title("CALIPSO Visualization Tool")
         sw = self.__root.winfo_screenwidth()
@@ -91,6 +92,8 @@ class Calipso(object):
         self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Save", command=self.saveImage)
         self.__menuFile.add_command(label="Save as", command=self.saveAs)
+        self.__menuFile.add_separator()
+        self.__menuFile.add_command(label="Properties", command=self.properties)
         self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Exit", command=self.__root.quit)
         self.__menuBar.add_cascade(label="File", menu=self.__menuFile)
@@ -191,11 +194,28 @@ class Calipso(object):
     def saveImage(self):
         pass
     
+    
+    # TODO: fix bug when user cancels in saving and loading
     def saveAs(self):
         options = {}
-        options['defaultextension'] = '.hdf'
-        options['filetypes'] = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        tkFileDialog.asksaveasfile(mode='w', **options)
+        options['defaultextension'] = '.json'
+        options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
+        f = tkFileDialog.asksaveasfilename(**options)
+        if f is "":
+            return
+        self.__polygonList.save(f)
+        
+    def load(self):
+        options = {}
+        options['defaultextension'] = '.json'
+        options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
+        f = tkFileDialog.askopenfilename(**options)
+        if f is "":
+            return
+        self.__polygonList.readPlot(f)
+        
+    def properties(self):
+        pass
         
     def about(self): 
         filewin = Toplevel(self.__root)
@@ -218,9 +238,7 @@ class Calipso(object):
 if __name__ == "__main__":
     rt = Tk()
     program = Calipso(rt)       # Create main GUI window
-    
-    db.dbManager.createTable()  # define out global database manager
-    
+
     program.setupWindow()       # create window in center screen
     program.setupMenu()         # create top menu
     program.setupMainScreen()   # create top buttons, initialize child and display base_plt

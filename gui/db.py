@@ -35,6 +35,7 @@ class DatabaseManager(object):
         self.__plotType = 0
         self.__hdf = ''
         self.__dict = {}
+        self.__Session = None
         
     def createTable(self):
         self.__dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=True)

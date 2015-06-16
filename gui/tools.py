@@ -4,7 +4,7 @@
     6/3/2015
 
 """
-from Tkinter import TclError, Label, LEFT, SOLID, CENTER, Toplevel, Button, \
+from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, \
     StringVar
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
@@ -23,7 +23,7 @@ class ToolTip(object):
         self.text = text
         if self.tipWindow or not self.text:
             return
-        x, y, cx, cy = self.widget.bbox("insert")
+        x, y, cx, cy = self.widget.bbox("insert")  # @UnusedVariable
         x = x + self.widget.winfo_rootx() + 27
         y = y + cy + self.widget.winfo_rooty() +27
         self.tipWindow = tw = Toplevel(self.widget)

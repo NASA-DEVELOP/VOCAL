@@ -5,16 +5,15 @@ Created on Jun 4, 2015
 '''
 
 # import antigravity
-from Tkinter import Widget
 from numpy import empty_like, dot, array
+import Constants
 
-class PolygonDrawer(Widget):
+class PolygonDrawer(object):
     '''
     Displays the polygon objects onto the canvas by supplying draw methods.
     '''
     
     dragToggle = False
-    polygonDict = {}
     colorCounter = 0
     COLORS = ['snow', 'ghost white', 'white smoke', 'gainsboro', 'floral white', 'old lace',
           'linen', 'antique white', 'papaya whip', 'blanched almond', 'bisque', 'peach puff',
@@ -103,36 +102,10 @@ class PolygonDrawer(Widget):
         self.__canvas = canvas
         self.__prevX = -1.0
         self.__prevY = -1.0
-        self.__drag_data = {"x": 0, "y": 0, "item": None}
         self.__tag = tag
         self.__color = color
         self.__itemHandler = 0
-        
-        self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.onTokenButtonPress)
-        self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.onTokenButtonRelease)
-        self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.onTokenMotion)
-        
-    #TODO: adjust drag button
-    def onTokenButtonPress(self, event):
-        if PolygonDrawer.dragToggle:
-            self.__drag_data["item"] = self.__canvas._tkcanvas.find_closest(event.x, event.y)[0]
-            self.__drag_data["x"] = event.x
-            self.__drag_data["y"] = event.y
-        
-    def onTokenButtonRelease(self, event):
-        if PolygonDrawer.dragToggle:
-            self.__drag_data["item"] = None
-            self.__drag_data["x"] = 0
-            self.__drag_data["y"] = 0
-        
-    def onTokenMotion(self, event):
-#         print self.__canvas._tkcanvas.gettags(self.__drag_data["item"])
-        if PolygonDrawer.dragToggle:
-            dx = event.x - self.__drag_data["x"]
-            dy = event.y - self.__drag_data["y"]
-            self.__canvas._tkcanvas.move(self.__drag_data["item"], dx, dy)
-            self.__drag_data["x"] = event.x
-            self.__drag_data["y"] = event.y
+        self.__plot = ""
                     
     def anchorRectangle(self, event):
         '''
@@ -143,7 +116,7 @@ class PolygonDrawer(Widget):
         self.__prevX = event.x
         self.__prevY = event.y
         
-    def plotPoint(self, event):
+    def plotPoint(self, event, plot=Constants.BASE_PLOT_STR):
         self.__vertices.append((event.x, event.y))
         if len(self.__vertices) > 1:
             self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width="2", tags="line")
@@ -159,7 +132,8 @@ class PolygonDrawer(Widget):
                 self.__vertices[index] = pair
                 del self.__vertices[:index]
                 self.__vertices.pop()
-                self.drawPolygon()
+                self.drawPolygon(plot)
+                self.__plot = plot
                 self.__canvas._tkcanvas.delete("line")
                 PolygonDrawer.colorCounter += 16
                 return True
@@ -176,7 +150,7 @@ class PolygonDrawer(Widget):
             self.__canvas._tkcanvas.delete(self.lastrect)
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prevX, self.__prevY, event.x, event.y)
         
-    def fillRectangle(self, event):
+    def fillRectangle(self, event, plot=Constants.BASE_PLOT_STR):
         '''
         Draws the rectangle and stores the vertices of the rectangle internally. Used in "Draw Rect"
         '''
@@ -189,18 +163,29 @@ class PolygonDrawer(Widget):
             del self.lastrect
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
-        self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], tags=("polygon", self.__tag))
-        self.__color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
+        color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
+        self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=color, fill=color, tags=("polygon", self.__tag, plot))
+        self.__color = color
         self.__vertices.append((event.x, iy))
         self.__vertices.append((event.x, event.y))
         self.__vertices.append((ix, event.y))
+        self.__plot = plot
         PolygonDrawer.colorCounter += 16
         
     def setTag(self, tag):
         self.__tag = tag;
         
     def setColor(self, color):
-        self.__color = color    
+        self.__color = color
+        
+    def setVertices(self, vertexList):
+        self.__vertices = vertexList
+        
+    def setPlot(self, plot):
+        self.__plot = plot
+        
+    def getPlot(self):
+        return self.__plot 
     
     def getVertices(self):
         return self.__vertices
@@ -214,6 +199,11 @@ class PolygonDrawer(Widget):
     def getItemHandler(self):
         return self.__itemHandler
     
+    def move(self, dx, dy):
+        for i in range(len(self.__vertices)):
+            newPoint = (self.__vertices[i][0] + dx, self.__vertices[i][1] + dy)
+            self.__vertices[i] = newPoint
+    
     def __canDrawPolygon(self):
         b1 = tupleToNpArray(self.__vertices[-1])
         b2 = tupleToNpArray(self.__vertices[-2])
@@ -224,10 +214,31 @@ class PolygonDrawer(Widget):
                 return i
         return -1
             
-    def drawPolygon(self):
-        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width=2, tags=("polygon", self.__tag))
-        self.__color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
+    def drawPolygon(self, plot=Constants.BASE_PLOT_STR):
+        color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
+        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=color, fill=color, width=2, tags=("polygon", self.__tag, plot))
+        self.__color = color
+        self.__plot = plot
         PolygonDrawer.colorCounter += 16
+        
+    def redrawShape(self):
+        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=self.__color, fill=self.__color, width=2, tags=("polygon", self.__tag, self.__plot))
+        
+    def drawFromJSON(self, plot, color, vertices):
+        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(vertices, outline=color, fill=color, width=2, tags=("polygon", plot))
+        self.__color = color
+        
+    def isEmpty(self):
+        if len(self.__vertices) == 0:
+            return True
+        else:
+            return False
+        
+    def __str__(self):
+        string = "Vertices: "
+        for point in self.__vertices:
+            string += "(" + str(point[0]) + "," + str(point[1]) + ")\n"
+        return string
     
     @staticmethod
     def toggleDrag(event):
