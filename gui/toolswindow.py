@@ -1,8 +1,11 @@
-#### IMPORTS #######################################################################################
+'''
+Created on Jun 15, 2015
+
+@author: Grant Mercer
+'''
 from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton,FALSE, BOTTOM
-
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 from gui import Constants
 from tools import createToolTip, ToggleableButton, \
     ToolbarToggleableButton

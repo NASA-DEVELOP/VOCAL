@@ -1,3 +1,9 @@
+'''
+Created on Jun 15, 2015
+
+@author: Grant Mercer
+
+'''
 from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
     RIGHT, Label, RAISED, Menubutton, IntVar, Menu, END, Scrollbar, \
     VERTICAL
