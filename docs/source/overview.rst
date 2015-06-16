@@ -34,45 +34,33 @@ Structure
 
 The program has the following file layout::
 
-    CALIPSO_Visualization/
-    |-- dat/
-    |   |
-    |   |-- Testing data
-    |   |
-    |-- gui/
-    |   |
-    |   |-- GUI interface program
-    |   |
-    |-- plot_vfm/
-    |   |
-    |   |-- HDF conversion files for plotting
-    |   |
-    |-- docs/
-    |   |
-    |   |-- build/
-    |   |   |
-    |   |   |-- sphinx built docs
-    |   |   |
-    |   |-- source/
-    |   |   |-- sphinx source docs
-    |   |   |
-    |   |   |-- _static/
-    |   |   |   |
-    |   |   |   |-- static doc images
-    |   |   |   |
-    |   |   |-- _templates/
-    |   |   |   |
-    |   |   |   |-- templated css
-    |   |   |   |
-    |   |   |-- classes/
-    |   |   |   |
-    |   |   |   |-- class docs
-    |   |   |   |
-    |   |   |-- functions/
-    |   |   |   |
-    |   |   |   |-- free function docs
-    |   |   |   |
-
+   +---.settings
+   +---dat
+   +---db
+   |   \---manage_db
+   +---docs
+   |   +---build
+   |   |   +---.doctrees
+   |   |   |   +---classes
+   |   |   |   \---functions
+   |   |   +---classes
+   |   |   +---functions
+   |   |   +---_images
+   |   |   +---_modules
+   |   |   +---_sources
+   |   |   |   +---classes
+   |   |   |   \---functions
+   |   |   \---_static
+   |   \---source
+   |       +---classes
+   |       +---functions
+   |       \---_static
+   +---gui
+   |   +---dat
+   |   +---ico
+   |   +---objs
+   |   \---plot
+   \---plot_vfm
 
 ----------------------------------------
 Features
