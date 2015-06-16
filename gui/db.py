@@ -29,20 +29,18 @@ class DatabaseManager(object):
     classdocs
     '''
 
-    __dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=True)
-
     def __init__(self):
         '''
         Constructor
         '''
-        
         self.__plotType = 0
         self.__hdf = ''
         self.__dict = {}
         
-        dbBase.metadata.create_all(self.__dbEngine)  # @UndefinedVariable
-        
+    def createTable(self):
+        self.__dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=True)
         self.__Session = sessionmaker(bind=self.__dbEngine)
+        dbBase.metadata.create_all(self.__dbEngine)
         
         #delete empty objects and display database
         session = self.__Session()
@@ -53,9 +51,6 @@ class DatabaseManager(object):
         lst = session.query(dbPolygon).all()
         print lst
         session.close()
-        
-    def createTable(self):
-        dbBase.metadata.create_all(self.__dbEngine)
         
     def notifyDeletion(self, polygon):
         session = self.__Session()
