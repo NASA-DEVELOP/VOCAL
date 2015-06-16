@@ -14,20 +14,13 @@ from gui import Constants
 from gui.PolygonList import PolygonList
 from gui.plot.plot_depolar_ratio import drawDepolar
 from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
-from tools import NavigationToolbar2CALIPSO
-from toolswindow import toolsWindow
-from importdbwindow import dbDialog
+from gui.tools import NavigationToolbar2CALIPSO
+from gui.toolswindow import toolsWindow
+from gui.importdialog import dbDialog
 
-#### PROGRAM CONSTANTS ####
-HEIGHT          = 665
-WIDTH           = 1265
-CHILDWIDTH      = 200
-CHILDHEIGHT     = 300
 #### START OF CLASS ################################################################################
 class Calipso(object):
-    
-    
-    
+
     def __init__ (self, r):
         self.__root = r                     # root of program
         self.__file = ''                    # current file in use
@@ -45,7 +38,9 @@ class Calipso(object):
         
         pndwinBottom = PanedWindow(sectionedPane)                                   # expands the distance below the button
         sectionedPane.add(pndwinBottom)
-        self.__drawplotFrame = Frame(pndwinBottom, width=WIDTH, height=HEIGHT)      # the frame on which we will set our canvas for drawing etc.
+        self.__drawplotFrame = Frame(pndwinBottom, 
+                                     width=Constants.WIDTH, 
+                                     height=Constants.HEIGHT)      # the frame on which we will set our canvas for drawing etc.
         
         self.__Parentfig = Figure(figsize=(16,11))
         
@@ -68,13 +63,13 @@ class Calipso(object):
         self.__root.title("CALIPSO Visualization Tool")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
-        self.x = (sw - WIDTH)/2
-        self.y = (sh - HEIGHT)/2
-        self.__root.geometry('%dx%d+%d+%d' % (WIDTH, HEIGHT, self.x, self.y))
+        self.x = (sw - Constants.WIDTH)/2
+        self.y = (sh - Constants.HEIGHT)/2
+        self.__root.geometry('%dx%d+%d+%d' % (Constants.WIDTH, Constants.HEIGHT, self.x, self.y))
         # the child is designed to appear off to the right of the parent window, so the x location
         #     is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
         #     plus half the distance of the window
-        self.__child.geometry('%dx%d+%d+%d' % (CHILDWIDTH, CHILDHEIGHT, self.x + self.x*4 + 20, self.y + self.y/2))
+        self.__child.geometry('%dx%d+%d+%d' % (Constants.CHILDWIDTH, Constants.CHILDHEIGHT, self.x + self.x*4 + 20, self.y + self.y/2))
        
 #### MENU BAR ######################################################################################   
     def setupMenu(self):

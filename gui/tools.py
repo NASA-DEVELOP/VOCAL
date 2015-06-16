@@ -6,6 +6,7 @@
 """
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, \
     StringVar
+    
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
 toggleContainer = []

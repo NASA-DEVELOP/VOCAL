@@ -3,6 +3,12 @@ Created on Jun 11, 2015
 
 @author: nqian
 '''
+
+HEIGHT          = 665
+WIDTH           = 1265
+CHILDWIDTH      = 200
+CHILDHEIGHT     = 300
+
 BASE_PLOT       = 0
 BACKSCATTERED   = 1
 DEPOLARIZED     = 2
@@ -19,3 +25,6 @@ DEPOLARIZED_STR     = "depolarized"
 VFM_STR             = "vfm"
 
 PLOTS = ["base_plot", "backscattered", "depolarized", "vfm"]
+
+VERTICES        = "vertices"
+DATE            = "date"

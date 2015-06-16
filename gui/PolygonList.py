@@ -237,7 +237,8 @@ class PolygonList(object):
                 value = {"vertices": vertices, "color": color}
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
-        db.commitToDB(self.__currentList)
+        db.commitToDB(self.__currentList, self.__data['time'], self.__hdf)
+        print self.__data
         db.encode("objs/polygons.json", self.__data)    
                 
 if __name__=="__main__":
