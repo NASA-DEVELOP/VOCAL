@@ -1,6 +1,6 @@
 #### IMPORTS #######################################################################################
-from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, Frame, Button, HORIZONTAL, \
-    BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN, SW
+from Tkinter import Tk, Label, Toplevel, Menu, Text, END, PanedWindow, \
+    Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN, SW
 import os
 import tkFileDialog
 
@@ -8,7 +8,7 @@ from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 from gui import Constants
 from gui.PolygonList import PolygonList
 from gui.plot.plot_depolar_ratio import drawDepolar
@@ -176,7 +176,7 @@ class Calipso(object):
         btnClose.pack()
         
     def dbOpenDialog(self):
-        d = dbDialog(self.__root)
+        dbDialog(self.__root)
 
     def importFile(self):
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
