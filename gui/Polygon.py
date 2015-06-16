@@ -6,8 +6,7 @@ Created on Jun 4, 2015
 
 # import antigravity
 from numpy import empty_like, dot, array
-from PolygonWriter import PolygonWriter
-from gui import Constants
+import Constants
 
 class PolygonDrawer(object):
     '''
@@ -105,7 +104,6 @@ class PolygonDrawer(object):
         self.__prevY = -1.0
         self.__tag = tag
         self.__color = color
-        self.__polyWriter = PolygonWriter("C:\\Users\\nqian\\Desktop\\poly.json")
         self.__itemHandler = 0
         self.__plot = ""
                     

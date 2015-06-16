@@ -11,8 +11,7 @@ from datetime import datetime
 from gui import Constants
 from gui.Polygon import PolygonDrawer
 from gui.PolygonReader import PolygonReader
-from gui.PolygonWriter import PolygonWriter
-
+from gui.db import db
 
 class PolygonList(object):
     '''
@@ -32,7 +31,6 @@ class PolygonList(object):
                               [PolygonDrawer(canvas)],      # depolarized list
                               [PolygonDrawer(canvas)]]      # vfm list
         self.__currentList = None
-        self.__polyWritier = PolygonWriter()
         self.__polyReader = PolygonReader()
         self.__hdf = ''
         self.__plot = Constants.BASE_PLOT_STR
@@ -221,7 +219,6 @@ class PolygonList(object):
             plot += 1
         
     def save(self, fileName="objs/polygons.json"):
-        self.__polyWritier.setJsonFile(fileName)
         today = datetime.utcnow()
         year = today.year
         month = today.month
@@ -240,7 +237,8 @@ class PolygonList(object):
                 value = {"vertices": vertices, "color": color}
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
-        self.__polyWritier.encode(self.__data)
+        db.commitToDB(self.__currentList)
+        db.encode("objs/polygons.json", self.__data)    
                 
 if __name__=="__main__":
     print PolygonList.plotStringtoInt(Constants.PLOTS[0])
