@@ -304,21 +304,26 @@ class Calipso(object):
         createToolTip(self.__plotButton, "Hide polygons")
         
         self.saveIMG = ImageTk.PhotoImage(file="ico/save.png")
-        self.__testButton = Button(self.__lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.saveAs)
-        self.__testButton.grid(row=2, column=4, padx=2, pady=5)
-        createToolTip(self.__testButton, "Save to JSON")
+        self.__saveButton = Button(self.__lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.saveAs)
+        self.__saveButton.grid(row=2, column=4, padx=2, pady=5)
+        createToolTip(self.__saveButton, "Save to JSON")
         
         self.loadIMG = ImageTk.PhotoImage(file="ico/load.png")
-        self.__testButton2 = Button(self.__lowerButtonFrame, image=self.loadIMG, width=30, height=30, command=self.load)
-        self.__testButton2.grid(row=3, column=1, padx=2, pady=5)
-        createToolTip(self.__testButton2, "Load JSON")
+        self.__loadButton = Button(self.__lowerButtonFrame, image=self.loadIMG, width=30, height=30, command=self.load)
+        self.__loadButton.grid(row=3, column=1, padx=2, pady=5)
+        createToolTip(self.__loadButton, "Load JSON")
         
         self.propIMG = ImageTk.PhotoImage(file="ico/cog.png")
         self.__propButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.propIMG, width=30, height=30)
         self.__propButton.latch(key="<Button-1>", command=self.__polygonList.properties)
         self.__propButton.grid(row=3, column=2, padx=2, pady=5)
         createToolTip(self.__propButton, "Polygon Properties")
-
+        
+        self.testIMG = ImageTk.PhotoImage(file="ico/button.png")
+        self.__testButton = ToggleableButton(self.__root, self.__lowerButtonFrame, image=self.testIMG, width=30, height=30)
+        self.__testButton.latch(key="<Button-1>", command=self.test)
+        self.__testButton.grid(row=3, column=2, padx=2, pady=5)
+        createToolTip(self.__testButton, "Test")
 
     def importFile(self):
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
@@ -337,8 +342,11 @@ class Calipso(object):
     def saveImage(self):
         pass
     
+    def test(self, event):
+        result = self.__toolbar.message.get()
+        print type(result)
+        print self.__toolbar.message.get()
     
-    # TODO: fix bug when user cancels in saving and loading
     def saveAs(self):
         options = {}
         options['defaultextension'] = '.json'
