@@ -148,7 +148,7 @@ class ToolsWindow(Toplevel):
         self.saveIMG = ImageTk.PhotoImage(file="ico/save.png")
         self.__saveButton = Button(self.lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.__parent.notifySaveJSON)
         self.__saveButton.grid(row=2, column=4, padx=2, pady=5)
-        createToolTip(self.__saveButton, "Save to JSON")
+        createToolTip(self.__saveButton, "Save visible\n objects\n to JSON")
         
         self.loadIMG = ImageTk.PhotoImage(file="ico/load.png")
         self.__loadButton = Button(self.lowerButtonFrame, image=self.loadIMG, width=30, height=30, command=self.__parent.load)

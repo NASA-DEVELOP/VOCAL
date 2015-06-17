@@ -136,8 +136,6 @@ class PolygonList(object):
         self.__count += 1
     
     def reset(self):
-        #self.__polygonList[self.__polygonList.index(self.__currentList)] = \
-        #    PolygonDrawer(self.__canvas)
         idx = self.__polygonList.index(self.__currentList)
         self.__polygonList[idx] = [PolygonDrawer(self.__canvas)]
         self.__currentList = self.__polygonList[idx]
