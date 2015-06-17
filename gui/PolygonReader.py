@@ -44,7 +44,10 @@ class PolygonReader(object):
             for shape in self.__data[plt]:
                 if "vertices" in self.__data[plt][shape]:
                     self.__data[plt][shape]["vertices"] = \
-                        [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]["vertices"])]
+                        [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]["vertices"]) if len(x) == 2]
+                if "attributes" in self.__data[plt][shape]:
+                    self.__data[plt][shape]["attributes"] = \
+                        ast.literal_eval(self.__data[plt][shape]["attributes"])
                 
     # TODO: add exception
     def packPolygonDrawer(self, polygonList, plotType, canvas):
