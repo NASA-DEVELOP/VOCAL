@@ -36,12 +36,9 @@ class dbPolygon(dbBase):
     #represent the data in JSON
     def __repr__(self):
         data = {}
-        print self.plot
-        for i in range(0,4):
+        for i in range(0,len(Constants.PLOTS)):
             data[self.plotString(i)] = {}
-        shapeDict = {}
-        shapeDict[self.tag] = {"vertices":self.vertices, "color":self.color}
-        data[self.plot] = shapeDict
+        data[self.plot] = {self.tag : {"vertices":self.vertices, "color":self.color}}
         data["time"] = self.time_
         data["hdfFile"] = self.hdf
         return json.dumps(data)
@@ -80,13 +77,17 @@ class DatabaseManager(object):
         for polygon in polyList[:-1]:
             if polygon.getVertices != None:
                 session.add(
-                    dbPolygon(time_=time,
+                    dbPolygon(tag=polygon.getTag(),
+                              time_=time,
                               hdf=f.rpartition('/')[2],
                               plot=polygon.getPlot(),
                               vertices=str(polygon.getVertices()), 
                               color=polygon.getColor()))
         session.commit()
         session.close()
+        
+    def pullFromDB(self, obj):
+        pass
     
     # Encode and write out a JSON object, currently still supported
     # but expect DEPRECATED
