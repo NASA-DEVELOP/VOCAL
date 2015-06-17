@@ -61,9 +61,9 @@ class ToolsWindow(Toplevel):
         menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
         
         plotType = IntVar()
-        menubtnPlotSelection.menu.add_radiobutton(label="Backscattered", variable=plotType, value=Constants.BACKSCATTERED, command=lambda: self.__parent.selPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="Depolarization Ratio", variable=plotType, value=Constants.DEPOLARIZED, command=lambda: self.__parent.selPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=Constants.VFM, command=lambda: self.__parent.selPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="Backscattered", variable=plotType, value=Constants.BACKSCATTERED, command=lambda: self.__parent.setPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="Depolarization Ratio", variable=plotType, value=Constants.DEPOLARIZED, command=lambda: self.__parent.setPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=Constants.VFM, command=lambda: self.__parent.setPlot(plotType))
         
         ###################################Lower Frame##############################################
         

@@ -288,8 +288,8 @@ def getIntersection(a1, a2, b1, b2):
     dp = a1 - b1
     dap = perpendicular(da)
     denom = dot(dap, db)
-    colorCounter = dot(dap, dp)
-    return (colorCounter /denom.astype(float))*db + b1
+    num = dot(dap, dp)
+    return (num /denom.astype(float))*db + b1
 
 def isIntersecting(a1, a2, b1, b2):
     '''
