@@ -109,7 +109,7 @@ class Calipso(object):
 #### MAIN SCREEN #############################################################################
 
     # parameter: plotType = int value(0-2) associated with desired plotType
-    def selPlot(self, plotType):
+    def setPlot(self, plotType):
         if (plotType) == Constants.BASE_PLOT:
             self.__polygonList.setPlot(Constants.BASE_PLOT)
         elif (plotType.get()) == Constants.BACKSCATTERED:
@@ -267,7 +267,7 @@ class Calipso(object):
     def setupMainScreen(self):
         self.createTopScreenGUI()
         self.__child.setupToolBarButtons()
-        self.selPlot(Constants.BASE_PLOT)
+        self.setPlot(Constants.BASE_PLOT)
         
 
 
