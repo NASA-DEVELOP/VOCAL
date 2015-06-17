@@ -179,9 +179,12 @@ class PolygonDrawer(object):
         
     def addAttribute(self, tag):
         for item in self.__attributes:
-            if item is tag:
+            if item == tag:
                 raise Exception()
         self.__attributes.append(tag)
+        
+    def setAttributes(self, attributes):
+        self.__attributes = attributes
 
     def setTag(self, tag):
         self.__tag = tag;

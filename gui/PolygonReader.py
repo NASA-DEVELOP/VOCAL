@@ -43,7 +43,9 @@ class PolygonReader(object):
         for shape in self.__data[plotType]:
             color = self.__data[plotType][shape]['color']
             vertices = self.__data[plotType][shape]['vertices']
+            attributes = self.__data[plotType][shape]['attributes']
             polygonList[-1].setColor(color)
             polygonList[-1].setVertices(vertices)
             polygonList[-1].setPlot(plotType)
+            polygonList[-1].setAttributes(attributes)
             polygonList.append(PolygonDrawer(canvas))
