@@ -6,7 +6,7 @@ Created on Jun 15, 2015
 '''
 from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
     RIGHT, Label, RAISED, Menubutton, IntVar, Menu, END, Scrollbar, \
-    VERTICAL
+    VERTICAL, EXTENDED, BOTTOM, TOP, X, RIDGE
     
 from gui import Constants
 from gui.db import db, dbPolygon
@@ -25,7 +25,7 @@ class dbDialog(Toplevel):
         center(self, (Constants.IMPORTWIDTH,Constants.IMPORTHEIGH))
         
         self.container = Frame(self)
-        self.container.pack(side="top", fill="both", expand=True)
+        self.container.pack(side=TOP, fill=BOTH, expand=True)
         
         self.createTopFrame()
         self.createBottomFrame()
@@ -33,7 +33,7 @@ class dbDialog(Toplevel):
     def createTopFrame(self):
         # create top frame, do not expand out
         self.topFrame = Frame(self.container)
-        self.topFrame.pack(side="top", fill="x", expand=False)
+        self.topFrame.pack(side=TOP, fill=X, expand=False)
         
         # search label and entry
         self.label = Label(self.topFrame, text="Search ")
@@ -63,13 +63,13 @@ class dbDialog(Toplevel):
         
     def createBottomFrame(self):
         self.bottomFrame = Frame(self.container)
-        self.bottomFrame.pack(side="bottom", fill="both", expand=True)
-        self.separator = Frame(self.bottomFrame, relief="ridge", height=2, bg="gray")
-        self.separator.pack(side="top", fill="x", expand=False)
+        self.bottomFrame.pack(side=BOTTOM, fill=BOTH, expand=True)
+        self.separator = Frame(self.bottomFrame, relief=RIDGE, height=2, bg="gray")
+        self.separator.pack(side=TOP, fill=X, expand=False)
         self.bottomButtonFrame = Frame(self.bottomFrame)
-        self.bottomButtonFrame.pack(side="bottom", fill="x", expand=False)
+        self.bottomButtonFrame.pack(side=BOTTOM, fill=X, expand=False)
         
-        self.listbox = Listbox(self.bottomFrame)
+        self.listbox = Listbox(self.bottomFrame, selectmode=EXTENDED)
         self.listbox.pack(fill=BOTH, expand=True)
         
         self.scrollbar = Scrollbar(self.listbox, orient=VERTICAL)
@@ -83,13 +83,14 @@ class dbDialog(Toplevel):
             
         self.button = Button(self.bottomButtonFrame, text="Import", width=30,
                              command=self.importSelection)
-        self.button.pack(side="bottom", pady=10)
+        self.button.pack(side=BOTTOM, pady=10)
         
     def order(self):
         pass
     
     def importSelection(self):
-        pass
+        items = self.listbox.curselection()
+        print items
     
     def filterDialog(self):
         pass

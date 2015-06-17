@@ -10,6 +10,7 @@ import json
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, Column, Integer, String
+from gui import Constants
 
 # Create a declarative_base for dbPolygon to inherit from
 dbBase = declarative_base()
@@ -21,19 +22,26 @@ class dbPolygon(dbBase):
     __tablename__ = 'objects'
     
     id = Column(Integer, primary_key=True)  # primary key
-    vertices = Column(String)               # array of vertices, passed as string
+    tag = Column(String)                    # shape tag
     color = Column(String)                  # color of polygon
+    vertices = Column(String)               # array of vertices, passed as string
     time_ = Column(String)                  # time object was exported
     hdf = Column(String)                    # filename
-    plot = Column(Integer)                  # type of plot drawn on
+    plot = Column(String)                  # type of plot drawn on
+    
+    @staticmethod
+    def plotString(i):
+        return Constants.PLOTS[i]
     
     #represent the data in JSON
     def __repr__(self):
-        return json.JSONEncoder().encode({"plot":self.plot,
-                                          "time":self.time_,
-                                          "file":self.hdf, 
-                                          "vetices":self.vertices, 
-                                          "color":self.color})
+        data = {}
+        for i in range(0,len(Constants.PLOTS)):
+            data[self.plotString(i)] = {}
+        data[self.plot] = {self.tag : {"vertices":self.vertices, "color":self.color}}
+        data["time"] = self.time_
+        data["hdfFile"] = self.hdf
+        return json.dumps(data)
 
 
 class DatabaseManager(object):
@@ -69,13 +77,17 @@ class DatabaseManager(object):
         for polygon in polyList[:-1]:
             if polygon.getVertices != None:
                 session.add(
-                    dbPolygon(time_=time,
+                    dbPolygon(tag=polygon.getTag(),
+                              time_=time,
                               hdf=f.rpartition('/')[2],
                               plot=polygon.getPlot(),
                               vertices=str(polygon.getVertices()), 
                               color=polygon.getColor()))
         session.commit()
         session.close()
+        
+    def pullFromDB(self, obj):
+        pass
     
     # Encode and write out a JSON object, currently still supported
     # but expect DEPRECATED
