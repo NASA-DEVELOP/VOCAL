@@ -18,9 +18,10 @@ class dbDialog(Toplevel):
     Dialog window which prompts user for a selection of objects to import as well as
     showing a customizable list for displaying the data
     '''
-    def __init__(self, parent):
+    def __init__(self, parent, master):
         Toplevel.__init__(self, parent)
-        
+
+        self.__master = master        
         self.title("Import from existing database")
         center(self, (Constants.IMPORTWIDTH,Constants.IMPORTHEIGH))
         
@@ -89,9 +90,23 @@ class dbDialog(Toplevel):
         pass
     
     def importSelection(self):
+        """
+        def readPlot(self, fileName="C:\\Users\\nqian\\Documents\\Carol.json"):
+        self.__polyReader.setFileName(fileName)
+        self.__polyReader.readJSON()
+        plot = 0
+        for lst in self.__polygonList:
+            self.__polyReader.packPolygonDrawer(lst, Constants.PLOTS[plot], self.__canvas)
+            if PolygonList.plotStringtoInt(self.__plot) == plot:
+                for shape in lst:
+                    if not shape.isEmpty():
+                        shape.redrawShape()
+            plot += 1
+        """
         items = self.listbox.curselection()
-        print items
-    
+        for idx in items:
+            self.__master.getPolygonList().readPlot(readFromString=str(self.listbox.get(idx)))
+            
     def filterDialog(self):
         pass
     

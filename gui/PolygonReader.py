@@ -6,9 +6,10 @@ Created on Jun 15, 2015
 # import antigravity
 import json
 
+import ast
 import yaml
+import Constants
 from gui.Polygon import PolygonDrawer
-
 
 class PolygonReader(object):
     '''
@@ -26,18 +27,25 @@ class PolygonReader(object):
     def setFileName(self, fileName):
         self.__fileName = fileName
         
-    def readJSON(self):   
+    def readFromFileJSON(self):   
         with open(self.__fileName, 'r') as infile:
             data = json.load(infile)
             test = json.dumps(data, sort_keys=True,
                              indent=2, separators=(',', ': '))
-#             print test
 #             print data["Backscattered"]
 #             print data["Depolarized"]
             yaml.safe_load(test)
 #             print type(test)
         self.__data = data
-    
+        
+    def readFromStrJSON(self, data):
+        self.__data = (json.loads(data))
+        for plt in [x for x in self.__data if x in Constants.PLOTS]:
+            for shape in self.__data[plt]:
+                if "vertices" in self.__data[plt][shape]:
+                    self.__data[plt][shape]["vertices"] = \
+                        [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]["vertices"])]
+                
     # TODO: add exception
     def packPolygonDrawer(self, polygonList, plotType, canvas):
         for shape in self.__data[plotType]:
@@ -47,3 +55,4 @@ class PolygonReader(object):
             polygonList[-1].setVertices(vertices)
             polygonList[-1].setPlot(plotType)
             polygonList.append(PolygonDrawer(canvas))
+            
