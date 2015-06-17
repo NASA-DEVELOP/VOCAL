@@ -7,8 +7,6 @@ Created on Jun 11, 2015
 from tkColorChooser import askcolor
 
 from datetime import datetime
-import yaml
-import json
 from gui import Constants
 from gui.Polygon import PolygonDrawer
 from gui.PolygonReader import PolygonReader
@@ -189,6 +187,15 @@ class PolygonList(object):
                 print shape
                 return
         print "Polygon shape not found"
+        
+    def edit(self, event, tag):
+        target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
+        for shape in self.__currentList:
+            if shape.getItemHandler() is target[0]:
+                try:
+                    shape.addAttribute(tag)
+                except Exception:
+                    raise Exception()
                 
     def toggleDrag(self, event):
         PolygonDrawer.toggleDrag(event)
