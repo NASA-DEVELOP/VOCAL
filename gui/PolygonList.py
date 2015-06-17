@@ -100,6 +100,10 @@ class PolygonList(object):
     def anchorRectangle(self, event):
         self.__currentList[-1].anchorRectangle(event)
         
+    def getCount(self):
+        return len(self.__polygonList[0]) + len(self.__polygonList[1]) + \
+               len(self.__polygonList[2]) + len(self.__polygonList[3]) - 4
+        
     def plotPoint(self, event):
         check = self.__currentList[-1].plotPoint(event, self.__plot)
         if check:
@@ -217,16 +221,17 @@ class PolygonList(object):
                     if not shape.isEmpty():
                         shape.redrawShape()
             plot += 1
+            
+    def saveToDB(self):
+        if len(self.__currentList) == 1:
+            return False
+        today = datetime.utcnow().replace(microsecond=0)
+        db.commitToDB(self.__currentList, str(today), self.__hdf)
+        return True
         
     def save(self, fileName="objs/polygons.json"):
-        today = datetime.utcnow()
-        year = today.year
-        month = today.month
-        day = today.day
-        hour = today.hour
-        minute = today.minute
-        second = today.second
-        self.__data['time'] = str(year) + "-" + str(month) + "-" + str(day) + "T" + str(hour) + ":" + str(minute) + ":" + str(second) + "Z"
+        today = datetime.utcnow().replace(microsecond=0)
+        self.__data['time'] = str(today)
         self.__data["hdfFile"] = self.__hdf
         for i in range(len(self.__polygonList)):
             shapeDict = {}
@@ -237,8 +242,6 @@ class PolygonList(object):
                 value = {"vertices": vertices, "color": color}
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
-        db.commitToDB(self.__currentList, self.__data['time'], self.__hdf)
-        print self.__data
         db.encode(fileName, self.__data)    
                 
 if __name__=="__main__":
