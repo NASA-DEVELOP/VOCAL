@@ -82,7 +82,7 @@ class Calipso(object):
         self.__menuFile.add_command(label="Export Image", command=self.exportImage)
         self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Save", command=self.saveImage)
-        self.__menuFile.add_command(label="Save as", command=self.saveAs)
+        self.__menuFile.add_command(label="Save as", command=self.notifySaveJSON)
         self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Properties", command=self.properties)
         self.__menuFile.add_separator()
@@ -155,8 +155,23 @@ class Calipso(object):
     def notifySaveDB(self):
         # TODO: Check if no objects to be saved, notify if not, 
         # have save returns true false maybe?
-        self.__polygonList.save()
-        tkMessageBox.showinfo("database", "All objects saved to database")
+        success = self.__polygonList.saveToDB()
+        if success:
+            tkMessageBox.showinfo("database", "All objects saved to database")
+        else:
+            tkMessageBox.showerror("database", "No objects to be saved")
+            
+    def notifySaveJSON(self):
+        if self.__polygonList.getCount() > 0:
+            options = {}
+            options['defaultextension'] = '.json'
+            options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
+            f = tkFileDialog.asksaveasfilename(**options)
+            if f is "":
+                return
+            self.__polygonList.save(f)
+        else:
+            tkMessageBox.showerror("save as JSON", "No objects to be saved")
         
     def dbOpenDialog(self):
         dbDialog(self.__root)
@@ -182,15 +197,6 @@ class Calipso(object):
         result = self.__toolbar.message.get()
         print type(result)
         print self.__toolbar.message.get()
-    
-    def saveAs(self):
-        options = {}
-        options['defaultextension'] = '.json'
-        options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
-        f = tkFileDialog.asksaveasfilename(**options)
-        if f is "":
-            return
-        self.__polygonList.save(f)
         
     def load(self):
         options = {}

@@ -146,7 +146,7 @@ class ToolsWindow(Toplevel):
         createToolTip(self.__plotButton, "Hide polygons")
         
         self.saveIMG = ImageTk.PhotoImage(file="ico/save.png")
-        self.__saveButton = Button(self.lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.__parent.saveAs)
+        self.__saveButton = Button(self.lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.__parent.notifySaveJSON)
         self.__saveButton.grid(row=2, column=4, padx=2, pady=5)
         createToolTip(self.__saveButton, "Save to JSON")
         
