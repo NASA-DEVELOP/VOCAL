@@ -17,6 +17,10 @@ class ToolsWindow(Toplevel):
     technically a standalone window.
     '''
     def __init__(self, parent, root):
+        '''
+        Call base class __init__, also create panes for buttons and setup
+        any prerequisite widgets before creating buttons
+        '''
         Toplevel.__init__(self, root)
         
         self.__parent = parent
@@ -50,6 +54,9 @@ class ToolsWindow(Toplevel):
         
         
     def setupToolBarButtons(self):
+        '''
+        Create tool bar buttons
+        '''
         ###################################Upper Frame##############################################
         btnReset = Button(self.upperButtonFrame, text = "Reset", width = 10, command=self.__parent.reset)
         btnReset.grid(row=0, column=0, padx=10, pady=5)

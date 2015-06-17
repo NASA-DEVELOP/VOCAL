@@ -30,12 +30,12 @@ class dbPolygon(dbBase):
     plot = Column(String)                   # type of plot drawn on
     attributes = Column(String)             # list of object attributes
     
-    @staticmethod
-    def plotString(i):
-        return Constants.PLOTS[i]
-    
-    #represent the data in JSON
     def __repr__(self):
+        '''
+        Represent the database class as a JSON object. Useful as our program
+        already supporst JSON reading, so simply parse out the database as 
+        seperate JSON 'files'
+        '''
         data = {}
         for i in range(0,len(Constants.PLOTS)):
             data[self.plotString(i)] = {}
@@ -52,7 +52,10 @@ class DatabaseManager(object):
     other functionality. The database is INDEPENDENT from the application
     '''
     def __init__(self):
-        # Create engine, session and generate table
+        '''
+        Create the database engine using db/CALIPSO.db database.
+        Echo all commands, create Session and table
+        '''
         self.__dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=True)
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)
@@ -66,14 +69,18 @@ class DatabaseManager(object):
         session.close()
     """
     
-    # Return an instance of a session, USERS job to ensure session is
-    # committed/closed
     def getSession(self):
+        '''
+        Returns an instance of a session, USERS job to ensure session
+        is committed/closed
+        '''
         return self.__Session()
         
-    # Takes a list of polygons and commits them into the database, used
-    # in polygonList to commit all visible polygons
     def commitToDB(self, polyList, time, f):
+        '''
+        Takes a list of polygons and commits them into the database,
+        used in polygonList to commit all visible polygons
+        '''
         session = self.__Session()
         for polygon in polyList[:-1]:
             if polygon.getVertices != None:
@@ -87,15 +94,14 @@ class DatabaseManager(object):
                               attributes=str(polygon.getAttributes())))
         session.commit()
         session.close()
-        
-    def pullFromDB(self, obj):
-        pass
     
-    # Encode and write out a JSON object, currently still supported
-    # but expect DEPRECATED
     def encode(self, filename, data):
+        '''
+        Encode and write out a JSON object
+        '''
         with open(filename, 'w') as outfile:
             json.dump(data, outfile)
                 
 
+# define the global database manager object
 db = DatabaseManager()
