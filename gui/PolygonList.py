@@ -239,7 +239,7 @@ class PolygonList(object):
             self.__data[self.__plotInttoString(i)] = shapeDict
         db.commitToDB(self.__currentList, self.__data['time'], self.__hdf)
         print self.__data
-        db.encode("objs/polygons.json", self.__data)    
+        db.encode(fileName, self.__data)    
                 
 if __name__=="__main__":
     print PolygonList.plotStringtoInt(Constants.PLOTS[0])

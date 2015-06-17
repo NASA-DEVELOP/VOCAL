@@ -190,7 +190,7 @@ class Calipso(object):
         f = tkFileDialog.asksaveasfilename(**options)
         if f is "":
             return
-        self.__polygonList.save(f)
+        self.polygonList.save(f)
         
     def load(self):
         options = {}
@@ -199,7 +199,7 @@ class Calipso(object):
         f = tkFileDialog.askopenfilename(**options)
         if f is "":
             return
-        self.__polygonList.readPlot(f)
+        self.polygonList.readPlot(f)
         
     def properties(self):
         pass
