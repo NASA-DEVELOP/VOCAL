@@ -3,7 +3,6 @@ from Tkconstants import END
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN, Entry, \
     StringVar
-import Tkinter
 import os
 import tkFileDialog
 import tkMessageBox
@@ -29,7 +28,7 @@ class Calipso(object):
     '''
     def __init__ (self, r):
         self.__root = r                     # root of program
-        self.__file = ''                    # current file in use
+        self.__file =  ''                    # current file in use
         
         # TODO: Add icon for window an task bar
         
@@ -188,7 +187,7 @@ class Calipso(object):
             tkMessageBox.showerror("save as JSON", "No objects to be saved")
         
     def dbOpenDialog(self):
-        dbDialog(self.__root)
+        dbDialog(self.__root, self)
 
     def importFile(self):
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
