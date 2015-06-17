@@ -7,7 +7,6 @@ Created on Jun 15, 2015
 import json
 
 import ast
-import yaml
 import Constants
 from gui.Polygon import PolygonDrawer
 
@@ -30,12 +29,13 @@ class PolygonReader(object):
     def readFromFileJSON(self):   
         with open(self.__fileName, 'r') as infile:
             data = json.load(infile)
-            test = json.dumps(data, sort_keys=True,
-                             indent=2, separators=(',', ': '))
-#             print data["Backscattered"]
-#             print data["Depolarized"]
-            yaml.safe_load(test)
-#             print type(test)
+#           test = json.dumps(data, sort_keys=True,
+#                              indent=2, separators=(',', ': '))
+#           print test
+#           print data["Backscattered"]
+#           print data["Depolarized"]
+#           debug = yaml.safe_load(test)
+#           print type(test)
         self.__data = data
         
     def readFromStrJSON(self, data):

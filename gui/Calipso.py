@@ -1,6 +1,8 @@
 #### IMPORTS #######################################################################################
+from Tkconstants import END
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
-    Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN
+    Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN, Entry, \
+    StringVar
 import os
 import tkFileDialog
 import tkMessageBox
@@ -12,11 +14,11 @@ from matplotlib.figure import Figure
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 from gui import Constants
 from gui.PolygonList import PolygonList
+from gui.importdialog import dbDialog
 from gui.plot.plot_depolar_ratio import drawDepolar
 from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from gui.tools import NavigationToolbar2CALIPSO
 from gui.toolswindow import ToolsWindow
-from gui.importdialog import dbDialog
 
 
 class Calipso(object):
@@ -217,6 +219,31 @@ class Calipso(object):
         if f is "":
             return
         self.__polygonList.readPlot(f)
+    
+    def attributeWindow(self, event):
+        filewin = Toplevel(self.__root, width=950, height=950)
+        filewin.title("Edit Attributes")
+        self.textbox = Entry(filewin, width=50)
+        self.textbox.pack()
+        frame = Frame(filewin)
+        frame.pack()
+        self.string = StringVar()
+        self.label = Label(frame, textvariable=self.string, justify=LEFT)
+        self.label.grid(row=1, column=0)
+        getButton = Button(frame, text="Get", command=lambda: self.getText(event))
+        getButton.grid(row=2, column=0)
+        closeButton = Button(frame, text="Close", command=filewin.destroy)
+        closeButton.grid(row=2, column=1)
+
+    def getText(self, event):
+        print self.textbox.get()
+        self.text = self.textbox.get()
+        try:
+            self.__polygonList.edit(event, self.text)
+            self.textbox.delete(0, END)
+            self.string.set("Added attribute.")
+        except Exception:
+            self.string.set("Attribute already exists!")
         
     def properties(self):
         pass
