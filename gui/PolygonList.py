@@ -109,7 +109,7 @@ class PolygonList(object):
         return self.__currentFile
         
     def plotPoint(self, event):
-        check = self.__currentList[-1].plotPoint(event, self.__plot)
+        check = self.__currentList[-1].plotPoint(event, self.__plot, PolygonList.outlineToggle)
         if check:
             self.generateTag()
             self.__currentList.append(PolygonDrawer(self.__canvas))
@@ -118,7 +118,7 @@ class PolygonList(object):
         self.__currentList[-1].rubberBand(event)
         
     def fillRectangle(self, event):
-        self.__currentList[-1].fillRectangle(event, self.__plot)
+        self.__currentList[-1].fillRectangle(event, self.__plot, PolygonList.outlineToggle)
         self.generateTag()
         self.__currentList.append(PolygonDrawer(self.__canvas))
         
@@ -126,7 +126,7 @@ class PolygonList(object):
         self.__hdf = HDFFilename
         
     def drawPolygon(self):
-        self.__currentList[-1].drawPolygon(self.__plot)
+        self.__currentList[-1].drawPolygon(self.__plot, PolygonList.outlineToggle)
         self.generateTag()
         self.__currentList.append(PolygonDrawer(self.__canvas))
         
@@ -269,9 +269,3 @@ class PolygonList(object):
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
         db.encode(self.__currentFile, self.__data)  
-                
-if __name__=="__main__":
-    print PolygonList.plotStringtoInt(Constants.PLOTS[0])
-    print PolygonList.plotStringtoInt(Constants.PLOTS[1])
-    print PolygonList.plotStringtoInt(Constants.PLOTS[2])
-    print PolygonList.plotStringtoInt(Constants.PLOTS[3])
