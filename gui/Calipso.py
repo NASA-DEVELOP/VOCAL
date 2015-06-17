@@ -231,7 +231,7 @@ class Calipso(object):
         self.string = StringVar()
         self.label = Label(frame, textvariable=self.string, justify=LEFT)
         self.label.grid(row=1, column=0)
-        getButton = Button(frame, text="Get", command=lambda: self.getText(event))
+        getButton = Button(frame, text="Add", command=lambda: self.getText(event))
         getButton.grid(row=2, column=0)
         closeButton = Button(frame, text="Close", command=filewin.destroy)
         closeButton.grid(row=2, column=1)
