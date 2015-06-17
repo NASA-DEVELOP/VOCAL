@@ -116,7 +116,7 @@ class PolygonDrawer(object):
         self.__prevX = event.x
         self.__prevY = event.y
         
-    def plotPoint(self, event, plot=Constants.BASE_PLOT_STR):
+    def plotPoint(self, event, plot=Constants.BASE_PLOT_STR, fill=False):
         self.__vertices.append((event.x, event.y))
         if len(self.__vertices) > 1:
             self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width="2", tags="line")
@@ -132,7 +132,7 @@ class PolygonDrawer(object):
                 self.__vertices[index] = pair
                 del self.__vertices[:index]
                 self.__vertices.pop()
-                self.drawPolygon(plot)
+                self.drawPolygon(plot, fill)
                 self.__plot = plot
                 self.__canvas._tkcanvas.delete("line")
                 PolygonDrawer.colorCounter += 16
@@ -150,7 +150,7 @@ class PolygonDrawer(object):
             self.__canvas._tkcanvas.delete(self.lastrect)
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prevX, self.__prevY, event.x, event.y)
         
-    def fillRectangle(self, event, plot=Constants.BASE_PLOT_STR):
+    def fillRectangle(self, event, plot=Constants.BASE_PLOT_STR, fill=False):
         '''
         Draws the rectangle and stores the vertices of the rectangle internally. Used in "Draw Rect"
         '''
@@ -164,7 +164,11 @@ class PolygonDrawer(object):
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
         color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
-        self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=color, fill=color, tags=("polygon", self.__tag, plot))
+        if fill is False:
+            fillColor = ""
+        else:
+            fillColor = color
+        self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=color, fill=fillColor, tags=("polygon", self.__tag, plot))
         self.__color = color
         self.__vertices.append((event.x, iy))
         self.__vertices.append((event.x, event.y))
@@ -214,9 +218,13 @@ class PolygonDrawer(object):
                 return i
         return -1
             
-    def drawPolygon(self, plot=Constants.BASE_PLOT_STR):
+    def drawPolygon(self, plot=Constants.BASE_PLOT_STR, fill=False):
         color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
-        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=color, fill=color, width=2, tags=("polygon", self.__tag, plot))
+        if fill is False:
+            fillColor = ""
+        else:
+            fillColor = color
+        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=color, fill=fillColor, width=2, tags=("polygon", self.__tag, plot))
         self.__color = color
         self.__plot = plot
         PolygonDrawer.colorCounter += 16

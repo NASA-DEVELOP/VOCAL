@@ -15,7 +15,7 @@ class PolygonReader(object):
     Reads JSON files and transfers the data into PolygonDrawer objects
     '''
 
-
+    # TODO: add exception handling
     def __init__(self, fileName="C:\\Users\\nqian\\Documents\\Carol.json"):
         '''
         Initializes attributes
