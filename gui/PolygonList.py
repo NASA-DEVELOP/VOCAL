@@ -31,6 +31,7 @@ class PolygonList(object):
                               [PolygonDrawer(canvas)],      # depolarized list
                               [PolygonDrawer(canvas)]]      # vfm list
         self.__currentList = None
+        self.__currentFile = ""
         self.__polyReader = PolygonReader()
         self.__hdf = ''
         self.__plot = Constants.BASE_PLOT_STR
@@ -103,6 +104,9 @@ class PolygonList(object):
     def getCount(self):
         return len(self.__polygonList[0]) + len(self.__polygonList[1]) + \
                len(self.__polygonList[2]) + len(self.__polygonList[3]) - 4
+               
+    def getFileName(self):
+        return self.__currentFile
         
     def plotPoint(self, event):
         check = self.__currentList[-1].plotPoint(event, self.__plot)
@@ -132,7 +136,12 @@ class PolygonList(object):
         self.__count += 1
     
     def reset(self):
-        self.__currentList = [PolygonDrawer(self.__canvas)]
+        #self.__polygonList[self.__polygonList.index(self.__currentList)] = \
+        #    PolygonDrawer(self.__canvas)
+        idx = self.__polygonList.index(self.__currentList)
+        self.__polygonList[idx] = [PolygonDrawer(self.__canvas)]
+        self.__currentList = self.__polygonList[idx]
+
         self.__count = 0
         self.__canvas._tkcanvas.delete("polygon")
         self.__canvas._tkcanvas.delete("line")
@@ -229,7 +238,26 @@ class PolygonList(object):
         db.commitToDB(self.__currentList, str(today), self.__hdf)
         return True
         
-    def save(self, fileName="objs/polygons.json"):
+    def save(self, fileName=""):
+        if fileName != "": self.__currentFile = fileName
+        today = datetime.utcnow().replace(microsecond=0)
+        self.__data['time'] = str(today)
+        self.__data["hdfFile"] = self.__hdf
+        shapeDict = {}
+        for i in range(len(self.__polygonList)):
+            self.__data[self.__plotInttoString(i)] = {}
+        i = self.__polygonList.index(self.__currentList)
+        for j in range(len(self.__currentList)-1):
+            tag = self.__currentList[j].getTag()
+            vertices = self.__currentList[j].getVertices()
+            color = self.__currentList[j].getColor()
+            value = {"vertices": vertices, "color": color}
+            shapeDict[tag] = value
+        self.__data[self.__plotInttoString(i)] = shapeDict
+        db.encode(self.__currentFile, self.__data)    
+        
+    def saveAll(self, fileName=""):
+        if fileName is not None: self.__currentFile = fileName
         today = datetime.utcnow().replace(microsecond=0)
         self.__data['time'] = str(today)
         self.__data["hdfFile"] = self.__hdf
@@ -242,7 +270,7 @@ class PolygonList(object):
                 value = {"vertices": vertices, "color": color}
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
-        db.encode(fileName, self.__data)    
+        db.encode(self.__currentFile, self.__data)  
                 
 if __name__=="__main__":
     print PolygonList.plotStringtoInt(Constants.PLOTS[0])

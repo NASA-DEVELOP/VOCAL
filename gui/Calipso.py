@@ -82,7 +82,8 @@ class Calipso(object):
         self.__menuFile.add_command(label="Export Image", command=self.exportImage)
         self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Save", command=self.saveImage)
-        self.__menuFile.add_command(label="Save as", command=self.notifySaveJSON)
+        self.__menuFile.add_command(label="Save all", command=lambda : self.notifySaveAsJSON(saveAll=True))
+        self.__menuFile.add_command(label="Save as", command=self.notifySaveAsJSON)
         self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Properties", command=self.properties)
         self.__menuFile.add_separator()
@@ -163,13 +164,23 @@ class Calipso(object):
             
     def notifySaveJSON(self):
         if self.__polygonList.getCount() > 0:
+            if self.__polygonList.getFileName() == "":
+                self.notifySaveAsJSON()
+            else:
+                self.__polygonList.save()
+        else:
+            tkMessageBox.showerror("save as JSON", "No objects to be saved")
+            
+    def notifySaveAsJSON(self, saveAll=False):
+        if self.__polygonList.getCount() > 0:
             options = {}
             options['defaultextension'] = '.json'
             options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
             f = tkFileDialog.asksaveasfilename(**options)
             if f is "":
                 return
-            self.__polygonList.save(f)
+            if saveAll: self.__polygonList.saveAll(f) 
+            else: self.__polygonList.save(f)
         else:
             tkMessageBox.showerror("save as JSON", "No objects to be saved")
         
