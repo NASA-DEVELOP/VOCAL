@@ -22,7 +22,7 @@ class dbDialog(Toplevel):
         Toplevel.__init__(self, parent)
         
         self.title("Import from existing database")
-        center(self, (400,600))
+        center(self, (Constants.IMPORTWIDTH,Constants.IMPORTHEIGH))
         
         self.container = Frame(self)
         self.container.pack(side="top", fill="both", expand=True)
