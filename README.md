@@ -29,6 +29,9 @@ http://develop-larc-calipso.github.io/CALIPSO_Visualization/
 
 * [x] Create dialog for listing database objects
   * [ ] Introduce filtering of objects
+* [ ] Do not add objects already placed inside the database
+* [ ] Do not duplicate objects that have not moved from the database
+* [ ] Add warning on corrupted objects (nan)
 * [x] Move exporting of data to DB to the menu bar
 * [x] Remove save function button
 * [x] Create some sort of DB monitoring system to catch empty and bad objects
