@@ -7,7 +7,8 @@ Created on Jun 11, 2015
 from tkColorChooser import askcolor
 
 from datetime import datetime
-
+import yaml
+import json
 from gui import Constants
 from gui.Polygon import PolygonDrawer
 from gui.PolygonReader import PolygonReader
@@ -107,6 +108,9 @@ class PolygonList(object):
                
     def getFileName(self):
         return self.__currentFile
+    
+    def getReader(self):
+        return self.__polyReader
         
     def plotPoint(self, event):
         check = self.__currentList[-1].plotPoint(event, self.__plot, PolygonList.outlineToggle)
@@ -217,9 +221,12 @@ class PolygonList(object):
         elif plot.lower() == "vfm":
             return 3
             
-    def readPlot(self, fileName="C:\\Users\\nqian\\Documents\\Carol.json"):
-        self.__polyReader.setFileName(fileName)
-        self.__polyReader.readJSON()
+    def readPlot(self, fileName="C:\\Users\\nqian\\Documents\\Carol.json", readFromString=""):
+        if readFromString != "":
+            self.__polyReader.readFromStrJSON(readFromString)
+        else:
+            self.__polyReader.setFileName(fileName)
+            self.__polyReader.readFromFileJSON()
         plot = 0
         for lst in self.__polygonList:
             self.__polyReader.packPolygonDrawer(lst, Constants.PLOTS[plot], self.__canvas)
@@ -228,6 +235,7 @@ class PolygonList(object):
                     if not shape.isEmpty():
                         shape.redrawShape()
             plot += 1
+        
             
     def saveToDB(self):
         if len(self.__currentList) == 1:
