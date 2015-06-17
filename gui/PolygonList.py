@@ -11,6 +11,7 @@ from gui import Constants
 from gui.Polygon import PolygonDrawer
 from gui.PolygonReader import PolygonReader
 from gui.db import db
+import tkMessageBox
 
 class PolygonList(object):
     '''
@@ -184,7 +185,7 @@ class PolygonList(object):
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
         for shape in self.__currentList:
             if shape.getItemHandler() is target[0]:
-                print shape
+                tkMessageBox.showinfo("properties",str(shape))
                 return
         print "Polygon shape not found"
         
