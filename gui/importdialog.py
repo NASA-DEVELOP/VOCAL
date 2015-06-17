@@ -106,6 +106,7 @@ class dbDialog(Toplevel):
         items = self.listbox.curselection()
         for idx in items:
             self.__master.getPolygonList().readPlot(readFromString=str(self.listbox.get(idx)))
+        self.free()
             
     def filterDialog(self):
         pass

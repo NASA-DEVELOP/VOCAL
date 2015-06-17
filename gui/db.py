@@ -27,7 +27,8 @@ class dbPolygon(dbBase):
     vertices = Column(String)               # array of vertices, passed as string
     time_ = Column(String)                  # time object was exported
     hdf = Column(String)                    # filename
-    plot = Column(String)                  # type of plot drawn on
+    plot = Column(String)                   # type of plot drawn on
+    attributes = Column(String)             # list of object attributes
     
     @staticmethod
     def plotString(i):
@@ -38,7 +39,7 @@ class dbPolygon(dbBase):
         data = {}
         for i in range(0,len(Constants.PLOTS)):
             data[self.plotString(i)] = {}
-        data[self.plot] = {self.tag : {"vertices":self.vertices, "color":self.color}}
+        data[self.plot] = {self.tag : {"vertices":self.vertices, "color":self.color, "attributes":self.attributes}}
         data["time"] = self.time_
         data["hdfFile"] = self.hdf
         return json.dumps(data)
@@ -82,7 +83,8 @@ class DatabaseManager(object):
                               hdf=f.rpartition('/')[2],
                               plot=polygon.getPlot(),
                               vertices=str(polygon.getVertices()), 
-                              color=polygon.getColor()))
+                              color=polygon.getColor(),
+                              attributes=str(polygon.getAttributes())))
         session.commit()
         session.close()
         
