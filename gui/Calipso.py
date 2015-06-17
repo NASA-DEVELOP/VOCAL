@@ -53,9 +53,9 @@ class Calipso(object):
         self.__Parentfig = Figure(figsize=(16,11))
         self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)    
         # create tool bar and polygonDrawer     
-        self.toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas, self.__child.coordinateFrame)
+        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas, self.__child.coordinateFrame)
         # list of object drawn to the screen
-        self.polygonList = PolygonList(self.__drawplotCanvas)
+        self.__polygonList = PolygonList(self.__drawplotCanvas)
         # show the frame
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplotFrame.pack()
@@ -108,16 +108,16 @@ class Calipso(object):
     # parameter: plotType = int value(0-2) associated with desired plotType
     def selPlot(self, plotType):
         if (plotType) == Constants.BASE_PLOT:
-            self.polygonList.setPlot(Constants.BASE_PLOT)
+            self.__polygonList.setPlot(Constants.BASE_PLOT)
         elif (plotType.get()) == Constants.BACKSCATTERED:
             try:
                 self.__Parentfig.clear()
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)
                 drawBackscattered(self.__file, self.__fig, self.__Parentfig)
                 self.__drawplotCanvas.show()
-                self.polygonList.setPlot(Constants.BACKSCATTERED)
+                self.__polygonList.setPlot(Constants.BACKSCATTERED)
                 self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
-                self.toolbar.update()
+                self.__toolbar.update()
                 self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
             except IOError:
                 tkMessageBox.showerror("File Not Found", "No File Exists")
@@ -126,10 +126,10 @@ class Calipso(object):
                 self.__Parentfig.clear()
                 self.__fig = self.__Parentfig.add_subplot(1, 1, 1)
                 drawDepolar(self.__file, self.__fig, self.__Parentfig)
-                self.polygonList.setPlot(Constants.DEPOLARIZED)
+                self.__polygonList.setPlot(Constants.DEPOLARIZED)
                 self.__drawplotCanvas.show()
                 self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
-                self.toolbar.update()
+                self.__toolbar.update()
                 self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
             except IOError:
                 tkMessageBox.showerror("File Not Found", "No File Exists")
@@ -140,8 +140,8 @@ class Calipso(object):
     # Reload the initial image
     def reset(self):
         #reset radio-buttons
-        self.polygonList.reset()
-        self.toolbar.home()
+        self.__polygonList.reset()
+        self.__toolbar.home()
         
     def createTopScreenGUI(self):
         #File Dialog box, - shows the selected __file
@@ -155,7 +155,7 @@ class Calipso(object):
     def notifySaveDB(self):
         # TODO: Check if no objects to be saved, notify if not, 
         # have save returns true false maybe?
-        self.polygonList.save()
+        self.__polygonList.save()
         tkMessageBox.showinfo("database", "All objects saved to database")
         
     def dbOpenDialog(self):
@@ -169,7 +169,7 @@ class Calipso(object):
             self.__file = fl
             Segments = self.__file.rpartition('/')
             self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
-            self.polygonList.setHDF(self.__file)
+            self.__polygonList.setHDF(self.__file)
         return ''
     
     def exportImage(self):
@@ -190,7 +190,7 @@ class Calipso(object):
         f = tkFileDialog.asksaveasfilename(**options)
         if f is "":
             return
-        self.polygonList.save(f)
+        self.__polygonList.save(f)
         
     def load(self):
         options = {}
@@ -199,10 +199,16 @@ class Calipso(object):
         f = tkFileDialog.askopenfilename(**options)
         if f is "":
             return
-        self.polygonList.readPlot(f)
+        self.__polygonList.readPlot(f)
         
     def properties(self):
         pass
+    
+    def getPolygonList(self):
+        return self.__polygonList
+    
+    def getToolbar(self):
+        return self.__toolbar
         
     def about(self): 
         filewin = Toplevel(self.__root)
