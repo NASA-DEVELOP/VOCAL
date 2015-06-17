@@ -105,9 +105,6 @@ class Calipso(object):
         #configure menu to screen
         self.__root.config(menu=self.__menuBar)
 
-#### MAIN SCREEN #############################################################################
-
-    # parameter: plotType = int value(0-2) associated with desired plotType
     def selPlot(self, plotType):
         if (plotType) == Constants.BASE_PLOT:
             self.__polygonList.setPlot(Constants.BASE_PLOT)                                     # sets the screen to a blank canvas
@@ -135,24 +132,21 @@ class Calipso(object):
             tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")     # vfm doesn't exist
     
  
-    # Reload the initial image
     def reset(self):
-        #reset radio-buttons
-        self.__polygonList.reset()
-        self.__toolbar.home()
+        self.__polygonList.reset()  # reset all buttons
+        self.__toolbar.home()       # proc toolbar function to reset plot to home
         
     def createTopScreenGUI(self):
-        #File Dialog box, - shows the selected __file
-        lblFile=Label(self.__dialogFrame, text="File:")
-        lblFile.grid(row=1, column=0)
-        self.__lblFileDialog = Label(self.__dialogFrame, width = 50, justify=LEFT, bg = white, relief = SUNKEN)
-        self.__lblFileDialog.grid(row=1, column=1, padx=10)
-        btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10, command=self.importFile)
-        btnBrowse.grid(row=1, column=3)
+        lblFile=Label(self.__dialogFrame, text="File:")                                 # File label upper:left
+        self.__lblFileDialog = Label(self.__dialogFrame, width = 50, justify=LEFT,      # Input box that shows file currently loaded
+            bg = white, relief = SUNKEN)
+        btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10,              # same as 'open' option
+            command=self.importFile)
+        lblFile.grid(row=1, column=0)                                                   # place and pack File labe
+        self.__lblFileDialog.grid(row=1, column=1, padx=10)                             # place and pack dialog label
+        btnBrowse.grid(row=1, column=3)                                                 # pack and place 
         
     def notifySaveDB(self):
-        # TODO: Check if no objects to be saved, notify if not, 
-        # have save returns true false maybe?
         success = self.__polygonList.saveToDB()
         if success:
             tkMessageBox.showinfo("database", "All objects saved to database")
@@ -160,15 +154,18 @@ class Calipso(object):
             tkMessageBox.showerror("database", "No objects to be saved")
             
     def notifySaveJSON(self):
-        if self.__polygonList.getCount() > 0:
-            if self.__polygonList.getFileName() == "":
-                self.notifySaveAsJSON()
+        # Save to last saved file, if no file exists prompt to a new file
+        if self.__polygonList.getCount() > 0:           
+            if self.__polygonList.getFileName() == "":      
+                self.notifySaveAsJSON()                     # Still prompt for a file name if none currently exists
             else:
-                self.__polygonList.save()
+                self.__polygonList.save()                   # Else do a normal save with internal file
         else:
             tkMessageBox.showerror("save as JSON", "No objects to be saved")
             
     def notifySaveAsJSON(self, saveAll=False):
+        # Save to a file entered by user, saveAll saves ALL objects across canvas
+        # and cannot be called as a normal save(must always be save as)
         if self.__polygonList.getCount() > 0:
             options = {}
             options['defaultextension'] = '.json'
@@ -182,9 +179,10 @@ class Calipso(object):
             tkMessageBox.showerror("save as JSON", "No objects to be saved")
         
     def dbOpenDialog(self):
-        dbDialog(self.__root, self)
+        dbDialog(self.__root, self)                         # create dialog window for importing from database
 
     def importFile(self):
+        # function to import HDF file used my open and browse
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
         dlg = tkFileDialog.Open(filetypes = ftypes)
         fl = dlg.show()
@@ -207,6 +205,7 @@ class Calipso(object):
         print self.__toolbar.message.get()
         
     def load(self):
+        # loads JSON object by callig the polygonList internal readPlot method
         options = {}
         options['defaultextension'] = '.json'
         options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
@@ -216,6 +215,7 @@ class Calipso(object):
         self.__polygonList.readPlot(f)
     
     def attributeWindow(self, event):
+        # TODO: make less ugly (sorry Nathan!)
         filewin = Toplevel(self.__root, width=950, height=950)
         filewin.title("Edit Attributes")
         self.textbox = Entry(filewin, width=50)
@@ -231,6 +231,7 @@ class Calipso(object):
         closeButton.grid(row=2, column=1)
 
     def getText(self, event):
+        # Bind text to a shape, adds attribute
         print self.textbox.get()
         self.text = self.textbox.get()
         try:
@@ -244,7 +245,7 @@ class Calipso(object):
         pass
     
     def getPolygonList(self):
-        return self.__polygonList
+        return self.__polygonList       # get functions for private varialbes
     
     def getToolbar(self):
         return self.__toolbar
@@ -252,7 +253,8 @@ class Calipso(object):
     def about(self): 
         filewin = Toplevel(self.__root)
         filewin.title("About")
-        T = Message(filewin, text="NASA DEVELOP \nLaRC Spring 2015 Term \n \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal")
+        T = Message(filewin, text="NASA DEVELOP\n \nLaRC Spring 2015 Term \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal \
+            \n\nLaRC Summer 2015 Term \nGrant Mercer (Team Lead) \nNathan Qian")
         T.pack()
             
         btnClose = Button(filewin, text="Close", command=filewin.destroy)
