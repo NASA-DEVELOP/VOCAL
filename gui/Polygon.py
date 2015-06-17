@@ -106,6 +106,7 @@ class PolygonDrawer(object):
         self.__color = color
         self.__itemHandler = 0
         self.__plot = ""
+        self.__attributes = []
                     
     def anchorRectangle(self, event):
         '''
@@ -176,6 +177,12 @@ class PolygonDrawer(object):
         self.__plot = plot
         PolygonDrawer.colorCounter += 16
         
+    def addAttribute(self, tag):
+        for item in self.__attributes:
+            if item is tag:
+                raise Exception()
+        self.__attributes.append(tag)
+
     def setTag(self, tag):
         self.__tag = tag;
         
@@ -187,6 +194,9 @@ class PolygonDrawer(object):
         
     def setPlot(self, plot):
         self.__plot = plot
+        
+    def getAttributes(self):
+        return self.__attributes
         
     def getPlot(self):
         return self.__plot 
@@ -246,6 +256,8 @@ class PolygonDrawer(object):
         string = "Vertices: "
         for point in self.__vertices:
             string += "(" + str(point[0]) + "," + str(point[1]) + ")\n"
+        for item in self.__attributes:
+            string += item + "\n"
         return string
     
     @staticmethod

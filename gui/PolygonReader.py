@@ -6,7 +6,7 @@ Created on Jun 15, 2015
 # import antigravity
 import json
 
-import yaml
+# import yaml
 from gui.Polygon import PolygonDrawer
 
 
@@ -29,12 +29,12 @@ class PolygonReader(object):
     def readJSON(self):   
         with open(self.__fileName, 'r') as infile:
             data = json.load(infile)
-            test = json.dumps(data, sort_keys=True,
-                             indent=2, separators=(',', ': '))
+#             test = json.dumps(data, sort_keys=True,
+#                              indent=2, separators=(',', ': '))
 #             print test
 #             print data["Backscattered"]
 #             print data["Depolarized"]
-            yaml.safe_load(test)
+#             debug = yaml.safe_load(test)
 #             print type(test)
         self.__data = data
     
