@@ -27,8 +27,8 @@ class Calipso(object):
     creating other GUI windows such as the toolbar or import dialog
     '''
     def __init__ (self, r):
-        self.__root = r                     # root of program
-        self.__file =  ''                    # current file in use
+        self.__root = r                         # root of program
+        self.__file =  ''                       # current file in use
         
         # TODO: Add icon for window an task bar
         
@@ -47,19 +47,18 @@ class Calipso(object):
         sectionedPane.add(pndwinBottom)
         self.__drawplotFrame = Frame(pndwinBottom, 
                                      width=Constants.WIDTH, 
-                                     height=Constants.HEIGHT)      # the frame on which we will set our canvas for drawing etc.
+                                     height=Constants.HEIGHT)                       # the frame on which we will set our canvas for drawing etc.
         
         
-        self.__child = ToolsWindow(self, r)       
-        # the main canvas we will be drawing our data to
-        self.__Parentfig = Figure(figsize=(16,11))
-        self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig, master=self.__drawplotFrame)    
-        # create tool bar and polygonDrawer     
-        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas, self.__child.coordinateFrame)
-        # list of object drawn to the screen
-        self.__polygonList = PolygonList(self.__drawplotCanvas)
-        # show the frame
-        self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+        self.__child = ToolsWindow(self, r)                                         # tools window which holds all manipulation buttons 
+        self.__Parentfig = Figure(figsize=(16,11))                                  # the figure we're drawing our plot to
+        self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig,                 # canvas USING the figure we're drawing our plot to \
+            master=self.__drawplotFrame)   
+        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,           # create barebones toolbar we can borrow backend functions from \
+            self.__child.coordinateFrame)
+        self.__polygonList = PolygonList(self.__drawplotCanvas)                     # internal polygonList
+        
+        self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)   # pack and display canvas
         self.__drawplotFrame.pack()
     
     def setupWindow(self):
@@ -70,8 +69,8 @@ class Calipso(object):
         self.y = (sh - Constants.HEIGHT)/2
         self.__root.geometry('%dx%d+%d+%d' % (Constants.WIDTH, Constants.HEIGHT, self.x, self.y))
         # the child is designed to appear off to the right of the parent window, so the x location
-        #     is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
-        #     plus half the distance of the window
+        # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
+        # plus half the distance of the window
         self.__child.geometry('%dx%d+%d+%d' % (Constants.CHILDWIDTH, Constants.CHILDHEIGHT, self.x + self.x*4 + 20, self.y + self.y/2))
        
 #### MENU BAR ######################################################################################   
@@ -111,33 +110,29 @@ class Calipso(object):
     # parameter: plotType = int value(0-2) associated with desired plotType
     def selPlot(self, plotType):
         if (plotType) == Constants.BASE_PLOT:
-            self.__polygonList.setPlot(Constants.BASE_PLOT)
+            self.__polygonList.setPlot(Constants.BASE_PLOT)                                     # sets the screen to a blank canvas
         elif (plotType.get()) == Constants.BACKSCATTERED:
             try:
-                self.__Parentfig.clear()
-                self.__fig = self.__Parentfig.add_subplot(1,1,1)
-                drawBackscattered(self.__file, self.__fig, self.__Parentfig)
-                self.__drawplotCanvas.show()
-                self.__polygonList.setPlot(Constants.BACKSCATTERED)
-                self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
-                self.__toolbar.update()
-                self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
+                self.__Parentfig.clear()                                                        # clear the figure
+                self.__fig = self.__Parentfig.add_subplot(1,1,1)                                # create subplot
+                drawBackscattered(self.__file, self.__fig, self.__Parentfig)                    # plot the backscattered image 
+                self.__drawplotCanvas.show()                                                    # show canvas
+                self.__polygonList.setPlot(Constants.BACKSCATTERED)                             # set the current plot on polygonList
+                self.__toolbar.update()                                                         # update toolbar
             except IOError:
-                tkMessageBox.showerror("File Not Found", "No File Exists")
+                tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists in current file var
         elif (plotType.get()) == Constants.DEPOLARIZED:
             try:
-                self.__Parentfig.clear()
-                self.__fig = self.__Parentfig.add_subplot(1, 1, 1)
-                drawDepolar(self.__file, self.__fig, self.__Parentfig)
-                self.__polygonList.setPlot(Constants.DEPOLARIZED)
-                self.__drawplotCanvas.show()
-                self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=0)
-                self.__toolbar.update()
-                self.__drawplotCanvas._tkcanvas.pack(side=LEFT, fill=BOTH, expand=0)
+                self.__Parentfig.clear()                                                        # clear the figure
+                self.__fig = self.__Parentfig.add_subplot(1, 1, 1)                              # create subplot
+                drawDepolar(self.__file, self.__fig, self.__Parentfig)                          # plot the depolarized image
+                self.__polygonList.setPlot(Constants.DEPOLARIZED)                               # set the internal plot
+                self.__drawplotCanvas.show()                                                    # show plot
+                self.__toolbar.update()                                                         # update toolbar
             except IOError:
-                tkMessageBox.showerror("File Not Found", "No File Exists")
+                tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists
         elif (plotType.get()) == Constants.VFM:
-            tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")
+            tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")     # vfm doesn't exist
     
  
     # Reload the initial image
