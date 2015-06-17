@@ -90,19 +90,6 @@ class dbDialog(Toplevel):
         pass
     
     def importSelection(self):
-        """
-        def readPlot(self, fileName="C:\\Users\\nqian\\Documents\\Carol.json"):
-        self.__polyReader.setFileName(fileName)
-        self.__polyReader.readJSON()
-        plot = 0
-        for lst in self.__polygonList:
-            self.__polyReader.packPolygonDrawer(lst, Constants.PLOTS[plot], self.__canvas)
-            if PolygonList.plotStringtoInt(self.__plot) == plot:
-                for shape in lst:
-                    if not shape.isEmpty():
-                        shape.redrawShape()
-            plot += 1
-        """
         items = self.listbox.curselection()
         for idx in items:
             self.__master.getPolygonList().readPlot(readFromString=str(self.listbox.get(idx)))
