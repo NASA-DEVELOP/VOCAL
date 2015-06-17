@@ -105,10 +105,12 @@ class Calipso(object):
         #configure menu to screen
         self.__root.config(menu=self.__menuBar)
 
-#### MAIN SCREEN #############################################################################
 
-    # parameter: plotType = int value(0-2) associated with desired plotType
     def setPlot(self, plotType):
+        '''
+        Plots data from the loaded HDF file given a plotType param passed via 
+        the radio button menu
+        '''
         if (plotType) == Constants.BASE_PLOT:
             self.__polygonList.setPlot(Constants.BASE_PLOT)                                     # sets the screen to a blank canvas
         elif (plotType.get()) == Constants.BACKSCATTERED:
@@ -136,10 +138,16 @@ class Calipso(object):
     
  
     def reset(self):
+        '''
+        Reset all objects on the screen, move pan to original
+        '''
         self.__polygonList.reset()  # reset all buttons
         self.__toolbar.home()       # proc toolbar function to reset plot to home
         
     def createTopScreenGUI(self):
+        ''' 
+        Create buttons associated with the top GUI e.g. File label, browse
+        '''
         lblFile=Label(self.__dialogFrame, text="File:")                                 # File label upper:left
         self.__lblFileDialog = Label(self.__dialogFrame, width = 50, justify=LEFT,      # Input box that shows file currently loaded
             bg = white, relief = SUNKEN)
@@ -150,6 +158,10 @@ class Calipso(object):
         btnBrowse.grid(row=1, column=3)                                                 # pack and place 
         
     def notifySaveDB(self):
+        '''
+        Notify the database that a save is taking place, the
+        db will then save all polygons present on the screen
+        '''
         success = self.__polygonList.saveToDB()
         if success:
             tkMessageBox.showinfo("database", "All objects saved to database")
@@ -157,6 +169,10 @@ class Calipso(object):
             tkMessageBox.showerror("database", "No objects to be saved")
             
     def notifySaveJSON(self):
+        '''
+        Save all shapes on the map inside a JSON object given a previously
+        saved file. If no file exists prompt for file
+        '''
         # Save to last saved file, if no file exists prompt to a new file
         if self.__polygonList.getCount() > 0:           
             if self.__polygonList.getFileName() == "":      
@@ -167,6 +183,9 @@ class Calipso(object):
             tkMessageBox.showerror("save as JSON", "No objects to be saved")
             
     def notifySaveAsJSON(self, saveAll=False):
+        '''
+        Save all shapes on the map given a file specified by the user
+        '''
         # Save to a file entered by user, saveAll saves ALL objects across canvas
         # and cannot be called as a normal save(must always be save as)
         if self.__polygonList.getCount() > 0:
@@ -182,9 +201,15 @@ class Calipso(object):
             tkMessageBox.showerror("save as JSON", "No objects to be saved")
         
     def dbOpenDialog(self):
+        '''
+        Call dialog class to import database objects
+        '''
         dbDialog(self.__root, self)                         # create dialog window for importing from database
 
     def importFile(self):
+        '''
+        Load an HDF file for use with displaying backscatter and depolarized images
+        '''
         # function to import HDF file used my open and browse
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
         dlg = tkFileDialog.Open(filetypes = ftypes)
@@ -208,6 +233,9 @@ class Calipso(object):
         print self.__toolbar.message.get()
         
     def load(self):
+        '''
+        load JSON objects from file by aclling polygonlist.readPlot(f)
+        '''
         # loads JSON object by callig the polygonList internal readPlot method
         options = {}
         options['defaultextension'] = '.json'
@@ -218,6 +246,9 @@ class Calipso(object):
         self.__polygonList.readPlot(f)
     
     def attributeWindow(self, event):
+        '''
+        Open attribute window for specifying attributes on objects
+        '''
         # TODO: make less ugly (sorry Nathan!)
         filewin = Toplevel(self.__root, width=950, height=950)
         filewin.title("Edit Attributes")
@@ -234,6 +265,9 @@ class Calipso(object):
         closeButton.grid(row=2, column=1)
 
     def getText(self, event):
+        '''
+        Command function to get text from label and add to attribute
+        '''
         # Bind text to a shape, adds attribute
         print self.textbox.get()
         self.text = self.textbox.get()
@@ -248,12 +282,21 @@ class Calipso(object):
         pass
     
     def getPolygonList(self):
+        '''
+        Returns polygonList
+        '''
         return self.__polygonList       # get functions for private varialbes
     
     def getToolbar(self):
+        '''
+        Returns toolbar
+        '''
         return self.__toolbar
         
     def about(self): 
+        '''
+        Simple TopLevel window displaying the authors
+        '''
         filewin = Toplevel(self.__root)
         filewin.title("About")
         T = Message(filewin, text="NASA DEVELOP\n \nLaRC Spring 2015 Term \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal \
@@ -263,8 +306,10 @@ class Calipso(object):
         btnClose = Button(filewin, text="Close", command=filewin.destroy)
         btnClose.pack()  
     
-    # Setup the body of the GUI, initialize the default image (CALIPSO_A_Train.jpg)
     def setupMainScreen(self):
+        '''
+        Setup the top GUI, initialize toolbar window and set the plot to a blank image
+        '''
         self.createTopScreenGUI()
         self.__child.setupToolBarButtons()
         self.setPlot(Constants.BASE_PLOT)
