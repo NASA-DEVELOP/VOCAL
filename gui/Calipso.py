@@ -267,7 +267,7 @@ class Calipso(object):
 #         closeButton = Button(frame, text="Close", command=filewin.destroy)
 #         closeButton.grid(row=2, column=1)
 
-        attributeEditor = attributesDialog(self.__root, self)
+        attributeEditor = attributesDialog(self.__root, self, event)
 
     def getText(self, event):
         '''
