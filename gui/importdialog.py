@@ -18,12 +18,12 @@ class dbDialog(Toplevel):
     Dialog window which prompts user for a selection of objects to import as well as
     showing a customizable list for displaying the data
     '''
-    def __init__(self, parent, master):
+    def __init__(self, root, master):
         '''
-        parent -> root tk widget, often Tk()
+        root -> root tk widget, often Tk()
         master -> the main window, for access of polygonList
         '''
-        Toplevel.__init__(self, parent)
+        Toplevel.__init__(self, root)
 
         self.__master = master        
         self.title("Import from existing database")

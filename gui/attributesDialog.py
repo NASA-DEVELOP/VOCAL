@@ -10,7 +10,7 @@ from Tkconstants import TOP, X, BOTH, DISABLED, BOTTOM, END, SEL_FIRST, SEL_LAST
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button
 
 
-class attributesDialog(Toplevel):
+class AttributesDialog(Toplevel):
     '''
     Dialog window for creating and assigning attributes to objects
     '''
