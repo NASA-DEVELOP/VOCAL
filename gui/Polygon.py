@@ -108,6 +108,7 @@ class PolygonDrawer(object):
         self.__itemHandler = 0
         self.__plot = ""
         self.__attributes = []
+        self.__id = None
                     
     def anchorRectangle(self, event):
         '''
@@ -204,7 +205,8 @@ class PolygonDrawer(object):
         
     def getCoordinates(self):
         return self.__coordinates
-        
+    def setID(self, _id):
+        self.__id = _id
     def getAttributes(self):
         return self.__attributes
         
@@ -216,6 +218,9 @@ class PolygonDrawer(object):
     
     def getColor(self):
         return self.__color
+    
+    def getID(self):
+        return self.__id
 
     def getTag(self):
         return self.__tag
@@ -250,6 +255,7 @@ class PolygonDrawer(object):
         PolygonDrawer.colorCounter += 16
         
     def redrawShape(self):
+        self.__canvas._tkcanvas.delete(self.__itemHandler)
         self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=self.__color, fill=self.__color, width=2, tags=("polygon", self.__tag, self.__plot))
         
     def drawFromJSON(self, plot, color, vertices):

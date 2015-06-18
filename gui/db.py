@@ -30,6 +30,10 @@ class dbPolygon(dbBase):
     plot = Column(String)                   # type of plot drawn on
     attributes = Column(String)             # list of object attributes
     
+    @staticmethod
+    def plotString(i):
+        return Constants.PLOTS[i]
+    
     def __repr__(self):
         '''
         Represent the database class as a JSON object. Useful as our program
@@ -39,7 +43,7 @@ class dbPolygon(dbBase):
         data = {}
         for i in range(0,len(Constants.PLOTS)):
             data[self.plotString(i)] = {}
-        data[self.plot] = {self.tag : {"vertices":self.vertices, "color":self.color, "attributes":self.attributes}}
+        data[self.plot] = {self.tag : {"vertices":self.vertices, "color":self.color, "attributes":self.attributes, "id": self.id}}
         data["time"] = self.time_
         data["hdfFile"] = self.hdf
         return json.dumps(data)
@@ -83,7 +87,7 @@ class DatabaseManager(object):
         '''
         session = self.__Session()
         for polygon in polyList[:-1]:
-            if polygon.getVertices != None:
+            if polygon.getID() is None:
                 session.add(
                     dbPolygon(tag=polygon.getTag(),
                               time_=time,
@@ -92,6 +96,16 @@ class DatabaseManager(object):
                               vertices=str(polygon.getVertices()), 
                               color=polygon.getColor(),
                               attributes=str(polygon.getAttributes())))
+            else:
+                poly = session.query(dbPolygon).get(polygon.getID())
+                print poly
+                poly.time_ = time
+                poly.plot = polygon.getPlot()
+                poly.hdf = f.rpartition('/')[2]
+                poly.plot = polygon.getPlot()
+                poly.vertices = str(polygon.getVertices())
+                poly.color = unicode(polygon.getColor())
+                poly.attributes = str(polygon.getAttributes())
         session.commit()
         session.close()
     

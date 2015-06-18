@@ -19,7 +19,6 @@ from gui.plot.plot_depolar_ratio import drawDepolar
 from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from gui.tools import NavigationToolbar2CALIPSO
 from gui.toolswindow import ToolsWindow
-from gui.attributesdialog import attributesDialog
 
 
 class Calipso(object):
@@ -94,7 +93,7 @@ class Calipso(object):
         
         #Polygon Menu
         self.__menuPolygon = Menu(self.__menuBar, tearoff=0)
-        self.__menuPolygon.add_command(label="Import from Database", command=self.dbOpenDialog)
+        self.__menuPolygon.add_command(label="Import from Database", command=lambda : dbDialog(self.__root, self))
         self.__menuPolygon.add_command(label="Export to Database", command=self.notifySaveDB)
         self.__menuBar.add_cascade(label="Polygon", menu=self.__menuPolygon)
         
@@ -201,12 +200,6 @@ class Calipso(object):
             else: self.__polygonList.save(f)
         else:
             tkMessageBox.showerror("save as JSON", "No objects to be saved")
-        
-    def dbOpenDialog(self):
-        '''
-        Call dialog class to import database objects
-        '''
-        dbDialog(self.__root, self)                         # create dialog window for importing from database
 
     def importFile(self):
         '''

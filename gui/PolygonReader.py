@@ -10,6 +10,17 @@ import ast
 import Constants
 from gui.Polygon import PolygonDrawer
 
+
+def byteify(inp):
+    if isinstance(inp, dict):
+        return {byteify(key):byteify(value) for key,value in inp.iteritems()}
+    elif isinstance(inp, list):
+        return [byteify(element) for element in inp]
+    elif isinstance(inp, unicode):
+        return inp.encode('utf-8')
+    else:
+        return inp
+
 class PolygonReader(object):
     '''
     Reads JSON files and transfers the data into PolygonDrawer objects
@@ -39,7 +50,7 @@ class PolygonReader(object):
         self.__data = data
         
     def readFromStrJSON(self, data):
-        self.__data = (json.loads(data))
+        self.__data = json.loads(data)
         for plt in [x for x in self.__data if x in Constants.PLOTS]:
             for shape in self.__data[plt]:
                 if "vertices" in self.__data[plt][shape]:
@@ -48,13 +59,16 @@ class PolygonReader(object):
                 if "attributes" in self.__data[plt][shape]:
                     self.__data[plt][shape]["attributes"] = \
                         ast.literal_eval(self.__data[plt][shape]["attributes"])
-                
     # TODO: add exception
     def packPolygonDrawer(self, polygonList, plotType, canvas):
         for shape in self.__data[plotType]:
+            #print int(self.__data[plotType][shape]['id']) not in [x.getID() for x in polygonList]
+            if int(self.__data[plotType][shape]['id']) in [x.getID() for x in polygonList]: continue
             color = self.__data[plotType][shape]['color']
             vertices = self.__data[plotType][shape]['vertices']
             attributes = self.__data[plotType][shape]['attributes']
+            _id = self.__data[plotType][shape]['id']
+            polygonList[-1].setID(_id)
             polygonList[-1].setColor(color)
             polygonList[-1].setVertices(vertices)
             polygonList[-1].setPlot(plotType)
