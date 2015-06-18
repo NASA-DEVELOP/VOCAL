@@ -134,6 +134,7 @@ class Calipso(object):
         elif (plotType.get()) == Constants.VFM:
             tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")     # vfm doesn't exist
     
+    
  
     def reset(self):
         self.__polygonList.reset()  # reset all buttons
@@ -206,6 +207,7 @@ class Calipso(object):
         result = self.__toolbar.message.get()
         print type(result)
         print self.__toolbar.message.get()
+        pass
         
     def load(self):
         # loads JSON object by callig the polygonList internal readPlot method
@@ -221,8 +223,8 @@ class Calipso(object):
         # TODO: make less ugly (sorry Nathan!)
         filewin = Toplevel(self.__root, width=950, height=950)
         filewin.title("Edit Attributes")
-        self.textbox = Entry(filewin, width=50)
-        self.textbox.pack()
+        self.textbox1 = Entry(filewin, width=50)
+        self.textbox1.pack()
         frame = Frame(filewin)
         frame.pack()
         self.string = StringVar()
@@ -235,11 +237,11 @@ class Calipso(object):
 
     def getText(self, event):
         # Bind text to a shape, adds attribute
-        print self.textbox.get()
-        self.text = self.textbox.get()
+        print self.textbox1.get()
+        self.text = self.textbox1.get()
         try:
             self.__polygonList.edit(event, self.text)
-            self.textbox.delete(0, END)
+            self.textbox1.delete(0, END)
             self.string.set("Added attribute.")
         except Exception:
             self.string.set("Attribute already exists!")

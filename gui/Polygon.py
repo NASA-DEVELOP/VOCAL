@@ -99,6 +99,7 @@ class PolygonDrawer(object):
         Constructor
         '''
         self.__vertices = []
+        self.__coordinates = []
         self.__canvas = canvas
         self.__prevX = -1.0
         self.__prevY = -1.0
@@ -198,6 +199,12 @@ class PolygonDrawer(object):
     def setPlot(self, plot):
         self.__plot = plot
         
+    def setCoordinates(self, coordinates):
+        self.__coordinates = coordinates
+        
+    def getCoordinates(self):
+        return self.__coordinates
+        
     def getAttributes(self):
         return self.__attributes
         
@@ -256,11 +263,12 @@ class PolygonDrawer(object):
             return False
         
     def __str__(self):
-        string = "Vertices: "
+        string = "Vertices:\n"
         for point in self.__vertices:
-            string += "(" + str(point[0]) + "," + str(point[1]) + ")\n"
+            string += "\t(" + str(point[0]) + "," + str(point[1]) + ")\n"
+        string += "Attributes:\n"
         for item in self.__attributes:
-            string += item + "\n"
+            string += "\t" + item + "\n"
         return string
     
     @staticmethod
