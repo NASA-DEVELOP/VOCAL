@@ -331,7 +331,8 @@ class PolygonList(object):
             vertices = self.__currentList[j].getVertices()
             color = self.__currentList[j].getColor()
             attributes = self.__polygonList[i][j].getAttributes()
-            value = {"vertices": vertices, "color": color, "attributes": attributes}
+            _id = self.__polygonList[i][j].getID()
+            value = {"vertices": vertices, "color": color, "attributes": attributes, "id": _id}
             shapeDict[tag] = value
         self.__data[self.__plotInttoString(i)] = shapeDict
         db.encode(self.__currentFile, self.__data)    
@@ -351,7 +352,8 @@ class PolygonList(object):
                 vertices = self.__polygonList[i][j].getVertices()
                 color = self.__polygonList[i][j].getColor()
                 attributes = self.__polygonList[i][j].getAttributes()
-                value = {"vertices": vertices, "color": color, "attributes": attributes}
+                _id = self.__polygonList[i][j].getID()
+                value = {"vertices": vertices, "color": color, "attributes": attributes, "id": _id}
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
         db.encode(self.__currentFile, self.__data)  
