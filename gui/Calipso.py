@@ -19,6 +19,7 @@ from gui.plot.plot_depolar_ratio import drawDepolar
 from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from gui.tools import NavigationToolbar2CALIPSO
 from gui.toolswindow import ToolsWindow
+from gui.attributesDialog import AttributesDialog
 
 
 class Calipso(object):
@@ -245,7 +246,6 @@ class Calipso(object):
         '''
         Open attribute window for specifying attributes on objects
         '''
-        # TODO: make less ugly (sorry Nathan!)
 #         filewin = Toplevel(self.__root, width=950, height=950)
 #         filewin.title("Edit Attributes")
 #         self.textbox1 = Entry(filewin, width=50)
@@ -260,7 +260,7 @@ class Calipso(object):
 #         closeButton = Button(frame, text="Close", command=filewin.destroy)
 #         closeButton.grid(row=2, column=1)
 
-        attributeEditor = attributesDialog(self.__root, self, event)
+        attributeEditor = AttributesDialog(self.__root, self, event)
 
     def getText(self, event):
         '''
