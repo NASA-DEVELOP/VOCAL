@@ -179,10 +179,10 @@ class PolygonDrawer(object):
         PolygonDrawer.colorCounter += 16
         
     def addAttribute(self, tag):
-        for item in self.__attributes:
-            if item == tag:
-                raise Exception()
         self.__attributes.append(tag)
+        
+    def removeAttribute(self, tag):
+        self.__attributes.remove(tag)
         
     def setAttributes(self, attributes):
         self.__attributes = attributes
