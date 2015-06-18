@@ -19,6 +19,7 @@ from gui.plot.plot_depolar_ratio import drawDepolar
 from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from gui.tools import NavigationToolbar2CALIPSO
 from gui.toolswindow import ToolsWindow
+from gui.attributesdialog import attributesDialog
 
 
 class Calipso(object):
@@ -252,19 +253,21 @@ class Calipso(object):
         Open attribute window for specifying attributes on objects
         '''
         # TODO: make less ugly (sorry Nathan!)
-        filewin = Toplevel(self.__root, width=950, height=950)
-        filewin.title("Edit Attributes")
-        self.textbox1 = Entry(filewin, width=50)
-        self.textbox1.pack()
-        frame = Frame(filewin)
-        frame.pack()
-        self.string = StringVar()
-        self.label = Label(frame, textvariable=self.string, justify=LEFT)
-        self.label.grid(row=1, column=0)
-        getButton = Button(frame, text="Add", command=lambda: self.getText(event))
-        getButton.grid(row=2, column=0)
-        closeButton = Button(frame, text="Close", command=filewin.destroy)
-        closeButton.grid(row=2, column=1)
+#         filewin = Toplevel(self.__root, width=950, height=950)
+#         filewin.title("Edit Attributes")
+#         self.textbox1 = Entry(filewin, width=50)
+#         self.textbox1.pack()
+#         frame = Frame(filewin)
+#         frame.pack()
+#         self.string = StringVar()
+#         self.label = Label(frame, textvariable=self.string, justify=LEFT)
+#         self.label.grid(row=1, column=0)
+#         getButton = Button(frame, text="Add", command=lambda: self.getText(event))
+#         getButton.grid(row=2, column=0)
+#         closeButton = Button(frame, text="Close", command=filewin.destroy)
+#         closeButton.grid(row=2, column=1)
+
+        attributeEditor = attributesDialog(self.__root, self)
 
     def getText(self, event):
         '''
