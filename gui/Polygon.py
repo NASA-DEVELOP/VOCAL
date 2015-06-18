@@ -250,6 +250,7 @@ class PolygonDrawer(object):
         PolygonDrawer.colorCounter += 16
         
     def redrawShape(self):
+        self.__canvas._tkcanvas.delete(self.__itemHandler)
         self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=self.__color, fill=self.__color, width=2, tags=("polygon", self.__tag, self.__plot))
         
     def drawFromJSON(self, plot, color, vertices):
