@@ -7,7 +7,7 @@ Created on Jun 15, 2015
 
 from Tkinter import Toplevel
 
-class attributesDialog(Toplevel):
+class AttributesDialog(Toplevel):
     '''
     Dialog window for creating and assigning attributes to objects
     '''

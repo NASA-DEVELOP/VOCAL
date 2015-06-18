@@ -59,23 +59,18 @@ class PolygonReader(object):
                 if "attributes" in self.__data[plt][shape]:
                     self.__data[plt][shape]["attributes"] = \
                         ast.literal_eval(self.__data[plt][shape]["attributes"])
-        print self.__data
     # TODO: add exception
     def packPolygonDrawer(self, polygonList, plotType, canvas):
-        print polygonList
-        print ""
         for shape in self.__data[plotType]:
             #print int(self.__data[plotType][shape]['id']) not in [x.getID() for x in polygonList]
-            if int(self.__data[plotType][shape]['id'])  not in [x.getID() for x in polygonList]: 
-                color = self.__data[plotType][shape]['color']
-                vertices = self.__data[plotType][shape]['vertices']
-                attributes = self.__data[plotType][shape]['attributes']
-                _id = self.__data[plotType][shape]['id']
-                polygonList[-1].setID(_id)
-                polygonList[-1].setColor(color)
-                polygonList[-1].setVertices(vertices)
-                polygonList[-1].setPlot(plotType)
-                polygonList[-1].setAttributes(attributes)
-                polygonList.append(PolygonDrawer(canvas))
-        print polygonList
-        print ""
+            if int(self.__data[plotType][shape]['id']) in [x.getID() for x in polygonList]: continue
+            color = self.__data[plotType][shape]['color']
+            vertices = self.__data[plotType][shape]['vertices']
+            attributes = self.__data[plotType][shape]['attributes']
+            _id = self.__data[plotType][shape]['id']
+            polygonList[-1].setID(_id)
+            polygonList[-1].setColor(color)
+            polygonList[-1].setVertices(vertices)
+            polygonList[-1].setPlot(plotType)
+            polygonList[-1].setAttributes(attributes)
+            polygonList.append(PolygonDrawer(canvas))
