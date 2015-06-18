@@ -4,11 +4,13 @@ Created on Jun 15, 2015
 @author: Grant Mercer
 '''
 from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton,FALSE, BOTTOM
+    RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM
+
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 from gui import Constants
 from gui.tools import createToolTip, ToggleableButton, \
     ToolbarToggleableButton
+
 
 class ToolsWindow(Toplevel):
     '''
@@ -33,6 +35,7 @@ class ToolsWindow(Toplevel):
         sectionedChildPane.add(upperPane)
         lowerPane = PanedWindow(sectionedChildPane)
         sectionedChildPane.add(lowerPane)
+#         baseChildPane.protocol("WM_DELETE_WINDOW", ToolsWindow.ignore)
         
         self.upperButtonFrame = Frame(upperPane)                                  # upper button frame holding text buttons
         self.upperButtonFrame.pack()                                              
@@ -47,7 +50,9 @@ class ToolsWindow(Toplevel):
         self.coordinateFrame.config(highlightbackground="grey")
         self.coordinateFrame.pack(side=BOTTOM, fill=BOTH)
         
-        
+    @staticmethod
+    def ignore():
+        pass
         
     def setupToolBarButtons(self):
         ###################################Upper Frame##############################################

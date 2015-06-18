@@ -209,11 +209,16 @@ class PolygonList(object):
         '''
         Recolors the shape
         '''
+        flag = False
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
-        color = askcolor()
-        self.__canvas._tkcanvas.itemconfigure(target, fill=color[1], outline=color[1])
-        polyShape = self.__findPolygonByItemHandler(target)
-        polyShape.setColor(color[1])
+        for shape in self.__currentList:
+            if shape.getItemHandler() == target[0]:
+                flag = True
+        if flag:
+            color = askcolor()
+            self.__canvas._tkcanvas.itemconfigure(target, fill=color[1], outline=color[1])
+            polyShape = self.__findPolygonByItemHandler(target)
+            polyShape.setColor(color[1])
         
     def hide(self):
         '''
