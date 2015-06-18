@@ -9,6 +9,7 @@ from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 from gui import Constants
 from gui.tools import createToolTip, ToggleableButton, \
     ToolbarToggleableButton
+from gui.attributesdialog import AttributesDialog
 
 class ToolsWindow(Toplevel):
     '''
@@ -170,7 +171,7 @@ class ToolsWindow(Toplevel):
         
         self.editIMG = ImageTk.PhotoImage(file="ico/edit.png")
         self.__editButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.editIMG, width=30, height=30)
-        self.__editButton.latch(key="<Button-1>", command=self.__parent.attributeWindow)
+        self.__editButton.latch(key="<Button-1>", command=lambda: AttributesDialog)
         self.__editButton.grid(row=3, column=3, padx=2, pady=5)
         createToolTip(self.__editButton, "Edit Attributes")
         
