@@ -11,6 +11,7 @@ http://develop-larc-calipso.github.io/CALIPSO_Visualization/
 * [ ] Installer
 * [ ] Filtering and searching of database objects
 * [ ] Create doc tutorial
+* [ ] Maintain shape size in respect to the plot
 
 ## Misc To-Do:
 

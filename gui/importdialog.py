@@ -19,36 +19,42 @@ class dbDialog(Toplevel):
     showing a customizable list for displaying the data
     '''
     def __init__(self, parent, master):
+        '''
+        parent -> root tk widget, often Tk()
+        master -> the main window, for access of polygonList
+        '''
         Toplevel.__init__(self, parent)
 
         self.__master = master        
         self.title("Import from existing database")
-        center(self, (Constants.IMPORTWIDTH,Constants.IMPORTHEIGH))
+        center(self, (Constants.IMPORTWIDTH,Constants.IMPORTHEIGH)) # simple function to center window and set size
         
-        self.container = Frame(self)
-        self.container.pack(side=TOP, fill=BOTH, expand=True)
+        self.container = Frame(self)                                # create center frame, for use of splitting window horizontally later
+        self.container.pack(side=TOP, fill=BOTH, expand=True)       # place
         
-        self.createTopFrame()
-        self.createBottomFrame()
+        self.createTopFrame()                                       # create the top frame and pack buttons / etc. on it
+        self.createBottomFrame()                                    # create the bottom frame and pack
         
     def createTopFrame(self):
-        # create top frame, do not expand out
-        self.topFrame = Frame(self.container)
+        '''
+        Initialize the upper frame of the window in charge of buttons
+        '''
+        self.topFrame = Frame(self.container)                       # create top frame
         self.topFrame.pack(side=TOP, fill=X, expand=False)
         
-        # search label and entry
-        self.label = Label(self.topFrame, text="Search ")
+        self.label = Label(self.topFrame, text="Search ")           # search label 
+        self.e = Entry(self.topFrame)                               # input box for searching specific attributes
         self.label.grid(row=0, column=0, padx=5, pady=10)
-        self.e = Entry(self.topFrame)
         self.e.grid(row=0, column=1, padx=5, pady=10)
         
+        # Create our 'order by' radio button drop down menu, iterates over a list
+        # of tuples and create the dropdown menu via the for loop
         self.orderSelectionButton = Menubutton(self.topFrame, text="Order by", 
                                                relief=RAISED, width=10)
-        self.orderSelectionButton.grid(row=0, column=2, padx=5, pady=10)
         self.orderSelectionButton.menu = Menu(self.orderSelectionButton, tearoff=0)
         self.orderSelectionButton["menu"] = self.orderSelectionButton.menu
+        self.orderSelectionButton.grid(row=0, column=2, padx=5, pady=10)
         self.selection = IntVar()
-        
         labels = [("File name",Constants.FILE_NAME), ("Color",Constants.COLOR), 
                   ("Attributes",Constants.ATTRIBUTES), ("Custom",Constants.CUSTOM)]
         
@@ -58,26 +64,31 @@ class dbDialog(Toplevel):
                                                            value=tx[1],
                                                            command=self.order)
             
+        # custom command for filtering objects by properties
         self.filterButton = Button(self.topFrame, text="Filter", command=self.filterDialog,
                                    width=10)
         self.filterButton.grid(row=0, column=3, padx=5, pady=10)
         
     def createBottomFrame(self):
-        self.bottomFrame = Frame(self.container)
-        self.bottomFrame.pack(side=BOTTOM, fill=BOTH, expand=True)
-        self.separator = Frame(self.bottomFrame, relief=RIDGE, height=2, bg="gray")
+        '''
+        Create and display database in listbox, also add lower button frame for import
+        button
+        '''
+        self.bottomFrame = Frame(self.container)                                            # create bottom frame
+        self.bottomFrame.pack(side=BOTTOM, fill=BOTH, expand=True)          
+        self.separator = Frame(self.bottomFrame, relief=RIDGE, height=2, bg="gray")         # tiny separator splitting the top and bottom frame
         self.separator.pack(side=TOP, fill=X, expand=False)
-        self.bottomButtonFrame = Frame(self.bottomFrame)
+        self.bottomButtonFrame = Frame(self.bottomFrame)                                    # bottom frame for import button
         self.bottomButtonFrame.pack(side=BOTTOM, fill=X, expand=False)
         
-        self.listbox = Listbox(self.bottomFrame, selectmode=EXTENDED)
+        self.listbox = Listbox(self.bottomFrame, selectmode=EXTENDED)                       # extended most allows us to select multiple listbox entries
         self.listbox.pack(fill=BOTH, expand=True)
         
-        self.scrollbar = Scrollbar(self.listbox, orient=VERTICAL)
+        self.scrollbar = Scrollbar(self.listbox, orient=VERTICAL)                           # vertical scrollbar
         self.scrollbar.config(command=self.listbox.yview)
         self.scrollbar.pack(side=RIGHT, fill="y")
         
-        session = db.getSession()
+        session = db.getSession()                                                           # insert the entire database
         for obj in session.query(dbPolygon).all():
             self.listbox.insert(END, obj)
         session.close()
@@ -90,6 +101,9 @@ class dbDialog(Toplevel):
         pass
     
     def importSelection(self):
+        '''
+        Import selected objects from libox into program
+        '''
         items = self.listbox.curselection()
         for idx in items:
             self.__master.getPolygonList().readPlot(readFromString=str(self.listbox.get(idx)))
@@ -99,5 +113,8 @@ class dbDialog(Toplevel):
         pass
     
     def free(self):
+        '''
+        Free window
+        '''
         self.destroy()
         
