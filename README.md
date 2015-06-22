@@ -6,7 +6,7 @@ http://develop-larc-calipso.github.io/CALIPSO_Visualization/
 
 * [ ] Database delete option
 * [ ] Do not re-store imported db objects
-* [ X ] Attributes Class and Dialog window written
+* [X] Attributes Class and Dialog window written
 * [ ] Altitute Time coordinates
 * [ ] Installer
 * [ ] Filtering and searching of database objects
