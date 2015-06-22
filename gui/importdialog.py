@@ -12,6 +12,7 @@ from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
 from gui import Constants
 from gui.db import db, dbPolygon
 from gui.tools import TreeListBox, center
+from statsmodels.regression.tests.test_quantile_regression import idx
 #import TkTreectrl as treectrl
 #import db
 
@@ -27,7 +28,7 @@ class dbDialog(Toplevel):
         '''
         Toplevel.__init__(self, root)
 
-        
+        self.__itList = list()
         self.__master = master        
         self.title("Import from existing database")
         center(self, (Constants.IMPORTWIDTH,Constants.IMPORTHEIGH)) # simple function to center window and set size
@@ -92,7 +93,7 @@ class dbDialog(Toplevel):
         #self.listbox = McListBox(self.bottomFrame, ['name', 'date', 'color', 'attributes'])
         session = db.getSession()                                                           # insert the entire database
         for obj in session.query(dbPolygon).all():
-            print (obj.tag, obj.attributes, obj.plot, obj.time_, obj.hdf)
+            self.__itList.append(obj)
             self.tree.list.append(
                 (obj.tag, obj.attributes, obj.plot, obj.time_, obj.hdf)
             )
@@ -115,9 +116,13 @@ class dbDialog(Toplevel):
         '''
         Import selected objects from libox into program
         '''
-        items = self.listbox.curselection()
-        for idx in items:
-            self.__master.getPolygonList().readPlot(readFromString=str(self.listbox.get(idx)))
+        items = self.tree.tree.selection()
+        for tag in items:
+            # the tag represents the selected item, but must be converted to an index
+            idx = int(tag[1:])
+            print self.tree.list[idx]
+            self.__master.getPolygonList().readPlot(
+                readFromString=str(self.__itList[idx]))
         self.free()
             
     def filterDialog(self):
