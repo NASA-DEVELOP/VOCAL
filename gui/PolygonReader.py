@@ -56,6 +56,9 @@ class PolygonReader(object):
                 if "vertices" in self.__data[plt][shape]:
                     self.__data[plt][shape]["vertices"] = \
                         [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]["vertices"]) if len(x) == 2]
+                if "coordinates" in self.__data[plt][shape]:
+                    self.__data[plt][shape]["coordinates"] = \
+                        [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]["coordinates"]) if len(x) == 2]
                 if "attributes" in self.__data[plt][shape]:
                     self.__data[plt][shape]["attributes"] = \
                         ast.literal_eval(self.__data[plt][shape]["attributes"])
@@ -66,6 +69,7 @@ class PolygonReader(object):
             if int(self.__data[plotType][shape]['id']) in [x.getID() for x in polygonList]: continue
             color = self.__data[plotType][shape]['color']
             vertices = self.__data[plotType][shape]['vertices']
+            coordinates = self.__data[plotType][shape]['coordinates']
             attributes = self.__data[plotType][shape]['attributes']
             _id = self.__data[plotType][shape]['id']
             polygonList[-1].setID(_id)
@@ -73,4 +77,5 @@ class PolygonReader(object):
             polygonList[-1].setVertices(vertices)
             polygonList[-1].setPlot(plotType)
             polygonList[-1].setAttributes(attributes)
+            polygonList[-1].setCoordinates(coordinates)
             polygonList.append(PolygonDrawer(canvas, master))
