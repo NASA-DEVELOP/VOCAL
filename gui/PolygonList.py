@@ -21,15 +21,16 @@ class PolygonList(object):
     outlineToggle = True
     hideToggle = True
 
-    def __init__(self, canvas):
+    def __init__(self, canvas, master):
         '''
         Constructor
         '''
         self.__canvas = canvas
-        self.__polygonList = [[PolygonDrawer(canvas)],      # base plot list
-                              [PolygonDrawer(canvas)],      # backscattered list
-                              [PolygonDrawer(canvas)],      # depolarized list
-                              [PolygonDrawer(canvas)]]      # vfm list
+        self.__master = master
+        self.__polygonList = [[PolygonDrawer(canvas, self.__master)],      # base plot list
+                              [PolygonDrawer(canvas, self.__master)],      # backscattered list
+                              [PolygonDrawer(canvas, self.__master)],      # depolarized list
+                              [PolygonDrawer(canvas, self.__master)]]      # vfm list
         self.__currentList = None           # manipulates polygonList through aliasing
         self.__currentFile = ""
         self.__polyReader = PolygonReader()
@@ -126,7 +127,8 @@ class PolygonList(object):
     
     def getReader(self):
         return self.__polyReader
-        
+     
+    #TODO: have a helper line show while drawing   
     def plotPoint(self, event):
         '''
         Informs the correct list's blank to plot a point on the screen
@@ -134,7 +136,7 @@ class PolygonList(object):
         check = self.__currentList[-1].plotPoint(event, self.__plot, PolygonList.outlineToggle)
         if check:
             self.generateTag()
-            self.__currentList.append(PolygonDrawer(self.__canvas))
+            self.__currentList.append(PolygonDrawer(self.__canvas, self.__master))
             
     def rubberBand(self, event):
         '''
@@ -148,7 +150,7 @@ class PolygonList(object):
         '''
         self.__currentList[-1].fillRectangle(event, self.__plot, PolygonList.outlineToggle)
         self.generateTag()
-        self.__currentList.append(PolygonDrawer(self.__canvas))
+        self.__currentList.append(PolygonDrawer(self.__canvas, self.__master))
         
     def setHDF(self, HDFFilename):
         self.__hdf = HDFFilename
@@ -159,7 +161,7 @@ class PolygonList(object):
         '''
         self.__currentList[-1].drawPolygon(self.__plot, PolygonList.outlineToggle)
         self.generateTag()
-        self.__currentList.append(PolygonDrawer(self.__canvas))
+        self.__currentList.append(PolygonDrawer(self.__canvas, self.__master))
         
     def generateTag(self, index=-1):
         '''
@@ -174,7 +176,7 @@ class PolygonList(object):
         Clears the screen and removes polygons from the list
         '''
         idx = self.__polygonList.index(self.__currentList)
-        self.__polygonList[idx] = [PolygonDrawer(self.__canvas)]
+        self.__polygonList[idx] = [PolygonDrawer(self.__canvas, self.__master)]
         self.__currentList = self.__polygonList[idx]
 
         self.__count = 0

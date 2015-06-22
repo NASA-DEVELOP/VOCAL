@@ -1,8 +1,7 @@
 #### IMPORTS #######################################################################################
 from Tkconstants import END
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
-    Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN, Entry, \
-    StringVar
+    Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN
 import os
 import tkFileDialog
 import tkMessageBox
@@ -12,7 +11,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
-from gui import Constants, attributesDialog
+from gui import Constants
 from gui.PolygonList import PolygonList
 from gui.attributesDialog import AttributesDialog
 from gui.importdialog import dbDialog
@@ -20,7 +19,6 @@ from gui.plot.plot_depolar_ratio import drawDepolar
 from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from gui.tools import NavigationToolbar2CALIPSO
 from gui.toolswindow import ToolsWindow
-from gui.attributesDialog import AttributesDialog
 
 
 class Calipso(object):
@@ -58,7 +56,7 @@ class Calipso(object):
             master=self.__drawplotFrame)   
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,           # create barebones toolbar we can borrow backend functions from \
             self.__child.coordinateFrame)
-        self.__polygonList = PolygonList(self.__drawplotCanvas)                     # internal polygonList
+        self.__polygonList = PolygonList(self.__drawplotCanvas, self)                     # internal polygonList
         
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)   # pack and display canvas
         self.__drawplotFrame.pack()
@@ -226,7 +224,9 @@ class Calipso(object):
     
     def test(self, event):
         result = self.__toolbar.message.get()
-        print type(result)
+        x = result[2:15]
+        y = result[17:]
+        print "(" + x.strip() + ", " + y.strip() +")"
         print self.__toolbar.message.get()
         pass
         
