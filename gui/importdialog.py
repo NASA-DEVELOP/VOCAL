@@ -6,7 +6,7 @@ Created on Jun 15, 2015
 '''
 from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
     RIGHT, Label, RAISED, Menubutton, IntVar, Menu, END, Scrollbar, \
-    VERTICAL, EXTENDED, BOTTOM, TOP, X, RIDGE
+    VERTICAL, EXTENDED, BOTTOM, TOP, X, RIDGE, HORIZONTAL, Y
     
 from gui import Constants
 from gui.db import db, dbPolygon
@@ -69,6 +69,7 @@ class dbDialog(Toplevel):
                                    width=10)
         self.filterButton.grid(row=0, column=3, padx=5, pady=10)
         
+        
     def createBottomFrame(self):
         '''
         Create and display database in listbox, also add lower button frame for import
@@ -84,9 +85,13 @@ class dbDialog(Toplevel):
         self.listbox = Listbox(self.bottomFrame, selectmode=EXTENDED)                       # extended most allows us to select multiple listbox entries
         self.listbox.pack(fill=BOTH, expand=True)
         
-        self.scrollbar = Scrollbar(self.listbox, orient=VERTICAL)                           # vertical scrollbar
-        self.scrollbar.config(command=self.listbox.yview)
-        self.scrollbar.pack(side=RIGHT, fill="y")
+        self.yScrollbar = Scrollbar(self.listbox, orient=VERTICAL)                           # vertical scrollbar
+        self.yScrollbar.config(command=self.listbox.yview)
+        self.yScrollbar.pack(side=RIGHT, fill=Y)
+        
+        self.xScrollbar = Scrollbar(self.listbox, orient=HORIZONTAL)
+        self.xScrollbar.config(command=self.listbox.xview)
+        self.xScrollbar.pack(side=BOTTOM, fill=X)
         
         session = db.getSession()                                                           # insert the entire database
         for obj in session.query(dbPolygon).all():
