@@ -118,6 +118,8 @@ class Calipso(object):
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)                                # create subplot
                 drawBackscattered(self.__file, self.__fig, self.__Parentfig)                    # plot the backscattered image 
+                print self.__fig.get_ylim()
+                print self.__fig.get_xlim()
                 self.__drawplotCanvas.show()                                                    # show canvas
                 self.__polygonList.setPlot(Constants.BACKSCATTERED)                             # set the current plot on polygonList
                 self.__toolbar.update()                                                         # update toolbar
@@ -278,6 +280,9 @@ class Calipso(object):
         Returns toolbar
         '''
         return self.__toolbar
+    
+    def getFig(self):
+        return self.__fig
         
     def about(self): 
         '''

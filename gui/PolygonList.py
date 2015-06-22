@@ -4,14 +4,15 @@ Created on Jun 11, 2015
 @author: nqian
 '''
 # import antigravity
-from tkColorChooser import askcolor
-
 from datetime import datetime
+from tkColorChooser import askcolor
+import tkMessageBox
+
 from gui import Constants
 from gui.Polygon import PolygonDrawer
 from gui.PolygonReader import PolygonReader
 from gui.db import db
-import tkMessageBox
+
 
 class PolygonList(object):
     '''
@@ -88,6 +89,8 @@ class PolygonList(object):
                     shape.move(dx, dy, dmx, dmy)
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
+            self.__drag_data["mx"] = float(x)
+            self.__drag_data["my"] = float(y)
     
     def setPlot(self, plot):
         '''
@@ -290,6 +293,34 @@ class PolygonList(object):
             if shape.getItemHandler() == target[0]:
                 return shape
         return False
+    
+    def zoom(self):
+        toolbar = self.__master.getFig()
+        print "duck"
+        ixaxis = toolbar.get_xlim()
+        iyaxis = toolbar.get_ylim()
+        self.__master.getToolbar().zoom(True)
+        nxaxis = toolbar.get_xlim()
+        nyaxis = toolbar.get_ylim()
+        xratio = (abs(ixaxis[0] - ixaxis[1])) / (abs((nxaxis[0] - nxaxis[1])))
+        yratio = (abs(iyaxis[0] - iyaxis[1])) / (abs((nyaxis[0] - nyaxis[1])))
+#         xmid = (nxaxis[0] + nxaxis[1]) / 2.0
+#         ymid = (nyaxis[0] + nyaxis[1]) / 2.0
+        tkxmid = self.__canvas._tkcanvas.winfo_width() / 2.0
+        tkymid = self.__canvas._tkcanvas.winfo_height() / 2.0
+        
+        for shape in self.__currentList:
+            vertices = shape.getVertices()
+            for i in range(len(vertices)):
+                dx = tkxmid - vertices[i][0]
+                dy = tkymid - vertices[i][1]
+                newx = xratio * dx
+                newy = yratio * dy
+                newpoint = (newx, newy)
+                vertices[i] = newpoint
+                # redraw shape
+            if not shape.isEmpty():
+                shape.drawPolygon(self.__plot)
         
     def __findPolygonByItemHandler(self, itemHandler):
         '''
