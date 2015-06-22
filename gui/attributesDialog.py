@@ -79,16 +79,16 @@ class AttributesDialog(Toplevel):
         
         self.noteText = Text(self.bottomFrame, width=55, height=10)
         self.noteText.grid(row=1, column=1)
-        self.noteText.insert(END, self.__poly.getNote())
+        self.noteText.insert(END, self.__poly.getNotes())
         
         buttonFrame = Frame(self.container)
         buttonFrame.pack(side=BOTTOM, fill=X, expand=False)
         
         acceptButton = Button(buttonFrame, text="Save Note", command=self.save)
-        acceptButton.grid(row=3, column=0)
+        acceptButton.grid(row=0, column=0)
         
         cancelButton = Button(buttonFrame, text="Clear Note", command=self.clear)
-        cancelButton.grid(row=3, column=1)
+        cancelButton.grid(row=0, column=1)
         
 #         closeButton = Button(buttonFrame, text="Close", command=self.close)
 #         closeButton.grid(row=3, column=2)
@@ -117,12 +117,12 @@ class AttributesDialog(Toplevel):
     
     def save(self):
         note = self.noteText.get('1.0', 'end-1c')
-        self.__poly.setNote(note)
+        self.__poly.setNotes(note)
         #self.close()
     
     def clear(self):
         self.noteText.delete(1.0, END)
-        self.__poly.setNote("")
+        self.__poly.setNotes("")
     
     def close(self):
         self.destroy()
