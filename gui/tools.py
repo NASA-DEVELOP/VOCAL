@@ -246,14 +246,13 @@ class TreeListBox(object):
     """use a ttk.TreeView as a multicolumn ListBox"""
     def __init__(self, root, headers):
         self.tree = None
-        self.headers = headers
         self.list = None
+        self.headers = headers
         self.__root = root
-    
-    def _setup_widgets(self):
-        # create a treeview with dual scrollbars
-        self.tree = ttk.Treeview(self.__root, columns=self.headers, show="headings")
         
+        # create a treeview with dual scrollbars
+        self.tree = ttk.Treeview(self.__root, columns=headers, show="headings")
+        # create scrollbars and pack window
         yScrollBar = Scrollbar(self.__root, orient=VERTICAL, command=self.tree.yview)
         xScrollBar = Scrollbar(self.__root, orient=HORIZONTAL, command=self.tree.xview)
         self.tree.configure(yscrollcommand=yScrollBar.set, xscrollcommand=xScrollBar.set)
@@ -261,7 +260,10 @@ class TreeListBox(object):
         xScrollBar.pack(side=BOTTOM, fill=X, expand=NO)
         self.tree.pack(expand=YES, fill=BOTH)
     
-    def _build_tree(self):
+    def update(self):
+        for i in self.tree.get_children():
+            self.tree.delete(i)
+            
         for col in self.headers:
             self.tree.heading(col, text=col.title(),
                               command=lambda c=col: sortby(self.tree, c, 0))
@@ -276,9 +278,6 @@ class TreeListBox(object):
                 if self.tree.column(self.headers[ix],width=None)<col_w:
                     self.tree.column(self.headers[ix], width=col_w)
     
-    def create(self):
-        self._setup_widgets()
-        self._build_tree()
         
 def sortby(tree, col, descending):
     """sort tree contents when a column header is clicked on"""
