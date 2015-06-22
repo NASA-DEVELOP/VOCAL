@@ -12,8 +12,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
-from gui import Constants
+from gui import Constants, attributesDialog
 from gui.PolygonList import PolygonList
+from gui.attributesDialog import AttributesDialog
 from gui.importdialog import dbDialog
 from gui.plot.plot_depolar_ratio import drawDepolar
 from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
@@ -260,7 +261,7 @@ class Calipso(object):
 #         closeButton = Button(frame, text="Close", command=filewin.destroy)
 #         closeButton.grid(row=2, column=1)
 
-        attributeEditor = attributesDialog(self.__root, self, event)
+        attributeEditor = AttributesDialog(self.__root, self, event)
 
     def getText(self, event):
         '''
