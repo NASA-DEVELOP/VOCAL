@@ -242,7 +242,7 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
     def dynamic_update(self):
         pass
     
-class McListBox(object):
+class TreeListBox(object):
     """use a ttk.TreeView as a multicolumn ListBox"""
     def __init__(self, root, headers):
         self.tree = None
@@ -253,15 +253,12 @@ class McListBox(object):
     def _setup_widgets(self):
         # create a treeview with dual scrollbars
         self.tree = ttk.Treeview(self.__root, columns=self.headers, show="headings")
-        vsb = ttk.Scrollbar(self.__root, orient="vertical",
-        command=self.tree.yview)
-        hsb = ttk.Scrollbar(self.__root, orient="horizontal",
-        command=self.tree.xview)
-        self.tree.configure(yscrollcommand=vsb.set,
-        xscrollcommand=hsb.set)
-        self.tree.grid(column=0, row=0, sticky='nsew')
-        vsb.pack(side=RIGHT, fill=Y, expand=NO)
-        hsb.pack(side=BOTTOM, fill=X, expand=NO)
+        
+        yScrollBar = Scrollbar(self.__root, orient=VERTICAL, command=self.tree.yview)
+        xScrollBar = Scrollbar(self.__root, orient=HORIZONTAL, command=self.tree.xview)
+        self.tree.configure(yscrollcommand=yScrollBar.set, xscrollcommand=xScrollBar.set)
+        yScrollBar.pack(side=RIGHT, fill=Y, expand=NO)
+        xScrollBar.pack(side=BOTTOM, fill=X, expand=NO)
         self.tree.pack(expand=YES, fill=BOTH)
     
     def _build_tree(self):
