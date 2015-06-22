@@ -259,6 +259,13 @@ class PolygonList(object):
     def toggleDrag(self, event):
         PolygonDrawer.toggleDrag(event)
         
+    def findPolygon(self, event):
+        target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
+        for shape in self.__currentList:
+            if shape.getItemHandler() == target[0]:
+                return shape
+        return False
+        
     def __findPolygonByItemHandler(self, itemHandler):
         '''
         Retrieves a shape based on its item handler
