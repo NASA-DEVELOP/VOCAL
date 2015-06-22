@@ -6,8 +6,7 @@
 """
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, \
     StringVar, YES, Frame, BOTH, Listbox, Scrollbar, RAISED, FLAT,  \
-    FALSE, Y, X, VERTICAL, END, EXTENDED,                           \
-    BOTTOM, HORIZONTAL, MULTIPLE
+    FALSE, Y, X, VERTICAL, END, EXTENDED                           
     
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
 from Tkconstants import NO, RIGHT

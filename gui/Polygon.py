@@ -93,8 +93,8 @@ class PolygonDrawer(object):
           'gray93', 'gray94', 'gray95', 'gray97', 'gray98', 'gray99']
     
     
-
-    def __init__(self, canvas, tag="", color=""):
+    # TODO: throw exception when the user draws outside of the plot
+    def __init__(self, canvas, master, tag="", color=""):
         '''
         Constructor
         '''
@@ -105,6 +105,7 @@ class PolygonDrawer(object):
         self.__prevY = -1.0
         self.__tag = tag
         self.__color = color
+        self.__master = master
         self.__itemHandler = 0
         self.__plot = ""
         self.__attributes = []
@@ -117,11 +118,19 @@ class PolygonDrawer(object):
         create a rectangle. Used in "Draw Rect" button
         '''
         self.__vertices.append((event.x, event.y))
+#         self.__appendCoordinate(event)
+        string = self.__master.getToolbar().message.get()
+        x = string[2:15].strip()
+        y = string[17:].strip()
+        self.__coordinates.append((x, y))
         self.__prevX = event.x
         self.__prevY = event.y
+#         self.prevMX = x
+#         self.prevMY = y
         
     def plotPoint(self, event, plot=Constants.BASE_PLOT_STR, fill=False):
         self.__vertices.append((event.x, event.y))
+#         self.__appendCoordinate(event)
         if len(self.__vertices) > 1:
             self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width="2", tags="line")
         if len(self.__vertices) > 3:
@@ -167,6 +176,8 @@ class PolygonDrawer(object):
             del self.lastrect
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
+        imx = self.__coordinates[0][0]
+        imy = self.__coordinates[0][1]
         color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
         if fill is False:
             fillColor = ""
@@ -174,9 +185,15 @@ class PolygonDrawer(object):
             fillColor = color
         self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=color, fill=fillColor, tags=("polygon", self.__tag, plot))
         self.__color = color
+        string = self.__master.getToolbar().message.get()
+        x = string[2:15].strip()
+        y = string[17:].strip()
         self.__vertices.append((event.x, iy))
+        self.__coordinates.append((x, imy))
         self.__vertices.append((event.x, event.y))
+        self.__coordinates.append((x, y))
         self.__vertices.append((ix, event.y))
+        self.__coordinates.append((imx, y))
         self.__plot = plot
         PolygonDrawer.colorCounter += 16
         
@@ -283,9 +300,15 @@ class PolygonDrawer(object):
         else:
             return False
         
+    def __appendCoordinate(self, event):
+        string = self.__master.getToolbar().message.get()
+        x = string[2:15].strip()
+        y = string[17:].strip()
+        self.__coordinates.append((x, y))
+        
     def __str__(self):
-        string = "Vertices:\n"
-        for point in self.__vertices:
+        string = "Coordinates:\n"
+        for point in self.__coordinates:
             string += "\t(" + str(point[0]) + "," + str(point[1]) + ")\n"
         string += "Attributes:\n"
         for item in self.__attributes:
