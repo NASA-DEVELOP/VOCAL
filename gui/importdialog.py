@@ -117,10 +117,11 @@ class dbDialog(Toplevel):
         Import selected objects from libox into program
         '''
         items = self.tree.tree.selection()
+        print items
         for tag in items:
             # the tag represents the selected item, but must be converted to an index
-            idx = int(tag[1:])
-            print self.tree.list[idx]
+            idx = int(tag[1:], 16) - 1
+            print tag, self.tree.list[idx]
             self.__master.getPolygonList().readPlot(
                 readFromString=str(self.__itList[idx]))
         self.free()

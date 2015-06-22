@@ -25,7 +25,6 @@ class AttributesDialog(Toplevel):
         if polygonDrawer is False:
             self.close()
             return
-        self.__selectedAttributes = self.__poly.getAttributes()
         self.title("Edit Attributes")
         
         # copies TAGS to avoid aliasing
@@ -101,7 +100,6 @@ class AttributesDialog(Toplevel):
         print "Moving tag"
         for item in selection:
             string = self.attributeList.get(item)
-            self.__selectedAttributes.append(string)
             self.__poly.addAttribute(string)
             self.selectedList.insert(END, string)
         self.attributeList.delete(selection[0], selection[-1])
@@ -113,7 +111,6 @@ class AttributesDialog(Toplevel):
         print "Removing tag"
         for item in selection:
             string = self.selectedList.get(item)
-            self.__selectedAttributes.remove(string)
             self.__poly.removeAttribute(string)
             self.attributeList.insert(END, string)
         self.selectedList.delete(selection[0], selection[-1])
@@ -121,6 +118,7 @@ class AttributesDialog(Toplevel):
     def save(self):
         note = self.noteText.get('1.0', 'end-1c')
         self.__poly.setNote(note)
+        #self.close()
     
     def clear(self):
         self.noteText.delete(1.0, END)
