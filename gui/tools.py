@@ -260,8 +260,8 @@ class McListBox(object):
         self.tree.configure(yscrollcommand=vsb.set,
         xscrollcommand=hsb.set)
         self.tree.grid(column=0, row=0, sticky='nsew')
-        vsb.pack(side=RIGHT, expand=YES)
-        hsb.pack(side=BOTTOM, expand=NO)
+        vsb.pack(side=RIGHT, fill=Y, expand=NO)
+        hsb.pack(side=BOTTOM, fill=X, expand=NO)
         self.tree.pack(expand=YES, fill=BOTH)
     
     def _build_tree(self):
