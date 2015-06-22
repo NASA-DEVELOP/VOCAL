@@ -4,13 +4,14 @@ Created on Jun 15, 2015
 @author: Grant Mercer
 
 '''
+
 from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
     RIGHT, Label, RAISED, Menubutton, IntVar, Menu, END, Scrollbar, \
-    VERTICAL, EXTENDED, BOTTOM, TOP, X, RIDGE, HORIZONTAL, Y
-    
+    VERTICAL, EXTENDED, BOTTOM, TOP, X, RIDGE, HORIZONTAL, Y, YES
+
 from gui import Constants
 from gui.db import db, dbPolygon
-from gui.tools import center
+from gui.tools import center, MultiListbox
 #import db
 
 class dbDialog(Toplevel):
@@ -25,6 +26,7 @@ class dbDialog(Toplevel):
         '''
         Toplevel.__init__(self, root)
 
+        
         self.__master = master        
         self.title("Import from existing database")
         center(self, (Constants.IMPORTWIDTH,Constants.IMPORTHEIGH)) # simple function to center window and set size
@@ -82,25 +84,35 @@ class dbDialog(Toplevel):
         self.bottomButtonFrame = Frame(self.bottomFrame)                                    # bottom frame for import button
         self.bottomButtonFrame.pack(side=BOTTOM, fill=X, expand=False)
         
-        self.listbox = Listbox(self.bottomFrame, selectmode=EXTENDED)                       # extended most allows us to select multiple listbox entries
-        self.listbox.pack(fill=BOTH, expand=True)
+        self.listbox = MultiListbox(self.bottomFrame, 
+            (('Name', 40), ('Color', 20), ('Date', 10)))
         
-        self.yScrollbar = Scrollbar(self.listbox, orient=VERTICAL)                           # vertical scrollbar
-        self.yScrollbar.config(command=self.listbox.yview)
-        self.yScrollbar.pack(side=RIGHT, fill=Y)
         
-        self.xScrollbar = Scrollbar(self.listbox, orient=HORIZONTAL)
-        self.xScrollbar.config(command=self.listbox.xview)
-        self.xScrollbar.pack(side=BOTTOM, fill=X)
+        #self.listbox = Listbox(self.bottomFrame, selectmode=EXTENDED)                       # extended most allows us to select multiple listbox entries
+        #self.listbox.pack(fill=BOTH, expand=True)
         
+        #self.yScrollbar = Scrollbar(self.listbox, orient=VERTICAL)                           # vertical scrollbar
+        #self.yScrollbar.config(command=self.listbox.yview)
+        #self.yScrollbar.pack(side=RIGHT, fill=Y)
+        
+        #self.xScrollbar = Scrollbar(self.listbox, orient=HORIZONTAL)
+        #self.xScrollbar.config(command=self.listbox.xview)
+        #self.xScrollbar.pack(side=BOTTOM, fill=X)
+        for i in range(1000):
+            self.listbox.insert(END, (str(i), 'green', '12314'))
+            
+        self.listbox.pack(expand=YES, fill=BOTH)
+        """
         session = db.getSession()                                                           # insert the entire database
         for obj in session.query(dbPolygon).all():
             self.listbox.insert(END, obj)
         session.close()
+        """
             
         self.button = Button(self.bottomButtonFrame, text="Import", width=30,
                              command=self.importSelection)
         self.button.pack(side=BOTTOM, pady=10)
+        
         
     def order(self):
         pass
