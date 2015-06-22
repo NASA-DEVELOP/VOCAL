@@ -6,11 +6,13 @@
 """
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, \
     StringVar, YES, Frame, BOTH, Listbox, Scrollbar, RAISED, FLAT,  \
-    FALSE, Y, X, VERTICAL, END, EXTENDED,                           \
+    FALSE, Y, X, VERTICAL, END, EXTENDED, NO, RIGHT,                \
     BOTTOM, HORIZONTAL, MULTIPLE
     
+import ttk
+import tkFont
+    
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
-from Tkconstants import NO, RIGHT
 
 toggleContainer = []
 
@@ -240,94 +242,61 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
     def dynamic_update(self):
         pass
     
-class MultiListbox(Frame):
-    def __init__(self, master, lists):
-        Frame.__init__(self, master)
-        self.lists=[]
-        for l,w in lists:
-            frame = Frame(self); frame.pack(side=LEFT, expand=YES, fill=BOTH)
-            Label(frame, text=l, borderwidth=1, relief=RAISED).pack(fill=X)
-            lb = Listbox(frame, width=w, borderwidth=0, selectborderwidth=0,
-                relief=FLAT, exportselection=FALSE, selectmode=EXTENDED)
-            lb.pack(expand=YES, fill=BOTH)
-            self.lists.append(lb)
-            lb.bind('<B1-Motion>', lambda e, s=self: s._select(e.y))
-            lb.bind('<Button-1>', lambda e, s=self: s._select(e.y))
-            lb.bind('<Leave>', lambda e: 'break')
-            lb.bind('<B2-Motion>', lambda e, s=self: s._b2motion(e.x, e.y))
-            lb.bind('<Button-2>', lambda e, s=self: s._button2(e.x, e.y))
-        frame = Frame(self); frame.pack(side=LEFT, fill=Y)
-        Label(frame, borderwidth=1, relief=RAISED).pack(fill=X)
-        sb = Scrollbar(frame, orient=VERTICAL, command=self._scroll)
-        sb.pack(expand=NO, fill=Y, side=RIGHT)
+class McListBox(object):
+    """use a ttk.TreeView as a multicolumn ListBox"""
+    def __init__(self, root, headers):
+        self.tree = None
+        self.headers = headers
+        self.list = None
+        self.__root = root
+    
+    def _setup_widgets(self):
+        # create a treeview with dual scrollbars
+        self.tree = ttk.Treeview(self.__root, columns=self.headers, show="headings")
+        vsb = ttk.Scrollbar(self.__root, orient="vertical",
+        command=self.tree.yview)
+        hsb = ttk.Scrollbar(self.__root, orient="horizontal",
+        command=self.tree.xview)
+        self.tree.configure(yscrollcommand=vsb.set,
+        xscrollcommand=hsb.set)
+        self.tree.grid(column=0, row=0, sticky='nsew')
+        vsb.pack(side=RIGHT, expand=YES)
+        hsb.pack(side=BOTTOM, expand=NO)
+        self.tree.pack(expand=YES, fill=BOTH)
+    
+    def _build_tree(self):
+        for col in self.headers:
+            self.tree.heading(col, text=col.title(),
+                              command=lambda c=col: sortby(self.tree, c, 0))
+            # adjust the column's width to the header string
+            self.tree.column(col,
+                             width=tkFont.Font().measure(col.title()))
+        for item in self.list:
+            self.tree.insert('', 'end', values=item)
+            # adjust column's width if necessary to fit each value
+            for ix, val in enumerate(item):
+                col_w = tkFont.Font().measure(val)
+                if self.tree.column(self.headers[ix],width=None)<col_w:
+                    self.tree.column(self.headers[ix], width=col_w)
+    
+    def create(self):
+        self._setup_widgets()
+        self._build_tree()
         
-        self.lists[0]['yscrollcommand']=sb.set
-        
-    def _select(self, y):
-        row = self.lists[0].nearest(y)
-        self.selection_clear(0, END)
-        self.selection_set(row)
-        return 'break'
-
-    def _button2(self, x, y):
-        for l in self.lists: l.scan_mark(x, y)
-        return 'break'
-    
-    def _b2motion(self, x, y): 
-        for l in self.lists: l.scan_dragto(x, y)
-        return 'break'
-    
-    def _scroll(self, *args):
-        for l in self.lists:
-            l.yview(*args)
-        return 'break'
-    
-    def curselection(self):
-        return self.lists[0].curselection()
-    
-    def delete(self, first, last=None):
-        for l in self.lists:
-            l.delete(first, last)
-            
-    def get(self, first, last=None):
-        result = []
-        for l in self.lists:
-            result.append(l.get(first,last))
-        if last: return map(None, *result)
-        return result
-    
-    def index(self, index):
-        self.lists[0].index(index)
-        
-    def insert(self, index, *elements):
-        for e in elements:
-            i = 0
-            for l in self.lists:
-                l.insert(index, e[i])
-                i = i + 1
-                
-    def size(self):
-        return self.lists[0].size()
-    
-    def see(self, index):
-        for l in self.lists:
-            l.see(index)
-            
-    def selection_anchor(self, index):
-        for l in self.lists:
-            l.selection_anchor(index)
-            
-    def selection_clear(self, first, last=None):
-        for l in self.lists:
-            l.selection_clear(first, last)
-    
-    def selection_includes(self, index):
-        return self.lists[0].selection_includes(index)
-    
-    def selection_set(self, first, last=None):
-        for l in self.lists:
-            l.selection_set(first, last)
-            
+def sortby(tree, col, descending):
+    """sort tree contents when a column header is clicked on"""
+    # grab values to sort
+    data = [(tree.set(child, col), child) \
+    for child in tree.get_children('')]
+    # if the data to be sorted is numeric change to float
+    #data = change_numeric(data)
+    # now sort the data in place
+    data.sort(reverse=descending)
+    for ix, item in enumerate(data):
+        tree.move(item[1], '', ix)
+    # switch the heading so it will sort in the opposite direction
+    tree.heading(col, command=lambda col=col: sortby(tree, col, \
+    int(not descending)))
     
 def center(toplevel, size):
     w = toplevel.winfo_screenwidth()
@@ -335,4 +304,3 @@ def center(toplevel, size):
     x = w/2 - size[0]/2
     y = h/2 - size[1]/2
     toplevel.geometry("%dx%d+%d+%d" % (size + (x, y)))
-
