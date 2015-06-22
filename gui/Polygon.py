@@ -7,6 +7,7 @@ Created on Jun 4, 2015
 # import antigravity
 from numpy import empty_like, dot, array
 from gui import Constants
+from astropy.tests.pytest_plugins import Pair
 
 class PolygonDrawer(object):
     '''
@@ -118,19 +119,19 @@ class PolygonDrawer(object):
         create a rectangle. Used in "Draw Rect" button
         '''
         self.__vertices.append((event.x, event.y))
-#         self.__appendCoordinate(event)
         string = self.__master.getToolbar().message.get()
         x = string[2:15].strip()
         y = string[17:].strip()
-        self.__coordinates.append((x, y))
+        self.__coordinates.append((float(x), float(y)))
         self.__prevX = event.x
         self.__prevY = event.y
-#         self.prevMX = x
-#         self.prevMY = y
         
     def plotPoint(self, event, plot=Constants.BASE_PLOT_STR, fill=False):
         self.__vertices.append((event.x, event.y))
-#         self.__appendCoordinate(event)
+        string = self.__master.getToolbar().message.get()
+        x = string[2:15].strip()
+        y = string[17:].strip()
+        self.__coordinates.append((float(x), float(y)))
         if len(self.__vertices) > 1:
             self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width="2", tags="line")
         if len(self.__vertices) > 3:
@@ -143,6 +144,15 @@ class PolygonDrawer(object):
                 x = getIntersection(a1, a2, b1, b2)
                 pair = npArrayToTuple(x)
                 self.__vertices[index] = pair
+                
+                a1 = tupleToNpArray(self.__coordinates[index])
+                a2 = tupleToNpArray(self.__coordinates[index+1])
+                b1 = tupleToNpArray(self.__coordinates[-1])
+                b2 = tupleToNpArray(self.__coordinates[2])
+                x = getIntersection(a1, a2, b1, b2)
+                pair = npArrayToTuple(x)
+                self.__coordinates[index] = pair
+                
                 del self.__vertices[:index]
                 self.__vertices.pop()
                 self.drawPolygon(plot, fill)
@@ -152,9 +162,10 @@ class PolygonDrawer(object):
                 return True
         self.__prevX = event.x
         self.__prevY = event.y
+        self.prevMX = x
+        self.prevMY = y
                 
     def rubberBand(self, event):
-#         print 'Widget=%s x=%s y=%s' % (event.widget, event.x, event.y)
         try:
             self.lastrect
         except AttributeError:
@@ -189,11 +200,11 @@ class PolygonDrawer(object):
         x = string[2:15].strip()
         y = string[17:].strip()
         self.__vertices.append((event.x, iy))
-        self.__coordinates.append((x, imy))
+        self.__coordinates.append((float(x), float(imy)))
         self.__vertices.append((event.x, event.y))
-        self.__coordinates.append((x, y))
+        self.__coordinates.append((float(x), float(y)))
         self.__vertices.append((ix, event.y))
-        self.__coordinates.append((imx, y))
+        self.__coordinates.append((float(imx), float(y)))
         self.__plot = plot
         PolygonDrawer.colorCounter += 16
         
@@ -300,16 +311,10 @@ class PolygonDrawer(object):
         else:
             return False
         
-    def __appendCoordinate(self, event):
-        string = self.__master.getToolbar().message.get()
-        x = string[2:15].strip()
-        y = string[17:].strip()
-        self.__coordinates.append((x, y))
-        
     def __str__(self):
         string = "Coordinates:\n"
         for point in self.__coordinates:
-            string += "\t(" + str(point[0]) + "," + str(point[1]) + ")\n"
+            string += "\t(" + str(point[0]) + ", " + str(point[1]) + ")\n"
         string += "Attributes:\n"
         for item in self.__attributes:
             string += "\t" + item + "\n"
