@@ -10,7 +10,6 @@ from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 from gui import Constants
 from gui.tools import createToolTip, ToggleableButton, \
     ToolbarToggleableButton
-from gui.attributesDialog import AttributesDialog
 
 
 class ToolsWindow(Toplevel):
