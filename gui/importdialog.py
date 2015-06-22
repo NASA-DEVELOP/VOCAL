@@ -11,7 +11,8 @@ from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
 
 from gui import Constants
 from gui.db import db, dbPolygon
-from gui.tools import center, MultiListbox
+from gui.tools import McListBox, center
+#import TkTreectrl as treectrl
 #import db
 
 class dbDialog(Toplevel):
@@ -84,6 +85,8 @@ class dbDialog(Toplevel):
         self.bottomButtonFrame = Frame(self.bottomFrame)                                    # bottom frame for import button
         self.bottomButtonFrame.pack(side=BOTTOM, fill=X, expand=False)
         
+        #self.listbox.config(columns=('Column 1', 'Column 2'))
+        """
         self.listbox = MultiListbox(self.bottomFrame, 
             (('Name', 40), ('Color', 20), ('Date', 10)))
         
@@ -98,10 +101,15 @@ class dbDialog(Toplevel):
         #self.xScrollbar = Scrollbar(self.listbox, orient=HORIZONTAL)
         #self.xScrollbar.config(command=self.listbox.xview)
         #self.xScrollbar.pack(side=BOTTOM, fill=X)
+        """
+        lst = list()
         for i in range(1000):
-            self.listbox.insert(END, (str(i), 'green', '12314'))
+            lst.append(('line', str(i)))
+        #self.listbox.column('#0', stretch=True)
+        self.listbox = McListBox(self.bottomFrame, ['name', 'date', 'color', 'attributes'])
+        self.listbox.list = lst
+        self.listbox.create()
             
-        self.listbox.pack(expand=YES, fill=BOTH)
         """
         session = db.getSession()                                                           # insert the entire database
         for obj in session.query(dbPolygon).all():
@@ -113,6 +121,9 @@ class dbDialog(Toplevel):
                              command=self.importSelection)
         self.button.pack(side=BOTTOM, pady=10)
         
+    @staticmethod
+    def p_selected(selected):
+        print 'Selected items:', selected
         
     def order(self):
         pass
