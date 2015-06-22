@@ -264,20 +264,6 @@ class Calipso(object):
         poly = self.__polygonList.findPolygon(event)
         attributeEditor = AttributesDialog(self.__root, poly)
 
-    def getText(self, event):
-        '''
-        Command function to get text from label and add to attribute
-        '''
-        # Bind text to a shape, adds attribute
-        print self.textbox1.get()
-        self.text = self.textbox1.get()
-        try:
-            self.__polygonList.edit(event, self.text)
-            self.textbox1.delete(0, END)
-            self.string.set("Added attribute.")
-        except Exception:
-            self.string.set("Attribute already exists!")
-        
     def properties(self):
         pass
     
