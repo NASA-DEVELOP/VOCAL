@@ -34,6 +34,15 @@ class dbPolygon(dbBase):
     def plotString(i):
         return Constants.PLOTS[i]
     
+    def getDict(self):
+        data = {}
+        for i in range(0,len(Constants.PLOTS)):
+            data[self.plotString(i)] = {}
+        data[self.plot] = {self.tag : {"vertices":self.vertices, "color":self.color, "attributes":self.attributes, "id": self.id}}
+        data["time"] = self.time_
+        data["hdfFile"] = self.hdf
+        return data
+    
     def __repr__(self):
         '''
         Represent the database class as a JSON object. Useful as our program
