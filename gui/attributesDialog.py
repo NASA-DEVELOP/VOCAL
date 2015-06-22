@@ -15,15 +15,18 @@ class AttributesDialog(Toplevel):
     Dialog window for creating and assigning attributes to objects
     '''
     
-    def __init__(self, root, master, event):
+    def __init__(self, root, master, polygonDrawer):
         '''
         Initialize root tkinter window and master GUI window
         '''
         Toplevel.__init__(self, root, width=200, height=200)
+        
         self.__master = master
-        self.__event = event
-        # TODO: read the selected attributes from the database
-        self.__selectedAttributes = []
+        self.__poly = polygonDrawer
+        if polygonDrawer is False:
+            self.close()
+            return
+        self.__selectedAttributes = self.__poly.getAttributes()
         self.title("Edit Attributes")
         
         # copies TAGS to avoid aliasing
@@ -51,17 +54,21 @@ class AttributesDialog(Toplevel):
         
         self.attributeList = Listbox(self.topFrame, width=30, height=30, selectmode=EXTENDED)
         self.attributeList.grid(row=1, column=0)
+        
+        self.selectedList = Listbox(self.topFrame, width=30, height=30, selectmode=EXTENDED)
+        self.selectedList.grid(row=1, column=3)
+        
         for tag in self.__availableAttributes:
-            self.attributeList.insert(END, tag)
+            if self.__poly.isInAttributes(tag):
+                self.selectedList.insert(END, tag)
+            else:
+                self.attributeList.insert(END, tag)
         
         removeButton = Button(self.topFrame, width=3, height=2, text="<--", command=self.removeAttribute)
         removeButton.grid(row=1, column=1)
         
         moveButton = Button(self.topFrame, width=3, height=2, text="-->", command=self.moveAttribute)
         moveButton.grid(row=1, column=2)
-        
-        self.selectedList = Listbox(self.topFrame, width=30, height=30, selectmode=EXTENDED)
-        self.selectedList.grid(row=1, column=3)
         
     def createBottomFrame(self):
         self.bottomFrame = Frame(self.container)                       
@@ -92,6 +99,7 @@ class AttributesDialog(Toplevel):
         for item in selection:
             string = self.attributeList.get(item)
             self.__selectedAttributes.append(string)
+            self.__poly.addAttribute(string)
             self.selectedList.insert(END, string)
         self.attributeList.delete(selection[0], selection[-1])
     
@@ -103,6 +111,7 @@ class AttributesDialog(Toplevel):
         for item in selection:
             string = self.selectedList.get(item)
             self.__selectedAttributes.remove(string)
+            self.__poly.removeAttribute(string)
             self.attributeList.insert(END, string)
         self.selectedList.delete(selection[0], selection[-1])
     
