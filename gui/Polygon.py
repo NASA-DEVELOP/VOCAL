@@ -108,6 +108,7 @@ class PolygonDrawer(object):
         self.__itemHandler = 0
         self.__plot = ""
         self.__attributes = []
+        self.__note = ""
         self.__id = None
                     
     def anchorRectangle(self, event):
@@ -208,6 +209,12 @@ class PolygonDrawer(object):
     
     def setID(self, _id):
         self.__id = _id
+        
+    def setNote(self, note):
+        self.__note = note
+        
+    def getNote(self):
+        return self.__note
         
     def getAttributes(self):
         return self.__attributes
