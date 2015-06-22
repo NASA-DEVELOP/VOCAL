@@ -154,7 +154,9 @@ class PolygonDrawer(object):
                 self.__coordinates[index] = pair
                 
                 del self.__vertices[:index]
+                del self.__coordinates[:index]
                 self.__vertices.pop()
+                self.__coordinates.pop()
                 self.drawPolygon(plot, fill)
                 self.__plot = plot
                 self.__canvas._tkcanvas.delete("line")

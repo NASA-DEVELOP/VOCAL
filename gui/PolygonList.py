@@ -113,6 +113,8 @@ class PolygonList(object):
         '''
         Informs the correct list's blank to plot a corner of a rectangle
         '''
+        if self.__plot == Constants.BASE_PLOT_STR:
+            return
         self.__currentList[-1].anchorRectangle(event)
         
     def getCount(self):
@@ -133,6 +135,8 @@ class PolygonList(object):
         '''
         Informs the correct list's blank to plot a point on the screen
         '''
+        if self.__plot == Constants.BASE_PLOT_STR:
+            return
         check = self.__currentList[-1].plotPoint(event, self.__plot, PolygonList.outlineToggle)
         if check:
             self.generateTag()
@@ -142,12 +146,16 @@ class PolygonList(object):
         '''
         Uses a blank shape to draw helper rectangles
         '''
+        if self.__plot == Constants.BASE_PLOT_STR:
+            return
         self.__currentList[-1].rubberBand(event)
         
     def fillRectangle(self, event):
         '''
         Informs the correct list's blank to draw a rectangle on the screen
         '''
+        if self.__plot == Constants.BASE_PLOT_STR:
+            return
         self.__currentList[-1].fillRectangle(event, self.__plot, PolygonList.outlineToggle)
         self.generateTag()
         self.__currentList.append(PolygonDrawer(self.__canvas, self.__master))
@@ -159,6 +167,8 @@ class PolygonList(object):
         '''
         Informs the correct list's blank to draw a polyogon on the screen
         '''
+        if self.__plot == Constants.BASE_PLOT_STR:
+            return
         self.__currentList[-1].drawPolygon(self.__plot, PolygonList.outlineToggle)
         self.generateTag()
         self.__currentList.append(PolygonDrawer(self.__canvas, self.__master))
