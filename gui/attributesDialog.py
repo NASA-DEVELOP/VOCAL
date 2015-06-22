@@ -5,15 +5,16 @@ Created on Jun 15, 2015
 
 '''
 
-from Tkconstants import TOP, X, BOTH, DISABLED, BOTTOM, END, SEL_FIRST, SEL_LAST, \
-    NORMAL
-from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button
+from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
+from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
+from gui import Constants
 
 
 class AttributesDialog(Toplevel):
     '''
     Dialog window for creating and assigning attributes to objects
     '''
+    
     def __init__(self, root, master, event):
         '''
         Initialize root tkinter window and master GUI window
@@ -21,8 +22,12 @@ class AttributesDialog(Toplevel):
         Toplevel.__init__(self, root, width=200, height=200)
         self.__master = master
         self.__event = event
+        # TODO: read the selected attributes from the database
         self.__selectedAttributes = []
         self.title("Edit Attributes")
+        
+        # copies TAGS to avoid aliasing
+        self.__availableAttributes = Constants.TAGS[:]
         
         self.container = Frame(self)
         self.container.pack(side=TOP, fill=BOTH, expand=True) 
@@ -44,11 +49,10 @@ class AttributesDialog(Toplevel):
         selectedLabel = Label(self.topFrame, textvariable=selectedString)
         selectedLabel.grid(row=0, column=3)
         
-        self.attributeText = Text(self.topFrame, width=30, height=30)
-        self.attributeText.grid(row=1, column=0)
-        self.attributeText.insert(END, "Cloud\n")
-        self.attributeText.insert(END, "Aerosol\n")
-        self.attributeText.config(state=DISABLED)
+        self.attributeList = Listbox(self.topFrame, width=30, height=30, selectmode=EXTENDED)
+        self.attributeList.grid(row=1, column=0)
+        for tag in self.__availableAttributes:
+            self.attributeList.insert(END, tag)
         
         removeButton = Button(self.topFrame, width=3, height=2, text="<--", command=self.removeAttribute)
         removeButton.grid(row=1, column=1)
@@ -56,9 +60,8 @@ class AttributesDialog(Toplevel):
         moveButton = Button(self.topFrame, width=3, height=2, text="-->", command=self.moveAttribute)
         moveButton.grid(row=1, column=2)
         
-        self.selectedText = Text(self.topFrame, width=30, height=30)
-        self.selectedText.grid(row=1, column=3)
-        self.selectedText.config(state=DISABLED)
+        self.selectedList = Listbox(self.topFrame, width=30, height=30, selectmode=EXTENDED)
+        self.selectedList.grid(row=1, column=3)
         
     def createBottomFrame(self):
         self.bottomFrame = Frame(self.container)                       
@@ -82,16 +85,13 @@ class AttributesDialog(Toplevel):
         closeButton.grid(row=2, column=2)
         
     def moveAttribute(self):
+        selection = self.attributeList.curselection()
+        if len(selection) == 0:
+            return
         print "Moving tag"
-        selection = self.attributeText.get(SEL_FIRST, SEL_LAST)
-        self.__selectedAttributes.append(selection)
-        self.selectedText.config(state=NORMAL)
-        self.selectedText.insert(END, selection + "\n")
-        self.selectedText.config(state=DISABLED)
-        self.attributeText.config(state=NORMAL)
-#         self.attributeText.delete(1.0, float(len(selection)))
-        self.attributeText.delete(1.0, 2.0)
-        self.attributeText.config(state=DISABLED)
+        for items in selection:
+            string = self.selectedList.get(items)
+            self.__selectedAttributes.append(string)
     
     def removeAttribute(self):
         pass
