@@ -7,7 +7,6 @@ Created on Jun 4, 2015
 # import antigravity
 from numpy import empty_like, dot, array
 from gui import Constants
-from astropy.tests.pytest_plugins import Pair
 
 class PolygonDrawer(object):
     '''

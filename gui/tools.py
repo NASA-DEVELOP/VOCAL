@@ -5,8 +5,10 @@
 
 """
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, \
-    StringVar, YES, Frame, BOTH, Listbox, Scrollbar, RAISED, FLAT, Y,\
+    StringVar, YES, BOTH, Scrollbar, Y,\
      X, VERTICAL, NO, RIGHT, BOTTOM, HORIZONTAL \
+     
+import re
     
 import ttk
 import tkFont
@@ -286,20 +288,20 @@ class TreeListBox(object):
                 col_w = tkFont.Font().measure(val)
                 if self.tree.column(self.headers[ix],width=None)<col_w:
                     self.tree.column(self.headers[ix], width=col_w)
-    
-        
+
 def sortby(tree, col, descending):
     '''
     Sorts the treeview by the column clicked by the user
     '''
     """sort tree contents when a column header is clicked on"""
     # grab values to sort
-    data = [(tree.set(child, col), child) \
-    for child in tree.get_children('')]
+    data = [(tree.set(child, col), child) for child in tree.get_children('')]
     # if the data to be sorted is numeric change to float
     #data = change_numeric(data)
     # now sort the data in place
-    data.sort(reverse=descending)
+    convert = lambda text : int(text) if text.isdigit() else text
+    alphanum_key = lambda key : [convert(c) for c in re.split('([0-9]+)', key[0])]
+    data.sort(key=alphanum_key, reverse=descending)
     for ix, item in enumerate(data):
         tree.move(item[1], '', ix)
     # switch the heading so it will sort in the opposite direction
