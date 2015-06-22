@@ -6,10 +6,10 @@ Created on Jun 16, 2015
 '''
 # import antigravity
 import json
-
+import re
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, desc
 from gui import Constants
 
 # Create a declarative_base for dbPolygon to inherit from
@@ -81,6 +81,18 @@ class DatabaseManager(object):
         session.close()
     """
     
+    def queryUniqueTag(self):
+        session = self.__Session()
+        objs = session.query(dbPolygon).order_by(desc(dbPolygon.tag))
+        if objs.count() == 0:
+            tag = 0
+        else:
+            tag = int(re.search('(\d+)$', objs.first().tag).group(0)) + 1
+        session.close()
+        return tag
+        #print tag
+        #return tag
+    
     def getSession(self):
         '''
         Returns an instance of a session, USERS job to ensure session
@@ -96,7 +108,7 @@ class DatabaseManager(object):
         session = self.__Session()
         for polygon in polyList[:-1]:
             if polygon.getID() is None:
-                session.add(
+                obx = \
                     dbPolygon(tag=polygon.getTag(),
                               time_=time,
                               hdf=f.rpartition('/')[2],
@@ -105,7 +117,10 @@ class DatabaseManager(object):
                               color=polygon.getColor(),
                               attributes=str(polygon.getAttributes()),
                               coordinates=str(polygon.getCoordinates()),
-                              notes=polygon.getNotes()))
+                              notes=polygon.getNotes())
+                polygon.setID(1)
+                session.add(obx)
+                
             else:
                 poly = session.query(dbPolygon).get(polygon.getID())
                 print poly

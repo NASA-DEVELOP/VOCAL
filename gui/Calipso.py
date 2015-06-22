@@ -55,7 +55,7 @@ class Calipso(object):
             master=self.__drawplotFrame)   
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,           # create barebones toolbar we can borrow backend functions from \
             self.__child.coordinateFrame)
-        self.__polygonList = PolygonList(self.__drawplotCanvas, self)                     # internal polygonList
+        self.__polygonList = PolygonList(self.__drawplotCanvas, self)               # internal polygonList
         
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)   # pack and display canvas
         self.__drawplotFrame.pack()
