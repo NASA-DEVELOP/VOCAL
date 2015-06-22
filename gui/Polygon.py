@@ -205,8 +205,10 @@ class PolygonDrawer(object):
         
     def getCoordinates(self):
         return self.__coordinates
+    
     def setID(self, _id):
         self.__id = _id
+        
     def getAttributes(self):
         return self.__attributes
         
@@ -227,6 +229,12 @@ class PolygonDrawer(object):
     
     def getItemHandler(self):
         return self.__itemHandler
+    
+    def isInAttributes(self, tag):
+        for item in self.__attributes:
+            if tag == item:
+                return True
+        return False
     
     def move(self, dx, dy):
         for i in range(len(self.__vertices)):

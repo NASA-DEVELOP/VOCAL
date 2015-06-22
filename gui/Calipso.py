@@ -261,7 +261,8 @@ class Calipso(object):
 #         closeButton = Button(frame, text="Close", command=filewin.destroy)
 #         closeButton.grid(row=2, column=1)
 
-        attributeEditor = AttributesDialog(self.__root, self, event)
+        poly = self.__polygonList.findPolygon(event)
+        attributeEditor = AttributesDialog(self.__root, self, poly)
 
     def getText(self, event):
         '''
