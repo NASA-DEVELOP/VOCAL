@@ -1,5 +1,4 @@
 #### IMPORTS #######################################################################################
-from Tkconstants import END
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN
 import os
@@ -56,7 +55,7 @@ class Calipso(object):
             master=self.__drawplotFrame)   
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,           # create barebones toolbar we can borrow backend functions from \
             self.__child.coordinateFrame)
-        self.__polygonList = PolygonList(self.__drawplotCanvas, self)                     # internal polygonList
+        self.__polygonList = PolygonList(self.__drawplotCanvas, self)               # internal polygonList
         
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)   # pack and display canvas
         self.__drawplotFrame.pack()
@@ -264,7 +263,7 @@ class Calipso(object):
 #         closeButton.grid(row=2, column=1)
 
         poly = self.__polygonList.findPolygon(event)
-        attributeEditor = AttributesDialog(self.__root, poly)
+        AttributesDialog(self.__root, poly)
 
     def properties(self):
         pass

@@ -5,14 +5,12 @@ Created on Jun 15, 2015
 
 '''
 
-from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
-    RIGHT, Label, RAISED, Menubutton, IntVar, Menu, END, Scrollbar, \
-    VERTICAL, EXTENDED, BOTTOM, TOP, X, RIDGE, HORIZONTAL, Y, YES
+from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
+    Label, BOTTOM, TOP, X, RIDGE
 
 from gui import Constants
 from gui.db import db, dbPolygon
 from gui.tools import TreeListBox, center
-from statsmodels.regression.tests.test_quantile_regression import idx
 #import TkTreectrl as treectrl
 #import db
 
@@ -50,29 +48,11 @@ class dbDialog(Toplevel):
         self.e = Entry(self.topFrame)                               # input box for searching specific attributes
         self.label.grid(row=0, column=0, padx=5, pady=10)
         self.e.grid(row=0, column=1, padx=5, pady=10)
-        
-        # Create our 'order by' radio button drop down menu, iterates over a list
-        # of tuples and create the dropdown menu via the for loop
-        self.orderSelectionButton = Menubutton(self.topFrame, text="Order by", 
-                                               relief=RAISED, width=10)
-        self.orderSelectionButton.menu = Menu(self.orderSelectionButton, tearoff=0)
-        self.orderSelectionButton["menu"] = self.orderSelectionButton.menu
-        self.orderSelectionButton.grid(row=0, column=2, padx=5, pady=10)
-        self.selection = IntVar()
-        labels = [("File name",Constants.FILE_NAME), ("Color",Constants.COLOR), 
-                  ("Attributes",Constants.ATTRIBUTES), ("Custom",Constants.CUSTOM)]
-        
-        for tx in labels:
-            self.orderSelectionButton.menu.add_radiobutton(label=tx[0],
-                                                           variable=self.selection,
-                                                           value=tx[1],
-                                                           command=self.order)
             
         # custom command for filtering objects by properties
         self.filterButton = Button(self.topFrame, text="Filter", command=self.filterDialog,
                                    width=10)
         self.filterButton.grid(row=0, column=3, padx=5, pady=10)
-        
         
     def createBottomFrame(self):
         '''
@@ -87,15 +67,15 @@ class dbDialog(Toplevel):
         self.bottomButtonFrame.pack(side=BOTTOM, fill=X, expand=False)
         
         self.tree = TreeListBox(self.bottomFrame,
-            ['name', 'attributes', 'plot', 'date', 'file'])
+            ['name', 'plot', 'date', 'file', 'attributes', 'notes'])
         self.tree.list = list()
         #self.listbox.column('#0', stretch=True)
         #self.listbox = McListBox(self.bottomFrame, ['name', 'date', 'color', 'attributes'])
         session = db.getSession()                                                           # insert the entire database
         for obj in session.query(dbPolygon).all():
-            self.__itList.append(obj)
-            self.tree.list.append(
-                (obj.tag, obj.attributes, obj.plot, obj.time_, obj.hdf)
+            self.__itList.append(obj)                                                       # insert JSON obj representation into internal list
+            self.tree.list.append(                                                          # user see's this list
+                (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes.strip('[]\''), obj.notes)
             )
         session.close()
         
@@ -104,24 +84,15 @@ class dbDialog(Toplevel):
                              command=self.importSelection)
         self.button.pack(side=BOTTOM, pady=10)
         self.tree.update()
-        
-    @staticmethod
-    def p_selected(selected):
-        print 'Selected items:', selected
-        
-    def order(self):
-        pass
     
     def importSelection(self):
         '''
         Import selected objects from libox into program
         '''
         items = self.tree.tree.selection()
-        print items
         for tag in items:
             # the tag represents the selected item, but must be converted to an index
             idx = int(tag[1:], 16) - 1
-            print tag, self.tree.list[idx]
             self.__master.getPolygonList().readPlot(
                 readFromString=str(self.__itList[idx]))
         self.free()
