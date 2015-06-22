@@ -273,10 +273,12 @@ class PolygonDrawer(object):
                 return True
         return False
     
-    def move(self, dx, dy):
+    def move(self, dx, dy, dmx, dmy):
         for i in range(len(self.__vertices)):
             newPoint = (self.__vertices[i][0] + dx, self.__vertices[i][1] + dy)
             self.__vertices[i] = newPoint
+            newPoint = (self.__coordinates[i][0] + dmx, self.__coordinates[i][1] + dmy)
+            self.__coordinates[i] = newPoint
     
     def __canDrawPolygon(self):
         b1 = tupleToNpArray(self.__vertices[-1])

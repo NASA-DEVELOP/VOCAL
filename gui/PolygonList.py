@@ -38,12 +38,13 @@ class PolygonList(object):
         self.__plot = Constants.BASE_PLOT_STR
         self.__count = 0
         self.__data = {}
-        self.__drag_data = {"x": 0, "y": 0, "item": None}
+        self.__drag_data = {"x": 0, "y": 0, "mx": 0, "my": 0, "item": None}
         
         self.__canvas._tkcanvas.tag_bind("polygon", "<Button-1>", self.onTokenButtonPress)
         self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.onTokenButtonRelease)
         self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.onTokenMotion)
         
+    # TODO: update the coordinates when the shape moves
     def onTokenButtonPress(self, event):
         '''
         Saves the target polygon's original position for movement tracking
@@ -52,6 +53,11 @@ class PolygonList(object):
             self.__drag_data["item"] = self.__canvas._tkcanvas.find_closest(event.x, event.y)[0]
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
+            string = self.__master.getToolbar().message.get()
+            x = string[2:15].strip()
+            y = string[17:].strip()
+            self.__drag_data["mx"] = float(x)
+            self.__drag_data["my"] = float(y)
         
     def onTokenButtonRelease(self, event):
         '''
@@ -61,18 +67,25 @@ class PolygonList(object):
             self.__drag_data["item"] = None
             self.__drag_data["x"] = 0
             self.__drag_data["y"] = 0
+            self.__drag_data["mx"] = 0
+            self.__drag_data["my"] = 0
         
     def onTokenMotion(self, event):
         '''
         Calculates how far the polygon has moved and redraws the shape
         '''
         if PolygonDrawer.dragToggle:
+            string = self.__master.getToolbar().message.get()
+            x = string[2:15].strip()
+            y = string[17:].strip()
             dx = event.x - self.__drag_data["x"]
             dy = event.y - self.__drag_data["y"]
+            dmx = float(x) - self.__drag_data["mx"]
+            dmy = float(y) - self.__drag_data["my"]
             self.__canvas._tkcanvas.move(self.__drag_data["item"], dx, dy)
             for shape in self.__currentList:
                 if shape.getItemHandler() is self.__drag_data["item"]:
-                    shape.move(dx, dy)
+                    shape.move(dx, dy, dmx, dmy)
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
     
@@ -353,10 +366,11 @@ class PolygonList(object):
         for j in range(len(self.__currentList)-1):
             tag = self.__currentList[j].getTag()
             vertices = self.__currentList[j].getVertices()
+            coordinates = self.__currentList[j].getCoordinates()
             color = self.__currentList[j].getColor()
             attributes = self.__polygonList[i][j].getAttributes()
             _id = self.__polygonList[i][j].getID()
-            value = {"vertices": vertices, "color": color, "attributes": attributes, "id": _id}
+            value = {"vertices": vertices, "coordinates": coordinates, "color": color, "attributes": attributes, "id": _id}
             shapeDict[tag] = value
         self.__data[self.__plotInttoString(i)] = shapeDict
         db.encode(self.__currentFile, self.__data)    
@@ -374,10 +388,11 @@ class PolygonList(object):
             for j in range(len(self.__polygonList[i])-1):
                 tag = self.__polygonList[i][j].getTag()
                 vertices = self.__polygonList[i][j].getVertices()
+                coordinates = self.__polygonList[i][j].getCoordinates()
                 color = self.__polygonList[i][j].getColor()
                 attributes = self.__polygonList[i][j].getAttributes()
                 _id = self.__polygonList[i][j].getID()
-                value = {"vertices": vertices, "color": color, "attributes": attributes, "id": _id}
+                value = {"vertices": vertices, "coordinates": coordinates, "color": color, "attributes": attributes, "id": _id}
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
         db.encode(self.__currentFile, self.__data)  
