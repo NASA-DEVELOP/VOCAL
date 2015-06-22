@@ -11,7 +11,8 @@ from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
 
 from gui import Constants
 from gui.db import db, dbPolygon
-from gui.tools import center, MultiListbox
+from gui.tools import TreeListBox, center
+#import TkTreectrl as treectrl
 #import db
 
 class dbDialog(Toplevel):
@@ -84,35 +85,28 @@ class dbDialog(Toplevel):
         self.bottomButtonFrame = Frame(self.bottomFrame)                                    # bottom frame for import button
         self.bottomButtonFrame.pack(side=BOTTOM, fill=X, expand=False)
         
-        self.listbox = MultiListbox(self.bottomFrame, 
-            (('Name', 40), ('Color', 20), ('Date', 10)))
-        
-        
-        #self.listbox = Listbox(self.bottomFrame, selectmode=EXTENDED)                       # extended most allows us to select multiple listbox entries
-        #self.listbox.pack(fill=BOTH, expand=True)
-        
-        #self.yScrollbar = Scrollbar(self.listbox, orient=VERTICAL)                           # vertical scrollbar
-        #self.yScrollbar.config(command=self.listbox.yview)
-        #self.yScrollbar.pack(side=RIGHT, fill=Y)
-        
-        #self.xScrollbar = Scrollbar(self.listbox, orient=HORIZONTAL)
-        #self.xScrollbar.config(command=self.listbox.xview)
-        #self.xScrollbar.pack(side=BOTTOM, fill=X)
-        for i in range(1000):
-            self.listbox.insert(END, (str(i), 'green', '12314'))
-            
-        self.listbox.pack(expand=YES, fill=BOTH)
-        """
+        self.tree = TreeListBox(self.bottomFrame,
+            ['name', 'attributes', 'plot', 'date', 'file'])
+        self.tree.list = list()
+        #self.listbox.column('#0', stretch=True)
+        #self.listbox = McListBox(self.bottomFrame, ['name', 'date', 'color', 'attributes'])
         session = db.getSession()                                                           # insert the entire database
         for obj in session.query(dbPolygon).all():
-            self.listbox.insert(END, obj)
+            print (obj.tag, obj.attributes, obj.plot, obj.time_, obj.hdf)
+            self.tree.list.append(
+                (obj.tag, obj.attributes, obj.plot, obj.time_, obj.hdf)
+            )
         session.close()
-        """
+        
             
         self.button = Button(self.bottomButtonFrame, text="Import", width=30,
                              command=self.importSelection)
         self.button.pack(side=BOTTOM, pady=10)
+        self.tree.update()
         
+    @staticmethod
+    def p_selected(selected):
+        print 'Selected items:', selected
         
     def order(self):
         pass

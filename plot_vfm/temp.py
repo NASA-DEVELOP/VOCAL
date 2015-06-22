@@ -18,99 +18,87 @@ im.set_clip_path(patch)
 plt.axis('off')
 plt.show()
 """
-from Tkinter import *
 
-class MultiListbox(Frame):
-    def __init__(self, master, lists):
-        Frame.__init__(self, master)
-        self.lists = []
-        for l,w in lists:
-            frame = Frame(self); frame.pack(side=LEFT, expand=YES, fill=BOTH)
-            Label(frame, text=l, borderwidth=1, relief=RAISED).pack(fill=X)
-            lb = Listbox(frame, width=w, borderwidth=0, selectborderwidth=0,
-                 relief=FLAT, exportselection=FALSE, selectmode=EXTENDED)
-            lb.pack(expand=YES, fill=BOTH)
-            self.lists.append(lb)
-            lb.bind('<B1-Motion>', lambda e, s=self: s._select(e.y))
-            lb.bind('<Button-1>', lambda e, s=self: s._select(e.y))
-            lb.bind('<Leave>', lambda e: 'break')
-            lb.bind('<B2-Motion>', lambda e, s=self: s._b2motion(e.x, e.y))
-            lb.bind('<Button-2>', lambda e, s=self: s._button2(e.x, e.y))
-        frame = Frame(self); frame.pack(side=LEFT, fill=Y)
-        Label(frame, borderwidth=1, relief=RAISED).pack(fill=X)
-        sb = Scrollbar(frame, orient=VERTICAL, command=self._scroll)
-        sb.pack(expand=YES, fill=Y)
-        self.lists[0]['yscrollcommand']=sb.set
-
-    def _select(self, y):
-        row = self.lists[0].nearest(y)
-        self.selection_clear(0, END)
-        self.selection_set(row)
-        return 'break'
-
-    def _button2(self, x, y):
-        for l in self.lists: l.scan_mark(x, y)
-        return 'break'
-
-    def _b2motion(self, x, y):
-        for l in self.lists: l.scan_dragto(x, y)
-        return 'break'
-
-    def _scroll(self, *args):
-        for l in self.lists:
-            apply(l.yview, args)
-
-    def curselection(self):
-        return self.lists[0].curselection()
-
-    def delete(self, first, last=None):
-        for l in self.lists:
-            l.delete(first, last)
-
-    def get(self, first, last=None):
-        result = []
-        for l in self.lists:
-            result.append(l.get(first,last))
-        if last: return apply(map, [None] + result)
-        return result
+import Tkinter as tk
+import tkFont
+import ttk
+class McListBox(object):
+    """use a ttk.TreeView as a multicolumn ListBox"""
+    def __init__(self):
+        self.tree = None
+        self._setup_widgets()
+        self._build_tree()
         
-    def index(self, index):
-        self.lists[0].index(index)
+    def _setup_widgets(self):
+        s = """\
+        click on header to sort by that column
+        to change width of column drag boundary
+        """
+        msg = ttk.Label(wraplength="4i", justify="left", anchor="n",
+        padding=(10, 2, 10, 6), text=s)
+        msg.pack(fill='x')
+        container = ttk.Frame()
+        container.pack(fill='both', expand=True)
+        # create a treeview with dual scrollbars
+        self.tree = ttk.Treeview(columns=car_header, show="headings")
+        vsb = ttk.Scrollbar(orient="vertical",
+        command=self.tree.yview)
+        hsb = ttk.Scrollbar(orient="horizontal",
+        command=self.tree.xview)
+        self.tree.configure(yscrollcommand=vsb.set,
+        xscrollcommand=hsb.set)
+        self.tree.grid(column=0, row=0, sticky='nsew', in_=container)
+        vsb.grid(column=1, row=0, sticky='ns', in_=container)
+        hsb.grid(column=0, row=1, sticky='ew', in_=container)
+        container.grid_columnconfigure(0, weight=1)
+        container.grid_rowconfigure(0, weight=1)
+    
+    def _build_tree(self):
+        for col in car_header:
+            self.tree.heading(col, text=col.title(),
+                              command=lambda c=col: sortby(self.tree, c, 0))
+            # adjust the column's width to the header string
+            self.tree.column(col,
+                             width=tkFont.Font().measure(col.title()))
+        for item in car_list:
+            self.tree.insert('', 'end', values=item)
+            # adjust column's width if necessary to fit each value
+            for ix, val in enumerate(item):
+                col_w = tkFont.Font().measure(val)
+                if self.tree.column(car_header[ix],width=None)<col_w:
+                    self.tree.column(car_header[ix], width=col_w)
+                    
 
-    def insert(self, index, *elements):
-        for e in elements:
-            i = 0
-            for l in self.lists:
-                l.insert(index, e[i])
-                i = i + 1
-
-    def size(self):
-        return self.lists[0].size()
-
-    def see(self, index):
-        for l in self.lists:
-            l.see(index)
-
-    def selection_anchor(self, index):
-        for l in self.lists:
-            l.selection_anchor(index)
-
-    def selection_clear(self, first, last=None):
-        for l in self.lists:
-            l.selection_clear(first, last)
-
-    def selection_includes(self, index):
-        return self.lists[0].selection_includes(index)
-
-    def selection_set(self, first, last=None):
-        for l in self.lists:
-            l.selection_set(first, last)
-
-if __name__ == '__main__':
-    tk = Tk()
-    Label(tk, text='MultiListbox').pack()
-    mlb = MultiListbox(tk, (('Subject', 40), ('Sender', 20), ('Date', 10)))
-    for i in range(1000):
-        mlb.insert(END, ('Important Message: %d' % i, 'John Doe', '10/10/%04d' % (1900+i)))
-        mlb.pack(expand=YES,fill=BOTH)
-    tk.mainloop()
+    
+def sortby(tree, col, descending):
+    """sort tree contents when a column header is clicked on"""
+    # grab values to sort
+    data = [(tree.set(child, col), child) \
+    for child in tree.get_children('')]
+    # if the data to be sorted is numeric change to float
+    #data = change_numeric(data)
+    # now sort the data in place
+    data.sort(reverse=descending)
+    for ix, item in enumerate(data):
+        tree.move(item[1], '', ix)
+    # switch the heading so it will sort in the opposite direction
+    tree.heading(col, command=lambda col=col: sortby(tree, col, \
+    int(not descending)))
+    
+# the test data ...
+car_header = ['car', 'repair']
+car_list = [
+('Hyundai', 'brakes') ,
+('Honda', 'light') ,
+('Lexus', 'battery') ,
+('Benz', 'wiper') ,
+('Ford', 'tire') ,
+('Chevy', 'air') ,
+('Chrysler', 'piston') ,
+('Toyota', 'brake pedal') ,
+('BMW', 'seat')
+]
+root = tk.Tk()
+root.wm_title("multicolumn ListBox")
+mc_listbox = McListBox()
+root.mainloop()
