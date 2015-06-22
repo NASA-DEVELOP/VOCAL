@@ -310,7 +310,7 @@ class PolygonList(object):
             self.__polyReader.readFromFileJSON()
         plot = 0
         for lst in self.__polygonList:
-            self.__polyReader.packPolygonDrawer(lst, Constants.PLOTS[plot], self.__canvas)
+            self.__polyReader.packPolygonDrawer(lst, Constants.PLOTS[plot], self.__canvas, self.__master)
             if PolygonList.plotStringtoInt(self.__plot) == plot:
                 for shape in lst:
                     if not shape.isEmpty():

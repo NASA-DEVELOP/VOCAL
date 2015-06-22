@@ -262,7 +262,7 @@ class Calipso(object):
 #         closeButton.grid(row=2, column=1)
 
         poly = self.__polygonList.findPolygon(event)
-        attributeEditor = AttributesDialog(self.__root, self, poly)
+        attributeEditor = AttributesDialog(self.__root, poly)
 
     def getText(self, event):
         '''

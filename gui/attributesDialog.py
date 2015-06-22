@@ -15,13 +15,12 @@ class AttributesDialog(Toplevel):
     Dialog window for creating and assigning attributes to objects
     '''
     
-    def __init__(self, root, master, polygonDrawer):
+    def __init__(self, root, polygonDrawer):
         '''
         Initialize root tkinter window and master GUI window
         '''
         Toplevel.__init__(self, root, width=200, height=200)
         
-        self.__master = master
         self.__poly = polygonDrawer
         if polygonDrawer is False:
             self.close()

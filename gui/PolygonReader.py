@@ -60,7 +60,7 @@ class PolygonReader(object):
                     self.__data[plt][shape]["attributes"] = \
                         ast.literal_eval(self.__data[plt][shape]["attributes"])
     # TODO: add exception
-    def packPolygonDrawer(self, polygonList, plotType, canvas):
+    def packPolygonDrawer(self, polygonList, plotType, canvas, master):
         for shape in self.__data[plotType]:
             #print int(self.__data[plotType][shape]['id']) not in [x.getID() for x in polygonList]
             if int(self.__data[plotType][shape]['id']) in [x.getID() for x in polygonList]: continue
@@ -73,4 +73,4 @@ class PolygonReader(object):
             polygonList[-1].setVertices(vertices)
             polygonList[-1].setPlot(plotType)
             polygonList[-1].setAttributes(attributes)
-            polygonList.append(PolygonDrawer(canvas))
+            polygonList.append(PolygonDrawer(canvas, master))
