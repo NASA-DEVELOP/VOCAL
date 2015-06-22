@@ -1,5 +1,4 @@
 #### IMPORTS #######################################################################################
-from Tkconstants import END
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, SUNKEN
 import os
@@ -262,7 +261,7 @@ class Calipso(object):
 #         closeButton.grid(row=2, column=1)
 
         poly = self.__polygonList.findPolygon(event)
-        attributeEditor = AttributesDialog(self.__root, poly)
+        AttributesDialog(self.__root, poly)
 
     def properties(self):
         pass

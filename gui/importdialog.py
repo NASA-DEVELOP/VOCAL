@@ -5,9 +5,9 @@ Created on Jun 15, 2015
 
 '''
 
-from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
-    RIGHT, Label, RAISED, Menubutton, IntVar, Menu, END, Scrollbar, \
-    VERTICAL, EXTENDED, BOTTOM, TOP, X, RIDGE, HORIZONTAL, Y, YES
+from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
+    Label, RAISED, Menubutton, IntVar, Menu, \
+    BOTTOM, TOP, X, RIDGE
 
 from gui import Constants
 from gui.db import db, dbPolygon
@@ -87,7 +87,7 @@ class dbDialog(Toplevel):
         self.bottomButtonFrame.pack(side=BOTTOM, fill=X, expand=False)
         
         self.tree = TreeListBox(self.bottomFrame,
-            ['name', 'attributes', 'plot', 'date', 'file'])
+            ['name', 'attributes', 'notes', 'plot', 'date', 'file'])
         self.tree.list = list()
         #self.listbox.column('#0', stretch=True)
         #self.listbox = McListBox(self.bottomFrame, ['name', 'date', 'color', 'attributes'])
@@ -95,7 +95,7 @@ class dbDialog(Toplevel):
         for obj in session.query(dbPolygon).all():
             self.__itList.append(obj)
             self.tree.list.append(
-                (obj.tag, obj.attributes, obj.plot, obj.time_, obj.hdf)
+                (obj.tag, obj.attributes, obj.notes, obj.plot, obj.time_, obj.hdf)
             )
         session.close()
         
