@@ -240,10 +240,10 @@ class PolygonDrawer(object):
     def setID(self, _id):
         self.__id = _id
         
-    def setNote(self, note):
+    def setNotes(self, note):
         self.__note = note
         
-    def getNote(self):
+    def getNotes(self):
         return self.__note
         
     def getAttributes(self):
@@ -322,6 +322,7 @@ class PolygonDrawer(object):
         string += "Attributes:\n"
         for item in self.__attributes:
             string += "\t" + item + "\n"
+        string += "Notes:\n\t" + self.__note
         return string
     
     @staticmethod
