@@ -89,12 +89,22 @@ class AttributesDialog(Toplevel):
         if len(selection) == 0:
             return
         print "Moving tag"
-        for items in selection:
-            string = self.selectedList.get(items)
+        for item in selection:
+            string = self.attributeList.get(item)
             self.__selectedAttributes.append(string)
+            self.selectedList.insert(END, string)
+        self.attributeList.delete(selection[0], selection[-1])
     
     def removeAttribute(self):
-        pass
+        selection = self.selectedList.curselection()
+        if len(selection) == 0:
+            return
+        print "Removing tag"
+        for item in selection:
+            string = self.selectedList.get(item)
+            self.__selectedAttributes.remove(string)
+            self.attributeList.insert(END, string)
+        self.selectedList.delete(selection[0], selection[-1])
     
     def accept(self):
         pass
