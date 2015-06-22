@@ -36,7 +36,7 @@ class PolygonList(object):
         self.__polyReader = PolygonReader()
         self.__hdf = ''
         self.__plot = Constants.BASE_PLOT_STR
-        self.__count = 0
+        self.__count = db.queryUniqueTag()
         self.__data = {}
         self.__drag_data = {"x": 0, "y": 0, "mx": 0, "my": 0, "item": None}
         
@@ -190,6 +190,7 @@ class PolygonList(object):
         '''
         Produces a unique tag for each shape for each session
         '''
+        print self.__count
         string = "shape" + str(self.__count)
         self.__currentList[index].setTag(string)
         self.__count += 1
