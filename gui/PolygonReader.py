@@ -9,17 +9,7 @@ import json
 import ast
 import Constants
 from gui.Polygon import PolygonDrawer
-
-
-def byteify(inp):
-    if isinstance(inp, dict):
-        return {byteify(key):byteify(value) for key,value in inp.iteritems()}
-    elif isinstance(inp, list):
-        return [byteify(element) for element in inp]
-    elif isinstance(inp, unicode):
-        return inp.encode('utf-8')
-    else:
-        return inp
+from gui.tools import byteify
 
 class PolygonReader(object):
     '''
@@ -39,7 +29,7 @@ class PolygonReader(object):
         
     def readFromFileJSON(self):   
         with open(self.__fileName, 'r') as infile:
-            data = json.load(infile)
+            data = byteify(json.load(infile))
 #           test = json.dumps(data, sort_keys=True,
 #                              indent=2, separators=(',', ': '))
 #           print test
@@ -50,7 +40,7 @@ class PolygonReader(object):
         self.__data = data
         
     def readFromStrJSON(self, data):
-        self.__data = json.loads(data)
+        self.__data = byteify(json.loads(data))
         for plt in [x for x in self.__data if x in Constants.PLOTS]:
             for shape in self.__data[plt]:
                 if "vertices" in self.__data[plt][shape]:
