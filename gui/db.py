@@ -30,19 +30,11 @@ class dbPolygon(dbBase):
     plot = Column(String)                   # type of plot drawn on
     attributes = Column(String)             # list of object attributes
     coordinates = Column(String)            # plot coordinates for displaying to user
+    notes = Column(String)                   # shape notes
     
     @staticmethod
     def plotString(i):
         return Constants.PLOTS[i]
-    
-    def getDict(self):
-        data = {}
-        for i in range(0,len(Constants.PLOTS)):
-            data[self.plotString(i)] = {}
-        data[self.plot] = {self.tag : {"vertices":self.vertices, "color":self.color, "attributes":self.attributes, "id": self.id}}
-        data["time"] = self.time_
-        data["hdfFile"] = self.hdf
-        return data
     
     def __repr__(self):
         '''
@@ -58,7 +50,8 @@ class dbPolygon(dbBase):
              "color":self.color, 
              "attributes":self.attributes, 
              "id": self.id,
-             "coordinates":self.coordinates}}
+             "coordinates":self.coordinates,
+             "notes":self.notes}}
         data["time"] = self.time_
         data["hdfFile"] = self.hdf
         return json.dumps(data)
@@ -111,7 +104,8 @@ class DatabaseManager(object):
                               vertices=str(polygon.getVertices()), 
                               color=polygon.getColor(),
                               attributes=str(polygon.getAttributes()),
-                              coordinates=str(polygon.getCoordinates())))
+                              coordinates=str(polygon.getCoordinates()),
+                              notes=polygon.getNotes()))
             else:
                 poly = session.query(dbPolygon).get(polygon.getID())
                 print poly
@@ -123,6 +117,7 @@ class DatabaseManager(object):
                 poly.color = unicode(polygon.getColor())
                 poly.attributes = str(polygon.getAttributes())
                 poly.coordinates = str(polygon.getCoordinates())
+                poly.notes = polygon.getNotes()
         session.commit()
         session.close()
     

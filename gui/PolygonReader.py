@@ -71,6 +71,7 @@ class PolygonReader(object):
             vertices = self.__data[plotType][shape]['vertices']
             coordinates = self.__data[plotType][shape]['coordinates']
             attributes = self.__data[plotType][shape]['attributes']
+            notes = self.__data[plotType][shape]['notes']
             _id = self.__data[plotType][shape]['id']
             polygonList[-1].setID(_id)
             polygonList[-1].setColor(color)
@@ -78,4 +79,5 @@ class PolygonReader(object):
             polygonList[-1].setPlot(plotType)
             polygonList[-1].setAttributes(attributes)
             polygonList[-1].setCoordinates(coordinates)
+            polygonList[-1].setNotes(notes)
             polygonList.append(PolygonDrawer(canvas, master))

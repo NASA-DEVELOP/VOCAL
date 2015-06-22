@@ -242,9 +242,16 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
         pass
     
 class TreeListBox(object):
-    """use a ttk.TreeView as a multicolumn ListBox"""
+    '''
+    Class that internally handles a TreeView widget which creates 
+    a columned view of the information from the database
+    '''
     def __init__(self, root, headers):
-        self.tree = None
+        '''
+        Initialize any variables used in treelistbox, the list is the actual
+        information being displayed, the headers are what appears in the columns
+        and the tree is the TreeView object
+        '''
         self.list = None
         self.headers = headers
         self.__root = root
@@ -260,6 +267,9 @@ class TreeListBox(object):
         self.tree.pack(expand=YES, fill=BOTH)
     
     def update(self):
+        '''
+        Redisplay any information updated in self.list to the screen
+        '''
         for i in self.tree.get_children():
             self.tree.delete(i)
             
@@ -279,6 +289,9 @@ class TreeListBox(object):
     
         
 def sortby(tree, col, descending):
+    '''
+    Sorts the treeview by the column clicked by the user
+    '''
     """sort tree contents when a column header is clicked on"""
     # grab values to sort
     data = [(tree.set(child, col), child) \
@@ -294,6 +307,9 @@ def sortby(tree, col, descending):
     int(not descending)))
     
 def center(toplevel, size):
+    '''
+    Center the window
+    '''
     w = toplevel.winfo_screenwidth()
     h = toplevel.winfo_screenheight()
     x = w/2 - size[0]/2
