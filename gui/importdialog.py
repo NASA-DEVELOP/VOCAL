@@ -11,7 +11,7 @@ from Tkinter import Toplevel, Entry, Button, Listbox, BOTH, Frame, \
 
 from gui import Constants
 from gui.db import db, dbPolygon
-from gui.tools import McListBox, center
+from gui.tools import TreeListBox, center
 #import TkTreectrl as treectrl
 #import db
 
@@ -85,30 +85,14 @@ class dbDialog(Toplevel):
         self.bottomButtonFrame = Frame(self.bottomFrame)                                    # bottom frame for import button
         self.bottomButtonFrame.pack(side=BOTTOM, fill=X, expand=False)
         
-        #self.listbox.config(columns=('Column 1', 'Column 2'))
-        """
-        self.listbox = MultiListbox(self.bottomFrame, 
-            (('Name', 40), ('Color', 20), ('Date', 10)))
-        
-        
-        #self.listbox = Listbox(self.bottomFrame, selectmode=EXTENDED)                       # extended most allows us to select multiple listbox entries
-        #self.listbox.pack(fill=BOTH, expand=True)
-        
-        #self.yScrollbar = Scrollbar(self.listbox, orient=VERTICAL)                           # vertical scrollbar
-        #self.yScrollbar.config(command=self.listbox.yview)
-        #self.yScrollbar.pack(side=RIGHT, fill=Y)
-        
-        #self.xScrollbar = Scrollbar(self.listbox, orient=HORIZONTAL)
-        #self.xScrollbar.config(command=self.listbox.xview)
-        #self.xScrollbar.pack(side=BOTTOM, fill=X)
-        """
+        self.tree = TreeListBox(self.bottomFrame, ['name', 'date', 'color'])
         lst = list()
         for i in range(1000):
             lst.append(('line', str(i)))
         #self.listbox.column('#0', stretch=True)
-        self.listbox = McListBox(self.bottomFrame, ['name', 'date', 'color', 'attributes'])
-        self.listbox.list = lst
-        self.listbox.create()
+        #self.listbox = McListBox(self.bottomFrame, ['name', 'date', 'color', 'attributes'])
+        self.tree.list = lst
+        self.tree.create()
             
         """
         session = db.getSession()                                                           # insert the entire database
