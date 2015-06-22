@@ -5,9 +5,8 @@
 
 """
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, \
-    StringVar, YES, Frame, BOTH, Listbox, Scrollbar, RAISED, FLAT,  \
-    FALSE, Y, X, VERTICAL, END, EXTENDED, NO, RIGHT,                \
-    BOTTOM, HORIZONTAL, MULTIPLE
+    StringVar, YES, Frame, BOTH, Listbox, Scrollbar, RAISED, FLAT, Y,\
+     X, VERTICAL, NO, RIGHT, BOTTOM, HORIZONTAL \
     
 import ttk
 import tkFont
