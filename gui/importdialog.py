@@ -85,25 +85,24 @@ class dbDialog(Toplevel):
         self.bottomButtonFrame = Frame(self.bottomFrame)                                    # bottom frame for import button
         self.bottomButtonFrame.pack(side=BOTTOM, fill=X, expand=False)
         
-        self.tree = TreeListBox(self.bottomFrame, ['name', 'date', 'color'])
-        lst = list()
-        for i in range(1000):
-            lst.append(('line', str(i)))
+        self.tree = TreeListBox(self.bottomFrame,
+            ['name', 'attributes', 'plot', 'date', 'file'])
+        self.tree.list = list()
         #self.listbox.column('#0', stretch=True)
         #self.listbox = McListBox(self.bottomFrame, ['name', 'date', 'color', 'attributes'])
-        self.tree.list = lst
-        self.tree.create()
-            
-        """
         session = db.getSession()                                                           # insert the entire database
         for obj in session.query(dbPolygon).all():
-            self.listbox.insert(END, obj)
+            print (obj.tag, obj.attributes, obj.plot, obj.time_, obj.hdf)
+            self.tree.list.append(
+                (obj.tag, obj.attributes, obj.plot, obj.time_, obj.hdf)
+            )
         session.close()
-        """
+        
             
         self.button = Button(self.bottomButtonFrame, text="Import", width=30,
                              command=self.importSelection)
         self.button.pack(side=BOTTOM, pady=10)
+        self.tree.update()
         
     @staticmethod
     def p_selected(selected):
