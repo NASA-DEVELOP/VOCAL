@@ -87,7 +87,7 @@ class ToolsWindow(Toplevel):
         
         # magnify icon
         self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
-        self.__zoomButton = ToolbarToggleableButton(self.__root, self.lowerButtonFrame, lambda : self.__parent.getToolbar().zoom(True), image=self.magnifydrawIMG, width=30, height=30)
+        self.__zoomButton = ToolbarToggleableButton(self.__root, self.lowerButtonFrame, lambda : self.__parent.getPolygonList().zoom(), image=self.magnifydrawIMG, width=30, height=30)
         self.__zoomButton.latch(cursor="tcross")
         self.__zoomButton.grid(row=0, column=2, padx=2, pady=5)
         createToolTip(self.__zoomButton, "Zoom to rect")

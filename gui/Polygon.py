@@ -319,6 +319,9 @@ class PolygonDrawer(object):
         string = "Coordinates:\n"
         for point in self.__coordinates:
             string += "\t(" + str(point[0]) + ", " + str(point[1]) + ")\n"
+        string += "Vertices:\n"
+        for point in self.__vertices:
+            string += "\t(" + str(point[0]) + ", " + str(point[1]) + ")\n"
         string += "Attributes:\n"
         for item in self.__attributes:
             string += "\t" + item + "\n"
