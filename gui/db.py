@@ -123,7 +123,6 @@ class DatabaseManager(object):
                 
             else:
                 poly = session.query(dbPolygon).get(polygon.getID())
-                print poly
                 poly.time_ = time
                 poly.plot = polygon.getPlot()
                 poly.hdf = f.rpartition('/')[2]
