@@ -29,6 +29,7 @@ class dbPolygon(dbBase):
     hdf = Column(String)                    # filename
     plot = Column(String)                   # type of plot drawn on
     attributes = Column(String)             # list of object attributes
+    coordinates = Column(String)            # plot coordinates for displaying to user
     
     @staticmethod
     def plotString(i):
@@ -52,7 +53,12 @@ class dbPolygon(dbBase):
         data = {}
         for i in range(0,len(Constants.PLOTS)):
             data[self.plotString(i)] = {}
-        data[self.plot] = {self.tag : {"vertices":self.vertices, "color":self.color, "attributes":self.attributes, "id": self.id}}
+        data[self.plot] = {self.tag : 
+            {"vertices":self.vertices, 
+             "color":self.color, 
+             "attributes":self.attributes, 
+             "id": self.id,
+             "coordinates":self.coordinates}}
         data["time"] = self.time_
         data["hdfFile"] = self.hdf
         return json.dumps(data)
@@ -104,7 +110,8 @@ class DatabaseManager(object):
                               plot=polygon.getPlot(),
                               vertices=str(polygon.getVertices()), 
                               color=polygon.getColor(),
-                              attributes=str(polygon.getAttributes())))
+                              attributes=str(polygon.getAttributes()),
+                              coordinates=str(polygon.getCoordinates())))
             else:
                 poly = session.query(dbPolygon).get(polygon.getID())
                 print poly
@@ -115,6 +122,7 @@ class DatabaseManager(object):
                 poly.vertices = str(polygon.getVertices())
                 poly.color = unicode(polygon.getColor())
                 poly.attributes = str(polygon.getAttributes())
+                poly.coordinates = str(polygon.getCoordinates())
         session.commit()
         session.close()
     
