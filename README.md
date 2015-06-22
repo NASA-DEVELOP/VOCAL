@@ -26,3 +26,4 @@ http://develop-larc-calipso.github.io/CALIPSO_Visualization/
 * [ ] In-code documentation written
 * [ ] Refactor `Calipso` functions
 * [X] Fix `About` window in `Calipso`
+* [ ] Fix draw buttons attempting to draw when menu bar is accessed causing out of range error
