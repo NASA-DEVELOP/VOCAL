@@ -15,8 +15,8 @@ and loading CAlIPSO hdf files. The Visualization Tool window is accompanied by
 a toolwindow that contains buttons for manipulating the main screen, drawing 
 shapes, and saving and loading shapes. 
  
-    .. image:: _static/startup.png
-       :scale 40%
+.. image:: _static/startup.png
+   :scale: 40%
        
 ----------------------------------------
 Starting Up
@@ -29,8 +29,8 @@ at first. To display a plot, click the "Plot Type" button in the toolwindow.
 A drop down menu will appear with the available plots. Clicking on a selection
 will dipslay the plot on the main screen. 
  
- 	.. image:: _static/loadHDF.png
- 	   :scale 40%
+.. image:: _static/loadHDF.png
+   :scale: 40%
  	   
 ----------------------------------------
 Plot Navigation
