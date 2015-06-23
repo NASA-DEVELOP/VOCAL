@@ -317,29 +317,39 @@ class PolygonList(object):
         yratio = ((abs(self.iyaxis[0] - self.iyaxis[1])) / (abs((nyaxis[0] - nyaxis[1])))) - 1
         print "xratio: " + str(xratio)
         print "yratio: " + str(yratio)
-        tkxmid = self.__canvas._tkcanvas.winfo_width() / 2.0
-        tkymid = self.__canvas._tkcanvas.winfo_height() / 2.0
-        print "tkxmid: " + str(tkxmid)
-        print "tkymid: " + str(tkymid)
         
+#         for shape in self.__currentList:
+#             vertices = shape.getVertices()
+#             newVertices = []
+#             for i in range(len(vertices)):
+#                 coorx = vertices[i][0] - Constants.TKXMID
+#                 coory = vertices[i][1] - Constants.TKYMID
+#                 newx = xratio * (vertices[i][0] - Constants.TKXMID) + Constants.TKXMID
+#                 newy = yratio * (vertices[i][1] - Constants.TKYMID) + Constants.TKYMID
+#                 dx = vertices[i][0] - coorx
+#                 dy = vertices[i][1] - coory
+#                 newpoint = (newx, newy)
+#                 shape.setVertex(i, newpoint)
+#                 newVertices.append(newpoint)
+#             self.__canvas._tkcanvas.coords(shape.getItemHandler, newVertices)
+#             self.__canvas._tkcanvas.move(shape.getItemHandler(), dx, dy)
+#             print shape
+
         for shape in self.__currentList:
             vertices = shape.getVertices()
+            oldVertices = shape.getVertices()
             newVertices = []
             for i in range(len(vertices)):
-                # TODO: redo the math
-                coorx = vertices[i][0] - tkxmid
-                coory = vertices[i][1] - tkymid
-                newx = xratio * (vertices[i][0] - coorx - tkxmid) + tkxmid
-                newy = yratio * (vertices[i][1] - coory - tkymid) + tkymid
-                dx = vertices[i][0] - coorx
-                dy = vertices[i][1] - coory
+                dx = vertices[i][0] - Constants.TKXMID
+                dy = vertices[i][1] - Constants.TKYMID
+                newx = xratio * dx + Constants.TKXMID
+                newy = yratio * dy + Constants.TKYMID
                 newpoint = (newx, newy)
-                shape.setVertex(i, newpoint)
                 newVertices.append(newpoint)
-                print "dx: " + str(dx)
-                print "dy: " + str(dy)
-            self.__canvas._tkcanvas.coords(shape.getItemHandler, newVertices)
-#             self.__canvas._tkcanvas.move(shape.getItemHandler(), dx, dy)
+                shape.setVertex(i, newpoint)
+            for new, old in zip(newVertices, oldVertices):
+                self.__canvas._tkcanvas.coords(shape.getItemHandler(), new[0], new[1], old[0], old[1])
+            self.__canvas._tkcanvas.move(shape.getItemHandler(), xratio * dx, yratio * dy)
             print shape
         
     def __findPolygonByItemHandler(self, itemHandler):
