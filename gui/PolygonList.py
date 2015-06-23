@@ -300,6 +300,9 @@ class PolygonList(object):
         self.zoom()
         
     def send(self):
+        '''
+        Saves the initial scale
+        '''
         toolbar = self.__master.getFig()
         self.ixaxis = toolbar.get_xlim()
         self.iyaxis = toolbar.get_ylim()
@@ -307,12 +310,17 @@ class PolygonList(object):
         print "Initial yrange: (" + str(self.iyaxis[0]) + ", " + str(self.iyaxis[1]) + ")"
     
     def zoom(self):
+        '''
+        Attempts to calulate the new coordinates of the polygon
+        '''
         toolbar = self.__master.getFig()
+        # new scale
         nxaxis = toolbar.get_xlim()
         nyaxis = toolbar.get_ylim()
         print "New xrange: (" + str(nxaxis[0]) + ", " + str(nxaxis[1]) + ")"
         print "New yrange: (" + str(nyaxis[0]) + ", " + str(nyaxis[1]) + ")"
-        xratio = ((abs(self.ixaxis[0] - self.ixaxis[1])) / (abs((nxaxis[0] - nxaxis[1])))) - 1
+        # ratio between the different scales
+        xratio = ((abs(self.ixaxis[0] - self.ixaxis[1])) / (abs((nxaxis[0] - nxaxis[1])))) - 1      # subtract one for multiplication i.e. ratio of 1 become x0
         yratio = ((abs(self.iyaxis[0] - self.iyaxis[1])) / (abs((nyaxis[0] - nyaxis[1])))) - 1
         print "xratio: " + str(xratio)
         print "yratio: " + str(yratio)
@@ -339,8 +347,10 @@ class PolygonList(object):
             oldVertices = shape.getVertices()
             newVertices = []
             for i in range(len(vertices)):
+                # produces a component vector
                 dx = vertices[i][0] - Constants.TKXMID
                 dy = vertices[i][1] - Constants.TKYMID
+                # scales the vector and moves it to the correct point
                 newx = xratio * dx + Constants.TKXMID
                 newy = yratio * dy + Constants.TKYMID
                 newpoint = (newx, newy)
