@@ -4,14 +4,15 @@ Created on Jun 11, 2015
 @author: nqian
 '''
 # import antigravity
-from tkColorChooser import askcolor
-
 from datetime import datetime
+from tkColorChooser import askcolor
+import tkMessageBox
+
 from gui import Constants
 from gui.Polygon import PolygonDrawer
 from gui.PolygonReader import PolygonReader
 from gui.db import db
-import tkMessageBox
+
 
 class PolygonList(object):
     '''
@@ -88,6 +89,8 @@ class PolygonList(object):
                     shape.move(dx, dy, dmx, dmy)
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
+            self.__drag_data["mx"] = float(x)
+            self.__drag_data["my"] = float(y)
     
     def setPlot(self, plot):
         '''
@@ -267,6 +270,7 @@ class PolygonList(object):
         for shape in self.__currentList:
             if shape.getItemHandler() is target[0]:
                 tkMessageBox.showinfo("properties",str(shape))
+                print shape
                 return
         print "Polygon shape not found"
         
@@ -291,6 +295,42 @@ class PolygonList(object):
             if shape.getItemHandler() == target[0]:
                 return shape
         return False
+    
+    def receive(self):
+        print "Received signal"
+        self.zoom()
+        
+    def send(self):
+        toolbar = self.__master.getFig()
+        self.ixaxis = toolbar.get_xlim()
+        self.iyaxis = toolbar.get_ylim()
+        print "Initial xrange: (" + str(self.ixaxis[0]) + ", " + str(self.ixaxis[1]) + ")"
+        print "Initial yrange: (" + str(self.iyaxis[0]) + ", " + str(self.iyaxis[1]) + ")"
+    
+    def zoom(self):
+        toolbar = self.__master.getFig()
+        nxaxis = toolbar.get_xlim()
+        nyaxis = toolbar.get_ylim()
+        print "New xrange: (" + str(nxaxis[0]) + ", " + str(nxaxis[1]) + ")"
+        print "New yrange: (" + str(nyaxis[0]) + ", " + str(nyaxis[1]) + ")"
+        xratio = (abs(self.ixaxis[0] - self.ixaxis[1])) / (abs((nxaxis[0] - nxaxis[1])))
+        yratio = (abs(self.iyaxis[0] - self.iyaxis[1])) / (abs((nyaxis[0] - nyaxis[1])))
+        tkxmid = self.__canvas._tkcanvas.winfo_width() / 2.0
+        tkymid = self.__canvas._tkcanvas.winfo_height() / 2.0
+        
+        for shape in self.__currentList:
+            vertices = shape.getVertices()
+            for i in range(len(vertices)):
+                coorx = tkxmid - vertices[i][0]
+                coory = tkymid - vertices[i][1]
+                newx = xratio * coorx
+                newy = yratio * coory
+                dx = coorx - vertices[i][0]
+                dy = coory - vertices[i][1]
+                newpoint = (newx, newy)
+                shape.setVertex(i, newpoint)
+            self.__canvas._tkcanvas.move(shape.getItemHandler(), dx, dy)
+            print shape
         
     def __findPolygonByItemHandler(self, itemHandler):
         '''

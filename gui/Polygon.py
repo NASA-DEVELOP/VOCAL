@@ -236,6 +236,9 @@ class PolygonDrawer(object):
     def getCoordinates(self):
         return self.__coordinates
     
+    def setVertex(self, index, point):
+        self.__vertices[index] = point
+    
     def setID(self, _id):
         self.__id = _id
         
@@ -317,6 +320,9 @@ class PolygonDrawer(object):
     def __str__(self):
         string = "Coordinates:\n"
         for point in self.__coordinates:
+            string += "\t(" + str(point[0]) + ", " + str(point[1]) + ")\n"
+        string += "Vertices:\n"
+        for point in self.__vertices:
             string += "\t(" + str(point[0]) + ", " + str(point[1]) + ")\n"
         string += "Attributes:\n"
         for item in self.__attributes:
