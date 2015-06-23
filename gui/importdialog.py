@@ -5,8 +5,9 @@ Created on Jun 15, 2015
 
 '''
 
+import collections
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
-    Label, BOTTOM, TOP, X, RIDGE, ALL
+    Label, BOTTOM, TOP, X, RIDGE
 
 from gui import Constants
 from gui.db import db, dbPolygon
@@ -29,6 +30,8 @@ class dbDialog(Toplevel):
                 
         self.session = db.getSession()
         self.__itList = list()
+        self.__stack = collections.deque(maxlen=15)
+        self.__searchString = ""
         self.__master = master        
         self.title("Import from existing database")
         center(self, (Constants.IMPORTWIDTH,Constants.IMPORTHEIGH)) # simple function to center window and set size
@@ -59,19 +62,31 @@ class dbDialog(Toplevel):
         
     def refineSearch(self, event):
         lst = list()
-        string = self.e.get()
-        #print [s[0] for s in self.tree.list if string in s[0]]
-        #print [x[0] for x in self.tree.list]
-        #print [s[0] for s in self.tree.list if string in s[0]]
-        for obj in self.session.query(dbPolygon).filter(dbPolygon.tag.in_([s[0] for s in self.tree.list if string in s[0]])):
-            lst.append(                                                          # user see's this list
-                (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes.strip('[]\''), obj.notes)
-            )
-        del self.tree.list[:]
-        #self.tree.list = lst
-        self.tree.list = ["hi"]
-        self.update()
-        print self.tree.list
+        if event.char.isalnum(): self.__searchString += event.char
+        print "char: ", repr(event.char), "searchString ", self.__searchString
+        if self.e.get() != '':
+            print "not empty...."
+            if event.char == '':
+                print "popping stack..."
+                self.__searchString = self.__searchString[:-1]
+                if self.__stack : 
+                    del self.tree.info[:]
+                    self.tree.info = self.__stack.pop()
+                    self.tree.update()
+            elif event.char.isalnum():
+                print "searching..."
+                for obj in self.session.query(dbPolygon).filter(dbPolygon.tag.in_([s[0] for s in self.tree.info if self.__searchString in s[0]])):
+                    lst.append(                                                          # user see's this list
+                        (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes.strip('[]\''), obj.notes)
+                    )
+                self.__stack.append(self.tree.info)
+                self.tree.info = lst
+                self.tree.update()
+        else:
+            self.__searchString = ""
+            self.__displayAll()
+ 
+        #print "tree: ",self.tree.list
         
     def createBottomFrame(self):
         '''
@@ -87,19 +102,15 @@ class dbDialog(Toplevel):
         
         self.tree = TreeListBox(self.bottomFrame,
             ['name', 'plot', 'date', 'file', 'attributes', 'notes'])
-        self.tree.list = list()
-        #self.listbox.column('#0', stretch=True)
-        #self.listbox = McListBox(self.bottomFrame, ['name', 'date', 'color', 'attributes'])
+        
         for obj in self.session.query(dbPolygon).all():
             self.__itList.append(obj)                                                       # insert JSON obj representation into internal list
-            self.tree.list.append(                                                          # user see's this list
-                (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes.strip('[]\''), obj.notes)
-            )
-            
+        
+        self.__displayAll()
+           
         self.button = Button(self.bottomButtonFrame, text="Import", width=30,
                              command=self.importSelection)
         self.button.pack(side=BOTTOM, pady=10)
-        self.tree.update()
     
     def importSelection(self):
         '''
@@ -116,6 +127,16 @@ class dbDialog(Toplevel):
     def filterDialog(self):
         pass
     
+    def __displayAll(self):
+        lst = list()
+        if self.tree.info : self.__stack.append(self.tree.info)
+        for obj in self.session.query(dbPolygon).all():
+            lst.append(                                                          # user see's this list
+                (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes.strip('[]\''), obj.notes)
+            )
+        self.tree.info = lst
+        self.tree.update()
+        
     def free(self):
         '''
         Free window
