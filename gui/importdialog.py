@@ -5,13 +5,14 @@ Created on Jun 15, 2015
 
 '''
 
-import collections
+import collections, string
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE
 
 from gui import Constants
 from gui.db import db, dbPolygon
 from gui.tools import TreeListBox, center
+from sqlalchemy import or_
 #import TkTreectrl as treectrl
 #import db
 
@@ -74,10 +75,13 @@ class dbDialog(Toplevel):
                     self.tree.info = self.__stack.pop()
                     self.tree.update()
             elif event.char.isalnum():
-                print "searching..."
-                for obj in self.session.query(dbPolygon).filter(dbPolygon.tag.in_([s[0] for s in self.tree.info if self.__searchString in s[0]])):
+                print "searching...", [s[4] for s in self.tree.info if self.__searchString in s[4]]
+                for obj in self.session.query(dbPolygon).filter(or_(
+                        dbPolygon.tag.contains(self.__searchString), 
+                        dbPolygon.attributes.contains(self.__searchString),
+                        dbPolygon.notes.contains(self.__searchString))):
                     lst.append(                                                          # user see's this list
-                        (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes.strip('[]\''), obj.notes)
+                        (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes[1:-1], obj.notes)
                     )
                 self.__stack.append(self.tree.info)
                 self.tree.info = lst
@@ -85,6 +89,12 @@ class dbDialog(Toplevel):
         else:
             self.__searchString = ""
             self.__displayAll()
+            
+        """
+        for obj in self.session.query(dbPolygon).filter(or_( \
+                        dbPolygon.tag.in_([s[0] for s in self.tree.info if self.__searchString in s[0]]), \
+                        dbPolygon.attributes.in_([s[4] for s in self.tree.info if self.__searchString in s[4]]))):
+        """
             
  
         #print "tree: ",self.tree.list
@@ -136,7 +146,7 @@ class dbDialog(Toplevel):
         if self.tree.info : self.__stack.append(self.tree.info)
         for obj in self.session.query(dbPolygon).all():
             lst.append(                                                          # user see's this list
-                (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes.strip('[]\''), obj.notes)
+                (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes[1:-1], obj.notes)
             )
             
         self.tree.info = lst
