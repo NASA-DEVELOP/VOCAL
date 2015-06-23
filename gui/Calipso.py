@@ -284,6 +284,9 @@ class Calipso(object):
         return self.__toolbar
     
     def getFig(self):
+        '''
+        Returns the figure that is plotted to the canvas
+        '''
         return self.__fig
         
     def about(self): 
