@@ -30,13 +30,6 @@ class PolygonReader(object):
     def readFromFileJSON(self):   
         with open(self.__fileName, 'r') as infile:
             data = byteify(json.load(infile))
-#           test = json.dumps(data, sort_keys=True,
-#                              indent=2, separators=(',', ': '))
-#           print test
-#           print data["Backscattered"]
-#           print data["Depolarized"]
-#           debug = yaml.safe_load(test)
-#           print type(test)
         self.__data = data
         
     def readFromStrJSON(self, data):
