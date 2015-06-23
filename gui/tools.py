@@ -254,7 +254,7 @@ class TreeListBox(object):
         information being displayed, the headers are what appears in the columns
         and the tree is the TreeView object
         '''
-        self.list = None
+        self.info = list()
         self.headers = headers
         self.__root = root
         
@@ -272,23 +272,23 @@ class TreeListBox(object):
         '''
         Redisplay any information updated in self.list to the screen
         '''
-        for i in self.tree.get_children():
-            print "deleting", i
-            self.tree.delete(i)
+        self.tree.delete(*self.tree.get_children())
             
+
         for col in self.headers:
             self.tree.heading(col, text=col.title(),
                               command=lambda c=col: sortby(self.tree, c, 0))
             # adjust the column's width to the header string
             self.tree.column(col,
                              width=tkFont.Font().measure(col.title()))
-        for item in self.list:
+        for item in self.info:
             self.tree.insert('', 'end', values=item)
             # adjust column's width if necessary to fit each value
             for ix, val in enumerate(item):
                 col_w = tkFont.Font().measure(val)
                 if self.tree.column(self.headers[ix],width=None)<col_w:
                     self.tree.column(self.headers[ix], width=col_w)
+        self.tree.pack(expand=YES, fill=BOTH)
 
 def sortby(tree, col, descending):
     '''
