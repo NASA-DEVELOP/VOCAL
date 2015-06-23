@@ -27,3 +27,9 @@ http://develop-larc-calipso.github.io/CALIPSO_Visualization/
 * [ ] Refactor `Calipso` functions
 * [x] Fix `About` window in `Calipso`
 * [ ] Fix draw buttons attempting to draw when menu bar is accessed causing out of range error
+
+## Notes: 
+
+Database finite limit could be extended with pagination, splitting the database into 'pages' that the user would need to go through. But this also introduces the fact that searching would need to pull all pages for an ample search
+
+Py2exe can be used for building an executable, but research will need to be done into developing a setup file.
