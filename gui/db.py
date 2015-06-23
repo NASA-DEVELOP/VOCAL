@@ -72,17 +72,13 @@ class DatabaseManager(object):
         self.__dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=False)
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)
-                
-    """
-    def notifyDeletion(self, polygon):
-        session = self.__Session()
-        session.delete(
-            dbPolygon(vertices=str(polygon.getVertices()), color=(polygon.getColor())))
-        session.commit()
-        session.close()
-    """
     
     def queryUniqueTag(self):
+        '''
+        Grabs a session and queries the database to find the starting tag for the application.
+        this tag is used so it does not overlap existing shape tags previously generated
+        and stored into the database
+        '''
         session = self.__Session()
         objs = session.query(dbPolygon).order_by(desc(dbPolygon.tag))
         if objs.count() == 0:
@@ -137,6 +133,10 @@ class DatabaseManager(object):
         session.close()
     
     def deleteItem(self, idx):
+        '''
+        Get a session and delete the object from the database.
+        The IDX is the primary key for the object passed
+        '''
         session = self.__Session()
         item = session.query(dbPolygon).get(idx)
         session.delete(item)
