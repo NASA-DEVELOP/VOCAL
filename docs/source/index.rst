@@ -16,6 +16,7 @@ Contents:
 
    overview
    installation
+   tutorial
    troubleshoot
 
 Documentation:

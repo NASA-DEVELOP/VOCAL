@@ -45,6 +45,7 @@ class PolygonList(object):
         self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.onTokenButtonRelease)
         self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.onTokenMotion)
         
+    # TODO: fix dragging
     def onTokenButtonPress(self, event):
         '''
         Saves the target polygon's original position for movement tracking
