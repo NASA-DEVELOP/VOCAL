@@ -273,6 +273,7 @@ class TreeListBox(object):
         Redisplay any information updated in self.list to the screen
         '''
         for i in self.tree.get_children():
+            print "deleting", i
             self.tree.delete(i)
             
         for col in self.headers:
@@ -317,3 +318,13 @@ def center(toplevel, size):
     x = w/2 - size[0]/2
     y = h/2 - size[1]/2
     toplevel.geometry("%dx%d+%d+%d" % (size + (x, y)))
+
+def byteify(inp):
+    if isinstance(inp, dict):
+        return {byteify(key):byteify(value) for key,value in inp.iteritems()}
+    elif isinstance(inp, list):
+        return [byteify(element) for element in inp]
+    elif isinstance(inp, unicode):
+        return inp.encode('utf-8')
+    else:
+        return inp
