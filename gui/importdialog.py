@@ -7,14 +7,13 @@ Created on Jun 15, 2015
 
 import collections
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
-    Label, BOTTOM, TOP, X, RIDGE, E
+    Label, BOTTOM, TOP, X, RIDGE
 import tkMessageBox
 
 from gui import Constants
 from gui.db import db, dbPolygon
 from gui.tools import TreeListBox, center
 from sqlalchemy import or_
-from Tkconstants import RIGHT
 #import TkTreectrl as treectrl
 #import db
 
