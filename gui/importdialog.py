@@ -6,7 +6,7 @@ Created on Jun 15, 2015
 '''
 
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
-    Label, BOTTOM, TOP, X, RIDGE
+    Label, BOTTOM, TOP, X, RIDGE, ALL
 
 from gui import Constants
 from gui.db import db, dbPolygon
@@ -25,7 +25,9 @@ class dbDialog(Toplevel):
         master -> the main window, for access of polygonList
         '''
         Toplevel.__init__(self, root)
-
+        self.protocol('WM_DELETE_WINDOW')
+                
+        self.session = db.getSession()
         self.__itList = list()
         self.__master = master        
         self.title("Import from existing database")
@@ -46,6 +48,7 @@ class dbDialog(Toplevel):
         
         self.label = Label(self.topFrame, text="Search ")           # search label 
         self.e = Entry(self.topFrame)                               # input box for searching specific attributes
+        self.e.bind("<KeyRelease>", self.refineSearch)
         self.label.grid(row=0, column=0, padx=5, pady=10)
         self.e.grid(row=0, column=1, padx=5, pady=10)
             
@@ -53,6 +56,22 @@ class dbDialog(Toplevel):
         self.filterButton = Button(self.topFrame, text="Filter", command=self.filterDialog,
                                    width=10)
         self.filterButton.grid(row=0, column=3, padx=5, pady=10)
+        
+    def refineSearch(self, event):
+        lst = list()
+        string = self.e.get()
+        #print [s[0] for s in self.tree.list if string in s[0]]
+        #print [x[0] for x in self.tree.list]
+        #print [s[0] for s in self.tree.list if string in s[0]]
+        for obj in self.session.query(dbPolygon).filter(dbPolygon.tag.in_([s[0] for s in self.tree.list if string in s[0]])):
+            lst.append(                                                          # user see's this list
+                (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes.strip('[]\''), obj.notes)
+            )
+        del self.tree.list[:]
+        #self.tree.list = lst
+        self.tree.list = ["hi"]
+        self.update()
+        print self.tree.list
         
     def createBottomFrame(self):
         '''
@@ -71,14 +90,11 @@ class dbDialog(Toplevel):
         self.tree.list = list()
         #self.listbox.column('#0', stretch=True)
         #self.listbox = McListBox(self.bottomFrame, ['name', 'date', 'color', 'attributes'])
-        session = db.getSession()                                                           # insert the entire database
-        for obj in session.query(dbPolygon).all():
+        for obj in self.session.query(dbPolygon).all():
             self.__itList.append(obj)                                                       # insert JSON obj representation into internal list
             self.tree.list.append(                                                          # user see's this list
                 (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes.strip('[]\''), obj.notes)
             )
-        session.close()
-        
             
         self.button = Button(self.bottomButtonFrame, text="Import", width=30,
                              command=self.importSelection)
@@ -104,5 +120,7 @@ class dbDialog(Toplevel):
         '''
         Free window
         '''
+        self.session.commit()
+        self.session.close()
         self.destroy()
         
