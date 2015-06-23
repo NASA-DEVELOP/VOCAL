@@ -69,7 +69,7 @@ class DatabaseManager(object):
         Create the database engine using db/CALIPSO.db database.
         Echo all commands, create Session and table
         '''
-        self.__dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=True)
+        self.__dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=False)
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)
                 
