@@ -5,8 +5,8 @@
 
 """
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, \
-    StringVar, YES, BOTH, Scrollbar, Y,\
-     X, VERTICAL, NO, RIGHT, BOTTOM, HORIZONTAL \
+    StringVar, YES, BOTH, Scrollbar, Y, X, NO, RIGHT, BOTTOM, \
+     VERTICAL, HORIZONTAL \
      
 import re
 import numpy as np
@@ -417,9 +417,7 @@ class TreeListBox(object):
         self.info = list()
         self.headers = headers
         self.__root = root
-        
-        # create a treeview with dual scrollbars
-        self.tree = ttk.Treeview(self.__root, columns=headers, show="headings")
+        self.tree = ttk.Treeview(self.__root, columns=self.headers, show="headings")
         # create scrollbars and pack window
         yScrollBar = Scrollbar(self.__root, orient=VERTICAL, command=self.tree.yview)
         xScrollBar = Scrollbar(self.__root, orient=HORIZONTAL, command=self.tree.xview)
@@ -432,9 +430,10 @@ class TreeListBox(object):
         '''
         Redisplay any information updated in self.list to the screen
         '''
-        self.tree.delete(*self.tree.get_children())
-            
-
+        # create a treeview with dual scrollbar
+        self.tree.delete(*self.tree.get_children(''))
+        #print self.tree.set
+        
         for col in self.headers:
             self.tree.heading(col, text=col.title(),
                               command=lambda c=col: sortby(self.tree, c, 0))
@@ -448,7 +447,6 @@ class TreeListBox(object):
                 col_w = tkFont.Font().measure(val)
                 if self.tree.column(self.headers[ix],width=None)<col_w:
                     self.tree.column(self.headers[ix], width=col_w)
-        self.tree.pack(expand=YES, fill=BOTH)
 
 def sortby(tree, col, descending):
     '''
