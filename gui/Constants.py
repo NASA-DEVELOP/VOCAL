@@ -35,3 +35,6 @@ DATE            = "date"
 TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', 'cloud LC',
         'dust', 'polluted continental', 'polluted continental dust', 'polluted dust', 
         'polluted marine', 'smoke', 'stratospheric layer']
+
+TKXMID = 629.5
+TKYMID = 314

@@ -88,8 +88,6 @@ class Calipso(object):
         self.__menuFile.add_command(label="Save all", command=lambda : self.notifySaveAsJSON(saveAll=True))
         self.__menuFile.add_command(label="Save as", command=self.notifySaveAsJSON)
         self.__menuFile.add_separator()
-        self.__menuFile.add_command(label="Properties", command=self.properties)
-        self.__menuFile.add_separator()
         self.__menuFile.add_command(label="Exit", command=self.__root.quit)
         self.__menuBar.add_cascade(label="File", menu=self.__menuFile)
         
@@ -120,8 +118,6 @@ class Calipso(object):
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)                                # create subplot
                 drawBackscattered(self.__file, self.__fig, self.__Parentfig)                    # plot the backscattered image 
-                print self.__fig.get_ylim()
-                print self.__fig.get_xlim()
                 self.__drawplotCanvas.show()                                                    # show canvas
                 self.__polygonList.setPlot(Constants.BACKSCATTERED)                             # set the current plot on polygonList
                 self.__toolbar.update()                                                         # update toolbar
@@ -225,15 +221,7 @@ class Calipso(object):
 
     def saveImage(self):
         pass
-    
-    def test(self, event):
-        result = self.__toolbar.message.get()
-        x = result[2:15]
-        y = result[17:]
-        print "(" + x.strip() + ", " + y.strip() +")"
-        print self.__toolbar.message.get()
-        pass
-        
+
     def load(self):
         '''
         load JSON objects from file by aclling polygonlist.readPlot(f)
@@ -251,26 +239,9 @@ class Calipso(object):
         '''
         Open attribute window for specifying attributes on objects
         '''
-#         filewin = Toplevel(self.__root, width=950, height=950)
-#         filewin.title("Edit Attributes")
-#         self.textbox1 = Entry(filewin, width=50)
-#         self.textbox1.pack()
-#         frame = Frame(filewin)
-#         frame.pack()
-#         self.string = StringVar()
-#         self.label = Label(frame, textvariable=self.string, justify=LEFT)
-#         self.label.grid(row=1, column=0)
-#         getButton = Button(frame, text="Add", command=lambda: self.getText(event))
-#         getButton.grid(row=2, column=0)
-#         closeButton = Button(frame, text="Close", command=filewin.destroy)
-#         closeButton.grid(row=2, column=1)
-
         poly = self.__polygonList.findPolygon(event)
         AttributesDialog(self.__root, poly)
 
-    def properties(self):
-        pass
-    
     def getPolygonList(self):
         '''
         Returns polygonList
