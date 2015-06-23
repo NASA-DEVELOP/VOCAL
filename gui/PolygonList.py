@@ -45,7 +45,6 @@ class PolygonList(object):
         self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.onTokenButtonRelease)
         self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.onTokenMotion)
         
-    # TODO: update the coordinates when the shape moves
     def onTokenButtonPress(self, event):
         '''
         Saves the target polygon's original position for movement tracking
@@ -146,7 +145,6 @@ class PolygonList(object):
     def getReader(self):
         return self.__polyReader
      
-    #TODO: have a helper line show while drawing   
     def plotPoint(self, event):
         '''
         Informs the correct list's blank to plot a point on the screen
@@ -300,6 +298,9 @@ class PolygonList(object):
         self.zoom()
         
     def send(self):
+        '''
+        Saves the initial scale
+        '''
         toolbar = self.__master.getFig()
         self.ixaxis = toolbar.get_xlim()
         self.iyaxis = toolbar.get_ylim()
@@ -307,28 +308,55 @@ class PolygonList(object):
         print "Initial yrange: (" + str(self.iyaxis[0]) + ", " + str(self.iyaxis[1]) + ")"
     
     def zoom(self):
+        '''
+        Attempts to calulate the new coordinates of the polygon
+        '''
         toolbar = self.__master.getFig()
+        # new scale
         nxaxis = toolbar.get_xlim()
         nyaxis = toolbar.get_ylim()
         print "New xrange: (" + str(nxaxis[0]) + ", " + str(nxaxis[1]) + ")"
         print "New yrange: (" + str(nyaxis[0]) + ", " + str(nyaxis[1]) + ")"
-        xratio = (abs(self.ixaxis[0] - self.ixaxis[1])) / (abs((nxaxis[0] - nxaxis[1])))
-        yratio = (abs(self.iyaxis[0] - self.iyaxis[1])) / (abs((nyaxis[0] - nyaxis[1])))
-        tkxmid = self.__canvas._tkcanvas.winfo_width() / 2.0
-        tkymid = self.__canvas._tkcanvas.winfo_height() / 2.0
+        # ratio between the different scales
+        xratio = ((abs(self.ixaxis[0] - self.ixaxis[1])) / (abs((nxaxis[0] - nxaxis[1])))) - 1      # subtract one for multiplication i.e. ratio of 1 become x0
+        yratio = ((abs(self.iyaxis[0] - self.iyaxis[1])) / (abs((nyaxis[0] - nyaxis[1])))) - 1
+        print "xratio: " + str(xratio)
+        print "yratio: " + str(yratio)
         
+#         for shape in self.__currentList:
+#             vertices = shape.getVertices()
+#             newVertices = []
+#             for i in range(len(vertices)):
+#                 coorx = vertices[i][0] - Constants.TKXMID
+#                 coory = vertices[i][1] - Constants.TKYMID
+#                 newx = xratio * (vertices[i][0] - Constants.TKXMID) + Constants.TKXMID
+#                 newy = yratio * (vertices[i][1] - Constants.TKYMID) + Constants.TKYMID
+#                 dx = vertices[i][0] - coorx
+#                 dy = vertices[i][1] - coory
+#                 newpoint = (newx, newy)
+#                 shape.setVertex(i, newpoint)
+#                 newVertices.append(newpoint)
+#             self.__canvas._tkcanvas.coords(shape.getItemHandler, newVertices)
+#             self.__canvas._tkcanvas.move(shape.getItemHandler(), dx, dy)
+#             print shape
+
         for shape in self.__currentList:
             vertices = shape.getVertices()
+            oldVertices = shape.getVertices()
+            newVertices = []
             for i in range(len(vertices)):
-                coorx = tkxmid - vertices[i][0]
-                coory = tkymid - vertices[i][1]
-                newx = xratio * coorx
-                newy = yratio * coory
-                dx = coorx - vertices[i][0]
-                dy = coory - vertices[i][1]
+                # produces a component vector
+                dx = vertices[i][0] - Constants.TKXMID
+                dy = vertices[i][1] - Constants.TKYMID
+                # scales the vector and moves it to the correct point
+                newx = xratio * dx + Constants.TKXMID
+                newy = yratio * dy + Constants.TKYMID
                 newpoint = (newx, newy)
+                newVertices.append(newpoint)
                 shape.setVertex(i, newpoint)
-            self.__canvas._tkcanvas.move(shape.getItemHandler(), dx, dy)
+            for new, old in zip(newVertices, oldVertices):
+                self.__canvas._tkcanvas.coords(shape.getItemHandler(), new[0], new[1], old[0], old[1])
+            self.__canvas._tkcanvas.move(shape.getItemHandler(), xratio * dx, yratio * dy)
             print shape
         
     def __findPolygonByItemHandler(self, itemHandler):
