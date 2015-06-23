@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.cbook as cbook
 
-"""
 image_file = cbook.get_sample_data('grace_hopper.png')
 image = plt.imread(image_file)
 
@@ -17,22 +16,4 @@ im.set_clip_path(patch)
 
 plt.axis('off')
 plt.show()
-"""
 
-class test:
-    def __init__(self):
-        self.list = list()
-        
-    def print_(self):
-        print self.list
-        
-class this:
-    def __init__(self):
-        self.ghj = test()
-        self.doThis()
-    
-    def doThis(self):
-        self.ghj.list = ['hi']
-        self.ghj.print_()
-        
-this()

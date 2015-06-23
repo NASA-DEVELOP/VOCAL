@@ -136,6 +136,13 @@ class DatabaseManager(object):
         session.commit()
         session.close()
     
+    def deleteItem(self, idx):
+        session = self.__Session()
+        item = session.query(dbPolygon).get(idx)
+        session.delete(item)
+        session.commit()
+        session.close()
+    
     def encode(self, filename, data):
         '''
         Encode and write out a JSON object
