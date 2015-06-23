@@ -8,8 +8,8 @@ Welcome to CALIPSO's documentation!
 
 Everything you'll need to know about the CALIPSO Visualization project from a developer standpoint can be read about here! If you're looking to add to the doc chain, please ensure you reference current .rst documents to build your new documentation. Conforming to previous style is *highly* recommended
 
-Contents:
-=========
+Information:
+=============
 
 .. toctree::
    :maxdepth: 2
