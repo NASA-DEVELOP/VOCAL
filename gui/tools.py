@@ -5,8 +5,8 @@
 
 """
 from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, \
-    StringVar, YES, BOTH, Scrollbar, Y, END, \
-     X, VERTICAL, NO, RIGHT, BOTTOM, HORIZONTAL \
+    StringVar, YES, BOTH, Scrollbar, Y, X, NO, RIGHT, BOTTOM, \
+     VERTICAL, HORIZONTAL \
      
 import re
 import numpy as np
