@@ -45,7 +45,6 @@ class PolygonList(object):
         self.__canvas._tkcanvas.tag_bind("polygon", "<ButtonRelease-1>", self.onTokenButtonRelease)
         self.__canvas._tkcanvas.tag_bind("polygon", "<B1-Motion>", self.onTokenMotion)
         
-    # TODO: update the coordinates when the shape moves
     def onTokenButtonPress(self, event):
         '''
         Saves the target polygon's original position for movement tracking
@@ -146,7 +145,6 @@ class PolygonList(object):
     def getReader(self):
         return self.__polyReader
      
-    #TODO: have a helper line show while drawing   
     def plotPoint(self, event):
         '''
         Informs the correct list's blank to plot a point on the screen
