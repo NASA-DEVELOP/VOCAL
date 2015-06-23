@@ -425,6 +425,10 @@ class TreeListBox(object):
         yScrollBar.pack(side=RIGHT, fill=Y, expand=NO)
         xScrollBar.pack(side=BOTTOM, fill=X, expand=NO)
         self.tree.pack(expand=YES, fill=BOTH)
+        
+        for col in self.headers:
+            self.tree.heading(col, text=col.title(),
+                command=lambda c=col: sortby(self.tree, c, 0))
     
     def update(self):
         '''
@@ -432,14 +436,7 @@ class TreeListBox(object):
         '''
         # create a treeview with dual scrollbar
         self.tree.delete(*self.tree.get_children(''))
-        #print self.tree.set
         
-        for col in self.headers:
-            self.tree.heading(col, text=col.title(),
-                              command=lambda c=col: sortby(self.tree, c, 0))
-            # adjust the column's width to the header string
-            self.tree.column(col,
-                             width=tkFont.Font().measure(col.title()))
         for item in self.info:
             self.tree.insert('', 'end', values=item)
             # adjust column's width if necessary to fit each value
@@ -447,6 +444,7 @@ class TreeListBox(object):
                 col_w = tkFont.Font().measure(val)
                 if self.tree.column(self.headers[ix],width=None)<col_w:
                     self.tree.column(self.headers[ix], width=col_w)
+        self.tree.pack(fill=BOTH, expand=YES)
 
 def sortby(tree, col, descending):
     '''
