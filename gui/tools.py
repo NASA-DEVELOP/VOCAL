@@ -9,7 +9,7 @@ from Tkinter import TclError, Label, LEFT, SOLID, Toplevel, Button, \
      X, VERTICAL, NO, RIGHT, BOTTOM, HORIZONTAL \
      
 import re
-    
+import numpy as np
 import ttk
 import tkFont
     
@@ -196,9 +196,10 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
     anything GUI related 
     '''
     
-    def __init__(self, canvas, master):
+    def __init__(self, canvas, master, observer):
         self.canvas = canvas
         self.master = master
+        self.observer = observer
         NavigationToolbar2.__init__(self, canvas)
         
     def _init_toolbar(self):
@@ -242,6 +243,165 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
 
     def dynamic_update(self):
         pass
+    
+    def release_zoom(self, event):
+        """the release mouse button callback in zoom to rect mode"""
+        for zoom_id in self._ids_zoom:
+            self.canvas.mpl_disconnect(zoom_id)
+        self._ids_zoom = []
+
+        if not self._xypress:
+            return
+
+        last_a = []
+
+        for cur_xypress in self._xypress:
+            x, y = event.x, event.y
+            lastx, lasty, a, ind, lim, trans = cur_xypress
+            # ignore singular clicks - 5 pixels is a threshold
+            if abs(x - lastx) < 5 or abs(y - lasty) < 5:
+                self._xypress = None
+                self.release(event)
+                self.draw()
+                return
+
+            x0, y0, x1, y1 = lim.extents
+
+            # zoom to rect
+            inverse = a.transData.inverted()
+            lastx, lasty = inverse.transform_point((lastx, lasty))
+            x, y = inverse.transform_point((x, y))
+            Xmin, Xmax = a.get_xlim()
+            Ymin, Ymax = a.get_ylim()
+
+            # detect twinx,y axes and avoid double zooming
+            twinx, twiny = False, False
+            if last_a:
+                for la in last_a:
+                    if a.get_shared_x_axes().joined(a, la):
+                        twinx = True
+                    if a.get_shared_y_axes().joined(a, la):
+                        twiny = True
+            last_a.append(a)
+
+            if twinx:
+                x0, x1 = Xmin, Xmax
+            else:
+                if Xmin < Xmax:
+                    if x < lastx:
+                        x0, x1 = x, lastx
+                    else:
+                        x0, x1 = lastx, x
+                    if x0 < Xmin:
+                        x0 = Xmin
+                    if x1 > Xmax:
+                        x1 = Xmax
+                else:
+                    if x > lastx:
+                        x0, x1 = x, lastx
+                    else:
+                        x0, x1 = lastx, x
+                    if x0 > Xmin:
+                        x0 = Xmin
+                    if x1 < Xmax:
+                        x1 = Xmax
+
+            if twiny:
+                y0, y1 = Ymin, Ymax
+            else:
+                if Ymin < Ymax:
+                    if y < lasty:
+                        y0, y1 = y, lasty
+                    else:
+                        y0, y1 = lasty, y
+                    if y0 < Ymin:
+                        y0 = Ymin
+                    if y1 > Ymax:
+                        y1 = Ymax
+                else:
+                    if y > lasty:
+                        y0, y1 = y, lasty
+                    else:
+                        y0, y1 = lasty, y
+                    if y0 > Ymin:
+                        y0 = Ymin
+                    if y1 < Ymax:
+                        y1 = Ymax
+
+            if self._button_pressed == 1:
+                if self._zoom_mode == "x":
+                    a.set_xlim((x0, x1))
+                elif self._zoom_mode == "y":
+                    a.set_ylim((y0, y1))
+                else:
+                    a.set_xlim((x0, x1))
+                    a.set_ylim((y0, y1))
+            elif self._button_pressed == 3:
+                if a.get_xscale() == 'log':
+                    alpha = np.log(Xmax / Xmin) / np.log(x1 / x0)
+                    rx1 = pow(Xmin / x0, alpha) * Xmin
+                    rx2 = pow(Xmax / x0, alpha) * Xmin
+                else:
+                    alpha = (Xmax - Xmin) / (x1 - x0)
+                    rx1 = alpha * (Xmin - x0) + Xmin
+                    rx2 = alpha * (Xmax - x0) + Xmin
+                if a.get_yscale() == 'log':
+                    alpha = np.log(Ymax / Ymin) / np.log(y1 / y0)
+                    ry1 = pow(Ymin / y0, alpha) * Ymin
+                    ry2 = pow(Ymax / y0, alpha) * Ymin
+                else:
+                    alpha = (Ymax - Ymin) / (y1 - y0)
+                    ry1 = alpha * (Ymin - y0) + Ymin
+                    ry2 = alpha * (Ymax - y0) + Ymin
+
+                if self._zoom_mode == "x":
+                    a.set_xlim((rx1, rx2))
+                elif self._zoom_mode == "y":
+                    a.set_ylim((ry1, ry2))
+                else:
+                    a.set_xlim((rx1, rx2))
+                    a.set_ylim((ry1, ry2))
+
+        self.draw()
+        self._xypress = None
+        self._button_pressed = None
+
+        self._zoom_mode = None
+
+        self.push_current()
+        self.release(event)
+        self.observer.update()
+    
+    def zoom(self, *args):
+        """Activate zoom to rect mode"""
+        if self._active == 'ZOOM':
+            self._active = None
+        else:
+            self._active = 'ZOOM'
+
+        if self._idPress is not None:
+            self._idPress = self.canvas.mpl_disconnect(self._idPress)
+            self.mode = ''
+
+        if self._idRelease is not None:
+            self._idRelease = self.canvas.mpl_disconnect(self._idRelease)
+            self.mode = ''
+
+        if self._active:
+            self.observer.send()
+            self._idPress = self.canvas.mpl_connect('button_press_event',
+                                                    self.press_zoom)
+            self._idRelease = self.canvas.mpl_connect('button_release_event',
+                                                      self.release_zoom)
+            self.mode = 'zoom rect'
+            self.canvas.widgetlock(self)
+        else:
+            self.canvas.widgetlock.release(self)
+
+        for a in self.canvas.figure.get_axes():
+            a.set_navigate_mode(self._active)
+
+        self.set_message(self.mode)
     
 class TreeListBox(object):
     '''
@@ -328,3 +488,17 @@ def byteify(inp):
         return inp.encode('utf-8')
     else:
         return inp
+    
+class Observer(object):
+    '''
+    Class that implements the observer pattern
+    '''
+    
+    def __init__(self, receiver):
+        self.__receiver = receiver
+        
+    def update(self):
+        self.__receiver.receive()
+        
+    def send(self):
+        self.__receiver.send()

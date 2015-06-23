@@ -16,7 +16,7 @@ from gui.attributesDialog import AttributesDialog
 from gui.importdialog import dbDialog
 from gui.plot.plot_depolar_ratio import drawDepolar
 from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
-from gui.tools import NavigationToolbar2CALIPSO
+from gui.tools import NavigationToolbar2CALIPSO, Observer
 from gui.toolswindow import ToolsWindow
 
 
@@ -53,9 +53,11 @@ class Calipso(object):
         self.__Parentfig = Figure(figsize=(16,11))                                  # the figure we're drawing our plot to
         self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig,                 # canvas USING the figure we're drawing our plot to \
             master=self.__drawplotFrame)   
-        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,           # create barebones toolbar we can borrow backend functions from \
-            self.__child.coordinateFrame)
         self.__polygonList = PolygonList(self.__drawplotCanvas, self)               # internal polygonList
+        observer = Observer(self.__polygonList)
+        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,           # create barebones toolbar we can borrow backend functions from \
+            self.__child.coordinateFrame, observer)
+        
         
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)   # pack and display canvas
         self.__drawplotFrame.pack()
