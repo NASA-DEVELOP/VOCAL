@@ -270,6 +270,7 @@ class PolygonList(object):
         for shape in self.__currentList:
             if shape.getItemHandler() is target[0]:
                 tkMessageBox.showinfo("properties",str(shape))
+                print shape
                 return
         print "Polygon shape not found"
         
@@ -295,37 +296,41 @@ class PolygonList(object):
                 return shape
         return False
     
+    def receive(self):
+        print "Received signal"
+        self.zoom()
+        
+    def send(self):
+        toolbar = self.__master.getFig()
+        self.ixaxis = toolbar.get_xlim()
+        self.iyaxis = toolbar.get_ylim()
+        print "Initial xrange: (" + str(self.ixaxis[0]) + ", " + str(self.ixaxis[1]) + ")"
+        print "Initial yrange: (" + str(self.iyaxis[0]) + ", " + str(self.iyaxis[1]) + ")"
+    
     def zoom(self):
         toolbar = self.__master.getFig()
-        print "duck"
-        ixaxis = toolbar.get_xlim()
-        iyaxis = toolbar.get_ylim()
-        print "Initial xrange: (" + str(ixaxis[0]) + ", " + str(ixaxis[1]) + ")"
-        print "Initial yrange: (" + str(iyaxis[0]) + ", " + str(iyaxis[1]) + ")"
-        self.__master.getToolbar().zoom(True)
         nxaxis = toolbar.get_xlim()
         nyaxis = toolbar.get_ylim()
-        print "New xrange: (" + str(nxaxis[0]) + ", " + str(nxaxis[0]) + ")"
+        print "New xrange: (" + str(nxaxis[0]) + ", " + str(nxaxis[1]) + ")"
         print "New yrange: (" + str(nyaxis[0]) + ", " + str(nyaxis[1]) + ")"
-        xratio = (abs(ixaxis[0] - ixaxis[1])) / (abs((nxaxis[0] - nxaxis[1])))
-        yratio = (abs(iyaxis[0] - iyaxis[1])) / (abs((nyaxis[0] - nyaxis[1])))
-#         xmid = (nxaxis[0] + nxaxis[1]) / 2.0
-#         ymid = (nyaxis[0] + nyaxis[1]) / 2.0
+        xratio = (abs(self.ixaxis[0] - self.ixaxis[1])) / (abs((nxaxis[0] - nxaxis[1])))
+        yratio = (abs(self.iyaxis[0] - self.iyaxis[1])) / (abs((nyaxis[0] - nyaxis[1])))
         tkxmid = self.__canvas._tkcanvas.winfo_width() / 2.0
         tkymid = self.__canvas._tkcanvas.winfo_height() / 2.0
         
         for shape in self.__currentList:
             vertices = shape.getVertices()
             for i in range(len(vertices)):
-                dx = tkxmid - vertices[i][0]
-                dy = tkymid - vertices[i][1]
-                newx = xratio * dx
-                newy = yratio * dy
+                coorx = tkxmid - vertices[i][0]
+                coory = tkymid - vertices[i][1]
+                newx = xratio * coorx
+                newy = yratio * coory
+                dx = coorx - vertices[i][0]
+                dy = coory - vertices[i][1]
                 newpoint = (newx, newy)
-                vertices[i] = newpoint
-                # redraw shape
-            if not shape.isEmpty():
-                shape.drawPolygon(self.__plot)
+                shape.setVertex(i, newpoint)
+            self.__canvas._tkcanvas.move(shape.getItemHandler(), dx, dy)
+            print shape
         
     def __findPolygonByItemHandler(self, itemHandler):
         '''
