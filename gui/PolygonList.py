@@ -300,9 +300,13 @@ class PolygonList(object):
         print "duck"
         ixaxis = toolbar.get_xlim()
         iyaxis = toolbar.get_ylim()
+        print "Initial xrange: (" + str(ixaxis[0]) + ", " + str(ixaxis[1]) + ")"
+        print "Initial yrange: (" + str(iyaxis[0]) + ", " + str(iyaxis[1]) + ")"
         self.__master.getToolbar().zoom(True)
         nxaxis = toolbar.get_xlim()
         nyaxis = toolbar.get_ylim()
+        print "New xrange: (" + str(nxaxis[0]) + ", " + str(nxaxis[0]) + ")"
+        print "New yrange: (" + str(nyaxis[0]) + ", " + str(nyaxis[1]) + ")"
         xratio = (abs(ixaxis[0] - ixaxis[1])) / (abs((nxaxis[0] - nxaxis[1])))
         yratio = (abs(iyaxis[0] - iyaxis[1])) / (abs((nyaxis[0] - nyaxis[1])))
 #         xmid = (nxaxis[0] + nxaxis[1]) / 2.0
