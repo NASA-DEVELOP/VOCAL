@@ -7,12 +7,14 @@ Created on Jun 15, 2015
 
 import collections
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
-    Label, BOTTOM, TOP, X, RIDGE
+    Label, BOTTOM, TOP, X, RIDGE, E
+import tkMessageBox
 
 from gui import Constants
 from gui.db import db, dbPolygon
 from gui.tools import TreeListBox, center
 from sqlalchemy import or_
+from Tkconstants import RIGHT
 #import TkTreectrl as treectrl
 #import db
 
@@ -56,10 +58,14 @@ class dbDialog(Toplevel):
         self.label.grid(row=0, column=0, padx=5, pady=10)
         self.e.grid(row=0, column=1, padx=5, pady=10)
             
+        lblSpace1 = Label(self.topFrame, width=20)     # create space between frame outline
+        lblSpace1.grid(row=0, column=2)
+        self.topFrame.columnconfigure(2, weight=1)
+            
         # custom command for filtering objects by properties
-        self.filterButton = Button(self.topFrame, text="Filter", command=self.filterDialog,
+        self.deleteButton = Button(self.topFrame, text="Delete", command=self.deleteDb,
                                    width=10)
-        self.filterButton.grid(row=0, column=3, padx=5, pady=10)
+        self.deleteButton.grid(row=0, column=3, padx=15)
         
     def refineSearch(self, event):
         '''
@@ -129,8 +135,17 @@ class dbDialog(Toplevel):
                 readFromString=str(self.__itList[names.index(tag[0])]))
         self.free()
             
-    def filterDialog(self):
-        pass
+    def deleteDb(self):
+        '''
+        Delete selected objects from database
+        '''
+        items = self.tree.tree.selection()
+        if tkMessageBox.askyesno("Delete?", "Really delete these items?", parent=self):
+            for tag in items:
+                tag = self.tree.tree.item(tag, option="values")
+                idx = self.__itList[[x.tag for x in self.__itList].index(tag[0])].id
+                db.deleteItem(idx)
+            self.__displayAll()
     
     def __displayAll(self):
         '''

@@ -5,14 +5,14 @@ http://develop-larc-calipso.github.io/CALIPSO_Visualization/
 ## Alpha Release To-Do:
 
 * [ ] Database delete option
-* [ ] Do not re-store imported db objects
-* [X] Attributes Class and Dialog window written
+* [x] Do not re-store imported db objects
+* [x] Attributes Class and Dialog window written
 * [ ] Altitute Time coordinates
-  * [X] Plot coordinates
+  * [x] Plot coordinates
 * [ ] Installer
-* [ ] Filtering and searching of database objects
-  * [X] Filtering
-  * [ ] Searching
+* [x] Filtering and searching of database objects
+  * [x] Filtering
+  * [x] Searching
 * [ ] Create doc tutorial
 * [ ] Maintain shape size in respect to the plot
 
@@ -25,5 +25,5 @@ http://develop-larc-calipso.github.io/CALIPSO_Visualization/
 * [ ] Add `PolygonReader` exception handling
 * [ ] In-code documentation written
 * [ ] Refactor `Calipso` functions
-* [X] Fix `About` window in `Calipso`
+* [x] Fix `About` window in `Calipso`
 * [ ] Fix draw buttons attempting to draw when menu bar is accessed causing out of range error
