@@ -85,6 +85,7 @@ class dbDialog(Toplevel):
         else:
             self.__searchString = ""
             self.__displayAll()
+            
  
         #print "tree: ",self.tree.list
         
@@ -118,10 +119,12 @@ class dbDialog(Toplevel):
         '''
         items = self.tree.tree.selection()
         for tag in items:
+            tag = self.tree.tree.item(tag, option="values")
             # the tag represents the selected item, but must be converted to an index
-            idx = int(tag[1:], 16) - 1
+            #print self.__itList[idx]
+            names = [x.tag for x in self.__itList]
             self.__master.getPolygonList().readPlot(
-                readFromString=str(self.__itList[idx]))
+                readFromString=str(self.__itList[names.index(tag[0])]))
         self.free()
             
     def filterDialog(self):
@@ -129,11 +132,13 @@ class dbDialog(Toplevel):
     
     def __displayAll(self):
         lst = list()
+        self.__offset = 0
         if self.tree.info : self.__stack.append(self.tree.info)
         for obj in self.session.query(dbPolygon).all():
             lst.append(                                                          # user see's this list
                 (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes.strip('[]\''), obj.notes)
             )
+            
         self.tree.info = lst
         self.tree.update()
         
