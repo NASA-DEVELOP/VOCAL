@@ -15,8 +15,8 @@ and loading CAlIPSO hdf files. The Visualization Tool window is accompanied by
 a toolwindow that contains buttons for manipulating the main screen, drawing 
 shapes, and saving and loading shapes. 
  
-    .. image:: _static/startup.png
-       :scale 40%
+.. image:: _static/startup.png
+   :scale: 40%
        
 ----------------------------------------
 Starting Up
@@ -29,8 +29,8 @@ at first. To display a plot, click the "Plot Type" button in the toolwindow.
 A drop down menu will appear with the available plots. Clicking on a selection
 will dipslay the plot on the main screen. 
  
- 	.. image:: _static/loadHDF.png
- 	   :scale 40%
+.. image:: _static/loadHDF.png
+   :scale: 40%
  	   
 ----------------------------------------
 Plot Navigation
@@ -77,6 +77,14 @@ hide shapes button. Pressing this button will hide all shapes drawn on the
 plot. Clicking on the button again will make the shapes visible again.
 
 ----------------------------------------
-JSON Saving and Loading
+Shape Saving and Loading
 ----------------------------------------
 
+To save shapes draw on the plot, click on the button with the floppy disk 
+image (third row, fourth button). If the shapes haven't been saved previously,
+a file dialog will prompt you to save the shapes on your local file directory.
+The shapes are saved as JavaScript Object Notation (JSON) files with the .json
+file extension. If the shapes have been already saved, saving the shapes again
+will automatically update the JSON file. To load the file, select the file 
+with the folder icon (fourth row, first button). A file dialog will prompt you
+to select one JSON file to import in your local file directory. 
