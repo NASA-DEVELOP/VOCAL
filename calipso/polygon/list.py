@@ -142,9 +142,6 @@ class PolygonList(object):
                
     def getFileName(self):
         return self.__currentFile
-    
-    def getReader(self):
-        return self.__polyReader
      
     def plotPoint(self, event):
         '''
@@ -282,20 +279,6 @@ class PolygonList(object):
         return False
     
     def receive(self):
-        print "Received signal"
-        self.zoom()
-        
-    def send(self):
-        '''
-        Saves the initial scale
-        '''
-        toolbar = self.__master.getFig()
-        self.ixaxis = toolbar.get_xlim()
-        self.iyaxis = toolbar.get_ylim()
-        print "Initial xrange: (" + str(self.ixaxis[0]) + ", " + str(self.ixaxis[1]) + ")"
-        print "Initial yrange: (" + str(self.iyaxis[0]) + ", " + str(self.iyaxis[1]) + ")"
-    
-    def zoom(self):
         '''
         Attempts to calculate the new coordinates of the polygon
         '''
@@ -347,6 +330,16 @@ class PolygonList(object):
             self.__canvas._tkcanvas.move(shape.getItemHandler(), xratio * dx, yratio * dy)
             print shape
         
+    def send(self):
+        '''
+        Saves the initial scale
+        '''
+        toolbar = self.__master.getFig()
+        self.ixaxis = toolbar.get_xlim()
+        self.iyaxis = toolbar.get_ylim()
+        print "Initial xrange: (" + str(self.ixaxis[0]) + ", " + str(self.ixaxis[1]) + ")"
+        print "Initial yrange: (" + str(self.iyaxis[0]) + ", " + str(self.iyaxis[1]) + ")"
+    
     def __findPolygonByItemHandler(self, itemHandler):
         '''
         Retrieves a shape based on its item handler
