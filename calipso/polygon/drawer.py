@@ -11,6 +11,11 @@ from calipso import constants
 class PolygonDrawer(object):
     '''
     Displays the polygon objects onto the canvas by supplying draw methods.
+    
+    :param canvas: The canvas to draw the object to
+    :param master: Central class, in this case Calipso
+    :param str tag: Name of shape
+    :param str color: Color of shape
     '''
     
     dragToggle = False
@@ -116,6 +121,8 @@ class PolygonDrawer(object):
         '''
         Establishes a corner of a rectangle as anchor for when the user drags the cursor to 
         create a rectangle. Used in "Draw Rect" button
+        
+        :param event: A Tkinter passed event object
         '''
         self.__vertices.append((event.x, event.y))
         string = self.__master.getToolbar().message.get()
@@ -130,9 +137,10 @@ class PolygonDrawer(object):
         Draws a polygon by plotting points. After the third point, if two line
         segments intersect, the canvas will draw a polygon using the existing
         lines and the point of intersection
-        @param event: mouse click event
-        @param plot: the current plot the canvas is displaying
-        @param fill: boolean for when the cavas is in fill mode
+        
+        :param event: Mouse click event
+        :param plot: The current plot the canvas is displaying
+        :param fill: Boolean for when the cavas is in fill mode
         '''
         self.__vertices.append((event.x, event.y))
         string = self.__master.getToolbar().message.get()
@@ -177,6 +185,8 @@ class PolygonDrawer(object):
     def rubberBand(self, event):
         '''
         Draws temporary helper rectangles that helps the user draw rectangles
+        
+        :param event: A Tkinter passed event object
         '''
         try:
             self.lastrect
@@ -189,6 +199,10 @@ class PolygonDrawer(object):
     def fillRectangle(self, event, plot=constants.BASE_PLOT_STR, fill=False):
         '''
         Draws the rectangle and stores the vertices of the rectangle internally. Used in "Draw Rect"
+        
+        :param event: A Tkinter passed event object
+        :param plot: The current plot the canvas is drawing to
+        :param bool fill: Boolean on whether to fill the shape 
         '''
         try:
             self.lastrect
@@ -221,72 +235,170 @@ class PolygonDrawer(object):
         PolygonDrawer.colorCounter += 16
         
     def addAttribute(self, tag):
+        '''
+        Append an attribute to the string
+        
+        :param str tag: Tag to append
+        '''
         self.__attributes.append(tag)
         
     def removeAttribute(self, tag):
+        '''
+        Removes an attribute
+        
+        :param str tag: Tag to search for and remove
+        '''
         self.__attributes.remove(tag)
         
     def setAttributes(self, attributes):
+        '''
+        Set the attributes
+        
+        :param list attributes: Variable to set internal attributes to
+        '''
         self.__attributes = attributes
 
     def setTag(self, tag):
+        '''
+        Set the tag
+        
+        :param str tag: Variable to set the internal tag to
+        '''
         self.__tag = tag;
         
     def setColor(self, color):
+        '''
+        Set the color
+        
+        :param str color: Variable to set the internal color to
+        '''
         self.__color = color
         
     def setVertices(self, vertexList):
+        '''
+        Set the vertices
+        
+        :param list vertexList: List to set the internal vertices list to
+        '''
         self.__vertices = vertexList
         
     def setPlot(self, plot):
+        '''
+        Set the plot
+        
+        :param plot: Variable to set the internal plot type to
+        '''
         self.__plot = plot
         
     def setCoordinates(self, coordinates):
+        '''
+        Set the coordinates
+        
+        :param list coordinates: List to set the internal coordinates to
+        '''
         self.__coordinates = coordinates
         
     def getCoordinates(self):
+        '''
+        Return internal coordinates variable
+        '''
         return self.__coordinates
     
     def setVertex(self, index, point):
+        '''
+        Set the vertex list at a specific location
+        
+        :param int index: Location to modify
+        :param point: New point
+        '''
         self.__vertices[index] = point
     
     def setID(self, _id):
+        '''
+        Set the ID
+        
+        :param int _id: Variable to set the internal ID to
+        '''
         self.__id = _id
         
     def setNotes(self, note):
+        '''
+        Set the notes
+        
+        :param str note: Variable to set the internal notes to
+        '''
         self.__note = note
         
     def getNotes(self):
+        '''
+        Return internal notes variable
+        '''
         return self.__note
         
     def getAttributes(self):
+        '''
+        Return attributes list
+        '''
         return self.__attributes
         
     def getPlot(self):
+        '''
+        Return plot
+        '''
         return self.__plot 
     
     def getVertices(self):
+        '''
+        Return lits of vertices
+        '''
         return self.__vertices
     
     def getColor(self):
+        '''
+        Return the color of the object
+        '''
         return self.__color
     
     def getID(self):
+        '''
+        Return the ID
+        '''
         return self.__id
 
     def getTag(self):
+        '''
+        Return the tag
+        '''
         return self.__tag
     
     def getItemHandler(self):
+        '''
+        Return an item handler to the object
+        '''
         return self.__itemHandler
     
     def isInAttributes(self, tag):
+        '''
+        Check if tag is in attributes
+        
+        :param str tag: Variable for checking
+        :rtype: bool
+        '''
         for item in self.__attributes:
             if tag == item:
                 return True
         return False
     
     def move(self, dx, dy, dmx, dmy):
+        '''
+        Move the location of the object
+        
+        :param dx: Tkinter move delta x
+        :param dy: Tkinter move delta y
+        :param dmx: Matplotlib x
+        :param dmy: Matplotlib y
+        
+        '''
         for i in range(len(self.__vertices)):
             newPoint = (self.__vertices[i][0] + dx, self.__vertices[i][1] + dy)
             self.__vertices[i] = newPoint
@@ -304,6 +416,12 @@ class PolygonDrawer(object):
         return -1
             
     def drawPolygon(self, plot=constants.BASE_PLOT_STR, fill=False):
+        '''
+        Draw the polygon to the screen
+        
+        :param plot: Plot to draw to
+        :param bool fill: Boolean for whether to fill in object or not
+        '''
         color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
         if fill is False:
             fillColor = ""
@@ -315,10 +433,16 @@ class PolygonDrawer(object):
         PolygonDrawer.colorCounter += 16
         
     def redrawShape(self):
+        '''
+        Redraw the shape by first deleting the item handler and recreating it
+        '''
         self.__canvas._tkcanvas.delete(self.__itemHandler)
         self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=self.__color, fill=self.__color, width=2, tags=("polygon", self.__tag, self.__plot))
         
     def isEmpty(self):
+        '''
+        Return ``True`` if empty, ``False`` otherwise
+        '''
         if len(self.__vertices) == 0:
             return True
         else:
@@ -354,8 +478,8 @@ def getIntersection(a1, a2, b1, b2):
     '''
     Retrieves the point of intersection of two lines given two points
     on each line
-    @param a1, a2: Two points on the first line
-    @param b1, b1: Two points on the second line
+    :param a1, a2: Two points on the first line
+    :param b1, b1: Two points on the second line
     '''
     da = a2 - a1
     db = b2 - b1
@@ -369,8 +493,8 @@ def isIntersecting(a1, a2, b1, b2):
     '''
     Determines if two line segments are intersecting by checking if the point of intersection
     exists on the line segments
-    @param a1, a2: The endpoints of the first line segment
-    @param b1, b2: The endpoints of the second line segment
+    :param a1, a2: The endpoints of the first line segment
+    :param b1, b2: The endpoints of the second line segment
     '''
     point = getIntersection(a1, a2, b1, b2)
     if ((point[0] < max(min(a1[0], a2[0]), min(b1[0], b2[0]))) or
@@ -382,12 +506,16 @@ def isIntersecting(a1, a2, b1, b2):
 def tupleToNpArray(pair):
     '''
     Converts a tuple to a numpy array
+    
+    :param pair: Tuple
     '''
     return array([pair[0], pair[1]])
     
 def npArrayToTuple(array):
     '''
     Converts a numpy array to a tuple
+    
+    :param array: Numpy array
     '''
     x = array[0]
     y = array[1]
