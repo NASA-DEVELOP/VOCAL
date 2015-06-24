@@ -11,9 +11,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
-from calipso import Constants
+from calipso import constants
 from calipso.polygon.list import PolygonList
-from calipso.attributesDialog import AttributesDialog
+from calipso.attributesdialog import AttributesDialog
 from calipso.importdialog import dbDialog
 from calipso.plot.plot_depolar_ratio import drawDepolar
 from calipso.plot.plot_uniform_alt_lidar_dev import drawBackscattered
@@ -47,8 +47,8 @@ class Calipso(object):
         pndwinBottom = PanedWindow(sectionedPane)                                   # expands the distance below the button
         sectionedPane.add(pndwinBottom)
         self.__drawplotFrame = Frame(pndwinBottom, 
-                                     width=Constants.WIDTH, 
-                                     height=Constants.HEIGHT)                       # the frame on which we will set our canvas for drawing etc.
+                                     width=constants.WIDTH, 
+                                     height=constants.HEIGHT)                       # the frame on which we will set our canvas for drawing etc.
         
         
         self.__child = ToolsWindow(self, r)                                         # tools window which holds all manipulation buttons 
@@ -71,13 +71,13 @@ class Calipso(object):
         self.__root.title("CALIPSO Visualization Tool")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
-        self.x = (sw - Constants.WIDTH)/2
-        self.y = (sh - Constants.HEIGHT)/2
-        self.__root.geometry('%dx%d+%d+%d' % (Constants.WIDTH, Constants.HEIGHT, self.x, self.y))
+        self.x = (sw - constants.WIDTH)/2
+        self.y = (sh - constants.HEIGHT)/2
+        self.__root.geometry('%dx%d+%d+%d' % (constants.WIDTH, constants.HEIGHT, self.x, self.y))
         # the child is designed to appear off to the right of the parent window, so the x location
         # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
         # plus half the distance of the window
-        self.__child.geometry('%dx%d+%d+%d' % (Constants.CHILDWIDTH, Constants.CHILDHEIGHT, self.x + self.x*4 + 20, self.y + self.y/2))
+        self.__child.geometry('%dx%d+%d+%d' % (constants.CHILDWIDTH, constants.CHILDHEIGHT, self.x + self.x*4 + 20, self.y + self.y/2))
        
 #### MENU BAR ######################################################################################   
     def setupMenu(self):
@@ -121,29 +121,29 @@ class Calipso(object):
         
         :param int plotType: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
         '''
-        if (plotType) == Constants.BASE_PLOT:
-            self.__polygonList.setPlot(Constants.BASE_PLOT)                                     # sets the screen to a blank canvas
-        elif (plotType.get()) == Constants.BACKSCATTERED:
+        if (plotType) == constants.BASE_PLOT:
+            self.__polygonList.setPlot(constants.BASE_PLOT)                                     # sets the screen to a blank canvas
+        elif (plotType.get()) == constants.BACKSCATTERED:
             try:
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)                                # create subplot
                 drawBackscattered(self.__file, self.__fig, self.__Parentfig)                    # plot the backscattered image 
                 self.__drawplotCanvas.show()                                                    # show canvas
-                self.__polygonList.setPlot(Constants.BACKSCATTERED)                             # set the current plot on polygonList
+                self.__polygonList.setPlot(constants.BACKSCATTERED)                             # set the current plot on polygonList
                 self.__toolbar.update()                                                         # update toolbar
             except IOError:
                 tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists in current file var
-        elif (plotType.get()) == Constants.DEPOLARIZED:
+        elif (plotType.get()) == constants.DEPOLARIZED:
             try:
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1, 1, 1)                              # create subplot
                 drawDepolar(self.__file, self.__fig, self.__Parentfig)                          # plot the depolarized image
-                self.__polygonList.setPlot(Constants.DEPOLARIZED)                               # set the internal plot
+                self.__polygonList.setPlot(constants.DEPOLARIZED)                               # set the internal plot
                 self.__drawplotCanvas.show()                                                    # show plot
                 self.__toolbar.update()                                                         # update toolbar
             except IOError:
                 tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists
-        elif (plotType.get()) == Constants.VFM:
+        elif (plotType.get()) == constants.VFM:
             tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")     # vfm doesn't exist
     
     def reset(self):
@@ -289,7 +289,7 @@ class Calipso(object):
         '''
         self.createTopScreenGUI()
         self.__child.setupToolBarButtons()
-        self.setPlot(Constants.BASE_PLOT)
+        self.setPlot(constants.BASE_PLOT)
         
 
 

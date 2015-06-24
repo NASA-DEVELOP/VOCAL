@@ -7,7 +7,7 @@ from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, H
     RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
-from calipso import Constants
+from calipso import constants
 from calipso.tools.tooltip import createToolTip
 from calipso.tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 
@@ -73,9 +73,9 @@ class ToolsWindow(Toplevel):
         menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
         
         plotType = IntVar()
-        menubtnPlotSelection.menu.add_radiobutton(label="Backscattered", variable=plotType, value=Constants.BACKSCATTERED, command=lambda: self.__parent.setPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="Depolarization Ratio", variable=plotType, value=Constants.DEPOLARIZED, command=lambda: self.__parent.setPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=Constants.VFM, command=lambda: self.__parent.setPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="Backscattered", variable=plotType, value=constants.BACKSCATTERED, command=lambda: self.__parent.setPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="Depolarization Ratio", variable=plotType, value=constants.DEPOLARIZED, command=lambda: self.__parent.setPlot(plotType))
+        menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=constants.VFM, command=lambda: self.__parent.setPlot(plotType))
         
         ###################################Lower Frame##############################################
         

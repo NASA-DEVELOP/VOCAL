@@ -8,7 +8,7 @@ from datetime import datetime
 from tkColorChooser import askcolor
 import tkMessageBox
 
-from calipso import Constants
+from calipso import constants
 from calipso.polygon.drawer import PolygonDrawer
 from calipso.polygon.reader import PolygonReader
 from calipso.db import db
@@ -36,7 +36,7 @@ class PolygonList(object):
         self.__currentFile = ""
         self.__polyReader = PolygonReader()
         self.__hdf = ''
-        self.__plot = Constants.BASE_PLOT_STR
+        self.__plot = constants.BASE_PLOT_STR
         self.__count = db.queryUniqueTag()
         self.__data = {}
         self.__drag_data = {"x": 0, "y": 0, "mx": 0, "my": 0, "item": None}
@@ -98,27 +98,27 @@ class PolygonList(object):
         '''
         newPlot = ""
         if plot == 0:
-            self.__currentList = self.__polygonList[Constants.BASE_PLOT]
-            newPlot = Constants.BASE_PLOT_STR
+            self.__currentList = self.__polygonList[constants.BASE_PLOT]
+            newPlot = constants.BASE_PLOT_STR
         elif plot == 1:
-            self.__currentList = self.__polygonList[Constants.BACKSCATTERED]
-            newPlot = Constants.BACKSCATTERED_STR
-            if len(self.__polygonList[Constants.BACKSCATTERED]) > 1:        # ignores when no shapes are drawn
-                for shape in self.__polygonList[Constants.BACKSCATTERED]:
+            self.__currentList = self.__polygonList[constants.BACKSCATTERED]
+            newPlot = constants.BACKSCATTERED_STR
+            if len(self.__polygonList[constants.BACKSCATTERED]) > 1:        # ignores when no shapes are drawn
+                for shape in self.__polygonList[constants.BACKSCATTERED]:
                     if not shape.isEmpty():             # ignores the blank shape in the list
                         shape.redrawShape()
         elif plot == 2:
-            self.__currentList = self.__polygonList[Constants.DEPOLARIZED]
-            newPlot = Constants.DEPOLARIZED_STR
-            if len(self.__polygonList[Constants.DEPOLARIZED]) > 1:
-                for shape in self.__polygonList[Constants.DEPOLARIZED]:
+            self.__currentList = self.__polygonList[constants.DEPOLARIZED]
+            newPlot = constants.DEPOLARIZED_STR
+            if len(self.__polygonList[constants.DEPOLARIZED]) > 1:
+                for shape in self.__polygonList[constants.DEPOLARIZED]:
                     if not shape.isEmpty():
                         shape.redrawShape()
         else:
-            self.__currentList = self.__polygonList[Constants.VFM]
-            newPlot = Constants.VFM_STR
-            if len(self.__polygonList[Constants.VFM]) > 1:
-                for shape in self.__polygonList[Constants.VFM]:
+            self.__currentList = self.__polygonList[constants.VFM]
+            newPlot = constants.VFM_STR
+            if len(self.__polygonList[constants.VFM]) > 1:
+                for shape in self.__polygonList[constants.VFM]:
                     if not shape.isEmpty():
                         shape.redrawShape()
         self.__canvas._tkcanvas.delete(self.__plot)
@@ -129,7 +129,7 @@ class PolygonList(object):
         '''
         Informs the correct list's blank to plot a corner of a rectangle
         '''
-        if self.__plot == Constants.BASE_PLOT_STR:
+        if self.__plot == constants.BASE_PLOT_STR:
             return
         self.__currentList[-1].anchorRectangle(event)
         
@@ -147,7 +147,7 @@ class PolygonList(object):
         '''
         Informs the correct list's blank to plot a point on the screen
         '''
-        if self.__plot == Constants.BASE_PLOT_STR:
+        if self.__plot == constants.BASE_PLOT_STR:
             return
         check = self.__currentList[-1].plotPoint(event, self.__plot, PolygonList.outlineToggle)
         if check:
@@ -158,7 +158,7 @@ class PolygonList(object):
         '''
         Uses a blank shape to draw helper rectangles
         '''
-        if self.__plot == Constants.BASE_PLOT_STR:
+        if self.__plot == constants.BASE_PLOT_STR:
             return
         self.__currentList[-1].rubberBand(event)
         
@@ -166,7 +166,7 @@ class PolygonList(object):
         '''
         Informs the correct list's blank to draw a rectangle on the screen
         '''
-        if self.__plot == Constants.BASE_PLOT_STR:
+        if self.__plot == constants.BASE_PLOT_STR:
             return
         self.__currentList[-1].fillRectangle(event, self.__plot, PolygonList.outlineToggle)
         self.generateTag()
@@ -179,7 +179,7 @@ class PolygonList(object):
         '''
         Informs the correct list's blank to draw a polyogon on the screen
         '''
-        if self.__plot == Constants.BASE_PLOT_STR:
+        if self.__plot == constants.BASE_PLOT_STR:
             return
         self.__currentList[-1].drawPolygon(self.__plot, PolygonList.outlineToggle)
         self.generateTag()
@@ -298,10 +298,10 @@ class PolygonList(object):
 #             vertices = shape.getVertices()
 #             newVertices = []
 #             for i in range(len(vertices)):
-#                 coorx = vertices[i][0] - Constants.TKXMID
-#                 coory = vertices[i][1] - Constants.TKYMID
-#                 newx = xratio * (vertices[i][0] - Constants.TKXMID) + Constants.TKXMID
-#                 newy = yratio * (vertices[i][1] - Constants.TKYMID) + Constants.TKYMID
+#                 coorx = vertices[i][0] - constants.TKXMID
+#                 coory = vertices[i][1] - constants.TKYMID
+#                 newx = xratio * (vertices[i][0] - constants.TKXMID) + constants.TKXMID
+#                 newy = yratio * (vertices[i][1] - constants.TKYMID) + constants.TKYMID
 #                 dx = vertices[i][0] - coorx
 #                 dy = vertices[i][1] - coory
 #                 newpoint = (newx, newy)
@@ -317,11 +317,11 @@ class PolygonList(object):
             newVertices = []
             for i in range(len(vertices)):
                 # produces a component vector
-                dx = vertices[i][0] - Constants.TKXMID
-                dy = vertices[i][1] - Constants.TKYMID
+                dx = vertices[i][0] - constants.TKXMID
+                dy = vertices[i][1] - constants.TKYMID
                 # scales the vector and moves it to the correct point
-                newx = xratio * dx + Constants.TKXMID
-                newy = yratio * dy + Constants.TKYMID
+                newx = xratio * dx + constants.TKXMID
+                newy = yratio * dy + constants.TKYMID
                 newpoint = (newx, newy)
                 newVertices.append(newpoint)
                 shape.setVertex(i, newpoint)
@@ -382,7 +382,7 @@ class PolygonList(object):
             self.__polyReader.readFromFileJSON()
         plot = 0
         for lst in self.__polygonList:
-            self.__polyReader.packPolygonDrawer(lst, Constants.PLOTS[plot], self.__canvas, self.__master)
+            self.__polyReader.packPolygonDrawer(lst, constants.PLOTS[plot], self.__canvas, self.__master)
             if PolygonList.plotStringtoInt(self.__plot) == plot:
                 for shape in lst:
                     if not shape.isEmpty():

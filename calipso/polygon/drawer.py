@@ -6,7 +6,7 @@ Created on Jun 4, 2015
 
 # import antigravity
 from numpy import empty_like, dot, array
-from calipso import Constants
+from calipso import constants
 
 class PolygonDrawer(object):
     '''
@@ -125,7 +125,7 @@ class PolygonDrawer(object):
         self.__prevX = event.x
         self.__prevY = event.y
         
-    def plotPoint(self, event, plot=Constants.BASE_PLOT_STR, fill=False):
+    def plotPoint(self, event, plot=constants.BASE_PLOT_STR, fill=False):
         '''
         Draws a polygon by plotting points. After the third point, if two line
         segments intersect, the canvas will draw a polygon using the existing
@@ -186,7 +186,7 @@ class PolygonDrawer(object):
             self.__canvas._tkcanvas.delete(self.lastrect)
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prevX, self.__prevY, event.x, event.y)
         
-    def fillRectangle(self, event, plot=Constants.BASE_PLOT_STR, fill=False):
+    def fillRectangle(self, event, plot=constants.BASE_PLOT_STR, fill=False):
         '''
         Draws the rectangle and stores the vertices of the rectangle internally. Used in "Draw Rect"
         '''
@@ -303,7 +303,7 @@ class PolygonDrawer(object):
                 return i
         return -1
             
-    def drawPolygon(self, plot=Constants.BASE_PLOT_STR, fill=False):
+    def drawPolygon(self, plot=constants.BASE_PLOT_STR, fill=False):
         color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
         if fill is False:
             fillColor = ""

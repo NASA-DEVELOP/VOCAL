@@ -28,8 +28,8 @@ The order of functions calls in the beginning of the program is as follows::
        |-> calls createChildWindowGUI
        |-> calls selPlot(BASE_PLOT)
 
-.. inheritance-diagram:: gui.Calipso.Calipso
+.. inheritance-diagram:: calipso.Calipso.Calipso
 
-.. autoclass:: gui.Calipso.Calipso
+.. autoclass:: calipso.Calipso.Calipso
    :members:
 
