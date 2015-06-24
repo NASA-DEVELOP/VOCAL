@@ -49,7 +49,8 @@ class PolygonReader(object):
     def packPolygonDrawer(self, polygonList, plotType, canvas, master):
         for shape in self.__data[plotType]:
             #print int(self.__data[plotType][shape]['id']) not in [x.getID() for x in polygonList]
-            if int(self.__data[plotType][shape]['id']) in [x.getID() for x in polygonList]: continue
+            if self.__data[plotType][shape]['id'] is not None:
+                if int(self.__data[plotType][shape]['id']) in [x.getID() for x in polygonList]: continue
             color = self.__data[plotType][shape]['color']
             vertices = self.__data[plotType][shape]['vertices']
             coordinates = self.__data[plotType][shape]['coordinates']

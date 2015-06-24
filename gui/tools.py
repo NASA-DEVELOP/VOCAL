@@ -19,7 +19,11 @@ toggleContainer = []
 
 class ToolTip(object):
     '''
-    Allows for tool tips to be displayed just below buttons
+    Allows for the easy creation of tool tips that are displayed below buttons. 
+    Requires a widget and overlays a simple tool tip once hovered over by the mouse. 
+    Created with py:meth:`createToolTip`
+    
+    :param widget: The widget tooltip will be binding text to
     '''
     def __init__(self, widget):
         self.widget = widget
@@ -28,6 +32,12 @@ class ToolTip(object):
 
     # Parameter: text to display as tooltip
     def showTip(self, text):
+        '''
+        Create and pack the tooltip, bound to the ``'<Enter>'`` event when
+        :py:func:`createToolTip` is called
+        
+        :param str text: string to place inside label
+        '''
         self.text = text
         if self.tipWindow or not self.text:
             return
@@ -50,12 +60,23 @@ class ToolTip(object):
         label.pack(ipadx=1)
 
     def hideTip(self):
+        '''
+        Hide or destory the tool tip label when the mouse leaves widget.
+        Bound to the ``'<Leave>'`` event when :py:func:`createToolTip` is called
+        '''
         tw = self.tipWindow
         self.tipWindow = None
         if tw:
             tw.destroy()
 
 def createToolTip(widget, text):
+    '''
+    Create an instance of :py:class:`ToolTip` and bind the ``'<Enter>'`` and
+    ``'<Leave>'`` events for displaying to the widget passed
+    
+    :param widget: the widget for the tooltip to be displayed below
+    :param str text: text contained in the tooltip
+    '''
     toolTip = ToolTip(widget)
     def enter(event):
         toolTip.showTip(text)
@@ -245,7 +266,9 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
         pass
     
     def release_zoom(self, event):
-        """the release mouse button callback in zoom to rect mode"""
+        '''
+        the release mouse button callback in zoom to rect mode
+        '''
         for zoom_id in self._ids_zoom:
             self.canvas.mpl_disconnect(zoom_id)
         self._ids_zoom = []

@@ -105,7 +105,6 @@ class Calipso(object):
         #configure menu to screen
         self.__root.config(menu=self.__menuBar)
 
-
     def setPlot(self, plotType):
         '''
         Plots data from the loaded HDF file given a plotType param passed via 
