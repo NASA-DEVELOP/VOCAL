@@ -18,6 +18,8 @@ class AttributesDialog(Toplevel):
     def __init__(self, root, polygonDrawer):
         '''
         Initialize root tkinter window and master GUI window
+        :param root: the parent frame
+        :param polygonDrawer: the polygonDrawer being edited
         '''
         Toplevel.__init__(self, root, width=200, height=200)
         
