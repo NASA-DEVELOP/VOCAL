@@ -12,7 +12,7 @@ The main class of the application. Calipso manages all Tkinter and widget relate
         * calls createChildWindowGUI
         * calls selPlot(BASE_PLOT)
 
-#.. inheritance-diagram:: gui.Calipso
+.. inheritance-diagram:: gui.Calipso
 
 .. py:class:: Calipso(r)
 
