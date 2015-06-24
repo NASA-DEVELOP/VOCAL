@@ -10,7 +10,7 @@ from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE
 import tkMessageBox
 
-from calipso import Constants
+from calipso import constants
 from calipso.db import db, dbPolygon
 from calipso.tools.treelistbox import TreeListBox
 from calipso.tools.tools import center
@@ -37,7 +37,7 @@ class dbDialog(Toplevel):
         self.__searchString = ""
         self.__master = master        
         self.title("Import from existing database")
-        center(self, (Constants.IMPORTWIDTH,Constants.IMPORTHEIGH)) # simple function to center window and set size
+        center(self, (constants.IMPORTWIDTH,constants.IMPORTHEIGH)) # simple function to center window and set size
         
         self.container = Frame(self)                                # create center frame, for use of splitting window horizontally later
         self.container.pack(side=TOP, fill=BOTH, expand=True)       # place

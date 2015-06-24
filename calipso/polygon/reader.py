@@ -7,7 +7,7 @@ Created on Jun 15, 2015
 import json
 
 import ast
-from calipso import Constants
+from calipso import constants
 from calipso.polygon.drawer import PolygonDrawer
 from calipso.tools.tools import byteify
 
@@ -40,7 +40,7 @@ class PolygonReader(object):
         
     def readFromStrJSON(self, data):
         self.__data = byteify(json.loads(data))
-        for plt in [x for x in self.__data if x in Constants.PLOTS]:
+        for plt in [x for x in self.__data if x in constants.PLOTS]:
             for shape in self.__data[plt]:
                 if "vertices" in self.__data[plt][shape]:
                     self.__data[plt][shape]["vertices"] = \

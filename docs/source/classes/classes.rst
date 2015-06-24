@@ -12,21 +12,28 @@ General
 .. toctree::
 
    calipso
+   db
+   attributes
+   import
+   toolswindow 
 
-Polygon Module
+Polygon Package
 ------------------
 
 .. toctree::
 
-   polygondrawer
+   polygon/drawer
+   polygon/list
+   polygon/reader
 
-Tools Module
+Tools Package
 ------------------
 
 .. toctree::
 
-   tooltip
-   toggleablebutton
-   toolbartoggleablebutton
-   navigationtoolbar2calipso
+   tools/tooltip 
+   tools/treelistbox
+   tools/toggleablebutton
+   tools/toolbartoggleablebutton
+   tools/navigationtoolbar2calipso
 
