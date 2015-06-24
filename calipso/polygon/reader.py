@@ -20,7 +20,7 @@ class PolygonReader(object):
     # TODO: go over possible use cases
     #            loading multiple JSONs and then saving them as one
     #            add error for corrupted or bad data
-    def __init__(self, fileName="C:\\Users\\nqian\\Documents\\Carol.json"):
+    def __init__(self, fileName=""):
         '''
         Initializes attributes
         '''
@@ -31,6 +31,9 @@ class PolygonReader(object):
         self.__fileName = fileName
         
     def readFromFileJSON(self):   
+        '''
+        Reads the data from the JSON file
+        '''
         with open(self.__fileName, 'r') as infile:
             data = byteify(json.load(infile))
         self.__data = data
@@ -48,8 +51,11 @@ class PolygonReader(object):
                 if "attributes" in self.__data[plt][shape]:
                     self.__data[plt][shape]["attributes"] = \
                         ast.literal_eval(self.__data[plt][shape]["attributes"])
-    # TODO: add exception
+                        
     def packPolygonDrawer(self, polygonList, plotType, canvas, master):
+        '''
+        Stores the data in the JSON into PolygonDrawers
+        '''
         for shape in self.__data[plotType]:
             #print int(self.__data[plotType][shape]['id']) not in [x.getID() for x in polygonList]
             entry = self.__data[plotType][shape]['id']

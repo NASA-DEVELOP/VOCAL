@@ -268,21 +268,8 @@ class PolygonList(object):
         for shape in self.__currentList:
             if shape.getItemHandler() is target[0]:
                 tkMessageBox.showinfo("properties",str(shape))
-                print shape
                 return
         print "Polygon shape not found"
-        
-    def edit(self, event, tag):
-        '''
-        Adds attributes to a shape
-        '''
-        target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
-        for shape in self.__currentList:
-            if shape.getItemHandler() is target[0]:
-                try:
-                    shape.addAttribute(tag)
-                except Exception:
-                    raise Exception()
                 
     def toggleDrag(self, event):
         PolygonDrawer.toggleDrag(event)
@@ -310,7 +297,7 @@ class PolygonList(object):
     
     def zoom(self):
         '''
-        Attempts to calulate the new coordinates of the polygon
+        Attempts to calculate the new coordinates of the polygon
         '''
         toolbar = self.__master.getFig()
         # new scale
@@ -391,7 +378,7 @@ class PolygonList(object):
         elif plot.lower() == "vfm":
             return 3
             
-    def readPlot(self, fileName="C:\\Users\\nqian\\Documents\\Carol.json", readFromString=""):
+    def readPlot(self, fileName="", readFromString=""):
         '''
         Load data from JSON file into polygon shapes
         '''

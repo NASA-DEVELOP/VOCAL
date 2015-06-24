@@ -126,6 +126,14 @@ class PolygonDrawer(object):
         self.__prevY = event.y
         
     def plotPoint(self, event, plot=Constants.BASE_PLOT_STR, fill=False):
+        '''
+        Draws a polygon by plotting points. After the third point, if two line
+        segments intersect, the canvas will draw a polygon using the existing
+        lines and the point of intersection
+        @param event: mouse click event
+        @param plot: the current plot the canvas is displaying
+        @param fill: boolean for when the cavas is in fill mode
+        '''
         self.__vertices.append((event.x, event.y))
         string = self.__master.getToolbar().message.get()
         x = string[2:15].strip()
@@ -167,6 +175,9 @@ class PolygonDrawer(object):
         self.prevMY = y
                 
     def rubberBand(self, event):
+        '''
+        Draws temporary helper rectangles that helps the user draw rectangles
+        '''
         try:
             self.lastrect
         except AttributeError:
@@ -310,10 +321,6 @@ class PolygonDrawer(object):
         self.__canvas._tkcanvas.delete(self.__itemHandler)
         self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=self.__color, fill=self.__color, width=2, tags=("polygon", self.__tag, self.__plot))
         
-    def drawFromJSON(self, plot, color, vertices):
-        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(vertices, outline=color, fill=color, width=2, tags=("polygon", plot))
-        self.__color = color
-        
     def isEmpty(self):
         if len(self.__vertices) == 0:
             return True
@@ -382,6 +389,9 @@ def tupleToNpArray(pair):
     return array([pair[0], pair[1]])
     
 def npArrayToTuple(array):
+    '''
+    Converts a numpy array to a tuple
+    '''
     x = array[0]
     y = array[1]
     return (x, y)
