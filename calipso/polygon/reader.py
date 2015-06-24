@@ -9,7 +9,7 @@ import json
 import ast
 from calipso import Constants
 from calipso.polygon.drawer import PolygonDrawer
-from calipso.tools import byteify
+from calipso.tools.tools import byteify
 
 class PolygonReader(object):
     '''
