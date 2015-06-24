@@ -1,3 +1,8 @@
+'''
+    tooltip.py
+    @author: Grant Mercer
+    6/24/2015
+'''
 from Tkinter import Toplevel, TclError, Label, LEFT, SOLID
 
 class ToolTip(object):

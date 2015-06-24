@@ -1,3 +1,9 @@
+'''
+    treelistbox.py
+    @author: Grant Mercer
+    6/24/2015
+'''
+
 from Tkinter import Scrollbar, VERTICAL, HORIZONTAL, RIGHT, BOTTOM, \
     X, Y, NO, YES, BOTH
 import ttk, tkFont, re

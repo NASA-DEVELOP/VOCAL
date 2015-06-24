@@ -1,8 +1,8 @@
 """
     tools.py
     @author: Grant Mercer
+    @author: Nathan Qian
     6/3/2015
-
 """
 
 def center(toplevel, size):

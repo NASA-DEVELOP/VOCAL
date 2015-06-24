@@ -1,3 +1,8 @@
+'''
+    toggleablebutton.py
+    @author: Grant Mercer
+    6/24/2015
+'''
 from Tkinter import Button
 
 #global button container for managing state
