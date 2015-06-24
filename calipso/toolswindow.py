@@ -22,6 +22,8 @@ class ToolsWindow(Toplevel):
         '''
         Call base class __init__, also create panes for buttons and setup
         any prerequisite widgets before creating buttons
+        :param parent: the class that has this instance of ToolsWindow
+        :param root: the root of the program
         '''
         Toplevel.__init__(self, root)
         
@@ -39,7 +41,7 @@ class ToolsWindow(Toplevel):
         sectionedChildPane.add(upperPane)
         lowerPane = PanedWindow(sectionedChildPane)
         sectionedChildPane.add(lowerPane)
-#         baseChildPane.protocol("WM_DELETE_WINDOW", ToolsWindow.ignore)
+        self.protocol("WM_DELETE_WINDOW", ToolsWindow.ignore)
         
         self.upperButtonFrame = Frame(upperPane)                                  # upper button frame holding text buttons
         self.upperButtonFrame.pack()                                              
@@ -56,6 +58,9 @@ class ToolsWindow(Toplevel):
         
     @staticmethod
     def ignore():
+        '''
+        Do nothing when the user presses the close button
+        '''
         pass
         
     def setupToolBarButtons(self):

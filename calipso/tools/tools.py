@@ -35,7 +35,7 @@ def byteify(inp):
     
 class Observer(object):
     '''
-    Class that implements the observer pattern
+    Class that allows signaling between classes
     '''
     
     def __init__(self, receiver):
