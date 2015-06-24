@@ -11,8 +11,8 @@ import os
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, Column, Integer, String, desc
-from gui import Constants
-from gui.tools import byteify
+from calipso.gui import Constants
+from calipso.gui.tools import byteify
 
 # Create a declarative_base for dbPolygon to inherit from
 dbBase = declarative_base()

@@ -11,14 +11,14 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
-from gui import Constants
-from gui.PolygonList import PolygonList
-from gui.attributesDialog import AttributesDialog
-from gui.importdialog import dbDialog
-from gui.plot.plot_depolar_ratio import drawDepolar
-from gui.plot.plot_uniform_alt_lidar_dev import drawBackscattered
-from gui.tools import NavigationToolbar2CALIPSO, Observer
-from gui.toolswindow import ToolsWindow
+from calipso import Constants
+from calipso.polygon.list import PolygonList
+from calipso.attributesDialog import AttributesDialog
+from calipso.importdialog import dbDialog
+from calipso.plot.plot_depolar_ratio import drawDepolar
+from calipso.plot.plot_uniform_alt_lidar_dev import drawBackscattered
+from calipso.tools import NavigationToolbar2CALIPSO, Observer
+from calipso.toolswindow import ToolsWindow
 
 
 class Calipso(object):
@@ -64,6 +64,9 @@ class Calipso(object):
         self.__drawplotFrame.pack()
     
     def setupWindow(self):
+        '''
+        Sets the title of root and invokes py:meth:`centerWindow`
+        '''
         self.__root.title("CALIPSO Visualization Tool")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
@@ -77,6 +80,9 @@ class Calipso(object):
        
 #### MENU BAR ######################################################################################   
     def setupMenu(self):
+        '''
+        Creates a drop down menu bar
+        '''
         self.__menuBar = Menu(self.__root)
         
         #File Menu
@@ -107,8 +113,15 @@ class Calipso(object):
 
     def setPlot(self, plotType):
         '''
-        Plots data from the loaded HDF file given a plotType param passed via 
-        the radio button menu
+        Draws to the canvas according to the *plotType* specified in the arguments. Accepts one of the 
+        attributes below
+        
+        .. py:attribute:: BASE_PLOT
+        .. py:attribute:: BACKSCATTERED
+        .. py:attribute:: DEPOLARIZED
+        .. py:attribute:: VFML
+        
+        :param int plotType: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
         '''
         if (plotType) == Constants.BASE_PLOT:
             self.__polygonList.setPlot(Constants.BASE_PLOT)                                     # sets the screen to a blank canvas
@@ -146,7 +159,7 @@ class Calipso(object):
         
     def createTopScreenGUI(self):
         ''' 
-        Create buttons associated with the top GUI e.g. File label, browse
+        Initializes and creates the file dialog and browse button that appear at the top of the screen
         '''
         lblFile=Label(self.__dialogFrame, text="File:")                                 # File label upper:left
         self.__lblFileDialog = Label(self.__dialogFrame, width = 50, justify=LEFT,      # Input box that shows file currently loaded
@@ -223,7 +236,7 @@ class Calipso(object):
 
     def load(self):
         '''
-        load JSON objects from file by aclling polygonlist.readPlot(f)
+        load JSON objects from file by calling :py:meth:`polygonlist.readPlot(f)`
         '''
         # loads JSON object by callig the polygonList internal readPlot method
         options = {}
@@ -237,25 +250,33 @@ class Calipso(object):
     def attributeWindow(self, event):
         '''
         Open attribute window for specifying attributes on objects
+        
+        :param event: A Tkinter passed event object
         '''
         poly = self.__polygonList.findPolygon(event)
         AttributesDialog(self.__root, poly)
 
     def getPolygonList(self):
         '''
-        Returns polygonList
+        Returns the internal :py:class:`polygonList` object
+        
+        :rtype: :py:class:`polygonList`
         '''
         return self.__polygonList       # get functions for private varialbes
     
     def getToolbar(self):
         '''
-        Returns toolbar
+        Returns the internal :py:class:`toolbar` object
+        
+        :rtype: :py:class:`NavigationToolbar2CALIPSO`
         '''
         return self.__toolbar
     
     def getFig(self):
         '''
         Returns the figure that is plotted to the canvas
+        
+        :rtype: :py:class:`Figure`
         '''
         return self.__fig
         
