@@ -7,7 +7,7 @@ Created on Jun 15, 2015
 
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
-from calipso import Constants
+from calipso import constants
 
 
 class AttributesDialog(Toplevel):
@@ -28,7 +28,7 @@ class AttributesDialog(Toplevel):
         self.title("Edit Attributes")
         
         # copies TAGS to avoid aliasing
-        self.__availableAttributes = Constants.TAGS[:]
+        self.__availableAttributes = constants.TAGS[:]
         
         self.container = Frame(self)
         self.container.pack(side=TOP, fill=BOTH, expand=True) 
