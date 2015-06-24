@@ -256,9 +256,6 @@ class PolygonDrawer(object):
     def setNotes(self, note):
         self.__note = note
         
-    def getVertex(self, index):
-        return self.__vertices[index]
-        
     def getNotes(self):
         return self.__note
         

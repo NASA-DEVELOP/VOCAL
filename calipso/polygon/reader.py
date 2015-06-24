@@ -56,21 +56,24 @@ class PolygonReader(object):
         '''
         Stores the data in the JSON into PolygonDrawers
         '''
-        for shape in self.__data[plotType]:
-            #print int(self.__data[plotType][shape]['id']) not in [x.getID() for x in polygonList]
-            entry = self.__data[plotType][shape]['id']
-            if entry is not None and int(entry) in [x.getID() for x in polygonList]: continue
-            color = self.__data[plotType][shape]['color']
-            vertices = self.__data[plotType][shape]['vertices']
-            coordinates = self.__data[plotType][shape]['coordinates']
-            attributes = self.__data[plotType][shape]['attributes']
-            notes = self.__data[plotType][shape]['notes']
-            _id = self.__data[plotType][shape]['id']
-            polygonList[-1].setID(_id)
-            polygonList[-1].setColor(color)
-            polygonList[-1].setVertices(vertices)
-            polygonList[-1].setPlot(plotType)
-            polygonList[-1].setAttributes(attributes)
-            polygonList[-1].setCoordinates(coordinates)
-            polygonList[-1].setNotes(notes)
-            polygonList.append(PolygonDrawer(canvas, master))
+        try:
+            for shape in self.__data[plotType]:
+                #print int(self.__data[plotType][shape]['id']) not in [x.getID() for x in polygonList]
+                entry = self.__data[plotType][shape]['id']
+                if entry is not None and int(entry) in [x.getID() for x in polygonList]: continue
+                color = self.__data[plotType][shape]['color']
+                vertices = self.__data[plotType][shape]['vertices']
+                coordinates = self.__data[plotType][shape]['coordinates']
+                attributes = self.__data[plotType][shape]['attributes']
+                notes = self.__data[plotType][shape]['notes']
+                _id = self.__data[plotType][shape]['id']
+                polygonList[-1].setID(_id)
+                polygonList[-1].setColor(color)
+                polygonList[-1].setVertices(vertices)
+                polygonList[-1].setPlot(plotType)
+                polygonList[-1].setAttributes(attributes)
+                polygonList[-1].setCoordinates(coordinates)
+                polygonList[-1].setNotes(notes)
+                polygonList.append(PolygonDrawer(canvas, master))
+        except KeyError:
+            print "Error: bad JSON file"
