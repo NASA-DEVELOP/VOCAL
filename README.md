@@ -4,7 +4,7 @@ http://develop-larc-calipso.github.io/CALIPSO_Visualization/
 
 ## Alpha Release To-Do:
 
-* [ ] Database delete option
+* [x] Database delete option
 * [x] Do not re-store imported db objects
 * [x] Attributes Class and Dialog window written
 * [ ] Altitute Time coordinates
