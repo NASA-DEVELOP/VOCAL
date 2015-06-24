@@ -89,9 +89,6 @@ class Calipso(object):
         #File Menu
         self.__menuFile = Menu(self.__menuBar, tearoff=0)
         self.__menuFile.add_command(label="Import File", command=self.importFile)
-        self.__menuFile.add_command(label="Export Image", command=self.exportImage)
-        self.__menuFile.add_separator()
-        self.__menuFile.add_command(label="Save", command=self.saveImage)
         self.__menuFile.add_command(label="Save all", command=lambda : self.notifySaveAsJSON(saveAll=True))
         self.__menuFile.add_command(label="Save as", command=self.notifySaveAsJSON)
         self.__menuFile.add_separator()
@@ -149,8 +146,6 @@ class Calipso(object):
         elif (plotType.get()) == Constants.VFM:
             tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")     # vfm doesn't exist
     
-    
- 
     def reset(self):
         '''
         Reset all objects on the screen, move pan to original
@@ -229,12 +224,6 @@ class Calipso(object):
             self.__polygonList.setHDF(self.__file)
         return ''
     
-    def exportImage(self):
-        pass
-
-    def saveImage(self):
-        pass
-
     def load(self):
         '''
         load JSON objects from file by calling :py:meth:`polygonlist.readPlot(f)`
