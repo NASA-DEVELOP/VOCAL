@@ -11,7 +11,7 @@ import os
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, Column, Integer, String, desc
-from calipso import Constants
+from calipso import constants
 from calipso.tools.tools import byteify
 
 # Create a declarative_base for dbPolygon to inherit from
@@ -36,7 +36,7 @@ class dbPolygon(dbBase):
     
     @staticmethod
     def plotString(i):
-        return Constants.PLOTS[i]
+        return constants.PLOTS[i]
     
     def __repr__(self):
         '''
@@ -45,7 +45,7 @@ class dbPolygon(dbBase):
         seperate JSON 'files'
         '''
         data = {}
-        for i in range(0,len(Constants.PLOTS)):
+        for i in range(0,len(constants.PLOTS)):
             data[self.plotString(i)] = {}
         data[self.plot] = {self.tag : 
             {"vertices":self.vertices, 
