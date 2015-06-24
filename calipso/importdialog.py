@@ -25,8 +25,8 @@ class dbDialog(Toplevel):
     '''
     def __init__(self, root, master):
         '''
-        root -> root tk widget, often Tk()
-        master -> the main window, for access of polygonList
+        :param: root: root tk widget, often Tk()
+        :param: master: the main window, for access of polygonList
         '''
         Toplevel.__init__(self, root)
         self.protocol('WM_DELETE_WINDOW')
@@ -75,6 +75,7 @@ class dbDialog(Toplevel):
         string. A backend stack keeps track of past searches, when the
         user enters the backspace code a previous instance is popped
         and reloaded.
+        :param event: search box events
         '''
         if event.char.isalnum(): self.__searchString += event.char                  # if character is a letter / number, add to the searchstring
         if self.e.get() != '':                                                      # if the entry box is NOT empty

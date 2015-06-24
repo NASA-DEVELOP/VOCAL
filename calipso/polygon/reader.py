@@ -28,6 +28,10 @@ class PolygonReader(object):
         self.__data = {} 
         
     def setFileName(self, fileName):
+        '''
+        Sets the file name destination
+        :param fileName: the name of the file
+        '''
         self.__fileName = fileName
         
     def readFromFileJSON(self):   
@@ -39,6 +43,10 @@ class PolygonReader(object):
         self.__data = data
         
     def readFromStrJSON(self, data):
+        '''
+        Reads JSON as a string
+        :param data: string representation of a JSON
+        '''
         self.__data = byteify(json.loads(data))
         for plt in [x for x in self.__data if x in constants.PLOTS]:
             for shape in self.__data[plt]:
@@ -55,6 +63,10 @@ class PolygonReader(object):
     def packPolygonDrawer(self, polygonList, plotType, canvas, master):
         '''
         Stores the data in the JSON into PolygonDrawers
+        :param polygonList: a Python list of PolygonDrawers
+        :param plotType: the current plot being displayed
+        :param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the polygonList
+        :param master: an instance of Calipso to initialize the blank PolygonDrawer
         '''
         try:
             for shape in self.__data[plotType]:

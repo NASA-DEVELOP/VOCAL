@@ -103,6 +103,9 @@ class DatabaseManager(object):
         '''
         Takes a list of polygons and commits them into the database,
         used in polygonList to commit all visible polygons
+        :param polyList: the current polygonList corresponding to the active plot
+        :param time: time of the JSON's creation
+        :param f: file name
         '''
         session = self.__Session()
         for polygon in polyList[:-1]:
@@ -137,7 +140,7 @@ class DatabaseManager(object):
     def deleteItem(self, idx):
         '''
         Get a session and delete the object from the database.
-        The IDX is the primary key for the object passed
+        :param indx: the primary key for the object passed
         '''
         session = self.__Session()
         item = session.query(dbPolygon).get(idx)
@@ -148,6 +151,8 @@ class DatabaseManager(object):
     def encode(self, filename, data):
         '''
         Encode and write out a JSON object
+        :param filename: name of the file
+        :param data: Python dictionary representation of a JSON
         '''
         with open(filename, 'w') as outfile:
             json.dump(data, outfile)
