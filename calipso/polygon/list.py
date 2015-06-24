@@ -17,6 +17,7 @@ from calipso.db import db
 class PolygonList(object):
     '''
     Manages all polygons present on the screen, writes to db on call
+    
     '''
 
     outlineToggle = True
