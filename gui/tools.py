@@ -15,13 +15,12 @@ import tkFont
     
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
-toggleContainer = []
+#global button container for managing state
+toggleContainer = []  
 
 class ToolTip(object):
     '''
-    Allows for the easy creation of tool tips that are displayed below buttons. 
-    Requires a widget and overlays a simple tool tip once hovered over by the mouse. 
-    Created with py:meth:`createToolTip`
+    Displays text in a label below a passed widget
     
     :param widget: The widget tooltip will be binding text to
     '''
@@ -91,15 +90,13 @@ class ToggleableButton(Button):
     Button wrapper which simulates the toggled button as you see in the draw, magnify, etc. 
     buttons. Interally keeps a bind map which on toggle binds the keys in the map, and 
     unbinds them on untoggle or forced untoggle.
-    '''
-    # static class container to keep track of all active and unactive buttons
-    # currently living
     
-    # Parameters:
-    #    root        -> the root of the program, which handles the cursor
-    #    master      -> the parent of the actual button 
-    #    cnf         -> button forward args
-    #    kw          -> button forward args
+    :param root: Root of the program, which handles the cursor
+    :param master: The location to draw the button to
+    :param cnf: Button forwarded args
+    :param \*\*kw: Button forwarded args
+    '''
+
     def __init__(self, root, master=None, cnf={}, **kw):
         self.__bindMap = []         # bind map to be bound once toggled
         self.isToggled = False      # internal var to keep track of toggling
@@ -112,31 +109,41 @@ class ToggleableButton(Button):
         self.configure(command=self.toggle)         # button command is always bound internally to toggle
         toggleContainer.append(self)         # push button to static container
         
-    # Parameters: 
-    #    key         -> a string which accepts a valid Tkinter key
-    #    command     -> the command to be bound to string
-    #    cursor      -> the cursor to be set when toggled
-    #    destructor  -> a function called when untoggled
+
     def latch(self, key="", command=None, cursor="", destructor=None):
+        '''
+        Allows the binding of keys to certain functions. These bindings will become
+        active once the button is in a toggled state. latch can be called **multiple**
+        times and keeps an internal bindmap. 
+        
+        :param str key: A valid Tkinter key string
+        :param command: Function to be bound to key
+        :param str cursor: A valid Tkinter cursor string
+        :param destructor: A function called when untoggled
+        '''
         # only set these variables if the user entered one
         if cursor != "" : self.__cursor = cursor
         if key != "" and command != None : self.__bindMap.append((self.__root, key, command))
         if destructor != None : self.__destructor = destructor
 
-    # Clone to toggle, except the only functionality of unToggle is to forceably
-    #    untoggle the button and set the state accordingly
     def unToggle(self):
+        '''
+        Forcefully untoggles the button. Used when ensuring
+        only one button in the global container is active at any time
+        '''
         self.isToggled = False
         self.config(relief='raised')
         for pair in self.__bindMap:
             pair[0].unbind(pair[1])
         if self.__destructor : self.__destructor()
 
-    # The toggle function ensures that the button is either correctly toggled, or not. The
-    #    button command is bound here and additionally any functions 'latched' to a command
-    #    will be binded here when toggled. Also internally ensures no two toggled buttons can
-    #    exist at any one time
+
     def toggle(self):
+        '''
+        The method bound to the button, *Toggle* will internally bind the inputed keys when toggled,
+         and unbind them accordingly. Also keeps track of all toggled button via a static container and 
+         ensures only one button can be toggled at any time
+        '''
         # first flip the toggle switch
         self.isToggled = not self.isToggled
         # if any buttons are currently active, untoggle them
@@ -159,11 +166,16 @@ class ToggleableButton(Button):
 
 class ToolbarToggleableButton(Button):
     '''
-    Wrapper of a wrapper of a button, it's a mouthful but it useful for having 
-    additional functionality the matplotlib buttons would require. Instead
+    GUI button used to implement the backend matplotlib plot functions. Instead
     of placing more overhead in the ToggleableButton another class is created 
     since the number of matplotlib functions will remain constant, while we
     may continue creating new tools that use ToggleableButton
+    
+    :param root: Root of the program, or the location of the cursor to be changed
+    :param master: Location of the button to be drawn to
+    :param func: Function to be called each time the button is 'toggled'
+    :param cnf: Button forwarded args
+    :param \*\*kw: Button forwarded args
     '''
     # Parameters: 
     #    root, master, cnf, kw    -> forwarded args to the ToggleableButton class
@@ -180,18 +192,30 @@ class ToolbarToggleableButton(Button):
         toggleContainer.append(self)         # push button to static container
         
     def latch(self, cursor=""):
+        '''
+        Set the internal cursor variable to the cursor to be used when the button 
+        is in a toggled state
+        
+        :param str cursor: A valid Tkinter cursor string
+        '''
         # only set these variables if the user entered one
         if cursor != "" : self.__cursor = cursor
-        
-    # Clone to toggle, except the only functionality of unToggle is to forceably
-    #    untoggle the button and set the state accordingly
+
     def unToggle(self):
+        '''
+        Forcefully untoggles the button and invokes ``func``. Used when ensuring
+        only one button in the global container is active at any time
+        '''
         self.isToggled = False
         self.config(relief='raised')
         if self.__func : self.__func()
         
     # Call the super classes Toggle, and execute our function as well
     def toggle(self):
+        '''
+        Calls the passed function ``func`` and manages a toggle state below. Ensures only
+        one toggled button is active at any time and the button is correctly raised/sunk
+        '''
         self.isToggled = not self.isToggled
         # if any buttons are currently active, untoggle them
         for s in [x for x in toggleContainer if x.isToggled == True and x is not self]:  
@@ -224,11 +248,24 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
         NavigationToolbar2.__init__(self, canvas)
         
     def _init_toolbar(self):
+        '''
+        Sets a string var which self updates with the coordinates of the cursor 
+        relative to the plot
+        '''
         self.message = StringVar(master=self.master)
         self._message_label = Label(master=self.master, textvariable=self.message)
         self._message_label.grid(row=3, column=1)
 
     def draw_rubberband(self, event, x0, y0, x1, y1):
+        '''
+        Draws a rectangle rubber band to indicate area that will be zoomed in on
+        
+        :param event: Tkinter passed event object
+        :param x0: top left x coordinate
+        :param y0: top left y coordinate
+        :param x1: bottom right x coordinate
+        :param y1: bottm right y coordinate
+        '''
         height = self.canvas.figure.bbox.height
         y0 =  height-y0
         y1 =  height-y1
@@ -238,6 +275,12 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
         self.lastrect = self.canvas._tkcanvas.create_rectangle(x0, y0, x1, y1)
         
     def release(self, event):
+        '''
+        Upon mouse release while zooming, the rectangle is deleted and the
+        application is zoomed to that view
+        
+        :param event: Tkinter passed event object
+        '''
         try: self.lastrect
         except AttributeError: pass
         else:
@@ -245,6 +288,9 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
             del self.lastrect
         
     def set_message(self, s):
+        '''
+        Set the message of the stringvar
+        '''
         self.message.set(s)
         
     def set_cursor(self, event):
@@ -260,6 +306,9 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
         pass
     
     def update(self):
+        '''
+        Call the base class update function
+        '''
         NavigationToolbar2.update(self)
 
     def dynamic_update(self):
@@ -267,7 +316,10 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
     
     def release_zoom(self, event):
         '''
-        the release mouse button callback in zoom to rect mode
+        the release mouse button callback in zoom to rect mode, upon
+        release the plot will zoom to the location of the rectangle
+        
+        :param event: Tkinter passed event object
         '''
         for zoom_id in self._ids_zoom:
             self.canvas.mpl_disconnect(zoom_id)
@@ -396,7 +448,9 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
         self.observer.update()
     
     def zoom(self, *args):
-        """Activate zoom to rect mode"""
+        '''
+        Caller function for activating and deactivating zoom mode
+        '''
         if self._active == 'ZOOM':
             self._active = None
         else:
@@ -472,8 +526,11 @@ class TreeListBox(object):
 def sortby(tree, col, descending):
     '''
     Sorts the treeview by the column clicked by the user
+    
+    :param Treeview tree: The tree object to sort
+    :param str col: The column to sort
+    :param bool descending: Boolean value to switch between sorting from ascending or descending
     '''
-    """sort tree contents when a column header is clicked on"""
     # grab values to sort
     data = [(tree.set(child, col), child) for child in tree.get_children('')]
     # if the data to be sorted is numeric change to float
@@ -491,6 +548,9 @@ def sortby(tree, col, descending):
 def center(toplevel, size):
     '''
     Center the window
+    
+    :param toplevel: Toplevel window to center
+    :param size: Size dimensions in a tuple format *e.g.* ``(x,y)``
     '''
     w = toplevel.winfo_screenwidth()
     h = toplevel.winfo_screenheight()
@@ -499,6 +559,11 @@ def center(toplevel, size):
     toplevel.geometry("%dx%d+%d+%d" % (size + (x, y)))
 
 def byteify(inp):
+    '''
+    Function to convert unicode string to ASCII string
+    
+    :param str inp: Unicode string to be converted
+    '''
     if isinstance(inp, dict):
         return {byteify(key):byteify(value) for key,value in inp.iteritems()}
     elif isinstance(inp, list):
