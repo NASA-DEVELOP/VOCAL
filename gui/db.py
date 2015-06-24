@@ -7,6 +7,7 @@ Created on Jun 16, 2015
 # import antigravity
 import json
 import re
+import os
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine, Column, Integer, String, desc
@@ -69,7 +70,8 @@ class DatabaseManager(object):
         Create the database engine using db/CALIPSO.db database.
         Echo all commands, create Session and table
         '''
-        self.__dbEngine = create_engine('sqlite:///../db/CALIPSOdb.db', echo=False)
+        path = os.path.dirname(os.path.realpath(__file__)) + "\\..\\db\\CALIPSOdb.db"
+        self.__dbEngine = create_engine('sqlite:///' + path, echo=False)
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)
     
