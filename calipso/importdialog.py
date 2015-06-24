@@ -12,7 +12,8 @@ import tkMessageBox
 
 from calipso import Constants
 from calipso.db import db, dbPolygon
-from calipso.tools.tools import TreeListBox, center
+from calipso.tools.treelistbox import TreeListBox
+from calipso.tools.tools import center
 from sqlalchemy import or_
 #import TkTreectrl as treectrl
 #import db

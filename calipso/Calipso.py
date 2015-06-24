@@ -17,7 +17,8 @@ from calipso.attributesDialog import AttributesDialog
 from calipso.importdialog import dbDialog
 from calipso.plot.plot_depolar_ratio import drawDepolar
 from calipso.plot.plot_uniform_alt_lidar_dev import drawBackscattered
-from calipso.tools.tools import NavigationToolbar2CALIPSO, Observer
+from calipso.tools.navigationtoolbar import NavigationToolbar2CALIPSO
+from calipso.tools.tools import Observer
 from calipso.toolswindow import ToolsWindow
 
 
