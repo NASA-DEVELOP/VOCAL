@@ -127,3 +127,4 @@ The main class of the application. Calipso manages all Tkinter and widget relate
       :noindex:
 
       Wrapper function which calls py:meth:`createTopScreenGUI` , py:meth:`setupMenu` , py:meth:`setupMainScreen`
+
