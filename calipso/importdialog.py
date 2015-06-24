@@ -10,9 +10,9 @@ from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE
 import tkMessageBox
 
-from calipso.gui import Constants
-from calipso.gui.db import db, dbPolygon
-from calipsl.gui.tools import TreeListBox, center
+from calipso import Constants
+from calipso.db import db, dbPolygon
+from calipso.tools.tools import TreeListBox, center
 from sqlalchemy import or_
 #import TkTreectrl as treectrl
 #import db

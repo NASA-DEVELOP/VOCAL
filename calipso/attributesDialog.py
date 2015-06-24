@@ -7,7 +7,7 @@ Created on Jun 15, 2015
 
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
-from calipso.gui import Constants
+from calipso import Constants
 
 
 class AttributesDialog(Toplevel):
