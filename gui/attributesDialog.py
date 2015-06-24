@@ -37,6 +37,9 @@ class AttributesDialog(Toplevel):
         self.createBottomFrame()
         
     def createTopFrame(self):
+        '''
+        Initializes the top half of the window
+        '''
         self.topFrame = Frame(self.container)                       
         self.topFrame.pack(side=TOP, fill=X, expand=False)
         
@@ -69,6 +72,9 @@ class AttributesDialog(Toplevel):
         moveButton.grid(row=1, column=2)
         
     def createBottomFrame(self):
+        '''
+        Initializes the bottom half of the window
+        '''
         self.bottomFrame = Frame(self.container)                       
         self.bottomFrame.pack(side=BOTTOM, fill=X, expand=False)
         
@@ -94,33 +100,45 @@ class AttributesDialog(Toplevel):
 #         closeButton.grid(row=3, column=2)
         
     def moveAttribute(self):
+        '''
+        Saves the attributes that the user has selected
+        '''
         selection = self.attributeList.curselection()
         if len(selection) == 0:
             return
-        print "Moving tag"
         for item in selection:
             string = self.attributeList.get(item)
             self.__poly.addAttribute(string)
             self.selectedList.insert(END, string)
-        self.attributeList.delete(selection[0], selection[-1])
+        for item in reversed(selection):
+            self.attributeList.delete(item)
     
     def removeAttribute(self):
+        '''
+        Deletes the attributes that the user has selected
+        '''
         selection = self.selectedList.curselection()
         if len(selection) == 0:
             return
-        print "Removing tag"
         for item in selection:
             string = self.selectedList.get(item)
             self.__poly.removeAttribute(string)
             self.attributeList.insert(END, string)
-        self.selectedList.delete(selection[0], selection[-1])
+        for item in reversed(selection):
+            self.selectedList.delete(item)
     
     def save(self):
+        '''
+        Saves the note
+        '''
         note = self.noteText.get('1.0', 'end-1c')
         self.__poly.setNotes(note)
         #self.close()
     
     def clear(self):
+        '''
+        Deletes the note
+        '''
         self.noteText.delete(1.0, END)
         self.__poly.setNotes("")
     

@@ -141,38 +141,45 @@ class ToolsWindow(Toplevel):
         self.__eraseButton.grid(row=1, column=4, padx=2, pady=5)
         createToolTip(self.__eraseButton, "Erase polygon")
 
+        # recolor shapes
         self.paintIMG = ImageTk.PhotoImage(file="ico/paint.png")
         self.__paintButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.paintIMG, width=30, height=30)
         self.__paintButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().paint, cursor="")
         self.__paintButton.grid(row=2, column=2, padx=2, pady=5)
         createToolTip(self.__paintButton, "Paint")
 
+        # outline shapes
         self.outlineIMG = ImageTk.PhotoImage(file="ico/focus.png")
         self.__outlineButton = Button(self.lowerButtonFrame, image=self.outlineIMG, width=30, height=30, command=lambda: self.__parent.getPolygonList().outline())
         self.__outlineButton.grid(row=2, column=1, padx=2, pady=5)
         createToolTip(self.__outlineButton, "Focus")
         
+        # hide shapes
         self.plotIMG = ImageTk.PhotoImage(file="ico/hide.png")
         self.__plotButton = Button(self.lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__parent.getPolygonList().hide())
         self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
         createToolTip(self.__plotButton, "Hide polygons")
         
+        # save shapes as JSON
         self.saveIMG = ImageTk.PhotoImage(file="ico/save.png")
         self.__saveButton = Button(self.lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.__parent.notifySaveJSON)
         self.__saveButton.grid(row=2, column=4, padx=2, pady=5)
         createToolTip(self.__saveButton, "Save visible\n objects\n to JSON")
         
+        # load shapes from JSON
         self.loadIMG = ImageTk.PhotoImage(file="ico/load.png")
         self.__loadButton = Button(self.lowerButtonFrame, image=self.loadIMG, width=30, height=30, command=self.__parent.load)
         self.__loadButton.grid(row=3, column=1, padx=2, pady=5)
         createToolTip(self.__loadButton, "Load JSON")
         
+        # retrieve shape properties
         self.propIMG = ImageTk.PhotoImage(file="ico/cog.png")
         self.__propButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.propIMG, width=30, height=30)
         self.__propButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().properties)
         self.__propButton.grid(row=3, column=2, padx=2, pady=5)
         createToolTip(self.__propButton, "Polygon Properties")
         
+        # edit shape attributes
         self.editIMG = ImageTk.PhotoImage(file="ico/edit.png")
         self.__editButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.editIMG, width=30, height=30)
         self.__editButton.latch(key="<Button-1>", command=self.__parent.attributeWindow)
