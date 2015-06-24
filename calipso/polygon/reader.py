@@ -7,9 +7,9 @@ Created on Jun 15, 2015
 import json
 
 import ast
-import Constants
-from gui.Polygon import PolygonDrawer
-from gui.tools import byteify
+from calipso import Constants
+from calipso.polygon.drawer import PolygonDrawer
+from calipso.tools import byteify
 
 class PolygonReader(object):
     '''
