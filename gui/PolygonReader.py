@@ -17,6 +17,9 @@ class PolygonReader(object):
     '''
 
     # TODO: add exception handling
+    # TODO: go over possible use cases
+    #            loading multiple JSONs and then saving them as one
+    #            add error for corrupted or bad data
     def __init__(self, fileName="C:\\Users\\nqian\\Documents\\Carol.json"):
         '''
         Initializes attributes
@@ -49,8 +52,8 @@ class PolygonReader(object):
     def packPolygonDrawer(self, polygonList, plotType, canvas, master):
         for shape in self.__data[plotType]:
             #print int(self.__data[plotType][shape]['id']) not in [x.getID() for x in polygonList]
-            if self.__data[plotType][shape]['id'] is not None:
-                if int(self.__data[plotType][shape]['id']) in [x.getID() for x in polygonList]: continue
+            entry = self.__data[plotType][shape]['id']
+            if entry is not None and int(entry) in [x.getID() for x in polygonList]: continue
             color = self.__data[plotType][shape]['color']
             vertices = self.__data[plotType][shape]['vertices']
             coordinates = self.__data[plotType][shape]['coordinates']
