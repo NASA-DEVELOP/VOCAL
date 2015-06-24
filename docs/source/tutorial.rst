@@ -5,9 +5,9 @@ Tutorial
 This tutorial provides an overview on how to use the CALIPSO Visualization 
 Tool program.
 
-----------------------------------------
+--------------------------------------------------
 Main Screen
-----------------------------------------
+--------------------------------------------------
 
 The CALIPSO Visualization Tool window is the main screen for displaying 
 CALIPSO data and shapes. The menu bar provides access to the shape database 
@@ -18,9 +18,9 @@ shapes, and saving and loading shapes.
 .. image:: _static/startup.png
    :scale: 40%
        
-----------------------------------------
+--------------------------------------------------
 Starting Up
-----------------------------------------
+--------------------------------------------------
 
 To load a CALIPSO hdf file from the local file directory, click the "Browse" 
 button and select the desired hdf file. The file text box will now update and 
@@ -32,9 +32,9 @@ will dipslay the plot on the main screen.
 .. image:: _static/loadHDF.png
    :scale: 40%
  	   
-----------------------------------------
+--------------------------------------------------
 Plot Navigation
-----------------------------------------
+--------------------------------------------------
 
 The first row of buttons provide plot navigation. The four pointed arrows are 
 the pan button. Pressing this button will allow you to move the plot across 
@@ -49,9 +49,9 @@ will undo the most recent pan or zoom action. The redo button will redo any
 pan or zoom action. Lastly, the "Reset" button will rest all plot navigation 
 actions and return the plot window back to its initial state.
 
-----------------------------------------
+--------------------------------------------------
 Shape Drawing
-----------------------------------------
+--------------------------------------------------
 
 The next seven buttons are used for shape drawing. The rectangle icon 
 represents rectangle drawing. Pressing this button will allow you to draw 
@@ -75,3 +75,39 @@ click with the left mouse button the desired shape. A dialog will prompt you
 to select which color to repaint the shape. The third button in the row is the
 hide shapes button. Pressing this button will hide all shapes drawn on the 
 plot. Clicking on the button again will make the shapes visible again.
+
+--------------------------------------------------
+Shape Saving and Loading
+--------------------------------------------------
+
+To save shapes draw on the plot, click on the button with the floppy disk 
+image (third row, fourth button). If the shapes haven't been saved previously,
+a file dialog will prompt you to save the shapes on your local file directory.
+The shapes are saved as JavaScript Object Notation (JSON) files with the .json
+file extension. If the shapes have been already saved, saving the shapes again
+will automatically update the JSON file. To load the file, select the file 
+with the folder icon (fourth row, first button). A file dialog will prompt you
+to select one JSON file to import from your local file directory. The plot
+will then draw the shapes according from the data saved in the JSON.
+
+--------------------------------------------------
+Importing and Exporting form the Database
+--------------------------------------------------
+
+The CALIPSO Visualization Tool has access to a database that can save shapes,
+so that other users can share the shapes they have drawn. To save shapes to 
+the database, click on "Polygon" from the menu bar and select "Export to
+Database." The program will take each individual shape drawn on each plot and 
+saves each shape independently in the database. To import shapes from the 
+database, click on "Polygon" from the menu bar and select "Import from 
+Database." A dialog box will appear, displaying all the shapes saved on the 
+database. To help find specific shapes, you can sort name, plot, date, file,
+attributes, and notes by clicking on the header bar. To search specifically 
+within the attributes, use the search bar at the top of the dialog to filter 
+shapes. To select an individual shape, simply click on an entry. For multiple
+entries, hold the Control button on the keyboard while clicking on entries. To
+retrieve successive entries, hold the Shift button on the keyboard while 
+selecting a start and end entry. To delete the selected entries click on the 
+"Delete" button at the top right of the window. If you wish to import these
+shapes, click on the "Import" button at the bottom of the window, and the plot
+will automatically draw all the loaded shapes.
