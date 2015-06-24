@@ -6,6 +6,8 @@ Allows for the easy creation of tool tips that are displayed below buttons. Requ
 
 .. inheritance-diagram:: calipso.tools.tooltip.ToolTip
 
+.. py:module:: tooltip
+
 .. autoclass:: calipso.tools.tooltip.ToolTip
    :members:
 

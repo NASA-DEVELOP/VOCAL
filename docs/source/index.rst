@@ -23,11 +23,10 @@ Documentation:
 ==============
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    conventions
-   classes/classes
-   functions/functions
+   doc/packages
 
 Indices and tables
 ==================
