@@ -75,3 +75,8 @@ click with the left mouse button the desired shape. A dialog will prompt you
 to select which color to repaint the shape. The third button in the row is the
 hide shapes button. Pressing this button will hide all shapes drawn on the 
 plot. Clicking on the button again will make the shapes visible again.
+
+----------------------------------------
+JSON Saving and Loading
+----------------------------------------
+
