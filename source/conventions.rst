@@ -6,27 +6,33 @@ Below is list of coding conventions agreed upon by Nathan and I(Grant). Please a
 
 .. rubric:: Variables
 
-Variables should be in the ``camelCase`` format in all cases.::
+Variables should be in the ``camelCase`` format in all cases.
 
-    var = 3
-    anotherVar = 4
-    moreWordsThanPreviousVar = 5
+.. code-block:: python
+
+   var = 3
+   anotherVar = 4
+   moreWordsThanPreviousVar = 5
 
 .. rubric:: Functions
 
-The same format as Variables, ``camelCase`` should be used.::
+The same format as Variables, ``camelCase`` should be used.
 
-    def func():
+.. code-block:: python
 
-    def adheresToCodingConventionFunc():
+   def func():
+
+   def adheresToCodingConventionFunc():
 
 .. rubric:: Classes
 
-Uppercase ``CamelCase`` should be used to repesent classes.::
+Uppercase ``CamelCase`` should be used to repesent classes.
 
-    class Shape(object):
+.. code-block:: python
 
-    class SquareObject(Shape):
+   class Shape(object):
+
+   class SquareObject(Shape):
 
 .. rubric:: Tabs
 
@@ -38,24 +44,36 @@ Currently CALIPSO uses tabs instead of spaces.::
 
 .. rubric:: General Rules
 
-No spaces should be left between conditional statements and loops code blocks.::
+No spaces should be left between conditional statements and loops code blocks.
 
-    if x is not y:
-        # ...
+.. code-block:: python
 
-    for x in y:
-        # ...
+   if x is not y:
+      # ...
 
-Comments should be right justified when applicable, and only above lines when necessary to explain a section of code(not just one line).::
+   for x in y:
+      # ...
 
-    var = x - y + r*2           # calculate ___ and place in var
-    doFunc(var)                 # do some func with var param
-    if var[-1] is not var[:3]:      
-        err()                   # error is var does not match criteria
+Comments should be right justified when applicable, and only above lines when necessary to explain a section of code(not just one line). Class declarations also must follow the following structure
 
-    # Set the value of var and pass var into a set of functions which calculate things based off var
-    var = x - y + r*2
-    doAllFuncs(var)
-    
+.. code-block:: python
+
+   var = x - y + r*2           # calculate ___ and place in var
+   doFunc(var)                 # do some func with var param
+   if var[-1] is not var[:3]:      
+      err()                   # error is var does not match criteria
+
+   # Set the value of var and pass var into a set of functions which calculate things based off var
+   var = x - y + r*2
+   doAllFuncs(var)
+
+   class Foo(object):
+   '''
+   Class description is placed here
+   '''
+     
+      def __init__(self):
+         #...
+
 
 
