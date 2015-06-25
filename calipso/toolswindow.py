@@ -7,9 +7,9 @@ from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, H
     RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
-from calipso import constants
-from calipso.tools.tooltip import createToolTip
-from calipso.tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
+import constants
+from tools.tooltip import createToolTip
+from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 
 
 class ToolsWindow(Toplevel):

@@ -30,7 +30,5 @@ The order of functions calls in the beginning of the program is as follows::
 
 .. inheritance-diagram:: calipso.Calipso.Calipso
 
-.. py:module:: Calipso
-
 .. automodule:: calipso.Calipso
    :members:

@@ -8,10 +8,10 @@ from datetime import datetime
 from tkColorChooser import askcolor
 import tkMessageBox
 
-from calipso import constants
-from calipso.polygon.drawer import PolygonDrawer
-from calipso.polygon.reader import PolygonReader
-from calipso.db import db
+import constants
+from polygon.drawer import PolygonDrawer
+from polygon.reader import PolygonReader
+from db import db
 
 
 class PolygonList(object):

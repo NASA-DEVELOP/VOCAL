@@ -11,15 +11,15 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
-from calipso import constants
-from calipso.polygon.list import PolygonList
-from calipso.attributesdialog import AttributesDialog
-from calipso.importdialog import dbDialog
-from calipso.plot.plot_depolar_ratio import drawDepolar
-from calipso.plot.plot_uniform_alt_lidar_dev import drawBackscattered
-from calipso.tools.navigationtoolbar import NavigationToolbar2CALIPSO
-from calipso.tools.tools import Observer
-from calipso.toolswindow import ToolsWindow
+import constants
+from polygon.list import PolygonList
+from attributesdialog import AttributesDialog
+from importdialog import dbDialog
+from plot.plot_depolar_ratio import drawDepolar
+from plot.plot_uniform_alt_lidar_dev import drawBackscattered
+from tools.navigationtoolbar import NavigationToolbar2CALIPSO
+from tools.tools import Observer
+from toolswindow import ToolsWindow
 
 
 class Calipso(object):

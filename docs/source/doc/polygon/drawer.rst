@@ -2,7 +2,7 @@
 PolygonDrawer
 =============
 
-.. inheritance-diagram:: calipso.polygon.drawer.PolygonDrawer
+.. inheritance-diagram:: calipso.polygon.drawer
 
-.. autoclass:: calipso.polygon.drawer.PolygonDrawer
+.. automodule:: calipso.polygon.drawer
    :members:

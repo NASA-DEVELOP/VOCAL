@@ -6,7 +6,7 @@ Created on Jun 4, 2015
 
 # import antigravity
 from numpy import empty_like, dot, array
-from calipso import constants
+import constants
 
 class PolygonDrawer(object):
     '''
