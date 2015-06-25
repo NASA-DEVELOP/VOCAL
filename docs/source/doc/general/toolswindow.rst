@@ -2,7 +2,7 @@
 Tools Window
 =========================
 
-.. inheritance-diagram:: calipso.toolswindow
+.. inheritance-diagram:: toolswindow
 
-.. automodule:: calipso.toolswindow
+.. automodule:: toolswindow
    :members:

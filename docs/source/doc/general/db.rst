@@ -2,14 +2,14 @@
 Database
 ============================
 
-.. inheritance-diagram:: calipso.db
+.. inheritance-diagram:: db
 
 .. py:module:: db
 
-.. automodule:: calipso.db
+.. automodule:: db
    :members:
 
-.. autodata:: calipso.db.dbBase
+.. autodata:: db.dbBase
 
-.. autodata:: calipso.db.db
+.. autodata:: db.db
 

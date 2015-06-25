@@ -2,7 +2,7 @@
 Import Dialog
 ===========================
 
-.. inheritance-diagram:: calipso.importdialog
+.. inheritance-diagram:: importdialog
 
-.. automodule:: calipso.importdialog
+.. automodule:: importdialog
    :members:
