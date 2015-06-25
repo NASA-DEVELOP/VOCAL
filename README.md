@@ -1,6 +1,6 @@
 ## Docs:
 
-http://develop-larc-calipso.github.io/CALIPSO_Visualization/
+http://syntaf.github.io/CALIPSO_Visualization/
 
 ## Alpha Release To-Do:
 
