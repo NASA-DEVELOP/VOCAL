@@ -6,7 +6,8 @@ Allows for the easy creation of tool tips that are displayed below buttons. Requ
 
 .. inheritance-diagram:: tools.tooltip
 
-
 .. automodule:: tools.tooltip
    :members:
+
+
 

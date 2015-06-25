@@ -27,7 +27,7 @@ Documentation:
 
    conventions
    buildingdocs
-   doc/packages
+   doc/modules
 
 Indices and tables
 ==================
