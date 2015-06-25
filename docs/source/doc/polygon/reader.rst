@@ -2,7 +2,7 @@
 PolygonReader
 ==========================
 
-.. inheritance-diagram:: calipso.polygon.reader.PolygonReader
+.. inheritance-diagram:: polygon.reader
 
-.. autoclass:: calipso.polygon.reader.PolygonReader
+.. autoclass:: polygon.reader
    :members:
