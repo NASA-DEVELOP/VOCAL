@@ -1,9 +1,9 @@
-'''
-Created on Jun 15, 2015
-
-@author: Grant Mercer
-
-'''
+###################################
+# Created on Jun 15, 2015
+#
+# @author: Grant Mercer
+#
+###################################
 
 import collections
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \

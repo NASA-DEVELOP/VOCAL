@@ -1,8 +1,8 @@
-'''
-Created on Jun 11, 2015
-
-@author: nqian
-'''
+######################################
+#    Created on Jun 11, 2015
+#
+#    @author: nqian
+######################################
 # import antigravity
 from datetime import datetime
 from tkColorChooser import askcolor
