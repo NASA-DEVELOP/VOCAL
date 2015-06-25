@@ -1,0 +1,11 @@
+<map id="inheritance522b7ea4f5" name="inheritance522b7ea4f5">
+<area shape="rect" id="node1" title="Internal class." alt="" coords="115,120,221,140"/>
+<area shape="rect" id="node4" title="Internal class." alt="" coords="259,63,342,82"/>
+<area shape="rect" id="node2" title="Internal class." alt="" coords="4,120,77,140"/>
+<area shape="rect" id="node3" title="Button widget." alt="" coords="380,63,460,82"/>
+<area shape="rect" id="node8" href="#calipso.tools.toggleablebutton.ToggleableButton" title="Button wrapper which simulates the toggled button as you see in the draw, magnify, etc. " alt="" coords="514,43,748,63"/>
+<area shape="rect" id="node9" href="#calipso.tools.toggleablebutton.ToolbarToggleableButton" title="GUI button used to implement the backend matplotlib plot functions. Instead" alt="" coords="498,81,764,101"/>
+<area shape="rect" id="node5" title="Geometry manager Grid." alt="" coords="133,4,203,24"/>
+<area shape="rect" id="node6" title="Geometry manager Pack." alt="" coords="131,43,205,63"/>
+<area shape="rect" id="node7" title="Geometry manager Place." alt="" coords="129,81,207,101"/>
+</map>

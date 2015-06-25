@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Troubleshoot &mdash; CALIPSO 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Coding Conventions" href="conventions.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="conventions.html" title="Coding Conventions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="troubleshoot">
+<h1>Troubleshoot<a class="headerlink" href="#troubleshoot" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python"><div class="highlight"><pre>&gt; How do I actually run this project?
+</pre></div>
+</div>
+<blockquote>
+<div>The main is included in <tt class="docutils literal"><span class="pre">CALIPSO_Visualization_Tool.py</span></tt>, once you&#8217;ve followed the installation instructions run it through either eclipse or <tt class="docutils literal"><span class="pre">python</span> <span class="pre">CALIPSO_Visualization_Tool.py</span></tt></div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>&gt; When I try to run the project I get the error:
+&gt; ImportError:  cannot import name _imagingtk
+</pre></div>
+</div>
+<blockquote>
+<div><p>First, ensure you do not have PIL installed alongside Pillow. These two packages can not coexist and will likely cause issues if you have both installed.</p>
+<p>If that is not the case, for Linux users try running sudo apt-get install python-imaging-tk . Windows users need to take a couple extra steps</p>
+<ul class="simple">
+<li>Remove any related packages on conda, <tt class="docutils literal"><span class="pre">conda</span> <span class="pre">remove</span> <span class="pre">PIL</span></tt> or <tt class="docutils literal"><span class="pre">conda</span> <span class="pre">remove</span> <span class="pre">Pilow</span></tt></li>
+<li>Install <tt class="docutils literal"><span class="pre">PIL</span></tt> from <a class="reference external" href="http://www.pythonware.com/products/pil/">here</a> , <tt class="docutils literal"><span class="pre">PIL-1.1.7.win32-py2.7.exe</span></tt></li>
+</ul>
+</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>&gt; ccplot&#39;s setup.py build cannot find HdfEosDef.h
+</pre></div>
+</div>
+<blockquote>
+<div>This is an error due to the setup.py script not being comprehensive, the solution is covered in the <a class="reference internal" href="installation.html"><em>Installation</em></a> instructions for Linux. You can also read about why you get this issue on the github bug tracker for ccplot <a class="reference external" href="https://github.com/peterkuma/ccplot/issues/1">here[1]</a></div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>&gt; While importing PIL on windows, Eclipse tells me Image
+&gt; and ImageTk are unresolved
+</pre></div>
+</div>
+<blockquote>
+<div>This is a known issue, and unless you are actually receiving errors this can be ignored</div></blockquote>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="previous chapter">Tutorial</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="conventions.html"
+                        title="next chapter">Coding Conventions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/troubleshoot.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="conventions.html" title="Coding Conventions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="Tutorial"
+             >previous</a> |</li>
+        <li><a href="index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

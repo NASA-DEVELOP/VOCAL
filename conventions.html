@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Coding Conventions &mdash; CALIPSO 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Packages" href="doc/packages.html" />
+    <link rel="prev" title="Troubleshoot" href="troubleshoot.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="doc/packages.html" title="Packages"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="troubleshoot.html" title="Troubleshoot"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="coding-conventions">
+<h1>Coding Conventions<a class="headerlink" href="#coding-conventions" title="Permalink to this headline">¶</a></h1>
+<p>Below is list of coding conventions agreed upon by Nathan and I(Grant). Please adhere to these conventions to create a more readable codebase.</p>
+<p class="rubric">Variables</p>
+<p>Variables should be in the <tt class="docutils literal"><span class="pre">camelCase</span></tt> format in all cases.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">var</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">anotherVar</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">moreWordsThanPreviousVar</span> <span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p class="rubric">Functions</p>
+<p>The same format as Variables, <tt class="docutils literal"><span class="pre">camelCase</span></tt> should be used.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">func</span><span class="p">():</span>
+
+<span class="k">def</span> <span class="nf">adheresToCodingConventionFunc</span><span class="p">():</span>
+</pre></div>
+</div>
+<p class="rubric">Classes</p>
+<p>Uppercase <tt class="docutils literal"><span class="pre">CamelCase</span></tt> should be used to repesent classes.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Shape</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<span class="k">class</span> <span class="nc">SquareObject</span><span class="p">(</span><span class="n">Shape</span><span class="p">):</span>
+</pre></div>
+</div>
+<p class="rubric">Tabs</p>
+<p>Currently CALIPSO uses tabs instead of spaces.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">var</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">var</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">v</span>        <span class="c"># tab should be 4 spaces long</span>
+</pre></div>
+</div>
+<p class="rubric">General Rules</p>
+<p>No spaces should be left between conditional statements and loops code blocks.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">y</span><span class="p">:</span>
+   <span class="c"># ...</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">y</span><span class="p">:</span>
+   <span class="c"># ...</span>
+</pre></div>
+</div>
+<p>Comments should be right justified when applicable, and only above lines when necessary to explain a section of code(not just one line). Class declarations also must follow the following structure</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">var</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span> <span class="o">+</span> <span class="n">r</span><span class="o">*</span><span class="mi">2</span>           <span class="c"># calculate ___ and place in var</span>
+<span class="n">doFunc</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>                 <span class="c"># do some func with var param</span>
+<span class="k">if</span> <span class="n">var</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">var</span><span class="p">[:</span><span class="mi">3</span><span class="p">]:</span>
+   <span class="n">err</span><span class="p">()</span>                   <span class="c"># error is var does not match criteria</span>
+
+<span class="c"># Set the value of var and pass var into a set of functions which calculate things based off var</span>
+<span class="n">var</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span> <span class="o">+</span> <span class="n">r</span><span class="o">*</span><span class="mi">2</span>
+<span class="n">doAllFuncs</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Class description is placed here</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <span class="c">#...</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="troubleshoot.html"
+                        title="previous chapter">Troubleshoot</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="doc/packages.html"
+                        title="next chapter">Packages</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/conventions.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="doc/packages.html" title="Packages"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="troubleshoot.html" title="Troubleshoot"
+             >previous</a> |</li>
+        <li><a href="index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

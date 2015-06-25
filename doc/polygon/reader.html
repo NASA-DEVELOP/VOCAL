@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>PolygonReader &mdash; CALIPSO 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Polygon" href="polygon.html" />
+    <link rel="next" title="Tools" href="../tools/tools.html" />
+    <link rel="prev" title="PolygonList" href="list.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../tools/tools.html" title="Tools"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="list.html" title="PolygonList"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="polygon.html" accesskey="U">Polygon</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="polygonreader">
+<h1>PolygonReader<a class="headerlink" href="#polygonreader" title="Permalink to this headline">¶</a></h1>
+<p class="graphviz">
+<img src="../../_images/inheritance-564da7e816f56f7657c9591199ea044d4563087c.png" alt="Inheritance diagram of calipso.polygon.reader.PolygonReader" usemap="#inheritancef1e7c39330" class="inheritance"/>
+<map id="inheritancef1e7c39330" name="inheritancef1e7c39330">
+<area shape="rect" id="node1" href="#calipso.polygon.reader.PolygonReader" title="Reads JSON files and transfers the data into PolygonDrawer objects" alt="" coords="5,5,249,31"/>
+</map>
+</p>
+<dl class="class">
+<dt id="calipso.polygon.reader.PolygonReader">
+<em class="property">class </em><tt class="descname">PolygonReader</tt><big>(</big><em>fileName=''</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/reader.html#PolygonReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.reader.PolygonReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads JSON files and transfers the data into PolygonDrawer objects</p>
+<dl class="method">
+<dt id="calipso.polygon.reader.PolygonReader.packPolygonDrawer">
+<tt class="descname">packPolygonDrawer</tt><big>(</big><em>polygonList</em>, <em>plotType</em>, <em>canvas</em>, <em>master</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/reader.html#PolygonReader.packPolygonDrawer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.reader.PolygonReader.packPolygonDrawer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the data in the JSON into PolygonDrawers
+:param polygonList: a Python list of PolygonDrawers
+:param plotType: the current plot being displayed
+:param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the polygonList
+:param master: an instance of Calipso to initialize the blank PolygonDrawer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.reader.PolygonReader.readFromFileJSON">
+<tt class="descname">readFromFileJSON</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/reader.html#PolygonReader.readFromFileJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.reader.PolygonReader.readFromFileJSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads the data from the JSON file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.reader.PolygonReader.readFromStrJSON">
+<tt class="descname">readFromStrJSON</tt><big>(</big><em>data</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/reader.html#PolygonReader.readFromStrJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.reader.PolygonReader.readFromStrJSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads JSON as a string
+:param data: string representation of a JSON</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.reader.PolygonReader.setFileName">
+<tt class="descname">setFileName</tt><big>(</big><em>fileName</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/reader.html#PolygonReader.setFileName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.reader.PolygonReader.setFileName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the file name destination
+:param fileName: the name of the file</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="list.html"
+                        title="previous chapter">PolygonList</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../tools/tools.html"
+                        title="next chapter">Tools</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/doc/polygon/reader.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../tools/tools.html" title="Tools"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="list.html" title="PolygonList"
+             >previous</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="polygon.html" >Polygon</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
