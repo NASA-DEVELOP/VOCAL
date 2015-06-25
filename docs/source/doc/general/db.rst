@@ -4,8 +4,6 @@ Database
 
 .. inheritance-diagram:: db
 
-.. py:module:: db
-
 .. automodule:: db
    :members:
 
