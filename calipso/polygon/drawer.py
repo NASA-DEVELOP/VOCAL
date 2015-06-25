@@ -1,8 +1,8 @@
-'''
-Created on Jun 4, 2015
-
-@author: Nathan Qian
-'''
+######################################
+#    Created on Jun 4, 2015
+#
+#    @author: Nathan Qian
+######################################
 
 # import antigravity
 from numpy import empty_like, dot, array

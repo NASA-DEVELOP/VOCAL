@@ -1,9 +1,9 @@
-'''
-    navigationtoolbar.py
-    @author: Grant Mercer
-    @author: Nathian Qian
-    6/24/2015
-'''
+######################################
+#    navigationtoolbar.py
+#    @author: Grant Mercer
+#    @author: Nathian Qian
+#    6/24/2015
+######################################
 
 from Tkinter import StringVar, Label
 from matplotlib.backends.backend_tkagg import NavigationToolbar2

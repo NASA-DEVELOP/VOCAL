@@ -1,9 +1,9 @@
-'''
-Created on Jun 15, 2015
-
-@author: Grant Mercer
-
-'''
+######################################
+# Created on Jun 15, 2015
+#
+# @author: Grant Mercer
+#
+######################################
 
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox

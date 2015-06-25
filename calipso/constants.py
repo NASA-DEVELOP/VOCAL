@@ -1,10 +1,10 @@
-'''
-Created on Jun 11, 2015
-
-@author: nqian
-
-Module for all constants
-'''
+######################################
+#    Created on Jun 11, 2015
+#
+#    @author: nqian
+#
+#    Module for all constants
+######################################
 
 HEIGHT          = 665
 WIDTH           = 1265
