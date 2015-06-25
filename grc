@@ -1,0 +1,13 @@
+ gource -s 1                    \
+    --hide filenames,mouse      \
+    --highlight-users           \
+    --highlight-colour FF90FF   \
+    --multi-sampling            \
+    --dir-colour C0C0C0         \
+    --title "CALIPSO"           \
+    --output-framerate 60       \
+    -1600x900                   \
+    --key                       \
+    --max-file-lag 4            \
+    --auto-skip-seconds 1
+
