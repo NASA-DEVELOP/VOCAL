@@ -54,7 +54,7 @@ No spaces should be left between conditional statements and loops code blocks.
    for x in y:
       # ...
 
-Comments should be right justified when applicable, and only above lines when necessary to explain a section of code(not just one line). Class declarations also must follow the following structure
+Simple comments should be placed to the right of the line when possible, or one comment should be placed above a segment shortly explaning it's function
 
 .. code-block:: python
 
@@ -63,17 +63,54 @@ Comments should be right justified when applicable, and only above lines when ne
    if var[-1] is not var[:3]:      
       err()                   # error is var does not match criteria
 
-   # Set the value of var and pass var into a set of functions which calculate things based off var
-   var = x - y + r*2
-   doAllFuncs(var)
+   # does this and this and this
+   var = x + 2
+   x = var - 5
+   if var == 0:
+      err()
+
+
+This documentation website is generated using docstrings from source, so **document** as you code! The docstring markdown is reStructedText Primer and sphinx, when the doc chain is generated it will use these docstrings from the code for the webpage. 
+
+.. code-block:: python
 
    class Foo(object):
    '''
    Class description is placed here
+
+   :param <name>: description of param 'name'
    '''
      
-      def __init__(self):
+      def __init__(self, name):
          #...
 
+      def foo(self, x, y)
+      '''
+      Description of function here
+
+      :param int x: parameter x is an integer and does ....
+      :param int y: parameter y is an integer and does ....
+      :rtype: returns int
+      '''
+
+The auto documentation tool chain will generate this as:
+
+.. py:class:: Foo
+   :noindex:
+
+   Class description is placed here
+
+   :param name: description of param 'name'
+
+   .. py:function:: foo(self, x, y)
+      :noindex:
+
+      Description of function here
+
+      :param int x: parameter x is an integer and does...
+      :param int y: parameter y is an integer and does...
+      :rtype: returns int
+
+If you are developing in an existing file , the doc chain *should* find your new function/class automatically. In the case you are creating a new module, determine whether it is in the ``general``, ``polygon`` or ``tools`` package, and create a ``.rst`` file in the corresponding doc/ folder specifying your new module. You can refer to the exisiting .rst files for how to populate the docs 
 
 

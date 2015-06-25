@@ -26,6 +26,7 @@ Documentation:
    :maxdepth: 2
 
    conventions
+   buildingdocs
    doc/packages
 
 Indices and tables

@@ -3,9 +3,6 @@ General
 =========================
 
 .. toctree::
+   :glob:
 
-   calipso
-   toolswindow
-   import
-   attributes
-   db
+   *

@@ -4,13 +4,12 @@ Database
 
 .. inheritance-diagram:: calipso.db
 
-.. autoclass:: calipso.db.dbPolygon
-   :members:
-   :special-members:
+.. py:module:: db
 
-.. autoclass:: calipso.db.DatabaseManager
+.. automodule:: calipso.db
    :members:
 
 .. autodata:: calipso.db.dbBase
 
 .. autodata:: calipso.db.db
+
