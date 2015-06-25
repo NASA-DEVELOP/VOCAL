@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Developing Dos &mdash; CALIPSO 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.1.0 documentation" href="index.html" />
+    <link rel="next" title="Modules" href="doc/modules.html" />
+    <link rel="prev" title="Coding Conventions" href="conventions.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="doc/modules.html" title="Modules"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="conventions.html" title="Coding Conventions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="developing-dos">
+<h1>Developing Dos<a class="headerlink" href="#developing-dos" title="Permalink to this headline">¶</a></h1>
+<p>One of the most important aspects of writing <em>good</em> software is clarity and readability. We hope as other developers find themselves tasked with improving this tool, documentation is also held to as high a standard as Nathan and I do.</p>
+<div class="section" id="building-the-docs">
+<h2>Building the docs<a class="headerlink" href="#building-the-docs" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Install <a class="reference external" href="http://sphinx-doc.org/">sphinx</a> and <a class="reference external" href="http://www.graphviz.org/">graphviz</a> <a class="footnote-reference" href="#f1" id="id1">[1]</a>. We use sphinx as our documentation generator, and graphviz is a visualization tool for class diagrams.</p>
+</li>
+<li><p class="first">Once you have these items installed, ensure you have the command <tt class="docutils literal"><span class="pre">sphinx-build</span></tt> available in your command prompt, if not you&#8217;ll need to make an addition to your <tt class="docutils literal"><span class="pre">PATH</span></tt>.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">cd</span></tt> to the home directory of the repository</p>
+</li>
+<li><p class="first">Docs can be built with <tt class="docutils literal"><span class="pre">sphinx-build</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">&lt;source-dir&gt;</span> <span class="pre">&lt;build-dir&gt;</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; sphinx-build -b html docs/source docs/build
+</pre></div>
+</div>
+</li>
+<li><p class="first">Finished! Open up index.html to view the docs, or continue reading to learn how to update to the gh-pages branch</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">cd</span></tt> out of your repository , and create a new folder. Inside that folder clone the repository to the current directory by specifying <tt class="docutils literal"><span class="pre">.</span></tt> at the end:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; cd ..
+&gt; dir
+&gt; &lt;DIR&gt; CALIPSO_Visualization_tool
+&gt; mkdir docpage
+&gt; dir
+&gt; &lt;DIR&gt; CALIPSO_Visualization_tool
+&gt; &lt;DIR&gt; docpage
+&gt; cd docpage
+&gt; git clone &lt;repo&gt; .
+</pre></div>
+</div>
+</li>
+<li><p class="first">Switch to the gh-pages branch inside that repo <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">gh-pages</span></tt></p>
+</li>
+<li><p class="first">Head back to the master branch repo, and build the docs specifying the build directory at the gh-pages folder. <tt class="docutils literal"><span class="pre">sphinx-build</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">docs/source</span> <span class="pre">../docspage</span></tt></p>
+</li>
+<li><p class="first">Commit and push the gh-pages branch</p>
+</li>
+</ol>
+</div>
+<div class="section" id="contributing-to-the-docs">
+<h2>Contributing to the Docs<a class="headerlink" href="#contributing-to-the-docs" title="Permalink to this headline">¶</a></h2>
+<p>The CALIPSO docs page uses the <tt class="docutils literal"><span class="pre">sphinx.ext.autodoc</span></tt> extensions to pull reStructuredText docstrings from source and create doc pages from them. inside the <tt class="docutils literal"><span class="pre">doc</span></tt> folder is the location of all code documentation, split up into three packages: <em>general</em> , <em>polygon</em> , and <em>tools</em>. If you&#8217;ve created a new module and would like to have it added to the docs(the answer should always be <strong>yes</strong>!), place a <tt class="docutils literal"><span class="pre">.rst</span></tt> file with the module name in the corresponding package folder. Inside that file you&#8217;ll likely have something similar to:</p>
+<div class="highlight-python"><div class="highlight"><pre>.. inheritance-diagram:: &lt;module&gt;
+
+.. py:module:: &lt;module&gt;
+
+.. automodule:: &lt;module&gt;
+   :members:
+</pre></div>
+</div>
+<p>And thats all! The documentation tool chain will do the rest for you.</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>You will likely need to add graphviz to your <tt class="docutils literal"><span class="pre">PATH</span></tt> once installed</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Developing Dos</a><ul>
+<li><a class="reference internal" href="#building-the-docs">Building the docs</a></li>
+<li><a class="reference internal" href="#contributing-to-the-docs">Contributing to the Docs</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="conventions.html"
+                        title="previous chapter">Coding Conventions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="doc/modules.html"
+                        title="next chapter">Modules</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/buildingdocs.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="doc/modules.html" title="Modules"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="conventions.html" title="Coding Conventions"
+             >previous</a> |</li>
+        <li><a href="index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

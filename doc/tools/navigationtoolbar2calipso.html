@@ -26,7 +26,8 @@
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="CALIPSO 0.1.0 documentation" href="../../index.html" />
     <link rel="up" title="Tools" href="tools.html" />
-    <link rel="prev" title="ToggleableButton" href="toggleablebutton.html" /> 
+    <link rel="next" title="ToggleableButton" href="toggleablebutton.html" />
+    <link rel="prev" title="Tools" href="tools.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,9 +41,12 @@
              >modules</a> |</li>
         <li class="right" >
           <a href="toggleablebutton.html" title="ToggleableButton"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tools.html" title="Tools"
              accesskey="P">previous</a> |</li>
         <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
-          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="../modules.html" >Modules</a> &raquo;</li>
           <li><a href="tools.html" accesskey="U">Tools</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,22 +60,22 @@
 <h1>NavigationToolbar2Calipso<a class="headerlink" href="#navigationtoolbar2calipso" title="Permalink to this headline">¶</a></h1>
 <p>Custom toolbar implementation deriving from the matplotlib.backend <em>NavigationToolbar2</em>, The TkAgg port is not used because we specifically implement our own GUI and therefore to not want to draw the TkAgg&#8217;s navigation bar. So we declare this class and leave it mostly bare, thus nothing will be rendered to the screen but we still have access to the button functions and can bind them to our own GUI</p>
 <p class="graphviz">
-<img src="../../_images/inheritance-0873d0419c1bafc27f52afb78f830ed851a448b1.png" alt="Inheritance diagram of calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO" usemap="#inheritancefaed2a0d46" class="inheritance"/>
-<map id="inheritancefaed2a0d46" name="inheritancefaed2a0d46">
-<area shape="rect" id="node1" href="#calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO" title="Custom toolbar derived from matplotlib.backend, since we won&#39;t be specifically displaying" alt="" coords="339,5,701,31"/>
-<area shape="rect" id="node2" title="Base class for the navigation cursor, version 2" alt="" coords="5,5,291,31"/>
+<img src="../../_images/inheritance-8a280c587ba904da2e761d7e1f1ba614b4dd5718.png" alt="Inheritance diagram of tools.navigationtoolbar" usemap="#inheritancefb2f145b05" class="inheritance"/>
+<map id="inheritancefb2f145b05" name="inheritancefb2f145b05">
+<area shape="rect" id="node1" title="Base class for the navigation cursor, version 2" alt="" coords="5,5,291,31"/>
+<area shape="rect" id="node2" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO" title="Custom toolbar derived from matplotlib.backend, since we won&#39;t be specifically displaying" alt="" coords="339,5,657,31"/>
 </map>
 </p>
-<span class="target" id="module-navigationtoolbar"></span><dl class="class">
-<dt id="calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO">
-<em class="property">class </em><tt class="descname">NavigationToolbar2CALIPSO</tt><big>(</big><em>canvas</em>, <em>master</em>, <em>observer</em><big>)</big><a class="reference internal" href="../../_modules/calipso/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-navigationtoolbar"></span><span class="target" id="module-tools.navigationtoolbar"></span><dl class="class">
+<dt id="tools.navigationtoolbar.NavigationToolbar2CALIPSO">
+<em class="property">class </em><tt class="descname">NavigationToolbar2CALIPSO</tt><big>(</big><em>canvas</em>, <em>master</em>, <em>observer</em><big>)</big><a class="reference internal" href="../../_modules/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO" title="Permalink to this definition">¶</a></dt>
 <dd><p>Custom toolbar derived from matplotlib.backend, since we won&#8217;t be specifically displaying
 any of their provided TkGUI, we will be creating our own GUI outside of the toolbar and
 simply using the functions provided by NavigationToolbar2. Thus we strip the toolbar of
 anything GUI related</p>
 <dl class="method">
-<dt id="calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.draw_rubberband">
-<tt class="descname">draw_rubberband</tt><big>(</big><em>event</em>, <em>x0</em>, <em>y0</em>, <em>x1</em>, <em>y1</em><big>)</big><a class="reference internal" href="../../_modules/calipso/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.draw_rubberband"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.draw_rubberband" title="Permalink to this definition">¶</a></dt>
+<dt id="tools.navigationtoolbar.NavigationToolbar2CALIPSO.draw_rubberband">
+<tt class="descname">draw_rubberband</tt><big>(</big><em>event</em>, <em>x0</em>, <em>y0</em>, <em>x1</em>, <em>y1</em><big>)</big><a class="reference internal" href="../../_modules/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.draw_rubberband"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO.draw_rubberband" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws a rectangle rubber band to indicate area that will be zoomed in on</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -91,8 +95,8 @@ anything GUI related</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.release">
-<tt class="descname">release</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/calipso/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.release"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.release" title="Permalink to this definition">¶</a></dt>
+<dt id="tools.navigationtoolbar.NavigationToolbar2CALIPSO.release">
+<tt class="descname">release</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.release"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO.release" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upon mouse release while zooming, the rectangle is deleted and the
 application is zoomed to that view</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -106,8 +110,8 @@ application is zoomed to that view</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.release_zoom">
-<tt class="descname">release_zoom</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/calipso/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.release_zoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.release_zoom" title="Permalink to this definition">¶</a></dt>
+<dt id="tools.navigationtoolbar.NavigationToolbar2CALIPSO.release_zoom">
+<tt class="descname">release_zoom</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.release_zoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO.release_zoom" title="Permalink to this definition">¶</a></dt>
 <dd><p>the release mouse button callback in zoom to rect mode, upon
 release the plot will zoom to the location of the rectangle</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -121,20 +125,20 @@ release the plot will zoom to the location of the rectangle</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.set_message">
-<tt class="descname">set_message</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="../../_modules/calipso/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.set_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.set_message" title="Permalink to this definition">¶</a></dt>
+<dt id="tools.navigationtoolbar.NavigationToolbar2CALIPSO.set_message">
+<tt class="descname">set_message</tt><big>(</big><em>s</em><big>)</big><a class="reference internal" href="../../_modules/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.set_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO.set_message" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the message of the stringvar</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.update">
-<tt class="descname">update</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.update" title="Permalink to this definition">¶</a></dt>
+<dt id="tools.navigationtoolbar.NavigationToolbar2CALIPSO.update">
+<tt class="descname">update</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the base class update function</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.zoom">
-<tt class="descname">zoom</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="../../_modules/calipso/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.zoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.tools.navigationtoolbar.NavigationToolbar2CALIPSO.zoom" title="Permalink to this definition">¶</a></dt>
+<dt id="tools.navigationtoolbar.NavigationToolbar2CALIPSO.zoom">
+<tt class="descname">zoom</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="../../_modules/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.zoom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO.zoom" title="Permalink to this definition">¶</a></dt>
 <dd><p>Caller function for activating and deactivating zoom mode</p>
 </dd></dl>
 
@@ -149,8 +153,11 @@ release the plot will zoom to the location of the rectangle</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
+  <p class="topless"><a href="tools.html"
+                        title="previous chapter">Tools</a></p>
+  <h4>Next topic</h4>
   <p class="topless"><a href="toggleablebutton.html"
-                        title="previous chapter">ToggleableButton</a></p>
+                        title="next chapter">ToggleableButton</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/doc/tools/navigationtoolbar2calipso.txt"
@@ -184,9 +191,12 @@ release the plot will zoom to the location of the rectangle</p>
              >modules</a> |</li>
         <li class="right" >
           <a href="toggleablebutton.html" title="ToggleableButton"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tools.html" title="Tools"
              >previous</a> |</li>
         <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
-          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="../modules.html" >Modules</a> &raquo;</li>
           <li><a href="tools.html" >Tools</a> &raquo;</li> 
       </ul>
     </div>

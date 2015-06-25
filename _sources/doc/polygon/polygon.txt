@@ -3,7 +3,6 @@ Polygon
 ========================
 
 .. toctree::
+   :glob:
 
-   drawer
-   list
-   reader
+   *

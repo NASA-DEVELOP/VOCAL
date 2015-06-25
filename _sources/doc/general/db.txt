@@ -2,15 +2,12 @@
 Database
 ============================
 
-.. inheritance-diagram:: calipso.db
+.. inheritance-diagram:: db
 
-.. autoclass:: calipso.db.dbPolygon
-   :members:
-   :special-members:
-
-.. autoclass:: calipso.db.DatabaseManager
+.. automodule:: db
    :members:
 
-.. autodata:: calipso.db.dbBase
+.. autodata:: db.dbBase
 
-.. autodata:: calipso.db.db
+.. autodata:: db.db
+

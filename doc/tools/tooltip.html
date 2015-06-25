@@ -26,8 +26,8 @@
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="CALIPSO 0.1.0 documentation" href="../../index.html" />
     <link rel="up" title="Tools" href="tools.html" />
-    <link rel="next" title="ToggleableButton" href="toggleablebutton.html" />
-    <link rel="prev" title="TreeListBox" href="treelistbox.html" /> 
+    <link rel="next" title="TreeListBox" href="treelistbox.html" />
+    <link rel="prev" title="ToggleableButton" href="toggleablebutton.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,13 +40,13 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="toggleablebutton.html" title="ToggleableButton"
+          <a href="treelistbox.html" title="TreeListBox"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="treelistbox.html" title="TreeListBox"
+          <a href="toggleablebutton.html" title="ToggleableButton"
              accesskey="P">previous</a> |</li>
         <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
-          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="../modules.html" >Modules</a> &raquo;</li>
           <li><a href="tools.html" accesskey="U">Tools</a> &raquo;</li> 
       </ul>
     </div>  
@@ -60,14 +60,14 @@
 <h1>ToolTip<a class="headerlink" href="#tooltip" title="Permalink to this headline">¶</a></h1>
 <p>Allows for the easy creation of tool tips that are displayed below buttons. Requires a widget and overlays a simple tool tip once hovered over by the mouse. Created with py:meth:createToolTip</p>
 <p class="graphviz">
-<img src="../../_images/inheritance-448467a49325ef8ad662aa0c9dc9c94655d8edff.png" alt="Inheritance diagram of calipso.tools.tooltip.ToolTip" usemap="#inheritance7c6535bb5e" class="inheritance"/>
-<map id="inheritance7c6535bb5e" name="inheritance7c6535bb5e">
-<area shape="rect" id="node1" href="#calipso.tools.tooltip.ToolTip" title="Displays text in a label below a passed widget" alt="" coords="5,5,184,31"/>
+<img src="../../_images/inheritance-e108e28b462516ca5e5eb65d4ca8695bdeda87bf.png" alt="Inheritance diagram of tools.tooltip" usemap="#inheritance2bacda21cd" class="inheritance"/>
+<map id="inheritance2bacda21cd" name="inheritance2bacda21cd">
+<area shape="rect" id="node1" href="#tools.tooltip.ToolTip" title="Displays text in a label below a passed widget" alt="" coords="5,5,140,31"/>
 </map>
 </p>
-<span class="target" id="module-tooltip"></span><dl class="class">
-<dt id="calipso.tools.tooltip.ToolTip">
-<em class="property">class </em><tt class="descname">ToolTip</tt><big>(</big><em>widget</em><big>)</big><a class="reference internal" href="../../_modules/calipso/tools/tooltip.html#ToolTip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.tools.tooltip.ToolTip" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-tools.tooltip"></span><dl class="class">
+<dt id="tools.tooltip.ToolTip">
+<em class="property">class </em><tt class="descname">ToolTip</tt><big>(</big><em>widget</em><big>)</big><a class="reference internal" href="../../_modules/tools/tooltip.html#ToolTip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.tooltip.ToolTip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Displays text in a label below a passed widget</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -78,17 +78,17 @@
 </tbody>
 </table>
 <dl class="method">
-<dt id="calipso.tools.tooltip.ToolTip.hideTip">
-<tt class="descname">hideTip</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/tools/tooltip.html#ToolTip.hideTip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.tools.tooltip.ToolTip.hideTip" title="Permalink to this definition">¶</a></dt>
+<dt id="tools.tooltip.ToolTip.hideTip">
+<tt class="descname">hideTip</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/tools/tooltip.html#ToolTip.hideTip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.tooltip.ToolTip.hideTip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hide or destory the tool tip label when the mouse leaves widget.
-Bound to the <tt class="docutils literal"><span class="pre">'&lt;Leave&gt;'</span></tt> event when <tt class="xref py py-func docutils literal"><span class="pre">createToolTip()</span></tt> is called</p>
+Bound to the <tt class="docutils literal"><span class="pre">'&lt;Leave&gt;'</span></tt> event when <a class="reference internal" href="#tools.tooltip.createToolTip" title="tools.tooltip.createToolTip"><tt class="xref py py-func docutils literal"><span class="pre">createToolTip()</span></tt></a> is called</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="calipso.tools.tooltip.ToolTip.showTip">
-<tt class="descname">showTip</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../../_modules/calipso/tools/tooltip.html#ToolTip.showTip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.tools.tooltip.ToolTip.showTip" title="Permalink to this definition">¶</a></dt>
+<dt id="tools.tooltip.ToolTip.showTip">
+<tt class="descname">showTip</tt><big>(</big><em>text</em><big>)</big><a class="reference internal" href="../../_modules/tools/tooltip.html#ToolTip.showTip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.tooltip.ToolTip.showTip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and pack the tooltip, bound to the <tt class="docutils literal"><span class="pre">'&lt;Enter&gt;'</span></tt> event when
-<tt class="xref py py-func docutils literal"><span class="pre">createToolTip()</span></tt> is called</p>
+<a class="reference internal" href="#tools.tooltip.createToolTip" title="tools.tooltip.createToolTip"><tt class="xref py py-func docutils literal"><span class="pre">createToolTip()</span></tt></a> is called</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -101,10 +101,10 @@ Bound to the <tt class="docutils literal"><span class="pre">'&lt;Leave&gt;'</spa
 
 </dd></dl>
 
-<dl class="staticmethod">
-<dt>
-<em class="property">static </em><tt class="descclassname">tooltip.</tt><tt class="descname">createToolTip</tt><big>(</big><em>widget</em>, <em>text</em><big>)</big></dt>
-<dd><p>Create an instance of <tt class="xref py py-class docutils literal"><span class="pre">ToolTip</span></tt> and bind the <tt class="docutils literal"><span class="pre">'&lt;Enter&gt;'</span></tt> and
+<dl class="function">
+<dt id="tools.tooltip.createToolTip">
+<tt class="descname">createToolTip</tt><big>(</big><em>widget</em>, <em>text</em><big>)</big><a class="reference internal" href="../../_modules/tools/tooltip.html#createToolTip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.tooltip.createToolTip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an instance of <a class="reference internal" href="#tools.tooltip.ToolTip" title="tools.tooltip.ToolTip"><tt class="xref py py-class docutils literal"><span class="pre">ToolTip</span></tt></a> and bind the <tt class="docutils literal"><span class="pre">'&lt;Enter&gt;'</span></tt> and
 <tt class="docutils literal"><span class="pre">'&lt;Leave&gt;'</span></tt> events for displaying to the widget passed</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -129,11 +129,11 @@ Bound to the <tt class="docutils literal"><span class="pre">'&lt;Leave&gt;'</spa
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="treelistbox.html"
-                        title="previous chapter">TreeListBox</a></p>
-  <h4>Next topic</h4>
   <p class="topless"><a href="toggleablebutton.html"
-                        title="next chapter">ToggleableButton</a></p>
+                        title="previous chapter">ToggleableButton</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="treelistbox.html"
+                        title="next chapter">TreeListBox</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/doc/tools/tooltip.txt"
@@ -166,13 +166,13 @@ Bound to the <tt class="docutils literal"><span class="pre">'&lt;Leave&gt;'</spa
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="toggleablebutton.html" title="ToggleableButton"
+          <a href="treelistbox.html" title="TreeListBox"
              >next</a> |</li>
         <li class="right" >
-          <a href="treelistbox.html" title="TreeListBox"
+          <a href="toggleablebutton.html" title="ToggleableButton"
              >previous</a> |</li>
         <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
-          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="../modules.html" >Modules</a> &raquo;</li>
           <li><a href="tools.html" >Tools</a> &raquo;</li> 
       </ul>
     </div>

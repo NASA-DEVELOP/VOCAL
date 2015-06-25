@@ -2,7 +2,7 @@
 Attributes Dialog
 ============================
 
-.. inheritance-diagram:: calipso.attributesdialog.AttributesDialog
+.. inheritance-diagram:: attributesdialog
 
-.. autoclass:: calipso.attributesdialog.AttributesDialog
+.. automodule:: attributesdialog
    :members:

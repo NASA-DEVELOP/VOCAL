@@ -26,8 +26,8 @@
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="CALIPSO 0.1.0 documentation" href="../../index.html" />
     <link rel="up" title="General" href="general.html" />
-    <link rel="next" title="Polygon" href="../polygon/polygon.html" />
-    <link rel="prev" title="Attributes Dialog" href="attributes.html" /> 
+    <link rel="next" title="Import Dialog" href="import.html" />
+    <link rel="prev" title="Constants" href="consts.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,13 +40,13 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../polygon/polygon.html" title="Polygon"
+          <a href="import.html" title="Import Dialog"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="attributes.html" title="Attributes Dialog"
+          <a href="consts.html" title="Constants"
              accesskey="P">previous</a> |</li>
         <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
-          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="../modules.html" >Modules</a> &raquo;</li>
           <li><a href="general.html" accesskey="U">General</a> &raquo;</li> 
       </ul>
     </div>  
@@ -59,46 +59,21 @@
   <div class="section" id="database">
 <h1>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h1>
 <p class="graphviz">
-<img src="../../_images/inheritance-633af27e299a21c93e4db5030822cccadd171164.png" alt="Inheritance diagram of calipso.db" usemap="#inheritancefd1874f8fb" class="inheritance"/>
-<map id="inheritancefd1874f8fb" name="inheritancefd1874f8fb">
-<area shape="rect" id="node1" href="#calipso.db.DatabaseManager" title="Internally manages the database engine and any sql related objects." alt="" coords="25,55,216,80"/>
-<area shape="rect" id="node2" href="#calipso.db.dbPolygon" title="Sqlalchemy class object, contains all data that is stored inside the database" alt="" coords="284,5,431,31"/>
+<img src="../../_images/inheritance-9c0f4d4a0faa2ed7f59f1b77fe71510c78b258d0.png" alt="Inheritance diagram of db" usemap="#inheritance53bde99ac8" class="inheritance"/>
+<map id="inheritance53bde99ac8" name="inheritance53bde99ac8">
+<area shape="rect" id="node1" href="#db.DatabaseManager" title="Internally manages the database engine and any sql related objects." alt="" coords="48,55,193,80"/>
+<area shape="rect" id="node2" href="#db.dbPolygon" title="Sqlalchemy class object, contains all data that is stored inside the database" alt="" coords="284,5,385,31"/>
 </map>
 </p>
-<dl class="class">
-<dt id="calipso.db.dbPolygon">
-<em class="property">class </em><tt class="descname">dbPolygon</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../../_modules/calipso/db.html#dbPolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.db.dbPolygon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sqlalchemy class object, contains all data that is stored inside the database</p>
-<dl class="method">
-<dt id="calipso.db.dbPolygon.__init__">
-<tt class="descname">__init__</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#calipso.db.dbPolygon.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>A simple constructor that allows initialization from kwargs.</p>
-<p>Sets attributes on the constructed instance using the names and
-values in <tt class="docutils literal"><span class="pre">kwargs</span></tt>.</p>
-<p>Only keys that are present as
-attributes of the instance&#8217;s class are allowed. These could be,
-for example, any mapped columns or relationships.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="calipso.db.dbPolygon.__repr__">
-<tt class="descname">__repr__</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/db.html#dbPolygon.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.db.dbPolygon.__repr__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represent the database class as a JSON object. Useful as our program
-already supporst JSON reading, so simply parse out the database as 
-seperate JSON &#8216;files&#8217;</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="calipso.db.DatabaseManager">
-<em class="property">class </em><tt class="descname">DatabaseManager</tt><a class="reference internal" href="../../_modules/calipso/db.html#DatabaseManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.db.DatabaseManager" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-db"></span><dl class="class">
+<dt id="db.DatabaseManager">
+<em class="property">class </em><tt class="descname">DatabaseManager</tt><a class="reference internal" href="../../_modules/db.html#DatabaseManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Internally manages the database engine and any sql related objects.
 Hands out sessions with getSession() but only offers abstractions for
 other functionality. The database is INDEPENDENT from the application</p>
 <dl class="method">
-<dt id="calipso.db.DatabaseManager.commitToDB">
-<tt class="descname">commitToDB</tt><big>(</big><em>polyList</em>, <em>time</em>, <em>f</em><big>)</big><a class="reference internal" href="../../_modules/calipso/db.html#DatabaseManager.commitToDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.db.DatabaseManager.commitToDB" title="Permalink to this definition">¶</a></dt>
+<dt id="db.DatabaseManager.commitToDB">
+<tt class="descname">commitToDB</tt><big>(</big><em>polyList</em>, <em>time</em>, <em>f</em><big>)</big><a class="reference internal" href="../../_modules/db.html#DatabaseManager.commitToDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.commitToDB" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a list of polygons and commits them into the database,
 used in polygonList to commit all visible polygons
 :param polyList: the current polygonList corresponding to the active plot
@@ -107,30 +82,30 @@ used in polygonList to commit all visible polygons
 </dd></dl>
 
 <dl class="method">
-<dt id="calipso.db.DatabaseManager.deleteItem">
-<tt class="descname">deleteItem</tt><big>(</big><em>idx</em><big>)</big><a class="reference internal" href="../../_modules/calipso/db.html#DatabaseManager.deleteItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.db.DatabaseManager.deleteItem" title="Permalink to this definition">¶</a></dt>
+<dt id="db.DatabaseManager.deleteItem">
+<tt class="descname">deleteItem</tt><big>(</big><em>idx</em><big>)</big><a class="reference internal" href="../../_modules/db.html#DatabaseManager.deleteItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.deleteItem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a session and delete the object from the database.
 :param indx: the primary key for the object passed</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="calipso.db.DatabaseManager.encode">
-<tt class="descname">encode</tt><big>(</big><em>filename</em>, <em>data</em><big>)</big><a class="reference internal" href="../../_modules/calipso/db.html#DatabaseManager.encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.db.DatabaseManager.encode" title="Permalink to this definition">¶</a></dt>
+<dt id="db.DatabaseManager.encode">
+<tt class="descname">encode</tt><big>(</big><em>filename</em>, <em>data</em><big>)</big><a class="reference internal" href="../../_modules/db.html#DatabaseManager.encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.encode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encode and write out a JSON object
 :param filename: name of the file
 :param data: Python dictionary representation of a JSON</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="calipso.db.DatabaseManager.getSession">
-<tt class="descname">getSession</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/db.html#DatabaseManager.getSession"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.db.DatabaseManager.getSession" title="Permalink to this definition">¶</a></dt>
+<dt id="db.DatabaseManager.getSession">
+<tt class="descname">getSession</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/db.html#DatabaseManager.getSession"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.getSession" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an instance of a session, USERS job to ensure session
 is committed/closed</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="calipso.db.DatabaseManager.queryUniqueTag">
-<tt class="descname">queryUniqueTag</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/db.html#DatabaseManager.queryUniqueTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.db.DatabaseManager.queryUniqueTag" title="Permalink to this definition">¶</a></dt>
+<dt id="db.DatabaseManager.queryUniqueTag">
+<tt class="descname">queryUniqueTag</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/db.html#DatabaseManager.queryUniqueTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.queryUniqueTag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Grabs a session and queries the database to find the starting tag for the application.
 this tag is used so it does not overlap existing shape tags previously generated
 and stored into the database</p>
@@ -138,14 +113,20 @@ and stored into the database</p>
 
 </dd></dl>
 
+<dl class="class">
+<dt id="db.dbPolygon">
+<em class="property">class </em><tt class="descname">dbPolygon</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../../_modules/db.html#dbPolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.dbPolygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sqlalchemy class object, contains all data that is stored inside the database</p>
+</dd></dl>
+
 <dl class="data">
-<dt id="calipso.db.dbBase">
-<tt class="descname">dbBase</tt><em class="property"> = &lt;class 'sqlalchemy.ext.declarative.api.Base'&gt;</em><a class="headerlink" href="#calipso.db.dbBase" title="Permalink to this definition">¶</a></dt>
+<dt id="db.dbBase">
+<tt class="descname">dbBase</tt><em class="property"> = &lt;class 'sqlalchemy.ext.declarative.api.Base'&gt;</em><a class="headerlink" href="#db.dbBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
-<dt id="calipso.db.db">
-<tt class="descname">db</tt><em class="property"> = &lt;calipso.db.DatabaseManager object at 0x075E8C70&gt;</em><a class="headerlink" href="#calipso.db.db" title="Permalink to this definition">¶</a></dt>
+<dt id="db.db">
+<tt class="descname">db</tt><em class="property"> = &lt;db.DatabaseManager object at 0x06C1FB70&gt;</em><a class="headerlink" href="#db.db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Internally manages the database engine and any sql related objects.
 Hands out sessions with getSession() but only offers abstractions for
 other functionality. The database is INDEPENDENT from the application</p>
@@ -160,11 +141,11 @@ other functionality. The database is INDEPENDENT from the application</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="attributes.html"
-                        title="previous chapter">Attributes Dialog</a></p>
+  <p class="topless"><a href="consts.html"
+                        title="previous chapter">Constants</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../polygon/polygon.html"
-                        title="next chapter">Polygon</a></p>
+  <p class="topless"><a href="import.html"
+                        title="next chapter">Import Dialog</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../_sources/doc/general/db.txt"
@@ -197,13 +178,13 @@ other functionality. The database is INDEPENDENT from the application</p>
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../polygon/polygon.html" title="Polygon"
+          <a href="import.html" title="Import Dialog"
              >next</a> |</li>
         <li class="right" >
-          <a href="attributes.html" title="Attributes Dialog"
+          <a href="consts.html" title="Constants"
              >previous</a> |</li>
         <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
-          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="../modules.html" >Modules</a> &raquo;</li>
           <li><a href="general.html" >General</a> &raquo;</li> 
       </ul>
     </div>

@@ -2,7 +2,7 @@
 PolygonList
 ==========================
 
-.. inheritance-diagram:: calipso.polygon.list.PolygonList
+.. inheritance-diagram:: polygon.list
 
-.. autoclass:: calipso.polygon.list.PolygonList
+.. automodule:: polygon.list
    :members:
