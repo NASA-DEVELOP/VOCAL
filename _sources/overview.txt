@@ -34,45 +34,33 @@ Structure
 
 The program has the following file layout::
 
-    CALIPSO_Visualization/
-    |-- dat/
-    |   |
-    |   |-- Testing data
-    |   |
-    |-- gui/
-    |   |
-    |   |-- GUI interface program
-    |   |
-    |-- plot_vfm/
-    |   |
-    |   |-- HDF conversion files for plotting
-    |   |
-    |-- docs/
-    |   |
-    |   |-- build/
-    |   |   |
-    |   |   |-- sphinx built docs
-    |   |   |
-    |   |-- source/
-    |   |   |-- sphinx source docs
-    |   |   |
-    |   |   |-- _static/
-    |   |   |   |
-    |   |   |   |-- static doc images
-    |   |   |   |
-    |   |   |-- _templates/
-    |   |   |   |
-    |   |   |   |-- templated css
-    |   |   |   |
-    |   |   |-- classes/
-    |   |   |   |
-    |   |   |   |-- class docs
-    |   |   |   |
-    |   |   |-- functions/
-    |   |   |   |
-    |   |   |   |-- free function docs
-    |   |   |   |
-
+   +---.settings
+   +---dat
+   +---db
+   |   \---manage_db
+   +---docs
+   |   +---build
+   |   |   +---.doctrees
+   |   |   |   +---classes
+   |   |   |   \---functions
+   |   |   +---classes
+   |   |   +---functions
+   |   |   +---_images
+   |   |   +---_modules
+   |   |   +---_sources
+   |   |   |   +---classes
+   |   |   |   \---functions
+   |   |   \---_static
+   |   \---source
+   |       +---classes
+   |       +---functions
+   |       \---_static
+   +---gui
+   |   +---dat
+   |   +---ico
+   |   +---objs
+   |   \---plot
+   \---plot_vfm
 
 ----------------------------------------
 Features
@@ -81,10 +69,10 @@ Features
 .. class:: left: blank program, right: shapes form around selected areas of the plot
 
    .. image:: _static/program.png
-      :scale: 40%
+      :scale: 30%
 
    .. image:: _static/programShapesActive.png
-      :scale: 40%
+      :scale: 30%
 
 
 CALIPSO is still in a very early development phase
@@ -114,6 +102,10 @@ Once a plot is displayed, the user can select from a range of features in the *t
 * ``Focus`` : fill or no fill setting for shapes
 * ``Paint`` : specify the color of a shape
 * ``Hide``  : hide shapes
+* ``Save``  : save visible objects to a JSON file
+* ``Load``  : load a JSON file containing objects
+* ``View``  : view notes and attributes of polygon
+* ``Edit``  : add notes and attributes for polygons
 
 Additional features are still to come!
 
@@ -131,19 +123,5 @@ Additional Information
      May 2000 - Nov 2010
 
 * **Earth Observations & Parameters:**
-     CALIPSO, CALIOP - Vertial Profile of Aerosols
-
-* **Ancillary Datasets Utilized:**
-     Provider & Dataset - Parameter (*examples below* )
-
-     * USGS National Land Cover Dataset (NLCD)
-     * NOAA Coastal Change Analysis Program (C-CAP) - regional land cover
-     * EPA AIRNow PM:sub:`2.5` dataset - PM:sub:`2.5` measurements
-
-* **Models Utilized:**
-     Agency & Model Name ( *examples below* )
-
-     * USGS National Invasive Species Forecasting System (ISFS)
-     * NASA Regional Ocean Model System (ROMS)
-     * NOAA Sea, Lake and Overland Surges from Hurricanes (SLOSH) model
+     CALIPSO, CALIOP - Vertial Profile of Aerosolsl
 

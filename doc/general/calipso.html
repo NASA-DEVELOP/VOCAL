@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Calipso &mdash; CALIPSO 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="General" href="general.html" />
+    <link rel="next" title="Tools Window" href="toolswindow.html" />
+    <link rel="prev" title="General" href="general.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="toolswindow.html" title="Tools Window"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="general.html" title="General"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="general.html" accesskey="U">General</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="calipso">
+<h1>Calipso<a class="headerlink" href="#calipso" title="Permalink to this headline">¶</a></h1>
+<p>The main class of the application. Calipso manages all Tkinter and widget related entities, and ensures all parts of the GUI are initialized and created before the start of the program.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">rt</span> <span class="o">=</span> <span class="n">Tk</span><span class="p">()</span>
+    <span class="n">program</span> <span class="o">=</span> <span class="n">Calipso</span><span class="p">(</span><span class="n">rt</span><span class="p">)</span>       <span class="c"># Create main GUI window</span>
+
+    <span class="n">program</span><span class="o">.</span><span class="n">setupWindow</span><span class="p">()</span>       <span class="c"># create window in center screen</span>
+    <span class="n">program</span><span class="o">.</span><span class="n">setupMenu</span><span class="p">()</span>         <span class="c"># create top menu</span>
+    <span class="n">program</span><span class="o">.</span><span class="n">setupMainScreen</span><span class="p">()</span>   <span class="c"># create top buttons, initialize child and display base_plt</span>
+
+    <span class="n">rt</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span>               <span class="c"># program main loop</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">_exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The order of functions calls in the beginning of the program is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre>__init__
+setupWindow
+setupMenu
+setupMainScreen
+    |-&gt; calls createTopScreenGUI
+    |-&gt; calls createChildWindowGUI
+    |-&gt; calls selPlot(BASE_PLOT)
+</pre></div>
+</div>
+<p class="graphviz">
+<img src="../../_images/inheritance-39acc4bcd227016af1e2bfb96286b2a441118807.png" alt="Inheritance diagram of calipso.Calipso.Calipso" usemap="#inheritanceaa032ed2c7" class="inheritance"/>
+<map id="inheritanceaa032ed2c7" name="inheritanceaa032ed2c7">
+<area shape="rect" id="node1" href="#calipso.Calipso.Calipso" title="Main class of the application, handles all GUI related events as well as " alt="" coords="5,5,163,31"/>
+</map>
+</p>
+<dl class="class">
+<dt id="calipso.Calipso.Calipso">
+<em class="property">class </em><tt class="descname">Calipso</tt><big>(</big><em>r</em><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main class of the application, handles all GUI related events as well as 
+creating other GUI windows such as the toolbar or import dialog</p>
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.about">
+<tt class="descname">about</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.about"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.about" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple TopLevel window displaying the authors</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.attributeWindow">
+<tt class="descname">attributeWindow</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.attributeWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.attributeWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open attribute window for specifying attributes on objects</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.createTopScreenGUI">
+<tt class="descname">createTopScreenGUI</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.createTopScreenGUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.createTopScreenGUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes and creates the file dialog and browse button that appear at the top of the screen</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.getFig">
+<tt class="descname">getFig</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.getFig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.getFig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the figure that is plotted to the canvas</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">Figure</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.getPolygonList">
+<tt class="descname">getPolygonList</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.getPolygonList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.getPolygonList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the internal <tt class="xref py py-class docutils literal"><span class="pre">polygonList</span></tt> object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">polygonList</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.getToolbar">
+<tt class="descname">getToolbar</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.getToolbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.getToolbar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the internal <tt class="xref py py-class docutils literal"><span class="pre">toolbar</span></tt> object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><tt class="xref py py-class docutils literal"><span class="pre">NavigationToolbar2CALIPSO</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.importFile">
+<tt class="descname">importFile</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.importFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.importFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an HDF file for use with displaying backscatter and depolarized images</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.load">
+<tt class="descname">load</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>load JSON objects from file by calling <tt class="xref py py-meth docutils literal"><span class="pre">polygonlist.readPlot(f)()</span></tt></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.notifySaveAsJSON">
+<tt class="descname">notifySaveAsJSON</tt><big>(</big><em>saveAll=False</em><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.notifySaveAsJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.notifySaveAsJSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save all shapes on the map given a file specified by the user</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.notifySaveDB">
+<tt class="descname">notifySaveDB</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.notifySaveDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.notifySaveDB" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notify the database that a save is taking place, the
+db will then save all polygons present on the screen</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.notifySaveJSON">
+<tt class="descname">notifySaveJSON</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.notifySaveJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.notifySaveJSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save all shapes on the map inside a JSON object given a previously
+saved file. If no file exists prompt for file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset all objects on the screen, move pan to original</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.setPlot">
+<tt class="descname">setPlot</tt><big>(</big><em>plotType</em><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.setPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.setPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws to the canvas according to the <em>plotType</em> specified in the arguments. Accepts one of the 
+attributes below</p>
+<dl class="attribute">
+<dt id="Calipso.BASE_PLOT">
+<tt class="descname">BASE_PLOT</tt><a class="headerlink" href="#Calipso.BASE_PLOT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Calipso.BACKSCATTERED">
+<tt class="descname">BACKSCATTERED</tt><a class="headerlink" href="#Calipso.BACKSCATTERED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Calipso.DEPOLARIZED">
+<tt class="descname">DEPOLARIZED</tt><a class="headerlink" href="#Calipso.DEPOLARIZED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="Calipso.VFML">
+<tt class="descname">VFML</tt><a class="headerlink" href="#Calipso.VFML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plotType</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; accepts <tt class="docutils literal"><span class="pre">BASE_PLOT,</span> <span class="pre">BACKSCATTERED,</span> <span class="pre">DEPOLARIZED,</span> <span class="pre">VFM</span></tt></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.setupMainScreen">
+<tt class="descname">setupMainScreen</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.setupMainScreen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.setupMainScreen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup the top GUI, initialize toolbar window and set the plot to a blank image</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.setupMenu">
+<tt class="descname">setupMenu</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.setupMenu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.setupMenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a drop down menu bar</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.Calipso.Calipso.setupWindow">
+<tt class="descname">setupWindow</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/Calipso.html#Calipso.setupWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.Calipso.Calipso.setupWindow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the title of root and invokes py:meth:<cite>centerWindow</cite></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="general.html"
+                        title="previous chapter">General</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="toolswindow.html"
+                        title="next chapter">Tools Window</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/doc/general/calipso.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="toolswindow.html" title="Tools Window"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="general.html" title="General"
+             >previous</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="general.html" >General</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

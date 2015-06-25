@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>PolygonDrawer &mdash; CALIPSO 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Polygon" href="polygon.html" />
+    <link rel="next" title="PolygonList" href="list.html" />
+    <link rel="prev" title="Polygon" href="polygon.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="list.html" title="PolygonList"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="polygon.html" title="Polygon"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="polygon.html" accesskey="U">Polygon</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="polygondrawer">
+<h1>PolygonDrawer<a class="headerlink" href="#polygondrawer" title="Permalink to this headline">¶</a></h1>
+<p class="graphviz">
+<img src="../../_images/inheritance-d836d9c831e41b2726a20504ef70c6f32dc71b17.png" alt="Inheritance diagram of calipso.polygon.drawer.PolygonDrawer" usemap="#inheritance97b32fab4b" class="inheritance"/>
+<map id="inheritance97b32fab4b" name="inheritance97b32fab4b">
+<area shape="rect" id="node1" href="#calipso.polygon.drawer.PolygonDrawer" title="Displays the polygon objects onto the canvas by supplying draw methods." alt="" coords="5,5,251,31"/>
+</map>
+</p>
+<dl class="class">
+<dt id="calipso.polygon.drawer.PolygonDrawer">
+<em class="property">class </em><tt class="descname">PolygonDrawer</tt><big>(</big><em>canvas</em>, <em>master</em>, <em>tag=''</em>, <em>color=''</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the polygon objects onto the canvas by supplying draw methods.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>canvas</strong> &#8211; The canvas to draw the object to</li>
+<li><strong>master</strong> &#8211; Central class, in this case Calipso</li>
+<li><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name of shape</li>
+<li><strong>color</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Color of shape</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.addAttribute">
+<tt class="descname">addAttribute</tt><big>(</big><em>tag</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.addAttribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.addAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append an attribute to the string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Tag to append</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.anchorRectangle">
+<tt class="descname">anchorRectangle</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.anchorRectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.anchorRectangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Establishes a corner of a rectangle as anchor for when the user drags the cursor to 
+create a rectangle. Used in &#8220;Draw Rect&#8221; button</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.drawPolygon">
+<tt class="descname">drawPolygon</tt><big>(</big><em>plot='base_plot'</em>, <em>fill=False</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.drawPolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.drawPolygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the polygon to the screen</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>plot</strong> &#8211; Plot to draw to</li>
+<li><strong>fill</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Boolean for whether to fill in object or not</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.fillRectangle">
+<tt class="descname">fillRectangle</tt><big>(</big><em>event</em>, <em>plot='base_plot'</em>, <em>fill=False</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.fillRectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.fillRectangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws the rectangle and stores the vertices of the rectangle internally. Used in &#8220;Draw Rect&#8221;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>event</strong> &#8211; A Tkinter passed event object</li>
+<li><strong>plot</strong> &#8211; The current plot the canvas is drawing to</li>
+<li><strong>fill</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Boolean on whether to fill the shape</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.getAttributes">
+<tt class="descname">getAttributes</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.getAttributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.getAttributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return attributes list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.getColor">
+<tt class="descname">getColor</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.getColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.getColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the color of the object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.getCoordinates">
+<tt class="descname">getCoordinates</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.getCoordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.getCoordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return internal coordinates variable</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.getID">
+<tt class="descname">getID</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.getID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.getID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the ID</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.getItemHandler">
+<tt class="descname">getItemHandler</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.getItemHandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.getItemHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an item handler to the object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.getNotes">
+<tt class="descname">getNotes</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.getNotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.getNotes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return internal notes variable</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.getPlot">
+<tt class="descname">getPlot</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.getPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.getPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return plot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.getTag">
+<tt class="descname">getTag</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.getTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.getTag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the tag</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.getVertices">
+<tt class="descname">getVertices</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.getVertices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.getVertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return lits of vertices</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.isEmpty">
+<tt class="descname">isEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.isEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.isEmpty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <tt class="docutils literal"><span class="pre">True</span></tt> if empty, <tt class="docutils literal"><span class="pre">False</span></tt> otherwise</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.isInAttributes">
+<tt class="descname">isInAttributes</tt><big>(</big><em>tag</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.isInAttributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.isInAttributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if tag is in attributes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Variable for checking</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.move">
+<tt class="descname">move</tt><big>(</big><em>dx</em>, <em>dy</em>, <em>dmx</em>, <em>dmy</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the location of the object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dx</strong> &#8211; Tkinter move delta x</li>
+<li><strong>dy</strong> &#8211; Tkinter move delta y</li>
+<li><strong>dmx</strong> &#8211; Matplotlib x</li>
+<li><strong>dmy</strong> &#8211; Matplotlib y</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.plotPoint">
+<tt class="descname">plotPoint</tt><big>(</big><em>event</em>, <em>plot='base_plot'</em>, <em>fill=False</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.plotPoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.plotPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws a polygon by plotting points. After the third point, if two line
+segments intersect, the canvas will draw a polygon using the existing
+lines and the point of intersection</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>event</strong> &#8211; Mouse click event</li>
+<li><strong>plot</strong> &#8211; The current plot the canvas is displaying</li>
+<li><strong>fill</strong> &#8211; Boolean for when the cavas is in fill mode</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.redrawShape">
+<tt class="descname">redrawShape</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.redrawShape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.redrawShape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redraw the shape by first deleting the item handler and recreating it</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.removeAttribute">
+<tt class="descname">removeAttribute</tt><big>(</big><em>tag</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.removeAttribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.removeAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes an attribute</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Tag to search for and remove</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.rubberBand">
+<tt class="descname">rubberBand</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.rubberBand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.rubberBand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws temporary helper rectangles that helps the user draw rectangles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.setAttributes">
+<tt class="descname">setAttributes</tt><big>(</big><em>attributes</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.setAttributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.setAttributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the attributes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attributes</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; Variable to set internal attributes to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.setColor">
+<tt class="descname">setColor</tt><big>(</big><em>color</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.setColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.setColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the color</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Variable to set the internal color to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.setCoordinates">
+<tt class="descname">setCoordinates</tt><big>(</big><em>coordinates</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.setCoordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.setCoordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the coordinates</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coordinates</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List to set the internal coordinates to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.setID">
+<tt class="descname">setID</tt><big>(</big><em>_id</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.setID"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.setID" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ID</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>_id</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Variable to set the internal ID to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.setNotes">
+<tt class="descname">setNotes</tt><big>(</big><em>note</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.setNotes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.setNotes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the notes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>note</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Variable to set the internal notes to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.setPlot">
+<tt class="descname">setPlot</tt><big>(</big><em>plot</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.setPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.setPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the plot</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plot</strong> &#8211; Variable to set the internal plot type to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.setTag">
+<tt class="descname">setTag</tt><big>(</big><em>tag</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.setTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.setTag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the tag</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Variable to set the internal tag to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.setVertex">
+<tt class="descname">setVertex</tt><big>(</big><em>index</em>, <em>point</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.setVertex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.setVertex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the vertex list at a specific location</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>index</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Location to modify</li>
+<li><strong>point</strong> &#8211; New point</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calipso.polygon.drawer.PolygonDrawer.setVertices">
+<tt class="descname">setVertices</tt><big>(</big><em>vertexList</em><big>)</big><a class="reference internal" href="../../_modules/calipso/polygon/drawer.html#PolygonDrawer.setVertices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calipso.polygon.drawer.PolygonDrawer.setVertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the vertices</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>vertexList</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List to set the internal vertices list to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="polygon.html"
+                        title="previous chapter">Polygon</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="list.html"
+                        title="next chapter">PolygonList</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/doc/polygon/drawer.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="list.html" title="PolygonList"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="polygon.html" title="Polygon"
+             >previous</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../packages.html" >Packages</a> &raquo;</li>
+          <li><a href="polygon.html" >Polygon</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

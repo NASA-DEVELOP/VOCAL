@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>calipso.attributesdialog &mdash; CALIPSO 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for calipso.attributesdialog</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Created on Jun 15, 2015</span>
+
+<span class="sd">@author: Grant Mercer</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="kn">import</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">BOTTOM</span><span class="p">,</span> <span class="n">END</span><span class="p">,</span> <span class="n">EXTENDED</span>
+<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">StringVar</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">Listbox</span>
+<span class="kn">from</span> <span class="nn">calipso</span> <span class="kn">import</span> <span class="n">constants</span>
+
+
+<div class="viewcode-block" id="AttributesDialog"><a class="viewcode-back" href="../../doc/general/attributes.html#calipso.attributesdialog.AttributesDialog">[docs]</a><span class="k">class</span> <span class="nc">AttributesDialog</span><span class="p">(</span><span class="n">Toplevel</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Dialog window for creating and assigning attributes to objects</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">polygonDrawer</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initialize root tkinter window and master GUI window</span>
+<span class="sd">        :param root: the parent frame</span>
+<span class="sd">        :param polygonDrawer: the polygonDrawer being edited</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">Toplevel</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">__poly</span> <span class="o">=</span> <span class="n">polygonDrawer</span>
+        <span class="k">if</span> <span class="n">polygonDrawer</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Edit Attributes&quot;</span><span class="p">)</span>
+        
+        <span class="c"># copies TAGS to avoid aliasing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__availableAttributes</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">TAGS</span><span class="p">[:]</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">container</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> 
+            
+        <span class="bp">self</span><span class="o">.</span><span class="n">createTopFrame</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">createBottomFrame</span><span class="p">()</span>
+        
+<div class="viewcode-block" id="AttributesDialog.createTopFrame"><a class="viewcode-back" href="../../doc/general/attributes.html#calipso.attributesdialog.AttributesDialog.createTopFrame">[docs]</a>    <span class="k">def</span> <span class="nf">createTopFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initializes the top half of the window</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>                       
+        <span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="n">attributeString</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="n">attributeString</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s">&quot;Attributes:&quot;</span><span class="p">)</span>
+        <span class="n">attributeLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">attributeString</span><span class="p">)</span>
+        <span class="n">attributeLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="n">selectedString</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="n">selectedString</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s">&quot;Selected:&quot;</span><span class="p">)</span>
+        <span class="n">selectedLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">selectedString</span><span class="p">)</span>
+        <span class="n">selectedLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">attributeList</span> <span class="o">=</span> <span class="n">Listbox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">selectmode</span><span class="o">=</span><span class="n">EXTENDED</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attributeList</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">selectedList</span> <span class="o">=</span> <span class="n">Listbox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">selectmode</span><span class="o">=</span><span class="n">EXTENDED</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selectedList</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__availableAttributes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__poly</span><span class="o">.</span><span class="n">isInAttributes</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">selectedList</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">attributeList</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+        
+        <span class="n">removeButton</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;&lt;--&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">removeAttribute</span><span class="p">)</span>
+        <span class="n">removeButton</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="n">moveButton</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;--&gt;&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">moveAttribute</span><span class="p">)</span>
+        <span class="n">moveButton</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="AttributesDialog.createBottomFrame"><a class="viewcode-back" href="../../doc/general/attributes.html#calipso.attributesdialog.AttributesDialog.createBottomFrame">[docs]</a>    <span class="k">def</span> <span class="nf">createBottomFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initializes the bottom half of the window</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottomFrame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>                       
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottomFrame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="n">noteString</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="n">noteString</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s">&quot;Notes:&quot;</span><span class="p">)</span>
+        <span class="n">noteLabel</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottomFrame</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">noteString</span><span class="p">)</span>
+        <span class="n">noteLabel</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">noteText</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottomFrame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noteText</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noteText</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__poly</span><span class="o">.</span><span class="n">getNotes</span><span class="p">())</span>
+        
+        <span class="n">buttonFrame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>
+        <span class="n">buttonFrame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        
+        <span class="n">acceptButton</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">buttonFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Save Note&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">)</span>
+        <span class="n">acceptButton</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        
+        <span class="n">cancelButton</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">buttonFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Clear Note&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">)</span>
+        <span class="n">cancelButton</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+<span class="c">#         closeButton = Button(buttonFrame, text=&quot;Close&quot;, command=self.close)</span>
+<span class="c">#         closeButton.grid(row=3, column=2)</span>
+        </div>
+<div class="viewcode-block" id="AttributesDialog.moveAttribute"><a class="viewcode-back" href="../../doc/general/attributes.html#calipso.attributesdialog.AttributesDialog.moveAttribute">[docs]</a>    <span class="k">def</span> <span class="nf">moveAttribute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Saves the attributes that the user has selected</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attributeList</span><span class="o">.</span><span class="n">curselection</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attributeList</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__poly</span><span class="o">.</span><span class="n">addAttribute</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">selectedList</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">selection</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attributeList</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="AttributesDialog.removeAttribute"><a class="viewcode-back" href="../../doc/general/attributes.html#calipso.attributesdialog.AttributesDialog.removeAttribute">[docs]</a>    <span class="k">def</span> <span class="nf">removeAttribute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Deletes the attributes that the user has selected</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">selection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedList</span><span class="o">.</span><span class="n">curselection</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">selection</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedList</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__poly</span><span class="o">.</span><span class="n">removeAttribute</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attributeList</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">selection</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">selectedList</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    </div>
+<div class="viewcode-block" id="AttributesDialog.save"><a class="viewcode-back" href="../../doc/general/attributes.html#calipso.attributesdialog.AttributesDialog.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Saves the note</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">note</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">noteText</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;1.0&#39;</span><span class="p">,</span> <span class="s">&#39;end-1c&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__poly</span><span class="o">.</span><span class="n">setNotes</span><span class="p">(</span><span class="n">note</span><span class="p">)</span>
+        <span class="c">#self.close()</span>
+    </div>
+<div class="viewcode-block" id="AttributesDialog.clear"><a class="viewcode-back" href="../../doc/general/attributes.html#calipso.attributesdialog.AttributesDialog.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Deletes the note</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noteText</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__poly</span><span class="o">.</span><span class="n">setNotes</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+    </div>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.1.0 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
