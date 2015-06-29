@@ -31,6 +31,11 @@ http://syntaf.github.io/CALIPSO_Visualization/
 * [ ] Fix draw buttons attempting to draw when menu bar is accessed causing out of range error
 * [ ] Create a log
 
+## Big Ideas:
+
+* [ ] Draw shape of object on sidebar when clicking on selection for db
+* [ ] Move database to MySQL and get away from sqlite
+
 ## Notes: 
 
 Database finite limit could be extended with pagination, splitting the database into 'pages' that the user would need to go through. But this also introduces the fact that searching would need to pull all pages for an ample search
