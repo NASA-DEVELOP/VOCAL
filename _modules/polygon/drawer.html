@@ -348,12 +348,7 @@
 <span class="sd">        :param list coordinates: List to set the internal coordinates to</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span> <span class="o">=</span> <span class="n">coordinates</span>
-        </div>
-<div class="viewcode-block" id="PolygonDrawer.getCoordinates"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getCoordinates">[docs]</a>    <span class="k">def</span> <span class="nf">getCoordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Return internal coordinates variable</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span>
+        
     </div>
 <div class="viewcode-block" id="PolygonDrawer.setVertex"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.setVertex">[docs]</a>    <span class="k">def</span> <span class="nf">setVertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -380,51 +375,77 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__note</span> <span class="o">=</span> <span class="n">note</span>
         </div>
+<div class="viewcode-block" id="PolygonDrawer.getCoordinates"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getCoordinates">[docs]</a>    <span class="k">def</span> <span class="nf">getCoordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return internal coordinates variable</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span>
+        </div>
 <div class="viewcode-block" id="PolygonDrawer.getNotes"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getNotes">[docs]</a>    <span class="k">def</span> <span class="nf">getNotes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return internal notes variable</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: str</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__note</span>
         </div>
 <div class="viewcode-block" id="PolygonDrawer.getAttributes"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">getAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return attributes list</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: list</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span>
         </div>
 <div class="viewcode-block" id="PolygonDrawer.getPlot"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getPlot">[docs]</a>    <span class="k">def</span> <span class="nf">getPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return plot</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: str</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+    
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> 
     </div>
 <div class="viewcode-block" id="PolygonDrawer.getVertices"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getVertices">[docs]</a>    <span class="k">def</span> <span class="nf">getVertices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return lits of vertices</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: list</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span>
     </div>
 <div class="viewcode-block" id="PolygonDrawer.getColor"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getColor">[docs]</a>    <span class="k">def</span> <span class="nf">getColor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the color of the object</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: str</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__color</span>
     </div>
 <div class="viewcode-block" id="PolygonDrawer.getID"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getID">[docs]</a>    <span class="k">def</span> <span class="nf">getID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the ID</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: int or ``None``</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__id</span>
 </div>
 <div class="viewcode-block" id="PolygonDrawer.getTag"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getTag">[docs]</a>    <span class="k">def</span> <span class="nf">getTag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return the tag</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: str</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span>
     </div>
 <div class="viewcode-block" id="PolygonDrawer.getItemHandler"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getItemHandler">[docs]</a>    <span class="k">def</span> <span class="nf">getItemHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return an item handler to the object</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: handle</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__itemHandler</span>
     </div>
@@ -493,6 +514,8 @@
 <div class="viewcode-block" id="PolygonDrawer.isEmpty"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.isEmpty">[docs]</a>    <span class="k">def</span> <span class="nf">isEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Return ``True`` if empty, ``False`` otherwise</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: bool</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">True</span>
