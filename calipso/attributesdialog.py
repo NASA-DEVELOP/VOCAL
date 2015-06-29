@@ -92,7 +92,7 @@ class AttributesDialog(Toplevel):
         buttonFrame = Frame(self.container)
         buttonFrame.pack(side=BOTTOM, fill=X, expand=False)
         
-        acceptButton = Button(buttonFrame, text="Save Note", command=self.save)
+        acceptButton = Button(buttonFrame, text="Save", command=self.save)
         acceptButton.grid(row=0, column=0)
         
         cancelButton = Button(buttonFrame, text="Clear Note", command=self.clear)
@@ -135,7 +135,7 @@ class AttributesDialog(Toplevel):
         '''
         note = self.noteText.get('1.0', 'end-1c')
         self.__poly.setNotes(note)
-        #self.close()
+        self.close()
     
     def clear(self):
         '''
