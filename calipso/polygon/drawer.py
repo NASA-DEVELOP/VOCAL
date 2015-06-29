@@ -298,11 +298,6 @@ class PolygonDrawer(object):
         '''
         self.__coordinates = coordinates
         
-    def getCoordinates(self):
-        '''
-        Return internal coordinates variable
-        '''
-        return self.__coordinates
     
     def setVertex(self, index, point):
         '''
@@ -329,51 +324,77 @@ class PolygonDrawer(object):
         '''
         self.__note = note
         
+    def getCoordinates(self):
+        '''
+        Return internal coordinates variable
+        
+        :rtype: list
+        '''
+        return self.__coordinates
+        
     def getNotes(self):
         '''
         Return internal notes variable
+        
+        :rtype: str
         '''
+        
         return self.__note
         
     def getAttributes(self):
         '''
         Return attributes list
+        
+        :rtype: list
         '''
         return self.__attributes
         
     def getPlot(self):
         '''
         Return plot
+        
+        :rtype: str
         '''
+    
         return self.__plot 
     
     def getVertices(self):
         '''
         Return lits of vertices
+        
+        :rtype: list
         '''
         return self.__vertices
     
     def getColor(self):
         '''
         Return the color of the object
+        
+        :rtype: str
         '''
         return self.__color
     
     def getID(self):
         '''
         Return the ID
+        
+        :rtype: int or ``None``
         '''
         return self.__id
 
     def getTag(self):
         '''
         Return the tag
+        
+        :rtype: str
         '''
         return self.__tag
     
     def getItemHandler(self):
         '''
         Return an item handler to the object
+        
+        :rtype: handle
         '''
         return self.__itemHandler
     
@@ -442,6 +463,8 @@ class PolygonDrawer(object):
     def isEmpty(self):
         '''
         Return ``True`` if empty, ``False`` otherwise
+        
+        :rtype: bool
         '''
         if len(self.__vertices) == 0:
             return True

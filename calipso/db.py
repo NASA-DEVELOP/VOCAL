@@ -19,7 +19,18 @@ dbBase = declarative_base()
 
 class dbPolygon(dbBase):
     '''
-    Sqlalchemy class object, contains all data that is stored inside the database
+    Sqlalchemy class object, contains all data that is stored inside the database. Objects are represented as JSON
+    
+    .. py:data:: id
+    .. py:data:: tag
+    .. py:data:: color
+    .. py:data:: vertices
+    .. py:data:: time_
+    .. py:data:: hdf
+    .. py:data:: plot
+    .. py:data:: attributes
+    .. py:data:: coordinates
+    .. py:data:: notes
     '''
     __tablename__ = 'objects'
     
