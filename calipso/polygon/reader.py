@@ -16,6 +16,8 @@ from tools.tools import byteify
 class PolygonReader(object):
     '''
     Reads JSON files and transfers the data into PolygonDrawer objects
+    
+    :param str fileName: Internal filename to write to
     '''
 
     # TODO: add exception handling

@@ -19,6 +19,8 @@ class PolygonList(object):
     '''
     Manages all polygons present on the screen, writes to db on call
     
+    :param canvas: Canvas to draw polygons to
+    :param master: Calipso alias
     '''
 
     outlineToggle = True
@@ -52,6 +54,8 @@ class PolygonList(object):
     def onTokenButtonPress(self, event):
         '''
         Saves the target polygon's original position for movement tracking
+        
+        :param event: Tkinter passed event object
         '''
         if PolygonDrawer.dragToggle:
             logging.info("PolygonList: Received mouse click to drag")
@@ -67,6 +71,8 @@ class PolygonList(object):
     def onTokenButtonRelease(self, event):
         '''
         Clears data on movement tracking
+        
+        :param event: Tkinter passed event object
         '''
         if PolygonDrawer.dragToggle:
             logging.info("PolygonList: Mouse relased on dragging")
@@ -79,6 +85,8 @@ class PolygonList(object):
     def onTokenMotion(self, event):
         '''
         Calculates how far the polygon has moved and redraws the shape
+        
+        :param event: Tkinter passed event object
         '''
         if PolygonDrawer.dragToggle:
             logging.info("PolygonList: Received mouse motion for dragging")
@@ -101,6 +109,8 @@ class PolygonList(object):
     def setPlot(self, plot):
         '''
         Determines which list currentList should alias
+        
+        :param int plot: Value for setting plot
         '''
         newPlot = ""
         if plot == 0:
@@ -138,6 +148,8 @@ class PolygonList(object):
     def anchorRectangle(self, event):
         '''
         Informs the correct list's blank to plot a corner of a rectangle
+        
+        :param event: Tkinter passed event object
         '''
         logging.info("PolygonList: Anchoring rectangle")
         if self.__plot == constants.BASE_PLOT_STR:
@@ -159,6 +171,8 @@ class PolygonList(object):
     def plotPoint(self, event):
         '''
         Informs the correct list's blank to plot a point on the screen
+        
+        :param event: Tkinter passed event object
         '''
         if self.__plot == constants.BASE_PLOT_STR:
             return
@@ -171,6 +185,8 @@ class PolygonList(object):
     def rubberBand(self, event):
         '''
         Uses a blank shape to draw helper rectangles
+        
+        :param event: Tkinter passed event object
         '''
         if self.__plot == constants.BASE_PLOT_STR:
             return
@@ -180,6 +196,8 @@ class PolygonList(object):
     def fillRectangle(self, event):
         '''
         Informs the correct list's blank to draw a rectangle on the screen
+        
+        :param event: Tkinter passed event object
         '''
         if self.__plot == constants.BASE_PLOT_STR:
             return
@@ -189,6 +207,11 @@ class PolygonList(object):
         self.__currentList.append(PolygonDrawer(self.__canvas, self.__master))
         
     def setHDF(self, HDFFilename):
+        '''
+        Set the internal filename variable
+        
+        :param str HDFFilename: New filename
+        '''
         self.__hdf = HDFFilename
         
     def drawPolygon(self):
@@ -205,6 +228,8 @@ class PolygonList(object):
     def generateTag(self, index=-1):
         '''
         Produces a unique tag for each shape for each session
+        
+        :param int index: Generate new tag for given index
         '''
         logging.info("PolygonList: Generated new tag")
         string = "shape" + str(self.__count)
@@ -227,6 +252,8 @@ class PolygonList(object):
     def delete(self, event):
         '''
         Deletes the shape from the list
+        
+        :param event: Tkinter passed event object
         '''
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
         if target[0] > 2:           # ignore the canvas
@@ -253,6 +280,8 @@ class PolygonList(object):
     def paint(self, event):
         '''
         Recolors the shape
+        
+        :param event: Tkinter passed event object 
         '''
         flag = False
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
@@ -283,6 +312,8 @@ class PolygonList(object):
     def properties(self, event):
         '''
         Displays the properties of the selected polygon
+        
+        :param event: Tkinter passed event object
         '''
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
         for shape in self.__currentList:
@@ -293,10 +324,20 @@ class PolygonList(object):
         logging.warning("PolygonList: Shape not found")
                 
     def toggleDrag(self, event):
+        '''
+        Wrapper method for calling polygondrawer toggledrag method
+        
+        :param event: Tkinter passed event object
+        '''
         logging.info("PolygonList: Toggling drag")
         PolygonDrawer.toggleDrag(event)
         
     def findPolygon(self, event):
+        '''
+        Return polygon matching closest to mouse cursor
+        
+        :param event: Tkinter passed event object
+        '''
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
         for shape in self.__currentList:
             if shape.getItemHandler() == target[0]:
@@ -369,6 +410,8 @@ class PolygonList(object):
     def __findPolygonByItemHandler(self, itemHandler):
         '''
         Retrieves a shape based on its item handler
+        
+        :param itemHandler: Handle to polygon object
         '''
         for shape in self.__currentList:
             poly = shape.getItemHandler()
@@ -404,6 +447,9 @@ class PolygonList(object):
     def readPlot(self, fileName="", readFromString=""):
         '''
         Load data from JSON file into polygon shapes
+        
+        :param str fileName: Name of JSON file to read from
+        :param str readFromString: If not a filename, read JSON from string
         '''
         logging.info("PolygonList: Reading from JSON")
         if readFromString != "":
@@ -435,6 +481,8 @@ class PolygonList(object):
     def save(self, fileName=""):
         '''
         Saves shapes to JSON for current plot only
+        
+        :param str fileName: Filename to save JSON to
         '''
         logging.info("PolygonList: Saving current plot's shapes to JSON")
         if fileName != "": self.__currentFile = fileName
@@ -461,6 +509,8 @@ class PolygonList(object):
     def saveAll(self, fileName=""):
         '''
         Saves shape to JSON from all plots
+        
+        :param str fileName: Filename to save JSON to
         '''
         logging.info("PolygonList: Saving all shapes to JSON")
         if fileName is not None: self.__currentFile = fileName
