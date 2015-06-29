@@ -6,13 +6,17 @@
 
 # import antigravity
 import json
-import re
+import logging
 import os
+import re
+
+from sqlalchemy import create_engine, Column, Integer, String, desc
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine, Column, Integer, String, desc
+
 import constants
 from tools.tools import byteify
+
 
 # Create a declarative_base for dbPolygon to inherit from
 dbBase = declarative_base()
@@ -47,6 +51,7 @@ class dbPolygon(dbBase):
     
     @staticmethod
     def plotString(i):
+        logging.info("dbPolygon: plot string")
         return constants.PLOTS[i]
     
     def __repr__(self):
@@ -55,6 +60,7 @@ class dbPolygon(dbBase):
         already supporst JSON reading, so simply parse out the database as 
         seperate JSON 'files'
         '''
+        logging.info("dbPolygon: represent")
         data = {}
         for i in range(0,len(constants.PLOTS)):
             data[self.plotString(i)] = {}
@@ -81,6 +87,7 @@ class DatabaseManager(object):
         Create the database engine using db/CALIPSO.db database.
         Echo all commands, create Session and table
         '''
+        logging.info("DatabaseManager: Instantiating DatabaseManager")
         path = os.path.dirname(os.path.realpath(__file__)) + "\\..\\db\\CALIPSOdb.db"
         self.__dbEngine = create_engine('sqlite:///' + path, echo=False)
         self.__Session = sessionmaker(bind=self.__dbEngine)
@@ -92,6 +99,7 @@ class DatabaseManager(object):
         this tag is used so it does not overlap existing shape tags previously generated
         and stored into the database
         '''
+        logging.info("DatabaseManager: Querying unique tag")
         session = self.__Session()
         objs = session.query(dbPolygon).order_by(desc(dbPolygon.tag))
         if objs.count() == 0:
@@ -108,6 +116,7 @@ class DatabaseManager(object):
         Returns an instance of a session, USERS job to ensure session
         is committed/closed
         '''
+        logging.info("DatabaseManager: Getting session")
         return self.__Session()
         
     def commitToDB(self, polyList, time, f):
@@ -118,6 +127,7 @@ class DatabaseManager(object):
         :param time: time of the JSON's creation
         :param f: file name
         '''
+        logging.info("DatabaseManager: Committing to database")
         session = self.__Session()
         for polygon in polyList[:-1]:
             if polygon.getID() is None:
@@ -153,6 +163,7 @@ class DatabaseManager(object):
         Get a session and delete the object from the database.
         :param indx: the primary key for the object passed
         '''
+        logging.info("DatabaseManager: Deleting database entry")
         session = self.__Session()
         item = session.query(dbPolygon).get(idx)
         session.delete(item)
@@ -165,6 +176,7 @@ class DatabaseManager(object):
         :param filename: name of the file
         :param data: Python dictionary representation of a JSON
         '''
+        logging.info("DatabaseManager: Encoding data")
         with open(filename, 'w') as outfile:
             json.dump(data, outfile)
                 
