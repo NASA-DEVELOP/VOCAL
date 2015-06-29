@@ -66,6 +66,8 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
     def set_message(self, s):
         '''
         Set the message of the stringvar
+        
+        :param str s: String to set
         '''
         self.message.set(s)
         
