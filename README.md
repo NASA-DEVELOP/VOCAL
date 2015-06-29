@@ -29,6 +29,12 @@ http://syntaf.github.io/CALIPSO_Visualization/
 * [ ] Refactor `Calipso` functions
 * [x] Fix `About` window in `Calipso`
 * [ ] Fix draw buttons attempting to draw when menu bar is accessed causing out of range error
+* [ ] Create a log
+
+## Big Ideas:
+
+* [ ] Draw shape of object on sidebar when clicking on selection for db
+* [ ] Move database to MySQL and get away from sqlite
 
 ## Notes: 
 
