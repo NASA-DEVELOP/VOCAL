@@ -4,5 +4,5 @@ PolygonReader
 
 .. inheritance-diagram:: polygon.reader
 
-.. autoclass:: polygon.reader
+.. automodule:: polygon.reader
    :members:
