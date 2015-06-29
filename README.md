@@ -29,6 +29,7 @@ http://syntaf.github.io/CALIPSO_Visualization/
 * [ ] Refactor `Calipso` functions
 * [x] Fix `About` window in `Calipso`
 * [ ] Fix draw buttons attempting to draw when menu bar is accessed causing out of range error
+* [ ] Create a log
 
 ## Notes: 
 
