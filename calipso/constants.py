@@ -5,6 +5,8 @@
 #
 #    Module for all constants
 ######################################
+import logging
+import logging.handlers
 
 HEIGHT          = 665
 WIDTH           = 1265
@@ -40,3 +42,12 @@ TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', '
 
 TKXMID = 629.5
 TKYMID = 314
+
+LOG_FILENAME = 'log/CALIPSO_debug.log'
+
+# logger = logging.getLogger()
+# logger.setLevel(logging.DEBUG)
+
+# handler = logging.handlers.RotatingFileHandler(LOG_FILENAME, backupCount=20)
+
+# logger.addHandler(handler)

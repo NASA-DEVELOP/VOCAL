@@ -5,19 +5,22 @@
 #
 ###################################
 
-import collections
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE
+import collections
+import logging
 import tkMessageBox
+
+from sqlalchemy import or_
 
 import constants
 from db import db, dbPolygon
-from tools.treelistbox import TreeListBox
 from tools.tools import center
-from sqlalchemy import or_
+from tools.treelistbox import TreeListBox
+
+
 #import TkTreectrl as treectrl
 #import db
-
 class dbDialog(Toplevel):
     '''
     Dialog window which prompts user for a selection of objects to import as well as
@@ -28,6 +31,7 @@ class dbDialog(Toplevel):
         :param: root: root tk widget, often Tk()
         :param: master: the main window, for access of polygonList
         '''
+        logging.info("dbDialog: Instantiating dbDialog")
         Toplevel.__init__(self, root)
         self.protocol('WM_DELETE_WINDOW')
                 
@@ -49,6 +53,7 @@ class dbDialog(Toplevel):
         '''
         Initialize the upper frame of the window in charge of buttons
         '''
+        logging.info("dbDialog: Creating top frame")
         self.topFrame = Frame(self.container)                       # create top frame
         self.topFrame.pack(side=TOP, fill=X, expand=False)
         
@@ -77,6 +82,7 @@ class dbDialog(Toplevel):
         and reloaded.
         :param event: search box events
         '''
+        logging.info("dbDialog: Refining search")
         if event.char.isalnum(): self.__searchString += event.char                  # if character is a letter / number, add to the searchstring
         if self.e.get() != '':                                                      # if the entry box is NOT empty
             if event.char == '':                                                    # if a backspace code is entered
@@ -105,6 +111,7 @@ class dbDialog(Toplevel):
         Create and display database in listbox, also add lower button frame for import
         button
         '''
+        logging.info("dbDialog: Creating bottom frame")
         self.bottomFrame = Frame(self.container)                                            # create bottom frame
         self.bottomFrame.pack(side=BOTTOM, fill=BOTH, expand=True)          
         self.separator = Frame(self.bottomFrame, relief=RIDGE, height=2, bg="gray")         # tiny separator splitting the top and bottom frame
@@ -128,6 +135,7 @@ class dbDialog(Toplevel):
         '''
         Import selected objects from libox into program
         '''
+        logging.info("dbDialog: Importing selection")
         items = self.tree.tree.selection()
         for tag in items:
             tag = self.tree.tree.item(tag, option="values")
@@ -140,6 +148,7 @@ class dbDialog(Toplevel):
         '''
         Delete selected objects from database
         '''
+        logging.info("dbDialog: Deleting database entry")
         items = self.tree.tree.selection()
         if tkMessageBox.askyesno("Delete?", "Really delete these items?", parent=self):
             for tag in items:
@@ -152,6 +161,7 @@ class dbDialog(Toplevel):
         '''
         Helper function to simply display all objects in the database
         '''
+        logging.info("dbDialog: Display entries")
         lst = list()
         self.__offset = 0
         if self.tree.info : self.__stack.append(self.tree.info)
@@ -167,6 +177,7 @@ class dbDialog(Toplevel):
         '''
         Free window
         '''
+        logging.info("dbDialog: Closing window")
         self.session.commit()
         self.session.close()
         self.destroy()

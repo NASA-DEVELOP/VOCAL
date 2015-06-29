@@ -5,8 +5,12 @@
 ######################################
 
 # import antigravity
+import logging
+
 from numpy import empty_like, dot, array
+
 import constants
+
 
 class PolygonDrawer(object):
     '''
@@ -103,6 +107,7 @@ class PolygonDrawer(object):
         '''
         Constructor
         '''
+        logging.info("PolygonDrawer: Creating PolygonDrawer")
         self.__vertices = []
         self.__coordinates = []
         self.__canvas = canvas
@@ -124,6 +129,7 @@ class PolygonDrawer(object):
         
         :param event: A Tkinter passed event object
         '''
+        logging.info("PolygonDrawer: Anchoring rectangle")
         self.__vertices.append((event.x, event.y))
         string = self.__master.getToolbar().message.get()
         x = string[2:15].strip()
@@ -143,15 +149,18 @@ class PolygonDrawer(object):
         :param fill: Boolean for when the cavas is in fill mode
         '''
         self.__vertices.append((event.x, event.y))
+        logging.info("PolygonDrawer: Plotting point")
         string = self.__master.getToolbar().message.get()
         x = string[2:15].strip()
         y = string[17:].strip()
         self.__coordinates.append((float(x), float(y)))
         if len(self.__vertices) > 1:
+            logging.info("PolygonDrawer: Drawing line from plot")
             self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width="2", tags="line")
         if len(self.__vertices) > 3:
             index = self.__canDrawPolygon()
             if index > -1:
+                logging.info("PolygonDrawer: Creating polygon from points")
                 a1 = tupleToNpArray(self.__vertices[index])
                 a2 = tupleToNpArray(self.__vertices[index+1])
                 b1 = tupleToNpArray(self.__vertices[-1])
@@ -194,6 +203,7 @@ class PolygonDrawer(object):
             pass
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
+        logging.info("PolygonDrawer: Rubberbanding")
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prevX, self.__prevY, event.x, event.y)
         
     def fillRectangle(self, event, plot=constants.BASE_PLOT_STR, fill=False):
@@ -211,6 +221,7 @@ class PolygonDrawer(object):
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
             del self.lastrect
+        logging.info("PolygonDrawer: Creating rectangle")
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
         imx = self.__coordinates[0][0]
@@ -240,6 +251,7 @@ class PolygonDrawer(object):
         
         :param str tag: Tag to append
         '''
+        logging.info("PolygonDrawer: Adding tag")
         self.__attributes.append(tag)
         
     def removeAttribute(self, tag):
@@ -248,6 +260,7 @@ class PolygonDrawer(object):
         
         :param str tag: Tag to search for and remove
         '''
+        logging.info("PolygonDrawer: Removing tag")
         self.__attributes.remove(tag)
         
     def setAttributes(self, attributes):
@@ -256,6 +269,7 @@ class PolygonDrawer(object):
         
         :param list attributes: Variable to set internal attributes to
         '''
+        logging.info("PolygonDrawer: Setting attributes")
         self.__attributes = attributes
 
     def setTag(self, tag):
@@ -264,6 +278,7 @@ class PolygonDrawer(object):
         
         :param str tag: Variable to set the internal tag to
         '''
+        logging.info("PolygonDrawer: Setting tag")
         self.__tag = tag;
         
     def setColor(self, color):
@@ -272,6 +287,7 @@ class PolygonDrawer(object):
         
         :param str color: Variable to set the internal color to
         '''
+        logging.info("PolygonDrawer: Setting color")
         self.__color = color
         
     def setVertices(self, vertexList):
@@ -280,6 +296,7 @@ class PolygonDrawer(object):
         
         :param list vertexList: List to set the internal vertices list to
         '''
+        logging.info("PolygonDrawer: Setting vertices")
         self.__vertices = vertexList
         
     def setPlot(self, plot):
@@ -288,6 +305,7 @@ class PolygonDrawer(object):
         
         :param plot: Variable to set the internal plot type to
         '''
+        logging.info("PolygonDrawer: Setting plot")
         self.__plot = plot
         
     def setCoordinates(self, coordinates):
@@ -296,6 +314,7 @@ class PolygonDrawer(object):
         
         :param list coordinates: List to set the internal coordinates to
         '''
+        logging.info("PolygonDrawer: Setting coordinates")
         self.__coordinates = coordinates
         
     
@@ -306,6 +325,7 @@ class PolygonDrawer(object):
         :param int index: Location to modify
         :param point: New point
         '''
+        logging.info("PolygonDrawer: Setting vertex")
         self.__vertices[index] = point
     
     def setID(self, _id):
@@ -314,6 +334,7 @@ class PolygonDrawer(object):
         
         :param int _id: Variable to set the internal ID to
         '''
+        logging.info("PolygonDrawer: Setting ID")
         self.__id = _id
         
     def setNotes(self, note):
@@ -322,6 +343,7 @@ class PolygonDrawer(object):
         
         :param str note: Variable to set the internal notes to
         '''
+        logging.info("PolygonDrawer: Setting notes")
         self.__note = note
         
     def getCoordinates(self):
@@ -330,6 +352,7 @@ class PolygonDrawer(object):
         
         :rtype: list
         '''
+        logging.info("PolygonDrawer: Getting coordinates")
         return self.__coordinates
         
     def getNotes(self):
@@ -338,7 +361,7 @@ class PolygonDrawer(object):
         
         :rtype: str
         '''
-        
+        logging.info("PolygonDrawer: Getting notes")
         return self.__note
         
     def getAttributes(self):
@@ -347,6 +370,7 @@ class PolygonDrawer(object):
         
         :rtype: list
         '''
+        logging.info("PolygonDrawer: Getting attributes")
         return self.__attributes
         
     def getPlot(self):
@@ -355,7 +379,7 @@ class PolygonDrawer(object):
         
         :rtype: str
         '''
-    
+        logging.info("PolygonDrawer: Getting plot")
         return self.__plot 
     
     def getVertices(self):
@@ -364,6 +388,7 @@ class PolygonDrawer(object):
         
         :rtype: list
         '''
+        logging.info("PolygonDrawer: Getting vertices")
         return self.__vertices
     
     def getColor(self):
@@ -372,6 +397,7 @@ class PolygonDrawer(object):
         
         :rtype: str
         '''
+        logging.info("PolygonDrawer: Getting color")
         return self.__color
     
     def getID(self):
@@ -380,6 +406,7 @@ class PolygonDrawer(object):
         
         :rtype: int or ``None``
         '''
+        logging.info("PolygonList: Getting ID")
         return self.__id
 
     def getTag(self):
@@ -388,6 +415,7 @@ class PolygonDrawer(object):
         
         :rtype: str
         '''
+        logging.info("PolygonList: Getting tag")
         return self.__tag
     
     def getItemHandler(self):
@@ -396,19 +424,8 @@ class PolygonDrawer(object):
         
         :rtype: handle
         '''
+        logging.info("PolygonList: Getting item handler")
         return self.__itemHandler
-    
-    def isInAttributes(self, tag):
-        '''
-        Check if tag is in attributes
-        
-        :param str tag: Variable for checking
-        :rtype: bool
-        '''
-        for item in self.__attributes:
-            if tag == item:
-                return True
-        return False
     
     def move(self, dx, dy, dmx, dmy):
         '''
@@ -416,10 +433,11 @@ class PolygonDrawer(object):
         
         :param dx: Tkinter move delta x
         :param dy: Tkinter move delta y
-        :param dmx: Matplotlib x
-        :param dmy: Matplotlib y
+        :param dmx: Matplotlib delta x
+        :param dmy: Matplotlib delta y
         
         '''
+        logging.info("PolygonDrawer: Moving polygon")
         for i in range(len(self.__vertices)):
             newPoint = (self.__vertices[i][0] + dx, self.__vertices[i][1] + dy)
             self.__vertices[i] = newPoint
@@ -427,6 +445,7 @@ class PolygonDrawer(object):
             self.__coordinates[i] = newPoint
     
     def __canDrawPolygon(self):
+        logging.info("PolygonDrawer: Checking can draw polygon")
         b1 = tupleToNpArray(self.__vertices[-1])
         b2 = tupleToNpArray(self.__vertices[-2])
         for i in range(len(self.__vertices)-3):
@@ -443,6 +462,7 @@ class PolygonDrawer(object):
         :param plot: Plot to draw to
         :param bool fill: Boolean for whether to fill in object or not
         '''
+        logging.info("PolygonDrawer: Drawing polygon")
         color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
         if fill is False:
             fillColor = ""
@@ -457,6 +477,7 @@ class PolygonDrawer(object):
         '''
         Redraw the shape by first deleting the item handler and recreating it
         '''
+        logging.info("PolygonDrawer: Redrawing polygon")
         self.__canvas._tkcanvas.delete(self.__itemHandler)
         self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=self.__color, fill=self.__color, width=2, tags=("polygon", self.__tag, self.__plot))
         
@@ -466,12 +487,14 @@ class PolygonDrawer(object):
         
         :rtype: bool
         '''
+        logging.info("PolygonDrawer: Checking if empty")
         if len(self.__vertices) == 0:
             return True
         else:
             return False
         
     def __str__(self):
+        logging.info("PolygonDrawer: Stringing polygon")
         string = "Coordinates:\n"
         for point in self.__coordinates:
             string += "\t(" + str(point[0]) + ", " + str(point[1]) + ")\n"
@@ -486,12 +509,14 @@ class PolygonDrawer(object):
     
     @staticmethod
     def toggleDrag(event):
+        logging.info("PolygonDrawer: Toggling drag")
         PolygonDrawer.dragToggle = not PolygonDrawer.dragToggle
                             
 def perpendicular(a):
     '''
     Returns a numpy array that's orthogonal to the param
     '''
+    logging.info("Creating prependicular vector")
     b = empty_like(a)
     b[0] = -a[1]
     b[1] = a[0]
@@ -504,6 +529,7 @@ def getIntersection(a1, a2, b1, b2):
     :param a1, a2: Two points on the first line
     :param b1, b1: Two points on the second line
     '''
+    logging.info("Getting point of intersection")
     da = a2 - a1
     db = b2 - b1
     dp = a1 - b1
@@ -519,6 +545,7 @@ def isIntersecting(a1, a2, b1, b2):
     :param a1, a2: The endpoints of the first line segment
     :param b1, b2: The endpoints of the second line segment
     '''
+    logging.info("Checking if intersecting")
     point = getIntersection(a1, a2, b1, b2)
     if ((point[0] < max(min(a1[0], a2[0]), min(b1[0], b2[0]))) or
         (point[0] > min(max(a1[0], a2[0]), max(b1[0], b2[0])))):
@@ -532,6 +559,7 @@ def tupleToNpArray(pair):
     
     :param pair: Tuple
     '''
+    logging.info("Converting tuple to numpy array")
     return array([pair[0], pair[1]])
     
 def npArrayToTuple(array):
@@ -540,6 +568,7 @@ def npArrayToTuple(array):
     
     :param array: Numpy array
     '''
+    logging.info("Converting numpy array to tuple")
     x = array[0]
     y = array[1]
     return (x, y)

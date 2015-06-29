@@ -5,13 +5,14 @@
 ######################################
 # import antigravity
 from datetime import datetime
+import logging
 from tkColorChooser import askcolor
 import tkMessageBox
 
 import constants
+from db import db
 from polygon.drawer import PolygonDrawer
 from polygon.reader import PolygonReader
-from db import db
 
 
 class PolygonList(object):
@@ -27,6 +28,7 @@ class PolygonList(object):
         '''
         Constructor
         '''
+        logging.info("PolygonList: Creating PolygonList")
         self.__canvas = canvas
         self.__master = master
         self.__polygonList = [[PolygonDrawer(canvas, self.__master)],      # base plot list
@@ -52,6 +54,7 @@ class PolygonList(object):
         Saves the target polygon's original position for movement tracking
         '''
         if PolygonDrawer.dragToggle:
+            logging.info("PolygonList: Received mouse click to drag")
             self.__drag_data["item"] = self.__canvas._tkcanvas.find_closest(event.x, event.y)[0]
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
@@ -66,6 +69,7 @@ class PolygonList(object):
         Clears data on movement tracking
         '''
         if PolygonDrawer.dragToggle:
+            logging.info("PolygonList: Mouse relased on dragging")
             self.__drag_data["item"] = None
             self.__drag_data["x"] = 0
             self.__drag_data["y"] = 0
@@ -77,6 +81,7 @@ class PolygonList(object):
         Calculates how far the polygon has moved and redraws the shape
         '''
         if PolygonDrawer.dragToggle:
+            logging.info("PolygonList: Received mouse motion for dragging")
             string = self.__master.getToolbar().message.get()
             x = string[2:15].strip()
             y = string[17:].strip()
@@ -99,9 +104,11 @@ class PolygonList(object):
         '''
         newPlot = ""
         if plot == 0:
+            logging.warning("PolygonList: Set plot for PolygonList to base plot")
             self.__currentList = self.__polygonList[constants.BASE_PLOT]
             newPlot = constants.BASE_PLOT_STR
         elif plot == 1:
+            logging.info("PolygonList: Set plot for PolygonList to backscattered")
             self.__currentList = self.__polygonList[constants.BACKSCATTERED]
             newPlot = constants.BACKSCATTERED_STR
             if len(self.__polygonList[constants.BACKSCATTERED]) > 1:        # ignores when no shapes are drawn
@@ -109,6 +116,7 @@ class PolygonList(object):
                     if not shape.isEmpty():             # ignores the blank shape in the list
                         shape.redrawShape()
         elif plot == 2:
+            logging.info("PolygonList: Set plot for PolygonList to depolarized")
             self.__currentList = self.__polygonList[constants.DEPOLARIZED]
             newPlot = constants.DEPOLARIZED_STR
             if len(self.__polygonList[constants.DEPOLARIZED]) > 1:
@@ -116,6 +124,7 @@ class PolygonList(object):
                     if not shape.isEmpty():
                         shape.redrawShape()
         else:
+            logging.info("PolygonList: Set plot for PolygongList to VFM")
             self.__currentList = self.__polygonList[constants.VFM]
             newPlot = constants.VFM_STR
             if len(self.__polygonList[constants.VFM]) > 1:
@@ -130,6 +139,7 @@ class PolygonList(object):
         '''
         Informs the correct list's blank to plot a corner of a rectangle
         '''
+        logging.info("PolygonList: Anchoring rectangle")
         if self.__plot == constants.BASE_PLOT_STR:
             return
         self.__currentList[-1].anchorRectangle(event)
@@ -138,10 +148,12 @@ class PolygonList(object):
         '''
         Returns the number of polygons in the list, excluding the blanks
         '''
+        logging.info("PolygonList: Getting number of polygons")
         return len(self.__polygonList[0]) + len(self.__polygonList[1]) + \
                len(self.__polygonList[2]) + len(self.__polygonList[3]) - 4
                
     def getFileName(self):
+        logging.info("PolygonList: Getting file name")
         return self.__currentFile
      
     def plotPoint(self, event):
@@ -150,6 +162,7 @@ class PolygonList(object):
         '''
         if self.__plot == constants.BASE_PLOT_STR:
             return
+        logging.info("PolygonList: Plotting point")
         check = self.__currentList[-1].plotPoint(event, self.__plot, PolygonList.outlineToggle)
         if check:
             self.generateTag()
@@ -161,6 +174,7 @@ class PolygonList(object):
         '''
         if self.__plot == constants.BASE_PLOT_STR:
             return
+        logging.info("PolygonList: Rubberbanding")
         self.__currentList[-1].rubberBand(event)
         
     def fillRectangle(self, event):
@@ -169,6 +183,7 @@ class PolygonList(object):
         '''
         if self.__plot == constants.BASE_PLOT_STR:
             return
+        logging.info("PolygonList: Creating rectangle")
         self.__currentList[-1].fillRectangle(event, self.__plot, PolygonList.outlineToggle)
         self.generateTag()
         self.__currentList.append(PolygonDrawer(self.__canvas, self.__master))
@@ -182,6 +197,7 @@ class PolygonList(object):
         '''
         if self.__plot == constants.BASE_PLOT_STR:
             return
+        logging.info("PolygonList: Creating polygon")
         self.__currentList[-1].drawPolygon(self.__plot, PolygonList.outlineToggle)
         self.generateTag()
         self.__currentList.append(PolygonDrawer(self.__canvas, self.__master))
@@ -190,6 +206,7 @@ class PolygonList(object):
         '''
         Produces a unique tag for each shape for each session
         '''
+        logging.info("PolygonList: Generated new tag")
         string = "shape" + str(self.__count)
         self.__currentList[index].setTag(string)
         self.__count += 1
@@ -198,6 +215,7 @@ class PolygonList(object):
         '''
         Clears the screen and removes polygons from the list
         '''
+        logging.info("PolygonList: Reseting PolygonList")
         idx = self.__polygonList.index(self.__currentList)
         self.__polygonList[idx] = [PolygonDrawer(self.__canvas, self.__master)]
         self.__currentList = self.__polygonList[idx]
@@ -212,15 +230,17 @@ class PolygonList(object):
         '''
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
         if target[0] > 2:           # ignore the canvas
+            logging.info("PolygonList: Deleting polygon")
             self.__canvas._tkcanvas.delete(target)
-        polyShape = self.__findPolygonByItemHandler(target)
-        self.__currentList.remove(polyShape)
+            polyShape = self.__findPolygonByItemHandler(target)
+            self.__currentList.remove(polyShape)
             
     def outline(self):
         '''
         Toggles displaying the shapes outline. When toggled, new shapes a 
         drawn with only outlines
         '''
+        logging.info("PolygonList: Toggling outline")
         PolygonList.outlineToggle = not PolygonList.outlineToggle
         for shape in self.__currentList:
             poly = shape.getItemHandler()
@@ -240,6 +260,7 @@ class PolygonList(object):
             if shape.getItemHandler() == target[0]:
                 flag = True
         if flag:
+            logging.info("PolygonList: Recoloring polygon")
             color = askcolor()
             self.__canvas._tkcanvas.itemconfigure(target, fill=color[1], outline=color[1])
             polyShape = self.__findPolygonByItemHandler(target)
@@ -249,6 +270,7 @@ class PolygonList(object):
         '''
         Hides all shapes drawn on the canvas
         '''
+        logging.info("PolygonList: Toggling hide")
         PolygonList.hideToggle = not PolygonList.hideToggle
         for shape in self.__currentList:
             poly = shape.getItemHandler()
@@ -265,19 +287,22 @@ class PolygonList(object):
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
         for shape in self.__currentList:
             if shape.getItemHandler() is target[0]:
+                logging.info("PolygonList: Retrieving shape's properties")
                 tkMessageBox.showinfo("properties",str(shape))
                 return
-        print "Polygon shape not found"
+        logging.warning("PolygonList: Shape not found")
                 
     def toggleDrag(self, event):
+        logging.info("PolygonList: Toggling drag")
         PolygonDrawer.toggleDrag(event)
         
     def findPolygon(self, event):
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
         for shape in self.__currentList:
             if shape.getItemHandler() == target[0]:
+                logging.info("PolygonList: Found polygon")
                 return shape
-        return False
+        logging.warning("PolygonList: Polygon not found")
     
     def receive(self):
         '''
@@ -328,7 +353,7 @@ class PolygonList(object):
                 shape.setVertex(i, newpoint)
             for new, old in zip(newVertices, oldVertices):
                 self.__canvas._tkcanvas.coords(shape.getItemHandler(), new[0], new[1], old[0], old[1])
-            self.__canvas._tkcanvas.move(shape.getItemHandler(), xratio * dx, yratio * dy)
+                self.__canvas._tkcanvas.move(shape.getItemHandler(), xratio * dx, yratio * dy)
             print shape
         
     def send(self):
@@ -348,10 +373,13 @@ class PolygonList(object):
         for shape in self.__currentList:
             poly = shape.getItemHandler()
             if poly == itemHandler[0]:
+                logging.info("PolygonList: Found shape by item handler")
                 return shape
+        logging.warning("PolygonList: Not shape found with item handler")
             
     @staticmethod
     def __plotInttoString(plot):
+        logging.info("PolygonList: Converting plot integer to string")
         if plot == 0:
             return "base_plot"
         elif plot == 1:
@@ -363,6 +391,7 @@ class PolygonList(object):
         
     @staticmethod
     def plotStringtoInt(plot):
+        logging.info("PolygonList: Converting plot string to integer")
         if plot.lower() == "base_plot":
             return 0
         elif plot.lower() == "backscattered":
@@ -376,6 +405,7 @@ class PolygonList(object):
         '''
         Load data from JSON file into polygon shapes
         '''
+        logging.info("PolygonList: Reading from JSON")
         if readFromString != "":
             self.__polyReader.readFromStrJSON(readFromString)
         else:
@@ -395,6 +425,7 @@ class PolygonList(object):
         '''
         Saves to database
         '''
+        logging.info("PolygonList: Saving to database")
         if len(self.__currentList) == 1:
             return False
         today = datetime.utcnow().replace(microsecond=0)
@@ -405,6 +436,7 @@ class PolygonList(object):
         '''
         Saves shapes to JSON for current plot only
         '''
+        logging.info("PolygonList: Saving current plot's shapes to JSON")
         if fileName != "": self.__currentFile = fileName
         today = datetime.utcnow().replace(microsecond=0)
         self.__data['time'] = str(today)
@@ -430,6 +462,7 @@ class PolygonList(object):
         '''
         Saves shape to JSON from all plots
         '''
+        logging.info("PolygonList: Saving all shapes to JSON")
         if fileName is not None: self.__currentFile = fileName
         today = datetime.utcnow().replace(microsecond=0)
         self.__data['time'] = str(today)
