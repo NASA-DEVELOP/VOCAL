@@ -69,6 +69,8 @@
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Manages all polygons present on the screen, writes to db on call</span>
 <span class="sd">    </span>
+<span class="sd">    :param canvas: Canvas to draw polygons to</span>
+<span class="sd">    :param master: Calipso alias</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">outlineToggle</span> <span class="o">=</span> <span class="bp">True</span>
@@ -101,6 +103,8 @@
 <div class="viewcode-block" id="PolygonList.onTokenButtonPress"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.onTokenButtonPress">[docs]</a>    <span class="k">def</span> <span class="nf">onTokenButtonPress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Saves the target polygon&#39;s original position for movement tracking</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">dragToggle</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__drag_data</span><span class="p">[</span><span class="s">&quot;item&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">find_closest</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -115,6 +119,8 @@
 <div class="viewcode-block" id="PolygonList.onTokenButtonRelease"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.onTokenButtonRelease">[docs]</a>    <span class="k">def</span> <span class="nf">onTokenButtonRelease</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Clears data on movement tracking</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">dragToggle</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__drag_data</span><span class="p">[</span><span class="s">&quot;item&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
@@ -126,6 +132,8 @@
 <div class="viewcode-block" id="PolygonList.onTokenMotion"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.onTokenMotion">[docs]</a>    <span class="k">def</span> <span class="nf">onTokenMotion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Calculates how far the polygon has moved and redraws the shape</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">dragToggle</span><span class="p">:</span>
             <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">getToolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
@@ -147,6 +155,8 @@
 <div class="viewcode-block" id="PolygonList.setPlot"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.setPlot">[docs]</a>    <span class="k">def</span> <span class="nf">setPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Determines which list currentList should alias</span>
+<span class="sd">        </span>
+<span class="sd">        :param int plot: Value for setting plot</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">newPlot</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
         <span class="k">if</span> <span class="n">plot</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -180,6 +190,8 @@
 <div class="viewcode-block" id="PolygonList.anchorRectangle"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.anchorRectangle">[docs]</a>    <span class="k">def</span> <span class="nf">anchorRectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Informs the correct list&#39;s blank to plot a corner of a rectangle</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">==</span> <span class="n">constants</span><span class="o">.</span><span class="n">BASE_PLOT_STR</span><span class="p">:</span>
             <span class="k">return</span>
@@ -198,6 +210,8 @@
 <div class="viewcode-block" id="PolygonList.plotPoint"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.plotPoint">[docs]</a>    <span class="k">def</span> <span class="nf">plotPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Informs the correct list&#39;s blank to plot a point on the screen</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">==</span> <span class="n">constants</span><span class="o">.</span><span class="n">BASE_PLOT_STR</span><span class="p">:</span>
             <span class="k">return</span>
@@ -209,6 +223,8 @@
 <div class="viewcode-block" id="PolygonList.rubberBand"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.rubberBand">[docs]</a>    <span class="k">def</span> <span class="nf">rubberBand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Uses a blank shape to draw helper rectangles</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">==</span> <span class="n">constants</span><span class="o">.</span><span class="n">BASE_PLOT_STR</span><span class="p">:</span>
             <span class="k">return</span>
@@ -217,6 +233,8 @@
 <div class="viewcode-block" id="PolygonList.fillRectangle"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.fillRectangle">[docs]</a>    <span class="k">def</span> <span class="nf">fillRectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Informs the correct list&#39;s blank to draw a rectangle on the screen</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">==</span> <span class="n">constants</span><span class="o">.</span><span class="n">BASE_PLOT_STR</span><span class="p">:</span>
             <span class="k">return</span>
@@ -224,9 +242,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">generateTag</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__currentList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PolygonDrawer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="p">))</span>
         </div>
-    <span class="k">def</span> <span class="nf">setHDF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">HDFFilename</span><span class="p">):</span>
+<div class="viewcode-block" id="PolygonList.setHDF"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.setHDF">[docs]</a>    <span class="k">def</span> <span class="nf">setHDF</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">HDFFilename</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the internal filename variable</span>
+<span class="sd">        </span>
+<span class="sd">        :param str HDFFilename: New filename</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span> <span class="o">=</span> <span class="n">HDFFilename</span>
-        
+        </div>
 <div class="viewcode-block" id="PolygonList.drawPolygon"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.drawPolygon">[docs]</a>    <span class="k">def</span> <span class="nf">drawPolygon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Informs the correct list&#39;s blank to draw a polyogon on the screen</span>
@@ -240,6 +263,8 @@
 <div class="viewcode-block" id="PolygonList.generateTag"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.generateTag">[docs]</a>    <span class="k">def</span> <span class="nf">generateTag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Produces a unique tag for each shape for each session</span>
+<span class="sd">        </span>
+<span class="sd">        :param int index: Generate new tag for given index</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">string</span> <span class="o">=</span> <span class="s">&quot;shape&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__count</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__currentList</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">setTag</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
@@ -260,6 +285,8 @@
 <div class="viewcode-block" id="PolygonList.delete"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Deletes the shape from the list</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">find_closest</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>           <span class="c"># ignore the canvas</span>
@@ -284,6 +311,8 @@
 <div class="viewcode-block" id="PolygonList.paint"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.paint">[docs]</a>    <span class="k">def</span> <span class="nf">paint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Recolors the shape</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object </span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">flag</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">find_closest</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
@@ -312,6 +341,8 @@
 <div class="viewcode-block" id="PolygonList.properties"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Displays the properties of the selected polygon</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">find_closest</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__currentList</span><span class="p">:</span>
@@ -320,16 +351,26 @@
                 <span class="k">return</span>
         <span class="k">print</span> <span class="s">&quot;Polygon shape not found&quot;</span>
                 </div>
-    <span class="k">def</span> <span class="nf">toggleDrag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+<div class="viewcode-block" id="PolygonList.toggleDrag"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.toggleDrag">[docs]</a>    <span class="k">def</span> <span class="nf">toggleDrag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Wrapper method for calling polygondrawer toggledrag method</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">toggleDrag</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-        
-    <span class="k">def</span> <span class="nf">findPolygon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        </div>
+<div class="viewcode-block" id="PolygonList.findPolygon"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.findPolygon">[docs]</a>    <span class="k">def</span> <span class="nf">findPolygon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return polygon matching closest to mouse cursor</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">find_closest</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__currentList</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">getItemHandler</span><span class="p">()</span> <span class="o">==</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                 <span class="k">return</span> <span class="n">shape</span>
         <span class="k">return</span> <span class="bp">False</span>
-    
+    </div>
 <div class="viewcode-block" id="PolygonList.receive"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.receive">[docs]</a>    <span class="k">def</span> <span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Attempts to calculate the new coordinates of the polygon</span>
@@ -395,6 +436,8 @@
     <span class="k">def</span> <span class="nf">__findPolygonByItemHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">itemHandler</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Retrieves a shape based on its item handler</span>
+<span class="sd">        </span>
+<span class="sd">        :param itemHandler: Handle to polygon object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__currentList</span><span class="p">:</span>
             <span class="n">poly</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">getItemHandler</span><span class="p">()</span>
@@ -426,6 +469,9 @@
 <div class="viewcode-block" id="PolygonList.readPlot"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.readPlot">[docs]</a>    <span class="k">def</span> <span class="nf">readPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">readFromString</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Load data from JSON file into polygon shapes</span>
+<span class="sd">        </span>
+<span class="sd">        :param str fileName: Name of JSON file to read from</span>
+<span class="sd">        :param str readFromString: If not a filename, read JSON from string</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">readFromString</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__polyReader</span><span class="o">.</span><span class="n">readFromStrJSON</span><span class="p">(</span><span class="n">readFromString</span><span class="p">)</span>
@@ -455,6 +501,8 @@
 <div class="viewcode-block" id="PolygonList.save"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Saves shapes to JSON for current plot only</span>
+<span class="sd">        </span>
+<span class="sd">        :param str fileName: Filename to save JSON to</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">fileName</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__currentFile</span> <span class="o">=</span> <span class="n">fileName</span>
         <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -480,6 +528,8 @@
 <div class="viewcode-block" id="PolygonList.saveAll"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.saveAll">[docs]</a>    <span class="k">def</span> <span class="nf">saveAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Saves shape to JSON from all plots</span>
+<span class="sd">        </span>
+<span class="sd">        :param str fileName: Filename to save JSON to</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">fileName</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__currentFile</span> <span class="o">=</span> <span class="n">fileName</span>
         <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>

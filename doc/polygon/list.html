@@ -68,16 +68,44 @@
 <dt id="polygon.list.PolygonList">
 <em class="property">class </em><tt class="descname">PolygonList</tt><big>(</big><em>canvas</em>, <em>master</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Manages all polygons present on the screen, writes to db on call</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>canvas</strong> &#8211; Canvas to draw polygons to</li>
+<li><strong>master</strong> &#8211; Calipso alias</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="polygon.list.PolygonList.anchorRectangle">
 <tt class="descname">anchorRectangle</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.anchorRectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.anchorRectangle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Informs the correct list&#8217;s blank to plot a corner of a rectangle</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.list.PolygonList.delete">
 <tt class="descname">delete</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deletes the shape from the list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -90,12 +118,42 @@
 <dt id="polygon.list.PolygonList.fillRectangle">
 <tt class="descname">fillRectangle</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.fillRectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.fillRectangle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Informs the correct list&#8217;s blank to draw a rectangle on the screen</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.list.PolygonList.findPolygon">
+<tt class="descname">findPolygon</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.findPolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.findPolygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return polygon matching closest to mouse cursor</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.list.PolygonList.generateTag">
 <tt class="descname">generateTag</tt><big>(</big><em>index=-1</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.generateTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.generateTag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Produces a unique tag for each shape for each session</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Generate new tag for given index</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -114,18 +172,42 @@
 <dt id="polygon.list.PolygonList.onTokenButtonPress">
 <tt class="descname">onTokenButtonPress</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.onTokenButtonPress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.onTokenButtonPress" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the target polygon&#8217;s original position for movement tracking</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.list.PolygonList.onTokenButtonRelease">
 <tt class="descname">onTokenButtonRelease</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.onTokenButtonRelease"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.onTokenButtonRelease" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clears data on movement tracking</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.list.PolygonList.onTokenMotion">
 <tt class="descname">onTokenMotion</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.onTokenMotion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.onTokenMotion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates how far the polygon has moved and redraws the shape</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -139,24 +221,60 @@ drawn with only outlines</p>
 <dt id="polygon.list.PolygonList.paint">
 <tt class="descname">paint</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.paint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.paint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recolors the shape</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.list.PolygonList.plotPoint">
 <tt class="descname">plotPoint</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.plotPoint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.plotPoint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Informs the correct list&#8217;s blank to plot a point on the screen</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.list.PolygonList.properties">
 <tt class="descname">properties</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.properties" title="Permalink to this definition">¶</a></dt>
 <dd><p>Displays the properties of the selected polygon</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.list.PolygonList.readPlot">
 <tt class="descname">readPlot</tt><big>(</big><em>fileName=''</em>, <em>readFromString=''</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.readPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.readPlot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load data from JSON file into polygon shapes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fileName</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name of JSON file to read from</li>
+<li><strong>readFromString</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; If not a filename, read JSON from string</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -175,18 +293,42 @@ drawn with only outlines</p>
 <dt id="polygon.list.PolygonList.rubberBand">
 <tt class="descname">rubberBand</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.rubberBand"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.rubberBand" title="Permalink to this definition">¶</a></dt>
 <dd><p>Uses a blank shape to draw helper rectangles</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.list.PolygonList.save">
 <tt class="descname">save</tt><big>(</big><em>fileName=''</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves shapes to JSON for current plot only</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fileName</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Filename to save JSON to</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.list.PolygonList.saveAll">
 <tt class="descname">saveAll</tt><big>(</big><em>fileName=''</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.saveAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.saveAll" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves shape to JSON from all plots</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fileName</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Filename to save JSON to</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -202,9 +344,45 @@ drawn with only outlines</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="polygon.list.PolygonList.setHDF">
+<tt class="descname">setHDF</tt><big>(</big><em>HDFFilename</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.setHDF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.setHDF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the internal filename variable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>HDFFilename</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; New filename</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="polygon.list.PolygonList.setPlot">
 <tt class="descname">setPlot</tt><big>(</big><em>plot</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.setPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.setPlot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determines which list currentList should alias</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plot</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Value for setting plot</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.list.PolygonList.toggleDrag">
+<tt class="descname">toggleDrag</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.toggleDrag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.toggleDrag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper method for calling polygondrawer toggledrag method</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
