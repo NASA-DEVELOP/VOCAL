@@ -2,7 +2,7 @@ from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
     SUNKEN
 import Tkinter as tk
-import logging, os, sys, tkFileDialog, tkMessageBox
+import logging, os, tkFileDialog, tkMessageBox
 
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -18,15 +18,7 @@ from polygon.list import PolygonList
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.tools import Observer, Catcher
 from toolswindow import ToolsWindow
-
-
-logger = logging.getLogger(__name__)
-
-def uncaughtException(exctype, value, tb):
-    logger.exception("Uncaught exception: {0}".format(str(value)))
-    sys.__excepthook__(exctype, value, tb)
-    
-sys.excepthook = uncaughtException
+from log import logger
 
 class Calipso(object):
     '''
@@ -321,10 +313,6 @@ class Calipso(object):
         self.setPlot(constants.BASE_PLOT)
         
 def main():
-    import logging.config
-    logging.basicConfig(filename=constants.FILE_NAME)
-    logging.config.fileConfig('log/logging.ini', disable_existing_loggers=False)
-    logging.info("Starting CALIPSO program")
     tk.CallWrapper = Catcher
     rt = Tk()
     program = Calipso(rt)       # Create main GUI window

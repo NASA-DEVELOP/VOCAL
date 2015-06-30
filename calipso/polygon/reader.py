@@ -6,14 +6,11 @@
 # import antigravity
 import ast
 import json
-import logging
 
 import constants
 from polygon.drawer import PolygonDrawer
 from tools.tools import byteify
-
-
-logger = logging.getLogger(__name__)
+from log import logger
 
 class PolygonReader(object):
     '''

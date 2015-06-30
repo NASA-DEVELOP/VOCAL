@@ -11,9 +11,7 @@ from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 import constants
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import createToolTip
-
-
-logger = logging.getLogger(__name__)
+from log import logger
 
 class ToolsWindow(Toplevel):
     '''

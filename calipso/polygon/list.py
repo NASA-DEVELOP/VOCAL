@@ -5,7 +5,6 @@
 ######################################
 # import antigravity
 from datetime import datetime
-import logging
 from tkColorChooser import askcolor
 import tkMessageBox
 
@@ -13,9 +12,7 @@ import constants
 from db import db
 from polygon.drawer import PolygonDrawer
 from polygon.reader import PolygonReader
-
-
-logger = logging.getLogger(__name__)
+from log import logger
 
 class PolygonList(object):
     '''

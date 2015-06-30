@@ -4,11 +4,8 @@
 #    @author: Nathan Qian
 #    6/3/2015
 ###################################
-import logging
 import sys
-
-
-logger = logging.getLogger(__name__)
+from log import logger
 
 def center(toplevel, size):
     '''
