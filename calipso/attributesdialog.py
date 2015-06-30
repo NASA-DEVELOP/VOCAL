@@ -11,6 +11,7 @@ import logging
 
 import constants
 
+logger = logging.getLogger(__name__)
 
 class AttributesDialog(Toplevel):
     '''
@@ -23,7 +24,7 @@ class AttributesDialog(Toplevel):
         :param root: the parent frame
         :param polygonDrawer: the polygonDrawer being edited
         '''
-        logging.info("AttributesDialog: Instantiating AttributesDialog")
+        logger.info("Instantiating AttributesDialog")
         Toplevel.__init__(self, root, width=200, height=200)
         
         self.__poly = polygonDrawer
@@ -45,7 +46,7 @@ class AttributesDialog(Toplevel):
         '''
         Initializes the top half of the window
         '''
-        logging.info("AttributesDialog: Creating top frame")
+        logger.info("Creating top frame")
         self.topFrame = Frame(self.container)                       
         self.topFrame.pack(side=TOP, fill=X, expand=False)
         
@@ -81,7 +82,7 @@ class AttributesDialog(Toplevel):
         '''
         Initializes the bottom half of the window
         '''
-        logging.info("AttributesDialog: Creating bottom frame")
+        logger.info("Creating bottom frame")
         self.bottomFrame = Frame(self.container)                       
         self.bottomFrame.pack(side=BOTTOM, fill=X, expand=False)
         
@@ -110,7 +111,7 @@ class AttributesDialog(Toplevel):
         '''
         Saves the attributes that the user has selected
         '''
-        logging.info("AttributesDialog: Setting attributes")
+        logger.info("Setting attributes")
         selection = self.attributeList.curselection()
         if len(selection) == 0:
             return
@@ -125,7 +126,7 @@ class AttributesDialog(Toplevel):
         '''
         Deletes the attributes that the user has selected
         '''
-        logging.info("AttributesDialog: Deleting attributes")
+        logger.info("Deleting attributes")
         selection = self.selectedList.curselection()
         if len(selection) == 0:
             return
@@ -140,7 +141,7 @@ class AttributesDialog(Toplevel):
         '''
         Saves the note
         '''
-        logging.info("AttributesDialog: Saving note")
+        logger.info("Saving note")
         note = self.noteText.get('1.0', 'end-1c')
         self.__poly.setNotes(note)
         self.close()
@@ -149,10 +150,10 @@ class AttributesDialog(Toplevel):
         '''
         Deletes the note
         '''
-        logging.info("AttributesDialog: Deleting note")
+        logger.info("Deleting note")
         self.noteText.delete(1.0, END)
         self.__poly.setNotes("")
     
     def close(self):
-        logging.info("AttributesDialog: Closing window")
+        logger.info("Closing window")
         self.destroy()
