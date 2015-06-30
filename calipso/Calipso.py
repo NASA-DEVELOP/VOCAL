@@ -52,6 +52,7 @@ class Calipso(object):
         
         self.__child = ToolsWindow(self, r)                                         # tools window which holds all manipulation buttons 
         self.__Parentfig = Figure(figsize=(16,11))                                  # the figure we're drawing our plot to
+        self.__fig = None
         self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig,                 # canvas USING the figure we're drawing our plot to \
             master=self.__drawplotFrame)   
         self.__polygonList = PolygonList(self.__drawplotCanvas, self)               # internal polygonList
@@ -124,7 +125,6 @@ class Calipso(object):
         :param int plotType: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
         '''
         if (plotType) == constants.BASE_PLOT:
-            logger.warning("Setting plot to base plot")
             self.__polygonList.setPlot(constants.BASE_PLOT)                                     # sets the screen to a blank canvas
         elif (plotType.get()) == constants.BACKSCATTERED:
             try:
@@ -136,7 +136,7 @@ class Calipso(object):
                 self.__polygonList.setPlot(constants.BACKSCATTERED)                             # set the current plot on polygonList
                 self.__toolbar.update()                                                         # update toolbar
             except IOError:
-                logger.error("IOError")
+                logger.error("IOError, no file exists")
                 tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists in current file var
         elif (plotType.get()) == constants.DEPOLARIZED:
             try:
@@ -148,7 +148,7 @@ class Calipso(object):
                 self.__drawplotCanvas.show()                                                    # show plot
                 self.__toolbar.update()                                                         # update toolbar
             except IOError:
-                logger.error("IOError")
+                logger.error("IOError, no file exists")
                 tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists
         elif (plotType.get()) == constants.VFM:
             logger.error("Accessing unimplemented VFM plot")
@@ -184,8 +184,10 @@ class Calipso(object):
         logger.info("Notified database to save")
         success = self.__polygonList.saveToDB()
         if success:
+            logger.info("Success, saved to db")
             tkMessageBox.showinfo("database", "All objects saved to database")
         else:
+            logger.error("No objects to be saved")
             tkMessageBox.showerror("database", "No objects to be saved")
             
     def notifySaveJSON(self):
@@ -258,9 +260,11 @@ class Calipso(object):
         
         :param event: A Tkinter passed event object
         '''
-        logger.info("Opening attributes dialog")
+        logger.info("Searching for polygon")
         poly = self.__polygonList.findPolygon(event)
-        AttributesDialog(self.__root, poly)
+        if poly:
+            logger.info("Opening attributes dialog") 
+            AttributesDialog(self.__root, poly)
 
     def getPolygonList(self):
         '''
@@ -287,7 +291,8 @@ class Calipso(object):
         :rtype: :py:class:`Figure`
         '''
         logger.info("Getting fig")
-        return self.__fig
+        if self.__fig : return self.__fig
+        logger.error("Fig does not exist")
         
     def about(self): 
         '''

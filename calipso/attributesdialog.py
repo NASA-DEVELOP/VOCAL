@@ -10,9 +10,7 @@ from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
 import logging
 
 import constants
-
-
-logger = logging.getLogger(__name__)
+from log import logger
 
 class AttributesDialog(Toplevel):
     '''
