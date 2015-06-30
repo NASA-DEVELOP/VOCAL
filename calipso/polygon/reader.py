@@ -7,7 +7,6 @@
 import ast
 import json
 import logging
-import sys
 
 import constants
 from polygon.drawer import PolygonDrawer

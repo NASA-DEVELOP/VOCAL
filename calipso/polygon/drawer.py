@@ -6,7 +6,6 @@
 
 # import antigravity
 import logging
-import sys
 
 from numpy import empty_like, dot, array
 

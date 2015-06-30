@@ -6,7 +6,6 @@
 # import antigravity
 from datetime import datetime
 import logging
-import sys
 from tkColorChooser import askcolor
 import tkMessageBox
 
