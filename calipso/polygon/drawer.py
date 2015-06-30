@@ -105,7 +105,6 @@ class PolygonDrawer(object):
         '''
         Constructor
         '''
-        logger.info("Creating PolygonDrawer")
         self.__vertices = []
         self.__coordinates = []
         self.__canvas = canvas
@@ -127,7 +126,6 @@ class PolygonDrawer(object):
         
         :param event: A Tkinter passed event object
         '''
-        logger.info("Anchoring rectangle")
         self.__vertices.append((event.x, event.y))
         string = self.__master.getToolbar().message.get()
         x = string[2:15].strip()
@@ -147,7 +145,6 @@ class PolygonDrawer(object):
         :param fill: Boolean for when the cavas is in fill mode
         '''
         self.__vertices.append((event.x, event.y))
-        logger.info("Plotting point")
         string = self.__master.getToolbar().message.get()
         x = string[2:15].strip()
         y = string[17:].strip()
@@ -201,7 +198,6 @@ class PolygonDrawer(object):
             pass
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
-        logger.info("Rubberbanding")
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prevX, self.__prevY, event.x, event.y)
         
     def fillRectangle(self, event, plot=constants.BASE_PLOT_STR, fill=False):
@@ -249,7 +245,6 @@ class PolygonDrawer(object):
         
         :param str tag: Tag to append
         '''
-        logger.info("Adding tag")
         self.__attributes.append(tag)
         
     def removeAttribute(self, tag):
@@ -258,7 +253,6 @@ class PolygonDrawer(object):
         
         :param str tag: Tag to search for and remove
         '''
-        logger.info("Removing tag")
         self.__attributes.remove(tag)
         
     def setAttributes(self, attributes):
@@ -267,7 +261,6 @@ class PolygonDrawer(object):
         
         :param list attributes: Variable to set internal attributes to
         '''
-        logger.info("Setting attributes")
         self.__attributes = attributes
 
     def setTag(self, tag):
@@ -276,7 +269,6 @@ class PolygonDrawer(object):
         
         :param str tag: Variable to set the internal tag to
         '''
-        logger.info("Setting tag")
         self.__tag = tag;
         
     def setColor(self, color):
@@ -285,7 +277,6 @@ class PolygonDrawer(object):
         
         :param str color: Variable to set the internal color to
         '''
-        logger.info("Setting color")
         self.__color = color
         
     def setVertices(self, vertexList):
@@ -294,7 +285,6 @@ class PolygonDrawer(object):
         
         :param list vertexList: List to set the internal vertices list to
         '''
-        logger.info("Setting vertices")
         self.__vertices = vertexList
         
     def setPlot(self, plot):
@@ -303,7 +293,6 @@ class PolygonDrawer(object):
         
         :param plot: Variable to set the internal plot type to
         '''
-        logger.info("Setting plot")
         self.__plot = plot
         
     def setCoordinates(self, coordinates):
@@ -312,7 +301,6 @@ class PolygonDrawer(object):
         
         :param list coordinates: List to set the internal coordinates to
         '''
-        logger.info("Setting coordinates")
         self.__coordinates = coordinates
         
     
@@ -332,7 +320,6 @@ class PolygonDrawer(object):
         
         :param int _id: Variable to set the internal ID to
         '''
-        logger.info("Setting ID")
         self.__id = _id
         
     def setNotes(self, note):
@@ -341,7 +328,6 @@ class PolygonDrawer(object):
         
         :param str note: Variable to set the internal notes to
         '''
-        logger.info("Setting notes")
         self.__note = note
         
     def getCoordinates(self):
@@ -350,7 +336,6 @@ class PolygonDrawer(object):
         
         :rtype: list
         '''
-        logger.info("Getting coordinates")
         return self.__coordinates
         
     def getNotes(self):
@@ -359,7 +344,6 @@ class PolygonDrawer(object):
         
         :rtype: str
         '''
-        logger.info("Getting notes")
         return self.__note
         
     def getAttributes(self):
@@ -368,7 +352,6 @@ class PolygonDrawer(object):
         
         :rtype: list
         '''
-        logger.info("Getting attributes")
         return self.__attributes
         
     def getPlot(self):
@@ -377,7 +360,6 @@ class PolygonDrawer(object):
         
         :rtype: str
         '''
-        logger.info("Getting plot")
         return self.__plot 
     
     def getVertices(self):
@@ -386,7 +368,6 @@ class PolygonDrawer(object):
         
         :rtype: list
         '''
-        logger.info("Getting vertices")
         return self.__vertices
     
     def getColor(self):
@@ -395,7 +376,6 @@ class PolygonDrawer(object):
         
         :rtype: str
         '''
-        logger.info("Getting color")
         return self.__color
     
     def getID(self):
@@ -404,7 +384,6 @@ class PolygonDrawer(object):
         
         :rtype: int or ``None``
         '''
-        logger.info("Getting ID")
         return self.__id
 
     def getTag(self):
@@ -413,7 +392,6 @@ class PolygonDrawer(object):
         
         :rtype: str
         '''
-        logger.info("Getting tag")
         return self.__tag
     
     def getItemHandler(self):
@@ -422,7 +400,6 @@ class PolygonDrawer(object):
         
         :rtype: handle
         '''
-        logger.info("Getting item handler")
         return self.__itemHandler
     
     def isInAttributes(self, tag):
@@ -532,7 +509,6 @@ def perpendicular(a):
     '''
     Returns a numpy array that's orthogonal to the param
     '''
-    logger.info("Creating prependicular vector")
     b = empty_like(a)
     b[0] = -a[1]
     b[1] = a[0]
@@ -545,7 +521,6 @@ def getIntersection(a1, a2, b1, b2):
     :param a1, a2: Two points on the first line
     :param b1, b1: Two points on the second line
     '''
-    logger.info("Getting point of intersection")
     da = a2 - a1
     db = b2 - b1
     dp = a1 - b1
@@ -561,7 +536,6 @@ def isIntersecting(a1, a2, b1, b2):
     :param a1, a2: The endpoints of the first line segment
     :param b1, b2: The endpoints of the second line segment
     '''
-    logger.info("Checking if intersecting")
     point = getIntersection(a1, a2, b1, b2)
     if ((point[0] < max(min(a1[0], a2[0]), min(b1[0], b2[0]))) or
         (point[0] > min(max(a1[0], a2[0]), max(b1[0], b2[0])))):
@@ -575,7 +549,6 @@ def tupleToNpArray(pair):
     
     :param pair: Tuple
     '''
-    logger.info("Converting tuple to numpy array")
     return array([pair[0], pair[1]])
     
 def npArrayToTuple(array):
@@ -584,7 +557,6 @@ def npArrayToTuple(array):
     
     :param array: Numpy array
     '''
-    logger.info("Converting numpy array to tuple")
     x = array[0]
     y = array[1]
     return (x, y)

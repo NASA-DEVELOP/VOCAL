@@ -53,19 +53,3 @@ class Catcher:
             print "except"
             etype, value, tb = sys.exc_info()
             logger.exception("Uncaught exception: " + str(etype) + str(value) + str(tb))
-    
-class Observer(object):
-    '''
-    Class that allows signaling between classes
-    '''
-    def __init__(self, receiver):
-        logger.info("Instantiating Observer")
-        self.__receiver = receiver
-        
-    def update(self):
-        logger.info("Update")
-        self.__receiver.receive()
-        
-    def send(self):
-        logger.info("Send")
-        self.__receiver.send()
