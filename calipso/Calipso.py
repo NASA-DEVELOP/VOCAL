@@ -260,7 +260,8 @@ class Calipso(object):
         '''
         logger.info("Opening attributes dialog")
         poly = self.__polygonList.findPolygon(event)
-        AttributesDialog(self.__root, poly)
+        if poly is not None:
+            AttributesDialog(self.__root, poly)
 
     def getPolygonList(self):
         '''
