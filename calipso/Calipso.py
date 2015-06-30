@@ -21,8 +21,6 @@ from toolswindow import ToolsWindow
 
 
 logger = logging.getLogger(__name__)
-handler = logging.StreamHandler(stream=sys.stdout)
-logger.addHandler(handler)
 
 def uncaughtException(exctype, value, tb):
     print "uncaught"
