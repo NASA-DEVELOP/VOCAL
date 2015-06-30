@@ -8,6 +8,5 @@ def uncaughtException(exctype, value, tb):
     
 sys.excepthook = uncaughtException
 logger = logging.getLogger('VOCAL')    
-logging.basicConfig(filename=constants.FILE_NAME, filemode = 'w')
 logging.config.fileConfig('log/logging.ini', disable_existing_loggers=False)
-logging.info("Starting CALIPSO program")
+#logging.basicConfig(filename=constants.FILE_NAME, mode = 'w')

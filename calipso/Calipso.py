@@ -313,7 +313,8 @@ class Calipso(object):
         self.setPlot(constants.BASE_PLOT)
         
 def main():
-    tk.CallWrapper = Catcher
+    logging.info("Starting CALIPSO program")
+    tk.CallWrapper = Catcher    # Catch Tkinter exceptions to be written by log
     rt = Tk()
     program = Calipso(rt)       # Create main GUI window
 
