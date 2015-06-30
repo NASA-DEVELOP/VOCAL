@@ -7,7 +7,6 @@
 
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
-import logging
 
 import constants
 from log import logger
@@ -23,7 +22,6 @@ class AttributesDialog(Toplevel):
         :param root: the parent frame
         :param polygonDrawer: the polygonDrawer being edited
         '''
-        logger.info("Instantiating AttributesDialog")
         Toplevel.__init__(self, root, width=200, height=200)
         
         self.__poly = polygonDrawer
@@ -38,14 +36,15 @@ class AttributesDialog(Toplevel):
         self.container = Frame(self)
         self.container.pack(side=TOP, fill=BOTH, expand=True) 
             
+        logger.info("Creating top frame")
         self.createTopFrame()
+        logger.info("Creating bottom frame")
         self.createBottomFrame()
         
     def createTopFrame(self):
         '''
         Initializes the top half of the window
         '''
-        logger.info("Creating top frame")
         self.topFrame = Frame(self.container)                       
         self.topFrame.pack(side=TOP, fill=X, expand=False)
         
@@ -65,6 +64,7 @@ class AttributesDialog(Toplevel):
         self.selectedList = Listbox(self.topFrame, width=30, height=30, selectmode=EXTENDED)
         self.selectedList.grid(row=1, column=3)
         
+        logger.info("Loading attributes")
         for tag in self.__availableAttributes:
             if self.__poly.isInAttributes(tag):
                 self.selectedList.insert(END, tag)
@@ -81,7 +81,6 @@ class AttributesDialog(Toplevel):
         '''
         Initializes the bottom half of the window
         '''
-        logger.info("Creating bottom frame")
         self.bottomFrame = Frame(self.container)                       
         self.bottomFrame.pack(side=BOTTOM, fill=X, expand=False)
         
