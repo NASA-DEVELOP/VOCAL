@@ -6,6 +6,7 @@
 # import antigravity
 from datetime import datetime
 import logging
+import sys
 from tkColorChooser import askcolor
 import tkMessageBox
 
@@ -14,7 +15,13 @@ from db import db
 from polygon.drawer import PolygonDrawer
 from polygon.reader import PolygonReader
 
+
 logger = logging.getLogger(__name__)
+
+def uncaughtException(exectype, value, tb):
+    logger.exception("Uncaught exception: {0}".format(str(value)))
+    
+sys.excepthook = uncaughtException
 
 class PolygonList(object):
     '''

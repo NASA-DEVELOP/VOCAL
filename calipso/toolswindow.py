@@ -5,14 +5,21 @@
 ######################################
 from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM
+import logging
+import sys
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 import constants
-from tools.tooltip import createToolTip
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
-import logging
+from tools.tooltip import createToolTip
+
 
 logger = logging.getLogger(__name__)
+
+def uncaughtException(exectype, value, tb):
+    logger.exception("Uncaught exception: {0}".format(str(value)))
+    
+sys.excepthook = uncaughtException
 
 class ToolsWindow(Toplevel):
     '''

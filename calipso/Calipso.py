@@ -3,6 +3,7 @@ from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     SUNKEN
 import logging
 import os
+import sys
 import tkFileDialog
 import tkMessageBox
 
@@ -21,7 +22,14 @@ from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.tools import Observer
 from toolswindow import ToolsWindow
 
+
 logger = logging.getLogger(__name__)
+
+def uncaughtException(exctype, value, tb):
+    logger.exception("Uncaught exception: {0}".format(str(value)))
+    sys.__excepthook__(exctype, value, tb)
+    
+sys.excepthook = uncaughtException
 
 class Calipso(object):
     '''
@@ -29,7 +37,6 @@ class Calipso(object):
     creating other GUI windows such as the toolbar or import dialog
     '''
     def __init__ (self, r):
-#         constants.logger.info("Starting CALIPSO program")
         logger.info("Instantiating Calipso")        
         self.__root = r                         # root of program
         self.__file =  ''                       # current file in use

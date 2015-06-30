@@ -6,12 +6,19 @@
 
 # import antigravity
 import logging
+import sys
 
 from numpy import empty_like, dot, array
 
 import constants
 
+
 logger = logging.getLogger(__name__)
+
+def uncaughtException(exectype, value, tb):
+    logger.exception("Uncaught exception: {0}".format(str(value)))
+    
+sys.excepthook = uncaughtException
 
 class PolygonDrawer(object):
     '''
