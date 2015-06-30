@@ -50,7 +50,6 @@ class dbPolygon(dbBase):
     
     @staticmethod
     def plotString(i):
-        logger.info("plot string")
         return constants.PLOTS[i]
     
     def __repr__(self):
@@ -59,7 +58,6 @@ class dbPolygon(dbBase):
         already supporst JSON reading, so simply parse out the database as 
         seperate JSON 'files'
         '''
-        logger.info("represent")
         data = {}
         for i in range(0,len(constants.PLOTS)):
             data[self.plotString(i)] = {}
@@ -72,6 +70,7 @@ class dbPolygon(dbBase):
              "notes":self.notes}}
         data["time"] = self.time_
         data["hdfFile"] = self.hdf
+        logger.info("Converting from unicode to ASCII")
         return byteify(json.dumps(data))
 
 
@@ -165,6 +164,7 @@ class DatabaseManager(object):
         session = self.__Session()
         item = session.query(dbPolygon).get(idx)
         session.delete(item)
+        logger.info("Commiting database")
         session.commit()
         session.close()
     
@@ -174,9 +174,9 @@ class DatabaseManager(object):
         :param filename: name of the file
         :param data: Python dictionary representation of a JSON
         '''
-        logger.info("Encoding data")
         with open(filename, 'w') as outfile:
             json.dump(data, outfile)
+        logger.info("Successfully encoded")
                 
 
 # define the global database manager object

@@ -14,7 +14,6 @@ def center(toplevel, size):
     :param toplevel: Toplevel window to center
     :param size: Size dimensions in a tuple format *e.g.* ``(x,y)``
     '''
-    logger.info("center")
     w = toplevel.winfo_screenwidth()
     h = toplevel.winfo_screenheight()
     x = w/2 - size[0]/2
@@ -27,7 +26,6 @@ def byteify(inp):
     
     :param str inp: Unicode string to be converted
     '''
-    logger.info("byteify")
     if isinstance(inp, dict):
         return {byteify(key):byteify(value) for key,value in inp.iteritems()}
     elif isinstance(inp, list):

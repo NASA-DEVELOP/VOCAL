@@ -215,7 +215,6 @@ class PolygonDrawer(object):
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
             del self.lastrect
-        logger.info("Creating rectangle")
         ix = self.__vertices[0][0]
         iy = self.__vertices[0][1]
         imx = self.__coordinates[0][0]
@@ -409,7 +408,6 @@ class PolygonDrawer(object):
         :param str tag: Variable for checking
         :rtype: bool
         '''
-        logger.info("Checking in attributes")
         for item in self.__attributes:
             if tag == item:
                 logger.info("Success")
@@ -434,16 +432,14 @@ class PolygonDrawer(object):
             self.__coordinates[i] = newPoint
     
     def __canDrawPolygon(self):
-        logger.info("Checking can draw polygon")
         b1 = tupleToNpArray(self.__vertices[-1])
         b2 = tupleToNpArray(self.__vertices[-2])
         for i in range(len(self.__vertices)-3):
             a1 = tupleToNpArray(self.__vertices[i])
             a2 = tupleToNpArray(self.__vertices[i+1])
             if isIntersecting(a1, a2, b1, b2):
-                logger.info("Success")
+                logger.info("Polygon labeled for draw")
                 return i
-        logger.error("Cannot draw polygon")
         return -1
             
     def drawPolygon(self, plot=constants.BASE_PLOT_STR, fill=False):
@@ -468,7 +464,6 @@ class PolygonDrawer(object):
         '''
         Redraw the shape by first deleting the item handler and recreating it
         '''
-        logger.info("Redrawing polygon")
         self.__canvas._tkcanvas.delete(self.__itemHandler)
         self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=self.__color, fill=self.__color, width=2, tags=("polygon", self.__tag, self.__plot))
         
@@ -478,12 +473,9 @@ class PolygonDrawer(object):
         
         :rtype: bool
         '''
-        logger.info("Checking if empty")
         if len(self.__vertices) == 0:
-            logger.info("Vertices exist")
             return True
         else:
-            logger.error("No vertices exist")
             return False
         
     def __str__(self):
