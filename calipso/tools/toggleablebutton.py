@@ -76,14 +76,15 @@ class ToggleableButton(Button):
             
         # else if next state it false
         if self.isToggled == False:
-            self.__root.config(cursor=self.__cursor)
+            self.__root.config(cursor="")
             self.config(relief='raised')                # raise the button, e.g. deactivated
             for pair in self.__bindMap:                 # unbind using the bindmap
                 pair[0].unbind(pair[1])
             if self.__destructor : self.__destructor()  # call the pseudo 'destructor'
         # else if next state is true
         else:
-            self.__root.config(cursor="")
+            
+            self.__root.config(cursor=self.__cursor)
             self.config(relief='sunken')                # sink the button, e.g. activate
             for pair in self.__bindMap:                 # bind using the bindmap
                 pair[0].bind(pair[1], pair[2])
