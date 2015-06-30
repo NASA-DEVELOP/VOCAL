@@ -21,6 +21,7 @@ from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.tools import Observer
 from toolswindow import ToolsWindow
 
+import this
 
 logger = logging.getLogger(__name__)
 
