@@ -23,10 +23,6 @@ from toolswindow import ToolsWindow
 logger = logging.getLogger(__name__)
 
 def uncaughtException(exctype, value, tb):
-    print "uncaught"
-    if issubclass(exctype, KeyboardInterrupt):
-        sys.__excepthook__(exctype, value, tb)
-        return
     logger.exception("Uncaught exception: {0}".format(str(value)))
     sys.__excepthook__(exctype, value, tb)
     
