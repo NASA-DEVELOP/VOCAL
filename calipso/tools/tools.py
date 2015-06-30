@@ -9,6 +9,8 @@ import sys
 
 
 logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(stream=sys.stdout)
+logger.addHandler(handler)
 
 def uncaughtException(exectype, value, tb):
     logger.exception("Uncaught exception: {0}".format(str(value)))
@@ -44,6 +46,24 @@ def byteify(inp):
         return inp.encode('utf-8')
     else:
         return inp
+    
+class Catcher: 
+    def __init__(self, func, subst, widget):
+        self.func = func 
+        self.subst = subst
+        self.widget = widget
+    def __call__(self, *args):
+        try:
+            if self.subst:
+                args = apply(self.subst, args)
+            return apply(self.func, args)
+        except SystemExit, msg:
+            print "except"
+            raise SystemExit, msg
+        except:
+            print "except"
+            etype, value, tb = sys.exc_info()
+            logger.exception("Uncaught exception: " + str(etype) + str(value) + str(tb))
     
 class Observer(object):
     '''
