@@ -17,9 +17,7 @@ import constants
 from db import db, dbPolygon
 from tools.tools import center
 from tools.treelistbox import TreeListBox
-
-
-logger = logging.getLogger(__name__)
+from log import logger
 
 #import TkTreectrl as treectrl
 #import db

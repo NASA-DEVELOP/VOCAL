@@ -16,9 +16,7 @@ from sqlalchemy.orm import sessionmaker
 
 import constants
 from tools.tools import byteify
-
-
-logger = logging.getLogger(__name__)
+from log import logger
 
 # Create a declarative_base for dbPolygon to inherit from
 dbBase = declarative_base()
