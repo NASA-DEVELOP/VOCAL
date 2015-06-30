@@ -98,17 +98,16 @@ class DatabaseManager(object):
         this tag is used so it does not overlap existing shape tags previously generated
         and stored into the database
         '''
-        logger.info("Querying unique tag")
         session = self.__Session()
         objs = session.query(dbPolygon).order_by(desc(dbPolygon.tag))
         if objs.count() == 0:
+            logger.info("No tags found, setting base case")
             tag = 0
         else:
+            logger.info("Tag found")
             tag = int(re.search('(\d+)$', objs.first().tag).group(0)) + 1
         session.close()
         return tag
-        #print tag
-        #return tag
     
     def getSession(self):
         '''

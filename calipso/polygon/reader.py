@@ -27,7 +27,6 @@ class PolygonReader(object):
         '''
         Initializes attributes
         '''
-        logger.info("Instantiating PolygonReader")
         self.__fileName = fileName
         self.__data = {} 
         

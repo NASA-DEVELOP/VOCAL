@@ -16,7 +16,7 @@ from plot.plot_depolar_ratio import drawDepolar
 from plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from polygon.list import PolygonList
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
-from tools.tools import Observer, Catcher
+from tools.tools import Catcher
 from toolswindow import ToolsWindow
 from log import logger
 
@@ -25,8 +25,7 @@ class Calipso(object):
     Main class of the application, handles all GUI related events as well as 
     creating other GUI windows such as the toolbar or import dialog
     '''
-    def __init__ (self, r):
-        logger.info("Instantiating Calipso")        
+    def __init__ (self, r):    
         self.__root = r                         # root of program
         self.__file =  ''                       # current file in use
         
@@ -50,15 +49,16 @@ class Calipso(object):
                                      height=constants.HEIGHT)                       # the frame on which we will set our canvas for drawing etc.
         
         
+        logger.info("Instatiating ToolsWindow")
         self.__child = ToolsWindow(self, r)                                         # tools window which holds all manipulation buttons 
         self.__Parentfig = Figure(figsize=(16,11))                                  # the figure we're drawing our plot to
         self.__fig = None
         self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig,                 # canvas USING the figure we're drawing our plot to \
             master=self.__drawplotFrame)   
+        logger.info("Create PolygonList")
         self.__polygonList = PolygonList(self.__drawplotCanvas, self)               # internal polygonList
-        observer = Observer(self.__polygonList)
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,           # create barebones toolbar we can borrow backend functions from \
-            self.__child.coordinateFrame, observer)
+            self.__child.coordinateFrame)
         
         
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)   # pack and display canvas
@@ -69,7 +69,6 @@ class Calipso(object):
         '''
         Sets the title of root and invokes py:meth:`centerWindow`
         '''
-        logger.info("Setting up window")
         self.__root.title("CALIPSO Visualization Tool")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
@@ -86,7 +85,6 @@ class Calipso(object):
         '''
         Creates a drop down menu bar
         '''
-        logger.info("Setting up menu")
         self.__menuBar = Menu(self.__root)
         
         #File Menu
@@ -272,7 +270,6 @@ class Calipso(object):
         
         :rtype: :py:class:`polygonList`
         '''
-        logger.info("Getting PolygonList")
         return self.__polygonList       # get functions for private varialbes
     
     def getToolbar(self):
@@ -281,7 +278,6 @@ class Calipso(object):
         
         :rtype: :py:class:`NavigationToolbar2CALIPSO`
         '''
-        logger.info("Getting toolbar")
         return self.__toolbar
     
     def getFig(self):
@@ -290,7 +286,6 @@ class Calipso(object):
         
         :rtype: :py:class:`Figure`
         '''
-        logger.info("Getting fig")
         if self.__fig : return self.__fig
         logger.error("Fig does not exist")
         
@@ -312,19 +307,24 @@ class Calipso(object):
         '''
         Setup the top GUI, initialize toolbar window and set the plot to a blank image
         '''
-        logger.info("Setting up main screen")
+        logger.info("Setting up GUI")
         self.createTopScreenGUI()
         self.__child.setupToolBarButtons()
+        logger.info("Setting initial plot")
         self.setPlot(constants.BASE_PLOT)
         
 def main():
     logging.info("Starting CALIPSO program")
     tk.CallWrapper = Catcher    # Catch Tkinter exceptions to be written by log
     rt = Tk()
+    logging.info("Instatiate CALIPSO program")
     program = Calipso(rt)       # Create main GUI window
 
+    logger.info("Setting up window")
     program.setupWindow()       # create window in center screen
+    logger.info("Setting up menu")
     program.setupMenu()         # create top menu
+    logger.info("Setting up main screen")
     program.setupMainScreen()   # create top buttons, initialize child and display base_plt
         
     rt.mainloop()               # program main loop
