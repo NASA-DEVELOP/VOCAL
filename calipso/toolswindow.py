@@ -5,7 +5,6 @@
 ######################################
 from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
     RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM
-import logging
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 import constants
