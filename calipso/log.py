@@ -1,5 +1,4 @@
 import logging.config
-import constants
 import sys
 
 def uncaughtException(exctype, value, tb):
@@ -9,4 +8,3 @@ def uncaughtException(exctype, value, tb):
 sys.excepthook = uncaughtException
 logger = logging.getLogger('VOCAL')    
 logging.config.fileConfig('log/logging.ini', disable_existing_loggers=False)
-#logging.basicConfig(filename=constants.FILE_NAME, mode = 'w')
