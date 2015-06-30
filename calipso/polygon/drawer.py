@@ -9,9 +9,6 @@ from numpy import empty_like, dot, array
 
 import constants
 from log import logger
-
-def uncaughtException(exectype, value, tb):
-    logger.exception("Uncaught exception: {0}".format(str(value)))
     
 class PolygonDrawer(object):
     '''
@@ -438,6 +435,7 @@ class PolygonDrawer(object):
         logger.info("Checking in attributes")
         for item in self.__attributes:
             if tag == item:
+                logger.info("Success")
                 return True
         return False
     
@@ -466,7 +464,9 @@ class PolygonDrawer(object):
             a1 = tupleToNpArray(self.__vertices[i])
             a2 = tupleToNpArray(self.__vertices[i+1])
             if isIntersecting(a1, a2, b1, b2):
+                logger.info("Success")
                 return i
+        logger.error("Cannot draw polygon")
         return -1
             
     def drawPolygon(self, plot=constants.BASE_PLOT_STR, fill=False):
@@ -503,8 +503,10 @@ class PolygonDrawer(object):
         '''
         logger.info("Checking if empty")
         if len(self.__vertices) == 0:
+            logger.info("Vertices exist")
             return True
         else:
+            logger.error("No vertices exist")
             return False
         
     def __str__(self):

@@ -342,11 +342,13 @@ class PolygonList(object):
             if shape.getItemHandler() == target[0]:
                 logger.info("Found polygon")
                 return shape
-        logger.warning("Polygon not found")
+        logger.error("Polygon not found")
     
     def receive(self):
         '''
         Attempts to calculate the new coordinates of the polygon
+        '''
+        pass
         '''
         toolbar = self.__master.getFig()
         # new scale
@@ -376,35 +378,20 @@ class PolygonList(object):
 #             self.__canvas._tkcanvas.coords(shape.getItemHandler, newVertices)
 #             self.__canvas._tkcanvas.move(shape.getItemHandler(), dx, dy)
 #             print shape
-
-        for shape in self.__currentList:
-            vertices = shape.getVertices()
-            oldVertices = shape.getVertices()
-            newVertices = []
-            for i in range(len(vertices)):
-                # produces a component vector
-                dx = vertices[i][0] - constants.TKXMID
-                dy = vertices[i][1] - constants.TKYMID
-                # scales the vector and moves it to the correct point
-                newx = xratio * dx + constants.TKXMID
-                newy = yratio * dy + constants.TKYMID
-                newpoint = (newx, newy)
-                newVertices.append(newpoint)
-                shape.setVertex(i, newpoint)
-            for new, old in zip(newVertices, oldVertices):
-                self.__canvas._tkcanvas.coords(shape.getItemHandler(), new[0], new[1], old[0], old[1])
-                self.__canvas._tkcanvas.move(shape.getItemHandler(), xratio * dx, yratio * dy)
-            print shape
+        '''
         
     def send(self):
         '''
         Saves the initial scale
+        '''
+        pass
         '''
         toolbar = self.__master.getFig()
         self.ixaxis = toolbar.get_xlim()
         self.iyaxis = toolbar.get_ylim()
         print "Initial xrange: (" + str(self.ixaxis[0]) + ", " + str(self.ixaxis[1]) + ")"
         print "Initial yrange: (" + str(self.iyaxis[0]) + ", " + str(self.iyaxis[1]) + ")"
+        '''
     
     def __findPolygonByItemHandler(self, itemHandler):
         '''
