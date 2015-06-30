@@ -5,9 +5,6 @@
 #
 #    Module for all constants
 ######################################
-import logging
-import logging.handlers
-
 HEIGHT          = 665
 WIDTH           = 1265
 CHILDWIDTH      = 200
