@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "C:\Users\gamercer\Documents\CALIPSO_Visualization\calipso\Calipso.py", line 50, in __call__
+    return apply(self.func, args)
+  File "C:\Users\gamercer\Documents\CALIPSO_Visualization\calipso\Calipso.py", line 296, in attributeWindow
+    AttributesDialog(self.__root, poly)
+  File "C:\Users\gamercer\Documents\CALIPSO_Visualization\calipso\attributesdialog.py", line 49, in __init__
+    self.createTopFrame()
+  File "C:\Users\gamercer\Documents\CALIPSO_Visualization\calipso\attributesdialog.py", line 77, in createTopFrame
+    if self.__poly.isInAttributes(tag):
+AttributeError: 'NoneType' object has no attribute 'isInAttributes'
+Traceback (most recent call last):
+  File "C:\Users\gamercer\Documents\CALIPSO_Visualization\calipso\Calipso.py", line 50, in __call__
+    return apply(self.func, args)
+  File "C:\Users\gamercer\Documents\CALIPSO_Visualization\calipso\Calipso.py", line 298, in attributeWindow
+    AttributesDialog(self.__root, poly)
+  File "C:\Users\gamercer\Documents\CALIPSO_Visualization\calipso\attributesdialog.py", line 49, in __init__
+    self.createTopFrame()
+  File "C:\Users\gamercer\Documents\CALIPSO_Visualization\calipso\attributesdialog.py", line 77, in createTopFrame
+    if self.__poly.isInAttributes(tag):
+AttributeError: 'NoneType' object has no attribute 'isInAttributes'

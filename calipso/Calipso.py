@@ -1,11 +1,8 @@
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
     SUNKEN
-import logging
-import os
-import sys
-import tkFileDialog
-import tkMessageBox
+import Tkinter as tk
+import logging, os, sys, tkFileDialog, tkMessageBox
 
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -19,13 +16,19 @@ from plot.plot_depolar_ratio import drawDepolar
 from plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from polygon.list import PolygonList
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
-from tools.tools import Observer
+from tools.tools import Observer, Catcher
 from toolswindow import ToolsWindow
 
 
 logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(stream=sys.stdout)
+logger.addHandler(handler)
 
 def uncaughtException(exctype, value, tb):
+    print "uncaught"
+    if issubclass(exctype, KeyboardInterrupt):
+        sys.__excepthook__(exctype, value, tb)
+        return
     logger.exception("Uncaught exception: {0}".format(str(value)))
     sys.__excepthook__(exctype, value, tb)
     
@@ -328,6 +331,7 @@ def main():
     logging.basicConfig(filename=constants.FILE_NAME)
     logging.config.fileConfig('log/logging.ini', disable_existing_loggers=False)
     logging.info("Starting CALIPSO program")
+    tk.CallWrapper = Catcher
     rt = Tk()
     program = Calipso(rt)       # Create main GUI window
 

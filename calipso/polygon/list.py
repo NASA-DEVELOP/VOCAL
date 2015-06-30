@@ -17,6 +17,8 @@ from polygon.reader import PolygonReader
 
 
 logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(stream=sys.stdout)
+logger.addHandler(handler)
 
 def uncaughtException(exectype, value, tb):
     logger.exception("Uncaught exception: {0}".format(str(value)))
