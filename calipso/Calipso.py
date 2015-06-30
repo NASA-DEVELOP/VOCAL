@@ -318,6 +318,7 @@ class Calipso(object):
         
 def main():
     import logging.config
+    logging.basicConfig(filename=constants.FILE_NAME)
     logging.config.fileConfig('C:/Users/nqian/git/Calipso_Visualization/calipso/log/logging.ini', disable_existing_loggers=False)
     logging.info("Starting CALIPSO program")
     rt = Tk()
