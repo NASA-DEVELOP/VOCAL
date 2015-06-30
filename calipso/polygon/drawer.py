@@ -16,12 +16,7 @@ import constants
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(stream=sys.stdout)
 logger.addHandler(handler)
-
-def uncaughtException(exectype, value, tb):
-    logger.exception("Uncaught exception: {0}".format(str(value)))
     
-sys.excepthook = uncaughtException
-
 class PolygonDrawer(object):
     '''
     Displays the polygon objects onto the canvas by supplying draw methods.

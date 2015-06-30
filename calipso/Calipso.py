@@ -24,16 +24,6 @@ logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(stream=sys.stdout)
 logger.addHandler(handler)
 
-def uncaughtException(exctype, value, tb):
-    print "uncaught"
-    if issubclass(exctype, KeyboardInterrupt):
-        sys.__excepthook__(exctype, value, tb)
-        return
-    logger.exception("Uncaught exception: {0}".format(str(value)))
-    sys.__excepthook__(exctype, value, tb)
-    
-sys.excepthook = uncaughtException
-
 class Calipso(object):
     '''
     Main class of the application, handles all GUI related events as well as 
