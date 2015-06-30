@@ -8,10 +8,17 @@
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
 import logging
+import sys
 
 import constants
 
+
 logger = logging.getLogger(__name__)
+
+def uncaughtException(exectype, value, tb):
+    logger.exception("Uncaught exception: {0}".format(str(value)))
+    
+sys.excepthook = uncaughtException
 
 class AttributesDialog(Toplevel):
     '''

@@ -9,6 +9,7 @@ import json
 import logging
 import os
 import re
+import sys
 
 from sqlalchemy import create_engine, Column, Integer, String, desc
 from sqlalchemy.ext.declarative import declarative_base
@@ -17,7 +18,13 @@ from sqlalchemy.orm import sessionmaker
 import constants
 from tools.tools import byteify
 
+
 logger = logging.getLogger(__name__)
+
+def uncaughtException(exectype, value, tb):
+    logger.exception("Uncaught exception: {0}".format(str(value)))
+    
+sys.excepthook = uncaughtException
 
 # Create a declarative_base for dbPolygon to inherit from
 dbBase = declarative_base()

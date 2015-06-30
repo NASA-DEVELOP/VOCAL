@@ -5,8 +5,15 @@
 #    6/3/2015
 ###################################
 import logging
+import sys
+
 
 logger = logging.getLogger(__name__)
+
+def uncaughtException(exectype, value, tb):
+    logger.exception("Uncaught exception: {0}".format(str(value)))
+    
+sys.excepthook = uncaughtException
 
 def center(toplevel, size):
     '''

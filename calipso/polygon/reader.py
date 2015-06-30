@@ -7,12 +7,19 @@
 import ast
 import json
 import logging
+import sys
 
 import constants
 from polygon.drawer import PolygonDrawer
 from tools.tools import byteify
 
+
 logger = logging.getLogger(__name__)
+
+def uncaughtException(exectype, value, tb):
+    logger.exception("Uncaught exception: {0}".format(str(value)))
+    
+sys.excepthook = uncaughtException
 
 class PolygonReader(object):
     '''
