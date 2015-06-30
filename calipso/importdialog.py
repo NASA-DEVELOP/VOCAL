@@ -8,7 +8,6 @@
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE
 import collections
-import logging
 import tkMessageBox
 
 from sqlalchemy import or_
