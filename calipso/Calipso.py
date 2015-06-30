@@ -328,8 +328,8 @@ def main():
     program.setupMainScreen()   # create top buttons, initialize child and display base_plt
         
     rt.mainloop()               # program main loop
-    os._exit(1)
     logging.info("Terminated CALIPSO program")
+    os._exit(1)
         
 #### RUN LINES ##################################################################################        
 if __name__ == "__main__":

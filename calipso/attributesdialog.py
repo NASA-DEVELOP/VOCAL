@@ -7,7 +7,6 @@
 
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
-import logging
 
 import constants
 from log import logger
