@@ -1,10 +1,8 @@
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
     SUNKEN
-import logging
-import os
-import tkFileDialog
-import tkMessageBox
+import Tkinter as tk
+import logging, os, tkFileDialog, tkMessageBox
 
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -18,9 +16,9 @@ from plot.plot_depolar_ratio import drawDepolar
 from plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from polygon.list import PolygonList
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
-from tools.tools import Observer
+from tools.tools import Observer, Catcher
 from toolswindow import ToolsWindow
-
+from log import logger
 
 class Calipso(object):
     '''
@@ -28,8 +26,7 @@ class Calipso(object):
     creating other GUI windows such as the toolbar or import dialog
     '''
     def __init__ (self, r):
-#         constants.logger.info("Starting CALIPSO program")
-        logging.info("Calipso: Instantiating Calipso")        
+        logger.info("Instantiating Calipso")        
         self.__root = r                         # root of program
         self.__file =  ''                       # current file in use
         
@@ -71,7 +68,7 @@ class Calipso(object):
         '''
         Sets the title of root and invokes py:meth:`centerWindow`
         '''
-        logging.info("Calipso: Setting up window")
+        logger.info("Setting up window")
         self.__root.title("CALIPSO Visualization Tool")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
@@ -88,7 +85,7 @@ class Calipso(object):
         '''
         Creates a drop down menu bar
         '''
-        logging.info("Calipso: Setting up menu")
+        logger.info("Setting up menu")
         self.__menuBar = Menu(self.__root)
         
         #File Menu
@@ -127,11 +124,11 @@ class Calipso(object):
         :param int plotType: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
         '''
         if (plotType) == constants.BASE_PLOT:
-            logging.warning("Calipso: Setting plot to base plot")
+            logger.warning("Setting plot to base plot")
             self.__polygonList.setPlot(constants.BASE_PLOT)                                     # sets the screen to a blank canvas
         elif (plotType.get()) == constants.BACKSCATTERED:
             try:
-                logging.info("Calipso: Setting plot to backscattered")
+                logger.info("Setting plot to backscattered")
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)                                # create subplot
                 drawBackscattered(self.__file, self.__fig, self.__Parentfig)                    # plot the backscattered image 
@@ -139,11 +136,11 @@ class Calipso(object):
                 self.__polygonList.setPlot(constants.BACKSCATTERED)                             # set the current plot on polygonList
                 self.__toolbar.update()                                                         # update toolbar
             except IOError:
-                logging.error("Calipso: IOError")
+                logger.error("IOError")
                 tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists in current file var
         elif (plotType.get()) == constants.DEPOLARIZED:
             try:
-                logging.info("Calipso: Setting plot to depolarized")
+                logger.info("Setting plot to depolarized")
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1, 1, 1)                              # create subplot
                 drawDepolar(self.__file, self.__fig, self.__Parentfig)                          # plot the depolarized image
@@ -151,17 +148,17 @@ class Calipso(object):
                 self.__drawplotCanvas.show()                                                    # show plot
                 self.__toolbar.update()                                                         # update toolbar
             except IOError:
-                logging.error("Calipso: IOError")
+                logger.error("IOError")
                 tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists
         elif (plotType.get()) == constants.VFM:
-            logging.error("Calipso: Accessing unimplemented VFM plot")
+            logger.error("Accessing unimplemented VFM plot")
             tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")     # vfm doesn't exist
     
     def reset(self):
         '''
         Reset all objects on the screen, move pan to original
         '''
-        logging.info("Calipso: Reseting plot")
+        logger.info("Reseting plot")
         self.__polygonList.reset()  # reset all buttons
         self.__toolbar.home()       # proc toolbar function to reset plot to home
         
@@ -169,7 +166,7 @@ class Calipso(object):
         ''' 
         Initializes and creates the file dialog and browse button that appear at the top of the screen
         '''
-        logging.info("Calipso: Creating top screen GUI")
+        logger.info("Creating top screen GUI")
         lblFile=Label(self.__dialogFrame, text="File:")                                 # File label upper:left
         self.__lblFileDialog = Label(self.__dialogFrame, width = 50, justify=LEFT,      # Input box that shows file currently loaded
             bg = white, relief = SUNKEN)
@@ -184,7 +181,7 @@ class Calipso(object):
         Notify the database that a save is taking place, the
         db will then save all polygons present on the screen
         '''
-        logging.info("Calipso: Notified database to save")
+        logger.info("Notified database to save")
         success = self.__polygonList.saveToDB()
         if success:
             tkMessageBox.showinfo("database", "All objects saved to database")
@@ -196,7 +193,7 @@ class Calipso(object):
         Save all shapes on the map inside a JSON object given a previously
         saved file. If no file exists prompt for file
         '''
-        logging.info("Calipso: Notify JSON to save")
+        logger.info("Notify JSON to save")
         # Save to last saved file, if no file exists prompt to a new file
         if self.__polygonList.getCount() > 0:           
             if self.__polygonList.getFileName() == "":      
@@ -210,7 +207,7 @@ class Calipso(object):
         '''
         Save all shapes on the map given a file specified by the user
         '''
-        logging.info("Calipso: Notify JSON to save as")
+        logger.info("Notify JSON to save as")
         # Save to a file entered by user, saveAll saves ALL objects across canvas
         # and cannot be called as a normal save(must always be save as)
         if self.__polygonList.getCount() > 0:
@@ -229,7 +226,7 @@ class Calipso(object):
         '''
         Load an HDF file for use with displaying backscatter and depolarized images
         '''
-        logging.info("Calipso: Importing HDF file")
+        logger.info("Importing HDF file")
         # function to import HDF file used my open and browse
         ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
         dlg = tkFileDialog.Open(filetypes = ftypes)
@@ -245,7 +242,7 @@ class Calipso(object):
         '''
         load JSON objects from file by calling :py:meth:`polygonlist.readPlot(f)`
         '''
-        logging.info("Calipso: Loading JSON")
+        logger.info("Loading JSON")
         # loads JSON object by callig the polygonList internal readPlot method
         options = {}
         options['defaultextension'] = '.json'
@@ -261,7 +258,7 @@ class Calipso(object):
         
         :param event: A Tkinter passed event object
         '''
-        logging.info("Calipso: Opening attributes dialog")
+        logger.info("Opening attributes dialog")
         poly = self.__polygonList.findPolygon(event)
         AttributesDialog(self.__root, poly)
 
@@ -271,7 +268,7 @@ class Calipso(object):
         
         :rtype: :py:class:`polygonList`
         '''
-        logging.info("Calipso: Getting PolygonList")
+        logger.info("Getting PolygonList")
         return self.__polygonList       # get functions for private varialbes
     
     def getToolbar(self):
@@ -280,7 +277,7 @@ class Calipso(object):
         
         :rtype: :py:class:`NavigationToolbar2CALIPSO`
         '''
-        logging.info("Calipso: Getting toolbar")
+        logger.info("Getting toolbar")
         return self.__toolbar
     
     def getFig(self):
@@ -289,14 +286,14 @@ class Calipso(object):
         
         :rtype: :py:class:`Figure`
         '''
-        logging.info("Calipso: Getting fig")
+        logger.info("Getting fig")
         return self.__fig
         
     def about(self): 
         '''
         Simple TopLevel window displaying the authors
         '''
-        logging.info("Calipso: Opening about window")
+        logger.info("Opening about window")
         filewin = Toplevel(self.__root)
         filewin.title("About")
         T = Message(filewin, text="NASA DEVELOP\n \nLaRC Spring 2015 Term \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal \
@@ -310,15 +307,14 @@ class Calipso(object):
         '''
         Setup the top GUI, initialize toolbar window and set the plot to a blank image
         '''
-        logging.info("Calipso: Setting up main screen")
+        logger.info("Setting up main screen")
         self.createTopScreenGUI()
         self.__child.setupToolBarButtons()
         self.setPlot(constants.BASE_PLOT)
         
-#### RUN LINES ##################################################################################        
-if __name__ == "__main__":
-    logging.basicConfig(filename=constants.FILE_NAME, level=logging.DEBUG)
+def main():
     logging.info("Starting CALIPSO program")
+    tk.CallWrapper = Catcher    # Catch Tkinter exceptions to be written by log
     rt = Tk()
     program = Calipso(rt)       # Create main GUI window
 
@@ -329,3 +325,7 @@ if __name__ == "__main__":
     rt.mainloop()               # program main loop
     os._exit(1)
     logging.info("Terminated CALIPSO program")
+        
+#### RUN LINES ##################################################################################        
+if __name__ == "__main__":
+    main()

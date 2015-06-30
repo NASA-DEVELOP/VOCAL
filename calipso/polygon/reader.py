@@ -6,12 +6,11 @@
 # import antigravity
 import ast
 import json
-import logging
 
 import constants
 from polygon.drawer import PolygonDrawer
 from tools.tools import byteify
-
+from log import logger
 
 class PolygonReader(object):
     '''
@@ -28,7 +27,7 @@ class PolygonReader(object):
         '''
         Initializes attributes
         '''
-        logging.info("PolygonReader: Instantiating PolygonReader")
+        logger.info("Instantiating PolygonReader")
         self.__fileName = fileName
         self.__data = {} 
         
@@ -37,14 +36,14 @@ class PolygonReader(object):
         Sets the file name destination
         :param fileName: the name of the file
         '''
-        logging.info("PolygonReader: Setting file name")
+        logger.info("Setting file name")
         self.__fileName = fileName
         
     def readFromFileJSON(self):   
         '''
         Reads the data from the JSON file
         '''
-        logging.info("PolygonReader: Reading from JSON file")
+        logger.info("Reading from JSON file")
         with open(self.__fileName, 'r') as infile:
             data = byteify(json.load(infile))
         self.__data = data
@@ -54,7 +53,7 @@ class PolygonReader(object):
         Reads JSON as a string
         :param data: string representation of a JSON
         '''
-        logging.info("PolygonReader: Reading from string as JSON")
+        logger.info("Reading from string as JSON")
         self.__data = byteify(json.loads(data))
         for plt in [x for x in self.__data if x in constants.PLOTS]:
             for shape in self.__data[plt]:
@@ -95,6 +94,6 @@ class PolygonReader(object):
                 polygonList[-1].setCoordinates(coordinates)
                 polygonList[-1].setNotes(notes)
                 polygonList.append(PolygonDrawer(canvas, master))
-                logging.info("PolygonReader: Packed polygon with JSON data")
+                logger.info("Packed polygon with JSON data")
         except KeyError:
-            logging.error("PolygonReader: Bad data in JSON file")
+            logger.error("Bad data in JSON file")

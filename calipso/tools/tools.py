@@ -4,8 +4,8 @@
 #    @author: Nathan Qian
 #    6/3/2015
 ###################################
-import logging
-
+import sys
+from log import logger
 
 def center(toplevel, size):
     '''
@@ -14,7 +14,7 @@ def center(toplevel, size):
     :param toplevel: Toplevel window to center
     :param size: Size dimensions in a tuple format *e.g.* ``(x,y)``
     '''
-    logging.info("Tools: center")
+    logger.info("center")
     w = toplevel.winfo_screenwidth()
     h = toplevel.winfo_screenheight()
     x = w/2 - size[0]/2
@@ -27,7 +27,7 @@ def byteify(inp):
     
     :param str inp: Unicode string to be converted
     '''
-    logging.info("Tools: byteify")
+    logger.info("byteify")
     if isinstance(inp, dict):
         return {byteify(key):byteify(value) for key,value in inp.iteritems()}
     elif isinstance(inp, list):
@@ -37,18 +37,35 @@ def byteify(inp):
     else:
         return inp
     
+class Catcher: 
+    def __init__(self, func, subst, widget):
+        self.func = func 
+        self.subst = subst
+        self.widget = widget
+    def __call__(self, *args):
+        try:
+            if self.subst:
+                args = apply(self.subst, args)
+            return apply(self.func, args)
+        except SystemExit, msg:
+            raise SystemExit, msg
+        except:
+            print "except"
+            etype, value, tb = sys.exc_info()
+            logger.exception("Uncaught exception: " + str(etype) + str(value) + str(tb))
+    
 class Observer(object):
     '''
     Class that allows signaling between classes
     '''
     def __init__(self, receiver):
-        logging.info("Observer: Instantiating Observer")
+        logger.info("Instantiating Observer")
         self.__receiver = receiver
         
     def update(self):
-        logging.info("Observer: Update")
+        logger.info("Update")
         self.__receiver.receive()
         
     def send(self):
-        logging.info("Observer: Send")
+        logger.info("Send")
         self.__receiver.send()
