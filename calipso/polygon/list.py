@@ -18,11 +18,6 @@ from polygon.reader import PolygonReader
 
 logger = logging.getLogger(__name__)
 
-def uncaughtException(exectype, value, tb):
-    logger.exception("Uncaught exception: {0}".format(str(value)))
-    
-sys.excepthook = uncaughtException
-
 class PolygonList(object):
     '''
     Manages all polygons present on the screen, writes to db on call

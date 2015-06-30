@@ -16,11 +16,6 @@ from tools.tools import byteify
 
 logger = logging.getLogger(__name__)
 
-def uncaughtException(exectype, value, tb):
-    logger.exception("Uncaught exception: {0}".format(str(value)))
-    
-sys.excepthook = uncaughtException
-
 class PolygonReader(object):
     '''
     Reads JSON files and transfers the data into PolygonDrawer objects

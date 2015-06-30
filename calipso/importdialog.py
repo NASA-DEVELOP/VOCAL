@@ -9,7 +9,6 @@ from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE
 import collections
 import logging
-import sys
 import tkMessageBox
 
 from sqlalchemy import or_
@@ -21,11 +20,6 @@ from tools.treelistbox import TreeListBox
 
 
 logger = logging.getLogger(__name__)
-
-def uncaughtException(exectype, value, tb):
-    logger.exception("Uncaught exception: {0}".format(str(value)))
-    
-sys.excepthook = uncaughtException
 
 #import TkTreectrl as treectrl
 #import db
