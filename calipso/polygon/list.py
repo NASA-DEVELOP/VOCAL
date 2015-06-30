@@ -29,18 +29,20 @@ class PolygonList(object):
         '''
         Constructor
         '''
-        logger.info("Creating PolygonList")
         self.__canvas = canvas
         self.__master = master
+        logger.info("Define initial polygonList")
         self.__polygonList = [[PolygonDrawer(canvas, self.__master)],      # base plot list
                               [PolygonDrawer(canvas, self.__master)],      # backscattered list
                               [PolygonDrawer(canvas, self.__master)],      # depolarized list
                               [PolygonDrawer(canvas, self.__master)]]      # vfm list
         self.__currentList = None           # manipulates polygonList through aliasing
         self.__currentFile = ""
+        logger.info("Instantiate polygonReader")
         self.__polyReader = PolygonReader()
         self.__hdf = ''
         self.__plot = constants.BASE_PLOT_STR
+        logger.info("Query db for unique tag")
         self.__count = db.queryUniqueTag()
         self.__data = {}
         self.__drag_data = {"x": 0, "y": 0, "mx": 0, "my": 0, "item": None}
@@ -57,7 +59,7 @@ class PolygonList(object):
         :param event: Tkinter passed event object
         '''
         if PolygonDrawer.dragToggle:
-            logger.info("Received mouse click to drag")
+            logger.info("Searching for nearset polygon")
             self.__drag_data["item"] = self.__canvas._tkcanvas.find_closest(event.x, event.y)[0]
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
@@ -159,12 +161,10 @@ class PolygonList(object):
         '''
         Returns the number of polygons in the list, excluding the blanks
         '''
-        logger.info("Getting number of polygons")
         return len(self.__polygonList[0]) + len(self.__polygonList[1]) + \
                len(self.__polygonList[2]) + len(self.__polygonList[3]) - 4
                
     def getFileName(self):
-        logger.info("Getting file name")
         return self.__currentFile
      
     def plotPoint(self, event):
@@ -174,6 +174,7 @@ class PolygonList(object):
         :param event: Tkinter passed event object
         '''
         if self.__plot == constants.BASE_PLOT_STR:
+            logger.error("Cannot draw to base plot")
             return
         logger.info("Plotting point")
         check = self.__currentList[-1].plotPoint(event, self.__plot, PolygonList.outlineToggle)
@@ -189,7 +190,6 @@ class PolygonList(object):
         '''
         if self.__plot == constants.BASE_PLOT_STR:
             return
-        logger.info("Rubberbanding")
         self.__currentList[-1].rubberBand(event)
         
     def fillRectangle(self, event):
@@ -200,9 +200,9 @@ class PolygonList(object):
         '''
         if self.__plot == constants.BASE_PLOT_STR:
             return
-        logger.info("Creating rectangle")
         self.__currentList[-1].fillRectangle(event, self.__plot, PolygonList.outlineToggle)
         self.generateTag()
+        logger.info("Creating rectangle (" + self.__currentList[-1].getTag() +")")
         self.__currentList.append(PolygonDrawer(self.__canvas, self.__master))
         
     def setHDF(self, HDFFilename):
@@ -219,9 +219,9 @@ class PolygonList(object):
         '''
         if self.__plot == constants.BASE_PLOT_STR:
             return
-        logger.info("Creating polygon")
         self.__currentList[-1].drawPolygon(self.__plot, PolygonList.outlineToggle)
         self.generateTag()
+        logger.info("Creating polygon (" + self.__currentList[-1].getTag() + ")")
         self.__currentList.append(PolygonDrawer(self.__canvas, self.__master))
         
     def generateTag(self, index=-1):
@@ -230,7 +230,6 @@ class PolygonList(object):
         
         :param int index: Generate new tag for given index
         '''
-        logger.info("Generated new tag")
         string = "shape" + str(self.__count)
         self.__currentList[index].setTag(string)
         self.__count += 1
@@ -266,7 +265,6 @@ class PolygonList(object):
         Toggles displaying the shapes outline. When toggled, new shapes a 
         drawn with only outlines
         '''
-        logger.info("Toggling outline")
         PolygonList.outlineToggle = not PolygonList.outlineToggle
         for shape in self.__currentList:
             poly = shape.getItemHandler()
@@ -343,55 +341,6 @@ class PolygonList(object):
                 logger.info("Found polygon")
                 return shape
         logger.error("Polygon not found")
-    
-    def receive(self):
-        '''
-        Attempts to calculate the new coordinates of the polygon
-        '''
-        pass
-        '''
-        toolbar = self.__master.getFig()
-        # new scale
-        nxaxis = toolbar.get_xlim()
-        nyaxis = toolbar.get_ylim()
-        print "New xrange: (" + str(nxaxis[0]) + ", " + str(nxaxis[1]) + ")"
-        print "New yrange: (" + str(nyaxis[0]) + ", " + str(nyaxis[1]) + ")"
-        # ratio between the different scales
-        xratio = ((abs(self.ixaxis[0] - self.ixaxis[1])) / (abs((nxaxis[0] - nxaxis[1])))) - 1      # subtract one for multiplication i.e. ratio of 1 become x0
-        yratio = ((abs(self.iyaxis[0] - self.iyaxis[1])) / (abs((nyaxis[0] - nyaxis[1])))) - 1
-        print "xratio: " + str(xratio)
-        print "yratio: " + str(yratio)
-        
-#         for shape in self.__currentList:
-#             vertices = shape.getVertices()
-#             newVertices = []
-#             for i in range(len(vertices)):
-#                 coorx = vertices[i][0] - constants.TKXMID
-#                 coory = vertices[i][1] - constants.TKYMID
-#                 newx = xratio * (vertices[i][0] - constants.TKXMID) + constants.TKXMID
-#                 newy = yratio * (vertices[i][1] - constants.TKYMID) + constants.TKYMID
-#                 dx = vertices[i][0] - coorx
-#                 dy = vertices[i][1] - coory
-#                 newpoint = (newx, newy)
-#                 shape.setVertex(i, newpoint)
-#                 newVertices.append(newpoint)
-#             self.__canvas._tkcanvas.coords(shape.getItemHandler, newVertices)
-#             self.__canvas._tkcanvas.move(shape.getItemHandler(), dx, dy)
-#             print shape
-        '''
-        
-    def send(self):
-        '''
-        Saves the initial scale
-        '''
-        pass
-        '''
-        toolbar = self.__master.getFig()
-        self.ixaxis = toolbar.get_xlim()
-        self.iyaxis = toolbar.get_ylim()
-        print "Initial xrange: (" + str(self.ixaxis[0]) + ", " + str(self.ixaxis[1]) + ")"
-        print "Initial yrange: (" + str(self.iyaxis[0]) + ", " + str(self.iyaxis[1]) + ")"
-        '''
     
     def __findPolygonByItemHandler(self, itemHandler):
         '''

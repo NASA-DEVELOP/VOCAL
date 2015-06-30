@@ -17,10 +17,9 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
     anything GUI related 
     '''
     
-    def __init__(self, canvas, master, observer):
+    def __init__(self, canvas, master):
         self.canvas = canvas
         self.master = master
-        self.observer = observer
         NavigationToolbar2.__init__(self, canvas)
         
     def _init_toolbar(self):
@@ -223,7 +222,6 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
 
         self.push_current()
         self.release(event)
-        self.observer.update()
     
     def zoom(self, *args):
         '''
@@ -243,7 +241,6 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
             self.mode = ''
 
         if self._active:
-            self.observer.send()
             self._idPress = self.canvas.mpl_connect('button_press_event',
                                                     self.press_zoom)
             self._idRelease = self.canvas.mpl_connect('button_release_event',
