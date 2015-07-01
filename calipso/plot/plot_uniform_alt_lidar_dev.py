@@ -13,6 +13,8 @@ from uniform_alt_2 import uniform_alt_2
 from regrid_lidar import regrid_lidar
 from findLatIndex import findLatIndex
 from PCF_genTimeUtils import extractDatetime
+import numpy as np
+from ccplot.algorithms import interp2d_12
 #from gui.CALIPSO_Visualization_Tool import filename
 
 def drawBackscattered(filename, fig, pfig):
@@ -21,10 +23,40 @@ def drawBackscattered(filename, fig, pfig):
     MIN_SCATTER = -0.1
     EXCESSIVE_SCATTER = 0.1
     
-    # Read CALIPSO Data from Level 1B file
-    with HDF(filename) as product:
-        latitude = product["Latitude"][::]
+    x1 = 0
+    x2 = 1000
+    h1 = 0
+    h2 = 20
+    nz = 500
+    colormap = 'dat/calipso-backscatter.cmap'
     
+    # Read CALIPSO Data from Level 1B file
+    print HDF(filename)
+    with HDF(filename) as product:
+        time = product['Profile_UTC_Time'][x1:x2, 0]
+        height = product['metadata']['Lidar_Data_Altitues']
+        dataset = product['Total_Atteuated_Backscatter_532'][x1:x2]
+        #latitude = product["Latitude"][::]
+        
+        time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
+        dataset = np.ma.masked_equal(dataset, -9999)
+        
+        X = np.arange(x1, x2, dtype=np.float32)
+        Z, null = np.meshgrid(height, X)
+        data = interp2d_12(
+            dataset[::],
+            X.astype(np.float32),
+            Z.astype(np.float32),
+            x1, x2, x2 - x1,
+            h2, h1, nz,
+        )
+        
+        cmap = ccplot.utils.cmap(colormap)
+        cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
+        cm.set_under(cmap['under']/255.0)
+        cm.set_over(cmap['over']/255.0)
+        cm.set_bad(cmap['bad']/255.0)
+        '''
         start_lat = 35.
         end_lat = -15.
     
@@ -95,4 +127,4 @@ def drawBackscattered(filename, fig, pfig):
     cbar = pfig.colorbar(im)
     #cbar = plt.colorbar(extend='both',use_gridspec=True)
     cbar.set_label(cbar_label)
-
+    '''

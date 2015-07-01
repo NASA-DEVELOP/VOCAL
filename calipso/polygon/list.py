@@ -201,6 +201,7 @@ class PolygonList(object):
         :param event: Tkinter passed event object
         '''
         if self.__plot == constants.BASE_PLOT_STR:
+            logger.error("Cannot draw to base plot")
             return
         self.__currentList[-1].fillRectangle(event, self.__plot, PolygonList.outlineToggle)
         self.generateTag()
