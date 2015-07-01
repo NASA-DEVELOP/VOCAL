@@ -4,9 +4,9 @@
    contain the root `toctree` directive.
 
 Welcome to the Visualization of Calipso Tool (VOCAL)!
-===================================
+============================================================
 
-Everything you'll need to know about the CALIPSO Visualization project from a developer standpoint can be read about here! If you're looking to add to the doc chain, please ensure you reference current .rst documents to build your new documentation. Conforming to previous style is *highly* recommended
+Everything you'll need to know about vocal project from both a developer and user standpoint can be read about here! If you're looking to add to the doc chain, please ensure you reference current .rst documents to build your new documentation. Conforming to the previous style is important for maintaining clarity in both the code base and documentation
 
 Information:
 =============
