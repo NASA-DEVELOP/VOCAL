@@ -197,33 +197,25 @@ features will allow scientists to more easily identify the source of the aerosol
 <div class="section" id="structure">
 <h2>Structure<a class="headerlink" href="#structure" title="Permalink to this headline">¶</a></h2>
 <p>The program has the following file layout:</p>
-<div class="highlight-python"><div class="highlight"><pre>+---.settings
-+---dat
-+---db
-|   \---manage_db
-+---docs
-|   +---build
-|   |   +---.doctrees
-|   |   |   +---classes
-|   |   |   \---functions
-|   |   +---classes
-|   |   +---functions
-|   |   +---_images
-|   |   +---_modules
-|   |   +---_sources
-|   |   |   +---classes
-|   |   |   \---functions
-|   |   \---_static
-|   \---source
-|       +---classes
-|       +---functions
-|       \---_static
-+---gui
-|   +---dat
-|   +---ico
-|   +---objs
-|   \---plot
-\---plot_vfm
+<div class="highlight-python"><div class="highlight"><pre>+-- calipso
+│   +-- dat
+│   +-- ico
+│   +-- log
+│   +-- objs
+│   +-- plot
+│   +-- plot_vfm
+│   +-- polygon
+│   \-- tools
++-- dat
++-- db
+│   \-- manage_db
+\-- docs
+    +-- source
+        +-- doc
+        │   +-- general
+        │   +-- polygon
+        │   \-- tools
+        \-- _static
 </pre></div>
 </div>
 </div>
@@ -236,10 +228,10 @@ features will allow scientists to more easily identify the source of the aerosol
 <a class="reference internal image-reference" href="_images/programShapesActive.png"><img alt="_images/programShapesActive.png" src="_images/programShapesActive.png" style="width: 476.1px; height: 230.1px;" /></a>
 </dd></dl>
 
-<p>CALIPSO is still in a very early development phase</p>
-<p>The CALIPSO Visualization software currently contains a number of great features:</p>
+<p>VOCAL is still in a very early development phase</p>
+<p>The Visualization tool currently contains a number of great features:</p>
 <ul class="simple">
-<li>Load standard L1 Calipso data and display a backscattered plot</li>
+<li>Load standard L1 Calipso data and display a backscattered and depolarized plot</li>
 <li>Manipulate the image with <code class="docutils literal"><span class="pre">zoom</span></code>, <code class="docutils literal"><span class="pre">move</span></code>, <code class="docutils literal"><span class="pre">reload</span></code> and many more</li>
 <li>Draw object which are overlayed upon the plot , free draw or rect mode</li>
 </ul>
