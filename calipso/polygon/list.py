@@ -123,6 +123,7 @@ class PolygonList(object):
             self.__currentList = self.__polygonList[constants.BACKSCATTERED]
             newPlot = constants.BACKSCATTERED_STR
             if len(self.__polygonList[constants.BACKSCATTERED]) > 1:        # ignores when no shapes are drawn
+                logger.info("Redraw polygons")
                 for shape in self.__polygonList[constants.BACKSCATTERED]:
                     if not shape.isEmpty():             # ignores the blank shape in the list
                         shape.redrawShape()
@@ -131,6 +132,7 @@ class PolygonList(object):
             self.__currentList = self.__polygonList[constants.DEPOLARIZED]
             newPlot = constants.DEPOLARIZED_STR
             if len(self.__polygonList[constants.DEPOLARIZED]) > 1:
+                logger.info("Redraw polygons")
                 for shape in self.__polygonList[constants.DEPOLARIZED]:
                     if not shape.isEmpty():
                         shape.redrawShape()
@@ -357,7 +359,6 @@ class PolygonList(object):
             
     @staticmethod
     def __plotInttoString(plot):
-        logger.info("Converting plot integer to string")
         if plot == 0:
             return "base_plot"
         elif plot == 1:
@@ -369,7 +370,6 @@ class PolygonList(object):
         
     @staticmethod
     def plotStringtoInt(plot):
-        logger.info("Converting plot string to integer")
         if plot.lower() == "base_plot":
             return 0
         elif plot.lower() == "backscattered":
@@ -386,18 +386,21 @@ class PolygonList(object):
         :param str fileName: Name of JSON file to read from
         :param str readFromString: If not a filename, read JSON from string
         '''
-        logger.info("Reading from JSON")
         if readFromString != "":
+            logger.info("Reading JSON from string")
             self.__polyReader.readFromStrJSON(readFromString)
         else:
+            logger.info("Reading JSON from file")
             self.__polyReader.setFileName(fileName)
             self.__polyReader.readFromFileJSON()
         plot = 0
+        logger.info("Parse JSON data for new polygons")
         for lst in self.__polygonList:
             self.__polyReader.packPolygonDrawer(lst, constants.PLOTS[plot], self.__canvas, self.__master)
             if PolygonList.plotStringtoInt(self.__plot) == plot:
                 for shape in lst:
                     if not shape.isEmpty():
+                        logger.info("Drawing polygon")
                         shape.redrawShape()
             plot += 1
         
@@ -406,7 +409,6 @@ class PolygonList(object):
         '''
         Saves to database
         '''
-        logger.info("Saving to database")
         if len(self.__currentList) == 1:
             return False
         today = datetime.utcnow().replace(microsecond=0)
@@ -419,7 +421,6 @@ class PolygonList(object):
         
         :param str fileName: Filename to save JSON to
         '''
-        logger.info("Saving current plot's shapes to JSON")
         if fileName != "": self.__currentFile = fileName
         today = datetime.utcnow().replace(microsecond=0)
         self.__data['time'] = str(today)
@@ -439,6 +440,7 @@ class PolygonList(object):
             value = {"vertices": vertices, "coordinates": coordinates, "color": color, "attributes": attributes, "notes": note, "id": _id}
             shapeDict[tag] = value
         self.__data[self.__plotInttoString(i)] = shapeDict
+        logger.info("Encoding to JSON")
         db.encode(self.__currentFile, self.__data)    
         
     def saveAll(self, fileName=""):
@@ -465,4 +467,5 @@ class PolygonList(object):
                 value = {"vertices": vertices, "coordinates": coordinates, "color": color, "attributes": attributes, "notes": note, "id": _id}
                 shapeDict[tag] = value
             self.__data[self.__plotInttoString(i)] = shapeDict
+        logger.info("Encoding to JSON")
         db.encode(self.__currentFile, self.__data)  
