@@ -4,7 +4,7 @@
 #    @author: Grant Mercer
 ######################################
 from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM, Radiobutton, Entry
+    RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM, Radiobutton, Entry, X
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 import constants
@@ -70,20 +70,24 @@ class ToolsWindow(Toplevel):
         Create tool bar buttons
         '''
         logger.info("Setting up toolbar")
+        
         ###################################Upper Frame##############################################
         btnReset = Button(self.upperButtonFrame, text = "Reset", width = 12, command=self.__parent.reset)
-        btnReset.grid(row=0, column=0, sticky="W", pady=5)
-        
+        btnReset.grid(row=0, column=0, pady=5)
         btnRender = Button(self.upperButtonFrame, text = "Render", width = 9, command = self.render)
         btnRender.grid(row=0, column=1, pady=5)
         
         self.bScattered = Radiobutton(self.upperButtonFrame, text="Backscattered", variable=self.plotType, value=1).grid(row=1, column=0, sticky="W")
         self.depolarized = Radiobutton(self.upperButtonFrame, text="Depolarized", variable=self.plotType, value=2).grid(row=2, column=0, sticky="W")
-        
-        self.rng = Label(self.upperButtonFrame, text="Step").grid(row=1, column=1)
-        self.e = Entry(self.upperButtonFrame).grid(row=1,column=2)
-        self.to = Label(self.upperButtonFrame, text="to").grid(row=2, column=1)
-        self.e2 = Entry(self.upperButtonFrame).grid(row=2,column=2)
+
+        self.rng = Label(self.upperButtonFrame, text="Step")
+        self.rng.grid(row=3, column=0, sticky="W")
+        self.e = Entry(self.upperButtonFrame)
+        self.e.grid(row=3,column=1)
+        self.to = Label(self.upperButtonFrame, text="to")
+        self.to.grid(row=3, column=2)
+        self.e2 = Entry(self.upperButtonFrame)
+        self.e2.grid(row=3,column=1)
         '''
         #Plot Type Selection - Radio-button determining how to plot the __file
         menubtnPlotSelection = Menubutton(self.upperButtonFrame, text="Plot Type", relief=RAISED, width = 10)
