@@ -1,77 +1,193 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Coding Conventions &mdash; CALIPSO 0.15.2 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.15.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="CALIPSO 0.15.2 documentation" href="index.html" />
-    <link rel="next" title="Developing Dos" href="buildingdocs.html" />
-    <link rel="prev" title="Troubleshoot" href="troubleshoot.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="buildingdocs.html" title="Developing Dos"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="troubleshoot.html" title="Troubleshoot"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Coding Conventions &mdash; CALIPSO 0.15.2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CALIPSO 0.15.2 documentation" href="index.html"/>
+        <link rel="next" title="Developing Dos" href="buildingdocs.html"/>
+        <link rel="prev" title="Troubleshoot" href="troubleshoot.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> CALIPSO
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Program Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#additional-information">Additional Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packages.html">Required Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#windows-x86-32-bit">Windows x86 (32 bit)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#windows">Windows </a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#linux">Linux </a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#starting-up">Starting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#plot-navigation">Plot Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-drawing">Shape Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshoot.html">Troubleshoot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="buildingdocs.html">Developing Dos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="buildingdocs.html#building-the-docs">Building the docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="doc/modules.html">Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="doc/general/general.html">General</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/attributes.html">Attributes Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/calipso.html">Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/consts.html">Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/db.html">Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/import.html">Import Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/toolswindow.html">Tools Window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="doc/polygon/polygon.html">Polygon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/drawer.html">PolygonDrawer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/list.html">PolygonList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/reader.html">PolygonReader</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="doc/tools/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/navigationtoolbar2calipso.html">NavigationToolbar2Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/toggleablebutton.html">ToggleableButton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/tooltip.html">ToolTip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/treelistbox.html">TreeListBox</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">CALIPSO</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Coding Conventions</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/conventions.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="coding-conventions">
 <h1>Coding Conventions<a class="headerlink" href="#coding-conventions" title="Permalink to this headline">¶</a></h1>
 <p>Below is list of coding conventions agreed upon by Nathan and I(Grant). Please adhere to these conventions to create a more readable codebase.</p>
 <p class="rubric">Variables</p>
-<p>Variables should be in the <tt class="docutils literal"><span class="pre">camelCase</span></tt> format in all cases.</p>
+<p>Variables should be in the <code class="docutils literal"><span class="pre">camelCase</span></code> format in all cases.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">var</span> <span class="o">=</span> <span class="mi">3</span>
 <span class="n">anotherVar</span> <span class="o">=</span> <span class="mi">4</span>
 <span class="n">moreWordsThanPreviousVar</span> <span class="o">=</span> <span class="mi">5</span>
 </pre></div>
 </div>
 <p class="rubric">Functions</p>
-<p>The same format as Variables, <tt class="docutils literal"><span class="pre">camelCase</span></tt> should be used.</p>
+<p>The same format as Variables, <code class="docutils literal"><span class="pre">camelCase</span></code> should be used.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">func</span><span class="p">():</span>
 
 <span class="k">def</span> <span class="nf">adheresToCodingConventionFunc</span><span class="p">():</span>
 </pre></div>
 </div>
 <p class="rubric">Classes</p>
-<p>Uppercase <tt class="docutils literal"><span class="pre">CamelCase</span></tt> should be used to repesent classes.</p>
+<p>Uppercase <code class="docutils literal"><span class="pre">CamelCase</span></code> should be used to repesent classes.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Shape</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
 <span class="k">class</span> <span class="nc">SquareObject</span><span class="p">(</span><span class="n">Shape</span><span class="p">):</span>
@@ -130,7 +246,7 @@
 <p>The auto documentation tool chain will generate this as:</p>
 <dl class="class">
 <dt>
-<em class="property">class </em><tt class="descname">Foo</tt></dt>
+<em class="property">class </em><code class="descname">Foo</code></dt>
 <dd><p>Class description is placed here</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -142,7 +258,7 @@
 </table>
 <dl class="function">
 <dt>
-<tt class="descname">foo</tt><big>(</big><em>self</em>, <em>x</em>, <em>y</em><big>)</big></dt>
+<code class="descname">foo</code><span class="sig-paren">(</span><em>self</em>, <em>x</em>, <em>y</em><span class="sig-paren">)</span></dt>
 <dd><p>Description of function here</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -163,64 +279,74 @@
 
 </dd></dl>
 
-<p>If you are developing in an existing file , the doc chain <em>should</em> find your new function/class automatically. In the case you are creating a new module, determine whether it is in the <tt class="docutils literal"><span class="pre">general</span></tt>, <tt class="docutils literal"><span class="pre">polygon</span></tt> or <tt class="docutils literal"><span class="pre">tools</span></tt> package, and create a <tt class="docutils literal"><span class="pre">.rst</span></tt> file in the corresponding doc/ folder specifying your new module. You can refer to the exisiting .rst files for how to populate the docs</p>
+<p>If you are developing in an existing file , the doc chain <em>should</em> find your new function/class automatically. In the case you are creating a new module, determine whether it is in the <code class="docutils literal"><span class="pre">general</span></code>, <code class="docutils literal"><span class="pre">polygon</span></code> or <code class="docutils literal"><span class="pre">tools</span></code> package, and create a <code class="docutils literal"><span class="pre">.rst</span></code> file in the corresponding doc/ folder specifying your new module. You can refer to the exisiting .rst files for how to populate the docs</p>
 </div>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="troubleshoot.html"
-                        title="previous chapter">Troubleshoot</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="buildingdocs.html"
-                        title="next chapter">Developing Dos</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/conventions.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="buildingdocs.html" class="btn btn-neutral float-right" title="Developing Dos" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="troubleshoot.html" class="btn btn-neutral" title="Troubleshoot" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="buildingdocs.html" title="Developing Dos"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="troubleshoot.html" title="Troubleshoot"
-             >previous</a> |</li>
-        <li><a href="index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.15.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

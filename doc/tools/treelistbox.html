@@ -1,56 +1,177 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>TreeListBox &mdash; CALIPSO 0.15.2 documentation</title>
-    
-    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.15.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../../index.html" />
-    <link rel="up" title="Tools" href="tools.html" />
-    <link rel="prev" title="ToolTip" href="tooltip.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="tooltip.html" title="ToolTip"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
-          <li><a href="../modules.html" >Modules</a> &raquo;</li>
-          <li><a href="tools.html" accesskey="U">Tools</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>TreeListBox &mdash; CALIPSO 0.15.2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../../index.html"/>
+        <link rel="up" title="Tools" href="tools.html"/>
+        <link rel="prev" title="ToolTip" href="tooltip.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> CALIPSO
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../packages.html">Required Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../packages.html#windows-x86-32-bit">Windows x86 (32 bit)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../packages.html#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general/general.html">General</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../general/attributes.html">Attributes Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../general/calipso.html">Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../general/consts.html">Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../general/db.html">Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../general/import.html">Import Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../general/toolswindow.html">Tools Window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../polygon/polygon.html">Polygon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/drawer.html">PolygonDrawer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/list.html">PolygonList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/reader.html">PolygonReader</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="tools.html">Tools</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="navigationtoolbar2calipso.html">NavigationToolbar2Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="toggleablebutton.html">ToggleableButton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tooltip.html">ToolTip</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">TreeListBox</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">CALIPSO</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../modules.html">Modules</a> &raquo;</li>
+      
+          <li><a href="tools.html">Tools</a> &raquo;</li>
+      
+    <li>TreeListBox</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/doc/tools/treelistbox.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="treelistbox">
 <h1>TreeListBox<a class="headerlink" href="#treelistbox" title="Permalink to this headline">¶</a></h1>
@@ -63,12 +184,12 @@
 </p>
 <span class="target" id="module-tools.treelistbox"></span><dl class="class">
 <dt id="tools.treelistbox.TreeListBox">
-<em class="property">class </em><tt class="descname">TreeListBox</tt><big>(</big><em>root</em>, <em>headers</em><big>)</big><a class="reference internal" href="../../_modules/tools/treelistbox.html#TreeListBox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.treelistbox.TreeListBox" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">TreeListBox</code><span class="sig-paren">(</span><em>root</em>, <em>headers</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/treelistbox.html#TreeListBox"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.treelistbox.TreeListBox" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class that internally handles a TreeView widget which creates 
 a columned view of the information from the database</p>
 <dl class="method">
 <dt id="tools.treelistbox.TreeListBox.update">
-<tt class="descname">update</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/tools/treelistbox.html#TreeListBox.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.treelistbox.TreeListBox.update" title="Permalink to this definition">¶</a></dt>
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/treelistbox.html#TreeListBox.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.treelistbox.TreeListBox.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Redisplay any information updated in self.list to the screen</p>
 </dd></dl>
 
@@ -76,7 +197,7 @@ a columned view of the information from the database</p>
 
 <dl class="function">
 <dt id="tools.treelistbox.sortby">
-<tt class="descname">sortby</tt><big>(</big><em>tree</em>, <em>col</em>, <em>descending</em><big>)</big><a class="reference internal" href="../../_modules/tools/treelistbox.html#sortby"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.treelistbox.sortby" title="Permalink to this definition">¶</a></dt>
+<code class="descname">sortby</code><span class="sig-paren">(</span><em>tree</em>, <em>col</em>, <em>descending</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/treelistbox.html#sortby"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.treelistbox.sortby" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sorts the treeview by the column clicked by the user</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -97,55 +218,67 @@ a columned view of the information from the database</p>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="tooltip.html"
-                        title="previous chapter">ToolTip</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../../_sources/doc/tools/treelistbox.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="tooltip.html" class="btn btn-neutral" title="ToolTip" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="tooltip.html" title="ToolTip"
-             >previous</a> |</li>
-        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
-          <li><a href="../modules.html" >Modules</a> &raquo;</li>
-          <li><a href="tools.html" >Tools</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.15.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

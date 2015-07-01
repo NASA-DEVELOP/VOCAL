@@ -1,57 +1,173 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Developing Dos &mdash; CALIPSO 0.15.2 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.15.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="CALIPSO 0.15.2 documentation" href="index.html" />
-    <link rel="next" title="Modules" href="doc/modules.html" />
-    <link rel="prev" title="Coding Conventions" href="conventions.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="doc/modules.html" title="Modules"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="conventions.html" title="Coding Conventions"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Developing Dos &mdash; CALIPSO 0.15.2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CALIPSO 0.15.2 documentation" href="index.html"/>
+        <link rel="next" title="Modules" href="doc/modules.html"/>
+        <link rel="prev" title="Coding Conventions" href="conventions.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> CALIPSO
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Program Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#additional-information">Additional Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packages.html">Required Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#windows-x86-32-bit">Windows x86 (32 bit)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#windows">Windows </a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#linux">Linux </a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#starting-up">Starting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#plot-navigation">Plot Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-drawing">Shape Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshoot.html">Troubleshoot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Developing Dos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#building-the-docs">Building the docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#contributing-to-the-docs">Contributing to the Docs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="doc/modules.html">Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="doc/general/general.html">General</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/attributes.html">Attributes Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/calipso.html">Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/consts.html">Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/db.html">Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/import.html">Import Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/toolswindow.html">Tools Window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="doc/polygon/polygon.html">Polygon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/drawer.html">PolygonDrawer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/list.html">PolygonList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/reader.html">PolygonReader</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="doc/tools/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/navigationtoolbar2calipso.html">NavigationToolbar2Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/toggleablebutton.html">ToggleableButton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/tooltip.html">ToolTip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/treelistbox.html">TreeListBox</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">CALIPSO</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Developing Dos</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/buildingdocs.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="developing-dos">
 <h1>Developing Dos<a class="headerlink" href="#developing-dos" title="Permalink to this headline">¶</a></h1>
@@ -61,18 +177,18 @@
 <ol class="arabic">
 <li><p class="first">Install <a class="reference external" href="http://sphinx-doc.org/">sphinx</a> and <a class="reference external" href="http://www.graphviz.org/">graphviz</a> <a class="footnote-reference" href="#f1" id="id1">[1]</a>. We use sphinx as our documentation generator, and graphviz is a visualization tool for class diagrams.</p>
 </li>
-<li><p class="first">Once you have these items installed, ensure you have the command <tt class="docutils literal"><span class="pre">sphinx-build</span></tt> available in your command prompt, if not you&#8217;ll need to make an addition to your <tt class="docutils literal"><span class="pre">PATH</span></tt>.</p>
+<li><p class="first">Once you have these items installed, ensure you have the command <code class="docutils literal"><span class="pre">sphinx-build</span></code> available in your command prompt, if not you&#8217;ll need to make an addition to your <code class="docutils literal"><span class="pre">PATH</span></code>.</p>
 </li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">cd</span></tt> to the home directory of the repository</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">cd</span></code> to the home directory of the repository</p>
 </li>
-<li><p class="first">Docs can be built with <tt class="docutils literal"><span class="pre">sphinx-build</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">&lt;source-dir&gt;</span> <span class="pre">&lt;build-dir&gt;</span></tt>:</p>
+<li><p class="first">Docs can be built with <code class="docutils literal"><span class="pre">sphinx-build</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">&lt;source-dir&gt;</span> <span class="pre">&lt;build-dir&gt;</span></code>:</p>
 <div class="highlight-python"><div class="highlight"><pre>&gt; sphinx-build -b html docs/source docs/build
 </pre></div>
 </div>
 </li>
 <li><p class="first">Finished! Open up index.html to view the docs, or continue reading to learn how to update to the gh-pages branch</p>
 </li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">cd</span></tt> out of your repository , and create a new folder. Inside that folder clone the repository to the current directory by specifying <tt class="docutils literal"><span class="pre">.</span></tt> at the end:</p>
+<li><p class="first"><code class="docutils literal"><span class="pre">cd</span></code> out of your repository , and create a new folder. Inside that folder clone the repository to the current directory by specifying <code class="docutils literal"><span class="pre">.</span></code> at the end:</p>
 <div class="highlight-python"><div class="highlight"><pre>&gt; cd ..
 &gt; dir
 &gt; &lt;DIR&gt; CALIPSO_Visualization_tool
@@ -85,9 +201,9 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">Switch to the gh-pages branch inside that repo <tt class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">gh-pages</span></tt></p>
+<li><p class="first">Switch to the gh-pages branch inside that repo <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">gh-pages</span></code></p>
 </li>
-<li><p class="first">Head back to the master branch repo, and build the docs specifying the build directory at the gh-pages folder. <tt class="docutils literal"><span class="pre">sphinx-build</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">docs/source</span> <span class="pre">../docspage</span></tt></p>
+<li><p class="first">Head back to the master branch repo, and build the docs specifying the build directory at the gh-pages folder. <code class="docutils literal"><span class="pre">sphinx-build</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">docs/source</span> <span class="pre">../docspage</span></code></p>
 </li>
 <li><p class="first">Commit and push the gh-pages branch</p>
 </li>
@@ -95,7 +211,7 @@
 </div>
 <div class="section" id="contributing-to-the-docs">
 <h2>Contributing to the Docs<a class="headerlink" href="#contributing-to-the-docs" title="Permalink to this headline">¶</a></h2>
-<p>The CALIPSO docs page uses the <tt class="docutils literal"><span class="pre">sphinx.ext.autodoc</span></tt> extensions to pull reStructuredText docstrings from source and create doc pages from them. inside the <tt class="docutils literal"><span class="pre">doc</span></tt> folder is the location of all code documentation, split up into three packages: <em>general</em> , <em>polygon</em> , and <em>tools</em>. If you&#8217;ve created a new module and would like to have it added to the docs(the answer should always be <strong>yes</strong>!), place a <tt class="docutils literal"><span class="pre">.rst</span></tt> file with the module name in the corresponding package folder. Inside that file you&#8217;ll likely have something similar to:</p>
+<p>The CALIPSO docs page uses the <code class="docutils literal"><span class="pre">sphinx.ext.autodoc</span></code> extensions to pull reStructuredText docstrings from source and create doc pages from them. inside the <code class="docutils literal"><span class="pre">doc</span></code> folder is the location of all code documentation, split up into three packages: <em>general</em> , <em>polygon</em> , and <em>tools</em>. If you&#8217;ve created a new module and would like to have it added to the docs(the answer should always be <strong>yes</strong>!), place a <code class="docutils literal"><span class="pre">.rst</span></code> file with the module name in the corresponding package folder. Inside that file you&#8217;ll likely have something similar to:</p>
 <div class="highlight-python"><div class="highlight"><pre>.. inheritance-diagram:: &lt;module&gt;
 
 .. py:module:: &lt;module&gt;
@@ -108,7 +224,7 @@
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>You will likely need to add graphviz to your <tt class="docutils literal"><span class="pre">PATH</span></tt> once installed</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>You will likely need to add graphviz to your <code class="docutils literal"><span class="pre">PATH</span></code> once installed</td></tr>
 </tbody>
 </table>
 </div>
@@ -116,68 +232,69 @@
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Developing Dos</a><ul>
-<li><a class="reference internal" href="#building-the-docs">Building the docs</a></li>
-<li><a class="reference internal" href="#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="doc/modules.html" class="btn btn-neutral float-right" title="Modules" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="conventions.html" class="btn btn-neutral" title="Coding Conventions" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="conventions.html"
-                        title="previous chapter">Coding Conventions</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="doc/modules.html"
-                        title="next chapter">Modules</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/buildingdocs.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="doc/modules.html" title="Modules"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="conventions.html" title="Coding Conventions"
-             >previous</a> |</li>
-        <li><a href="index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.15.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

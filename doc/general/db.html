@@ -1,60 +1,178 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Database &mdash; CALIPSO 0.15.2 documentation</title>
-    
-    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.15.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../../index.html" />
-    <link rel="up" title="General" href="general.html" />
-    <link rel="next" title="Import Dialog" href="import.html" />
-    <link rel="prev" title="Constants" href="consts.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="import.html" title="Import Dialog"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="consts.html" title="Constants"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
-          <li><a href="../modules.html" >Modules</a> &raquo;</li>
-          <li><a href="general.html" accesskey="U">General</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Database &mdash; CALIPSO 0.15.2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../../index.html"/>
+        <link rel="up" title="General" href="general.html"/>
+        <link rel="next" title="Import Dialog" href="import.html"/>
+        <link rel="prev" title="Constants" href="consts.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> CALIPSO
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../packages.html">Required Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../packages.html#windows-x86-32-bit">Windows x86 (32 bit)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../packages.html#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="general.html">General</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="attributes.html">Attributes Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="calipso.html">Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="consts.html">Constants</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="import.html">Import Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="toolswindow.html">Tools Window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../polygon/polygon.html">Polygon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/drawer.html">PolygonDrawer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/list.html">PolygonList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/reader.html">PolygonReader</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tools/navigationtoolbar2calipso.html">NavigationToolbar2Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/toggleablebutton.html">ToggleableButton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/tooltip.html">ToolTip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/treelistbox.html">TreeListBox</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">CALIPSO</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../modules.html">Modules</a> &raquo;</li>
+      
+          <li><a href="general.html">General</a> &raquo;</li>
+      
+    <li>Database</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/doc/general/db.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="database">
 <h1>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h1>
@@ -67,13 +185,13 @@
 </p>
 <span class="target" id="module-db"></span><dl class="class">
 <dt id="db.DatabaseManager">
-<em class="property">class </em><tt class="descname">DatabaseManager</tt><a class="reference internal" href="../../_modules/db.html#DatabaseManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">DatabaseManager</code><a class="reference internal" href="../../_modules/db.html#DatabaseManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Internally manages the database engine and any sql related objects.
 Hands out sessions with getSession() but only offers abstractions for
 other functionality. The database is INDEPENDENT from the application</p>
 <dl class="method">
 <dt id="db.DatabaseManager.commitToDB">
-<tt class="descname">commitToDB</tt><big>(</big><em>polyList</em>, <em>time</em>, <em>f</em><big>)</big><a class="reference internal" href="../../_modules/db.html#DatabaseManager.commitToDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.commitToDB" title="Permalink to this definition">¶</a></dt>
+<code class="descname">commitToDB</code><span class="sig-paren">(</span><em>polyList</em>, <em>time</em>, <em>f</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.commitToDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.commitToDB" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a list of polygons and commits them into the database,
 used in polygonList to commit all visible polygons
 :param polyList: the current polygonList corresponding to the active plot
@@ -83,14 +201,14 @@ used in polygonList to commit all visible polygons
 
 <dl class="method">
 <dt id="db.DatabaseManager.deleteItem">
-<tt class="descname">deleteItem</tt><big>(</big><em>idx</em><big>)</big><a class="reference internal" href="../../_modules/db.html#DatabaseManager.deleteItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.deleteItem" title="Permalink to this definition">¶</a></dt>
+<code class="descname">deleteItem</code><span class="sig-paren">(</span><em>idx</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.deleteItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.deleteItem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a session and delete the object from the database.
 :param indx: the primary key for the object passed</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="db.DatabaseManager.encode">
-<tt class="descname">encode</tt><big>(</big><em>filename</em>, <em>data</em><big>)</big><a class="reference internal" href="../../_modules/db.html#DatabaseManager.encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.encode" title="Permalink to this definition">¶</a></dt>
+<code class="descname">encode</code><span class="sig-paren">(</span><em>filename</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.encode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encode and write out a JSON object
 :param filename: name of the file
 :param data: Python dictionary representation of a JSON</p>
@@ -98,14 +216,14 @@ used in polygonList to commit all visible polygons
 
 <dl class="method">
 <dt id="db.DatabaseManager.getSession">
-<tt class="descname">getSession</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/db.html#DatabaseManager.getSession"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.getSession" title="Permalink to this definition">¶</a></dt>
+<code class="descname">getSession</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.getSession"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.getSession" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an instance of a session, USERS job to ensure session
 is committed/closed</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="db.DatabaseManager.queryUniqueTag">
-<tt class="descname">queryUniqueTag</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/db.html#DatabaseManager.queryUniqueTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.queryUniqueTag" title="Permalink to this definition">¶</a></dt>
+<code class="descname">queryUniqueTag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.queryUniqueTag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.queryUniqueTag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Grabs a session and queries the database to find the starting tag for the application.
 this tag is used so it does not overlap existing shape tags previously generated
 and stored into the database</p>
@@ -115,68 +233,68 @@ and stored into the database</p>
 
 <dl class="class">
 <dt id="db.dbPolygon">
-<em class="property">class </em><tt class="descname">dbPolygon</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../../_modules/db.html#dbPolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.dbPolygon" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">dbPolygon</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#dbPolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.dbPolygon" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sqlalchemy class object, contains all data that is stored inside the database. Objects are represented as JSON</p>
 <dl class="data">
 <dt id="db.dbPolygon.id">
-<tt class="descname">id</tt><a class="headerlink" href="#db.dbPolygon.id" title="Permalink to this definition">¶</a></dt>
+<code class="descname">id</code><a class="headerlink" href="#db.dbPolygon.id" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
 <dt id="db.dbPolygon.tag">
-<tt class="descname">tag</tt><a class="headerlink" href="#db.dbPolygon.tag" title="Permalink to this definition">¶</a></dt>
+<code class="descname">tag</code><a class="headerlink" href="#db.dbPolygon.tag" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
 <dt id="db.dbPolygon.color">
-<tt class="descname">color</tt><a class="headerlink" href="#db.dbPolygon.color" title="Permalink to this definition">¶</a></dt>
+<code class="descname">color</code><a class="headerlink" href="#db.dbPolygon.color" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
 <dt id="db.dbPolygon.vertices">
-<tt class="descname">vertices</tt><a class="headerlink" href="#db.dbPolygon.vertices" title="Permalink to this definition">¶</a></dt>
+<code class="descname">vertices</code><a class="headerlink" href="#db.dbPolygon.vertices" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
 <dt id="db.dbPolygon.time_">
-<tt class="descname">time_</tt><a class="headerlink" href="#db.dbPolygon.time_" title="Permalink to this definition">¶</a></dt>
+<code class="descname">time_</code><a class="headerlink" href="#db.dbPolygon.time_" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
 <dt id="db.dbPolygon.hdf">
-<tt class="descname">hdf</tt><a class="headerlink" href="#db.dbPolygon.hdf" title="Permalink to this definition">¶</a></dt>
+<code class="descname">hdf</code><a class="headerlink" href="#db.dbPolygon.hdf" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
 <dt id="db.dbPolygon.plot">
-<tt class="descname">plot</tt><a class="headerlink" href="#db.dbPolygon.plot" title="Permalink to this definition">¶</a></dt>
+<code class="descname">plot</code><a class="headerlink" href="#db.dbPolygon.plot" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
 <dt id="db.dbPolygon.attributes">
-<tt class="descname">attributes</tt><a class="headerlink" href="#db.dbPolygon.attributes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">attributes</code><a class="headerlink" href="#db.dbPolygon.attributes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
 <dt id="db.dbPolygon.coordinates">
-<tt class="descname">coordinates</tt><a class="headerlink" href="#db.dbPolygon.coordinates" title="Permalink to this definition">¶</a></dt>
+<code class="descname">coordinates</code><a class="headerlink" href="#db.dbPolygon.coordinates" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
 <dt id="db.dbPolygon.notes">
-<tt class="descname">notes</tt><a class="headerlink" href="#db.dbPolygon.notes" title="Permalink to this definition">¶</a></dt>
+<code class="descname">notes</code><a class="headerlink" href="#db.dbPolygon.notes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="data">
 <dt id="db.dbBase">
-<tt class="descname">dbBase</tt><em class="property"> = &lt;class 'sqlalchemy.ext.declarative.api.Base'&gt;</em><a class="headerlink" href="#db.dbBase" title="Permalink to this definition">¶</a></dt>
+<code class="descname">dbBase</code><em class="property"> = &lt;class 'sqlalchemy.ext.declarative.api.Base'&gt;</em><a class="headerlink" href="#db.dbBase" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
 <dt id="db.db">
-<tt class="descname">db</tt><em class="property"> = &lt;db.DatabaseManager object at 0x074F3FF0&gt;</em><a class="headerlink" href="#db.db" title="Permalink to this definition">¶</a></dt>
+<code class="descname">db</code><em class="property"> = &lt;db.DatabaseManager object&gt;</em><a class="headerlink" href="#db.db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Internally manages the database engine and any sql related objects.
 Hands out sessions with getSession() but only offers abstractions for
 other functionality. The database is INDEPENDENT from the application</p>
@@ -186,61 +304,69 @@ other functionality. The database is INDEPENDENT from the application</p>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="consts.html"
-                        title="previous chapter">Constants</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="import.html"
-                        title="next chapter">Import Dialog</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../../_sources/doc/general/db.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="import.html" class="btn btn-neutral float-right" title="Import Dialog" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="consts.html" class="btn btn-neutral" title="Constants" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="import.html" title="Import Dialog"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="consts.html" title="Constants"
-             >previous</a> |</li>
-        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
-          <li><a href="../modules.html" >Modules</a> &raquo;</li>
-          <li><a href="general.html" >General</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.15.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

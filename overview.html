@@ -1,57 +1,173 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Program Overview &mdash; CALIPSO 0.15.2 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.15.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="CALIPSO 0.15.2 documentation" href="index.html" />
-    <link rel="next" title="Installation" href="installation.html" />
-    <link rel="prev" title="Welcome to CALIPSO’s documentation!" href="index.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="installation.html" title="Installation"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to CALIPSO’s documentation!"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Program Overview &mdash; CALIPSO 0.15.2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CALIPSO 0.15.2 documentation" href="index.html"/>
+        <link rel="next" title="Installation" href="installation.html"/>
+        <link rel="prev" title="Welcome to the Visualization of Calipso Tool (VOCAL)!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> CALIPSO
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Program Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#additional-information">Additional Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packages.html">Required Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#windows-x86-32-bit">Windows x86 (32 bit)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#windows">Windows </a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#linux">Linux </a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#starting-up">Starting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#plot-navigation">Plot Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-drawing">Shape Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshoot.html">Troubleshoot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="buildingdocs.html">Developing Dos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="buildingdocs.html#building-the-docs">Building the docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="doc/modules.html">Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="doc/general/general.html">General</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/attributes.html">Attributes Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/calipso.html">Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/consts.html">Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/db.html">Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/import.html">Import Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/toolswindow.html">Tools Window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="doc/polygon/polygon.html">Polygon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/drawer.html">PolygonDrawer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/list.html">PolygonList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/reader.html">PolygonReader</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="doc/tools/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/navigationtoolbar2calipso.html">NavigationToolbar2Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/toggleablebutton.html">ToggleableButton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/tooltip.html">ToolTip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/treelistbox.html">TreeListBox</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">CALIPSO</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Program Overview</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/overview.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="program-overview">
 <h1>Program Overview<a class="headerlink" href="#program-overview" title="Permalink to this headline">¶</a></h1>
@@ -115,7 +231,7 @@ features will allow scientists to more easily identify the source of the aerosol
 <h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt>
-<tt class="descname">left: blank program, right: shapes form around selected areas of the plot</tt></dt>
+<code class="descname">left: blank program, right: shapes form around selected areas of the plot</code></dt>
 <dd><a class="reference internal image-reference" href="_images/program.png"><img alt="_images/program.png" src="_images/program.png" style="width: 476.1px; height: 230.1px;" /></a>
 <a class="reference internal image-reference" href="_images/programShapesActive.png"><img alt="_images/programShapesActive.png" src="_images/programShapesActive.png" style="width: 476.1px; height: 230.1px;" /></a>
 </dd></dl>
@@ -124,30 +240,30 @@ features will allow scientists to more easily identify the source of the aerosol
 <p>The CALIPSO Visualization software currently contains a number of great features:</p>
 <ul class="simple">
 <li>Load standard L1 Calipso data and display a backscattered plot</li>
-<li>Manipulate the image with <tt class="docutils literal"><span class="pre">zoom</span></tt>, <tt class="docutils literal"><span class="pre">move</span></tt>, <tt class="docutils literal"><span class="pre">reload</span></tt> and many more</li>
+<li>Manipulate the image with <code class="docutils literal"><span class="pre">zoom</span></code>, <code class="docutils literal"><span class="pre">move</span></code>, <code class="docutils literal"><span class="pre">reload</span></code> and many more</li>
 <li>Draw object which are overlayed upon the plot , free draw or rect mode</li>
 </ul>
-<p>Data from the <tt class="docutils literal"><span class="pre">HDF</span></tt> file is loaded and parsed in order to display the plot inside of the application. Object can be drawn on top and manipulated to select key parts of the map, these object will later be able to be saved</p>
+<p>Data from the <code class="docutils literal"><span class="pre">HDF</span></code> file is loaded and parsed in order to display the plot inside of the application. Object can be drawn on top and manipulated to select key parts of the map, these object will later be able to be saved</p>
 <p><em>(above: a recent snapshot of the CALIPSO Visualization tool)</em></p>
 <p>Once a plot is displayed, the user can select from a range of features in the <em>toolbar</em>:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">Reset</span></tt> : reload the original state of the plot</li>
-<li><tt class="docutils literal"><span class="pre">Plot</span> <span class="pre">Type</span></tt> : select type of plot</li>
-<li><tt class="docutils literal"><span class="pre">Drag</span></tt> : drag plot</li>
-<li><tt class="docutils literal"><span class="pre">Zoom</span></tt> : zoom to rectangle</li>
-<li><tt class="docutils literal"><span class="pre">Undo</span></tt> : undo button</li>
-<li><tt class="docutils literal"><span class="pre">Redo</span></tt> : redo button</li>
-<li><tt class="docutils literal"><span class="pre">Draw</span> <span class="pre">Rect</span></tt> : draw a rectangle on the plot</li>
-<li><tt class="docutils literal"><span class="pre">Drag</span> <span class="pre">Rect</span></tt> : drag shapes around the plot</li>
-<li><tt class="docutils literal"><span class="pre">Free</span> <span class="pre">Draw</span></tt> : connect vertices on the map to form a shape</li>
-<li><tt class="docutils literal"><span class="pre">Erase</span></tt> : erase a shape</li>
-<li><tt class="docutils literal"><span class="pre">Focus</span></tt> : fill or no fill setting for shapes</li>
-<li><tt class="docutils literal"><span class="pre">Paint</span></tt> : specify the color of a shape</li>
-<li><tt class="docutils literal"><span class="pre">Hide</span></tt>  : hide shapes</li>
-<li><tt class="docutils literal"><span class="pre">Save</span></tt>  : save visible objects to a JSON file</li>
-<li><tt class="docutils literal"><span class="pre">Load</span></tt>  : load a JSON file containing objects</li>
-<li><tt class="docutils literal"><span class="pre">View</span></tt>  : view notes and attributes of polygon</li>
-<li><tt class="docutils literal"><span class="pre">Edit</span></tt>  : add notes and attributes for polygons</li>
+<li><code class="docutils literal"><span class="pre">Reset</span></code> : reload the original state of the plot</li>
+<li><code class="docutils literal"><span class="pre">Plot</span> <span class="pre">Type</span></code> : select type of plot</li>
+<li><code class="docutils literal"><span class="pre">Drag</span></code> : drag plot</li>
+<li><code class="docutils literal"><span class="pre">Zoom</span></code> : zoom to rectangle</li>
+<li><code class="docutils literal"><span class="pre">Undo</span></code> : undo button</li>
+<li><code class="docutils literal"><span class="pre">Redo</span></code> : redo button</li>
+<li><code class="docutils literal"><span class="pre">Draw</span> <span class="pre">Rect</span></code> : draw a rectangle on the plot</li>
+<li><code class="docutils literal"><span class="pre">Drag</span> <span class="pre">Rect</span></code> : drag shapes around the plot</li>
+<li><code class="docutils literal"><span class="pre">Free</span> <span class="pre">Draw</span></code> : connect vertices on the map to form a shape</li>
+<li><code class="docutils literal"><span class="pre">Erase</span></code> : erase a shape</li>
+<li><code class="docutils literal"><span class="pre">Focus</span></code> : fill or no fill setting for shapes</li>
+<li><code class="docutils literal"><span class="pre">Paint</span></code> : specify the color of a shape</li>
+<li><code class="docutils literal"><span class="pre">Hide</span></code>  : hide shapes</li>
+<li><code class="docutils literal"><span class="pre">Save</span></code>  : save visible objects to a JSON file</li>
+<li><code class="docutils literal"><span class="pre">Load</span></code>  : load a JSON file containing objects</li>
+<li><code class="docutils literal"><span class="pre">View</span></code>  : view notes and attributes of polygon</li>
+<li><code class="docutils literal"><span class="pre">Edit</span></code>  : add notes and attributes for polygons</li>
 </ul>
 <p>Additional features are still to come!</p>
 </div>
@@ -184,70 +300,69 @@ features will allow scientists to more easily identify the source of the aerosol
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Program Overview</a><ul>
-<li><a class="reference internal" href="#abstract">Abstract</a></li>
-<li><a class="reference internal" href="#structure">Structure</a></li>
-<li><a class="reference internal" href="#features">Features</a></li>
-<li><a class="reference internal" href="#additional-information">Additional Information</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to the Visualization of Calipso Tool (VOCAL)!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="index.html"
-                        title="previous chapter">Welcome to CALIPSO&#8217;s documentation!</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="installation.html"
-                        title="next chapter">Installation</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/overview.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="installation.html" title="Installation"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="index.html" title="Welcome to CALIPSO’s documentation!"
-             >previous</a> |</li>
-        <li><a href="index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.15.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

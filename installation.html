@@ -1,57 +1,173 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Installation &mdash; CALIPSO 0.15.2 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '0.15.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="CALIPSO 0.15.2 documentation" href="index.html" />
-    <link rel="next" title="Required Packages" href="packages.html" />
-    <link rel="prev" title="Program Overview" href="overview.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="packages.html" title="Required Packages"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="overview.html" title="Program Overview"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installation &mdash; CALIPSO 0.15.2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CALIPSO 0.15.2 documentation" href="index.html"/>
+        <link rel="next" title="Required Packages" href="packages.html"/>
+        <link rel="prev" title="Program Overview" href="overview.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="index.html" class="icon icon-home"> CALIPSO
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Program Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#additional-information">Additional Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packages.html">Required Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#windows-x86-32-bit">Windows x86 (32 bit)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="packages.html#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#windows">Windows </a></li>
+<li class="toctree-l2"><a class="reference internal" href="#linux">Linux </a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#starting-up">Starting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#plot-navigation">Plot Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-drawing">Shape Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshoot.html">Troubleshoot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="buildingdocs.html">Developing Dos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="buildingdocs.html#building-the-docs">Building the docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="doc/modules.html">Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="doc/general/general.html">General</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/attributes.html">Attributes Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/calipso.html">Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/consts.html">Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/db.html">Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/import.html">Import Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/general/toolswindow.html">Tools Window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="doc/polygon/polygon.html">Polygon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/drawer.html">PolygonDrawer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/list.html">PolygonList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/reader.html">PolygonReader</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="doc/tools/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/navigationtoolbar2calipso.html">NavigationToolbar2Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/toggleablebutton.html">ToggleableButton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/tooltip.html">ToolTip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/tools/treelistbox.html">TreeListBox</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">CALIPSO</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Installation</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/installation.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
@@ -69,16 +185,16 @@
 <h2>Windows <a class="footnote-reference" href="#f1" id="id2">[1]</a><a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li>Download Python Anaconda 2.7</li>
-<li>Open a terminal, navigate to the Anaconda installation directory and type <tt class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">numpy</span></tt>, <tt class="docutils literal"><span class="pre">y</span></tt>, <tt class="docutils literal"><span class="pre">exit</span></tt></li>
+<li>Open a terminal, navigate to the Anaconda installation directory and type <code class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">numpy</span></code>, <code class="docutils literal"><span class="pre">y</span></code>, <code class="docutils literal"><span class="pre">exit</span></code></li>
 <li>Grab the <a class="reference external" href="https://code.google.com/p/pythonxy/wiki/AdditionalPlugins">basemap package</a><ul>
-<li>Execute <tt class="docutils literal"><span class="pre">basemap-1.0.2_py27.exe</span></tt></li>
-<li>The destination directory is <tt class="docutils literal"><span class="pre">\Anaconda\Lib\site-packages\basemap</span></tt></li>
+<li>Execute <code class="docutils literal"><span class="pre">basemap-1.0.2_py27.exe</span></code></li>
+<li>The destination directory is <code class="docutils literal"><span class="pre">\Anaconda\Lib\site-packages\basemap</span></code></li>
 </ul>
 </li>
 <li>To install CCPLOT:<ul>
 <li>Get <a class="reference external" href="http://sourceforge.net/projects/ccplot/files/ccplot/ccplot-1.5-rc7.win32-py2.7.exe">ccplot-1.5-rc7.win32-py2.7.exe</a></li>
-<li>Run <tt class="docutils literal"><span class="pre">ccplot-1.5-rc7.win32-py2.7.exe</span></tt></li>
-<li>Browse to the Anaconda install directory and install in <tt class="docutils literal"><span class="pre">\Anaconda\Lib\site-packages\</span></tt></li>
+<li>Run <code class="docutils literal"><span class="pre">ccplot-1.5-rc7.win32-py2.7.exe</span></code></li>
+<li>Browse to the Anaconda install directory and install in <code class="docutils literal"><span class="pre">\Anaconda\Lib\site-packages\</span></code></li>
 <li>More information is at <a class="reference external" href="http://ccplot.org/">http://ccplot.org/</a></li>
 </ul>
 </li>
@@ -93,46 +209,46 @@
 </li>
 </ul>
 </li>
-<li>Import the existing &#8220;CALIPSO_Visualizer&#8221; package under the <tt class="docutils literal"><span class="pre">file</span></tt> menu</li>
+<li>Import the existing &#8220;CALIPSO_Visualizer&#8221; package under the <code class="docutils literal"><span class="pre">file</span></code> menu</li>
 </ol>
 </div>
 <div class="section" id="linux">
 <h2>Linux <a class="footnote-reference" href="#f3" id="id4">[3]</a><a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
 <li>Start off by grabbing the SciPy Stack<ul>
-<li><tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-numpy</span> <span class="pre">python-scipy</span> <span class="pre">python-matplotlib</span></tt></li>
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-numpy</span> <span class="pre">python-scipy</span> <span class="pre">python-matplotlib</span></code></li>
 </ul>
 </li>
 <li>Install basemap<ul>
-<li><tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-mpltoolkits.basemap</span></tt></li>
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-mpltoolkits.basemap</span></code></li>
 </ul>
 </li>
 <li>Installing CCPLOT<ul>
 <li>CCPLOT has quite a bit of dependencies, so run<ul>
-<li><tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">--no-intall-recommends</span> <span class="pre">cython</span> <span class="pre">libhdf4-dev</span> <span class="pre">libhdfeos-dev</span> <span class="pre">python-imaging</span> <span class="pre">ttf-bitstream-vera</span></tt></li>
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">--no-intall-recommends</span> <span class="pre">cython</span> <span class="pre">libhdf4-dev</span> <span class="pre">libhdfeos-dev</span> <span class="pre">python-imaging</span> <span class="pre">ttf-bitstream-vera</span></code></li>
 </ul>
 </li>
 <li>Now CCPLOT needs to be built on Linux, so grab the <a class="reference external" href="https://sourceforge.net/projects/ccplot/files/ccplot/ccplot-1.5.tar.gz/download">source</a></li>
 <li>Extract the source anywhere you&#8217;d like, the directory does not matter</li>
-<li><tt class="docutils literal"><span class="pre">cd</span></tt> into the CCPLOT folder you just extracted</li>
-<li>Run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></tt></li>
-<li><em>Note</em> if python cannot find <tt class="docutils literal"><span class="pre">HdfEosDef.h</span></tt><ul>
-<li>Run <tt class="docutils literal"><span class="pre">dpkg</span> <span class="pre">-L</span></tt></li>
-<li>Search for the location of <tt class="docutils literal"><span class="pre">HdfEosDef.h</span></tt>, it is commonly found in <tt class="docutils literal"><span class="pre">usr/include/x86_64-linux-gnu/hdf/</span></tt></li>
-<li>Open <tt class="docutils literal"><span class="pre">setup.py</span></tt> in the CCPLOT folder, and change line 24 to include your path</li>
-<li>The new line would like similar to <tt class="docutils literal"><span class="pre">hdf_include_dirs</span> <span class="pre">=</span> <span class="pre">['/usr/include/x86_64-linux-gnu/hdf',</span> <span class="pre">'/usr/include/hdf',</span> <span class="pre">'/usr/local/include/hdf/',</span> <span class="pre">'/opt/local/include']</span></tt></li>
-<li>Rerun <tt class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></tt></li>
+<li><code class="docutils literal"><span class="pre">cd</span></code> into the CCPLOT folder you just extracted</li>
+<li>Run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></code></li>
+<li><em>Note</em> if python cannot find <code class="docutils literal"><span class="pre">HdfEosDef.h</span></code><ul>
+<li>Run <code class="docutils literal"><span class="pre">dpkg</span> <span class="pre">-L</span></code></li>
+<li>Search for the location of <code class="docutils literal"><span class="pre">HdfEosDef.h</span></code>, it is commonly found in <code class="docutils literal"><span class="pre">usr/include/x86_64-linux-gnu/hdf/</span></code></li>
+<li>Open <code class="docutils literal"><span class="pre">setup.py</span></code> in the CCPLOT folder, and change line 24 to include your path</li>
+<li>The new line would like similar to <code class="docutils literal"><span class="pre">hdf_include_dirs</span> <span class="pre">=</span> <span class="pre">['/usr/include/x86_64-linux-gnu/hdf',</span> <span class="pre">'/usr/include/hdf',</span> <span class="pre">'/usr/local/include/hdf/',</span> <span class="pre">'/opt/local/include']</span></code></li>
+<li>Rerun <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></code></li>
 </ul>
 </li>
-<li>Run <tt class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></tt> , <tt class="docutils literal"><span class="pre">sudo</span></tt> may be required as well</li>
+<li>Run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code> , <code class="docutils literal"><span class="pre">sudo</span></code> may be required as well</li>
 <li>CCPLOT should be installed</li>
 </ul>
 </li>
 <li>Install bokeh.color<ul>
-<li><tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bokeh</span></tt></li>
+<li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bokeh</span></code></li>
 </ul>
 </li>
-<li>Run the application with <tt class="docutils literal"><span class="pre">python</span> <span class="pre">CALIPSO_Visualization_Tool.py</span></tt></li>
+<li>Run the application with <code class="docutils literal"><span class="pre">python</span> <span class="pre">CALIPSO_Visualization_Tool.py</span></code></li>
 </ol>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
@@ -158,68 +274,69 @@
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Installation</a><ul>
-<li><a class="reference internal" href="#windows">Windows </a></li>
-<li><a class="reference internal" href="#linux">Linux </a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="packages.html" class="btn btn-neutral float-right" title="Required Packages" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="overview.html" class="btn btn-neutral" title="Program Overview" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="overview.html"
-                        title="previous chapter">Program Overview</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="packages.html"
-                        title="next chapter">Required Packages</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/installation.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="packages.html" title="Required Packages"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="overview.html" title="Program Overview"
-             >previous</a> |</li>
-        <li><a href="index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.15.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

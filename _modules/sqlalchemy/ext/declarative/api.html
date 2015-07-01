@@ -1,0 +1,891 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>sqlalchemy.ext.declarative.api &mdash; CALIPSO 0.15.2 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../../../../index.html"/>
+        <link rel="up" title="Module code" href="../../../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../../../index.html" class="icon icon-home"> CALIPSO
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../overview.html">Program Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../overview.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../overview.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../overview.html#additional-information">Additional Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../packages.html">Required Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../packages.html#windows-x86-32-bit">Windows x86 (32 bit)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../packages.html#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../installation.html#windows">Windows </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../installation.html#linux">Linux </a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorial.html#starting-up">Starting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorial.html#plot-navigation">Plot Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorial.html#shape-drawing">Shape Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../troubleshoot.html">Troubleshoot</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../buildingdocs.html">Developing Dos</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../buildingdocs.html#building-the-docs">Building the docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../doc/modules.html">Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../doc/general/general.html">General</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/general/attributes.html">Attributes Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/general/calipso.html">Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/general/consts.html">Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/general/db.html">Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/general/import.html">Import Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/general/toolswindow.html">Tools Window</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../doc/polygon/polygon.html">Polygon</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/polygon/drawer.html">PolygonDrawer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/polygon/list.html">PolygonList</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/polygon/reader.html">PolygonReader</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../doc/tools/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/tools/navigationtoolbar2calipso.html">NavigationToolbar2Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/tools/toggleablebutton.html">ToggleableButton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/tools/tooltip.html">ToolTip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../doc/tools/treelistbox.html">TreeListBox</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../../index.html">CALIPSO</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+      
+    <li>sqlalchemy.ext.declarative.api</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <h1>Source code for sqlalchemy.ext.declarative.api</h1><div class="highlight"><pre>
+<span class="c"># ext/declarative/api.py</span>
+<span class="c"># Copyright (C) 2005-2015 the SQLAlchemy authors and contributors</span>
+<span class="c"># &lt;see AUTHORS file&gt;</span>
+<span class="c">#</span>
+<span class="c"># This module is part of SQLAlchemy and is released under</span>
+<span class="c"># the MIT License: http://www.opensource.org/licenses/mit-license.php</span>
+<span class="sd">&quot;&quot;&quot;Public API functions and helpers for declarative.&quot;&quot;&quot;</span>
+
+
+<span class="kn">from</span> <span class="nn">...schema</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MetaData</span>
+<span class="kn">from</span> <span class="nn">...orm</span> <span class="kn">import</span> <span class="n">synonym</span> <span class="k">as</span> <span class="n">_orm_synonym</span><span class="p">,</span> \
+    <span class="n">comparable_property</span><span class="p">,</span>\
+    <span class="n">interfaces</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">attributes</span>
+<span class="kn">from</span> <span class="nn">...orm.util</span> <span class="kn">import</span> <span class="n">polymorphic_union</span>
+<span class="kn">from</span> <span class="nn">...orm.base</span> <span class="kn">import</span> <span class="n">_mapper_or_none</span>
+<span class="kn">from</span> <span class="nn">...util</span> <span class="kn">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">hybridmethod</span><span class="p">,</span> <span class="n">hybridproperty</span>
+<span class="kn">from</span> <span class="nn">...</span> <span class="kn">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">...</span> <span class="kn">import</span> <span class="n">exc</span>
+<span class="kn">import</span> <span class="nn">weakref</span>
+
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">_as_declarative</span><span class="p">,</span> \
+    <span class="n">_declarative_constructor</span><span class="p">,</span>\
+    <span class="n">_DeferredMapperConfig</span><span class="p">,</span> <span class="n">_add_attribute</span>
+<span class="kn">from</span> <span class="nn">.clsregistry</span> <span class="kn">import</span> <span class="n">_class_resolver</span>
+
+
+<span class="k">def</span> <span class="nf">instrument_declarative</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">registry</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Given a class, configure the class declaratively,</span>
+<span class="sd">    using the given registry, which can be any dictionary, and</span>
+<span class="sd">    MetaData object.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s">&#39;_decl_class_registry&#39;</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">exc</span><span class="o">.</span><span class="n">InvalidRequestError</span><span class="p">(</span>
+            <span class="s">&quot;Class </span><span class="si">%r</span><span class="s"> already has been &quot;</span>
+            <span class="s">&quot;instrumented declaratively&quot;</span> <span class="o">%</span> <span class="n">cls</span><span class="p">)</span>
+    <span class="n">cls</span><span class="o">.</span><span class="n">_decl_class_registry</span> <span class="o">=</span> <span class="n">registry</span>
+    <span class="n">cls</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
+    <span class="n">_as_declarative</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">has_inherited_table</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Given a class, return True if any of the classes it inherits from has a</span>
+<span class="sd">    mapped table, otherwise return False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">class_</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__mro__</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">class_</span><span class="p">,</span> <span class="s">&#39;__table__&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span>
+
+
+<span class="k">class</span> <span class="nc">DeclarativeMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dict_</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s">&#39;_decl_class_registry&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
+            <span class="n">_as_declarative</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+        <span class="nb">type</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dict_</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">_add_attribute</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">synonym_for</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">map_column</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decorator, make a Python @property a query synonym for a column.</span>
+
+<span class="sd">    A decorator version of :func:`~sqlalchemy.orm.synonym`. The function being</span>
+<span class="sd">    decorated is the &#39;descriptor&#39;, otherwise passes its arguments through to</span>
+<span class="sd">    synonym()::</span>
+
+<span class="sd">      @synonym_for(&#39;col&#39;)</span>
+<span class="sd">      @property</span>
+<span class="sd">      def prop(self):</span>
+<span class="sd">          return &#39;special sauce&#39;</span>
+
+<span class="sd">    The regular ``synonym()`` is also usable directly in a declarative setting</span>
+<span class="sd">    and may be convenient for read/write properties::</span>
+
+<span class="sd">      prop = synonym(&#39;col&#39;, descriptor=property(_read_prop, _write_prop))</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_orm_synonym</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">map_column</span><span class="o">=</span><span class="n">map_column</span><span class="p">,</span> <span class="n">descriptor</span><span class="o">=</span><span class="n">fn</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">decorate</span>
+
+
+<span class="k">def</span> <span class="nf">comparable_using</span><span class="p">(</span><span class="n">comparator_factory</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decorator, allow a Python @property to be used in query criteria.</span>
+
+<span class="sd">    This is a  decorator front end to</span>
+<span class="sd">    :func:`~sqlalchemy.orm.comparable_property` that passes</span>
+<span class="sd">    through the comparator_factory and the function being decorated::</span>
+
+<span class="sd">      @comparable_using(MyComparatorType)</span>
+<span class="sd">      @property</span>
+<span class="sd">      def prop(self):</span>
+<span class="sd">          return &#39;special sauce&#39;</span>
+
+<span class="sd">    The regular ``comparable_property()`` is also usable directly in a</span>
+<span class="sd">    declarative setting and may be convenient for read/write properties::</span>
+
+<span class="sd">      prop = comparable_property(MyComparatorType)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">comparable_property</span><span class="p">(</span><span class="n">comparator_factory</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">decorate</span>
+
+
+<span class="k">class</span> <span class="nc">declared_attr</span><span class="p">(</span><span class="n">interfaces</span><span class="o">.</span><span class="n">_MappedAttribute</span><span class="p">,</span> <span class="nb">property</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Mark a class-level method as representing the definition of</span>
+<span class="sd">    a mapped property or special declarative member name.</span>
+
+<span class="sd">    @declared_attr turns the attribute into a scalar-like</span>
+<span class="sd">    property that can be invoked from the uninstantiated class.</span>
+<span class="sd">    Declarative treats attributes specifically marked with</span>
+<span class="sd">    @declared_attr as returning a construct that is specific</span>
+<span class="sd">    to mapping or declarative table configuration.  The name</span>
+<span class="sd">    of the attribute is that of what the non-dynamic version</span>
+<span class="sd">    of the attribute would be.</span>
+
+<span class="sd">    @declared_attr is more often than not applicable to mixins,</span>
+<span class="sd">    to define relationships that are to be applied to different</span>
+<span class="sd">    implementors of the class::</span>
+
+<span class="sd">        class ProvidesUser(object):</span>
+<span class="sd">            &quot;A mixin that adds a &#39;user&#39; relationship to classes.&quot;</span>
+
+<span class="sd">            @declared_attr</span>
+<span class="sd">            def user(self):</span>
+<span class="sd">                return relationship(&quot;User&quot;)</span>
+
+<span class="sd">    It also can be applied to mapped classes, such as to provide</span>
+<span class="sd">    a &quot;polymorphic&quot; scheme for inheritance::</span>
+
+<span class="sd">        class Employee(Base):</span>
+<span class="sd">            id = Column(Integer, primary_key=True)</span>
+<span class="sd">            type = Column(String(50), nullable=False)</span>
+
+<span class="sd">            @declared_attr</span>
+<span class="sd">            def __tablename__(cls):</span>
+<span class="sd">                return cls.__name__.lower()</span>
+
+<span class="sd">            @declared_attr</span>
+<span class="sd">            def __mapper_args__(cls):</span>
+<span class="sd">                if cls.__name__ == &#39;Employee&#39;:</span>
+<span class="sd">                    return {</span>
+<span class="sd">                            &quot;polymorphic_on&quot;:cls.type,</span>
+<span class="sd">                            &quot;polymorphic_identity&quot;:&quot;Employee&quot;</span>
+<span class="sd">                    }</span>
+<span class="sd">                else:</span>
+<span class="sd">                    return {&quot;polymorphic_identity&quot;:cls.__name__}</span>
+
+<span class="sd">    .. versionchanged:: 0.8 :class:`.declared_attr` can be used with</span>
+<span class="sd">       non-ORM or extension attributes, such as user-defined attributes</span>
+<span class="sd">       or :func:`.association_proxy` objects, which will be assigned</span>
+<span class="sd">       to the class at class construction time.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fget</span><span class="p">,</span> <span class="n">cascading</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">declared_attr</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">fget</span><span class="o">.</span><span class="n">__doc__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cascading</span> <span class="o">=</span> <span class="n">cascading</span>
+
+    <span class="k">def</span> <span class="nf">__get__</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">cls</span><span class="p">):</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_sa_declared_attr_reg&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">reg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">manager</span> <span class="o">=</span> <span class="n">attributes</span><span class="o">.</span><span class="n">manager_of_class</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">manager</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">util</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s">&quot;Unmanaged access of declarative attribute </span><span class="si">%s</span><span class="s"> from &quot;</span>
+                    <span class="s">&quot;non-mapped class </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">reg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">desc</span> <span class="ow">in</span> <span class="n">reg</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">reg</span><span class="p">[</span><span class="n">desc</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">reg</span><span class="p">[</span><span class="n">desc</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="nd">@hybridmethod</span>
+    <span class="k">def</span> <span class="nf">_stateful</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_stateful_declared_attr</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+
+    <span class="nd">@hybridproperty</span>
+    <span class="k">def</span> <span class="nf">cascading</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Mark a :class:`.declared_attr` as cascading.</span>
+
+<span class="sd">        This is a special-use modifier which indicates that a column</span>
+<span class="sd">        or MapperProperty-based declared attribute should be configured</span>
+<span class="sd">        distinctly per mapped subclass, within a mapped-inheritance scenario.</span>
+
+<span class="sd">        Below, both MyClass as well as MySubClass will have a distinct</span>
+<span class="sd">        ``id`` Column object established::</span>
+
+<span class="sd">            class HasSomeAttribute(object):</span>
+<span class="sd">                @declared_attr.cascading</span>
+<span class="sd">                def some_id(cls):</span>
+<span class="sd">                    if has_inherited_table(cls):</span>
+<span class="sd">                        return Column(</span>
+<span class="sd">                            ForeignKey(&#39;myclass.id&#39;), primary_key=True)</span>
+<span class="sd">                    else:</span>
+<span class="sd">                        return Column(Integer, primary_key=True)</span>
+
+<span class="sd">                    return Column(&#39;id&#39;, Integer, primary_key=True)</span>
+
+<span class="sd">            class MyClass(HasSomeAttribute, Base):</span>
+<span class="sd">                &quot;&quot;</span>
+<span class="sd">                # ...</span>
+
+<span class="sd">            class MySubClass(MyClass):</span>
+<span class="sd">                &quot;&quot;</span>
+<span class="sd">                # ...</span>
+
+<span class="sd">        The behavior of the above configuration is that ``MySubClass``</span>
+<span class="sd">        will refer to both its own ``id`` column as well as that of</span>
+<span class="sd">        ``MyClass`` underneath the attribute named ``some_id``.</span>
+
+<span class="sd">        .. seealso::</span>
+
+<span class="sd">            :ref:`declarative_inheritance`</span>
+
+<span class="sd">            :ref:`mixin_inheritance_columns`</span>
+
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">_stateful</span><span class="p">(</span><span class="n">cascading</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_stateful_declared_attr</span><span class="p">(</span><span class="n">declared_attr</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kw</span> <span class="o">=</span> <span class="n">kw</span>
+
+    <span class="k">def</span> <span class="nf">_stateful</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="n">new_kw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kw</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">new_kw</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kw</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_stateful_declared_attr</span><span class="p">(</span><span class="o">**</span><span class="n">new_kw</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fn</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">declared_attr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kw</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">declarative_base</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mapper</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cls</span><span class="o">=</span><span class="nb">object</span><span class="p">,</span>
+                     <span class="n">name</span><span class="o">=</span><span class="s">&#39;Base&#39;</span><span class="p">,</span> <span class="n">constructor</span><span class="o">=</span><span class="n">_declarative_constructor</span><span class="p">,</span>
+                     <span class="n">class_registry</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                     <span class="n">metaclass</span><span class="o">=</span><span class="n">DeclarativeMeta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Construct a base class for declarative class definitions.</span>
+
+<span class="sd">    The new base class will be given a metaclass that produces</span>
+<span class="sd">    appropriate :class:`~sqlalchemy.schema.Table` objects and makes</span>
+<span class="sd">    the appropriate :func:`~sqlalchemy.orm.mapper` calls based on the</span>
+<span class="sd">    information provided declaratively in the class and any subclasses</span>
+<span class="sd">    of the class.</span>
+
+<span class="sd">    :param bind: An optional</span>
+<span class="sd">      :class:`~sqlalchemy.engine.Connectable`, will be assigned</span>
+<span class="sd">      the ``bind`` attribute on the :class:`~sqlalchemy.schema.MetaData`</span>
+<span class="sd">      instance.</span>
+
+<span class="sd">    :param metadata:</span>
+<span class="sd">      An optional :class:`~sqlalchemy.schema.MetaData` instance.  All</span>
+<span class="sd">      :class:`~sqlalchemy.schema.Table` objects implicitly declared by</span>
+<span class="sd">      subclasses of the base will share this MetaData.  A MetaData instance</span>
+<span class="sd">      will be created if none is provided.  The</span>
+<span class="sd">      :class:`~sqlalchemy.schema.MetaData` instance will be available via the</span>
+<span class="sd">      `metadata` attribute of the generated declarative base class.</span>
+
+<span class="sd">    :param mapper:</span>
+<span class="sd">      An optional callable, defaults to :func:`~sqlalchemy.orm.mapper`. Will</span>
+<span class="sd">      be used to map subclasses to their Tables.</span>
+
+<span class="sd">    :param cls:</span>
+<span class="sd">      Defaults to :class:`object`. A type to use as the base for the generated</span>
+<span class="sd">      declarative base class. May be a class or tuple of classes.</span>
+
+<span class="sd">    :param name:</span>
+<span class="sd">      Defaults to ``Base``.  The display name for the generated</span>
+<span class="sd">      class.  Customizing this is not required, but can improve clarity in</span>
+<span class="sd">      tracebacks and debugging.</span>
+
+<span class="sd">    :param constructor:</span>
+<span class="sd">      Defaults to</span>
+<span class="sd">      :func:`~sqlalchemy.ext.declarative._declarative_constructor`, an</span>
+<span class="sd">      __init__ implementation that assigns \**kwargs for declared</span>
+<span class="sd">      fields and relationships to an instance.  If ``None`` is supplied,</span>
+<span class="sd">      no __init__ will be provided and construction will fall back to</span>
+<span class="sd">      cls.__init__ by way of the normal Python semantics.</span>
+
+<span class="sd">    :param class_registry: optional dictionary that will serve as the</span>
+<span class="sd">      registry of class names-&gt; mapped classes when string names</span>
+<span class="sd">      are used to identify classes inside of :func:`.relationship`</span>
+<span class="sd">      and others.  Allows two or more declarative base classes</span>
+<span class="sd">      to share the same registry of class names for simplified</span>
+<span class="sd">      inter-base relationships.</span>
+
+<span class="sd">    :param metaclass:</span>
+<span class="sd">      Defaults to :class:`.DeclarativeMeta`.  A metaclass or __metaclass__</span>
+<span class="sd">      compatible callable to use as the meta type of the generated</span>
+<span class="sd">      declarative base class.</span>
+
+<span class="sd">    .. seealso::</span>
+
+<span class="sd">        :func:`.as_declarative`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lcl_metadata</span> <span class="o">=</span> <span class="n">metadata</span> <span class="ow">or</span> <span class="n">MetaData</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">bind</span><span class="p">:</span>
+        <span class="n">lcl_metadata</span><span class="o">.</span><span class="n">bind</span> <span class="o">=</span> <span class="n">bind</span>
+
+    <span class="k">if</span> <span class="n">class_registry</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">class_registry</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakValueDictionary</span><span class="p">()</span>
+
+    <span class="n">bases</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">cls</span><span class="p">,)</span> <span class="ow">or</span> <span class="n">cls</span>
+    <span class="n">class_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">_decl_class_registry</span><span class="o">=</span><span class="n">class_registry</span><span class="p">,</span>
+                      <span class="n">metadata</span><span class="o">=</span><span class="n">lcl_metadata</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">constructor</span><span class="p">:</span>
+        <span class="n">class_dict</span><span class="p">[</span><span class="s">&#39;__init__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">constructor</span>
+    <span class="k">if</span> <span class="n">mapper</span><span class="p">:</span>
+        <span class="n">class_dict</span><span class="p">[</span><span class="s">&#39;__mapper_cls__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapper</span>
+
+    <span class="k">return</span> <span class="n">metaclass</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">class_dict</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">as_declarative</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class decorator for :func:`.declarative_base`.</span>
+
+<span class="sd">    Provides a syntactical shortcut to the ``cls`` argument</span>
+<span class="sd">    sent to :func:`.declarative_base`, allowing the base class</span>
+<span class="sd">    to be converted in-place to a &quot;declarative&quot; base::</span>
+
+<span class="sd">        from sqlalchemy.ext.declarative import as_declarative</span>
+
+<span class="sd">        @as_declarative()</span>
+<span class="sd">        class Base(object):</span>
+<span class="sd">            @declared_attr</span>
+<span class="sd">            def __tablename__(cls):</span>
+<span class="sd">                return cls.__name__.lower()</span>
+<span class="sd">            id = Column(Integer, primary_key=True)</span>
+
+<span class="sd">        class MyMappedClass(Base):</span>
+<span class="sd">            # ...</span>
+
+<span class="sd">    All keyword arguments passed to :func:`.as_declarative` are passed</span>
+<span class="sd">    along to :func:`.declarative_base`.</span>
+
+<span class="sd">    .. versionadded:: 0.8.3</span>
+
+<span class="sd">    .. seealso::</span>
+
+<span class="sd">        :func:`.declarative_base`</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="n">kw</span><span class="p">[</span><span class="s">&#39;cls&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cls</span>
+        <span class="n">kw</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__name__</span>
+        <span class="k">return</span> <span class="n">declarative_base</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">decorate</span>
+
+
+<span class="k">class</span> <span class="nc">ConcreteBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A helper class for &#39;concrete&#39; declarative mappings.</span>
+
+<span class="sd">    :class:`.ConcreteBase` will use the :func:`.polymorphic_union`</span>
+<span class="sd">    function automatically, against all tables mapped as a subclass</span>
+<span class="sd">    to this class.   The function is called via the</span>
+<span class="sd">    ``__declare_last__()`` function, which is essentially</span>
+<span class="sd">    a hook for the :meth:`.after_configured` event.</span>
+
+<span class="sd">    :class:`.ConcreteBase` produces a mapped</span>
+<span class="sd">    table for the class itself.  Compare to :class:`.AbstractConcreteBase`,</span>
+<span class="sd">    which does not.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        from sqlalchemy.ext.declarative import ConcreteBase</span>
+
+<span class="sd">        class Employee(ConcreteBase, Base):</span>
+<span class="sd">            __tablename__ = &#39;employee&#39;</span>
+<span class="sd">            employee_id = Column(Integer, primary_key=True)</span>
+<span class="sd">            name = Column(String(50))</span>
+<span class="sd">            __mapper_args__ = {</span>
+<span class="sd">                            &#39;polymorphic_identity&#39;:&#39;employee&#39;,</span>
+<span class="sd">                            &#39;concrete&#39;:True}</span>
+
+<span class="sd">        class Manager(Employee):</span>
+<span class="sd">            __tablename__ = &#39;manager&#39;</span>
+<span class="sd">            employee_id = Column(Integer, primary_key=True)</span>
+<span class="sd">            name = Column(String(50))</span>
+<span class="sd">            manager_data = Column(String(40))</span>
+<span class="sd">            __mapper_args__ = {</span>
+<span class="sd">                            &#39;polymorphic_identity&#39;:&#39;manager&#39;,</span>
+<span class="sd">                            &#39;concrete&#39;:True}</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_create_polymorphic_union</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">mappers</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">polymorphic_union</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">mp</span><span class="o">.</span><span class="n">polymorphic_identity</span><span class="p">,</span> <span class="n">mp</span><span class="o">.</span><span class="n">local_table</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">mp</span> <span class="ow">in</span> <span class="n">mappers</span>
+        <span class="p">),</span> <span class="s">&#39;type&#39;</span><span class="p">,</span> <span class="s">&#39;pjoin&#39;</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__declare_first__</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__mapper__</span>
+        <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">with_polymorphic</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="n">mappers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">self_and_descendants</span><span class="p">)</span>
+        <span class="n">pjoin</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_create_polymorphic_union</span><span class="p">(</span><span class="n">mappers</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">_set_with_polymorphic</span><span class="p">((</span><span class="s">&quot;*&quot;</span><span class="p">,</span> <span class="n">pjoin</span><span class="p">))</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">_set_polymorphic_on</span><span class="p">(</span><span class="n">pjoin</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">AbstractConcreteBase</span><span class="p">(</span><span class="n">ConcreteBase</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A helper class for &#39;concrete&#39; declarative mappings.</span>
+
+<span class="sd">    :class:`.AbstractConcreteBase` will use the :func:`.polymorphic_union`</span>
+<span class="sd">    function automatically, against all tables mapped as a subclass</span>
+<span class="sd">    to this class.   The function is called via the</span>
+<span class="sd">    ``__declare_last__()`` function, which is essentially</span>
+<span class="sd">    a hook for the :meth:`.after_configured` event.</span>
+
+<span class="sd">    :class:`.AbstractConcreteBase` does produce a mapped class</span>
+<span class="sd">    for the base class, however it is not persisted to any table; it</span>
+<span class="sd">    is instead mapped directly to the &quot;polymorphic&quot; selectable directly</span>
+<span class="sd">    and is only used for selecting.  Compare to :class:`.ConcreteBase`,</span>
+<span class="sd">    which does create a persisted table for the base class.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        from sqlalchemy.ext.declarative import AbstractConcreteBase</span>
+
+<span class="sd">        class Employee(AbstractConcreteBase, Base):</span>
+<span class="sd">            pass</span>
+
+<span class="sd">        class Manager(Employee):</span>
+<span class="sd">            __tablename__ = &#39;manager&#39;</span>
+<span class="sd">            employee_id = Column(Integer, primary_key=True)</span>
+<span class="sd">            name = Column(String(50))</span>
+<span class="sd">            manager_data = Column(String(40))</span>
+
+<span class="sd">            __mapper_args__ = {</span>
+<span class="sd">                &#39;polymorphic_identity&#39;:&#39;manager&#39;,</span>
+<span class="sd">                &#39;concrete&#39;:True}</span>
+
+<span class="sd">    The abstract base class is handled by declarative in a special way;</span>
+<span class="sd">    at class configuration time, it behaves like a declarative mixin</span>
+<span class="sd">    or an ``__abstract__`` base class.   Once classes are configured</span>
+<span class="sd">    and mappings are produced, it then gets mapped itself, but</span>
+<span class="sd">    after all of its decscendants.  This is a very unique system of mapping</span>
+<span class="sd">    not found in any other SQLAlchemy system.</span>
+
+<span class="sd">    Using this approach, we can specify columns and properties</span>
+<span class="sd">    that will take place on mapped subclasses, in the way that</span>
+<span class="sd">    we normally do as in :ref:`declarative_mixins`::</span>
+
+<span class="sd">        class Company(Base):</span>
+<span class="sd">            __tablename__ = &#39;company&#39;</span>
+<span class="sd">            id = Column(Integer, primary_key=True)</span>
+
+<span class="sd">        class Employee(AbstractConcreteBase, Base):</span>
+<span class="sd">            employee_id = Column(Integer, primary_key=True)</span>
+
+<span class="sd">            @declared_attr</span>
+<span class="sd">            def company_id(cls):</span>
+<span class="sd">                return Column(ForeignKey(&#39;company.id&#39;))</span>
+
+<span class="sd">            @declared_attr</span>
+<span class="sd">            def company(cls):</span>
+<span class="sd">                return relationship(&quot;Company&quot;)</span>
+
+<span class="sd">        class Manager(Employee):</span>
+<span class="sd">            __tablename__ = &#39;manager&#39;</span>
+
+<span class="sd">            name = Column(String(50))</span>
+<span class="sd">            manager_data = Column(String(40))</span>
+
+<span class="sd">            __mapper_args__ = {</span>
+<span class="sd">                &#39;polymorphic_identity&#39;:&#39;manager&#39;,</span>
+<span class="sd">                &#39;concrete&#39;:True}</span>
+
+<span class="sd">    When we make use of our mappings however, both ``Manager`` and</span>
+<span class="sd">    ``Employee`` will have an independently usable ``.company`` attribute::</span>
+
+<span class="sd">        session.query(Employee).filter(Employee.company.has(id=5))</span>
+
+<span class="sd">    .. versionchanged:: 1.0.0 - The mechanics of :class:`.AbstractConcreteBase`</span>
+<span class="sd">       have been reworked to support relationships established directly</span>
+<span class="sd">       on the abstract base, without any special configurational steps.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__no_table__</span> <span class="o">=</span> <span class="bp">True</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">__declare_first__</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="n">cls</span><span class="o">.</span><span class="n">_sa_decl_prepare_nocascade</span><span class="p">()</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_sa_decl_prepare_nocascade</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="s">&#39;__mapper__&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="n">to_map</span> <span class="o">=</span> <span class="n">_DeferredMapperConfig</span><span class="o">.</span><span class="n">config_for_cls</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+
+        <span class="c"># can&#39;t rely on &#39;self_and_descendants&#39; here</span>
+        <span class="c"># since technically an immediate subclass</span>
+        <span class="c"># might not be mapped, but a subclass</span>
+        <span class="c"># may be.</span>
+        <span class="n">mappers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">())</span>
+        <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
+            <span class="n">klass</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">stack</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">klass</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">())</span>
+            <span class="n">mn</span> <span class="o">=</span> <span class="n">_mapper_or_none</span><span class="p">(</span><span class="n">klass</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">mn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">mappers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mn</span><span class="p">)</span>
+        <span class="n">pjoin</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_create_polymorphic_union</span><span class="p">(</span><span class="n">mappers</span><span class="p">)</span>
+
+        <span class="n">to_map</span><span class="o">.</span><span class="n">local_table</span> <span class="o">=</span> <span class="n">pjoin</span>
+
+        <span class="n">m_args</span> <span class="o">=</span> <span class="n">to_map</span><span class="o">.</span><span class="n">mapper_args_fn</span> <span class="ow">or</span> <span class="nb">dict</span>
+
+        <span class="k">def</span> <span class="nf">mapper_args</span><span class="p">():</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">m_args</span><span class="p">()</span>
+            <span class="n">args</span><span class="p">[</span><span class="s">&#39;polymorphic_on&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pjoin</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">type</span>
+            <span class="k">return</span> <span class="n">args</span>
+        <span class="n">to_map</span><span class="o">.</span><span class="n">mapper_args_fn</span> <span class="o">=</span> <span class="n">mapper_args</span>
+
+        <span class="n">m</span> <span class="o">=</span> <span class="n">to_map</span><span class="o">.</span><span class="n">map</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">scls</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
+            <span class="n">sm</span> <span class="o">=</span> <span class="n">_mapper_or_none</span><span class="p">(</span><span class="n">scls</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sm</span> <span class="ow">and</span> <span class="n">sm</span><span class="o">.</span><span class="n">concrete</span> <span class="ow">and</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">scls</span><span class="o">.</span><span class="n">__bases__</span><span class="p">:</span>
+                <span class="n">sm</span><span class="o">.</span><span class="n">_set_concrete_base</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">DeferredReflection</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A helper class for construction of mappings based on</span>
+<span class="sd">    a deferred reflection step.</span>
+
+<span class="sd">    Normally, declarative can be used with reflection by</span>
+<span class="sd">    setting a :class:`.Table` object using autoload=True</span>
+<span class="sd">    as the ``__table__`` attribute on a declarative class.</span>
+<span class="sd">    The caveat is that the :class:`.Table` must be fully</span>
+<span class="sd">    reflected, or at the very least have a primary key column,</span>
+<span class="sd">    at the point at which a normal declarative mapping is</span>
+<span class="sd">    constructed, meaning the :class:`.Engine` must be available</span>
+<span class="sd">    at class declaration time.</span>
+
+<span class="sd">    The :class:`.DeferredReflection` mixin moves the construction</span>
+<span class="sd">    of mappers to be at a later point, after a specific</span>
+<span class="sd">    method is called which first reflects all :class:`.Table`</span>
+<span class="sd">    objects created so far.   Classes can define it as such::</span>
+
+<span class="sd">        from sqlalchemy.ext.declarative import declarative_base</span>
+<span class="sd">        from sqlalchemy.ext.declarative import DeferredReflection</span>
+<span class="sd">        Base = declarative_base()</span>
+
+<span class="sd">        class MyClass(DeferredReflection, Base):</span>
+<span class="sd">            __tablename__ = &#39;mytable&#39;</span>
+
+<span class="sd">    Above, ``MyClass`` is not yet mapped.   After a series of</span>
+<span class="sd">    classes have been defined in the above fashion, all tables</span>
+<span class="sd">    can be reflected and mappings created using</span>
+<span class="sd">    :meth:`.prepare`::</span>
+
+<span class="sd">        engine = create_engine(&quot;someengine://...&quot;)</span>
+<span class="sd">        DeferredReflection.prepare(engine)</span>
+
+<span class="sd">    The :class:`.DeferredReflection` mixin can be applied to individual</span>
+<span class="sd">    classes, used as the base for the declarative base itself,</span>
+<span class="sd">    or used in a custom abstract class.   Using an abstract base</span>
+<span class="sd">    allows that only a subset of classes to be prepared for a</span>
+<span class="sd">    particular prepare step, which is necessary for applications</span>
+<span class="sd">    that use more than one engine.  For example, if an application</span>
+<span class="sd">    has two engines, you might use two bases, and prepare each</span>
+<span class="sd">    separately, e.g.::</span>
+
+<span class="sd">        class ReflectedOne(DeferredReflection, Base):</span>
+<span class="sd">            __abstract__ = True</span>
+
+<span class="sd">        class ReflectedTwo(DeferredReflection, Base):</span>
+<span class="sd">            __abstract__ = True</span>
+
+<span class="sd">        class MyClass(ReflectedOne):</span>
+<span class="sd">            __tablename__ = &#39;mytable&#39;</span>
+
+<span class="sd">        class MyOtherClass(ReflectedOne):</span>
+<span class="sd">            __tablename__ = &#39;myothertable&#39;</span>
+
+<span class="sd">        class YetAnotherClass(ReflectedTwo):</span>
+<span class="sd">            __tablename__ = &#39;yetanothertable&#39;</span>
+
+<span class="sd">        # ... etc.</span>
+
+<span class="sd">    Above, the class hierarchies for ``ReflectedOne`` and</span>
+<span class="sd">    ``ReflectedTwo`` can be configured separately::</span>
+
+<span class="sd">        ReflectedOne.prepare(engine_one)</span>
+<span class="sd">        ReflectedTwo.prepare(engine_two)</span>
+
+<span class="sd">    .. versionadded:: 0.8</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Reflect all :class:`.Table` objects for all current</span>
+<span class="sd">        :class:`.DeferredReflection` subclasses&quot;&quot;&quot;</span>
+
+        <span class="n">to_map</span> <span class="o">=</span> <span class="n">_DeferredMapperConfig</span><span class="o">.</span><span class="n">classes_for_base</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">thingy</span> <span class="ow">in</span> <span class="n">to_map</span><span class="p">:</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">_sa_decl_prepare</span><span class="p">(</span><span class="n">thingy</span><span class="o">.</span><span class="n">local_table</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+            <span class="n">thingy</span><span class="o">.</span><span class="n">map</span><span class="p">()</span>
+            <span class="n">mapper</span> <span class="o">=</span> <span class="n">thingy</span><span class="o">.</span><span class="n">cls</span><span class="o">.</span><span class="n">__mapper__</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="n">metadata</span>
+            <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">mapper</span><span class="o">.</span><span class="n">_props</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rel</span><span class="p">,</span> <span class="n">properties</span><span class="o">.</span><span class="n">RelationshipProperty</span><span class="p">)</span> <span class="ow">and</span> \
+                        <span class="n">rel</span><span class="o">.</span><span class="n">secondary</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">secondary</span><span class="p">,</span> <span class="n">Table</span><span class="p">):</span>
+                        <span class="n">cls</span><span class="o">.</span><span class="n">_reflect_table</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">secondary</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">secondary</span><span class="p">,</span> <span class="n">_class_resolver</span><span class="p">):</span>
+                        <span class="n">rel</span><span class="o">.</span><span class="n">secondary</span><span class="o">.</span><span class="n">_resolvers</span> <span class="o">+=</span> <span class="p">(</span>
+                            <span class="n">cls</span><span class="o">.</span><span class="n">_sa_deferred_table_resolver</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">metadata</span><span class="p">),</span>
+                        <span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_sa_deferred_table_resolver</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">_resolve</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+            <span class="n">t1</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">_reflect_table</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">t1</span>
+        <span class="k">return</span> <span class="n">_resolve</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_sa_decl_prepare</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">local_table</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+        <span class="c"># autoload Table, which is already</span>
+        <span class="c"># present in the metadata.  This</span>
+        <span class="c"># will fill in db-loaded columns</span>
+        <span class="c"># into the existing Table object.</span>
+        <span class="k">if</span> <span class="n">local_table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">cls</span><span class="o">.</span><span class="n">_reflect_table</span><span class="p">(</span><span class="n">local_table</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_reflect_table</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+        <span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+              <span class="n">table</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
+              <span class="n">extend_existing</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+              <span class="n">autoload_replace</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+              <span class="n">autoload</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+              <span class="n">autoload_with</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+              <span class="n">schema</span><span class="o">=</span><span class="n">table</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../../',
+            VERSION:'0.15.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
