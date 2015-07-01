@@ -81,7 +81,6 @@ class dbDialog(Toplevel):
         and reloaded.
         :param event: search box events
         '''
-        logger.info("Refining search")
         if event.char.isalnum(): self.__searchString += event.char                  # if character is a letter / number, add to the searchstring
         if self.e.get() != '':                                                      # if the entry box is NOT empty
             if event.char == '':                                                    # if a backspace code is entered
@@ -104,6 +103,7 @@ class dbDialog(Toplevel):
         else:
             self.__searchString = ""
             self.__displayAll()
+        logger.info("Displaying refined search")
         
     def createBottomFrame(self):
         '''
@@ -137,24 +137,28 @@ class dbDialog(Toplevel):
         logger.info("Importing selection")
         items = self.tree.tree.selection()
         for tag in items:
+            logger.info("Encoding selection to JSON")
             tag = self.tree.tree.item(tag, option="values")
             names = [x.tag for x in self.__itList]
+            logger.info("Forward JSON to be read")
             self.__master.getPolygonList().readPlot(
                 readFromString=str(self.__itList[names.index(tag[0])]))
+        logger.info("Done")
         self.free()
             
     def deleteDb(self):
         '''
         Delete selected objects from database
         '''
-        logger.info("Deleting database entry")
         items = self.tree.tree.selection()
         if tkMessageBox.askyesno("Delete?", "Really delete these items?", parent=self):
             for tag in items:
                 tag = self.tree.tree.item(tag, option="values")
                 idx = self.__itList[[x.tag for x in self.__itList].index(tag[0])].id
+                logger.info("Notfiy db of deletion for selection")
                 db.deleteItem(idx)
             self.__displayAll()
+        logger.info("Done")
     
     def __displayAll(self):
         '''
