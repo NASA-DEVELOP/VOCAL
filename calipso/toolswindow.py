@@ -4,13 +4,14 @@
 #    @author: Grant Mercer
 ######################################
 from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM
+    RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM, Radiobutton, Entry
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 import constants
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import createToolTip
 from log import logger
+from msilib.schema import RadioButton
 
 class ToolsWindow(Toplevel):
     '''
@@ -29,6 +30,7 @@ class ToolsWindow(Toplevel):
         
         self.__parent = parent
         self.__root = root
+        self.plotType = IntVar()
         
         self.title("Tools")
         self.resizable(width=FALSE, height=FALSE)
@@ -45,16 +47,16 @@ class ToolsWindow(Toplevel):
         
         self.upperButtonFrame = Frame(upperPane)                                  # upper button frame holding text buttons
         self.upperButtonFrame.pack()                                              
-            
-        self.lowerButtonFrame = Frame(lowerPane)                                  # lower button frame for tools
-        self.lowerButtonFrame.config(highlightthickness=1)                        # create a small border around the frame
-        self.lowerButtonFrame.config(highlightbackground="grey")
-        self.lowerButtonFrame.pack()
         
         self.coordinateFrame = Frame(lowerPane, width=50, height=50)
         self.coordinateFrame.config(highlightthickness=1)                        # create a small border around the frame
         self.coordinateFrame.config(highlightbackground="grey")
         self.coordinateFrame.pack(side=BOTTOM, fill=BOTH)
+        
+        self.lowerButtonFrame = Frame(lowerPane)                                  # lower button frame for tools
+        self.lowerButtonFrame.config(highlightthickness=1)                        # create a small border around the frame
+        self.lowerButtonFrame.config(highlightbackground="grey")
+        self.lowerButtonFrame.pack(side=BOTTOM)
         
     @staticmethod
     def ignore():
@@ -69,9 +71,20 @@ class ToolsWindow(Toplevel):
         '''
         logger.info("Setting up toolbar")
         ###################################Upper Frame##############################################
-        btnReset = Button(self.upperButtonFrame, text = "Reset", width = 10, command=self.__parent.reset)
-        btnReset.grid(row=0, column=0, padx=10, pady=5)
+        btnReset = Button(self.upperButtonFrame, text = "Reset", width = 12, command=self.__parent.reset)
+        btnReset.grid(row=0, column=0, sticky="W", pady=5)
         
+        btnRender = Button(self.upperButtonFrame, text = "Render", width = 9, command = self.render)
+        btnRender.grid(row=0, column=1, pady=5)
+        
+        self.bScattered = Radiobutton(self.upperButtonFrame, text="Backscattered", variable=self.plotType, value=1).grid(row=1, column=0, sticky="W")
+        self.depolarized = Radiobutton(self.upperButtonFrame, text="Depolarized", variable=self.plotType, value=2).grid(row=2, column=0, sticky="W")
+        
+        self.rng = Label(self.upperButtonFrame, text="Step").grid(row=1, column=1)
+        self.e = Entry(self.upperButtonFrame).grid(row=1,column=2)
+        self.to = Label(self.upperButtonFrame, text="to").grid(row=2, column=1)
+        self.e2 = Entry(self.upperButtonFrame).grid(row=2,column=2)
+        '''
         #Plot Type Selection - Radio-button determining how to plot the __file
         menubtnPlotSelection = Menubutton(self.upperButtonFrame, text="Plot Type", relief=RAISED, width = 10)
         menubtnPlotSelection.grid(row=0, column=1, padx=10, pady=5)
@@ -82,6 +95,7 @@ class ToolsWindow(Toplevel):
         menubtnPlotSelection.menu.add_radiobutton(label="Backscattered", variable=plotType, value=constants.BACKSCATTERED, command=lambda: self.__parent.setPlot(plotType))
         menubtnPlotSelection.menu.add_radiobutton(label="Depolarization Ratio", variable=plotType, value=constants.DEPOLARIZED, command=lambda: self.__parent.setPlot(plotType))
         menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=constants.VFM, command=lambda: self.__parent.setPlot(plotType))
+        '''
         
         ###################################Lower Frame##############################################
         
@@ -192,3 +206,6 @@ class ToolsWindow(Toplevel):
         self.__editButton.latch(key="<Button-1>", command=self.__parent.attributeWindow)
         self.__editButton.grid(row=3, column=3, padx=2, pady=5)
         createToolTip(self.__editButton, "Edit Attributes")
+        
+    def render(self):
+        pass
