@@ -293,6 +293,21 @@ class PolygonList(object):
             self.__canvas._tkcanvas.itemconfigure(target, fill=color[1], outline=color[1])
             polyShape = self.__findPolygonByItemHandler(target)
             polyShape.setColor(color[1])
+            
+    def extractShapeData(self, event):
+        '''
+        Retrieves the data bounded by the polygon
+        
+        :param event: Tkinter passed event object
+        '''
+        flag = False
+        target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
+        for shape in self.__currentList:
+            if shape.getItemHandler() == target[0]:
+                flag = True
+        if flag:
+            logger.info("Extrating data")
+            
         
     def hide(self):
         '''

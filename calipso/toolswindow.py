@@ -192,3 +192,9 @@ class ToolsWindow(Toplevel):
         self.__editButton.latch(key="<Button-1>", command=self.__parent.attributeWindow)
         self.__editButton.grid(row=3, column=3, padx=2, pady=5)
         createToolTip(self.__editButton, "Edit Attributes")
+        
+        self.testIMG = ImageTk.PhotoImage(file="ico/button.png")
+        self.__testButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.testIMG, width=30, height=30)
+        self.__testButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().extractShapeData)
+        self.__testButton.grid(row=3, column=4, padx=2, pady=5)
+        createToolTip(self.__editButton, "Test button")
