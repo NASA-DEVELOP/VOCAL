@@ -7,11 +7,12 @@ from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, H
     RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM, Radiobutton, Entry, X,TOP, LEFT, Y
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
-import constants
+import constants, re
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import createToolTip
 from log import logger
 from msilib.schema import RadioButton
+import tkMessageBox
 
 class ToolsWindow(Toplevel):
     '''
@@ -60,7 +61,7 @@ class ToolsWindow(Toplevel):
         self.upperButtonFrame.pack(side=TOP, fill=X)    
         
         self.resetButton = Button(self.upperButtonFrame, text = "Reset", width = 12, command=self.__parent.reset)
-        self.resetButton.grid(row=0, column=0)
+        self.resetButton.grid(row=0, column=0, pady=2)
         createToolTip(self.resetButton, "Reset the field of view and clear polygons")
         self.renderButton = Button(self.upperButtonFrame, text = "Render", width = 12, height=4, command = self.render)
         self.renderButton.grid(row=0, column=1, rowspan=4, sticky="e")
@@ -206,4 +207,29 @@ class ToolsWindow(Toplevel):
         createToolTip(self.__editButton, "Test button")
         
     def render(self):
-        self.__parent.setPlot(self.plotType)
+        logger.info("Grabbing range and calling setPlot")
+        if self.plotType.get() == 0:
+            logger.error("Error, no plot type set")
+            tkMessageBox.showerror("toolswindow", "No plot type specified")
+            return
+        
+        beginningRange = 0
+        endingRange = 1000
+            
+        if self.beginRangeEntry.get(): 
+            if not re.match("[0-9]+", self.beginRangeEntry.get()):
+                logger.error("Error, beginning range invalid")
+                tkMessageBox.showerror("toolswindow", 
+                    "Invalid beginning range, range must only contain digits")
+                return
+            beginningRange = int(self.beginRangeEntry.get())
+            endingRange = beginningRange + 1000
+        if self.endRangeEntry.get():
+            if not re.match("[0-9]+", self.endRangeEntry.get()):
+                logger.error("Error, ending range invalid")
+                tkMessageBox.showerror("toolswindow",
+                    "Invalid ending range, range must only contain digits")
+                return
+            endingRange = int(self.endRangeEntry.get())
+
+        self.__parent.setPlot(self.plotType, xrange=(beginningRange, endingRange))

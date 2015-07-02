@@ -23,16 +23,11 @@ from _testcapi import PY_SSIZE_T_MAX
 
 
 #from gui.CALIPSO_Visualization_Tool import filename
-def drawBackscattered(filename, fig, pfig):
-    AVGING_WIDTH = 15
-      
-    MIN_SCATTER = -0.1
-    EXCESSIVE_SCATTER = 0.1
-    
-    x1 = 0
-    x2 = 1000
-    h1 = 0
-    h2 = 20
+def drawBackscattered(filename, xrange, yrange, fig, pfig):   
+    x1 = xrange[0]
+    x2 = xrange[1]
+    h1 = yrange[0]
+    h2 = yrange[1]
     nz = 500
     colormap = 'dat/calipso-backscatter.cmap'
 
@@ -40,16 +35,13 @@ def drawBackscattered(filename, fig, pfig):
         time = product['Profile_UTC_Time'][x1:x2, 0]
         height = product['metadata']['Lidar_Data_Altitudes']
         dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
-
-        print product['Total_Attenuated_Backscatter_532'][:].size
-        #latitude = product["Latitude"][::]
         
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
         dataset = np.ma.masked_equal(dataset, -9999)
         
         X = np.arange(x1, x2, dtype=np.float32)
-        Z, null = np.meshgrid(height, X)
         
+        Z, null = np.meshgrid(height, X)
         data = interp2d_12(
             dataset[::],
             X.astype(np.float32),
@@ -57,8 +49,6 @@ def drawBackscattered(filename, fig, pfig):
             x1, x2, x2 - x1,
             h2, h1, nz,
         )
-        
-        #data = dataset[::]
         
         cmap = ccplot.utils.cmap(colormap)
         cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
@@ -88,59 +78,4 @@ def drawBackscattered(filename, fig, pfig):
        
         cbar_label = 'Total Attenuated Backscatter 532nm (km$^{-1}$ sr$^{-1}$)'
         cbar = pfig.colorbar(im)
-        #cbar = plt.colorbar(extend='both',use_gridspec=True)
         cbar.set_label(cbar_label)
-        '''
-
-        
-    # Exclude negative values of backscatter and excessive amounts.
-    # The latter are probably due to surface reflection and spikes.
-        
-    tot_532 = np.ma.masked_where(tot_532 < MIN_SCATTER, tot_532)
-    tot_532 = np.ma.masked_where(tot_532 > EXCESSIVE_SCATTER, tot_532)
-      
-    # Average horizontally
-      
-    avg_tot_532 = avg_horz_data(tot_532, AVGING_WIDTH)
-    latitude = latitude[::AVGING_WIDTH]
-      
-    # Put altitudes above 8.2 km on same spacing as lower ones
-      
-    MAX_ALT = 20
-    unif_alt = uniform_alt_2(MAX_ALT, alt)
-      
-    regrid_atten_back = regrid_lidar(alt, avg_tot_532, unif_alt)
-      
-    # Setup extent of axis values for image.  
-    # Note that altitude values are stored from top to bottom
-      
-    min_alt  = unif_alt[-1]
-    max_alt  = unif_alt[0]
-    start_lat   = latitude[0][0] 
-    end_lat     = latitude[-1][0]
-    extents = [start_lat, end_lat, min_alt, max_alt]
-      
-    colormap = 'dat/calipso-backscatter.cmap'
-       
-    cmap = ccplot.utils.cmap(colormap)
-    cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
-    cm.set_under(cmap['under']/255.0)
-    cm.set_over(cmap['over']/255.0)
-    cm.set_bad(cmap['bad']/255.0)
-    plot_norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
-       
-    im = fig.imshow(regrid_atten_back, cmap = cm, aspect = 'auto',  
-                    norm = plot_norm, extent = extents, interpolation = None)
-       
-    fig.set_ylabel('Altitude (km)')    
-    fig.set_xlabel('Latitude (degrees)')   
-    granule = "%sZ%s" % extractDatetime(filename)
-    title = 'Averaged 532 nm Total Attenuated Backscatter for granule %s' % granule
-    fig.set_title(title)                 
-    fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
-   
-    cbar_label = 'Total Attenuated Backscatter 532nm (km$^{-1}$ sr$^{-1}$)'
-    cbar = pfig.colorbar(im)
-    #cbar = plt.colorbar(extend='both',use_gridspec=True)
-    cbar.set_label(cbar_label)
-    '''

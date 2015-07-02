@@ -110,7 +110,7 @@ class Calipso(object):
         #configure menu to screen
         self.__root.config(menu=self.__menuBar)
 
-    def setPlot(self, plotType):
+    def setPlot(self, plotType, xrange=(0,1000), yrange=(0,20)):
         '''
         Draws to the canvas according to the *plotType* specified in the arguments. Accepts one of the 
         attributes below
@@ -129,7 +129,7 @@ class Calipso(object):
                 logger.info("Setting plot to backscattered")
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)                                # create subplot
-                drawBackscattered(self.__file, self.__fig, self.__Parentfig)                    # plot the backscattered image 
+                drawBackscattered(self.__file, xrange, yrange, self.__fig, self.__Parentfig)                    # plot the backscattered image 
                 self.__drawplotCanvas.show()                                                    # show canvas
                 self.__polygonList.setPlot(constants.BACKSCATTERED)                             # set the current plot on polygonList
                 self.__toolbar.update()                                                         # update toolbar
