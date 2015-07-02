@@ -4,6 +4,7 @@ Created on Jul 2, 2015
 @author: nqian
 '''
 from numpy import empty_like, dot, array
+from math import sqrt
 
 def getVector(point1, point2):
     return array([point1[0] - point2[0], point1[1] - point2[1]])
@@ -16,6 +17,9 @@ def perpendicular(a):
     b[0] = -a[1]
     b[1] = a[0]
     return b
+
+def distance(x1, y1, x2, y2):
+    return sqrt((x2-x1)**2 + (y2-y1)**2)
 
 def getIntersection(a1, a2, b1, b2):
     '''
