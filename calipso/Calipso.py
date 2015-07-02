@@ -172,15 +172,26 @@ class Calipso(object):
         self.__toolbar.home()       # proc toolbar function to reset plot to home
         
     def pan(self, event):
+        logger.info("Pan point 1")
         self.panx = event.x
         self.pany = event.y
     
     def renderPan(self, event):
+        logger.info("Pan point 2, finding distance and panning...")
         dst = int(distance(self.panx, self.pany, event.x, event.y) * 1.5)
-        if event < (self.panx, self.pany):
-            dst = -dst
-        self.setPlot(self.plot, (self.xrange[0], self.xrange[1]+dst))
-        print dst
+        if self.panx < event.x:
+            if self.xrange[0] == 0:
+                logger.warning("Attempting to pan backwards, already at beginning nothing to be done")
+                return
+            if self.xrange[0]-dst < 0:
+                logger.warning("Attempting to pan past beginning, setting to beginning")
+                self.xrange = (0, self.xrange[1])
+                dst = 0
+            logger.info("Panning backwards")
+            self.setPlot(self.plot, (self.xrange[0]-dst, self.xrange[1]-dst))
+        else:
+            logger.info("Panning forewards")
+            self.setPlot(self.plot, (self.xrange[0]+dst, self.xrange[1]+dst))
         pass
         
     def createTopScreenGUI(self):
