@@ -126,7 +126,8 @@ class Calipso(object):
             self.__polygonList.setPlot(constants.BASE_PLOT)                                     # sets the screen to a blank canvas
         elif (plotType.get()) == constants.BACKSCATTERED:
             try:
-                logger.info("Setting plot to backscattered")
+                logger.info("Setting plot to backscattered xrange: " + 
+                    str(xrange) + " yrange: " + str(yrange))
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)                                # create subplot
                 drawBackscattered(self.__file, xrange, yrange, self.__fig, self.__Parentfig)                    # plot the backscattered image 

@@ -330,6 +330,7 @@ class PolygonList(object):
         
         :param event: Tkinter passed event object
         '''
+        logger.info("Properties function called")
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
         for shape in self.__currentList:
             if shape.getItemHandler() is target[0]:
