@@ -121,6 +121,8 @@ class Calipso(object):
         .. py:attribute:: VFML
         
         :param int plotType: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
+        :param (int,int) xrange: accepts a range of time to plot
+        :param (int,int) yrange: accepts a range of altitude to plot
         '''
         if (plotType) == constants.BASE_PLOT:
             self.__polygonList.setPlot(constants.BASE_PLOT)                                     # sets the screen to a blank canvas
