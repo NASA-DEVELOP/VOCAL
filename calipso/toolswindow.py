@@ -65,9 +65,9 @@ class ToolsWindow(Toplevel):
         self.renderButton.grid(row=0, column=1, rowspan=4, sticky="e")
         
         self.bScattered = Radiobutton(self.upperButtonFrame, text="Backscattered", 
-            variable=self.plotType, value=1).grid(row=1, column=0, sticky="w")
+            variable=self.plotType, value=constants.BACKSCATTERED).grid(row=1, column=0, sticky="w")
         self.depolarized = Radiobutton(self.upperButtonFrame, text="Depolarized", 
-            variable=self.plotType, value=2).grid(row=2, column=0, sticky="w")
+            variable=self.plotType, value=constants.DEPOLARIZED).grid(row=2, column=0, sticky="w")
 
         self.upperRangeFrame = Frame(self.container)
         self.upperRangeFrame.pack(side=TOP, fill=X)
@@ -202,5 +202,6 @@ class ToolsWindow(Toplevel):
         self.__testButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().extractShapeData)
         self.__testButton.grid(row=3, column=4, padx=2, pady=5)
         createToolTip(self.__editButton, "Test button")
+        
     def render(self):
-        pass
+        self.__parent.setPlot(self.plotType)
