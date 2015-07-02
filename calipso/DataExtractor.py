@@ -26,13 +26,13 @@ def extractData(polygonDrawer, filename):
             max_x = max(coordinates, key=lambda x: x[0])
             min_y = min(coordinates, key=lambda y: y[1])
             max_y = max(coordinates, key=lambda y: y[1])
+            logging.debug('Minimum x: %s\n\t Maximum x: %s', min_x, max_x)
+            logging.debug('Minimum y: %s\n\t Maximum y: %s', min_y, max_y)
+            findIndexValues(product, min_x, max_x, product['Profile_UTC_Time'][::], debug="Time")
+            findIndexValues(product, min_y, max_y, product['metadata']['Lidar_Data_Altitudes'], debug="Altitude")
         else:
-            min_x = min(coordinates, key=lambda x: x[0])
-            max_x = max(coordinates, key=lambda x: x[0])
-            min_y = min(coordinates, key=lambda y: y[1])
-            max_y = max(coordinates, key=lambda y: y[1])
-        logging.debug('Minimum x: %s\n Maximum x: %s', min_x, max_x)
-        logging.debug('Minimum y: %s\n Maximum y: %s', min_y, max_y)
+            # TODO: algorithm if shape is not rectangular
+            pass
     
 def isRectangle(vertices):
     '''
@@ -43,15 +43,34 @@ def isRectangle(vertices):
     else:
         return False
     
-def findIndexValues(product, low, high, time=True):
+def findIndexValues(product, low, high, lst, debug=""):
     '''
     Find the corresponding indices based on the given values
     '''
-    if time:
-        time = product['Profile_UTC_Time'][::]
-        
-    else:
+    logging.debug('%s list type %s', debug, type(lst))
+    logging.debug('Sample of %s %s', debug, lst[1])
+    try:
+        logging.debug('Another sample %s', lst[1][0])
+    except:
         pass
+    logging.debug('Dimensions: %s', len(lst.shape))
+    min_index = 0
+    max_index = 0
+    debug = ""
+    for i in range(len(lst)):
+        debug += str(lst) + " "
+        try:
+            if lst[i][0] is low:
+                min_index = i
+            elif lst[i][0] is max:
+                max_index = i
+        except:
+            if lst[i] is low:
+                min_index = i
+            elif lst[i] is max:
+                max_index = i
+    logging.debug('Min and max indices: (%s, %s)', min_index, max_index)
+    return [min_index, max_index]
 
 if __name__=="__main__":
     logging.basicConfig(level=logging.DEBUG)
