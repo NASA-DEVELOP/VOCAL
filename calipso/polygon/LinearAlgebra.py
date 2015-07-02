@@ -5,6 +5,8 @@ Created on Jul 2, 2015
 '''
 from numpy import empty_like, dot, array
 
+def getVector(point1, point2):
+    return array([point1[0] - point2[0], point1[1] - point2[1]])
 
 def perpendicular(a):
     '''
