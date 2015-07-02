@@ -35,7 +35,11 @@ def extractData(polygonDrawer, filename):
                     pass
         else:
             # TODO: algorithm if shape is not rectangular
-            pass
+            min_x = min(coordinates, key=lambda x: x[0])
+            max_x = max(coordinates, key=lambda x: x[0])
+            min_y = min(coordinates, key=lambda y: y[1])
+            max_y = max(coordinates, key=lambda y: y[1])
+            
     
 def isRectangle(vertices):
     '''
