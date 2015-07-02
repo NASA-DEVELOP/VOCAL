@@ -8,6 +8,7 @@ import logging
 from ccplot.hdf import HDF
 
 from polygon.drawer import PolygonDrawer
+from polygon.LinearAlgebra import getVector
 
 
 def extractData(polygonDrawer, filename):
@@ -39,6 +40,9 @@ def extractData(polygonDrawer, filename):
             max_x = max(coordinates, key=lambda x: x[0])
             min_y = min(coordinates, key=lambda y: y[1])
             max_y = max(coordinates, key=lambda y: y[1])
+            vectors = []
+            for i in range(len(coordinates)-1):
+                vectors.append(getVector(coordinates[i], coordinates[i+1]))
             
     
 def isRectangle(vertices):
