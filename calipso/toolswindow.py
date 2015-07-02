@@ -239,5 +239,12 @@ class ToolsWindow(Toplevel):
                 "beginning range cannot be larger than ending range")
             return
         
+        if beginningRange < 0 or endingRange < 0 or endingRange - beginningRange < 100:
+            logger.error("Error, invalid range specifiers %d , %d"
+                % (beginningRange, endingRange))
+            tkMessageBox.showerror("toolswindow",
+                "Range cannot be less than zero or smaller than 100 steps")
+            return
+        
         logger.info("Calling plot")
         self.__parent.setPlot(self.plotType, xrange=(beginningRange, endingRange))
