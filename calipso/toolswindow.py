@@ -4,7 +4,7 @@
 #    @author: Grant Mercer
 ######################################
 from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM, Radiobutton, Entry, X
+    RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM, Radiobutton, Entry, X,TOP, LEFT, Y
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
 import constants
@@ -33,31 +33,16 @@ class ToolsWindow(Toplevel):
         self.plotType = IntVar()
         
         self.title("Tools")
-        self.resizable(width=FALSE, height=FALSE)
-        baseChildPane = PanedWindow(self)
-        baseChildPane.pack(fill=BOTH, expand = 1)
-        sectionedChildPane = PanedWindow(self, orient=VERTICAL)
-        baseChildPane.add(sectionedChildPane)
-                
-        upperPane = PanedWindow(sectionedChildPane, orient=HORIZONTAL, width=5)
-        sectionedChildPane.add(upperPane)
-        lowerPane = PanedWindow(sectionedChildPane)
-        sectionedChildPane.add(lowerPane)
+        #self.resizable(width=FALSE, height=FALSE)
         self.protocol("WM_DELETE_WINDOW", ToolsWindow.ignore)
+        self.container = Frame(self)
+        self.container.pack(side=TOP, fill=BOTH, expand=True )    
         
-        self.upperButtonFrame = Frame(upperPane)                                  # upper button frame holding text buttons
-        self.upperButtonFrame.pack()                                              
-        
-        self.coordinateFrame = Frame(lowerPane, width=50, height=50)
+        self.coordinateFrame = Frame(self.container, width=50, height=50)
         self.coordinateFrame.config(highlightthickness=1)                        # create a small border around the frame
         self.coordinateFrame.config(highlightbackground="grey")
-        self.coordinateFrame.pack(side=BOTTOM, fill=BOTH)
-        
-        self.lowerButtonFrame = Frame(lowerPane)                                  # lower button frame for tools
-        self.lowerButtonFrame.config(highlightthickness=1)                        # create a small border around the frame
-        self.lowerButtonFrame.config(highlightbackground="grey")
-        self.lowerButtonFrame.pack(side=BOTTOM)
-        
+        self.coordinateFrame.pack(side=BOTTOM, fill=BOTH, expand=False)                                      
+    
     @staticmethod
     def ignore():
         '''
@@ -71,37 +56,38 @@ class ToolsWindow(Toplevel):
         '''
         logger.info("Setting up toolbar")
         
-        ###################################Upper Frame##############################################
+        self.upperButtonFrame = Frame(self.container)                                  # upper button frame holding text buttons
+        self.upperButtonFrame.pack(side=TOP, fill=X)    
+        
         btnReset = Button(self.upperButtonFrame, text = "Reset", width = 12, command=self.__parent.reset)
-        btnReset.grid(row=0, column=0, pady=5)
-        btnRender = Button(self.upperButtonFrame, text = "Render", width = 9, command = self.render)
-        btnRender.grid(row=0, column=1, pady=5)
+        btnReset.grid(row=0, column=0)
+        btnRender = Button(self.upperButtonFrame, text = "Render", width = 12, height=4, command = self.render)
+        btnRender.grid(row=0, column=1, rowspan=4, sticky="e")
         
-        self.bScattered = Radiobutton(self.upperButtonFrame, text="Backscattered", variable=self.plotType, value=1).grid(row=1, column=0, sticky="W")
-        self.depolarized = Radiobutton(self.upperButtonFrame, text="Depolarized", variable=self.plotType, value=2).grid(row=2, column=0, sticky="W")
+        
+        self.bScattered = Radiobutton(self.upperButtonFrame, text="Backscattered", 
+            variable=self.plotType, value=1).grid(row=1, column=0, sticky="w")
+        self.depolarized = Radiobutton(self.upperButtonFrame, text="Depolarized", 
+            variable=self.plotType, value=2).grid(row=2, column=0, sticky="w")
 
-        self.rng = Label(self.upperButtonFrame, text="Step")
-        self.rng.grid(row=3, column=0, sticky="W")
-        self.e = Entry(self.upperButtonFrame)
-        self.e.grid(row=3,column=1)
-        self.to = Label(self.upperButtonFrame, text="to")
-        self.to.grid(row=3, column=2)
-        self.e2 = Entry(self.upperButtonFrame)
-        self.e2.grid(row=3,column=1)
-        '''
-        #Plot Type Selection - Radio-button determining how to plot the __file
-        menubtnPlotSelection = Menubutton(self.upperButtonFrame, text="Plot Type", relief=RAISED, width = 10)
-        menubtnPlotSelection.grid(row=0, column=1, padx=10, pady=5)
-        menubtnPlotSelection.menu = Menu(menubtnPlotSelection, tearoff=0)
-        menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
+        self.upperRangeFrame = Frame(self.container)
+        self.upperRangeFrame.pack(side=TOP, fill=X)
+        self.rng = Label(self.upperRangeFrame, text="Step")
+        self.rng.grid(row=3, column=0, sticky="w")
+        self.e = Entry(self.upperRangeFrame, width=12)
+        self.e.grid(row=3, column=1, sticky="w")
         
-        plotType = IntVar()
-        menubtnPlotSelection.menu.add_radiobutton(label="Backscattered", variable=plotType, value=constants.BACKSCATTERED, command=lambda: self.__parent.setPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="Depolarization Ratio", variable=plotType, value=constants.DEPOLARIZED, command=lambda: self.__parent.setPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=constants.VFM, command=lambda: self.__parent.setPlot(plotType))
-        '''
+        self.to = Label(self.upperRangeFrame, text="to")
+        self.to.grid(row=3, column=2, sticky="w")
+        self.e2 = Entry(self.upperRangeFrame, width=11)
+        self.e2.grid(row=3, column=3, sticky="w")
         
         ###################################Lower Frame##############################################
+        
+        self.lowerButtonFrame = Frame(self.container)                                  # lower button frame for tools
+        self.lowerButtonFrame.config(highlightthickness=1)                        # create a small border around the frame
+        self.lowerButtonFrame.config(highlightbackground="grey")
+        self.lowerButtonFrame.pack(side=BOTTOM)
         
         lblSpace1 = Label(self.lowerButtonFrame, width=1)     # create space between frame outline
         lblSpace1.grid(row=0, column=0)
