@@ -61,8 +61,10 @@ class ToolsWindow(Toplevel):
         
         self.resetButton = Button(self.upperButtonFrame, text = "Reset", width = 12, command=self.__parent.reset)
         self.resetButton.grid(row=0, column=0)
+        createToolTip(self.resetButton, "Reset the field of view and clear polygons")
         self.renderButton = Button(self.upperButtonFrame, text = "Render", width = 12, height=4, command = self.render)
         self.renderButton.grid(row=0, column=1, rowspan=4, sticky="e")
+        createToolTip(self.renderButton, "Render the loaded file\nto the screen")
         
         self.bScattered = Radiobutton(self.upperButtonFrame, text="Backscattered", 
             variable=self.plotType, value=constants.BACKSCATTERED).grid(row=1, column=0, sticky="w")
