@@ -28,8 +28,11 @@ def extractData(polygonDrawer, filename):
             max_y = max(coordinates, key=lambda y: y[1])
             logging.debug('Minimum x: %s\n\t Maximum x: %s', min_x, max_x)
             logging.debug('Minimum y: %s\n\t Maximum y: %s', min_y, max_y)
-            findIndexValues(product, min_x, max_x, product['Profile_UTC_Time'][::], debug="Time")
-            findIndexValues(product, min_y, max_y, product['metadata']['Lidar_Data_Altitudes'], debug="Altitude")
+            x_indices = findIndexValues(product, min_x, max_x, product['Profile_UTC_Time'][::], debug="Time")
+            y_indices = findIndexValues(product, min_y, max_y, product['metadata']['Lidar_Data_Altitudes'], debug="Altitude")
+            for x in range(x_indices[0], x_indices[1]):
+                for y in range(y_indices[0], y_indices[1]):
+                    pass
         else:
             # TODO: algorithm if shape is not rectangular
             pass
