@@ -133,8 +133,10 @@ class PolygonDrawer(object):
         '''
         self.__vertices.append((event.x, event.y))
         string = self.__master.getToolbar().message.get()
-        x = string[2:15].strip()
-        y = string[17:].strip()
+        x = string[2:10].strip()
+        y = string[13:].strip()
+        x = time.strptime(x, '%H:%M:%S')
+        x = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min, seconds=x.tm_sec).total_seconds()
         self.__coordinates.append((float(x), float(y)))
         self.__prevX = event.x
         self.__prevY = event.y
@@ -234,8 +236,10 @@ class PolygonDrawer(object):
         self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=color, fill=fillColor, tags=("polygon", self.__tag, plot))
         self.__color = color
         string = self.__master.getToolbar().message.get()
-        x = string[2:15].strip()
-        y = string[17:].strip()
+        x = string[2:10].strip()
+        y = string[13:].strip()
+        x = time.strptime(x, '%H:%M:%S')
+        x = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min, seconds=x.tm_sec).total_seconds()
         self.__vertices.append((event.x, iy))
         self.__coordinates.append((float(x), float(imy)))
         self.__vertices.append((event.x, event.y))

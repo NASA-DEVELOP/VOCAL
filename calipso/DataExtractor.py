@@ -3,14 +3,17 @@ Created on Jul 1, 2015
 
 @author: nqian
 '''
+import datetime
 import logging
+import time
 
 from ccplot.hdf import HDF
 
-from polygon.drawer import PolygonDrawer
 from polygon.LinearAlgebra import getVector
+from polygon.drawer import PolygonDrawer
 
 
+# TODO: find out what time standard the hdf file uses
 def extractData(polygonDrawer, filename):
     '''
     Extracts the data bounded by the polygon
@@ -58,35 +61,42 @@ def findIndexValues(product, low, high, lst, debug=""):
     '''
     Find the corresponding indices based on the given values
     '''
+    # time is ascending order
+    # time is two dimensional, altitude is just one dimensional
     logging.debug('%s list type %s', debug, type(lst))
-    logging.debug('Sample of %s %s', debug, lst[1])
-    try:
-        logging.debug('Another sample %s', lst[1][0])
-    except:
-        pass
-    logging.debug('Dimensions: %s', len(lst.shape))
+    logging.debug('Sample of %s %s', debug, lst[0])
+#     logging.debug('Low in list %s', low in lst)
+#     logging.debug('High in list %s', high in list)
     min_index = 0
     max_index = 0
     debug = ""
     for i in range(len(lst)):
-        debug += str(lst) + " "
-        try:
-            if lst[i][0] is low:
-                min_index = i
-            elif lst[i][0] is max:
-                max_index = i
-        except:
-            if lst[i] is low:
-                min_index = i
-            elif lst[i] is max:
-                max_index = i
+#         try:
+        lst[i][0] = timeToSeconds(lst[i][0])
+        if i < 100:
+            logging.debug("New time list %s", lst[i])
+        if lst[i] is low:
+            min_index = i
+        elif lst[i] is max:
+            max_index = i
+#         except:
+#             if lst[i] is low:
+#                 min_index = i
+#             elif lst[i] is max:
+#                 max_index = i
     logging.debug('Min and max indices: (%s, %s)', min_index, max_index)
     return [min_index, max_index]
+
+def timeToSeconds(t):
+    logging.debug("Time entered: %s", t)
+    t = str(t)[0:11]
+    t = time.strptime(t, '%d%m%y.%H%M%S')
+    return datetime.timedelta(hours=t.tm_hour, minutes=t.tm_min, seconds=t.tm_sec).total_seconds()
 
 if __name__=="__main__":
     logging.basicConfig(level=logging.DEBUG)
     poly = PolygonDrawer(None, None)
-    lst = [(2, 4), (2, 5), (7, 4), (7, 5)]
+    lst = [(13364, 8.32803), (13376, 8.32803), (13376, 4.46656), (13364, 4.46656)]
     poly.setCoordinates(lst)
     filename = r'C:\Users\nqian\Desktop\CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN.hdf'
     extractData(poly, filename)
