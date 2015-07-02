@@ -216,8 +216,10 @@ class ToolsWindow(Toplevel):
         beginningRange = 0
         endingRange = 1000
             
+        print '.' in self.beginRangeEntry.get()
+            
         if self.beginRangeEntry.get(): 
-            if not re.match("[0-9]+", self.beginRangeEntry.get()):
+            if not re.match("[0-9]+", self.beginRangeEntry.get()) or '.' in  self.beginRangeEntry.get():
                 logger.error("Error, beginning range invalid")
                 tkMessageBox.showerror("toolswindow", 
                     "Invalid beginning range, range must only contain digits")
@@ -225,7 +227,7 @@ class ToolsWindow(Toplevel):
             beginningRange = int(self.beginRangeEntry.get())
             endingRange = beginningRange + 1000
         if self.endRangeEntry.get():
-            if not re.match("[0-9]+", self.endRangeEntry.get()):
+            if not re.match("[0-9]+", self.endRangeEntry.get()) or '.' in  self.endRangeEntry.get():
                 logger.error("Error, ending range invalid")
                 tkMessageBox.showerror("toolswindow",
                     "Invalid ending range, range must only contain digits")
