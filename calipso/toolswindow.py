@@ -204,10 +204,10 @@ class ToolsWindow(Toplevel):
         self.__testButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.testIMG, width=30, height=30)
         self.__testButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().extractShapeData)
         self.__testButton.grid(row=3, column=4, padx=2, pady=5)
-        createToolTip(self.__editButton, "Test button")
+        createToolTip(self.__testButton, "test button")
         
     def render(self):
-        logger.info("Grabbing range and calling setPlot")
+        logger.info("Grabbing range and safe checking")
         if self.plotType.get() == 0:
             logger.error("Error, no plot type set")
             tkMessageBox.showerror("toolswindow", "No plot type specified")
@@ -231,5 +231,5 @@ class ToolsWindow(Toplevel):
                     "Invalid ending range, range must only contain digits")
                 return
             endingRange = int(self.endRangeEntry.get())
-
+        logger.info("Calling plot")
         self.__parent.setPlot(self.plotType, xrange=(beginningRange, endingRange))
