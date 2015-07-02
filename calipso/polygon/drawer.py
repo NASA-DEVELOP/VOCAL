@@ -5,7 +5,9 @@
 ######################################
 
 # import antigravity
-from numpy import empty_like, dot, array
+
+import datetime
+import time
 
 import constants
 from log import logger
@@ -149,8 +151,10 @@ class PolygonDrawer(object):
         '''
         self.__vertices.append((event.x, event.y))
         string = self.__master.getToolbar().message.get()
-        x = string[2:15].strip()
-        y = string[17:].strip()
+        x = string[2:10].strip()
+        y = string[13:].strip()
+        x = time.strptime(x, '%H:%M:%S')
+        x = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min, seconds=x.tm_sec).total_seconds()
         self.__coordinates.append((float(x), float(y)))
         if len(self.__vertices) > 1:
             logger.info("Drawing line from plot")
