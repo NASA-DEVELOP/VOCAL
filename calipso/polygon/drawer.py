@@ -11,7 +11,7 @@ import time
 
 import constants
 from log import logger
-from polygon.LinearAlgebra import tupleToNpArray, getIntersection, \
+from tools.linearalgebra import tupleToNpArray, getIntersection, \
     npArrayToTuple, isIntersecting
 
 

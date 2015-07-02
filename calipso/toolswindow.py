@@ -106,13 +106,6 @@ class ToolsWindow(Toplevel):
         self.__zoomButton.grid(row=0, column=2, padx=2, pady=5)
         createToolTip(self.__zoomButton, "Zoom to rect")
         
-        # plot move cursor icon
-        self.plotcursorIMG = ImageTk.PhotoImage(file="ico/plotcursor.png")
-        self.__plotCursorButton = ToolbarToggleableButton(self.__root, self.lowerButtonFrame, lambda : self.__parent.getToolbar().pan(True), image=self.plotcursorIMG, width=30, height=30)
-        self.__plotCursorButton.latch(cursor="hand1")
-        self.__plotCursorButton.grid(row=0, column=1, padx=2, pady=5)
-        createToolTip(self.__plotCursorButton, "Move about plot")
-        
         # plot undo icon
         self.undoIMG = ImageTk.PhotoImage(file="ico/back.png")
         self.__undoButton = Button(self.lowerButtonFrame, image=self.undoIMG, width=30, height=30, command=lambda : self.__parent.getToolbar().back(True))
@@ -140,6 +133,15 @@ class ToolsWindow(Toplevel):
         self.__freedrawButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=1, column=3, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
+        
+                # plot move cursor icon
+        self.plotcursorIMG = ImageTk.PhotoImage(file="ico/plotcursor.png")
+        self.__plotCursorButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.plotcursorIMG, width=30, height=30)
+        self.__plotCursorButton.latch(key="<ButtonPress-1>", command=self.__parent.pan)
+        self.__plotCursorButton.latch(key="<ButtonRelease-1>", command=self.__parent.renderPan)
+        self.__plotCursorButton.latch(cursor="hand1")
+        self.__plotCursorButton.grid(row=0, column=1, padx=2, pady=5)
+        createToolTip(self.__plotCursorButton, "Move about plot")
         
         # move polygon and rectangles around
         self.dragIMG = ImageTk.PhotoImage(file="ico/cursorhand.png")
@@ -216,8 +218,6 @@ class ToolsWindow(Toplevel):
         beginningRange = 0
         endingRange = 1000
             
-        print '.' in self.beginRangeEntry.get()
-            
         if self.beginRangeEntry.get(): 
             if not re.match("[0-9]+", self.beginRangeEntry.get()) or '.' in  self.beginRangeEntry.get():
                 logger.error("Error, beginning range invalid")
@@ -249,4 +249,4 @@ class ToolsWindow(Toplevel):
             return
         
         logger.info("Calling plot")
-        self.__parent.setPlot(self.plotType, xrange=(beginningRange, endingRange))
+        self.__parent.setPlot(self.plotType.get(), xrange_=(beginningRange, endingRange))
