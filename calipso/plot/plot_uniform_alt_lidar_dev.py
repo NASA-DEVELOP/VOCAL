@@ -30,7 +30,7 @@ def drawBackscattered(filename, fig, pfig):
     EXCESSIVE_SCATTER = 0.1
     
     x1 = 0
-    x2 = 24000
+    x2 = 1000
     h1 = 0
     h2 = 20
     nz = 500
@@ -49,6 +49,7 @@ def drawBackscattered(filename, fig, pfig):
         
         X = np.arange(x1, x2, dtype=np.float32)
         Z, null = np.meshgrid(height, X)
+        
         data = interp2d_12(
             dataset[::],
             X.astype(np.float32),
@@ -56,6 +57,8 @@ def drawBackscattered(filename, fig, pfig):
             x1, x2, x2 - x1,
             h2, h1, nz,
         )
+        
+        #data = dataset[::]
         
         cmap = ccplot.utils.cmap(colormap)
         cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
