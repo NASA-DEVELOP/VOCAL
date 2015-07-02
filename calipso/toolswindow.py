@@ -59,11 +59,10 @@ class ToolsWindow(Toplevel):
         self.upperButtonFrame = Frame(self.container)                                  # upper button frame holding text buttons
         self.upperButtonFrame.pack(side=TOP, fill=X)    
         
-        btnReset = Button(self.upperButtonFrame, text = "Reset", width = 12, command=self.__parent.reset)
-        btnReset.grid(row=0, column=0)
-        btnRender = Button(self.upperButtonFrame, text = "Render", width = 12, height=4, command = self.render)
-        btnRender.grid(row=0, column=1, rowspan=4, sticky="e")
-        
+        self.resetButton = Button(self.upperButtonFrame, text = "Reset", width = 12, command=self.__parent.reset)
+        self.resetButton.grid(row=0, column=0)
+        self.renderButton = Button(self.upperButtonFrame, text = "Render", width = 12, height=4, command = self.render)
+        self.renderButton.grid(row=0, column=1, rowspan=4, sticky="e")
         
         self.bScattered = Radiobutton(self.upperButtonFrame, text="Backscattered", 
             variable=self.plotType, value=1).grid(row=1, column=0, sticky="w")
@@ -72,15 +71,16 @@ class ToolsWindow(Toplevel):
 
         self.upperRangeFrame = Frame(self.container)
         self.upperRangeFrame.pack(side=TOP, fill=X)
-        self.rng = Label(self.upperRangeFrame, text="Step")
-        self.rng.grid(row=3, column=0, sticky="w")
-        self.e = Entry(self.upperRangeFrame, width=12)
-        self.e.grid(row=3, column=1, sticky="w")
         
-        self.to = Label(self.upperRangeFrame, text="to")
-        self.to.grid(row=3, column=2, sticky="w")
-        self.e2 = Entry(self.upperRangeFrame, width=11)
-        self.e2.grid(row=3, column=3, sticky="w")
+        Label(self.upperRangeFrame, text="Step").\
+            grid(row=3, column=0, pady=5, sticky="w")
+        self.beginRangeEntry = Entry(self.upperRangeFrame, width=12)
+        self.beginRangeEntry.grid(row=3, column=1, pady=5, sticky="w")
+        
+        Label(self.upperRangeFrame, text="to").\
+            grid(row=3, column=2, pady=5, sticky="w")
+        self.endRangeEntry = Entry(self.upperRangeFrame, width=11)
+        self.endRangeEntry.grid(row=3, column=3, pady=5, sticky="w")
         
         ###################################Lower Frame##############################################
         
