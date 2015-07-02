@@ -231,5 +231,13 @@ class ToolsWindow(Toplevel):
                     "Invalid ending range, range must only contain digits")
                 return
             endingRange = int(self.endRangeEntry.get())
+            
+        if beginningRange > endingRange:
+            logger.error("Error, beginning range larger than ending range %d > %d"
+                % (beginningRange, endingRange))
+            tkMessageBox.showerror("toolswindow",
+                "beginning range cannot be larger than ending range")
+            return
+        
         logger.info("Calling plot")
         self.__parent.setPlot(self.plotType, xrange=(beginningRange, endingRange))
