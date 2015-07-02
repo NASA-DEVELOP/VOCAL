@@ -9,8 +9,8 @@ import time
 
 from ccplot.hdf import HDF
 
-from polygon.LinearAlgebra import getVector
 from polygon.drawer import PolygonDrawer
+from tools.linearalgebra import getVector
 
 
 # TODO: find out what time standard the hdf file uses
@@ -71,26 +71,27 @@ def findIndexValues(product, low, high, lst, debug=""):
     max_index = 0
     debug = ""
     for i in range(len(lst)):
-#         try:
-        lst[i][0] = timeToSeconds(lst[i][0])
-        if i < 100:
-            logging.debug("New time list %s", lst[i])
-        if lst[i] is low:
-            min_index = i
-        elif lst[i] is max:
-            max_index = i
-#         except:
-#             if lst[i] is low:
-#                 min_index = i
-#             elif lst[i] is max:
-#                 max_index = i
+        try:
+            lst[i][0] = timeToSeconds(lst[i][0])
+            if i < 100:
+                logging.debug("New time list %s", lst[i])
+            if lst[i] is low:
+                min_index = i
+            elif lst[i] is max:
+                max_index = i
+        except:
+            if lst[i] is low:
+                min_index = i
+            elif lst[i] is max:
+                max_index = i
     logging.debug('Min and max indices: (%s, %s)', min_index, max_index)
     return [min_index, max_index]
 
 def timeToSeconds(t):
-    logging.debug("Time entered: %s", t)
-    t = str(t)[0:11]
-    t = time.strptime(t, '%d%m%y.%H%M%S')
+    t = str(t)
+    if len(t) <= 12:
+        t += '0'
+    t = time.strptime(t, '%d%m%y.%H%M%S%f')
     return datetime.timedelta(hours=t.tm_hour, minutes=t.tm_min, seconds=t.tm_sec).total_seconds()
 
 if __name__=="__main__":
