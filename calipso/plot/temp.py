@@ -21,6 +21,7 @@ if __name__ == '__main__':
     with HDF(filename) as product:
         # Import datasets.
         time = product['Profile_UTC_Time'][x1:x2, 0]
+        print time
         height = product['metadata']['Lidar_Data_Altitudes']
         dataset = product[name][x1:x2]
 
