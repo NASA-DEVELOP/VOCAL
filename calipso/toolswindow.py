@@ -11,7 +11,6 @@ import constants, re
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import createToolTip
 from log import logger
-from msilib.schema import RadioButton
 import tkMessageBox
 
 class ToolsWindow(Toplevel):
