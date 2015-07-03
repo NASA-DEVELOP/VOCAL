@@ -2,9 +2,11 @@
   <dictionary name="gdev">
     <words>
       <w>aggarwal</w>
+      <w>antigravity</w>
       <w>ashna</w>
       <w>backscatter</w>
       <w>backscattered</w>
+      <w>calips</w>
       <w>calipso</w>
       <w>cursorhand</w>
       <w>defaultextension</w>
@@ -14,6 +16,9 @@
       <w>exctype</w>
       <w>filetypes</w>
       <w>freedraw</w>
+      <w>gdev</w>
+      <w>github</w>
+      <w>json's</w>
       <w>matplotlib</w>
       <w>meth</w>
       <w>panx</w>
@@ -21,6 +26,9 @@
       <w>plotcursor</w>
       <w>proc</w>
       <w>qian</w>
+      <w>sqlalchemy</w>
+      <w>sqlite</w>
+      <w>tablename</w>
       <w>tcross</w>
       <w>toolswindow</w>
       <w>yrange</w>

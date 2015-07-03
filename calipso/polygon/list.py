@@ -43,7 +43,7 @@ class PolygonList(object):
         self.__hdf = ''
         self.__plot = constants.BASE_PLOT_STR
         logger.info("Query db for unique tag")
-        self.__count = db.queryUniqueTag()
+        self.__count = db.query_unique_tag()
         self.__data = {}
         self.__drag_data = {"x": 0, "y": 0, "mx": 0, "my": 0, "item": None}
         
@@ -429,7 +429,7 @@ class PolygonList(object):
         if len(self.__currentList) == 1:
             return False
         today = datetime.utcnow().replace(microsecond=0)
-        db.commitToDB(self.__currentList, str(today), self.__hdf)
+        db.commit_to_db(self.__currentList, str(today), self.__hdf)
         return True
         
     def save(self, fileName=""):

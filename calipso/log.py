@@ -1,6 +1,7 @@
 import logging.config
 import sys
 
+
 def uncaught_exception(exctype, value, tb):
     logger.exception("Uncaught exception: {0}".format(str(value)))
     sys.__excepthook__(exctype, value, tb)
