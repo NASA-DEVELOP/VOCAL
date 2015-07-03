@@ -1,3 +1,8 @@
+###################################
+#   Created on June 29, 2015
+#
+#   @authors: Grant Mercer, Nathan Qian
+###################################
 import logging.config
 import sys
 

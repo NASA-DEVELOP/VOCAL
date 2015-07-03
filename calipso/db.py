@@ -1,7 +1,7 @@
 ###################################
-#    Created on Jun 16, 2015
+#   Created on Jun 16, 2015
 #
-#    @author: Grant Mercer
+#   @author: Grant Mercer
 ###################################
 
 # import antigravity

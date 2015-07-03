@@ -1,8 +1,8 @@
-######################################
-#    Created on Jun 15, 2015
+###################################
+#   Created on Jun 15, 2015
 #
-#    @author: Grant Mercer
-######################################
+#   @author: Grant Mercer
+###################################
 from Tkinter import Label, Toplevel, Frame, Button, IntVar, BOTH, FALSE, \
     BOTTOM, Radiobutton, Entry, X, TOP
 
