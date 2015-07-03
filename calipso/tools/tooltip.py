@@ -40,7 +40,7 @@ class ToolTip(object):
         tw.wm_geometry("+%d+%d" % (x, y))
         try:
             # For Mac OS
-            tw.tk.call("::tk::unsupported::MacWindowStyle",
+            tw.tk.call("::Tk::unsupported::MacWindowStyle",
                        "style", tw._w,
                        "help", "noActivates")
         except TclError:
