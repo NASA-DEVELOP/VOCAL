@@ -8,12 +8,11 @@
 import json
 import os
 import re
+import constants
 
 from sqlalchemy import create_engine, Column, Integer, String, desc
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
-import constants
 from tools.tools import byteify
 from log import logger
 

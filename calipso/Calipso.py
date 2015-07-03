@@ -1,17 +1,11 @@
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
     SUNKEN
-import logging
-import tkFileDialog
-import tkMessageBox
 from sys import platform as _platform
-
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-
 from attributesdialog import AttributesDialog
-import constants
 from importdialog import ImportDialog
 from plot.plot_depolar_ratio import drawDepolar
 from plot.plot_uniform_alt_lidar_dev import drawBackscattered
@@ -21,6 +15,11 @@ from tools.tools import Catcher
 from tools.linearalgebra import distance
 from toolswindow import ToolsWindow
 from log import logger
+
+import logging
+import tkFileDialog
+import tkMessageBox
+import constants
 
 
 class Calipso(object):
