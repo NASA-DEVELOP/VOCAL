@@ -63,7 +63,7 @@ class PolygonList(object):
             self.__drag_data["item"] = self.__canvas._tkcanvas.find_closest(event.x, event.y)[0]
             self.__drag_data["x"] = event.x
             self.__drag_data["y"] = event.y
-            string = self.__master.getToolbar().message.get()
+            string = self.__master.get_toolbar().message.get()
             x = string[2:15].strip()
             y = string[17:].strip()
             self.__drag_data["mx"] = float(x)
@@ -91,7 +91,7 @@ class PolygonList(object):
         '''
         if PolygonDrawer.dragToggle:
             logger.info("Received mouse motion for dragging")
-            string = self.__master.getToolbar().message.get()
+            string = self.__master.get_toolbar().message.get()
             x = string[2:15].strip()
             y = string[17:].strip()
             dx = event.x - self.__drag_data["x"]

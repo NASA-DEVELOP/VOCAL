@@ -2,7 +2,6 @@ from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
     SUNKEN
 import logging
-import os
 import tkFileDialog
 import tkMessageBox
 from sys import platform as _platform
@@ -31,356 +30,380 @@ class Calipso(object):
     """
 
     def __init__(self, r):
-        self.__root = r  # root of program
-        self.__file = ''  # current file in use
-        self.xrange = self.yrange = (0, 1000)
-        self.plot = 0
+        self.__root = r                         # Root of program
+        self.__file = ''                        # Current file in use
+        self.xrange = self.yrange = (0, 1000)   # X and Y range for scrolling plot
+        self.panx = self.pany = 0               # Pan values for shifting map
+        self.plot = 0                           # Current selected plot
+        self.__label_file_dialog = None
 
         # TODO: Add icon for window an task bar
 
-        base_pane = PanedWindow()  # main paned window that stretches to fit entire screen
-        base_pane.pack(fill=BOTH, expand=1)  # fill and expand
-        sectioned_pane = PanedWindow(orient=VERTICAL)  # paned window that splits into a top and bottom section
+        # Paned window that stretches to fit entire screen
+        base_pane = PanedWindow()
+        base_pane.pack(fill=BOTH, expand=1)
+        # Splits window into a top and bottom section
+        sectioned_pane = PanedWindow(orient=VERTICAL)
         base_pane.add(sectioned_pane)
+        # Top pane
+        top_paned_window = PanedWindow(sectioned_pane, orient=HORIZONTAL)
+        sectioned_pane.add(top_paned_window)
 
-        top_paned_window = PanedWindow(sectioned_pane, orient=HORIZONTAL)  # the paned window which holds all buttons
-        sectioned_pane.add(top_paned_window)  # set top_paned_window to sectioned_pane
-
-        self.__dialog_frame = Frame(top_paned_window)  # frame to hold dialog for browsing files
+        # Frame to hold dialog for browsing files
+        self.__dialog_frame = Frame(top_paned_window)
         self.__dialog_frame.pack(side=LEFT)
 
-        bottom_paned_window = PanedWindow(sectioned_pane)  # expands the distance below the button
+        # Bottom half the screen
+        bottom_paned_window = PanedWindow(sectioned_pane)
         sectioned_pane.add(bottom_paned_window)
+
+        # The frame on which we will set out canvas for drawing etc.
         self.__drawplot_frame = Frame(bottom_paned_window,
                                       width=constants.WIDTH,
-                                      height=constants.HEIGHT)  # the frame on which we will set our canvas for drawing etc.
+                                      height=constants.HEIGHT)
 
-        logger.info("Instantiating ToolsWindow")
-        self.__child = ToolsWindow(self, r)  # tools window which holds all manipulation buttons
-        self.__Parentfig = Figure(figsize=(16, 11))  # the figure we're drawing our plot to
+        logger.info('Instantiating ToolsWindow')
+        # Create ToolsWindow class and pass itself + the root
+        self.__child = ToolsWindow(self, r)
+        # Matplotlib backend objects
+        self.__parent_fig = Figure(figsize=(16, 11))
         self.__fig = None
-        self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig,
-                                                  # canvas USING the figure we're drawing our plot to \
+        self.__drawplotCanvas = FigureCanvasTkAgg(self.__parent_fig,
                                                   master=self.__drawplot_frame)
-        logger.info("Create PolygonList")
+        logger.info('Create PolygonList')
         self.__polygonList = PolygonList(self.__drawplotCanvas, self)  # internal polygonList
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,
-                                                   # create barebones toolbar we can borrow backend functions from \
                                                    self.__child.coordinateFrame)
 
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)  # pack and display canvas
         self.__drawplot_frame.pack()
 
-    def setupWindow(self):
+    def setup_window(self):
         """
         Sets the title of root and invokes py:meth:`centerWindow`
         """
         self.__root.title("CALIPSO Visualization Tool")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
-        self.x = (sw - constants.WIDTH) / 2
-        self.y = (sh - constants.HEIGHT) / 2
-        self.__root.geometry('%dx%d+%d+%d' % (constants.WIDTH, constants.HEIGHT, self.x, self.y))
+        x = (sw - constants.WIDTH) / 2
+        y = (sh - constants.HEIGHT) / 2
+        self.__root.geometry('%dx%d+%d+%d' % (constants.WIDTH, constants.HEIGHT, x, y))
         # the child is designed to appear off to the right of the parent window, so the x location
         # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
         # plus half the distance of the window
         if _platform == "linux" or _platform == "linux2":
             logger.info("Linux system detected")
-            logger.info(self.x)
             self.__child.geometry('%dx%d+%d+%d' % (
-                constants.CHILDWIDTH + 50, constants.CHILDHEIGHT, self.x + constants.WIDTH,
-                self.y + constants.HEIGHT / 4))
+                constants.CHILDWIDTH + 50, constants.CHILDHEIGHT, x + constants.WIDTH,
+                y + constants.HEIGHT / 4))
         else:
             self.__child.geometry('%dx%d+%d+%d' % (
-                constants.CHILDWIDTH, constants.CHILDHEIGHT, self.x + self.x * 4 + 20, self.y + self.y / 2))
+                constants.CHILDWIDTH, constants.CHILDHEIGHT, x + x * 4 + 20, y + y / 2))
 
-    def setupMenu(self):
-        '''
+    def setup_menu(self):
+        """
         Creates a drop down menu bar
-        '''
-        self.__menuBar = Menu(self.__root)
+        """
+        menu_bar = Menu(self.__root)
 
         # File Menu
-        self.__menuFile = Menu(self.__menuBar, tearoff=0)
-        self.__menuFile.add_command(label="Import File", command=self.importFile)
-        self.__menuFile.add_command(label="Save all", command=lambda: self.notifySaveAsJSON(saveAll=True))
-        self.__menuFile.add_command(label="Save as", command=self.notifySaveAsJSON)
-        self.__menuFile.add_separator()
-        self.__menuFile.add_command(label="Exit", command=self.__root.quit)
-        self.__menuBar.add_cascade(label="File", menu=self.__menuFile)
+        menu_file = Menu(menu_bar, tearoff=0)
+        menu_file.add_command(label='Import File', command=self.import_file)
+        menu_file.add_command(label='Save all', command=lambda: self.save_as_json(save_all=True))
+        menu_file.add_command(label='Save as', command=self.save_as_json)
+        menu_file.add_separator()
+        menu_file.add_command(label='Exit', command=self.__root.quit)
+        menu_bar.add_cascade(label='File', menu=menu_file)
 
         # Polygon Menu
-        self.__menuPolygon = Menu(self.__menuBar, tearoff=0)
-        self.__menuPolygon.add_command(label="Import from Database", command=lambda: dbDialog(self.__root, self))
-        self.__menuPolygon.add_command(label="Export to Database", command=self.notifySaveDB)
-        self.__menuBar.add_cascade(label="Polygon", menu=self.__menuPolygon)
+        menu_polygon = Menu(menu_bar, tearoff=0)
+        menu_polygon.add_command(label='Import from Database', command=lambda: dbDialog(self.__root, self))
+        menu_polygon.add_command(label='Export to Database', command=self.notify_save_db)
+        menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
 
         # Help Menu
-        self.__menuHelp = Menu(self.__menuBar, tearoff=0)
-        self.__menuHelp.add_command(label="About", command=self.about)
-        self.__menuBar.add_cascade(label="Help", menu=self.__menuHelp)
+        menu_help = Menu(menu_bar, tearoff=0)
+        menu_help.add_command(label='About', command=self.about)
+        menu_bar.add_cascade(label='Help', menu=menu_help)
 
         # configure menu to screen
-        self.__root.config(menu=self.__menuBar)
+        self.__root.config(menu=menu_bar)
 
-    def setPlot(self, plotType, xrange_=(0, 1000), yrange=(0, 20)):
-        '''
+    def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 20)):
+        """
         Draws to the canvas according to the *plotType* specified in the arguments. Accepts one of the
         attributes below
 
         .. py:attribute:: BASE_PLOT
         .. py:attribute:: BACKSCATTERED
         .. py:attribute:: DEPOLARIZED
-        .. py:attribute:: VFML
+        .. py:attribute:: VFM
 
-        :param int plotType: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
-        :param (int,int) xrange: accepts a range of time to plot
+        :param int plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
+        :param (int,int) xrange_: accepts a range of time to plot
         :param (int,int) yrange: accepts a range of altitude to plot
-        '''
+        """
         self.xrange = xrange_
         self.yrange = yrange
-        if (plotType) == constants.BASE_PLOT:
-            self.__polygonList.setPlot(constants.BASE_PLOT)  # sets the screen to a blank canvas
-        elif plotType == constants.BACKSCATTERED:
+        if plot_type == constants.BASE_PLOT:
+            self.__polygonList.setPlot(constants.BASE_PLOT)             # Set screen to blank canvas
+        elif plot_type == constants.BACKSCATTERED:
             try:
-                # prev = self.__root.cget('cursor')
-
-                logger.info("Setting plot to backscattered xrange: " +
-                            str(xrange_) + " yrange: " + str(yrange))
-                self.__Parentfig.clear()  # clear the figure
-                self.__fig = self.__Parentfig.add_subplot(1, 1, 1)  # create subplot
-                drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__Parentfig)
-                self.__drawplotCanvas.show()  # show canvas
-                self.__polygonList.setPlot(constants.BACKSCATTERED)  # set the current plot on polygonList
-                self.__toolbar.update()  # update toolbar
+                logger.info('Setting plot to backscattered xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__parent_fig.clear()                               # clear the figure
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)     # create subplot
+                drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__drawplotCanvas.show()                            # show canvas
+                self.__polygonList.setPlot(constants.BACKSCATTERED)     # set the current plot on polygonList
+                self.__toolbar.update()                                 # update toolbar
                 self.plot = constants.BACKSCATTERED
             except IOError:
-                logger.error("IOError, no file exists")
-                tkMessageBox.showerror("File Not Found",
-                                       "No File Exists")  # error if no file exists in current file var
-        elif plotType == constants.DEPOLARIZED:
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found',
+                                       'No File Exists')
+        elif plot_type == constants.DEPOLARIZED:
             try:
-                logger.info("Setting plot to depolarized")
-                self.__Parentfig.clear()  # clear the figure
-                self.__fig = self.__Parentfig.add_subplot(1, 1, 1)  # create subplot
-                drawDepolar(self.__file, self.__fig, self.__Parentfig)  # plot the depolarized image
-                self.__polygonList.setPlot(constants.DEPOLARIZED)  # set the internal plot
-                self.__drawplotCanvas.show()  # show plot
-                self.__toolbar.update()
-                self.plot = constants.DEPOLARIZED  # update toolbar
+                logger.info('Setting plot to depolarized')
+                self.__parent_fig.clear()                               # clear the figure
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)     # create subplot
+                drawDepolar(self.__file, self.__fig, self.__parent_fig)
+                self.__polygonList.setPlot(constants.DEPOLARIZED)       # set the internal plot
+                self.__drawplotCanvas.show()                            # show plot
+                self.__toolbar.update()                                 # update toolbar
+                self.plot = constants.DEPOLARIZED
             except IOError:
-                logger.error("IOError, no file exists")
-                tkMessageBox.showerror("File Not Found", "No File Exists")  # error if no file exists
-        elif plotType == constants.VFM:
-            logger.error("Accessing unimplemented VFM plot")
-            tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")  # vfm doesn't exist
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', "No File Exists")
+        elif plot_type == constants.VFM:
+            logger.error('Accessing unimplemented VFM plot')
+            tkMessageBox.showerror("TODO", 'Sorry, this plot is currently not implemented')
 
     def reset(self):
-        '''
+        """
         Reset all objects on the screen, move pan to original
-        '''
-        logger.info("Reseting plot")
-        self.__polygonList.reset()  # reset all buttons
-        self.__toolbar.home()  # proc toolbar function to reset plot to home
+        """
+        logger.info("Resetting plot")
+        self.__polygonList.reset()      # reset all buttons
+        self.__toolbar.home()           # proc toolbar function to reset plot to home
 
     def pan(self, event):
+        """
+        Saves initial coordinates of mouse press when the user begins to pan
+
+        :param event: Tkinter passed event object
+        """
         logger.info("Pan point 1")
         self.panx = event.x
         self.pany = event.y
 
-    def renderPan(self, event):
+    def render_pan(self, event):
+        """
+        Saves ending coordinates of mouse press and proceeds to find the distance
+        between the two points, scrolls the map accordingly
+
+        :param event: Tkinter passed event object
+        """
         logger.info("Pan point 2, finding distance and panning...")
+        # Find distance and add an amplifier of 1.5
         dst = int(distance(self.panx, self.pany, event.x, event.y) * 1.5)
+        # If the user is scrolling backwards
         if self.panx < event.x:
+            # Already at beginning
             if self.xrange[0] == 0:
                 logger.warning("Attempting to pan backwards, already at beginning nothing to be done")
                 return
+            # The end position would be negative
             if self.xrange[0] - dst < 0:
                 logger.warning("Attempting to pan past beginning, setting to beginning")
+                # Set both xrange and dst to zero and simply reload beginning range
                 self.xrange = (0, self.xrange[1])
                 dst = 0
             logger.info("Panning backwards")
-            self.setPlot(self.plot, (self.xrange[0] - dst, self.xrange[1] - dst))
+            self.set_plot(self.plot, (self.xrange[0] - dst, self.xrange[1] - dst))
         else:
-            logger.info("Panning forewards")
-            self.setPlot(self.plot, (self.xrange[0] + dst, self.xrange[1] + dst))
+            logger.info("Panning forwards")
+            self.set_plot(self.plot, (self.xrange[0] + dst, self.xrange[1] + dst))
         pass
 
-    def createTopScreenGUI(self):
-        '''
-        Initializes and creates the file dialog and browse button that appear at the top of the screen
-        '''
+    def create_top_gui(self):
+        """
+        Initializes and creates the *File: label*, *file dialog*, and *browse button* that appear at the top
+        of the screen
+        """
         logger.info("Creating top screen GUI")
-        lblFile = Label(self.__dialog_frame, text="File:")  # File label upper:left
-        self.__lblFileDialog = Label(self.__dialog_frame, width=50, justify=LEFT,
-                                     # Input box that shows file currently loaded
-                                     bg=white, relief=SUNKEN)
-        btnBrowse = Button(self.__dialog_frame, text='Browse', width=10,  # same as 'open' option
-                           command=self.importFile)
-        lblFile.grid(row=1, column=0)  # place and pack File labe
-        self.__lblFileDialog.grid(row=1, column=1, padx=10)  # place and pack dialog label
-        btnBrowse.grid(row=1, column=3)  # pack and place
+        # Create label , entry box and browse button
+        label_file = Label(self.__dialog_frame, text="File:")
+        self.__label_file_dialog = Label(self.__dialog_frame, width=50, justify=LEFT,
+                                         bg=white, relief=SUNKEN)
+        browse_button = Button(self.__dialog_frame, text='Browse', width=10,
+                               command=self.import_file)
+        label_file.grid(row=1, column=0)
+        self.__label_file_dialog.grid(row=1, column=1, padx=10)
+        browse_button.grid(row=1, column=3)
 
-    def notifySaveDB(self):
-        '''
+    def notify_save_db(self):
+        """
         Notify the database that a save is taking place, the
         db will then save all polygons present on the screen
-        '''
-        logger.info("Notified database to save")
+        """
+        logger.info('Notified database to save')
         success = self.__polygonList.saveToDB()
         if success:
-            logger.info("Success, saved to db")
-            tkMessageBox.showinfo("database", "All objects saved to database")
+            logger.info('Success, saved to db')
+            tkMessageBox.showinfo('database', 'All objects saved to database')
         else:
-            logger.error("No objects to be saved")
-            tkMessageBox.showerror("database", "No objects to be saved")
+            logger.error('No objects to be saved')
+            tkMessageBox.showerror('database', 'No objects to be saved')
 
-    def notifySaveJSON(self):
-        '''
+    def save_json(self):
+        """
         Save all shapes on the map inside a JSON object given a previously
         saved file. If no file exists prompt for file
-        '''
-        logger.info("Notify JSON to save")
+        """
+        logger.info('Notify JSON to save')
         # Save to last saved file, if no file exists prompt to a new file
         if self.__polygonList.getCount() > 0:
-            if self.__polygonList.getFileName() == "":
-                self.notifySaveAsJSON()  # Still prompt for a file name if none currently exists
+            if self.__polygonList.getFileName() == '':
+                self.save_as_json()  # Still prompt for a file name if none currently exists
             else:
                 self.__polygonList.save()  # Else do a normal save with internal file
         else:
-            tkMessageBox.showerror("save as JSON", "No objects to be saved")
+            tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
-    def notifySaveAsJSON(self, saveAll=False):
-        '''
+    def save_as_json(self, save_all=False):
+        """
         Save all shapes on the map given a file specified by the user
-        '''
-        logger.info("Notify JSON to save as")
+        """
+        logger.info('Notify JSON to save as')
         # Save to a file entered by user, saveAll saves ALL objects across canvas
         # and cannot be called as a normal save(must always be save as)
         if self.__polygonList.getCount() > 0:
-            options = {}
+            options = dict()
             options['defaultextension'] = '.json'
             options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
             f = tkFileDialog.asksaveasfilename(**options)
             if f is "":
                 return
-            if saveAll:
+            if save_all:
                 self.__polygonList.saveAll(f)
             else:
                 self.__polygonList.save(f)
         else:
-            tkMessageBox.showerror("save as JSON", "No objects to be saved")
+            tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
-    def importFile(self):
-        '''
+    def import_file(self):
+        """
         Load an HDF file for use with displaying backscatter and depolarized images
-        '''
+        """
         logger.info("Importing HDF file")
         # function to import HDF file used my open and browse
-        ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        dlg = tkFileDialog.Open(filetypes=ftypes)
+        file_types = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
+        dlg = tkFileDialog.Open(filetypes=file_types)
         fl = dlg.show()
         if fl != '':
             self.__file = fl
-            Segments = self.__file.rpartition('/')
-            self.__lblFileDialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT, text=Segments[2])
+            segments = self.__file.rpartition('/')
+            self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT, text=segments[2])
             self.__polygonList.setHDF(self.__file)
         return ''
 
     def load(self):
-        '''
+        """
         load JSON objects from file by calling :py:meth:`polygonlist.readPlot(f)`
-        '''
+        """
         logger.info("Loading JSON")
-        # loads JSON object by callig the polygonList internal readPlot method
-        options = {}
+        # loads JSON object by calling the polygonList internal readPlot method
+        options = dict()
         options['defaultextension'] = '.json'
         options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
         f = tkFileDialog.askopenfilename(**options)
-        if f is "":
+        if f is '':
             return
         self.__polygonList.readPlot(f)
 
-    def attributeWindow(self, event):
-        '''
+    def attribute_window(self, event):
+        """
         Open attribute window for specifying attributes on objects
 
         :param event: A Tkinter passed event object
-        '''
+        """
         logger.info("Searching for polygon")
         poly = self.__polygonList.findPolygon(event)
         if poly:
             logger.info("Opening attributes dialog")
             AttributesDialog(self.__root, poly)
 
-    def getPolygonList(self):
-        '''
+    def get_polygon_list(self):
+        """
         Returns the internal :py:class:`polygonList` object
 
         :rtype: :py:class:`polygonList`
-        '''
-        return self.__polygonList  # get functions for private varialbes
+        """
+        return self.__polygonList  # get functions for private variables
 
-    def getToolbar(self):
-        '''
+    def get_toolbar(self):
+        """
         Returns the internal :py:class:`toolbar` object
 
         :rtype: :py:class:`NavigationToolbar2CALIPSO`
-        '''
+        """
         return self.__toolbar
 
-    def getFig(self):
-        '''
+    def get_fig(self):
+        """
         Returns the figure that is plotted to the canvas
 
         :rtype: :py:class:`Figure`
-        '''
-        if self.__fig: return self.__fig
+        """
+        if self.__fig:
+            return self.__fig
         logger.error("Fig does not exist")
 
     def about(self):
-        '''
+        """
         Simple TopLevel window displaying the authors
-        '''
-        logger.info("Opening about window")
-        filewin = Toplevel(self.__root)
-        filewin.title("About")
-        T = Message(filewin, text="NASA DEVELOP\n \nLaRC Spring 2015 Term \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal \
-            \n\nLaRC Summer 2015 Term \nGrant Mercer (Team Lead) \nNathan Qian")
-        T.pack()
+        """
+        logger.info('Opening about window')
+        file_window = Toplevel(self.__root)
+        file_window.title('About')
+        message = Message(file_window, text='NASA DEVELOP\n \nLaRC Spring 2015 Term \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal \
+            \n\nLaRC Summer 2015 Term \nGrant Mercer (Team Lead) \nNathan Qian')
+        message.pack()
 
-        btnClose = Button(filewin, text="Close", command=filewin.destroy)
-        btnClose.pack()
+        button_close = Button(file_window, text='Close', command=file_window.destroy)
+        button_close.pack()
 
-    def setupMainScreen(self):
-        '''
+    def setup_main_screen(self):
+        """
         Setup the top GUI, initialize toolbar window and set the plot to a blank image
-        '''
-        logger.info("Setting up GUI")
-        self.createTopScreenGUI()
+        """
+        logger.info('Setting up GUI')
+        self.create_top_gui()
         self.__child.setupToolBarButtons()
-        logger.info("Setting initial plot")
-        self.setPlot(constants.BASE_PLOT)
+        logger.info('Setting initial plot')
+        self.set_plot(constants.BASE_PLOT)
 
 
 def main():
-    logging.info("Starting CALIPSO program")
-    Tk.CallWrapper = Catcher  # Catch Tkinter exceptions to be written by log
+    # Create Tkinter root and initialize Calipso
+    logging.info('Starting CALIPSO program')
+    Tk.CallWrapper = Catcher
     rt = Tk()
-    logging.info("Instatiate CALIPSO program")
-    program = Calipso(rt)  # Create main GUI window
+    logging.info('Instantiate CALIPSO program')
+    program = Calipso(rt)
 
-    logger.info("Setting up window")
-    program.setupWindow()  # create window in center screen
-    logger.info("Setting up menu")
-    program.setupMenu()  # create top menu
-    logger.info("Setting up main screen")
-    program.setupMainScreen()  # create top buttons, initialize child and display base_plt
+    # Setup Calipso window
+    logger.info('Setting up window')
+    program.setup_window()
+    logger.info('Setting up menu')
+    program.setup_menu()
+    logger.info('Setting up main screen')
+    program.setup_main_screen()
 
-    rt.mainloop()  # program main loop
-    logging.info("Terminated CALIPSO program")
-    os._exit(1)
+    # Begin program
+    rt.mainloop()
+    logging.info('Terminated CALIPSO program')
 
-#### RUN LINES ##################################################################################
 if __name__ == "__main__":
     main()

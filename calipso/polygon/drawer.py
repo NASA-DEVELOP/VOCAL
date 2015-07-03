@@ -132,7 +132,7 @@ class PolygonDrawer(object):
         :param event: A Tkinter passed event object
         '''
         self.__vertices.append((event.x, event.y))
-        string = self.__master.getToolbar().message.get()
+        string = self.__master.get_toolbar().message.get()
         x = string[2:10].strip()
         y = string[13:].strip()
         x = time.strptime(x, '%H:%M:%S')
@@ -152,7 +152,7 @@ class PolygonDrawer(object):
         :param fill: Boolean for when the cavas is in fill mode
         '''
         self.__vertices.append((event.x, event.y))
-        string = self.__master.getToolbar().message.get()
+        string = self.__master.get_toolbar().message.get()
         x = string[2:10].strip()
         y = string[13:].strip()
         x = time.strptime(x, '%H:%M:%S')
@@ -235,7 +235,7 @@ class PolygonDrawer(object):
             fillColor = color
         self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=color, fill=fillColor, tags=("polygon", self.__tag, plot))
         self.__color = color
-        string = self.__master.getToolbar().message.get()
+        string = self.__master.get_toolbar().message.get()
         x = string[2:10].strip()
         y = string[13:].strip()
         x = time.strptime(x, '%H:%M:%S')

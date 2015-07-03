@@ -100,36 +100,36 @@ class ToolsWindow(Toplevel):
         # magnify icon
         logger.info("Creating toolbar buttons")
         self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
-        self.__zoomButton = ToolbarToggleableButton(self.__root, self.lowerButtonFrame, lambda : self.__parent.getToolbar().zoom(True), image=self.magnifydrawIMG, width=30, height=30)
+        self.__zoomButton = ToolbarToggleableButton(self.__root, self.lowerButtonFrame, lambda : self.__parent.get_toolbar().zoom(True), image=self.magnifydrawIMG, width=30, height=30)
         self.__zoomButton.latch(cursor="tcross")
         self.__zoomButton.grid(row=0, column=2, padx=2, pady=5)
         createToolTip(self.__zoomButton, "Zoom to rect")
         
         # plot undo icon
         self.undoIMG = ImageTk.PhotoImage(file="ico/back.png")
-        self.__undoButton = Button(self.lowerButtonFrame, image=self.undoIMG, width=30, height=30, command=lambda : self.__parent.getToolbar().back(True))
+        self.__undoButton = Button(self.lowerButtonFrame, image=self.undoIMG, width=30, height=30, command=lambda : self.__parent.get_toolbar().back(True))
         self.__undoButton.grid(row=0, column=3, padx=2, pady=5)
         createToolTip(self.__undoButton, "Previous View")
         
         # plot redo icon
         self.redoIMG = ImageTk.PhotoImage(file="ico/forward.png")
-        self.__redoButton = Button(self.lowerButtonFrame, image=self.redoIMG, width=30, height=30, command=lambda : self.__parent.getToolbar().forward(True))
+        self.__redoButton = Button(self.lowerButtonFrame, image=self.redoIMG, width=30, height=30, command=lambda : self.__parent.get_toolbar().forward(True))
         self.__redoButton.grid(row=0, column=4, padx=2, pady=5)
         createToolTip(self.__redoButton, "Next View")
 
         # draw rectangle shape
         self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
         self.__polygonButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
-        self.__polygonButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().anchorRectangle, cursor="tcross")
-        self.__polygonButton.latch(key="<B1-Motion>", command=self.__parent.getPolygonList().rubberBand, cursor="tcross")
-        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__parent.getPolygonList().fillRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().anchorRectangle, cursor="tcross")
+        self.__polygonButton.latch(key="<B1-Motion>", command=self.__parent.get_polygon_list().rubberBand, cursor="tcross")
+        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__parent.get_polygon_list().fillRectangle, cursor="tcross")
         self.__polygonButton.grid(row=1, column=1, padx=2, pady=5)
         createToolTip(self.__polygonButton, "Draw Rect")
         
         # free form shape creation
         self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
         self.__freedrawButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.freedrawIMG, width=30, height=30)
-        self.__freedrawButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().plotPoint, cursor="tcross")
+        self.__freedrawButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=1, column=3, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
         
@@ -137,7 +137,7 @@ class ToolsWindow(Toplevel):
         self.plotcursorIMG = ImageTk.PhotoImage(file="ico/plotcursor.png")
         self.__plotCursorButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.plotcursorIMG, width=30, height=30)
         self.__plotCursorButton.latch(key="<ButtonPress-1>", command=self.__parent.pan)
-        self.__plotCursorButton.latch(key="<ButtonRelease-1>", command=self.__parent.renderPan)
+        self.__plotCursorButton.latch(key="<ButtonRelease-1>", command=self.__parent.render_pan)
         self.__plotCursorButton.latch(cursor="hand1")
         self.__plotCursorButton.grid(row=0, column=1, padx=2, pady=5)
         createToolTip(self.__plotCursorButton, "Move about plot")
@@ -145,39 +145,39 @@ class ToolsWindow(Toplevel):
         # move polygon and rectangles around
         self.dragIMG = ImageTk.PhotoImage(file="ico/cursorhand.png")
         self.__dragButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.dragIMG, width=30, height=30)
-        self.__dragButton.latch(key="<Button-2>", command=self.__parent.getPolygonList().toggleDrag, cursor="hand1")
+        self.__dragButton.latch(key="<Button-2>", command=self.__parent.get_polygon_list().toggleDrag, cursor="hand1")
         self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
         createToolTip(self.__dragButton, "Drag")
         
         # erase polygon drawings
         self.eraseIMG = ImageTk.PhotoImage(file="ico/eraser.png")
         self.__eraseButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.eraseIMG, width=30, height=30)
-        self.__eraseButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().delete, cursor="X_cursor")
+        self.__eraseButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().delete, cursor="X_cursor")
         self.__eraseButton.grid(row=1, column=4, padx=2, pady=5)
         createToolTip(self.__eraseButton, "Erase polygon")
 
         # recolor shapes
         self.paintIMG = ImageTk.PhotoImage(file="ico/paint.png")
         self.__paintButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.paintIMG, width=30, height=30)
-        self.__paintButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().paint, cursor="")
+        self.__paintButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().paint, cursor="")
         self.__paintButton.grid(row=2, column=2, padx=2, pady=5)
         createToolTip(self.__paintButton, "Paint")
 
         # outline shapes
         self.outlineIMG = ImageTk.PhotoImage(file="ico/focus.png")
-        self.__outlineButton = Button(self.lowerButtonFrame, image=self.outlineIMG, width=30, height=30, command=lambda: self.__parent.getPolygonList().outline())
+        self.__outlineButton = Button(self.lowerButtonFrame, image=self.outlineIMG, width=30, height=30, command=lambda: self.__parent.get_polygon_list().outline())
         self.__outlineButton.grid(row=2, column=1, padx=2, pady=5)
         createToolTip(self.__outlineButton, "Focus")
         
         # hide shapes
         self.plotIMG = ImageTk.PhotoImage(file="ico/hide.png")
-        self.__plotButton = Button(self.lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__parent.getPolygonList().hide())
+        self.__plotButton = Button(self.lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__parent.get_polygon_list().hide())
         self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
         createToolTip(self.__plotButton, "Hide polygons")
         
         # save shapes as JSON
         self.saveIMG = ImageTk.PhotoImage(file="ico/save.png")
-        self.__saveButton = Button(self.lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.__parent.notifySaveJSON)
+        self.__saveButton = Button(self.lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.__parent.save_json)
         self.__saveButton.grid(row=2, column=4, padx=2, pady=5)
         createToolTip(self.__saveButton, "Save visible\n objects\n to JSON")
         
@@ -190,20 +190,20 @@ class ToolsWindow(Toplevel):
         # retrieve shape properties
         self.propIMG = ImageTk.PhotoImage(file="ico/cog.png")
         self.__propButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.propIMG, width=30, height=30)
-        self.__propButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().properties)
+        self.__propButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().properties)
         self.__propButton.grid(row=3, column=2, padx=2, pady=5)
         createToolTip(self.__propButton, "Polygon Properties")
         
         # edit shape attributes
         self.editIMG = ImageTk.PhotoImage(file="ico/edit.png")
         self.__editButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.editIMG, width=30, height=30)
-        self.__editButton.latch(key="<Button-1>", command=self.__parent.attributeWindow)
+        self.__editButton.latch(key="<Button-1>", command=self.__parent.attribute_window)
         self.__editButton.grid(row=3, column=3, padx=2, pady=5)
         createToolTip(self.__editButton, "Edit Attributes")
         
         self.testIMG = ImageTk.PhotoImage(file="ico/button.png")
         self.__testButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.testIMG, width=30, height=30)
-        self.__testButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().extractShapeData)
+        self.__testButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().extractShapeData)
         self.__testButton.grid(row=3, column=4, padx=2, pady=5)
         createToolTip(self.__testButton, "test button")
         
@@ -248,4 +248,4 @@ class ToolsWindow(Toplevel):
             return
         
         logger.info("Calling plot")
-        self.__parent.setPlot(self.plotType.get(), xrange_=(beginningRange, endingRange))
+        self.__parent.set_plot(self.plotType.get(), xrange_=(beginningRange, endingRange))

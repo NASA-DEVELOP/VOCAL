@@ -141,7 +141,7 @@ class dbDialog(Toplevel):
             tag = self.tree.tree.item(tag, option="values")
             names = [x.tag for x in self.__itList]
             logger.info("Forward JSON to be read")
-            self.__master.getPolygonList().readPlot(
+            self.__master.get_polygon_list().readPlot(
                 readFromString=str(self.__itList[names.index(tag[0])]))
         logger.info("Done")
         self.free()
