@@ -12,6 +12,7 @@ from db import db, DatabasePolygon
 from tools.tools import center
 from tools.treelistbox import TreeListBox
 from log import logger
+
 import collections
 import tkMessageBox
 import constants

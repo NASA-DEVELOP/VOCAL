@@ -5,11 +5,11 @@
 ###################################
 from Tkinter import Label, Toplevel, Frame, Button, IntVar, BOTH, FALSE, \
     BOTTOM, Radiobutton, Entry, X, TOP
-
 from PIL import ImageTk
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import createToolTip
 from log import logger
+
 import constants
 import re
 import tkMessageBox
