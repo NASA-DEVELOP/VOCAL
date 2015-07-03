@@ -17,6 +17,7 @@ from plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from polygon.list import PolygonList
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.tools import Catcher
+from tools.linearalgebra import distance
 from toolswindow import ToolsWindow
 from log import logger
 
@@ -28,6 +29,8 @@ class Calipso(object):
     def __init__ (self, r):    
         self.__root = r                         # root of program
         self.__file =  ''                       # current file in use
+        self.xrange = self.yrange = (0,1000)
+        self.plot = 0
         
         # TODO: Add icon for window an task bar
         
@@ -110,7 +113,7 @@ class Calipso(object):
         #configure menu to screen
         self.__root.config(menu=self.__menuBar)
 
-    def setPlot(self, plotType):
+    def setPlot(self, plotType, xrange_=(0,1000), yrange=(0,20)):
         '''
         Draws to the canvas according to the *plotType* specified in the arguments. Accepts one of the 
         attributes below
@@ -121,22 +124,30 @@ class Calipso(object):
         .. py:attribute:: VFML
         
         :param int plotType: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
+        :param (int,int) xrange: accepts a range of time to plot
+        :param (int,int) yrange: accepts a range of altitude to plot
         '''
+        self.xrange = xrange_
+        self.yrange = yrange
         if (plotType) == constants.BASE_PLOT:
             self.__polygonList.setPlot(constants.BASE_PLOT)                                     # sets the screen to a blank canvas
-        elif (plotType.get()) == constants.BACKSCATTERED:
+        elif plotType == constants.BACKSCATTERED:
             try:
-                logger.info("Setting plot to backscattered")
+                #prev = self.__root.cget('cursor')
+
+                logger.info("Setting plot to backscattered xrange: " + 
+                    str(xrange_) + " yrange: " + str(yrange))
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1,1,1)                                # create subplot
-                drawBackscattered(self.__file, self.__fig, self.__Parentfig)                    # plot the backscattered image 
+                drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__Parentfig)
                 self.__drawplotCanvas.show()                                                    # show canvas
                 self.__polygonList.setPlot(constants.BACKSCATTERED)                             # set the current plot on polygonList
                 self.__toolbar.update()                                                         # update toolbar
+                self.plot = constants.BACKSCATTERED
             except IOError:
                 logger.error("IOError, no file exists")
                 tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists in current file var
-        elif (plotType.get()) == constants.DEPOLARIZED:
+        elif plotType == constants.DEPOLARIZED:
             try:
                 logger.info("Setting plot to depolarized")
                 self.__Parentfig.clear()                                                        # clear the figure
@@ -144,14 +155,14 @@ class Calipso(object):
                 drawDepolar(self.__file, self.__fig, self.__Parentfig)                          # plot the depolarized image
                 self.__polygonList.setPlot(constants.DEPOLARIZED)                               # set the internal plot
                 self.__drawplotCanvas.show()                                                    # show plot
-                self.__toolbar.update()                                                         # update toolbar
+                self.__toolbar.update()   
+                self.plot = constants.DEPOLARIZED                                                      # update toolbar
             except IOError:
                 logger.error("IOError, no file exists")
                 tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists
-        elif (plotType.get()) == constants.VFM:
+        elif plotType == constants.VFM:
             logger.error("Accessing unimplemented VFM plot")
-            tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")     # vfm doesn't exist
-    
+            tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")  # vfm doesn't exist
     def reset(self):
         '''
         Reset all objects on the screen, move pan to original
@@ -159,6 +170,29 @@ class Calipso(object):
         logger.info("Reseting plot")
         self.__polygonList.reset()  # reset all buttons
         self.__toolbar.home()       # proc toolbar function to reset plot to home
+        
+    def pan(self, event):
+        logger.info("Pan point 1")
+        self.panx = event.x
+        self.pany = event.y
+    
+    def renderPan(self, event):
+        logger.info("Pan point 2, finding distance and panning...")
+        dst = int(distance(self.panx, self.pany, event.x, event.y) * 1.5)
+        if self.panx < event.x:
+            if self.xrange[0] == 0:
+                logger.warning("Attempting to pan backwards, already at beginning nothing to be done")
+                return
+            if self.xrange[0]-dst < 0:
+                logger.warning("Attempting to pan past beginning, setting to beginning")
+                self.xrange = (0, self.xrange[1])
+                dst = 0
+            logger.info("Panning backwards")
+            self.setPlot(self.plot, (self.xrange[0]-dst, self.xrange[1]-dst))
+        else:
+            logger.info("Panning forewards")
+            self.setPlot(self.plot, (self.xrange[0]+dst, self.xrange[1]+dst))
+        pass
         
     def createTopScreenGUI(self):
         ''' 
@@ -328,8 +362,8 @@ def main():
     program.setupMainScreen()   # create top buttons, initialize child and display base_plt
         
     rt.mainloop()               # program main loop
-    os._exit(1)
     logging.info("Terminated CALIPSO program")
+    os._exit(1)
         
 #### RUN LINES ##################################################################################        
 if __name__ == "__main__":

@@ -201,6 +201,7 @@ class PolygonList(object):
         :param event: Tkinter passed event object
         '''
         if self.__plot == constants.BASE_PLOT_STR:
+            logger.error("Cannot draw to base plot")
             return
         self.__currentList[-1].fillRectangle(event, self.__plot, PolygonList.outlineToggle)
         self.generateTag()
@@ -293,6 +294,21 @@ class PolygonList(object):
             self.__canvas._tkcanvas.itemconfigure(target, fill=color[1], outline=color[1])
             polyShape = self.__findPolygonByItemHandler(target)
             polyShape.setColor(color[1])
+            
+    def extractShapeData(self, event):
+        '''
+        Retrieves the data bounded by the polygon
+        
+        :param event: Tkinter passed event object
+        '''
+        flag = False
+        target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
+        for shape in self.__currentList:
+            if shape.getItemHandler() == target[0]:
+                flag = True
+        if flag:
+            logger.info("Extrating data")
+            
         
     def hide(self):
         '''
@@ -314,6 +330,7 @@ class PolygonList(object):
         
         :param event: Tkinter passed event object
         '''
+        logger.info("Properties function called")
         target = self.__canvas._tkcanvas.find_closest(event.x, event.y)
         for shape in self.__currentList:
             if shape.getItemHandler() is target[0]:

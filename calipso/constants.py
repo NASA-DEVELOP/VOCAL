@@ -4,11 +4,11 @@
 #    @author: nqian
 #
 #    Module for all constants
-######################################
+######################################-
 HEIGHT          = 665
 WIDTH           = 1265
 CHILDWIDTH      = 200
-CHILDHEIGHT     = 300
+CHILDHEIGHT     = 325
 IMPORTWIDTH     = 1000
 IMPORTHEIGH     = 500
 
