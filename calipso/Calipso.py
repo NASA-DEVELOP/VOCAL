@@ -4,6 +4,7 @@ from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
 import Tkinter as tk
 import logging, os, tkFileDialog, tkMessageBox
 
+from sys import platform as _platform
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -81,7 +82,12 @@ class Calipso(object):
         # the child is designed to appear off to the right of the parent window, so the x location
         # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
         # plus half the distance of the window
-        self.__child.geometry('%dx%d+%d+%d' % (constants.CHILDWIDTH, constants.CHILDHEIGHT, self.x + self.x*4 + 20, self.y + self.y/2))
+        if _platform == "linux" or _platform == "linux2":
+            logger.info("Linux system detected")
+            logger.info(self.x)
+            self.__child.geometry('%dx%d+%d+%d' % (constants.CHILDWIDTH+50, constants.CHILDHEIGHT, self.x + constants.WIDTH, self.y + constants.HEIGHT/4))
+        else:
+            self.__child.geometry('%dx%d+%d+%d' % (constants.CHILDWIDTH, constants.CHILDHEIGHT, self.x + self.x*4 + 20, self.y + self.y/2))
        
 #### MENU BAR ######################################################################################   
     def setupMenu(self):
