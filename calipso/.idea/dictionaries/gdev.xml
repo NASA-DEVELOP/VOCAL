@@ -33,6 +33,7 @@
       <w>plotcursor</w>
       <w>proc</w>
       <w>qian</w>
+      <w>scrollbars</w>
       <w>sqlalchemy</w>
       <w>sqlite</w>
       <w>tablename</w>
@@ -40,6 +41,8 @@
       <w>tkxmid</w>
       <w>tkymid</w>
       <w>toolswindow</w>
+      <w>treelistbox</w>
+      <w>treeview</w>
       <w>yrange</w>
     </words>
   </dictionary>
