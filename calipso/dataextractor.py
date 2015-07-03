@@ -4,7 +4,7 @@
 #   @author: Nathan Qian
 ###################################
 from ccplot.hdf import HDF
-from tools.linearalgebra import getVector
+from tools.linearalgebra import get_vector
 from polygon.drawer import PolygonDrawer
 
 import datetime
@@ -44,7 +44,7 @@ def extract_data(polygon_drawer, fname):
             # max_y = max(coordinates, key=lambda y: y[1])
             vectors = []
             for i in range(len(coordinates)-1):
-                vectors.append(getVector(coordinates[i], coordinates[i+1]))
+                vectors.append(get_vector(coordinates[i], coordinates[i + 1]))
             
     
 def is_rectangle(vertices):

@@ -7,7 +7,7 @@ from Tkinter import Label, Toplevel, Frame, Button, IntVar, BOTH, FALSE, \
     BOTTOM, Radiobutton, Entry, X, TOP
 from PIL import ImageTk
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
-from tools.tooltip import createToolTip
+from tools.tooltip import create_tool_tip
 from log import logger
 
 import constants
@@ -85,10 +85,10 @@ class ToolsWindow(Toplevel):
         # Reset and render button
         reset_button = Button(self.upper_button_frame, text='Reset', width=12, command=self.__parent.reset)
         reset_button.grid(row=0, column=0, pady=2)
-        createToolTip(reset_button, 'Reset the field of view and clear polygons')
+        create_tool_tip(reset_button, 'Reset the field of view and clear polygons')
         render_button = Button(self.upper_button_frame, text='Render', width=12, height=4, command=self.render)
         render_button.grid(row=0, column=1, rowspan=4, sticky='e')
-        createToolTip(render_button, 'Render the loaded file\nto the screen')
+        create_tool_tip(render_button, 'Render the loaded file\nto the screen')
 
         # Plot selection type
         Radiobutton(self.upper_button_frame, text='Backscattered',
@@ -126,19 +126,19 @@ class ToolsWindow(Toplevel):
                                               image=self.magnify_draw_img, width=30, height=30)
         zoom_button.latch(cursor='tcross')
         zoom_button.grid(row=0, column=2, padx=2, pady=5)
-        createToolTip(zoom_button, 'Zoom to rect')
+        create_tool_tip(zoom_button, 'Zoom to rect')
 
         # Plot undo icon
         undo_button = Button(self.lower_button_frame, image=self.undo_img, width=30, height=30,
                              command=lambda: self.__parent.get_toolbar().back(True))
         undo_button.grid(row=0, column=3, padx=2, pady=5)
-        createToolTip(undo_button, 'Previous View')
+        create_tool_tip(undo_button, 'Previous View')
 
         # Plot redo icon
         redo_button = Button(self.lower_button_frame, image=self.redo_img, width=30, height=30,
                              command=lambda: self.__parent.get_toolbar().forward(True))
         redo_button.grid(row=0, column=4, padx=2, pady=5)
-        createToolTip(redo_button, 'Next View')
+        create_tool_tip(redo_button, 'Next View')
 
         # Draw rectangle shape
         polygon_button = \
@@ -150,14 +150,14 @@ class ToolsWindow(Toplevel):
         polygon_button.latch(key='<ButtonRelease-1>',
                              command=self.__parent.get_polygon_list().fillRectangle, cursor='tcross')
         polygon_button.grid(row=1, column=1, padx=2, pady=5)
-        createToolTip(polygon_button, 'Draw Rect')
+        create_tool_tip(polygon_button, 'Draw Rect')
 
         # Free form shape creation
         free_draw_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.free_draw_img, width=30, height=30)
         free_draw_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().plotPoint, cursor='tcross')
         free_draw_button.grid(row=1, column=3, padx=2, pady=5)
-        createToolTip(free_draw_button, 'Free Draw')
+        create_tool_tip(free_draw_button, 'Free Draw')
 
         # Pan plot left and right
         plot_cursor_button = \
@@ -166,70 +166,70 @@ class ToolsWindow(Toplevel):
         plot_cursor_button.latch(key='<ButtonRelease-1>', command=self.__parent.render_pan)
         plot_cursor_button.latch(cursor='hand1')
         plot_cursor_button.grid(row=0, column=1, padx=2, pady=5)
-        createToolTip(plot_cursor_button, 'Move about plot')
+        create_tool_tip(plot_cursor_button, 'Move about plot')
 
         # Move polygon and rectangles around
         drag_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.drag_img, width=30, height=30)
         drag_button.latch(key='<Button-2>', command=self.__parent.get_polygon_list().toggleDrag, cursor='hand1')
         drag_button.grid(row=1, column=2, padx=2, pady=5)
-        createToolTip(drag_button, 'Drag')
+        create_tool_tip(drag_button, 'Drag')
 
         # Erase polygon drawings
         erase_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.erase_img, width=30, height=30)
         erase_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().delete, cursor='X_cursor')
         erase_button.grid(row=1, column=4, padx=2, pady=5)
-        createToolTip(erase_button, 'Erase polygon')
+        create_tool_tip(erase_button, 'Erase polygon')
 
         # Recolor shapes
         paint_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.paint_img, width=30, height=30)
         paint_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().paint, cursor='')
         paint_button.grid(row=2, column=2, padx=2, pady=5)
-        createToolTip(paint_button, 'Paint')
+        create_tool_tip(paint_button, 'Paint')
 
         # Outline shapes
         outline_button = \
             Button(self.lower_button_frame, image=self.outline_img, width=30, height=30,
                    command=lambda: self.__parent.get_polygon_list().outline())
         outline_button.grid(row=2, column=1, padx=2, pady=5)
-        createToolTip(outline_button, 'Focus')
+        create_tool_tip(outline_button, 'Focus')
 
         # Hide shapes
         plot_button = \
             Button(self.lower_button_frame, image=self.plot_img, width=30, height=30,
                    command=lambda: self.__parent.get_polygon_list().hide())
         plot_button.grid(row=2, column=3, padx=2, pady=5)
-        createToolTip(plot_button, 'Hide polygons')
+        create_tool_tip(plot_button, 'Hide polygons')
 
         # Save shapes as JSON
         save_button = \
             Button(self.lower_button_frame, image=self.save_img, width=30, height=30, command=self.__parent.save_json)
         save_button.grid(row=2, column=4, padx=2, pady=5)
-        createToolTip(save_button, 'Save visible\n objects\n to JSON')
+        create_tool_tip(save_button, 'Save visible\n objects\n to JSON')
 
         # Load shapes from JSON
         load_button = \
             Button(self.lower_button_frame, image=self.load_img, width=30, height=30, command=self.__parent.load)
         load_button.grid(row=3, column=1, padx=2, pady=5)
-        createToolTip(load_button, 'Load JSON')
+        create_tool_tip(load_button, 'Load JSON')
 
         # Retrieve shape properties
         properties_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.prop_img, width=30, height=30)
         properties_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().properties)
         properties_button.grid(row=3, column=2, padx=2, pady=5)
-        createToolTip(properties_button, 'Polygon Properties')
+        create_tool_tip(properties_button, 'Polygon Properties')
 
         # Edit shape attributes
         edit_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.edit_img, width=30, height=30)
         edit_button.latch(key='<Button-1>', command=self.__parent.attribute_window)
         edit_button.grid(row=3, column=3, padx=2, pady=5)
-        createToolTip(edit_button, 'Edit Attributes')
+        create_tool_tip(edit_button, 'Edit Attributes')
 
         # Testing button
         test_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.test_img, width=30, height=30)
         test_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().extractShapeData)
         test_button.grid(row=3, column=4, padx=2, pady=5)
-        createToolTip(test_button, 'test button')
+        create_tool_tip(test_button, 'test button')
 
     def render(self):
         """

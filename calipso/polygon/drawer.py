@@ -11,8 +11,8 @@ import time
 
 import constants
 from log import logger
-from tools.linearalgebra import tupleToNpArray, getIntersection, \
-    npArrayToTuple, isIntersecting
+from tools.linearalgebra import tuple_to_nparray, get_intersection, \
+    nparray_to_tuple, is_intersecting
 
 
 class PolygonDrawer(object):
@@ -165,20 +165,20 @@ class PolygonDrawer(object):
             index = self.__canDrawPolygon()
             if index > -1:
                 logger.info("Creating polygon from points")
-                a1 = tupleToNpArray(self.__vertices[index])
-                a2 = tupleToNpArray(self.__vertices[index+1])
-                b1 = tupleToNpArray(self.__vertices[-1])
-                b2 = tupleToNpArray(self.__vertices[-2])
-                x = getIntersection(a1, a2, b1, b2)
-                pair = npArrayToTuple(x)
+                a1 = tuple_to_nparray(self.__vertices[index])
+                a2 = tuple_to_nparray(self.__vertices[index + 1])
+                b1 = tuple_to_nparray(self.__vertices[-1])
+                b2 = tuple_to_nparray(self.__vertices[-2])
+                x = get_intersection(a1, a2, b1, b2)
+                pair = nparray_to_tuple(x)
                 self.__vertices[index] = pair
                 
-                a1 = tupleToNpArray(self.__coordinates[index])
-                a2 = tupleToNpArray(self.__coordinates[index+1])
-                b1 = tupleToNpArray(self.__coordinates[-1])
-                b2 = tupleToNpArray(self.__coordinates[2])
-                x = getIntersection(a1, a2, b1, b2)
-                pair = npArrayToTuple(x)
+                a1 = tuple_to_nparray(self.__coordinates[index])
+                a2 = tuple_to_nparray(self.__coordinates[index + 1])
+                b1 = tuple_to_nparray(self.__coordinates[-1])
+                b2 = tuple_to_nparray(self.__coordinates[2])
+                x = get_intersection(a1, a2, b1, b2)
+                pair = nparray_to_tuple(x)
                 self.__coordinates[index] = pair
                 
                 del self.__vertices[:index]
@@ -443,12 +443,12 @@ class PolygonDrawer(object):
             self.__coordinates[i] = newPoint
     
     def __canDrawPolygon(self):
-        b1 = tupleToNpArray(self.__vertices[-1])
-        b2 = tupleToNpArray(self.__vertices[-2])
+        b1 = tuple_to_nparray(self.__vertices[-1])
+        b2 = tuple_to_nparray(self.__vertices[-2])
         for i in range(len(self.__vertices)-3):
-            a1 = tupleToNpArray(self.__vertices[i])
-            a2 = tupleToNpArray(self.__vertices[i+1])
-            if isIntersecting(a1, a2, b1, b2):
+            a1 = tuple_to_nparray(self.__vertices[i])
+            a2 = tuple_to_nparray(self.__vertices[i + 1])
+            if is_intersecting(a1, a2, b1, b2):
                 logger.info("Polygon labeled for draw")
                 return i
         return -1
