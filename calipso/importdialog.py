@@ -27,7 +27,7 @@ class dbDialog(Toplevel):
     '''
     def __init__(self, root, master):
         '''
-        :param: root: root tk widget, often Tk()
+        :param: root: root Tk widget, often Tk()
         :param: master: the main window, for access of polygonList
         '''
         logger.info("Instantiating dbDialog")
