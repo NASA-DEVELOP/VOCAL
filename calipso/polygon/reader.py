@@ -73,7 +73,7 @@ class PolygonReader(object):
         '''
         try:
             for shape in self.__data[plotType]:
-                #print int(self.__data[plotType][shape]['id']) not in [x.getID() for x in polygonList]
+                #print int(self.__data[plot_type][shape]['id']) not in [x.getID() for x in polygonList]
                 entry = self.__data[plotType][shape]['id']
                 if entry is not None and int(entry) in [x.getID() for x in polygonList]: continue
                 logger.info("Found data, packing polygon with JSON data")

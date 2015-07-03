@@ -3,249 +3,281 @@
 #
 #    @author: Grant Mercer
 ######################################
-from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM, Radiobutton, Entry, X,TOP, LEFT, Y
+from Tkinter import Label, Toplevel, Frame, Button, IntVar, BOTH, FALSE, \
+    BOTTOM, Radiobutton, Entry, X, TOP
 
-from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
-import constants, re
+from PIL import ImageTk
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import createToolTip
 from log import logger
+import constants
+import re
 import tkMessageBox
 
+
 class ToolsWindow(Toplevel):
-    '''
+    """
     Other main portion of the program, the tools window is in charge of managing all
-    tool and manipulation related buttons , and is created bound to root but is 
+    tool and manipulation related buttons , and is created bound to root but is
     technically a standalone window.
-    '''
+
+    :param parent: the class that has this instance of ToolsWindow
+    :param root: the root of the program
+    """
     def __init__(self, parent, root):
-        '''
-        Call base class __init__, also create panes for buttons and setup
-        any prerequisite widgets before creating buttons
-        :param parent: the class that has this instance of ToolsWindow
-        :param root: the root of the program
-        '''
         Toplevel.__init__(self, root)
-        
+
+        # Images required by buttons
+        self.test_img = ImageTk.PhotoImage(file='ico/button.png')
+        self.edit_img = ImageTk.PhotoImage(file='ico/edit.png')
+        self.prop_img = ImageTk.PhotoImage(file='ico/cog.png')
+        self.load_img = ImageTk.PhotoImage(file='ico/load.png')
+        self.save_img = ImageTk.PhotoImage(file='ico/save.png')
+        self.plot_img = ImageTk.PhotoImage(file='ico/hide.png')
+        self.outline_img = ImageTk.PhotoImage(file='ico/focus.png')
+        self.paint_img = ImageTk.PhotoImage(file='ico/paint.png')
+        self.erase_img = ImageTk.PhotoImage(file='ico/eraser.png')
+        self.drag_img = ImageTk.PhotoImage(file='ico/cursorhand.png')
+        self.plot_cursor_img = ImageTk.PhotoImage(file='ico/plotcursor.png')
+        self.free_draw_img = ImageTk.PhotoImage(file='ico/freedraw.png')
+        self.polygon_img = ImageTk.PhotoImage(file='ico/polygon.png')
+        self.redo_img = ImageTk.PhotoImage(file='ico/forward.png')
+        self.undo_img = ImageTk.PhotoImage(file='ico/back.png')
+        self.magnify_draw_img = ImageTk.PhotoImage(file='ico/magnify.png')
+
         self.__parent = parent
         self.__root = root
-        self.plotType = IntVar()
-        
-        self.title("Tools")
+        self.plot_type = IntVar()
+
+        self.title('Tools')
         self.resizable(width=FALSE, height=FALSE)
-        self.protocol("WM_DELETE_WINDOW", ToolsWindow.ignore)
+        self.protocol('WM_DELETE_WINDOW', ToolsWindow.ignore)
         self.container = Frame(self)
-        self.container.pack(side=TOP, fill=BOTH, expand=True )    
-        
-        self.coordinateFrame = Frame(self.container, width=50, height=50)
-        self.coordinateFrame.config(highlightthickness=1)                        # create a small border around the frame
-        self.coordinateFrame.config(highlightbackground="grey")
-        self.coordinateFrame.pack(side=BOTTOM, fill=BOTH, expand=False)                                      
-    
+        self.container.pack(side=TOP, fill=BOTH, expand=True)
+
+        self.coordinate_frame = Frame(self.container, width=50, height=50)
+        self.coordinate_frame.config(highlightthickness=1)
+        self.coordinate_frame.config(highlightbackground='grey')
+        self.coordinate_frame.pack(side=BOTTOM, fill=BOTH, expand=False)
+
+        self.upper_button_frame = None
+        self.upper_range_frame = None
+        self.lower_button_frame = None
+        self.begin_range_entry = None
+        self.end_range_entry = None
+
     @staticmethod
     def ignore():
-        '''
+        """
         Do nothing when the user presses the close button
-        '''
+        """
         pass
-        
-    def setupToolBarButtons(self):
-        '''
+
+    def setup_toolbar_buttons(self):
+        """
         Create tool bar buttons
-        '''
-        logger.info("Setting up toolbar")
-        
-        self.upperButtonFrame = Frame(self.container)                                  # upper button frame holding text buttons
-        self.upperButtonFrame.pack(side=TOP, fill=X)    
-        
-        self.resetButton = Button(self.upperButtonFrame, text = "Reset", width = 12, command=self.__parent.reset)
-        self.resetButton.grid(row=0, column=0, pady=2)
-        createToolTip(self.resetButton, "Reset the field of view and clear polygons")
-        self.renderButton = Button(self.upperButtonFrame, text = "Render", width = 12, height=4, command = self.render)
-        self.renderButton.grid(row=0, column=1, rowspan=4, sticky="e")
-        createToolTip(self.renderButton, "Render the loaded file\nto the screen")
-        
-        self.bScattered = Radiobutton(self.upperButtonFrame, text="Backscattered", 
-            variable=self.plotType, value=constants.BACKSCATTERED).grid(row=1, column=0, sticky="w")
-        self.depolarized = Radiobutton(self.upperButtonFrame, text="Depolarized", 
-            variable=self.plotType, value=constants.DEPOLARIZED).grid(row=2, column=0, sticky="w")
+        """
+        logger.info('Setting up toolbar')
 
-        self.upperRangeFrame = Frame(self.container)
-        self.upperRangeFrame.pack(side=TOP, fill=X)
-        
-        Label(self.upperRangeFrame, text="Step").\
-            grid(row=3, column=0, pady=5, sticky="w")
-        self.beginRangeEntry = Entry(self.upperRangeFrame, width=12)
-        self.beginRangeEntry.grid(row=3, column=1, pady=5, sticky="w")
-        
-        Label(self.upperRangeFrame, text="to").\
-            grid(row=3, column=2, pady=5, sticky="w")
-        self.endRangeEntry = Entry(self.upperRangeFrame, width=11)
-        self.endRangeEntry.grid(row=3, column=3, pady=5, sticky="w")
-        
-        ###################################Lower Frame##############################################
-        
-        self.lowerButtonFrame = Frame(self.container)                                  # lower button frame for tools
-        self.lowerButtonFrame.config(highlightthickness=1)                        # create a small border around the frame
-        self.lowerButtonFrame.config(highlightbackground="grey")
-        self.lowerButtonFrame.pack(side=BOTTOM)
-        
-        lblSpace1 = Label(self.lowerButtonFrame, width=1)     # create space between frame outline
-        lblSpace1.grid(row=0, column=0)
-            
-        lblSpace2 = Label(self.lowerButtonFrame, width=1)
-        lblSpace2.grid(row=0, column=5)
-        
-        # magnify icon
-        logger.info("Creating toolbar buttons")
-        self.magnifydrawIMG = ImageTk.PhotoImage(file="ico/magnify.png")
-        self.__zoomButton = ToolbarToggleableButton(self.__root, self.lowerButtonFrame, lambda : self.__parent.get_toolbar().zoom(True), image=self.magnifydrawIMG, width=30, height=30)
-        self.__zoomButton.latch(cursor="tcross")
-        self.__zoomButton.grid(row=0, column=2, padx=2, pady=5)
-        createToolTip(self.__zoomButton, "Zoom to rect")
-        
-        # plot undo icon
-        self.undoIMG = ImageTk.PhotoImage(file="ico/back.png")
-        self.__undoButton = Button(self.lowerButtonFrame, image=self.undoIMG, width=30, height=30, command=lambda : self.__parent.get_toolbar().back(True))
-        self.__undoButton.grid(row=0, column=3, padx=2, pady=5)
-        createToolTip(self.__undoButton, "Previous View")
-        
-        # plot redo icon
-        self.redoIMG = ImageTk.PhotoImage(file="ico/forward.png")
-        self.__redoButton = Button(self.lowerButtonFrame, image=self.redoIMG, width=30, height=30, command=lambda : self.__parent.get_toolbar().forward(True))
-        self.__redoButton.grid(row=0, column=4, padx=2, pady=5)
-        createToolTip(self.__redoButton, "Next View")
+        self.upper_button_frame = Frame(self.container)
+        self.upper_button_frame.pack(side=TOP, fill=X)
 
-        # draw rectangle shape
-        self.polygonIMG = ImageTk.PhotoImage(file="ico/polygon.png")
-        self.__polygonButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.polygonIMG, width=30, height=30)
-        self.__polygonButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().anchorRectangle, cursor="tcross")
-        self.__polygonButton.latch(key="<B1-Motion>", command=self.__parent.get_polygon_list().rubberBand, cursor="tcross")
-        self.__polygonButton.latch(key="<ButtonRelease-1>", command=self.__parent.get_polygon_list().fillRectangle, cursor="tcross")
-        self.__polygonButton.grid(row=1, column=1, padx=2, pady=5)
-        createToolTip(self.__polygonButton, "Draw Rect")
-        
-        # free form shape creation
-        self.freedrawIMG = ImageTk.PhotoImage(file="ico/freedraw.png")
-        self.__freedrawButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.freedrawIMG, width=30, height=30)
-        self.__freedrawButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().plotPoint, cursor="tcross")
-        self.__freedrawButton.grid(row=1, column=3, padx= 2, pady=5)
-        createToolTip(self.__freedrawButton, "Free Draw")
-        
-                # plot move cursor icon
-        self.plotcursorIMG = ImageTk.PhotoImage(file="ico/plotcursor.png")
-        self.__plotCursorButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.plotcursorIMG, width=30, height=30)
-        self.__plotCursorButton.latch(key="<ButtonPress-1>", command=self.__parent.pan)
-        self.__plotCursorButton.latch(key="<ButtonRelease-1>", command=self.__parent.render_pan)
-        self.__plotCursorButton.latch(cursor="hand1")
-        self.__plotCursorButton.grid(row=0, column=1, padx=2, pady=5)
-        createToolTip(self.__plotCursorButton, "Move about plot")
-        
-        # move polygon and rectangles around
-        self.dragIMG = ImageTk.PhotoImage(file="ico/cursorhand.png")
-        self.__dragButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.dragIMG, width=30, height=30)
-        self.__dragButton.latch(key="<Button-2>", command=self.__parent.get_polygon_list().toggleDrag, cursor="hand1")
-        self.__dragButton.grid(row=1, column=2, padx=2, pady=5)
-        createToolTip(self.__dragButton, "Drag")
-        
-        # erase polygon drawings
-        self.eraseIMG = ImageTk.PhotoImage(file="ico/eraser.png")
-        self.__eraseButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.eraseIMG, width=30, height=30)
-        self.__eraseButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().delete, cursor="X_cursor")
-        self.__eraseButton.grid(row=1, column=4, padx=2, pady=5)
-        createToolTip(self.__eraseButton, "Erase polygon")
+        # Reset and render button
+        reset_button = Button(self.upper_button_frame, text='Reset', width=12, command=self.__parent.reset)
+        reset_button.grid(row=0, column=0, pady=2)
+        createToolTip(reset_button, 'Reset the field of view and clear polygons')
+        render_button = Button(self.upper_button_frame, text='Render', width=12, height=4, command=self.render)
+        render_button.grid(row=0, column=1, rowspan=4, sticky='e')
+        createToolTip(render_button, 'Render the loaded file\nto the screen')
 
-        # recolor shapes
-        self.paintIMG = ImageTk.PhotoImage(file="ico/paint.png")
-        self.__paintButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.paintIMG, width=30, height=30)
-        self.__paintButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().paint, cursor="")
-        self.__paintButton.grid(row=2, column=2, padx=2, pady=5)
-        createToolTip(self.__paintButton, "Paint")
+        # Plot selection type
+        Radiobutton(self.upper_button_frame, text='Backscattered',
+                    variable=self.plot_type, value=constants.BACKSCATTERED)\
+            .grid(row=1, column=0, sticky='w')
+        Radiobutton(self.upper_button_frame, text='Depolarized',
+                    variable=self.plot_type, value=constants.DEPOLARIZED).\
+            grid(row=2, column=0, sticky='w')
 
-        # outline shapes
-        self.outlineIMG = ImageTk.PhotoImage(file="ico/focus.png")
-        self.__outlineButton = Button(self.lowerButtonFrame, image=self.outlineIMG, width=30, height=30, command=lambda: self.__parent.get_polygon_list().outline())
-        self.__outlineButton.grid(row=2, column=1, padx=2, pady=5)
-        createToolTip(self.__outlineButton, "Focus")
-        
-        # hide shapes
-        self.plotIMG = ImageTk.PhotoImage(file="ico/hide.png")
-        self.__plotButton = Button(self.lowerButtonFrame, image=self.plotIMG, width=30, height=30, command=lambda: self.__parent.get_polygon_list().hide())
-        self.__plotButton.grid(row=2, column=3, padx=2, pady=5)
-        createToolTip(self.__plotButton, "Hide polygons")
-        
-        # save shapes as JSON
-        self.saveIMG = ImageTk.PhotoImage(file="ico/save.png")
-        self.__saveButton = Button(self.lowerButtonFrame, image=self.saveIMG, width=30, height=30, command=self.__parent.save_json)
-        self.__saveButton.grid(row=2, column=4, padx=2, pady=5)
-        createToolTip(self.__saveButton, "Save visible\n objects\n to JSON")
-        
-        # load shapes from JSON
-        self.loadIMG = ImageTk.PhotoImage(file="ico/load.png")
-        self.__loadButton = Button(self.lowerButtonFrame, image=self.loadIMG, width=30, height=30, command=self.__parent.load)
-        self.__loadButton.grid(row=3, column=1, padx=2, pady=5)
-        createToolTip(self.__loadButton, "Load JSON")
-        
-        # retrieve shape properties
-        self.propIMG = ImageTk.PhotoImage(file="ico/cog.png")
-        self.__propButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.propIMG, width=30, height=30)
-        self.__propButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().properties)
-        self.__propButton.grid(row=3, column=2, padx=2, pady=5)
-        createToolTip(self.__propButton, "Polygon Properties")
-        
-        # edit shape attributes
-        self.editIMG = ImageTk.PhotoImage(file="ico/edit.png")
-        self.__editButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.editIMG, width=30, height=30)
-        self.__editButton.latch(key="<Button-1>", command=self.__parent.attribute_window)
-        self.__editButton.grid(row=3, column=3, padx=2, pady=5)
-        createToolTip(self.__editButton, "Edit Attributes")
-        
-        self.testIMG = ImageTk.PhotoImage(file="ico/button.png")
-        self.__testButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.testIMG, width=30, height=30)
-        self.__testButton.latch(key="<Button-1>", command=self.__parent.get_polygon_list().extractShapeData)
-        self.__testButton.grid(row=3, column=4, padx=2, pady=5)
-        createToolTip(self.__testButton, "test button")
-        
+        self.upper_range_frame = Frame(self.container)
+        self.upper_range_frame.pack(side=TOP, fill=X)
+
+        Label(self.upper_range_frame, text='Step').\
+            grid(row=3, column=0, pady=5, sticky='w')
+        self.begin_range_entry = Entry(self.upper_range_frame, width=12)
+        self.begin_range_entry.grid(row=3, column=1, pady=5, sticky='w')
+
+        Label(self.upper_range_frame, text='to').\
+            grid(row=3, column=2, pady=5, sticky='w')
+        self.end_range_entry = Entry(self.upper_range_frame, width=11)
+        self.end_range_entry.grid(row=3, column=3, pady=5, sticky='w')
+
+        self.lower_button_frame = Frame(self.container)
+        self.lower_button_frame.config(highlightthickness=1)
+        self.lower_button_frame.config(highlightbackground='grey')
+        self.lower_button_frame.pack(side=BOTTOM)
+
+        Label(self.lower_button_frame, width=1).grid(row=0, column=0)
+        Label(self.lower_button_frame, width=1).grid(row=0, column=5)
+
+        # Magnify icon
+        logger.info('Creating toolbar buttons')
+        zoom_button = ToolbarToggleableButton(self.__root, self.lower_button_frame,
+                                              lambda: self.__parent.get_toolbar().zoom(True),
+                                              image=self.magnify_draw_img, width=30, height=30)
+        zoom_button.latch(cursor='tcross')
+        zoom_button.grid(row=0, column=2, padx=2, pady=5)
+        createToolTip(zoom_button, 'Zoom to rect')
+
+        # Plot undo icon
+        undo_button = Button(self.lower_button_frame, image=self.undo_img, width=30, height=30,
+                             command=lambda: self.__parent.get_toolbar().back(True))
+        undo_button.grid(row=0, column=3, padx=2, pady=5)
+        createToolTip(undo_button, 'Previous View')
+
+        # Plot redo icon
+        redo_button = Button(self.lower_button_frame, image=self.redo_img, width=30, height=30,
+                             command=lambda: self.__parent.get_toolbar().forward(True))
+        redo_button.grid(row=0, column=4, padx=2, pady=5)
+        createToolTip(redo_button, 'Next View')
+
+        # Draw rectangle shape
+        polygon_button = \
+            ToggleableButton(self.__root, self.lower_button_frame, image=self.polygon_img, width=30, height=30)
+        polygon_button.latch(key='<Button-1>',
+                             command=self.__parent.get_polygon_list().anchorRectangle, cursor='tcross')
+        polygon_button.latch(key='<B1-Motion>',
+                             command=self.__parent.get_polygon_list().rubberBand, cursor='tcross')
+        polygon_button.latch(key='<ButtonRelease-1>',
+                             command=self.__parent.get_polygon_list().fillRectangle, cursor='tcross')
+        polygon_button.grid(row=1, column=1, padx=2, pady=5)
+        createToolTip(polygon_button, 'Draw Rect')
+
+        # Free form shape creation
+        free_draw_button = \
+            ToggleableButton(self.__root, self.lower_button_frame, image=self.free_draw_img, width=30, height=30)
+        free_draw_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().plotPoint, cursor='tcross')
+        free_draw_button.grid(row=1, column=3, padx=2, pady=5)
+        createToolTip(free_draw_button, 'Free Draw')
+
+        # Pan plot left and right
+        plot_cursor_button = \
+            ToggleableButton(self.__root, self.lower_button_frame, image=self.plot_cursor_img, width=30, height=30)
+        plot_cursor_button.latch(key='<ButtonPress-1>', command=self.__parent.pan)
+        plot_cursor_button.latch(key='<ButtonRelease-1>', command=self.__parent.render_pan)
+        plot_cursor_button.latch(cursor='hand1')
+        plot_cursor_button.grid(row=0, column=1, padx=2, pady=5)
+        createToolTip(plot_cursor_button, 'Move about plot')
+
+        # Move polygon and rectangles around
+        drag_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.drag_img, width=30, height=30)
+        drag_button.latch(key='<Button-2>', command=self.__parent.get_polygon_list().toggleDrag, cursor='hand1')
+        drag_button.grid(row=1, column=2, padx=2, pady=5)
+        createToolTip(drag_button, 'Drag')
+
+        # Erase polygon drawings
+        erase_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.erase_img, width=30, height=30)
+        erase_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().delete, cursor='X_cursor')
+        erase_button.grid(row=1, column=4, padx=2, pady=5)
+        createToolTip(erase_button, 'Erase polygon')
+
+        # Recolor shapes
+        paint_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.paint_img, width=30, height=30)
+        paint_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().paint, cursor='')
+        paint_button.grid(row=2, column=2, padx=2, pady=5)
+        createToolTip(paint_button, 'Paint')
+
+        # Outline shapes
+        outline_button = \
+            Button(self.lower_button_frame, image=self.outline_img, width=30, height=30,
+                   command=lambda: self.__parent.get_polygon_list().outline())
+        outline_button.grid(row=2, column=1, padx=2, pady=5)
+        createToolTip(outline_button, 'Focus')
+
+        # Hide shapes
+        plot_button = \
+            Button(self.lower_button_frame, image=self.plot_img, width=30, height=30,
+                   command=lambda: self.__parent.get_polygon_list().hide())
+        plot_button.grid(row=2, column=3, padx=2, pady=5)
+        createToolTip(plot_button, 'Hide polygons')
+
+        # Save shapes as JSON
+        save_button = \
+            Button(self.lower_button_frame, image=self.save_img, width=30, height=30, command=self.__parent.save_json)
+        save_button.grid(row=2, column=4, padx=2, pady=5)
+        createToolTip(save_button, 'Save visible\n objects\n to JSON')
+
+        # Load shapes from JSON
+        load_button = \
+            Button(self.lower_button_frame, image=self.load_img, width=30, height=30, command=self.__parent.load)
+        load_button.grid(row=3, column=1, padx=2, pady=5)
+        createToolTip(load_button, 'Load JSON')
+
+        # Retrieve shape properties
+        properties_button = \
+            ToggleableButton(self.__root, self.lower_button_frame, image=self.prop_img, width=30, height=30)
+        properties_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().properties)
+        properties_button.grid(row=3, column=2, padx=2, pady=5)
+        createToolTip(properties_button, 'Polygon Properties')
+
+        # Edit shape attributes
+        edit_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.edit_img, width=30, height=30)
+        edit_button.latch(key='<Button-1>', command=self.__parent.attribute_window)
+        edit_button.grid(row=3, column=3, padx=2, pady=5)
+        createToolTip(edit_button, 'Edit Attributes')
+
+        # Testing button
+        test_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.test_img, width=30, height=30)
+        test_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().extractShapeData)
+        test_button.grid(row=3, column=4, padx=2, pady=5)
+        createToolTip(test_button, 'test button')
+
     def render(self):
-        logger.info("Grabbing range and safe checking")
-        if self.plotType.get() == 0:
-            logger.error("Error, no plot type set")
-            tkMessageBox.showerror("toolswindow", "No plot type specified")
+        """
+        Errors checks all user entered parameters and calls ``set_plot`` from *Calipso*
+        """
+        logger.info('Grabbing range and safe checking')
+        if self.plot_type.get() == 0:
+            logger.error('No plot type set')
+            tkMessageBox.showerror('toolswindow', 'No plot type specified')
             return
-        
-        beginningRange = 0
-        endingRange = 1000
-            
-        if self.beginRangeEntry.get(): 
-            if not re.match("[0-9]+", self.beginRangeEntry.get()) or '.' in  self.beginRangeEntry.get():
-                logger.error("Error, beginning range invalid")
-                tkMessageBox.showerror("toolswindow", 
-                    "Invalid beginning range, range must only contain digits")
+
+        # default beginning and ending range
+        beginning_range = 0
+        ending_range = 1000
+
+        # If entry has text
+        if self.begin_range_entry.get():
+            # If entry is not ONLY numbers
+            if not re.match('[0-9]+', self.begin_range_entry.get()) or '.' in self.begin_range_entry.get():
+                logger.error('Beginning range invalid, not all numeric')
+                tkMessageBox.showerror('toolswindow',
+                                       'Invalid beginning range, range must only contain digits')
                 return
-            beginningRange = int(self.beginRangeEntry.get())
-            endingRange = beginningRange + 1000
-        if self.endRangeEntry.get():
-            if not re.match("[0-9]+", self.endRangeEntry.get()) or '.' in  self.endRangeEntry.get():
-                logger.error("Error, ending range invalid")
-                tkMessageBox.showerror("toolswindow",
-                    "Invalid ending range, range must only contain digits")
+            # default ending range is beginning_range + 1000
+            beginning_range = int(self.begin_range_entry.get())
+            ending_range = beginning_range + 1000
+        # If entry as text
+        if self.end_range_entry.get():
+            # If entry is not ONLY numbers
+            if not re.match('[0-9]+', self.end_range_entry.get()) or '.' in self.end_range_entry.get():
+                logger.error('Ending range invalid, not all numeric')
+                tkMessageBox.showerror('toolswindow',
+                                       'Invalid ending range, range must only contain digits')
                 return
-            endingRange = int(self.endRangeEntry.get())
-            
-        if beginningRange > endingRange:
-            logger.error("Error, beginning range larger than ending range %d > %d"
-                % (beginningRange, endingRange))
-            tkMessageBox.showerror("toolswindow",
-                "beginning range cannot be larger than ending range")
+            ending_range = int(self.end_range_entry.get())
+
+        if beginning_range > ending_range:
+            logger.error('Beginning range larger than ending range %d > %d' % (beginning_range, ending_range))
+            tkMessageBox.showerror('toolswindow',
+                                   'Beginning range cannot be larger than ending range')
             return
-        
-        if beginningRange < 0 or endingRange < 0 or endingRange - beginningRange < 100:
-            logger.error("Error, invalid range specifiers %d , %d"
-                % (beginningRange, endingRange))
-            tkMessageBox.showerror("toolswindow",
-                "Range cannot be less than zero or smaller than 100 steps")
+
+        # If any negative values or the step is too small
+        if beginning_range < 0 or ending_range < 0 or ending_range - beginning_range < 100:
+            logger.error('Error, invalid range specifiers %d , %d' % (beginning_range, ending_range))
+            tkMessageBox.showerror('toolswindow',
+                                   'Range cannot be less than zero or smaller than 100 steps')
             return
-        
-        logger.info("Calling plot")
-        self.__parent.set_plot(self.plotType.get(), xrange_=(beginningRange, endingRange))
+
+        logger.info('Calling plot')
+        self.__parent.set_plot(self.plot_type.get(), xrange_=(beginning_range, ending_range))

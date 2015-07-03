@@ -73,7 +73,7 @@ class Calipso(object):
         logger.info('Create PolygonList')
         self.__polygonList = PolygonList(self.__drawplotCanvas, self)  # internal polygonList
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,
-                                                   self.__child.coordinateFrame)
+                                                   self.__child.coordinate_frame)
 
         self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)  # pack and display canvas
         self.__drawplot_frame.pack()
@@ -131,7 +131,7 @@ class Calipso(object):
 
     def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 20)):
         """
-        Draws to the canvas according to the *plotType* specified in the arguments. Accepts one of the
+        Draws to the canvas according to the *plot_type* specified in the arguments. Accepts one of the
         attributes below
 
         .. py:attribute:: BASE_PLOT
@@ -380,7 +380,7 @@ class Calipso(object):
         """
         logger.info('Setting up GUI')
         self.create_top_gui()
-        self.__child.setupToolBarButtons()
+        self.__child.setup_toolbar_buttons()
         logger.info('Setting initial plot')
         self.set_plot(constants.BASE_PLOT)
 
