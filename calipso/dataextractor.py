@@ -1,8 +1,8 @@
-'''
-Created on Jul 1, 2015
-
-@author: nqian
-'''
+###################################
+#   Created on Jul 1, 2015
+#
+#   @author: Nathan Qian
+###################################
 import datetime
 import logging
 import time
