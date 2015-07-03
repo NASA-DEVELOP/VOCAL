@@ -6,18 +6,23 @@
       <w>backscatter</w>
       <w>backscattered</w>
       <w>calipso</w>
+      <w>cursorhand</w>
       <w>defaultextension</w>
       <w>drawplot</w>
       <w>duquette</w>
       <w>excepthook</w>
       <w>exctype</w>
       <w>filetypes</w>
+      <w>freedraw</w>
       <w>matplotlib</w>
       <w>meth</w>
       <w>panx</w>
       <w>pany</w>
+      <w>plotcursor</w>
       <w>proc</w>
       <w>qian</w>
+      <w>tcross</w>
+      <w>toolswindow</w>
       <w>yrange</w>
     </words>
   </dictionary>
