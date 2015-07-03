@@ -9,6 +9,8 @@
       <w>defaultextension</w>
       <w>drawplot</w>
       <w>duquette</w>
+      <w>excepthook</w>
+      <w>exctype</w>
       <w>filetypes</w>
       <w>matplotlib</w>
       <w>meth</w>

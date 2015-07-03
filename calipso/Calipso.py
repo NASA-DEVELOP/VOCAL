@@ -12,7 +12,7 @@ from matplotlib.figure import Figure
 
 from attributesdialog import AttributesDialog
 import constants
-from importdialog import dbDialog
+from importdialog import ImportDialog
 from plot.plot_depolar_ratio import drawDepolar
 from plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from polygon.list import PolygonList
@@ -117,7 +117,7 @@ class Calipso(object):
 
         # Polygon Menu
         menu_polygon = Menu(menu_bar, tearoff=0)
-        menu_polygon.add_command(label='Import from Database', command=lambda: dbDialog(self.__root, self))
+        menu_polygon.add_command(label='Import from Database', command=lambda: ImportDialog(self.__root, self))
         menu_polygon.add_command(label='Export to Database', command=self.notify_save_db)
         menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
 
