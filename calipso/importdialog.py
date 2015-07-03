@@ -8,7 +8,7 @@
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE
 from sqlalchemy import or_
-from db import db, dbPolygon
+from db import db, DatabasePolygon
 from tools.tools import center
 from tools.treelistbox import TreeListBox
 from log import logger
@@ -31,7 +31,7 @@ class ImportDialog(Toplevel):
         Toplevel.__init__(self, root)
 
         self.protocol('WM_DELETE_WINDOW')
-        self.session = db.getSession()
+        self.session = db.get_session()
         self.__internal_list = list()
         self.__stack = collections.deque(maxlen=15)
         self.__search_string = ''
@@ -102,11 +102,11 @@ class ImportDialog(Toplevel):
                 # Temporary variable to create new list
                 lst = list()
                 # For all objects in the database
-                for obj in self.session.query(dbPolygon).filter(
+                for obj in self.session.query(DatabasePolygon).filter(
                         or_(  # query the database for if search_string is contained in
-                              dbPolygon.tag.contains(self.__search_string),
-                              dbPolygon.attributes.contains(self.__search_string),
-                              dbPolygon.notes.contains(self.__search_string))):
+                              DatabasePolygon.tag.contains(self.__search_string),
+                              DatabasePolygon.attributes.contains(self.__search_string),
+                              DatabasePolygon.notes.contains(self.__search_string))):
                     lst.append(  # append any objects that were returned by the query
                                  (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes[1:-1], obj.notes))
                 # Push new query onto the stack and set display to list
@@ -135,7 +135,7 @@ class ImportDialog(Toplevel):
         self.tree = TreeListBox(self.bottom_frame,
                                 ['name', 'plot', 'date', 'file', 'attributes', 'notes'])
 
-        for obj in self.session.query(dbPolygon).all():
+        for obj in self.session.query(DatabasePolygon).all():
             self.__internal_list.append(obj)  # insert JSON obj representation into internal list
 
         self.__display_all()
@@ -172,7 +172,7 @@ class ImportDialog(Toplevel):
                 tag = self.tree.tree.item(tag, option='values')
                 idx = self.__internal_list[[x.tag for x in self.__internal_list].index(tag[0])].id
                 logger.info('Notifying db of deletion from selection')
-                db.deleteItem(idx)
+                db.delete_item(idx)
             self.__display_all()
         logger.info('Done')
 
@@ -185,7 +185,7 @@ class ImportDialog(Toplevel):
         # Push previous display to stack
         if self.tree.info:
             self.__stack.append(self.tree.info)
-        for obj in self.session.query(dbPolygon).all():
+        for obj in self.session.query(DatabasePolygon).all():
             lst.append(  # user see's this list
                          (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes[1:-1], obj.notes))
 
