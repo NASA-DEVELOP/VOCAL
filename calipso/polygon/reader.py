@@ -86,7 +86,7 @@ class PolygonReader(object):
                 polygonList[-1].setID(_id)
                 polygonList[-1].setColor(color)
                 polygonList[-1].setVertices(vertices)
-                polygonList[-1].setPlot(plotType)
+                polygonList[-1].set_plot(plotType)
                 polygonList[-1].setAttributes(attributes)
                 polygonList[-1].setCoordinates(coordinates)
                 polygonList[-1].setNotes(notes)
