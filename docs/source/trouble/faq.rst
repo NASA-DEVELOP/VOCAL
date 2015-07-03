@@ -5,7 +5,7 @@ Troubleshoot
 
 > How do I actually run this project?
 
-  The main is included in ``CALIPSO_Visualization_Tool.py``, once you've followed the installation instructions run it through either eclipse or ``python CALIPSO_Visualization_Tool.py``
+  The main is included in ``Calipso.py``, once you've followed the installation instructions run it through either eclipse or ``python Calipso.py``
 
 ::
 
@@ -23,7 +23,7 @@ Troubleshoot
 
 > ccplot's setup.py build cannot find HdfEosDef.h
 
-  This is an error due to the setup.py script not being comprehensive, the solution is covered in the :doc:`installation` instructions for Linux. You can also read about why you get this issue on the github bug tracker for ccplot `here[1]`_
+  This is an error due to the setup.py script not being comprehensive, the solution is covered in the :doc:`../installation` instructions for Linux. You can also read about why you get this issue on the github bug tracker for ccplot `here[1]`_
 
 .. _here: http://www.pythonware.com/products/pil/
 .. _here[1]: https://github.com/peterkuma/ccplot/issues/1
