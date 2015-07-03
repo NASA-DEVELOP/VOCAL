@@ -4,13 +4,15 @@
 #    @author: Grant Mercer
 ######################################
 from Tkinter import Label, Toplevel, Menu, PanedWindow, Frame, Button, IntVar, HORIZONTAL, \
-    RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM
+    RAISED, BOTH, VERTICAL, Menubutton, FALSE, BOTTOM, Radiobutton, Entry, X,TOP, LEFT, Y
 
 from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
-import constants
+import constants, re
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import createToolTip
 from log import logger
+from msilib.schema import RadioButton
+import tkMessageBox
 
 class ToolsWindow(Toplevel):
     '''
@@ -29,33 +31,19 @@ class ToolsWindow(Toplevel):
         
         self.__parent = parent
         self.__root = root
+        self.plotType = IntVar()
         
         self.title("Tools")
         self.resizable(width=FALSE, height=FALSE)
-        baseChildPane = PanedWindow(self)
-        baseChildPane.pack(fill=BOTH, expand = 1)
-        sectionedChildPane = PanedWindow(self, orient=VERTICAL)
-        baseChildPane.add(sectionedChildPane)
-                
-        upperPane = PanedWindow(sectionedChildPane, orient=HORIZONTAL, width=5)
-        sectionedChildPane.add(upperPane)
-        lowerPane = PanedWindow(sectionedChildPane)
-        sectionedChildPane.add(lowerPane)
         self.protocol("WM_DELETE_WINDOW", ToolsWindow.ignore)
+        self.container = Frame(self)
+        self.container.pack(side=TOP, fill=BOTH, expand=True )    
         
-        self.upperButtonFrame = Frame(upperPane)                                  # upper button frame holding text buttons
-        self.upperButtonFrame.pack()                                              
-            
-        self.lowerButtonFrame = Frame(lowerPane)                                  # lower button frame for tools
-        self.lowerButtonFrame.config(highlightthickness=1)                        # create a small border around the frame
-        self.lowerButtonFrame.config(highlightbackground="grey")
-        self.lowerButtonFrame.pack()
-        
-        self.coordinateFrame = Frame(lowerPane, width=50, height=50)
+        self.coordinateFrame = Frame(self.container, width=50, height=50)
         self.coordinateFrame.config(highlightthickness=1)                        # create a small border around the frame
         self.coordinateFrame.config(highlightbackground="grey")
-        self.coordinateFrame.pack(side=BOTTOM, fill=BOTH)
-        
+        self.coordinateFrame.pack(side=BOTTOM, fill=BOTH, expand=False)                                      
+    
     @staticmethod
     def ignore():
         '''
@@ -68,22 +56,41 @@ class ToolsWindow(Toplevel):
         Create tool bar buttons
         '''
         logger.info("Setting up toolbar")
-        ###################################Upper Frame##############################################
-        btnReset = Button(self.upperButtonFrame, text = "Reset", width = 10, command=self.__parent.reset)
-        btnReset.grid(row=0, column=0, padx=10, pady=5)
         
-        #Plot Type Selection - Radio-button determining how to plot the __file
-        menubtnPlotSelection = Menubutton(self.upperButtonFrame, text="Plot Type", relief=RAISED, width = 10)
-        menubtnPlotSelection.grid(row=0, column=1, padx=10, pady=5)
-        menubtnPlotSelection.menu = Menu(menubtnPlotSelection, tearoff=0)
-        menubtnPlotSelection["menu"]=menubtnPlotSelection.menu
+        self.upperButtonFrame = Frame(self.container)                                  # upper button frame holding text buttons
+        self.upperButtonFrame.pack(side=TOP, fill=X)    
         
-        plotType = IntVar()
-        menubtnPlotSelection.menu.add_radiobutton(label="Backscattered", variable=plotType, value=constants.BACKSCATTERED, command=lambda: self.__parent.setPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="Depolarization Ratio", variable=plotType, value=constants.DEPOLARIZED, command=lambda: self.__parent.setPlot(plotType))
-        menubtnPlotSelection.menu.add_radiobutton(label="VFM Plot", variable=plotType, value=constants.VFM, command=lambda: self.__parent.setPlot(plotType))
+        self.resetButton = Button(self.upperButtonFrame, text = "Reset", width = 12, command=self.__parent.reset)
+        self.resetButton.grid(row=0, column=0, pady=2)
+        createToolTip(self.resetButton, "Reset the field of view and clear polygons")
+        self.renderButton = Button(self.upperButtonFrame, text = "Render", width = 12, height=4, command = self.render)
+        self.renderButton.grid(row=0, column=1, rowspan=4, sticky="e")
+        createToolTip(self.renderButton, "Render the loaded file\nto the screen")
+        
+        self.bScattered = Radiobutton(self.upperButtonFrame, text="Backscattered", 
+            variable=self.plotType, value=constants.BACKSCATTERED).grid(row=1, column=0, sticky="w")
+        self.depolarized = Radiobutton(self.upperButtonFrame, text="Depolarized", 
+            variable=self.plotType, value=constants.DEPOLARIZED).grid(row=2, column=0, sticky="w")
+
+        self.upperRangeFrame = Frame(self.container)
+        self.upperRangeFrame.pack(side=TOP, fill=X)
+        
+        Label(self.upperRangeFrame, text="Step").\
+            grid(row=3, column=0, pady=5, sticky="w")
+        self.beginRangeEntry = Entry(self.upperRangeFrame, width=12)
+        self.beginRangeEntry.grid(row=3, column=1, pady=5, sticky="w")
+        
+        Label(self.upperRangeFrame, text="to").\
+            grid(row=3, column=2, pady=5, sticky="w")
+        self.endRangeEntry = Entry(self.upperRangeFrame, width=11)
+        self.endRangeEntry.grid(row=3, column=3, pady=5, sticky="w")
         
         ###################################Lower Frame##############################################
+        
+        self.lowerButtonFrame = Frame(self.container)                                  # lower button frame for tools
+        self.lowerButtonFrame.config(highlightthickness=1)                        # create a small border around the frame
+        self.lowerButtonFrame.config(highlightbackground="grey")
+        self.lowerButtonFrame.pack(side=BOTTOM)
         
         lblSpace1 = Label(self.lowerButtonFrame, width=1)     # create space between frame outline
         lblSpace1.grid(row=0, column=0)
@@ -98,13 +105,6 @@ class ToolsWindow(Toplevel):
         self.__zoomButton.latch(cursor="tcross")
         self.__zoomButton.grid(row=0, column=2, padx=2, pady=5)
         createToolTip(self.__zoomButton, "Zoom to rect")
-        
-        # plot move cursor icon
-        self.plotcursorIMG = ImageTk.PhotoImage(file="ico/plotcursor.png")
-        self.__plotCursorButton = ToolbarToggleableButton(self.__root, self.lowerButtonFrame, lambda : self.__parent.getToolbar().pan(True), image=self.plotcursorIMG, width=30, height=30)
-        self.__plotCursorButton.latch(cursor="hand1")
-        self.__plotCursorButton.grid(row=0, column=1, padx=2, pady=5)
-        createToolTip(self.__plotCursorButton, "Move about plot")
         
         # plot undo icon
         self.undoIMG = ImageTk.PhotoImage(file="ico/back.png")
@@ -133,6 +133,15 @@ class ToolsWindow(Toplevel):
         self.__freedrawButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().plotPoint, cursor="tcross")
         self.__freedrawButton.grid(row=1, column=3, padx= 2, pady=5)
         createToolTip(self.__freedrawButton, "Free Draw")
+        
+                # plot move cursor icon
+        self.plotcursorIMG = ImageTk.PhotoImage(file="ico/plotcursor.png")
+        self.__plotCursorButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.plotcursorIMG, width=30, height=30)
+        self.__plotCursorButton.latch(key="<ButtonPress-1>", command=self.__parent.pan)
+        self.__plotCursorButton.latch(key="<ButtonRelease-1>", command=self.__parent.renderPan)
+        self.__plotCursorButton.latch(cursor="hand1")
+        self.__plotCursorButton.grid(row=0, column=1, padx=2, pady=5)
+        createToolTip(self.__plotCursorButton, "Move about plot")
         
         # move polygon and rectangles around
         self.dragIMG = ImageTk.PhotoImage(file="ico/cursorhand.png")
@@ -192,3 +201,52 @@ class ToolsWindow(Toplevel):
         self.__editButton.latch(key="<Button-1>", command=self.__parent.attributeWindow)
         self.__editButton.grid(row=3, column=3, padx=2, pady=5)
         createToolTip(self.__editButton, "Edit Attributes")
+        
+        self.testIMG = ImageTk.PhotoImage(file="ico/button.png")
+        self.__testButton = ToggleableButton(self.__root, self.lowerButtonFrame, image=self.testIMG, width=30, height=30)
+        self.__testButton.latch(key="<Button-1>", command=self.__parent.getPolygonList().extractShapeData)
+        self.__testButton.grid(row=3, column=4, padx=2, pady=5)
+        createToolTip(self.__testButton, "test button")
+        
+    def render(self):
+        logger.info("Grabbing range and safe checking")
+        if self.plotType.get() == 0:
+            logger.error("Error, no plot type set")
+            tkMessageBox.showerror("toolswindow", "No plot type specified")
+            return
+        
+        beginningRange = 0
+        endingRange = 1000
+            
+        if self.beginRangeEntry.get(): 
+            if not re.match("[0-9]+", self.beginRangeEntry.get()) or '.' in  self.beginRangeEntry.get():
+                logger.error("Error, beginning range invalid")
+                tkMessageBox.showerror("toolswindow", 
+                    "Invalid beginning range, range must only contain digits")
+                return
+            beginningRange = int(self.beginRangeEntry.get())
+            endingRange = beginningRange + 1000
+        if self.endRangeEntry.get():
+            if not re.match("[0-9]+", self.endRangeEntry.get()) or '.' in  self.endRangeEntry.get():
+                logger.error("Error, ending range invalid")
+                tkMessageBox.showerror("toolswindow",
+                    "Invalid ending range, range must only contain digits")
+                return
+            endingRange = int(self.endRangeEntry.get())
+            
+        if beginningRange > endingRange:
+            logger.error("Error, beginning range larger than ending range %d > %d"
+                % (beginningRange, endingRange))
+            tkMessageBox.showerror("toolswindow",
+                "beginning range cannot be larger than ending range")
+            return
+        
+        if beginningRange < 0 or endingRange < 0 or endingRange - beginningRange < 100:
+            logger.error("Error, invalid range specifiers %d , %d"
+                % (beginningRange, endingRange))
+            tkMessageBox.showerror("toolswindow",
+                "Range cannot be less than zero or smaller than 100 steps")
+            return
+        
+        logger.info("Calling plot")
+        self.__parent.setPlot(self.plotType.get(), xrange_=(beginningRange, endingRange))
