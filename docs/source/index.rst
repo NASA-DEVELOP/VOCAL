@@ -14,23 +14,30 @@ Contents
 
 .. toctree::
    :maxdepth: 2
+   :caption: User Documentation
 
    overview
    installation
    tutorial
-   dev/developing
-   doc/modules
-   trouble/trouble
-.. 
-   .. toctree::
+ 
+.. toctree::
    :maxdepth: 2
+   :caption: Developer Documentation
 
-
-..
-   Indices and tables
-   ==================
+   dev/conventions
+   dev/enviroment
+   dev/docs
+   dev/site
+   doc/modules
 
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Support
+
+   trouble/faq
+   trouble/issuetracker
+   trouble/contact
 

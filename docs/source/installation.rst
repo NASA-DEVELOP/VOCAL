@@ -11,7 +11,7 @@ Installation guide for both Windows [#f1]_ and Linux users List of required pack
 
 .. note:: 
 
-   Please read our :doc:`coding conventions </conventions>` before developing yourself!
+   Please read our :doc:`coding conventions <dev/conventions>` before developing yourself!
 
 *********************
 Windows [#f1]_
