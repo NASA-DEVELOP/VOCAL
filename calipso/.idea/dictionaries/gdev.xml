@@ -6,6 +6,8 @@
       <w>ashna</w>
       <w>backscatter</w>
       <w>backscattered</w>
+      <w>bindmap</w>
+      <w>byteify</w>
       <w>calips</w>
       <w>calipso</w>
       <w>childheight</w>
@@ -13,8 +15,10 @@
       <w>cursorhand</w>
       <w>dataset</w>
       <w>defaultextension</w>
+      <w>denom</w>
       <w>drawplot</w>
       <w>duquette</w>
+      <w>etype</w>
       <w>excepthook</w>
       <w>exctype</w>
       <w>filetypes</w>
@@ -24,25 +28,44 @@
       <w>github</w>
       <w>importheigh</w>
       <w>importwidth</w>
+      <w>inputed</w>
+      <w>interally</w>
       <w>json's</w>
+      <w>lastrect</w>
+      <w>lastx</w>
+      <w>lasty</w>
       <w>lidar</w>
       <w>matplotlib</w>
       <w>meth</w>
+      <w>navigationtoolbar</w>
+      <w>nparray</w>
+      <w>nqian</w>
       <w>panx</w>
       <w>pany</w>
       <w>plotcursor</w>
       <w>proc</w>
       <w>qian</w>
+      <w>rubberband</w>
       <w>scrollbars</w>
       <w>sqlalchemy</w>
       <w>sqlite</w>
+      <w>stringvar</w>
       <w>tablename</w>
+      <w>tahoma</w>
       <w>tcross</w>
       <w>tkxmid</w>
       <w>tkymid</w>
+      <w>toggleablebutton</w>
       <w>toolswindow</w>
+      <w>toplevel</w>
       <w>treelistbox</w>
       <w>treeview</w>
+      <w>twinx</w>
+      <w>twiny</w>
+      <w>untoggle</w>
+      <w>untoggled</w>
+      <w>untoggles</w>
+      <w>xypress</w>
       <w>yrange</w>
     </words>
   </dictionary>
