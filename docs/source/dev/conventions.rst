@@ -8,6 +8,20 @@ Coding Conventions
 
 Below is list of coding conventions agreed upon by Nathan and I(Grant). Please adhere to these conventions to create a more readable codebase.
 
+.. rubric:: String Literals
+
+String Literals are denoated with ``''``, docstring should be double quotes ``""``
+
+.. code-block:: python
+
+   var = 'Heres a string'
+   def foo():
+   """
+   Heres a docstring
+   """
+       pass
+
+
 .. rubric:: Variables
 
 Variables should be lowercase and word separated with ``_`` 
@@ -80,23 +94,23 @@ This documentation website is generated using docstrings from source, so **docum
 .. code-block:: python
 
    class Foo(object):
-   '''
+   """
    Class description is placed here
 
    :param <name>: description of param 'name'
-   '''
+   """
      
       def __init__(self, name):
          #...
 
       def foo(self, x, y)
-      '''
+      """
       Description of function here
 
       :param int x: parameter x is an integer and does ....
       :param int y: parameter y is an integer and does ....
       :rtype: returns int
-      '''
+      """
 
 The auto documentation tool chain will generate this as:
 
