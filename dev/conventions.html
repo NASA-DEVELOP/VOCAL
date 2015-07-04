@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Coding Conventions &mdash; CALIPSO 0.15.2 documentation</title>
+  <title>Coding Conventions &mdash; VOCAL 0.15.2 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../index.html"/>
+    <link rel="top" title="VOCAL 0.15.2 documentation" href="../index.html"/>
         <link rel="next" title="Development Enviroment" href="enviroment.html"/>
         <link rel="prev" title="Getting Started" href="../tutorial.html"/> 
 
@@ -49,7 +49,7 @@
         
 
         
-          <a href="../index.html" class="icon icon-home"> CALIPSO
+          <a href="../index.html" class="icon icon-home"> VOCAL
         
 
         
@@ -150,7 +150,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">CALIPSO</a>
+        <a href="../index.html">VOCAL</a>
       </nav>
 
 
@@ -181,6 +181,16 @@
 <p class="last">We are now using the <code class="docutils literal"><span class="pre">pep-0008</span></code> style guide as referenced <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">here</a> . See the link for a full list of conventions</p>
 </div>
 <p>Below is list of coding conventions agreed upon by Nathan and I(Grant). Please adhere to these conventions to create a more readable codebase.</p>
+<p class="rubric">String Literals</p>
+<p>String Literals are denoated with <code class="docutils literal"><span class="pre">''</span></code>, docstring should be double quotes <code class="docutils literal"><span class="pre">&quot;&quot;</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">var</span> <span class="o">=</span> <span class="s">&#39;Heres a string&#39;</span>
+<span class="k">def</span> <span class="nf">foo</span><span class="p">():</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Heres a docstring</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
 <p class="rubric">Variables</p>
 <p>Variables should be lowercase and word separated with <code class="docutils literal"><span class="pre">_</span></code></p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">var</span> <span class="o">=</span> <span class="mi">3</span>
@@ -234,23 +244,23 @@
 </div>
 <p>This documentation website is generated using docstrings from source, so <strong>document</strong> as you code! The docstring markdown is reStructedText Primer and sphinx, when the doc chain is generated it will use these docstrings from the code for the webpage.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Class description is placed here</span>
 
 <span class="sd">:param &lt;name&gt;: description of param &#39;name&#39;</span>
-<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
       <span class="c">#...</span>
 
    <span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-   <span class="sd">&#39;&#39;&#39;</span>
+   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">   Description of function here</span>
 
 <span class="sd">   :param int x: parameter x is an integer and does ....</span>
 <span class="sd">   :param int y: parameter y is an integer and does ....</span>
 <span class="sd">   :rtype: returns int</span>
-<span class="sd">   &#39;&#39;&#39;</span>
+<span class="sd">   &quot;&quot;&quot;</span>
 </pre></div>
 </div>
 <p>The auto documentation tool chain will generate this as:</p>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Building and Writing Docs &mdash; CALIPSO 0.15.2 documentation</title>
+  <title>Building and Writing Docs &mdash; VOCAL 0.15.2 documentation</title>
   
 
   
@@ -30,7 +30,7 @@
   
 
   
-    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../index.html"/>
+    <link rel="top" title="VOCAL 0.15.2 documentation" href="../index.html"/>
         <link rel="next" title="Updating The Site" href="site.html"/>
         <link rel="prev" title="Development Enviroment" href="enviroment.html"/> 
 
@@ -49,7 +49,7 @@
         
 
         
-          <a href="../index.html" class="icon icon-home"> CALIPSO
+          <a href="../index.html" class="icon icon-home"> VOCAL
         
 
         
@@ -150,7 +150,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">CALIPSO</a>
+        <a href="../index.html">VOCAL</a>
       </nav>
 
 
@@ -190,8 +190,14 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">Finished! Open up index.html to view the docs, or continue reading to learn how to update to the gh-pages branch</p>
+<li><p class="first">Finished! Open up index.html to view the docs</p>
 </li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Make sure you don&#8217;t commit the built docs into the repository! The last thing a project needs is bloat, the gitignore by default will not commit the docs/build folder. If you&#8217;d like to develop docs please use that folder path</p>
+</div>
+<ol class="arabic" start="6">
 <li><p class="first"><code class="docutils literal"><span class="pre">cd</span></code> out of your repository , and create a new folder. Inside that folder clone the repository to the current directory by specifying <code class="docutils literal"><span class="pre">.</span></code> at the end:</p>
 <div class="highlight-python"><div class="highlight"><pre>&gt; cd ..
 &gt; dir
@@ -213,16 +219,86 @@
 </li>
 </ol>
 <p class="rubric">Contributing to the Docs</p>
-<p>The CALIPSO docs page uses the <code class="docutils literal"><span class="pre">sphinx.ext.autodoc</span></code> extensions to pull reStructuredText docstrings from source and create doc pages from them. inside the <code class="docutils literal"><span class="pre">doc</span></code> folder is the location of all code documentation, split up into three packages: <em>general</em> , <em>polygon</em> , and <em>tools</em>. If you&#8217;ve created a new module and would like to have it added to the docs(the answer should always be <strong>yes</strong>!), place a <code class="docutils literal"><span class="pre">.rst</span></code> file with the module name in the corresponding package folder. Inside that file you&#8217;ll likely have something similar to:</p>
-<div class="highlight-python"><div class="highlight"><pre>.. inheritance-diagram:: &lt;module&gt;
+<p>The CALIPSO docs page uses the <code class="docutils literal"><span class="pre">sphinx.ext.autodoc</span></code> extensions to pull reStructuredText docstrings from source and create doc pages from them. inside the <code class="docutils literal"><span class="pre">doc</span></code> folder is the location of all code documentation, split up into three packages: <em>general</em> , <em>polygon</em> , and <em>tools</em>. If you&#8217;ve created a new module and would like to have it added to the docs(the answer should always be <strong>yes</strong>!), place a <code class="docutils literal"><span class="pre">.rst</span></code> file with the module name in the corresponding package folder.</p>
+<p>Lets run through the scenario you have a new module, <code class="docutils literal"><span class="pre">foobar.py</span></code>, you wrote inside <code class="docutils literal"><span class="pre">tools</span></code>. It&#8217;s recommended you don&#8217;t procrastinate adding your new modules to the docs to avoid rushing. Here&#8217;s an example of what your file may look like, <em>note</em> the docstrings and the reStruct markdown used</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">########################</span>
+<span class="c">#    foobar.py</span>
+<span class="c">#    04/07/2015</span>
+<span class="c">#    @author: me</span>
+<span class="c">########################</span>
 
-.. py:module:: &lt;module&gt;
+<span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Manages certain functionality within the package, description of class utility</span>
 
-.. automodule:: &lt;module&gt;
+<span class="sd">:param str title: Title of window</span>
+<span class="sd">:param root: Root of application</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
+
+    <span class="k">def</span> <span class="nf">does_stuff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Does plenty of stuff</span>
+
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+ <span class="k">def</span> <span class="nf">related_to_foo</span><span class="p">(</span><span class="n">foobar</span><span class="p">):</span>
+ <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"> Takes a passed ``Foo`` object and does something with the object</span>
+
+<span class="sd"> :param Foo foobar: A Foo object</span>
+<span class="sd"> &quot;&quot;&quot;</span>
+     <span class="c"># .....</span>
+</pre></div>
+</div>
+<p>Now when adding <code class="docutils literal"><span class="pre">foobar.py</span></code>, you&#8217;ll reference the package it is located in (<code class="docutils literal"><span class="pre">tools</span></code> in this case) and place a <code class="docutils literal"><span class="pre">.rst</span></code> file in the correct location.:</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; cd vocal
+&gt; cd docs
+&gt; cd doc
+&gt; tree
+.
+|-- general
+|   |-- attributes.rst
+|   |-- calipso.rst
+|   |-- consts.rst
+|   |-- db.rst
+|   |-- general.rst
+|   |-- import.rst
+|   `-- toolswindow.rst
+|-- modules.rst
+|-- polygon
+|   |-- drawer.rst
+|   |-- list.rst
+|   |-- polygon.rst
+|   `-- reader.rst
+`-- tools
+    |-- navigationtoolbar2calipso.rst
+    |-- toggleablebutton.rst
+    |-- tools.rst
+    |-- tooltip.rst
+    `-- treelistbox.rst
+ &gt; cd tools
+ &gt; vim foobar.rst
+</pre></div>
+</div>
+<p>Inside <code class="docutils literal"><span class="pre">foobar.rst</span></code> simply specify the title and a couple auto doc lines.:</p>
+<div class="highlight-python"><div class="highlight"><pre>==============
+Foo
+==============
+
+.. inheritance-diagram:: tools.foobar
+
+.. automodule:: tools.foobar
    :members:
 </pre></div>
 </div>
-<p>And thats all! The documentation tool chain will do the rest for you.</p>
+<p>The <code class="docutils literal"><span class="pre">:members:</span></code> specifier tells autodoc to also include the class methods, which we also want to display.</p>
+<p>And thats all! The documentation tool will create an inheritance diagram of all classes using graphiz, then run through the module specified and document any classes or functions available. Ensure you are using <strong>docstrings</strong> and are following the <a class="reference internal" href="conventions.html"><em>coding conventions</em></a>. If you ever run into problems not knowing how to use sphinx, every doc page has a <em>view source</em> option you can refer to for help, and feel free to contact us on the <a class="reference internal" href="../trouble/contact.html"><em>contact page</em></a>.</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
