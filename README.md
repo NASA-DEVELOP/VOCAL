@@ -1,6 +1,6 @@
 ## Docs:
 
-http://syntaf.github.io/CALIPSO_Visualization/
+http://syntaf.github.io/vocal/
 
 ## To-do
 
