@@ -72,7 +72,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
@@ -90,7 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -99,16 +100,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Code Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../general/general.html">General</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../general/attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../general/calipso.html">Calipso</a></li>
@@ -134,6 +133,12 @@
 </ul>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
 
           
         
@@ -157,7 +162,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-          <li><a href="../modules.html">Modules</a> &raquo;</li>
+          <li><a href="../modules.html">Code Documentation</a> &raquo;</li>
       
           <li><a href="tools.html">Tools</a> &raquo;</li>
       
@@ -180,8 +185,8 @@
 <p class="graphviz">
 <img src="../../_images/inheritance-8a280c587ba904da2e761d7e1f1ba614b4dd5718.png" alt="Inheritance diagram of tools.navigationtoolbar" usemap="#inheritancefb2f145b05" class="inheritance"/>
 <map id="inheritancefb2f145b05" name="inheritancefb2f145b05">
-<area shape="rect" id="node1" title="Base class for the navigation cursor, version 2" alt="" coords="5,5,291,31"/>
-<area shape="rect" id="node2" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO" title="Custom toolbar derived from matplotlib.backend, since we won&#39;t be specifically displaying" alt="" coords="339,5,657,31"/>
+<area shape="rect" id="node1" title="Base class for the navigation cursor, version 2" alt="" coords="5,5,320,30"/>
+<area shape="rect" id="node2" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO" title="Custom toolbar derived from matplotlib.backend, since we won&#39;t be specifically displaying" alt="" coords="368,5,715,30"/>
 </map>
 </p>
 <span class="target" id="module-navigationtoolbar"></span><span class="target" id="module-tools.navigationtoolbar"></span><dl class="class">
@@ -191,6 +196,18 @@
 any of their provided TkGUI, we will be creating our own GUI outside of the toolbar and
 simply using the functions provided by NavigationToolbar2. Thus we strip the toolbar of
 anything GUI related</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>canvas</strong> &#8211; The main canvas of the application that will be drawn to</li>
+<li><strong>master</strong> &#8211; The master program (Calipso)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="tools.navigationtoolbar.NavigationToolbar2CALIPSO.draw_rubberband">
 <code class="descname">draw_rubberband</code><span class="sig-paren">(</span><em>event</em>, <em>x0</em>, <em>y0</em>, <em>x1</em>, <em>y1</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.draw_rubberband"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO.draw_rubberband" title="Permalink to this definition">¶</a></dt>
@@ -204,7 +221,7 @@ anything GUI related</p>
 <li><strong>x0</strong> &#8211; top left x coordinate</li>
 <li><strong>y0</strong> &#8211; top left y coordinate</li>
 <li><strong>x1</strong> &#8211; bottom right x coordinate</li>
-<li><strong>y1</strong> &#8211; bottm right y coordinate</li>
+<li><strong>y1</strong> &#8211; bottom right y coordinate</li>
 </ul>
 </td>
 </tr>

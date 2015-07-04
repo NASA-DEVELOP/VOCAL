@@ -70,7 +70,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
@@ -88,7 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -97,16 +98,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Modules</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Code Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../doc/general/general.html">General</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../doc/general/attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../doc/general/calipso.html">Calipso</a></li>
@@ -131,6 +130,12 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
 </ul>
 
           
@@ -214,7 +219,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">BASE_PLOT_STR</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Query db for unique tag&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__count</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">queryUniqueTag</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__count</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query_unique_tag</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__drag_data</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;x&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;y&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;mx&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;my&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;item&quot;</span><span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
         
@@ -234,7 +239,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__drag_data</span><span class="p">[</span><span class="s">&quot;item&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">find_closest</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__drag_data</span><span class="p">[</span><span class="s">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">x</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__drag_data</span><span class="p">[</span><span class="s">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span>
-            <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">getToolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_toolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">17</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__drag_data</span><span class="p">[</span><span class="s">&quot;mx&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -262,7 +267,7 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">dragToggle</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Received mouse motion for dragging&quot;</span><span class="p">)</span>
-            <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">getToolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_toolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">17</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
             <span class="n">dx</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">__drag_data</span><span class="p">[</span><span class="s">&quot;x&quot;</span><span class="p">]</span>
@@ -372,6 +377,7 @@
 <span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">==</span> <span class="n">constants</span><span class="o">.</span><span class="n">BASE_PLOT_STR</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Cannot draw to base plot&quot;</span><span class="p">)</span>
             <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__currentList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">fillRectangle</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span><span class="p">,</span> <span class="n">PolygonList</span><span class="o">.</span><span class="n">outlineToggle</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">generateTag</span><span class="p">()</span>
@@ -464,6 +470,21 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">itemconfigure</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">outline</span><span class="o">=</span><span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="n">polyShape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__findPolygonByItemHandler</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
             <span class="n">polyShape</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            </div>
+<div class="viewcode-block" id="PolygonList.extractShapeData"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.extractShapeData">[docs]</a>    <span class="k">def</span> <span class="nf">extractShapeData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Retrieves the data bounded by the polygon</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Tkinter passed event object</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">flag</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">find_closest</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__currentList</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">getItemHandler</span><span class="p">()</span> <span class="o">==</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Extrating data&quot;</span><span class="p">)</span>
+            
         </div>
 <div class="viewcode-block" id="PolygonList.hide"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.hide">[docs]</a>    <span class="k">def</span> <span class="nf">hide</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;</span>
@@ -485,6 +506,7 @@
 <span class="sd">        </span>
 <span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Properties function called&quot;</span><span class="p">)</span>
         <span class="n">target</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">find_closest</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__currentList</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">getItemHandler</span><span class="p">()</span> <span class="ow">is</span> <span class="n">target</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
@@ -583,7 +605,7 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__currentList</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">commitToDB</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__currentList</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">today</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">commit_to_db</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__currentList</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">today</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">True</span>
         </div>
 <div class="viewcode-block" id="PolygonList.save"><a class="viewcode-back" href="../../doc/polygon/list.html#polygon.list.PolygonList.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>

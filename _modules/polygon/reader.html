@@ -70,7 +70,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
@@ -88,7 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -97,16 +98,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Modules</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Code Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../doc/general/general.html">General</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../doc/general/attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../doc/general/calipso.html">Calipso</a></li>
@@ -131,6 +130,12 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
 </ul>
 
           
@@ -244,7 +249,7 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">]:</span>
-                <span class="c">#print int(self.__data[plotType][shape][&#39;id&#39;]) not in [x.getID() for x in polygonList]</span>
+                <span class="c">#print int(self.__data[plot_type][shape][&#39;id&#39;]) not in [x.getID() for x in polygonList]</span>
                 <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">polygonList</span><span class="p">]:</span> <span class="k">continue</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Found data, packing polygon with JSON data&quot;</span><span class="p">)</span>
@@ -257,7 +262,7 @@
                 <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setID</span><span class="p">(</span><span class="n">_id</span><span class="p">)</span>
                 <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
                 <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setVertices</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
-                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setPlot</span><span class="p">(</span><span class="n">plotType</span><span class="p">)</span>
+                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_plot</span><span class="p">(</span><span class="n">plotType</span><span class="p">)</span>
                 <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setAttributes</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
                 <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setCoordinates</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
                 <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setNotes</span><span class="p">(</span><span class="n">notes</span><span class="p">)</span>

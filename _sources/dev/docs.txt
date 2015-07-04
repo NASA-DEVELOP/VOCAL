@@ -1,11 +1,10 @@
 =====================================
-Developing Dos
+Building and Writing Docs
 =====================================
 
 One of the most important aspects of writing *good* software is clarity and readability. We hope as other developers find themselves tasked with improving this tool, documentation is also held to as high a standard as Nathan and I do.
 
-Building the docs
------------------------
+.. rubric:: Building the docs
 
 1. Install `sphinx`_ and `graphviz`_ [#f1]_. We use sphinx as our documentation generator, and graphviz is a visualization tool for class diagrams. 
 
@@ -37,9 +36,7 @@ Building the docs
 
 9. Commit and push the gh-pages branch
 
-
-Contributing to the Docs
-----------------------------
+.. rubric:: Contributing to the Docs
 
 The CALIPSO docs page uses the ``sphinx.ext.autodoc`` extensions to pull reStructuredText docstrings from source and create doc pages from them. inside the ``doc`` folder is the location of all code documentation, split up into three packages: *general* , *polygon* , and *tools*. If you've created a new module and would like to have it added to the docs(the answer should always be **yes**!), place a ``.rst`` file with the module name in the corresponding package folder. Inside that file you'll likely have something similar to::
 

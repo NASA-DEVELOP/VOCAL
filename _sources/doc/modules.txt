@@ -1,5 +1,5 @@
 =========================
-Modules
+Code Documentation
 =========================
 
 The application is broken up into a number of modules, *general*, *polygon*, and *tools*.
@@ -9,5 +9,7 @@ The application is broken up into a number of modules, *general*, *polygon*, and
    general/general
    polygon/polygon
    tools/tools
-
+   
+* :ref:`genindex`
+* :ref:`modindex`
 

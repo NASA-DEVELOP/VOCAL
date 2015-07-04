@@ -72,7 +72,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
@@ -90,7 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -99,16 +100,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Code Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="general.html">General</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="calipso.html">Calipso</a></li>
@@ -134,6 +133,12 @@
 </ul>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
 
           
         
@@ -157,7 +162,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-          <li><a href="../modules.html">Modules</a> &raquo;</li>
+          <li><a href="../modules.html">Code Documentation</a> &raquo;</li>
       
           <li><a href="general.html">General</a> &raquo;</li>
       
@@ -177,56 +182,66 @@
   <div class="section" id="import-dialog">
 <h1>Import Dialog<a class="headerlink" href="#import-dialog" title="Permalink to this headline">¶</a></h1>
 <p class="graphviz">
-<img src="../../_images/inheritance-9d4191ea3a9700d22b83b17c9f26b1a72cabfcb7.png" alt="Inheritance diagram of importdialog" usemap="#inheritancec390265a60" class="inheritance"/>
+<img src="../../_images/inheritance-0997c6895b4a1aa3ce15698cd99c504943d3a043.png" alt="Inheritance diagram of importdialog" usemap="#inheritancec390265a60" class="inheritance"/>
 <map id="inheritancec390265a60" name="inheritancec390265a60">
-<area shape="rect" id="node1" title="Internal class." alt="" coords="147,55,283,80"/>
-<area shape="rect" id="node3" title="Toplevel widget, e.g. for dialogs." alt="" coords="331,31,441,56"/>
-<area shape="rect" id="node2" title="Internal class." alt="" coords="5,55,99,80"/>
-<area shape="rect" id="node5" href="#importdialog.dbDialog" title="Dialog window which prompts user for a selection of objects to import as well as" alt="" coords="489,31,636,56"/>
-<area shape="rect" id="node4" title="Provides functions for the communication with the window manager." alt="" coords="170,5,259,31"/>
+<area shape="rect" id="node1" title="Internal class." alt="" coords="150,54,293,79"/>
+<area shape="rect" id="node3" title="Toplevel widget, e.g. for dialogs." alt="" coords="342,30,461,55"/>
+<area shape="rect" id="node2" title="Internal class." alt="" coords="5,54,101,79"/>
+<area shape="rect" id="node5" href="#importdialog.ImportDialog" title="Dialog window which prompts user for a selection of objects to import as well as" alt="" coords="510,30,698,55"/>
+<area shape="rect" id="node4" title="Provides functions for the communication with the window manager." alt="" coords="175,5,267,30"/>
 </map>
 </p>
 <span class="target" id="module-importdialog"></span><dl class="class">
-<dt id="importdialog.dbDialog">
-<em class="property">class </em><code class="descname">dbDialog</code><span class="sig-paren">(</span><em>root</em>, <em>master</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#dbDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog">
+<em class="property">class </em><code class="descname">ImportDialog</code><span class="sig-paren">(</span><em>root</em>, <em>master</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dialog window which prompts user for a selection of objects to import as well as
 showing a customizable list for displaying the data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Param:</th><td class="field-body">root: root Tk widget, often Tk()</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Param:</th><td class="field-body">master: the main window, for access of polygonList</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
-<dt id="importdialog.dbDialog.createBottomFrame">
-<code class="descname">createBottomFrame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.createBottomFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.createBottomFrame" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog.create_bottom_frame">
+<code class="descname">create_bottom_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.create_bottom_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.create_bottom_frame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and display database in listbox, also add lower button frame for import
 button</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="importdialog.dbDialog.createTopFrame">
-<code class="descname">createTopFrame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.createTopFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.createTopFrame" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog.create_top_frame">
+<code class="descname">create_top_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.create_top_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.create_top_frame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the upper frame of the window in charge of buttons</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="importdialog.dbDialog.deleteDb">
-<code class="descname">deleteDb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.deleteDb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.deleteDb" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog.delete_from_db">
+<code class="descname">delete_from_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.delete_from_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.delete_from_db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete selected objects from database</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="importdialog.dbDialog.free">
-<code class="descname">free</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.free"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.free" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog.free">
+<code class="descname">free</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.free"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.free" title="Permalink to this definition">¶</a></dt>
 <dd><p>Free window</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="importdialog.dbDialog.importSelection">
-<code class="descname">importSelection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.importSelection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.importSelection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Import selected objects from libox into program</p>
+<dt id="importdialog.ImportDialog.import_selection">
+<code class="descname">import_selection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.import_selection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.import_selection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import selected objects from internal_list into program</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="importdialog.dbDialog.refineSearch">
-<code class="descname">refineSearch</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.refineSearch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.refineSearch" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog.refine_search">
+<code class="descname">refine_search</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.refine_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.refine_search" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to dynamically narrow the results of a search while the
-user types into the search bar. Checks if the character is 
+user types into the search bar. Checks if the character is
 alpha numeric , and if so queries the database for the combined
 string. A backend stack keeps track of past searches, when the
 user enters the backspace code a previous instance is popped

@@ -70,7 +70,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
@@ -88,7 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -97,16 +98,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Modules</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Code Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../doc/general/general.html">General</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../doc/general/attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../doc/general/calipso.html">Calipso</a></li>
@@ -131,6 +130,12 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
 </ul>
 
           
@@ -176,112 +181,116 @@
 <span class="c">######################################</span>
 <span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Button</span>
 
-<span class="c">#global button container for managing state</span>
+<span class="c"># global button container for managing state</span>
 <span class="n">toggleContainer</span> <span class="o">=</span> <span class="p">[]</span>  
 
+
 <div class="viewcode-block" id="ToggleableButton"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToggleableButton">[docs]</a><span class="k">class</span> <span class="nc">ToggleableButton</span><span class="p">(</span><span class="n">Button</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Button wrapper which simulates the toggled button as you see in the draw, magnify, etc. </span>
-<span class="sd">    buttons. Interally keeps a bind map which on toggle binds the keys in the map, and </span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Button wrapper which simulates the toggled button as you see in the draw, magnify, etc.</span>
+<span class="sd">    buttons. Interally keeps a bind map which on toggle binds the keys in the map, and</span>
 <span class="sd">    unbinds them on untoggle or forced untoggle.</span>
-<span class="sd">    </span>
+
 <span class="sd">    :param root: Root of the program, which handles the cursor</span>
 <span class="sd">    :param master: The location to draw the button to</span>
 <span class="sd">    :param cnf: Button forwarded args</span>
 <span class="sd">    :param \*\*kw: Button forwarded args</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c"># noinspection PyDefaultArgument</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">master</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cnf</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__bindMap</span> <span class="o">=</span> <span class="p">[]</span>         <span class="c"># bind map to be bound once toggled</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span> <span class="o">=</span> <span class="bp">False</span>      <span class="c"># internal var to keep track of toggling</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__root</span> <span class="o">=</span> <span class="n">root</span>          <span class="c"># root variable for setting the cursor</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__cursor</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>          <span class="c"># cursor private var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cursor</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>          <span class="c"># cursor private var</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__destructor</span> <span class="o">=</span> <span class="bp">None</span>    <span class="c"># destructor var called when untoggled</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__master</span> <span class="o">=</span> <span class="n">master</span>
         
         <span class="n">Button</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">master</span><span class="p">,</span> <span class="n">cnf</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>    <span class="c"># call button constructor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">toggle</span><span class="p">)</span>         <span class="c"># button command is always bound internally to toggle</span>
         <span class="n">toggleContainer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>         <span class="c"># push button to static container</span>
-        
 
-<div class="viewcode-block" id="ToggleableButton.latch"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToggleableButton.latch">[docs]</a>    <span class="k">def</span> <span class="nf">latch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">destructor</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="ToggleableButton.latch"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToggleableButton.latch">[docs]</a>    <span class="k">def</span> <span class="nf">latch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">destructor</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Allows the binding of keys to certain functions. These bindings will become</span>
 <span class="sd">        active once the button is in a toggled state. latch can be called **multiple**</span>
-<span class="sd">        times and keeps an internal bindmap. </span>
-<span class="sd">        </span>
+<span class="sd">        times and keeps an internal bindmap.</span>
+
 <span class="sd">        :param str key: A valid Tkinter key string</span>
 <span class="sd">        :param command: Function to be bound to key</span>
 <span class="sd">        :param str cursor: A valid Tkinter cursor string</span>
 <span class="sd">        :param destructor: A function called when untoggled</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># only set these variables if the user entered one</span>
-        <span class="k">if</span> <span class="n">cursor</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cursor</span> <span class="o">=</span> <span class="n">cursor</span>
-        <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span> <span class="ow">and</span> <span class="n">command</span> <span class="o">!=</span> <span class="bp">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bindMap</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">destructor</span> <span class="o">!=</span> <span class="bp">None</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__destructor</span> <span class="o">=</span> <span class="n">destructor</span>
+        <span class="k">if</span> <span class="n">cursor</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__cursor</span> <span class="o">=</span> <span class="n">cursor</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span> <span class="ow">and</span> <span class="n">command</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__bindMap</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">command</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">destructor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__destructor</span> <span class="o">=</span> <span class="n">destructor</span>
 </div>
-<div class="viewcode-block" id="ToggleableButton.unToggle"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToggleableButton.unToggle">[docs]</a>    <span class="k">def</span> <span class="nf">unToggle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="ToggleableButton.untoggle"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToggleableButton.untoggle">[docs]</a>    <span class="k">def</span> <span class="nf">untoggle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Forcefully untoggles the button. Used when ensuring</span>
 <span class="sd">        only one button in the global container is active at any time</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">relief</span><span class="o">=</span><span class="s">&#39;raised&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bindMap</span><span class="p">:</span>
             <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unbind</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__destructor</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__destructor</span><span class="p">()</span>
-
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__destructor</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__destructor</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="ToggleableButton.toggle"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToggleableButton.toggle">[docs]</a>    <span class="k">def</span> <span class="nf">toggle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The method bound to the button, *Toggle* will internally bind the inputed keys when toggled,</span>
-<span class="sd">         and unbind them accordingly. Also keeps track of all toggled button via a static container and </span>
+<span class="sd">         and unbind them accordingly. Also keeps track of all toggled button via a static container and</span>
 <span class="sd">         ensures only one button can be toggled at any time</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># first flip the toggle switch</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span>
         <span class="c"># if any buttons are currently active, untoggle them</span>
-        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">toggleContainer</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">isToggled</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">]:</span>  
-            <span class="n">s</span><span class="o">.</span><span class="n">unToggle</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">toggleContainer</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">isToggled</span> <span class="ow">is</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">]:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">untoggle</span><span class="p">()</span>
             
         <span class="c"># else if next state it false</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">relief</span><span class="o">=</span><span class="s">&#39;raised&#39;</span><span class="p">)</span>                <span class="c"># raise the button, e.g. deactivated</span>
             <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bindMap</span><span class="p">:</span>                 <span class="c"># unbind using the bindmap</span>
                 <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">unbind</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__destructor</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__destructor</span><span class="p">()</span>  <span class="c"># call the pseudo &#39;destructor&#39;</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__destructor</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__destructor</span><span class="p">()</span>  <span class="c"># call the pseudo &#39;destructor&#39;</span>
         <span class="c"># else if next state is true</span>
         <span class="k">else</span><span class="p">:</span>
-            
             <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__cursor</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">relief</span><span class="o">=</span><span class="s">&#39;sunken&#39;</span><span class="p">)</span>                <span class="c"># sink the button, e.g. activate</span>
             <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bindMap</span><span class="p">:</span>                 <span class="c"># bind using the bindmap</span>
                 <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pair</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 
-
 </div></div>
 <div class="viewcode-block" id="ToolbarToggleableButton"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToolbarToggleableButton">[docs]</a><span class="k">class</span> <span class="nc">ToolbarToggleableButton</span><span class="p">(</span><span class="n">Button</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    GUI button used to implement the backend matplotlib plot functions. Instead</span>
-<span class="sd">    of placing more overhead in the ToggleableButton another class is created </span>
+<span class="sd">    of placing more overhead in the ToggleableButton another class is created</span>
 <span class="sd">    since the number of matplotlib functions will remain constant, while we</span>
 <span class="sd">    may continue creating new tools that use ToggleableButton</span>
-<span class="sd">    </span>
+
 <span class="sd">    :param root: Root of the program, or the location of the cursor to be changed</span>
 <span class="sd">    :param master: Location of the button to be drawn to</span>
 <span class="sd">    :param func: Function to be called each time the button is &#39;toggled&#39;</span>
 <span class="sd">    :param cnf: Button forwarded args</span>
 <span class="sd">    :param \*\*kw: Button forwarded args</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="c"># Parameters: </span>
-    <span class="c">#    root, master, cnf, kw    -&gt; forwarded args to the ToggleableButton class</span>
-    <span class="c">#    func                     -&gt; function to be called along with the invocation of Toggle</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c"># noinspection PyDefaultArgument</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">master</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cnf</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cnf</span><span class="p">:</span>
+            <span class="n">cnf</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span> <span class="o">=</span> <span class="bp">False</span>      <span class="c"># internal var to keep track of toggling</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__root</span> <span class="o">=</span> <span class="n">root</span>          <span class="c"># root variable for setting the cursor</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__cursor</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>          <span class="c"># cursor private var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cursor</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>          <span class="c"># cursor private var</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__master</span> <span class="o">=</span> <span class="n">master</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__func</span> <span class="o">=</span> <span class="n">func</span>
         
@@ -289,47 +298,48 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">toggle</span><span class="p">)</span>         <span class="c"># button command is always bound internally to toggle</span>
         <span class="n">toggleContainer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>         <span class="c"># push button to static container</span>
         
-<div class="viewcode-block" id="ToolbarToggleableButton.latch"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToolbarToggleableButton.latch">[docs]</a>    <span class="k">def</span> <span class="nf">latch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Set the internal cursor variable to the cursor to be used when the button </span>
+<div class="viewcode-block" id="ToolbarToggleableButton.latch"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToolbarToggleableButton.latch">[docs]</a>    <span class="k">def</span> <span class="nf">latch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the internal cursor variable to the cursor to be used when the button</span>
 <span class="sd">        is in a toggled state</span>
-<span class="sd">        </span>
+
 <span class="sd">        :param str cursor: A valid Tkinter cursor string</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># only set these variables if the user entered one</span>
-        <span class="k">if</span> <span class="n">cursor</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cursor</span> <span class="o">=</span> <span class="n">cursor</span>
+        <span class="k">if</span> <span class="n">cursor</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__cursor</span> <span class="o">=</span> <span class="n">cursor</span>
 </div>
-<div class="viewcode-block" id="ToolbarToggleableButton.unToggle"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToolbarToggleableButton.unToggle">[docs]</a>    <span class="k">def</span> <span class="nf">unToggle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="ToolbarToggleableButton.untoggle"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToolbarToggleableButton.untoggle">[docs]</a>    <span class="k">def</span> <span class="nf">untoggle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Forcefully untoggles the button and invokes ``func``. Used when ensuring</span>
 <span class="sd">        only one button in the global container is active at any time</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">relief</span><span class="o">=</span><span class="s">&#39;raised&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__func</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__func</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__func</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__func</span><span class="p">()</span>
         
     <span class="c"># Call the super classes Toggle, and execute our function as well</span></div>
 <div class="viewcode-block" id="ToolbarToggleableButton.toggle"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToolbarToggleableButton.toggle">[docs]</a>    <span class="k">def</span> <span class="nf">toggle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Calls the passed function ``func`` and manages a toggle state below. Ensures only</span>
 <span class="sd">        one toggled button is active at any time and the button is correctly raised/sunk</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span>
         <span class="c"># if any buttons are currently active, untoggle them</span>
-        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">toggleContainer</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">isToggled</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">]:</span>  
-            <span class="n">s</span><span class="o">.</span><span class="n">unToggle</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">toggleContainer</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">isToggled</span> <span class="ow">is</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">]:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">untoggle</span><span class="p">()</span>
         
         <span class="c"># first flip the toggle switch</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__func</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__func</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__func</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__func</span><span class="p">()</span>
         <span class="c"># else if next state it false</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isToggled</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">relief</span><span class="o">=</span><span class="s">&#39;raised&#39;</span><span class="p">)</span>                <span class="c"># raise the button, e.g. deactivated</span>
-
         <span class="c"># else if next state is true</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__cursor</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">relief</span><span class="o">=</span><span class="s">&#39;sunken&#39;</span><span class="p">)</span>                <span class="c"># sink the button, e.g. activate</span>
-            </div></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">relief</span><span class="o">=</span><span class="s">&#39;sunken&#39;</span><span class="p">)</span>                <span class="c"># sink the button, e.g. activate</span></div></div>
 </pre></div>
 
           </div>

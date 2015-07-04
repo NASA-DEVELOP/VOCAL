@@ -72,7 +72,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
@@ -90,7 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -99,16 +100,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Code Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../general/general.html">General</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../general/attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../general/calipso.html">Calipso</a></li>
@@ -134,6 +133,12 @@
 </ul>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
 
           
         
@@ -157,7 +162,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-          <li><a href="../modules.html">Modules</a> &raquo;</li>
+          <li><a href="../modules.html">Code Documentation</a> &raquo;</li>
       
           <li><a href="polygon.html">Polygon</a> &raquo;</li>
       
@@ -179,7 +184,7 @@
 <p class="graphviz">
 <img src="../../_images/inheritance-f4bedebccef6c9d5271fbe8f2b6c74427b65ecac.png" alt="Inheritance diagram of polygon.drawer" usemap="#inheritancece4311b07e" class="inheritance"/>
 <map id="inheritancece4311b07e" name="inheritancece4311b07e">
-<area shape="rect" id="node1" href="#polygon.drawer.PolygonDrawer" title="Displays the polygon objects onto the canvas by supplying draw methods." alt="" coords="5,5,205,31"/>
+<area shape="rect" id="node1" href="#polygon.drawer.PolygonDrawer" title="Displays the polygon objects onto the canvas by supplying draw methods." alt="" coords="6,5,223,30"/>
 </map>
 </p>
 <span class="target" id="module-polygon.drawer"></span><dl class="class">
@@ -627,58 +632,6 @@ lines and the point of intersection</p>
 </table>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="function">
-<dt id="polygon.drawer.getIntersection">
-<code class="descname">getIntersection</code><span class="sig-paren">(</span><em>a1</em>, <em>a2</em>, <em>b1</em>, <em>b2</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/drawer.html#getIntersection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.drawer.getIntersection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieves the point of intersection of two lines given two points
-on each line
-:param a1, a2: Two points on the first line
-:param b1, b1: Two points on the second line</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="polygon.drawer.isIntersecting">
-<code class="descname">isIntersecting</code><span class="sig-paren">(</span><em>a1</em>, <em>a2</em>, <em>b1</em>, <em>b2</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/drawer.html#isIntersecting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.drawer.isIntersecting" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determines if two line segments are intersecting by checking if the point of intersection
-exists on the line segments
-:param a1, a2: The endpoints of the first line segment
-:param b1, b2: The endpoints of the second line segment</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="polygon.drawer.npArrayToTuple">
-<code class="descname">npArrayToTuple</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/drawer.html#npArrayToTuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.drawer.npArrayToTuple" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a numpy array to a tuple</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>array</strong> &#8211; Numpy array</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="polygon.drawer.perpendicular">
-<code class="descname">perpendicular</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/drawer.html#perpendicular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.drawer.perpendicular" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a numpy array that&#8217;s orthogonal to the param</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="polygon.drawer.tupleToNpArray">
-<code class="descname">tupleToNpArray</code><span class="sig-paren">(</span><em>pair</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/drawer.html#tupleToNpArray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.drawer.tupleToNpArray" title="Permalink to this definition">¶</a></dt>
-<dd><p>Converts a tuple to a numpy array</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>pair</strong> &#8211; Tuple</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 </div>

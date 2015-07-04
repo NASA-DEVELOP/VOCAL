@@ -72,7 +72,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
@@ -90,7 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -99,16 +100,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Code Documentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="general.html">General</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="">Calipso</a></li>
@@ -134,6 +133,12 @@
 </ul>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
 
           
         
@@ -157,7 +162,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-          <li><a href="../modules.html">Modules</a> &raquo;</li>
+          <li><a href="../modules.html">Code Documentation</a> &raquo;</li>
       
           <li><a href="general.html">General</a> &raquo;</li>
       
@@ -200,15 +205,15 @@ setupMainScreen
 </pre></div>
 </div>
 <p class="graphviz">
-<img src="../../_images/inheritance-8cb3c2ee7be1490c76bd08fbba07c072172a8d9d.png" alt="Inheritance diagram of Calipso" usemap="#inheritance8489209816" class="inheritance"/>
+<img src="../../_images/inheritance-0f995e654d3c0ef2e49cbc7cd9f88e744c5da640.png" alt="Inheritance diagram of Calipso" usemap="#inheritance8489209816" class="inheritance"/>
 <map id="inheritance8489209816" name="inheritance8489209816">
-<area shape="rect" id="node1" href="#Calipso.Calipso" title="Main class of the application, handles all GUI related events as well as " alt="" coords="5,5,117,31"/>
+<area shape="rect" id="node1" href="#Calipso.Calipso" title="Main class of the application, handles all GUI related events as well as" alt="" coords="6,5,125,30"/>
 </map>
 </p>
 <span class="target" id="module-Calipso"></span><dl class="class">
 <dt id="Calipso.Calipso">
 <em class="property">class </em><code class="descname">Calipso</code><span class="sig-paren">(</span><em>r</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso" title="Permalink to this definition">¶</a></dt>
-<dd><p>Main class of the application, handles all GUI related events as well as 
+<dd><p>Main class of the application, handles all GUI related events as well as
 creating other GUI windows such as the toolbar or import dialog</p>
 <dl class="method">
 <dt id="Calipso.Calipso.about">
@@ -217,8 +222,8 @@ creating other GUI windows such as the toolbar or import dialog</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.attributeWindow">
-<code class="descname">attributeWindow</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.attributeWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.attributeWindow" title="Permalink to this definition">¶</a></dt>
+<dt id="Calipso.Calipso.attribute_window">
+<code class="descname">attribute_window</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.attribute_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.attribute_window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open attribute window for specifying attributes on objects</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -231,14 +236,15 @@ creating other GUI windows such as the toolbar or import dialog</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.createTopScreenGUI">
-<code class="descname">createTopScreenGUI</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.createTopScreenGUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.createTopScreenGUI" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initializes and creates the file dialog and browse button that appear at the top of the screen</p>
+<dt id="Calipso.Calipso.create_top_gui">
+<code class="descname">create_top_gui</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.create_top_gui"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.create_top_gui" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes and creates the <em>File: label</em>, <em>file dialog</em>, and <em>browse button</em> that appear at the top
+of the screen</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.getFig">
-<code class="descname">getFig</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.getFig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.getFig" title="Permalink to this definition">¶</a></dt>
+<dt id="Calipso.Calipso.get_fig">
+<code class="descname">get_fig</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.get_fig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.get_fig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the figure that is plotted to the canvas</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -251,8 +257,8 @@ creating other GUI windows such as the toolbar or import dialog</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.getPolygonList">
-<code class="descname">getPolygonList</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.getPolygonList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.getPolygonList" title="Permalink to this definition">¶</a></dt>
+<dt id="Calipso.Calipso.get_polygon_list">
+<code class="descname">get_polygon_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.get_polygon_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.get_polygon_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the internal <code class="xref py py-class docutils literal"><span class="pre">polygonList</span></code> object</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -265,8 +271,8 @@ creating other GUI windows such as the toolbar or import dialog</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.getToolbar">
-<code class="descname">getToolbar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.getToolbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.getToolbar" title="Permalink to this definition">¶</a></dt>
+<dt id="Calipso.Calipso.get_toolbar">
+<code class="descname">get_toolbar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.get_toolbar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.get_toolbar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the internal <code class="xref py py-class docutils literal"><span class="pre">toolbar</span></code> object</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -279,8 +285,8 @@ creating other GUI windows such as the toolbar or import dialog</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.importFile">
-<code class="descname">importFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.importFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.importFile" title="Permalink to this definition">¶</a></dt>
+<dt id="Calipso.Calipso.import_file">
+<code class="descname">import_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.import_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.import_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load an HDF file for use with displaying backscatter and depolarized images</p>
 </dd></dl>
 
@@ -291,23 +297,39 @@ creating other GUI windows such as the toolbar or import dialog</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.notifySaveAsJSON">
-<code class="descname">notifySaveAsJSON</code><span class="sig-paren">(</span><em>saveAll=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.notifySaveAsJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.notifySaveAsJSON" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save all shapes on the map given a file specified by the user</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="Calipso.Calipso.notifySaveDB">
-<code class="descname">notifySaveDB</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.notifySaveDB"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.notifySaveDB" title="Permalink to this definition">¶</a></dt>
+<dt id="Calipso.Calipso.notify_save_db">
+<code class="descname">notify_save_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.notify_save_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.notify_save_db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Notify the database that a save is taking place, the
 db will then save all polygons present on the screen</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.notifySaveJSON">
-<code class="descname">notifySaveJSON</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.notifySaveJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.notifySaveJSON" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save all shapes on the map inside a JSON object given a previously
-saved file. If no file exists prompt for file</p>
+<dt id="Calipso.Calipso.pan">
+<code class="descname">pan</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.pan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.pan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves initial coordinates of mouse press when the user begins to pan</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.render_pan">
+<code class="descname">render_pan</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.render_pan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.render_pan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves ending coordinates of mouse press and proceeds to find the distance
+between the two points, scrolls the map accordingly</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -317,9 +339,22 @@ saved file. If no file exists prompt for file</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.setPlot">
-<code class="descname">setPlot</code><span class="sig-paren">(</span><em>plotType</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.setPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.setPlot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draws to the canvas according to the <em>plotType</em> specified in the arguments. Accepts one of the 
+<dt id="Calipso.Calipso.save_as_json">
+<code class="descname">save_as_json</code><span class="sig-paren">(</span><em>save_all=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.save_as_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.save_as_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save all shapes on the map given a file specified by the user</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.save_json">
+<code class="descname">save_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.save_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.save_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save all shapes on the map inside a JSON object given a previously
+saved file. If no file exists prompt for file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.set_plot">
+<code class="descname">set_plot</code><span class="sig-paren">(</span><em>plot_type</em>, <em>xrange_=(0</em>, <em>1000)</em>, <em>yrange=(0</em>, <em>20)</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.set_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.set_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws to the canvas according to the <em>plot_type</em> specified in the arguments. Accepts one of the
 attributes below</p>
 <dl class="attribute">
 <dt id="Calipso.Calipso.BASE_PLOT">
@@ -337,35 +372,40 @@ attributes below</p>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="Calipso.Calipso.VFML">
-<code class="descname">VFML</code><a class="headerlink" href="#Calipso.Calipso.VFML" title="Permalink to this definition">¶</a></dt>
+<dt id="Calipso.Calipso.VFM">
+<code class="descname">VFM</code><a class="headerlink" href="#Calipso.Calipso.VFM" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plotType</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; accepts <code class="docutils literal"><span class="pre">BASE_PLOT,</span> <span class="pre">BACKSCATTERED,</span> <span class="pre">DEPOLARIZED,</span> <span class="pre">VFM</span></code></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>plot_type</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; accepts <code class="docutils literal"><span class="pre">BASE_PLOT,</span> <span class="pre">BACKSCATTERED,</span> <span class="pre">DEPOLARIZED,</span> <span class="pre">VFM</span></code></li>
+<li><strong>xrange</strong> (<em>(int,int)</em>) &#8211; accepts a range of time to plot</li>
+<li><strong>yrange</strong> (<em>(int,int)</em>) &#8211; accepts a range of altitude to plot</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.setupMainScreen">
-<code class="descname">setupMainScreen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.setupMainScreen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.setupMainScreen" title="Permalink to this definition">¶</a></dt>
+<dt id="Calipso.Calipso.setup_main_screen">
+<code class="descname">setup_main_screen</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.setup_main_screen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.setup_main_screen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Setup the top GUI, initialize toolbar window and set the plot to a blank image</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.setupMenu">
-<code class="descname">setupMenu</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.setupMenu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.setupMenu" title="Permalink to this definition">¶</a></dt>
+<dt id="Calipso.Calipso.setup_menu">
+<code class="descname">setup_menu</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.setup_menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.setup_menu" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a drop down menu bar</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.setupWindow">
-<code class="descname">setupWindow</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.setupWindow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.setupWindow" title="Permalink to this definition">¶</a></dt>
+<dt id="Calipso.Calipso.setup_window">
+<code class="descname">setup_window</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.setup_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.setup_window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the title of root and invokes py:meth:<cite>centerWindow</cite></p>
 </dd></dl>
 

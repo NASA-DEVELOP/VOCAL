@@ -70,7 +70,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
@@ -88,7 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -97,16 +98,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Modules</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Code Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../doc/general/general.html">General</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../doc/general/attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../doc/general/calipso.html">Calipso</a></li>
@@ -131,6 +130,12 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
 </ul>
 
           
@@ -172,73 +177,86 @@
 <span class="c">######################################</span>
 <span class="c">#    navigationtoolbar.py</span>
 <span class="c">#    @author: Grant Mercer</span>
-<span class="c">#    @author: Nathian Qian</span>
+<span class="c">#    @author: Nathan Qian</span>
 <span class="c">#    6/24/2015</span>
 <span class="c">######################################</span>
 
 <span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">StringVar</span><span class="p">,</span> <span class="n">Label</span>
 <span class="kn">from</span> <span class="nn">matplotlib.backends.backend_tkagg</span> <span class="kn">import</span> <span class="n">NavigationToolbar2</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
+
+<span class="c"># noinspection PyProtectedMember</span>
 <div class="viewcode-block" id="NavigationToolbar2CALIPSO"><a class="viewcode-back" href="../../doc/tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO">[docs]</a><span class="k">class</span> <span class="nc">NavigationToolbar2CALIPSO</span><span class="p">(</span><span class="n">NavigationToolbar2</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Custom toolbar derived from matplotlib.backend, since we won&#39;t be specifically displaying</span>
 <span class="sd">    any of their provided TkGUI, we will be creating our own GUI outside of the toolbar and</span>
 <span class="sd">    simply using the functions provided by NavigationToolbar2. Thus we strip the toolbar of</span>
-<span class="sd">    anything GUI related </span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    anything GUI related</span>
+
+<span class="sd">    :param canvas: The main canvas of the application that will be drawn to</span>
+<span class="sd">    :param master: The master program (Calipso)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">master</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span> <span class="o">=</span> <span class="n">canvas</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">master</span> <span class="o">=</span> <span class="n">master</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="n">NavigationToolbar2</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">)</span>
         
     <span class="k">def</span> <span class="nf">_init_toolbar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Sets a string var which self updates with the coordinates of the cursor </span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets a string var which self updates with the coordinates of the cursor</span>
 <span class="sd">        relative to the plot</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">(</span><span class="n">master</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_message_label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">master</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">master</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_message_label</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <div class="viewcode-block" id="NavigationToolbar2CALIPSO.draw_rubberband"><a class="viewcode-back" href="../../doc/tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO.draw_rubberband">[docs]</a>    <span class="k">def</span> <span class="nf">draw_rubberband</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draws a rectangle rubber band to indicate area that will be zoomed in on</span>
-<span class="sd">        </span>
+
 <span class="sd">        :param event: Tkinter passed event object</span>
 <span class="sd">        :param x0: top left x coordinate</span>
 <span class="sd">        :param y0: top left y coordinate</span>
 <span class="sd">        :param x1: bottom right x coordinate</span>
-<span class="sd">        :param y1: bottm right y coordinate</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        :param y1: bottom right y coordinate</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">bbox</span><span class="o">.</span><span class="n">height</span>
-        <span class="n">y0</span> <span class="o">=</span>  <span class="n">height</span><span class="o">-</span><span class="n">y0</span>
-        <span class="n">y1</span> <span class="o">=</span>  <span class="n">height</span><span class="o">-</span><span class="n">y1</span>
-        <span class="k">try</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span> <span class="k">pass</span>
-        <span class="k">else</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span><span class="p">)</span>
+        <span class="n">y0</span> <span class="o">=</span> <span class="n">height</span><span class="o">-</span><span class="n">y0</span>
+        <span class="n">y1</span> <span class="o">=</span> <span class="n">height</span><span class="o">-</span><span class="n">y1</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">)</span>
         </div>
 <div class="viewcode-block" id="NavigationToolbar2CALIPSO.release"><a class="viewcode-back" href="../../doc/tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO.release">[docs]</a>    <span class="k">def</span> <span class="nf">release</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Upon mouse release while zooming, the rectangle is deleted and the</span>
 <span class="sd">        application is zoomed to that view</span>
-<span class="sd">        </span>
+
 <span class="sd">        :param event: Tkinter passed event object</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">try</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span> <span class="k">pass</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span><span class="p">)</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
         </div>
 <div class="viewcode-block" id="NavigationToolbar2CALIPSO.set_message"><a class="viewcode-back" href="../../doc/tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO.set_message">[docs]</a>    <span class="k">def</span> <span class="nf">set_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the message of the stringvar</span>
-<span class="sd">        </span>
+
 <span class="sd">        :param str s: String to set</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
         </div>
     <span class="k">def</span> <span class="nf">set_cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
@@ -254,21 +272,22 @@
         <span class="k">pass</span>
     
 <div class="viewcode-block" id="NavigationToolbar2CALIPSO.update"><a class="viewcode-back" href="../../doc/tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Call the base class update function</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">NavigationToolbar2</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </div>
     <span class="k">def</span> <span class="nf">dynamic_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
-    
+
+    <span class="c"># noinspection PyTypeChecker,PyUnusedLocal</span>
 <div class="viewcode-block" id="NavigationToolbar2CALIPSO.release_zoom"><a class="viewcode-back" href="../../doc/tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO.release_zoom">[docs]</a>    <span class="k">def</span> <span class="nf">release_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        the release mouse button callback in zoom to rect mode, upon</span>
 <span class="sd">        release the plot will zoom to the location of the rectangle</span>
-<span class="sd">        </span>
+
 <span class="sd">        :param event: Tkinter passed event object</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">zoom_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ids_zoom</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">canvas</span><span class="o">.</span><span class="n">mpl_disconnect</span><span class="p">(</span><span class="n">zoom_id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_ids_zoom</span> <span class="o">=</span> <span class="p">[]</span>
@@ -294,8 +313,8 @@
             <span class="n">inverse</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span>
             <span class="n">lastx</span><span class="p">,</span> <span class="n">lasty</span> <span class="o">=</span> <span class="n">inverse</span><span class="o">.</span><span class="n">transform_point</span><span class="p">((</span><span class="n">lastx</span><span class="p">,</span> <span class="n">lasty</span><span class="p">))</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">inverse</span><span class="o">.</span><span class="n">transform_point</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-            <span class="n">Xmin</span><span class="p">,</span> <span class="n">Xmax</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
-            <span class="n">Ymin</span><span class="p">,</span> <span class="n">Ymax</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+            <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span>
+            <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
 
             <span class="c"># detect twinx,y axes and avoid double zooming</span>
             <span class="n">twinx</span><span class="p">,</span> <span class="n">twiny</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="bp">False</span>
@@ -308,78 +327,78 @@
             <span class="n">last_a</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">twinx</span><span class="p">:</span>
-                <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">Xmin</span><span class="p">,</span> <span class="n">Xmax</span>
+                <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">Xmin</span> <span class="o">&lt;</span> <span class="n">Xmax</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">x_min</span> <span class="o">&lt;</span> <span class="n">x_max</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">lastx</span><span class="p">:</span>
                         <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">lastx</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">lastx</span><span class="p">,</span> <span class="n">x</span>
-                    <span class="k">if</span> <span class="n">x0</span> <span class="o">&lt;</span> <span class="n">Xmin</span><span class="p">:</span>
-                        <span class="n">x0</span> <span class="o">=</span> <span class="n">Xmin</span>
-                    <span class="k">if</span> <span class="n">x1</span> <span class="o">&gt;</span> <span class="n">Xmax</span><span class="p">:</span>
-                        <span class="n">x1</span> <span class="o">=</span> <span class="n">Xmax</span>
+                    <span class="k">if</span> <span class="n">x0</span> <span class="o">&lt;</span> <span class="n">x_min</span><span class="p">:</span>
+                        <span class="n">x0</span> <span class="o">=</span> <span class="n">x_min</span>
+                    <span class="k">if</span> <span class="n">x1</span> <span class="o">&gt;</span> <span class="n">x_max</span><span class="p">:</span>
+                        <span class="n">x1</span> <span class="o">=</span> <span class="n">x_max</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">lastx</span><span class="p">:</span>
                         <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">x</span><span class="p">,</span> <span class="n">lastx</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">lastx</span><span class="p">,</span> <span class="n">x</span>
-                    <span class="k">if</span> <span class="n">x0</span> <span class="o">&gt;</span> <span class="n">Xmin</span><span class="p">:</span>
-                        <span class="n">x0</span> <span class="o">=</span> <span class="n">Xmin</span>
-                    <span class="k">if</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="n">Xmax</span><span class="p">:</span>
-                        <span class="n">x1</span> <span class="o">=</span> <span class="n">Xmax</span>
+                    <span class="k">if</span> <span class="n">x0</span> <span class="o">&gt;</span> <span class="n">x_min</span><span class="p">:</span>
+                        <span class="n">x0</span> <span class="o">=</span> <span class="n">x_min</span>
+                    <span class="k">if</span> <span class="n">x1</span> <span class="o">&lt;</span> <span class="n">x_max</span><span class="p">:</span>
+                        <span class="n">x1</span> <span class="o">=</span> <span class="n">x_max</span>
 
             <span class="k">if</span> <span class="n">twiny</span><span class="p">:</span>
-                <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">Ymin</span><span class="p">,</span> <span class="n">Ymax</span>
+                <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">Ymin</span> <span class="o">&lt;</span> <span class="n">Ymax</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">y_min</span> <span class="o">&lt;</span> <span class="n">y_max</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">lasty</span><span class="p">:</span>
                         <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">lasty</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">lasty</span><span class="p">,</span> <span class="n">y</span>
-                    <span class="k">if</span> <span class="n">y0</span> <span class="o">&lt;</span> <span class="n">Ymin</span><span class="p">:</span>
-                        <span class="n">y0</span> <span class="o">=</span> <span class="n">Ymin</span>
-                    <span class="k">if</span> <span class="n">y1</span> <span class="o">&gt;</span> <span class="n">Ymax</span><span class="p">:</span>
-                        <span class="n">y1</span> <span class="o">=</span> <span class="n">Ymax</span>
+                    <span class="k">if</span> <span class="n">y0</span> <span class="o">&lt;</span> <span class="n">y_min</span><span class="p">:</span>
+                        <span class="n">y0</span> <span class="o">=</span> <span class="n">y_min</span>
+                    <span class="k">if</span> <span class="n">y1</span> <span class="o">&gt;</span> <span class="n">y_max</span><span class="p">:</span>
+                        <span class="n">y1</span> <span class="o">=</span> <span class="n">y_max</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="n">lasty</span><span class="p">:</span>
                         <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">y</span><span class="p">,</span> <span class="n">lasty</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">lasty</span><span class="p">,</span> <span class="n">y</span>
-                    <span class="k">if</span> <span class="n">y0</span> <span class="o">&gt;</span> <span class="n">Ymin</span><span class="p">:</span>
-                        <span class="n">y0</span> <span class="o">=</span> <span class="n">Ymin</span>
-                    <span class="k">if</span> <span class="n">y1</span> <span class="o">&lt;</span> <span class="n">Ymax</span><span class="p">:</span>
-                        <span class="n">y1</span> <span class="o">=</span> <span class="n">Ymax</span>
+                    <span class="k">if</span> <span class="n">y0</span> <span class="o">&gt;</span> <span class="n">y_min</span><span class="p">:</span>
+                        <span class="n">y0</span> <span class="o">=</span> <span class="n">y_min</span>
+                    <span class="k">if</span> <span class="n">y1</span> <span class="o">&lt;</span> <span class="n">y_max</span><span class="p">:</span>
+                        <span class="n">y1</span> <span class="o">=</span> <span class="n">y_max</span>
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_button_pressed</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zoom_mode</span> <span class="o">==</span> <span class="s">&quot;x&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zoom_mode</span> <span class="o">==</span> <span class="s">&#39;x&#39;</span><span class="p">:</span>
                     <span class="n">a</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">))</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zoom_mode</span> <span class="o">==</span> <span class="s">&quot;y&quot;</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zoom_mode</span> <span class="o">==</span> <span class="s">&#39;y&#39;</span><span class="p">:</span>
                     <span class="n">a</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">a</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">))</span>
                     <span class="n">a</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">))</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_button_pressed</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">get_xscale</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;log&#39;</span><span class="p">:</span>
-                    <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Xmax</span> <span class="o">/</span> <span class="n">Xmin</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x1</span> <span class="o">/</span> <span class="n">x0</span><span class="p">)</span>
-                    <span class="n">rx1</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">Xmin</span> <span class="o">/</span> <span class="n">x0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">Xmin</span>
-                    <span class="n">rx2</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">Xmax</span> <span class="o">/</span> <span class="n">x0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">Xmin</span>
+                    <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x_max</span> <span class="o">/</span> <span class="n">x_min</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x1</span> <span class="o">/</span> <span class="n">x0</span><span class="p">)</span>
+                    <span class="n">rx1</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">x_min</span> <span class="o">/</span> <span class="n">x0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_min</span>
+                    <span class="n">rx2</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">x_max</span> <span class="o">/</span> <span class="n">x0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">x_min</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="n">Xmax</span> <span class="o">-</span> <span class="n">Xmin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span>
-                    <span class="n">rx1</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">Xmin</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Xmin</span>
-                    <span class="n">rx2</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">Xmax</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Xmin</span>
+                    <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_max</span> <span class="o">-</span> <span class="n">x_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span>
+                    <span class="n">rx1</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_min</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">+</span> <span class="n">x_min</span>
+                    <span class="n">rx2</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_max</span> <span class="o">-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">+</span> <span class="n">x_min</span>
                 <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">get_yscale</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;log&#39;</span><span class="p">:</span>
-                    <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Ymax</span> <span class="o">/</span> <span class="n">Ymin</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y1</span> <span class="o">/</span> <span class="n">y0</span><span class="p">)</span>
-                    <span class="n">ry1</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">Ymin</span> <span class="o">/</span> <span class="n">y0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">Ymin</span>
-                    <span class="n">ry2</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">Ymax</span> <span class="o">/</span> <span class="n">y0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">Ymin</span>
+                    <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y_max</span> <span class="o">/</span> <span class="n">y_min</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y1</span> <span class="o">/</span> <span class="n">y0</span><span class="p">)</span>
+                    <span class="n">ry1</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">y_min</span> <span class="o">/</span> <span class="n">y0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">y_min</span>
+                    <span class="n">ry2</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">y_max</span> <span class="o">/</span> <span class="n">y0</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">y_min</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ymax</span> <span class="o">-</span> <span class="n">Ymin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">y1</span> <span class="o">-</span> <span class="n">y0</span><span class="p">)</span>
-                    <span class="n">ry1</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ymin</span> <span class="o">-</span> <span class="n">y0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Ymin</span>
-                    <span class="n">ry2</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ymax</span> <span class="o">-</span> <span class="n">y0</span><span class="p">)</span> <span class="o">+</span> <span class="n">Ymin</span>
+                    <span class="n">alpha</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_max</span> <span class="o">-</span> <span class="n">y_min</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">y1</span> <span class="o">-</span> <span class="n">y0</span><span class="p">)</span>
+                    <span class="n">ry1</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">y_min</span> <span class="o">-</span> <span class="n">y0</span><span class="p">)</span> <span class="o">+</span> <span class="n">y_min</span>
+                    <span class="n">ry2</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">y_max</span> <span class="o">-</span> <span class="n">y0</span><span class="p">)</span> <span class="o">+</span> <span class="n">y_min</span>
 
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zoom_mode</span> <span class="o">==</span> <span class="s">&quot;x&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zoom_mode</span> <span class="o">==</span> <span class="s">&#39;x&#39;</span><span class="p">:</span>
                     <span class="n">a</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="n">rx1</span><span class="p">,</span> <span class="n">rx2</span><span class="p">))</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zoom_mode</span> <span class="o">==</span> <span class="s">&quot;y&quot;</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zoom_mode</span> <span class="o">==</span> <span class="s">&#39;y&#39;</span><span class="p">:</span>
                     <span class="n">a</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="n">ry1</span><span class="p">,</span> <span class="n">ry2</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">a</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">((</span><span class="n">rx1</span><span class="p">,</span> <span class="n">rx2</span><span class="p">))</span>
@@ -395,9 +414,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
     </div>
 <div class="viewcode-block" id="NavigationToolbar2CALIPSO.zoom"><a class="viewcode-back" href="../../doc/tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO.zoom">[docs]</a>    <span class="k">def</span> <span class="nf">zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Caller function for activating and deactivating zoom mode</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_active</span> <span class="o">==</span> <span class="s">&#39;ZOOM&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_active</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="k">else</span><span class="p">:</span>

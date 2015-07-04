@@ -70,7 +70,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
@@ -88,7 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -97,16 +98,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Modules</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Code Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../doc/general/general.html">General</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../doc/general/attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../doc/general/calipso.html">Calipso</a></li>
@@ -131,6 +130,12 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
 </ul>
 
           
@@ -176,11 +181,16 @@
 <span class="c">######################################</span>
 
 <span class="c"># import antigravity</span>
-<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">empty_like</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">array</span>
+
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
 <span class="kn">import</span> <span class="nn">constants</span>
 <span class="kn">from</span> <span class="nn">log</span> <span class="kn">import</span> <span class="n">logger</span>
-    
+<span class="kn">from</span> <span class="nn">tools.linearalgebra</span> <span class="kn">import</span> <span class="n">tuple_to_nparray</span><span class="p">,</span> <span class="n">get_intersection</span><span class="p">,</span> \
+    <span class="n">nparray_to_tuple</span><span class="p">,</span> <span class="n">is_intersecting</span>
+
+
 <div class="viewcode-block" id="PolygonDrawer"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer">[docs]</a><span class="k">class</span> <span class="nc">PolygonDrawer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Displays the polygon objects onto the canvas by supplying draw methods.</span>
@@ -298,9 +308,11 @@
 <span class="sd">        :param event: A Tkinter passed event object</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
-        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">getToolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">17</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_toolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">13</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&#39;%H:%M:%S&#39;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">tm_hour</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">tm_min</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">tm_sec</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__prevX</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__prevY</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span>
@@ -316,9 +328,11 @@
 <span class="sd">        :param fill: Boolean for when the cavas is in fill mode</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
-        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">getToolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">17</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_toolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">13</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&#39;%H:%M:%S&#39;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">tm_hour</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">tm_min</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">tm_sec</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Drawing line from plot&quot;</span><span class="p">)</span>
@@ -327,20 +341,20 @@
             <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canDrawPolygon</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Creating polygon from points&quot;</span><span class="p">)</span>
-                <span class="n">a1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
-                <span class="n">a2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-                <span class="n">b1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-                <span class="n">b2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="n">getIntersection</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
-                <span class="n">pair</span> <span class="o">=</span> <span class="n">npArrayToTuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">a1</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+                <span class="n">a2</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+                <span class="n">b1</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">b2</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">get_intersection</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
+                <span class="n">pair</span> <span class="o">=</span> <span class="n">nparray_to_tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair</span>
                 
-                <span class="n">a1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
-                <span class="n">a2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-                <span class="n">b1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-                <span class="n">b2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-                <span class="n">x</span> <span class="o">=</span> <span class="n">getIntersection</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
-                <span class="n">pair</span> <span class="o">=</span> <span class="n">npArrayToTuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="n">a1</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+                <span class="n">a2</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+                <span class="n">b1</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">b2</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">get_intersection</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
+                <span class="n">pair</span> <span class="o">=</span> <span class="n">nparray_to_tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair</span>
                 
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[:</span><span class="n">index</span><span class="p">]</span>
@@ -397,9 +411,11 @@
             <span class="n">fillColor</span> <span class="o">=</span> <span class="n">color</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__itemHandler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fillColor</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;polygon&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span><span class="p">,</span> <span class="n">plot</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__color</span> <span class="o">=</span> <span class="n">color</span>
-        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">getToolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">17</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_toolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">13</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&#39;%H:%M:%S&#39;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">tm_hour</span><span class="p">,</span> <span class="n">minutes</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">tm_min</span><span class="p">,</span> <span class="n">seconds</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">tm_sec</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">iy</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">imy</span><span class="p">)))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
@@ -603,12 +619,12 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newPoint</span>
     </div>
     <span class="k">def</span> <span class="nf">__canDrawPolygon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">b1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="n">b2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">b1</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">b2</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">)</span><span class="o">-</span><span class="mi">3</span><span class="p">):</span>
-            <span class="n">a1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            <span class="n">a2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">isIntersecting</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">):</span>
+            <span class="n">a1</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">a2</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">is_intersecting</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">):</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Polygon labeled for draw&quot;</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">i</span>
         <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
@@ -668,61 +684,6 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Toggling drag&quot;</span><span class="p">)</span>
         <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">dragToggle</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">dragToggle</span>
                             </div>
-<div class="viewcode-block" id="perpendicular"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.perpendicular">[docs]</a><span class="k">def</span> <span class="nf">perpendicular</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Returns a numpy array that&#39;s orthogonal to the param</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">empty_like</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-    <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">b</span>
-</div>
-<div class="viewcode-block" id="getIntersection"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.getIntersection">[docs]</a><span class="k">def</span> <span class="nf">getIntersection</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Retrieves the point of intersection of two lines given two points</span>
-<span class="sd">    on each line</span>
-<span class="sd">    :param a1, a2: Two points on the first line</span>
-<span class="sd">    :param b1, b1: Two points on the second line</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">da</span> <span class="o">=</span> <span class="n">a2</span> <span class="o">-</span> <span class="n">a1</span>
-    <span class="n">db</span> <span class="o">=</span> <span class="n">b2</span> <span class="o">-</span> <span class="n">b1</span>
-    <span class="n">dp</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">-</span> <span class="n">b1</span>
-    <span class="n">dap</span> <span class="o">=</span> <span class="n">perpendicular</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
-    <span class="n">denom</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">dap</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
-    <span class="n">num</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">dap</span><span class="p">,</span> <span class="n">dp</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">num</span> <span class="o">/</span><span class="n">denom</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span><span class="o">*</span><span class="n">db</span> <span class="o">+</span> <span class="n">b1</span>
-</div>
-<div class="viewcode-block" id="isIntersecting"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.isIntersecting">[docs]</a><span class="k">def</span> <span class="nf">isIntersecting</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Determines if two line segments are intersecting by checking if the point of intersection</span>
-<span class="sd">    exists on the line segments</span>
-<span class="sd">    :param a1, a2: The endpoints of the first line segment</span>
-<span class="sd">    :param b1, b2: The endpoints of the second line segment</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">point</span> <span class="o">=</span> <span class="n">getIntersection</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">a1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a2</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">min</span><span class="p">(</span><span class="n">b1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b2</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span> <span class="ow">or</span>
-        <span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">a1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a2</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">b1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b2</span><span class="p">[</span><span class="mi">0</span><span class="p">])))):</span>
-        <span class="k">return</span> <span class="bp">False</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">True</span>
-    </div>
-<div class="viewcode-block" id="tupleToNpArray"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.tupleToNpArray">[docs]</a><span class="k">def</span> <span class="nf">tupleToNpArray</span><span class="p">(</span><span class="n">pair</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Converts a tuple to a numpy array</span>
-<span class="sd">    </span>
-<span class="sd">    :param pair: Tuple</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="n">array</span><span class="p">([</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
-    </div>
-<div class="viewcode-block" id="npArrayToTuple"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.npArrayToTuple">[docs]</a><span class="k">def</span> <span class="nf">npArrayToTuple</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Converts a numpy array to a tuple</span>
-<span class="sd">    </span>
-<span class="sd">    :param array: Numpy array</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

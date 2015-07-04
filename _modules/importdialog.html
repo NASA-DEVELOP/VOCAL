@@ -70,7 +70,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#structure">Structure</a></li>
@@ -88,7 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -97,16 +98,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../doc/modules.html">Modules</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc/modules.html">Code Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../doc/general/general.html">General</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../doc/general/attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../doc/general/calipso.html">Calipso</a></li>
@@ -131,6 +130,12 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/contact.html">Contact</a></li>
 </ul>
 
           
@@ -178,184 +183,200 @@
 
 <span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Entry</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> \
     <span class="n">Label</span><span class="p">,</span> <span class="n">BOTTOM</span><span class="p">,</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">RIDGE</span>
-<span class="kn">import</span> <span class="nn">collections</span>
-<span class="kn">import</span> <span class="nn">tkMessageBox</span>
-
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">or_</span>
-
-<span class="kn">import</span> <span class="nn">constants</span>
-<span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">dbPolygon</span>
+<span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">DatabasePolygon</span>
 <span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">center</span>
 <span class="kn">from</span> <span class="nn">tools.treelistbox</span> <span class="kn">import</span> <span class="n">TreeListBox</span>
 <span class="kn">from</span> <span class="nn">log</span> <span class="kn">import</span> <span class="n">logger</span>
 
-<span class="c">#import TkTreectrl as treectrl</span>
-<span class="c">#import db</span>
-<div class="viewcode-block" id="dbDialog"><a class="viewcode-back" href="../doc/general/import.html#importdialog.dbDialog">[docs]</a><span class="k">class</span> <span class="nc">dbDialog</span><span class="p">(</span><span class="n">Toplevel</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">tkMessageBox</span>
+<span class="kn">import</span> <span class="nn">constants</span>
+
+
+<div class="viewcode-block" id="ImportDialog"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog">[docs]</a><span class="k">class</span> <span class="nc">ImportDialog</span><span class="p">(</span><span class="n">Toplevel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dialog window which prompts user for a selection of objects to import as well as</span>
 <span class="sd">    showing a customizable list for displaying the data</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+
+<span class="sd">    :param: root: root Tk widget, often Tk()</span>
+<span class="sd">    :param: master: the main window, for access of polygonList</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">master</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        :param: root: root tk widget, often Tk()</span>
-<span class="sd">        :param: master: the main window, for access of polygonList</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Instantiating dbDialog&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Instantiating dbDialog&#39;</span><span class="p">)</span>
         <span class="n">Toplevel</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">(</span><span class="s">&#39;WM_DELETE_WINDOW&#39;</span><span class="p">)</span>
-                
-        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">getSession</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__itList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__searchString</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__master</span> <span class="o">=</span> <span class="n">master</span>        
-        <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Import from existing database&quot;</span><span class="p">)</span>
-        <span class="n">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">IMPORTWIDTH</span><span class="p">,</span><span class="n">constants</span><span class="o">.</span><span class="n">IMPORTHEIGH</span><span class="p">))</span> <span class="c"># simple function to center window and set size</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">container</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>                                <span class="c"># create center frame, for use of splitting window horizontally later</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>       <span class="c"># place</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">createTopFrame</span><span class="p">()</span>                                       <span class="c"># create the top frame and pack buttons / etc. on it</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">createBottomFrame</span><span class="p">()</span>                                    <span class="c"># create the bottom frame and pack</span>
-        
-<div class="viewcode-block" id="dbDialog.createTopFrame"><a class="viewcode-back" href="../doc/general/import.html#importdialog.dbDialog.createTopFrame">[docs]</a>    <span class="k">def</span> <span class="nf">createTopFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__master</span> <span class="o">=</span> <span class="n">master</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Import from existing database&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">IMPORTWIDTH</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">IMPORTHEIGH</span><span class="p">))</span>  <span class="c"># simple function to center window and set size</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">container</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>  <span class="c"># create center frame,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c"># place</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_top_frame</span><span class="p">()</span>  <span class="c"># create the top frame and pack buttons / etc. on it</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_bottom_frame</span><span class="p">()</span>  <span class="c"># create the bottom frame and pack</span>
+
+<div class="viewcode-block" id="ImportDialog.create_top_frame"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.create_top_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_top_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initialize the upper frame of the window in charge of buttons</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Creating top frame&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>                       <span class="c"># create top frame</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Search &quot;</span><span class="p">)</span>           <span class="c"># search label </span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="p">)</span>                               <span class="c"># input box for searching specific attributes</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;&lt;KeyRelease&gt;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">refineSearch</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Creating top frame&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>  <span class="c"># create top frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="n">label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Search &#39;</span><span class="p">)</span>  <span class="c"># search label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">)</span>  <span class="c"># input box for searching specific attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&#39;&lt;KeyRelease&gt;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">refine_search</span><span class="p">)</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-            
-        <span class="n">lblSpace1</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>     <span class="c"># create space between frame outline</span>
-        <span class="n">lblSpace1</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            
+
+        <span class="n">spacer</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>  <span class="c"># create space between frame outline</span>
+        <span class="n">spacer</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
         <span class="c"># custom command for filtering objects by properties</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deleteButton</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Delete&quot;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">deleteDb</span><span class="p">,</span>
-                                   <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">deleteButton</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-        </div>
-<div class="viewcode-block" id="dbDialog.refineSearch"><a class="viewcode-back" href="../doc/general/import.html#importdialog.dbDialog.refineSearch">[docs]</a>    <span class="k">def</span> <span class="nf">refineSearch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="n">delete_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Delete&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delete_from_db</span><span class="p">,</span>
+                               <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">delete_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ImportDialog.refine_search"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.refine_search">[docs]</a>    <span class="k">def</span> <span class="nf">refine_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to dynamically narrow the results of a search while the</span>
-<span class="sd">        user types into the search bar. Checks if the character is </span>
+<span class="sd">        user types into the search bar. Checks if the character is</span>
 <span class="sd">        alpha numeric , and if so queries the database for the combined</span>
 <span class="sd">        string. A backend stack keeps track of past searches, when the</span>
 <span class="sd">        user enters the backspace code a previous instance is popped</span>
 <span class="sd">        and reloaded.</span>
 <span class="sd">        :param event: search box events</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">isalnum</span><span class="p">():</span> <span class="bp">self</span><span class="o">.</span><span class="n">__searchString</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span>                  <span class="c"># if character is a letter / number, add to the searchstring</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>                                                      <span class="c"># if the entry box is NOT empty</span>
-            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>                                                    <span class="c"># if a backspace code is entered</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__searchString</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__searchString</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>                      <span class="c"># remove one letter from search string</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span> <span class="p">:</span>                                                   <span class="c"># pop previous search and display to tree</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># If character is a letter or number, add to search_string</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">isalnum</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span>
+        <span class="c"># If the entry box is NOT empty</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="c"># But If a backspace is entered</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                <span class="c"># Remove one letter from search string and pop stack</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">isalnum</span><span class="p">():</span>                                              <span class="c"># else if the character is alphanumeric</span>
+            <span class="c"># Else if the character is alphanumeric</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">isalnum</span><span class="p">():</span>
+                <span class="c"># Temporary variable to create new list</span>
                 <span class="n">lst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-                <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">dbPolygon</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">or_</span><span class="p">(</span>                <span class="c"># query the database for if self.__searchstring is contained in </span>
-                        <span class="n">dbPolygon</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__searchString</span><span class="p">),</span>                <span class="c"># fields listed</span>
-                        <span class="n">dbPolygon</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__searchString</span><span class="p">),</span>
-                        <span class="n">dbPolygon</span><span class="o">.</span><span class="n">notes</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__searchString</span><span class="p">))):</span>
-                    <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>                                                     <span class="c"># append any objects that were returned by the query</span>
-                        <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">)</span>
-                    <span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>                                 <span class="c"># push the new list onto our stack</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">lst</span>                                                <span class="c"># set the new display list and update</span>
+                <span class="c"># For all objects in the database</span>
+                <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                        <span class="n">or_</span><span class="p">(</span>  <span class="c"># query the database for if search_string is contained in</span>
+                              <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="p">),</span>
+                              <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="p">),</span>
+                              <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">notes</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="p">))):</span>
+                    <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>  <span class="c"># append any objects that were returned by the query</span>
+                                 <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">))</span>
+                <span class="c"># Push new query onto the stack and set display to list</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">lst</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__searchString</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__displayAll</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Displaying refined search&quot;</span><span class="p">)</span>
-        </div>
-<div class="viewcode-block" id="dbDialog.createBottomFrame"><a class="viewcode-back" href="../doc/general/import.html#importdialog.dbDialog.createBottomFrame">[docs]</a>    <span class="k">def</span> <span class="nf">createBottomFrame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__display_all</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Displaying refined search&#39;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ImportDialog.create_bottom_frame"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.create_bottom_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_bottom_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create and display database in listbox, also add lower button frame for import</span>
 <span class="sd">        button</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Creating bottom frame&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bottomFrame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>                                            <span class="c"># create bottom frame</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bottomFrame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>          
-        <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottomFrame</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">RIDGE</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>         <span class="c"># tiny separator splitting the top and bottom frame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Creating bottom frame&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>  <span class="c"># create bottom frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">RIDGE</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                               <span class="n">bg</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">)</span>  <span class="c"># tiny separator splitting the top and bottom frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">separator</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bottomButtonFrame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottomFrame</span><span class="p">)</span>                                    <span class="c"># bottom frame for import button</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bottomButtonFrame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">TreeListBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottomFrame</span><span class="p">,</span>
-            <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;plot&#39;</span><span class="p">,</span> <span class="s">&#39;date&#39;</span><span class="p">,</span> <span class="s">&#39;file&#39;</span><span class="p">,</span> <span class="s">&#39;attributes&#39;</span><span class="p">,</span> <span class="s">&#39;notes&#39;</span><span class="p">])</span>
-        
-        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">dbPolygon</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__itList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>                                                       <span class="c"># insert JSON obj representation into internal list</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">__displayAll</span><span class="p">()</span>
-           
-        <span class="bp">self</span><span class="o">.</span><span class="n">button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottomButtonFrame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Import&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-                             <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">importSelection</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    </div>
-<div class="viewcode-block" id="dbDialog.importSelection"><a class="viewcode-back" href="../doc/general/import.html#importdialog.dbDialog.importSelection">[docs]</a>    <span class="k">def</span> <span class="nf">importSelection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Import selected objects from libox into program</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Importing selection&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="p">)</span>  <span class="c"># bottom frame for import button</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">TreeListBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="p">,</span>
+                                <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;plot&#39;</span><span class="p">,</span> <span class="s">&#39;date&#39;</span><span class="p">,</span> <span class="s">&#39;file&#39;</span><span class="p">,</span> <span class="s">&#39;attributes&#39;</span><span class="p">,</span> <span class="s">&#39;notes&#39;</span><span class="p">])</span>
+
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c"># insert JSON obj representation into internal list</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__display_all</span><span class="p">()</span>
+
+        <span class="n">button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Import&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+                        <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">import_selection</span><span class="p">)</span>
+        <span class="n">button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ImportDialog.import_selection"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.import_selection">[docs]</a>    <span class="k">def</span> <span class="nf">import_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Import selected objects from internal_list into program</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Importing selection&#39;</span><span class="p">)</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>
+        <span class="c"># For all selected items in window</span>
         <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Encoding selection to JSON&quot;</span><span class="p">)</span>
-            <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="s">&quot;values&quot;</span><span class="p">)</span>
-            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">tag</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__itList</span><span class="p">]</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Forward JSON to be read&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">getPolygonList</span><span class="p">()</span><span class="o">.</span><span class="n">readPlot</span><span class="p">(</span>
-                <span class="n">readFromString</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__itList</span><span class="p">[</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])]))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Done&quot;</span><span class="p">)</span>
+            <span class="c"># Find those items in internal list and import them</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Encoding selection to JSON&#39;</span><span class="p">)</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="s">&#39;values&#39;</span><span class="p">)</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">tag</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">]</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Forward JSON to be read&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_polygon_list</span><span class="p">()</span><span class="o">.</span><span class="n">readPlot</span><span class="p">(</span>
+                <span class="n">readFromString</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">[</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])]))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Done&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
-            </div>
-<div class="viewcode-block" id="dbDialog.deleteDb"><a class="viewcode-back" href="../doc/general/import.html#importdialog.dbDialog.deleteDb">[docs]</a>    <span class="k">def</span> <span class="nf">deleteDb</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+</div>
+<div class="viewcode-block" id="ImportDialog.delete_from_db"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.delete_from_db">[docs]</a>    <span class="k">def</span> <span class="nf">delete_from_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete selected objects from database</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">askyesno</span><span class="p">(</span><span class="s">&quot;Delete?&quot;</span><span class="p">,</span> <span class="s">&quot;Really delete these items?&quot;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">askyesno</span><span class="p">(</span><span class="s">&#39;Delete?&#39;</span><span class="p">,</span> <span class="s">&#39;Really delete these items?&#39;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-                <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="s">&quot;values&quot;</span><span class="p">)</span>
-                <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__itList</span><span class="p">[[</span><span class="n">x</span><span class="o">.</span><span class="n">tag</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__itList</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span><span class="o">.</span><span class="n">id</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Notfiy db of deletion for selection&quot;</span><span class="p">)</span>
-                <span class="n">db</span><span class="o">.</span><span class="n">deleteItem</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__displayAll</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Done&quot;</span><span class="p">)</span>
-    </div>
-    <span class="k">def</span> <span class="nf">__displayAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+                <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="s">&#39;values&#39;</span><span class="p">)</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">[[</span><span class="n">x</span><span class="o">.</span><span class="n">tag</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span><span class="o">.</span><span class="n">id</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Notifying db of deletion from selection&#39;</span><span class="p">)</span>
+                <span class="n">db</span><span class="o">.</span><span class="n">delete_item</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__display_all</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Done&#39;</span><span class="p">)</span>
+</div>
+    <span class="k">def</span> <span class="nf">__display_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper function to simply display all objects in the database</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Display entries&quot;</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Displaying entries&#39;</span><span class="p">)</span>
         <span class="n">lst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__offset</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">dbPolygon</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>                                                          <span class="c"># user see&#39;s this list</span>
-                <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">)</span>
-            <span class="p">)</span>
-            
+        <span class="c"># Push previous display to stack</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>  <span class="c"># user see&#39;s this list</span>
+                         <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">))</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">lst</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-        
-<div class="viewcode-block" id="dbDialog.free"><a class="viewcode-back" href="../doc/general/import.html#importdialog.dbDialog.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+
+<div class="viewcode-block" id="ImportDialog.free"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Free window</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Closing window&quot;</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Closing window&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
-        </div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div></div>
 </pre></div>
 
           </div>

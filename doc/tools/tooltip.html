@@ -72,7 +72,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
@@ -90,7 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -99,16 +100,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Code Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../general/general.html">General</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../general/attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../general/calipso.html">Calipso</a></li>
@@ -134,6 +133,12 @@
 </ul>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
 
           
         
@@ -157,7 +162,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-          <li><a href="../modules.html">Modules</a> &raquo;</li>
+          <li><a href="../modules.html">Code Documentation</a> &raquo;</li>
       
           <li><a href="tools.html">Tools</a> &raquo;</li>
       
@@ -180,7 +185,7 @@
 <p class="graphviz">
 <img src="../../_images/inheritance-e108e28b462516ca5e5eb65d4ca8695bdeda87bf.png" alt="Inheritance diagram of tools.tooltip" usemap="#inheritance2bacda21cd" class="inheritance"/>
 <map id="inheritance2bacda21cd" name="inheritance2bacda21cd">
-<area shape="rect" id="node1" href="#tools.tooltip.ToolTip" title="Displays text in a label below a passed widget" alt="" coords="5,5,140,31"/>
+<area shape="rect" id="node1" href="#tools.tooltip.ToolTip" title="Displays text in a label below a passed widget" alt="" coords="6,5,149,30"/>
 </map>
 </p>
 <span class="target" id="module-tools.tooltip"></span><dl class="class">
@@ -196,17 +201,17 @@
 </tbody>
 </table>
 <dl class="method">
-<dt id="tools.tooltip.ToolTip.hideTip">
-<code class="descname">hideTip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/tooltip.html#ToolTip.hideTip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.tooltip.ToolTip.hideTip" title="Permalink to this definition">¶</a></dt>
-<dd><p>Hide or destory the tool tip label when the mouse leaves widget.
-Bound to the <code class="docutils literal"><span class="pre">'&lt;Leave&gt;'</span></code> event when <a class="reference internal" href="#tools.tooltip.createToolTip" title="tools.tooltip.createToolTip"><code class="xref py py-func docutils literal"><span class="pre">createToolTip()</span></code></a> is called</p>
+<dt id="tools.tooltip.ToolTip.hide_tip">
+<code class="descname">hide_tip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/tooltip.html#ToolTip.hide_tip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.tooltip.ToolTip.hide_tip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hide or destroy the tool tip label when the mouse leaves widget.
+Bound to the <code class="docutils literal"><span class="pre">'&lt;Leave&gt;'</span></code> event when <code class="xref py py-func docutils literal"><span class="pre">createToolTip()</span></code> is called</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="tools.tooltip.ToolTip.showTip">
-<code class="descname">showTip</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/tooltip.html#ToolTip.showTip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.tooltip.ToolTip.showTip" title="Permalink to this definition">¶</a></dt>
+<dt id="tools.tooltip.ToolTip.show_tip">
+<code class="descname">show_tip</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/tooltip.html#ToolTip.show_tip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.tooltip.ToolTip.show_tip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and pack the tooltip, bound to the <code class="docutils literal"><span class="pre">'&lt;Enter&gt;'</span></code> event when
-<a class="reference internal" href="#tools.tooltip.createToolTip" title="tools.tooltip.createToolTip"><code class="xref py py-func docutils literal"><span class="pre">createToolTip()</span></code></a> is called</p>
+<code class="xref py py-func docutils literal"><span class="pre">createToolTip()</span></code> is called</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -220,8 +225,8 @@ Bound to the <code class="docutils literal"><span class="pre">'&lt;Leave&gt;'</s
 </dd></dl>
 
 <dl class="function">
-<dt id="tools.tooltip.createToolTip">
-<code class="descname">createToolTip</code><span class="sig-paren">(</span><em>widget</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/tooltip.html#createToolTip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.tooltip.createToolTip" title="Permalink to this definition">¶</a></dt>
+<dt id="tools.tooltip.create_tool_tip">
+<code class="descname">create_tool_tip</code><span class="sig-paren">(</span><em>widget</em>, <em>text</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/tooltip.html#create_tool_tip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.tooltip.create_tool_tip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an instance of <a class="reference internal" href="#tools.tooltip.ToolTip" title="tools.tooltip.ToolTip"><code class="xref py py-class docutils literal"><span class="pre">ToolTip</span></code></a> and bind the <code class="docutils literal"><span class="pre">'&lt;Enter&gt;'</span></code> and
 <code class="docutils literal"><span class="pre">'&lt;Leave&gt;'</span></code> events for displaying to the widget passed</p>
 <table class="docutils field-list" frame="void" rules="none">

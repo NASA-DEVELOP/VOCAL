@@ -1,5 +1,5 @@
 =====================
-Tutorial
+Getting Started
 =====================
 
 This tutorial provides an overview on how to use the CALIPSO Visualization 

@@ -72,7 +72,8 @@
         
           
           
-              <ul>
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
@@ -90,7 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
@@ -99,16 +100,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../troubleshoot.html">Troubleshoot</a></li>
 </ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../buildingdocs.html">Developing Dos</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#building-the-docs">Building the docs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../buildingdocs.html#contributing-to-the-docs">Contributing to the Docs</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Code Documentation</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../general/general.html">General</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../general/attributes.html">Attributes Dialog</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../general/calipso.html">Calipso</a></li>
@@ -134,6 +133,12 @@
 </ul>
 </li>
 </ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
 
           
         
@@ -157,7 +162,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../../index.html">Docs</a> &raquo;</li>
       
-          <li><a href="../modules.html">Modules</a> &raquo;</li>
+          <li><a href="../modules.html">Code Documentation</a> &raquo;</li>
       
           <li><a href="polygon.html">Polygon</a> &raquo;</li>
       
@@ -179,7 +184,7 @@
 <p class="graphviz">
 <img src="../../_images/inheritance-0b691d97a16eb4170b388a948131161aefb9d81a.png" alt="Inheritance diagram of polygon.list" usemap="#inheritance40431a3215" class="inheritance"/>
 <map id="inheritance40431a3215" name="inheritance40431a3215">
-<area shape="rect" id="node1" href="#polygon.list.PolygonList" title="Manages all polygons present on the screen, writes to db on call" alt="" coords="5,5,165,31"/>
+<area shape="rect" id="node1" href="#polygon.list.PolygonList" title="Manages all polygons present on the screen, writes to db on call" alt="" coords="5,5,176,30"/>
 </map>
 </p>
 <span class="target" id="module-polygon.list"></span><dl class="class">
@@ -230,6 +235,20 @@
 <dt id="polygon.list.PolygonList.drawPolygon">
 <code class="descname">drawPolygon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.drawPolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.drawPolygon" title="Permalink to this definition">¶</a></dt>
 <dd><p>Informs the correct list&#8217;s blank to draw a polyogon on the screen</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.list.PolygonList.extractShapeData">
+<code class="descname">extractShapeData</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/list.html#PolygonList.extractShapeData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.list.PolygonList.extractShapeData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the data bounded by the polygon</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
