@@ -32,7 +32,7 @@ The easiest way to built the site would be keeping two repositories of VOCAL act
 
    .. code-block:: none
 
-      > rm docs/* 
+      > rm -rf docs/* 
       > cd vocal
 
 4. Simply build the sphinx docs now with your build directory as docs!::
