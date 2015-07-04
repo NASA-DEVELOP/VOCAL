@@ -2,5 +2,33 @@
 Contact
 ======================
 
+.. rubric:: User Issues
 
-stuff
+* Grant Mercer
+
+  - gmercer015@gmail.com 
+  - `github.com/Syntaf`_
+
+* Nathan Qian
+
+  - ntqian@gmail.wm.edu
+
+.. rubric:: VOCAL Development Help/Questions
+
+* Grant Mercer
+
+  - gmercer015@gmail.com 
+  - `github.com/Syntaf`_
+
+* Nathan Qian
+
+  - ntqian@email.wm.edu
+
+.. rubric:: Documentation/Website Questions
+
+* Grant Mercer
+
+  - gmercer015@gmail.com
+  - `github.com/Syntaf`_
+
+.. _github.com/Syntaf: https://github.com/Syntaf 
