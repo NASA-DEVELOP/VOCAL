@@ -17,7 +17,8 @@ from tools.linearalgebra import tuple_to_nparray, get_intersection, \
 
 class PolygonDrawer(object):
     '''
-    Displays the polygon objects onto the canvas by supplying draw methods.
+    Displays the polygon objects onto the canvas by supplying draw methods. Draw to
+    backend matplotlib plot using a passed figure.
     
     :param canvas: The canvas to draw the object to
     :param master: Central class, in this case Calipso
@@ -106,7 +107,7 @@ class PolygonDrawer(object):
     
     
     # TODO: throw exception when the user draws outside of the plot
-    def __init__(self, canvas, master, tag="", color=""):
+    def __init__(self, canvas, master, tag='', color=''):
         '''
         Constructor
         '''
@@ -119,15 +120,15 @@ class PolygonDrawer(object):
         self.__color = color
         self.__master = master
         self.__itemHandler = 0
-        self.__plot = ""
+        self.__plot = ''
         self.__attributes = []
-        self.__note = ""
+        self.__note = ''
         self.__id = None
                     
     def anchorRectangle(self, event):
         '''
         Establishes a corner of a rectangle as anchor for when the user drags the cursor to 
-        create a rectangle. Used in "Draw Rect" button
+        create a rectangle. Used in 'Draw Rect' button
         
         :param event: A Tkinter passed event object
         '''
@@ -159,12 +160,12 @@ class PolygonDrawer(object):
         x = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min, seconds=x.tm_sec).total_seconds()
         self.__coordinates.append((float(x), float(y)))
         if len(self.__vertices) > 1:
-            logger.info("Drawing line from plot")
-            self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width="2", tags="line")
+            logger.info('Drawing line from plot')
+            self.__canvas._tkcanvas.create_line(self.__prevX, self.__prevY, event.x, event.y, fill=PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479], width='2', tags='line')
         if len(self.__vertices) > 3:
             index = self.__canDrawPolygon()
             if index > -1:
-                logger.info("Creating polygon from points")
+                logger.info('Creating polygon from points')
                 a1 = tuple_to_nparray(self.__vertices[index])
                 a2 = tuple_to_nparray(self.__vertices[index + 1])
                 b1 = tuple_to_nparray(self.__vertices[-1])
@@ -187,7 +188,7 @@ class PolygonDrawer(object):
                 self.__coordinates.pop()
                 self.drawPolygon(plot, fill)
                 self.__plot = plot
-                self.__canvas._tkcanvas.delete("line")
+                self.__canvas._tkcanvas.delete('line')
                 PolygonDrawer.colorCounter += 16
                 return True
         self.__prevX = event.x
@@ -211,7 +212,7 @@ class PolygonDrawer(object):
         
     def fillRectangle(self, event, plot=constants.BASE_PLOT_STR, fill=False):
         '''
-        Draws the rectangle and stores the vertices of the rectangle internally. Used in "Draw Rect"
+        Draws the rectangle and stores the vertices of the rectangle internally. Used in 'Draw Rect'
         
         :param event: A Tkinter passed event object
         :param plot: The current plot the canvas is drawing to
@@ -230,10 +231,10 @@ class PolygonDrawer(object):
         imy = self.__coordinates[0][1]
         color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
         if fill is False:
-            fillColor = ""
+            fillColor = ''
         else:
             fillColor = color
-        self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=color, fill=fillColor, tags=("polygon", self.__tag, plot))
+        self.__itemHandler = self.__canvas._tkcanvas.create_rectangle(ix, iy, event.x, event.y, outline=color, fill=fillColor, tags=('polygon', self.__tag, plot))
         self.__color = color
         string = self.__master.get_toolbar().message.get()
         x = string[2:10].strip()
@@ -321,7 +322,7 @@ class PolygonDrawer(object):
         :param int index: Location to modify
         :param point: New point
         '''
-        logger.info("Setting vertex")
+        logger.info('Setting vertex')
         self.__vertices[index] = point
     
     def setID(self, _id):
@@ -421,7 +422,7 @@ class PolygonDrawer(object):
         '''
         for item in self.__attributes:
             if tag == item:
-                logger.info("Success")
+                logger.info('Success')
                 return True
         return False
     
@@ -435,7 +436,7 @@ class PolygonDrawer(object):
         :param dmy: Matplotlib delta y
         
         '''
-        logger.info("Moving polygon")
+        logger.info('Moving polygon')
         for i in range(len(self.__vertices)):
             newPoint = (self.__vertices[i][0] + dx, self.__vertices[i][1] + dy)
             self.__vertices[i] = newPoint
@@ -449,7 +450,7 @@ class PolygonDrawer(object):
             a1 = tuple_to_nparray(self.__vertices[i])
             a2 = tuple_to_nparray(self.__vertices[i + 1])
             if is_intersecting(a1, a2, b1, b2):
-                logger.info("Polygon labeled for draw")
+                logger.info('Polygon labeled for draw')
                 return i
         return -1
             
@@ -460,13 +461,13 @@ class PolygonDrawer(object):
         :param plot: Plot to draw to
         :param bool fill: Boolean for whether to fill in object or not
         '''
-        logger.info("Drawing polygon")
+        logger.info('Drawing polygon')
         color = PolygonDrawer.COLORS[PolygonDrawer.colorCounter%479]
         if fill is False:
-            fillColor = ""
+            fillColor = ''
         else:
             fillColor = color
-        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=color, fill=fillColor, width=2, tags=("polygon", self.__tag, plot))
+        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=color, fill=fillColor, width=2, tags=('polygon', self.__tag, plot))
         self.__color = color
         self.__plot = plot
         PolygonDrawer.colorCounter += 16
@@ -476,7 +477,7 @@ class PolygonDrawer(object):
         Redraw the shape by first deleting the item handler and recreating it
         '''
         self.__canvas._tkcanvas.delete(self.__itemHandler)
-        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=self.__color, fill=self.__color, width=2, tags=("polygon", self.__tag, self.__plot))
+        self.__itemHandler = self.__canvas._tkcanvas.create_polygon(self.__vertices, outline=self.__color, fill=self.__color, width=2, tags=('polygon', self.__tag, self.__plot))
         
     def isEmpty(self):
         '''
@@ -490,21 +491,21 @@ class PolygonDrawer(object):
             return False
         
     def __str__(self):
-        logger.info("Stringing polygon")
-        string = "Coordinates:\n"
+        logger.info('Stringing polygon')
+        string = 'Coordinates:\n'
         for point in self.__coordinates:
-            string += "\t(" + str(point[0]) + ", " + str(point[1]) + ")\n"
-        string += "Vertices:\n"
+            string += '\t(' + str(point[0]) + ', ' + str(point[1]) + ')\n'
+        string += 'Vertices:\n'
         for point in self.__vertices:
-            string += "\t(" + str(point[0]) + ", " + str(point[1]) + ")\n"
-        string += "Attributes:\n"
+            string += '\t(' + str(point[0]) + ', ' + str(point[1]) + ')\n'
+        string += 'Attributes:\n'
         for item in self.__attributes:
-            string += "\t" + item + "\n"
-        string += "Notes:\n\t" + self.__note
+            string += '\t' + item + '\n'
+        string += 'Notes:\n\t' + self.__note
         return string
     
     @staticmethod
     def toggleDrag(event):
-        logger.info("Toggling drag")
+        logger.info('Toggling drag')
         PolygonDrawer.dragToggle = not PolygonDrawer.dragToggle
                             
