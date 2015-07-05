@@ -9,7 +9,7 @@ from attributesdialog import AttributesDialog
 from importdialog import ImportDialog
 from plot.plot_depolar_ratio import drawDepolar
 from plot.plot_uniform_alt_lidar_dev import drawBackscattered
-from polygon.list import PolygonList
+from polygon.manager import ShapeManager
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.tools import Catcher
 from tools.linearalgebra import distance
@@ -66,11 +66,11 @@ class Calipso(object):
         self.__child = ToolsWindow(self, r)
         # Matplotlib backend objects
         self.__parent_fig = Figure(figsize=(16, 11))
-        self.__fig = None
+        self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
         self.__drawplotCanvas = FigureCanvasTkAgg(self.__parent_fig,
                                                   master=self.__drawplot_frame)
         logger.info('Create PolygonList')
-        self.__polygonList = PolygonList(self.__drawplotCanvas, self)  # internal polygonList
+        self.__shapemanager = ShapeManager(self.__fig, self)
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,
                                                    self.__child.coordinate_frame)
 
@@ -145,7 +145,7 @@ class Calipso(object):
         self.xrange = xrange_
         self.yrange = yrange
         if plot_type == constants.BASE_PLOT:
-            self.__polygonList.setPlot(constants.BASE_PLOT)             # Set screen to blank canvas
+            self.__shapemanager.set_plot(constants.BASE_PLOT)
         elif plot_type == constants.BACKSCATTERED:
             try:
                 logger.info('Setting plot to backscattered xrange: ' +
@@ -154,7 +154,7 @@ class Calipso(object):
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)     # create subplot
                 drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__drawplotCanvas.show()                            # show canvas
-                self.__polygonList.setPlot(constants.BACKSCATTERED)     # set the current plot on polygonList
+                self.__shapemanager.set_plot(constants.BACKSCATTERED)     # set the current plot on polygonList
                 self.__toolbar.update()                                 # update toolbar
                 self.plot = constants.BACKSCATTERED
             except IOError:
@@ -167,7 +167,7 @@ class Calipso(object):
                 self.__parent_fig.clear()                               # clear the figure
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)     # create subplot
                 drawDepolar(self.__file, self.__fig, self.__parent_fig)
-                self.__polygonList.setPlot(constants.DEPOLARIZED)       # set the internal plot
+                self.__shapemanager.set_plot(constants.DEPOLARIZED)       # set the internal plot
                 self.__drawplotCanvas.show()                            # show plot
                 self.__toolbar.update()                                 # update toolbar
                 self.plot = constants.DEPOLARIZED
@@ -183,7 +183,7 @@ class Calipso(object):
         Reset all objects on the screen, move pan to original
         """
         logger.info("Resetting plot")
-        self.__polygonList.reset()      # reset all buttons
+        self.__shapemanager.reset()      # reset all buttons
         self.__toolbar.home()           # proc toolbar function to reset plot to home
 
     def pan(self, event):
@@ -247,7 +247,7 @@ class Calipso(object):
         db will then save all polygons present on the screen
         """
         logger.info('Notified database to save')
-        success = self.__polygonList.saveToDB()
+        success = self.__shapemanager.save_db()
         if success:
             logger.info('Success, saved to db')
             tkMessageBox.showinfo('database', 'All objects saved to database')
@@ -262,11 +262,11 @@ class Calipso(object):
         """
         logger.info('Notify JSON to save')
         # Save to last saved file, if no file exists prompt to a new file
-        if self.__polygonList.getCount() > 0:
-            if self.__polygonList.getFileName() == '':
+        if self.__shapemanager.get_count() > 0:
+            if self.__shapemanager.get_filename() == '':
                 self.save_as_json()  # Still prompt for a file name if none currently exists
             else:
-                self.__polygonList.save()  # Else do a normal save with internal file
+                self.__shapemanager.save_json()  # Else do a normal save with internal file
         else:
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
@@ -277,7 +277,7 @@ class Calipso(object):
         logger.info('Notify JSON to save as')
         # Save to a file entered by user, saveAll saves ALL objects across canvas
         # and cannot be called as a normal save(must always be save as)
-        if self.__polygonList.getCount() > 0:
+        if self.__shapemanager.get_count() > 0:
             options = dict()
             options['defaultextension'] = '.json'
             options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
@@ -285,9 +285,9 @@ class Calipso(object):
             if f is "":
                 return
             if save_all:
-                self.__polygonList.saveAll(f)
+                self.__shapemanager.save_all_json(f)
             else:
-                self.__polygonList.save(f)
+                self.__shapemanager.save_json(f)
         else:
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
@@ -304,7 +304,7 @@ class Calipso(object):
             self.__file = fl
             segments = self.__file.rpartition('/')
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT, text=segments[2])
-            self.__polygonList.setHDF(self.__file)
+            self.__shapemanager.set_hdf(self.__file)
         return ''
 
     def load(self):
@@ -319,7 +319,7 @@ class Calipso(object):
         f = tkFileDialog.askopenfilename(**options)
         if f is '':
             return
-        self.__polygonList.readPlot(f)
+        self.__shapemanager.read_plot(f)
 
     def attribute_window(self, event):
         """
@@ -328,18 +328,18 @@ class Calipso(object):
         :param event: A Tkinter passed event object
         """
         logger.info("Searching for polygon")
-        poly = self.__polygonList.findPolygon(event)
+        poly = self.__shapemanager.find_shape(event)
         if poly:
             logger.info("Opening attributes dialog")
             AttributesDialog(self.__root, poly)
 
-    def get_polygon_list(self):
+    def get_shapemanager(self):
         """
         Returns the internal :py:class:`polygonList` object
 
         :rtype: :py:class:`polygonList`
         """
-        return self.__polygonList  # get functions for private variables
+        return self.__shapemanager  # get functions for private variables
 
     def get_toolbar(self):
         """

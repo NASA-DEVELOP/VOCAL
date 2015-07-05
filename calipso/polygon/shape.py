@@ -12,8 +12,8 @@ class Shape(object):
     backend
     """
 
-    dragToggle=False
-    colorCounter = 0
+    drag_toggle= False
+    color_counter = 0
     COLORS = ['snow', 'light cyan']
 
     def __init__(self, figure, tag='', color=''):
