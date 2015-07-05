@@ -8,7 +8,6 @@ Welcome to the Visualization of Calipso Tool (VOCAL)!
 
 Everything you'll need to know from installation to developing the application can be found here! VOCAL aim's to have a very in depth doc page in order to promote open source development and allow for VOCAL to evolve as the users see fit. Refer to the side bar on the left to navigate about the doc page, and use the search button at the top corner if you're looking for specific areas.
 
-
 Contents
 ============
 

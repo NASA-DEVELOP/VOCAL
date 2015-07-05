@@ -18,67 +18,39 @@ plt.axis('off')
 plt.show()
 '''
 
-from Tkinter import Label, Toplevel, Frame, Button, IntVar, \
-   BOTH, BOTTOM, Radiobutton, Entry, TOP, Tk, X
-   
-CHILDWIDTH      = 200
-CHILDHEIGHT     = 325
 
-class ToolsWindow(Toplevel):
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use('TkAgg')
 
-    def __init__(self, root):
-        Toplevel.__init__(self, root)
-        self.__root = root
-        self.plotType = IntVar()
-        
-        self.title("Tools")
-        #self.geometry('%dx%d+%d+%d' % (CHILDWIDTH, CHILDHEIGHT,0, 0))
-        #self.resizable(width=FALSE, height=FALSE)
-        self.protocol("WM_DELETE_WINDOW", ToolsWindow.ignore)
-        self.container = Frame(self, background="red")
-        self.container.pack(side=TOP, fill=BOTH, expand=True )    
-        
-        self.coordinateFrame = Frame(self.container, background="green", width=50, height=50)
-        self.coordinateFrame.config(highlightthickness=1)                        # create a small border around the frame
-        self.coordinateFrame.config(highlightbackground="grey")
-        self.coordinateFrame.pack(side=BOTTOM, fill=BOTH, expand=False)                                      
-    
-    @staticmethod
-    def ignore():
-        pass
-        
-    def setupToolBarButtons(self):
-        self.upperButtonFrame = Frame(self.container, background="blue")                                  # upper button frame holding text buttons
-        self.upperButtonFrame.pack(side=TOP, fill=X)    
-        
-        btnReset = Button(self.upperButtonFrame, text = "Reset", width = 12, command=self.render)
-        btnReset.grid(row=0, column=0, sticky="w")
-        btnRender = Button(self.upperButtonFrame, text = "Render", width = 9, command = self.render)
-        btnRender.grid(row=0, column=1)
-        
-        self.bScattered = Radiobutton(self.upperButtonFrame, text="Backscattered", 
-            variable=self.plotType, value=1).grid(row=1, column=0, sticky="w")
-        self.depolarized = Radiobutton(self.upperButtonFrame, text="Depolarized", 
-            variable=self.plotType, value=2).grid(row=2, column=0, sticky="w")
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, \
+    NavigationToolbar2TkAgg
+from numpy import arange, sin, pi
+from matplotlib.figure import Figure
+import Tkinter as Tk
 
-        self.upperRangeFrame = Frame(self.container, background="yellow")
-        self.upperRangeFrame.pack(side=TOP, fill=X)
+root = Tk.Tk()
 
-        self.rng = Label(self.upperRangeFrame, text="Step")
-        self.rng.grid(row=3, column=0, sticky="w")
-        self.e = Entry(self.upperRangeFrame, width=8)
-        self.e.grid(row=3, column=1, sticky="w")
-        
-        self.to = Label(self.upperRangeFrame, text="to")
-        self.to.grid(row=3, column=2, sticky="w")
-        self.e2 = Entry(self.upperRangeFrame, width=8)
-        self.e2.grid(row=3, column=3, sticky="w")
+f = Figure(figsize=(5,4), dpi=100)
+a = f.add_subplot(111)
+t = arange(0.0, 3.0, 0.01)
+s = sin(2*pi*t)
 
-    def render(self):
-        pass
-    
-root = Tk()
-tool = ToolsWindow(root)
-tool.setupToolBarButtons()
-root.mainloop()
+points = [[2, 1], [4, 5], [3, 2], [2, 1]]
+polygon = plt.Polygon(points)
 
+a.add_patch(polygon)
+a.plot(t, s)
+
+canvas = FigureCanvasTkAgg(f, master=root)
+canvas.show()
+canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
+
+toolbar = NavigationToolbar2TkAgg(canvas, root)
+toolbar.update()
+canvas._tkcanvas.pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
+
+button = Tk.Button(master=root, text='Quit')
+button.pack(side=Tk.BOTTOM)
+
+Tk.mainloop()
