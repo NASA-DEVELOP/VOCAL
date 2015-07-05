@@ -144,18 +144,18 @@ class ToolsWindow(Toplevel):
         polygon_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.polygon_img, width=30, height=30)
         polygon_button.latch(key='<Button-1>',
-                             command=self.__parent.get_polygon_list().anchorRectangle, cursor='tcross')
+                             command=self.__parent.get_shapemanager().anchor_rectangle, cursor='tcross')
         polygon_button.latch(key='<B1-Motion>',
-                             command=self.__parent.get_polygon_list().rubberBand, cursor='tcross')
+                             command=self.__parent.get_shapemanager().rubberband, cursor='tcross')
         polygon_button.latch(key='<ButtonRelease-1>',
-                             command=self.__parent.get_polygon_list().fillRectangle, cursor='tcross')
+                             command=self.__parent.get_shapemanager().fill_rectangle, cursor='tcross')
         polygon_button.grid(row=1, column=1, padx=2, pady=5)
         create_tool_tip(polygon_button, 'Draw Rect')
 
         # Free form shape creation
         free_draw_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.free_draw_img, width=30, height=30)
-        free_draw_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().plotPoint, cursor='tcross')
+        free_draw_button.latch(key='<Button-1>', command=self.__parent.get_shapemanager().plot_point, cursor='tcross')
         free_draw_button.grid(row=1, column=3, padx=2, pady=5)
         create_tool_tip(free_draw_button, 'Free Draw')
 
@@ -170,33 +170,33 @@ class ToolsWindow(Toplevel):
 
         # Move polygon and rectangles around
         drag_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.drag_img, width=30, height=30)
-        drag_button.latch(key='<Button-2>', command=self.__parent.get_polygon_list().toggleDrag, cursor='hand1')
+        drag_button.latch(key='<Button-2>', command=self.__parent.get_shapemanager().toggle_drag, cursor='hand1')
         drag_button.grid(row=1, column=2, padx=2, pady=5)
         create_tool_tip(drag_button, 'Drag')
 
         # Erase polygon drawings
         erase_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.erase_img, width=30, height=30)
-        erase_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().delete, cursor='X_cursor')
+        erase_button.latch(key='<Button-1>', command=self.__parent.get_shapemanager().delete, cursor='X_cursor')
         erase_button.grid(row=1, column=4, padx=2, pady=5)
         create_tool_tip(erase_button, 'Erase polygon')
 
         # Recolor shapes
         paint_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.paint_img, width=30, height=30)
-        paint_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().paint, cursor='')
+        paint_button.latch(key='<Button-1>', command=self.__parent.get_shapemanager().paint, cursor='')
         paint_button.grid(row=2, column=2, padx=2, pady=5)
         create_tool_tip(paint_button, 'Paint')
 
         # Outline shapes
         outline_button = \
             Button(self.lower_button_frame, image=self.outline_img, width=30, height=30,
-                   command=lambda: self.__parent.get_polygon_list().outline())
+                   command=lambda: self.__parent.get_shapemanager().outline())
         outline_button.grid(row=2, column=1, padx=2, pady=5)
         create_tool_tip(outline_button, 'Focus')
 
         # Hide shapes
         plot_button = \
             Button(self.lower_button_frame, image=self.plot_img, width=30, height=30,
-                   command=lambda: self.__parent.get_polygon_list().hide())
+                   command=lambda: self.__parent.get_shapemanager().hide())
         plot_button.grid(row=2, column=3, padx=2, pady=5)
         create_tool_tip(plot_button, 'Hide polygons')
 
@@ -215,7 +215,7 @@ class ToolsWindow(Toplevel):
         # Retrieve shape properties
         properties_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.prop_img, width=30, height=30)
-        properties_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().properties)
+        properties_button.latch(key='<Button-1>', command=self.__parent.get_shapemanager().properties)
         properties_button.grid(row=3, column=2, padx=2, pady=5)
         create_tool_tip(properties_button, 'Polygon Properties')
 
@@ -224,12 +224,6 @@ class ToolsWindow(Toplevel):
         edit_button.latch(key='<Button-1>', command=self.__parent.attribute_window)
         edit_button.grid(row=3, column=3, padx=2, pady=5)
         create_tool_tip(edit_button, 'Edit Attributes')
-
-        # Testing button
-        test_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.test_img, width=30, height=30)
-        test_button.latch(key='<Button-1>', command=self.__parent.get_polygon_list().extractShapeData)
-        test_button.grid(row=3, column=4, padx=2, pady=5)
-        create_tool_tip(test_button, 'test button')
 
     def render(self):
         """
