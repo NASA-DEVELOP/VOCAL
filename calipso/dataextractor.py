@@ -3,7 +3,7 @@ Created on Jul 1, 2015
 
 @author: nqian
 '''
-import datetime
+from datetime import datetime
 import logging
 import time
 
@@ -15,7 +15,6 @@ from polygon.drawer import PolygonDrawer
 from tools.linearalgebra import getVector
 
 
-# TODO: find out what time standard the hdf file uses
 def extract_data(polygon_drawer, filename):
     '''
     Extracts the data bounded by the polygon
@@ -26,6 +25,7 @@ def extract_data(polygon_drawer, filename):
     with HDF(filename) as product:
         # TODO: check if the plot is backscatter or deploarized ratio
         dataset = product['Total_Attenuated_Backscatter_532'][::]
+        # TODO: get the real time extent
         time = product['Profile_UTC_Time'][0:1000, 0]
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
 #         logging.debug("ccplot time %s", time)
@@ -91,18 +91,13 @@ def find_index_values(product, low, high, lst, debug=""):
                 max_index = i
         except ValueError:
             continue
-#             if lst[i] is low:
-#                 min_index = i
-#             elif lst[i] is max:
-#                 max_index = i
     logging.debug('Min and max indices: (%s, %s)', min_index, max_index)
     return [min_index, max_index]
 
 def time_to_seconds(t):
+    # trouble with getting microseconds to display
     t = str(t)
 #     logging.debug("Converting time: %s", t)
-#     if len(t) <= 12:
-#         t += '0'
     t = t[:-6]
     t = time.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
     ret = datetime.timedelta(hours=t.tm_hour, minutes=t.tm_min, seconds=t.tm_sec).total_seconds()
