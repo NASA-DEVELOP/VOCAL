@@ -5,10 +5,13 @@
 #    @author: Grant Mercer
 ######################################
 
-from constants import *
-from polygon.shape import Shape
+from constants import BASE_PLOT_STR, BASE_PLOT, BACKSCATTERED, BACKSCATTERED_STR, \
+    DEPOLARIZED, DEPOLARIZED_STR
+import constants
 from log import logger
 from polygon.reader import PolygonReader
+from polygon.shape import Shape
+
 
 class ShapeManager(object):
     """
@@ -66,7 +69,15 @@ class ShapeManager(object):
         pass
 
     def plot_point(self, event):
-        pass
+        if self.__current_plot == constants.BASE_PLOT_STR:
+            logger.error("Cannot draw to the base plot")
+            return
+        logger.debug("Plotting point")
+        check = self.__current_list[-1].plot_point(event, self.__current_plot, self.__figure)
+        if check:
+            self.generate_tag()
+            self.__current_list.append(Shape(self.__canvas))
+            self.__canvas.show()
 
     def rubberband(self, event):
         """
