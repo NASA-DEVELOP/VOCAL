@@ -39,12 +39,21 @@ def drawDepolar(filename, x_range, y_range, fig, pfig):
         avg_parallel_AB = avg_tot_532 - avg_perp_532
         depolar_ratio = avg_perp_532/avg_parallel_AB
         
-        depolar_ratio = np.ma.masked_equal(depolar_ratio, -9999)
+        depolar_ratio = np.ma.masked_invalid(depolar_ratio)
         
 #         unif_alt = uniform_alt_2(20, alt)
 #         regrid_depolar_ratio = regrid_lidar(alt, depolar_ratio, unif_alt)
         
         X = np.arange(x1, x2, dtype=np.float32)
+        
+        
+        print type(depolar_ratio[::])
+        print len(depolar_ratio.shape)
+        print depolar_ratio
+        print depolar_ratio[0]
+        print depolar_ratio[0][-1]
+        print type(depolar_ratio[0][-1])
+        print type(depolar_ratio[0])
         
         Z, null = np.meshgrid(height, X)
         data = interp2d_12(
