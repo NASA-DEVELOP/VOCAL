@@ -8,6 +8,10 @@ Coding Conventions
 
 Below is list of coding conventions agreed upon by Nathan and I(Grant). Please adhere to these conventions to create a more readable codebase.
 
+.. rubric:: Column Width
+
+Code should be no longer than 100 characters, in the case your statement goes **over**, use a new line or split your statement up.
+
 .. rubric:: String Literals
 
 String Literals are denoated with ``''``, docstring should be double quotes ``""``
