@@ -63,6 +63,7 @@ class Shape(object):
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
 
+        logger.debug('%f, %f', event.xdata, event.ydata )
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prev_x,
                                                                  abs(HEIGHT - self.__prev_y - 35),
                                                                  event.x,
@@ -98,17 +99,34 @@ class Shape(object):
             Polygon(self.__coordinates, facecolor=clr, fill=fill)
         fig.add_patch(self.__item_handler)
 
-    def add_attribute(self, tag):
-        pass
+    def add_attribute(self, attribute):
+        """
+        Add a valid attribute as specified in ``constants`` to the internal attributes variable
+        :param str attribute:
+        """
+        self.__attributes = attribute
 
-    def remove_attribute(self, tag):
-        pass
+    def remove_attribute(self, attribute):
+        """
+        Remove an attribute as specified in ``constants.py`` from the internal attributes variable
 
-    def set_attribute(self, attributes):
-        pass
+        :param str attribute:
+        """
+        self.__attributes.remove(attribute)
+
+    def set_attributes(self, attributes_list):
+        """
+        Set the internal list of attributes to a custom passed list
+        :param attributes_list:
+        """
+        self.__attributes = attributes_list
 
     def set_tag(self, tag):
-        pass
+        """
+        Set internal tag variable
+        :param str tag:
+        """
+        self.__tag = tag
 
     def set_color(self, color):
         pass

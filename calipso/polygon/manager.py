@@ -25,7 +25,7 @@ class ShapeManager(object):
         self.__master = master
         self.__current_plot = BASE_PLOT_STR
         logger.info('Defining initial shape manager')
-        self.__shape_dict = [[Shape(canvas)],
+        self.__shape_list = [[Shape(canvas)],
                              [Shape(canvas)],
                              [Shape(canvas)],
                              [Shape(canvas)]]
@@ -100,12 +100,18 @@ class ShapeManager(object):
         self.__canvas.show()
 
     def set_hdf(self, hdf_filename):
-        pass
+        """
+        Set the internal HDF filename variable
+
+        :param str hdf_filename: Name of new HDF filename
+        """
+        self.__hdf = hdf_filename
 
     def set_current(self, plot):
         """
         Set the current view to ``plot``, and draw any shapes that exist in the manager for
-        this plot.
+        this plot. This is called each time a new view is rendered to the screen by
+        ``set_plot`` in *Calipso*
 
         :param int plot: Acceptable plot constant from ``constants.py``
         """
@@ -124,15 +130,15 @@ class ShapeManager(object):
         """
         if plot == BASE_PLOT:
             logger.warning('set_plot called for BASE_PLOT')
-            self.__current_list = self.__shape_dict[BASE_PLOT]
+            self.__current_list = self.__shape_list[BASE_PLOT]
             self.__current_plot = BASE_PLOT_STR
         elif plot == BACKSCATTERED:
             logger.info('set_plot to BACKSCATTERED')
-            self.__current_list = self.__shape_dict[BACKSCATTERED]
+            self.__current_list = self.__shape_list[BACKSCATTERED]
             self.__current_plot = BACKSCATTERED_STR
         elif plot == DEPOLARIZED:
             logger.info('set_plot to DEPOLARIZED')
-            self.__current_list = self.__shape_dict[DEPOLARIZED]
+            self.__current_list = self.__shape_list[DEPOLARIZED]
             self.__current_plot = DEPOLARIZED_STR
 
     def generate_tag(self, index=-1):
@@ -147,6 +153,17 @@ class ShapeManager(object):
         return string
 
     def reset(self):
+        """
+        Clear the screen of any shapes present from the current_list
+        """
+        logger.info("Resetting ShapeManager")
+        for shape in self.__current_list:
+            shape.remove()
+        idx = self.__shape_list.index(self.__current_list)
+        self.__shape_list[idx] = [Shape(self.__canvas)]
+        self.__current_list = self.__shape_list[idx]
+
+        self.__count = 0
         pass
 
     def delete(self, event):
