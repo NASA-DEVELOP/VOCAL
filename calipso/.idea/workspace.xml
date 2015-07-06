@@ -4,18 +4,10 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7c2ecdb0-88c4-49d5-b702-13c18e9586e0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/gamercer.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Calipso.py" afterPath="$PROJECT_DIR$/Calipso.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/calipso.iml" afterPath="$PROJECT_DIR$/.idea/calipso.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log.py" afterPath="$PROJECT_DIR$/log.py" />
+    <list default="true" id="7c2ecdb0-88c4-49d5-b702-13c18e9586e0" name="Default" comment="Changed structure of toggleable button to handle new mpl_connect methods">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/dictionaries/gamercer.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/gamercer.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/polygon/manager.py" afterPath="$PROJECT_DIR$/polygon/manager.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plot/plot_uniform_alt_lidar_dev.py" afterPath="$PROJECT_DIR$/plot/plot_uniform_alt_lidar_dev.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/plot_vfm/temp.py" afterPath="$PROJECT_DIR$/plot_vfm/temp.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tools/toggleablebutton.py" afterPath="$PROJECT_DIR$/tools/toggleablebutton.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/toolswindow.py" afterPath="$PROJECT_DIR$/toolswindow.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/polygon/shape.py" afterPath="$PROJECT_DIR$/polygon/shape.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="calipso.iws" />
@@ -43,18 +35,20 @@
             <entry file="file://$PROJECT_DIR$/plot/plot_uniform_alt_lidar_dev.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="48" column="27" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
+                  <caret line="51" column="33" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="manager.py" pinned="false" current-in-tab="false">
+          <file leaf-file-name="manager.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/polygon/manager.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0">
-                  <caret line="48" column="51" selection-start-line="48" selection-start-column="51" selection-end-line="48" selection-end-column="51" />
-                  <folding />
+                <state vertical-scroll-proportion="1.271028">
+                  <caret line="87" column="33" selection-start-line="87" selection-start-column="33" selection-end-line="87" selection-end-column="33" />
+                  <folding>
+                    <element signature="e#162#178#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -63,7 +57,7 @@
             <entry file="file://$PROJECT_DIR$/Calipso.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="68" column="55" selection-start-line="68" selection-start-column="55" selection-end-line="68" selection-end-column="55" />
+                  <caret line="48" column="44" selection-start-line="48" selection-start-column="44" selection-end-line="48" selection-end-column="44" />
                   <folding>
                     <element signature="e#0#141#0" expanded="true" />
                   </folding>
@@ -71,21 +65,34 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="toggleablebutton.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/tools/toggleablebutton.py">
+          <file leaf-file-name="constants.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/constants.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.29127726">
-                  <caret line="68" column="29" selection-start-line="68" selection-start-column="29" selection-end-line="68" selection-end-column="29" />
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="drawer.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/polygon/drawer.py">
+          <file leaf-file-name="toggleablebutton.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/tools/toggleablebutton.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state vertical-scroll-proportion="0.0">
-                  <caret line="470" column="28" selection-start-line="470" selection-start-column="28" selection-end-line="470" selection-end-column="28" />
+                  <caret line="21" column="36" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+                  <folding>
+                    <marker date="1436191064981" expanded="true" signature="274:4345" placeholder="..." />
+                    <marker date="1436191064981" expanded="true" signature="2935:4345" placeholder="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="shape.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/polygon/shape.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="31" column="38" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
                   <folding />
                 </state>
               </provider>
@@ -95,11 +102,31 @@
       </split-first>
       <split-second>
         <leaf>
-          <file leaf-file-name="toolswindow.py" pinned="false" current-in-tab="true">
+          <file leaf-file-name="list.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/polygon/list.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="4.766355">
+                  <caret line="197" column="9" selection-start-line="197" selection-start-column="9" selection-end-line="197" selection-end-column="9" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="drawer.py" pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/polygon/drawer.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="149" column="8" selection-start-line="149" selection-start-column="8" selection-end-line="149" selection-end-column="8" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="toolswindow.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/toolswindow.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5716511">
-                  <caret line="155" column="34" selection-start-line="155" selection-start-column="34" selection-end-line="155" selection-end-column="34" />
+                <state vertical-scroll-proportion="0.0">
+                  <caret line="150" column="37" selection-start-line="150" selection-start-column="37" selection-end-line="150" selection-end-column="37" />
                   <folding>
                     <element signature="e#128#241#0" expanded="true" />
                   </folding>
@@ -128,13 +155,13 @@
         <option value="$PROJECT_DIR$/tools/navigationtoolbar.py" />
         <option value="$PROJECT_DIR$/tools/linearalgebra.py" />
         <option value="$PROJECT_DIR$/polygon/drawer.py" />
-        <option value="$PROJECT_DIR$/polygon/shape.py" />
         <option value="$PROJECT_DIR$/log.py" />
         <option value="$PROJECT_DIR$/Calipso.py" />
-        <option value="$PROJECT_DIR$/polygon/manager.py" />
         <option value="$PROJECT_DIR$/plot_vfm/temp.py" />
         <option value="$PROJECT_DIR$/toolswindow.py" />
         <option value="$PROJECT_DIR$/tools/toggleablebutton.py" />
+        <option value="$PROJECT_DIR$/polygon/shape.py" />
+        <option value="$PROJECT_DIR$/polygon/manager.py" />
       </list>
     </option>
   </component>
@@ -435,6 +462,13 @@
       <option name="number" value="Default" />
       <updated>1435941979221</updated>
     </task>
+    <task id="LOCAL-00001" summary="Changed structure of toggleable button to handle new mpl_connect methods">
+      <created>1436191218603</created>
+      <option name="number" value="00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1436191218603</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -443,6 +477,7 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14947917" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29324895" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -484,9 +519,22 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
+    <MESSAGE value="Changed structure of toggleable button to handle new mpl_connect methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed structure of toggleable button to handle new mpl_connect methods" />
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/polygon/drawer.py</url>
+          <line>138</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -726,14 +774,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/constants.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/attributesdialog.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -794,50 +834,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/polygon/shape.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2678331">
-          <caret line="87" column="17" selection-start-line="87" selection-start-column="17" selection-end-line="87" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/log.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/polygon/list.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="65" column="34" selection-start-line="65" selection-start-column="28" selection-end-line="65" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/plot/plot_uniform_alt_lidar_dev.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="48" column="27" selection-start-line="48" selection-start-column="27" selection-end-line="48" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/polygon/manager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="48" column="51" selection-start-line="48" selection-start-column="51" selection-end-line="48" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/polygon/drawer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="470" column="28" selection-start-line="470" selection-start-column="28" selection-end-line="470" selection-end-column="28" />
           <folding />
         </state>
       </provider>
@@ -847,36 +847,89 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding>
-            <element signature="e#576#594#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Calipso.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="68" column="55" selection-start-line="68" selection-start-column="55" selection-end-line="68" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#141#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/toolswindow.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5716511">
-          <caret line="155" column="34" selection-start-line="155" selection-start-column="34" selection-end-line="155" selection-end-column="34" />
-          <folding>
-            <element signature="e#128#241#0" expanded="true" />
+            <element signature="e#576#594#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tools/toggleablebutton.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.29127726">
-          <caret line="68" column="29" selection-start-line="68" selection-start-column="29" selection-end-line="68" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="36" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
+          <folding>
+            <marker date="1436191064981" expanded="true" signature="274:4345" placeholder="..." />
+            <marker date="1436191064981" expanded="true" signature="2935:4345" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/plot/plot_uniform_alt_lidar_dev.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="51" column="33" selection-start-line="51" selection-start-column="33" selection-end-line="51" selection-end-column="33" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/polygon/drawer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="149" column="8" selection-start-line="149" selection-start-column="8" selection-end-line="149" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/toolswindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="150" column="37" selection-start-line="150" selection-start-column="37" selection-end-line="150" selection-end-column="37" />
+          <folding>
+            <element signature="e#128#241#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="29" column="0" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/polygon/list.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="4.766355">
+          <caret line="197" column="9" selection-start-line="197" selection-start-column="9" selection-end-line="197" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/polygon/shape.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="31" column="38" selection-start-line="31" selection-start-column="38" selection-end-line="31" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Calipso.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="48" column="44" selection-start-line="48" selection-start-column="44" selection-end-line="48" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#141#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/polygon/manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.271028">
+          <caret line="87" column="33" selection-start-line="87" selection-start-column="33" selection-end-line="87" selection-end-column="33" />
+          <folding>
+            <element signature="e#162#178#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
