@@ -5,6 +5,8 @@
 #    @author: Grant Mercer
 ######################################
 
+import constants
+
 class Shape(object):
     """
     Displays the polygon objects onto the canvas by supplying draw methods
@@ -16,11 +18,27 @@ class Shape(object):
     color_counter = 0
     COLORS = ['snow', 'light cyan']
 
-    def __init__(self, figure, tag='', color=''):
-        pass
+    def __init__(self, tag='', color=''):
+        self.__vertices = []
+        self.__coordinates = []
+        self.__tag = tag
+        self.__color = color
+        self.__item_handler = 0
+        self.__plot = constants.BASE_PLOT
+        self.__attributes = []
+        self.__note = ''
+        self.__id = None
 
     def anchor_rectangle(self, event):
-        pass
+        """
+        Establishes a corner of a rectangle as an anchor for when the user drags the cursor to create
+        a rectangle. Used in 'Draw Rect' button
+
+        :param event: A matplotlib backend event object
+        """
+        self.__vertices.append((event.x, event.y))
+        self.__coordinates.append((event.xdata, event.ydata))
+
 
     def plot_point(self, event):
         pass
