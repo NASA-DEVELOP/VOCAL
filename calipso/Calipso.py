@@ -62,20 +62,25 @@ class Calipso(object):
                                       height=constants.HEIGHT)
 
         logger.info('Instantiating ToolsWindow')
-        # Create ToolsWindow class and pass itself + the root
-        self.__child = ToolsWindow(self, r)
         # Matplotlib backend objects
         self.__parent_fig = Figure(figsize=(16, 11))
         self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-        self.__drawplotCanvas = FigureCanvasTkAgg(self.__parent_fig,
-                                                  master=self.__drawplot_frame)
+        self.__drawplot_canvas = FigureCanvasTkAgg(self.__parent_fig,
+                                                   master=self.__drawplot_frame)
+        # Create ToolsWindow class and pass itself + the root
+        self.__child = ToolsWindow(self.__drawplot_canvas, self, r)
         logger.info('Create PolygonList')
         self.__shapemanager = ShapeManager(self.__fig, self)
-        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,
+        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplot_canvas,
                                                    self.__child.coordinate_frame)
 
-        self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)  # pack and display canvas
+
+        self.__drawplot_canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)  # pack and display canvas
         self.__drawplot_frame.pack()
+
+    @staticmethod
+    def callback(event):
+        print event.x, event.y
 
     def setup_window(self):
         """
@@ -153,8 +158,8 @@ class Calipso(object):
                 self.__parent_fig.clear()                               # clear the figure
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)     # create subplot
                 drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
-                self.__drawplotCanvas.show()                            # show canvas
-                self.__shapemanager.set_plot(constants.BACKSCATTERED)     # set the current plot on polygonList
+                self.__shapemanager.draw(self.__fig, constants.BACKSCATTERED)
+                self.__drawplot_canvas.show()                            # show canvas
                 self.__toolbar.update()                                 # update toolbar
                 self.plot = constants.BACKSCATTERED
             except IOError:
@@ -168,7 +173,7 @@ class Calipso(object):
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)     # create subplot
                 drawDepolar(self.__file, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_plot(constants.DEPOLARIZED)       # set the internal plot
-                self.__drawplotCanvas.show()                            # show plot
+                self.__drawplot_canvas.show()                            # show plot
                 self.__toolbar.update()                                 # update toolbar
                 self.plot = constants.DEPOLARIZED
             except IOError:
