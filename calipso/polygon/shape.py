@@ -115,6 +115,7 @@ class Shape(object):
 
         logger.debug('Generating rectangular points')
         beg = self.__coordinates[0]
+        self.__coordinates.append((event.xdata, beg[1]))
         self.__coordinates.append((event.xdata, event.ydata))
         self.__coordinates.append((beg[0], event.ydata))
 
