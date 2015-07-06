@@ -158,7 +158,7 @@ class Calipso(object):
                 logger.info("Setting plot to depolarized")
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1, 1, 1)                              # create subplot
-                drawDepolar(self.__file, self.__fig, self.__Parentfig)                          # plot the depolarized image
+                drawDepolar(self.__file, xrange_, yrange, self.__fig, self.__Parentfig)                          # plot the depolarized image
                 self.__polygonList.setPlot(constants.DEPOLARIZED)                               # set the internal plot
                 self.__drawplotCanvas.show()                                                    # show plot
                 self.__toolbar.update()   
