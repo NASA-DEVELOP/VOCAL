@@ -53,7 +53,7 @@ class Calipso(object):
                                      height=constants.HEIGHT)                       # the frame on which we will set our canvas for drawing etc.
         
         
-        logger.info("Instatiating ToolsWindow")
+        logger.info("Instantiating ToolsWindow")
         self.__child = ToolsWindow(self, r)                                         # tools window which holds all manipulation buttons 
         self.__Parentfig = Figure(figsize=(16,11))                                  # the figure we're drawing our plot to
         self.__fig = None
