@@ -196,7 +196,7 @@ class PolygonList(object):
         
     def fillRectangle(self, event):
         '''
-        Informs the correct list's blank to draw a rectangle on the screen
+        Informs the correct list's blank to draw a rectangFle on the screen
         
         :param event: Tkinter passed event object
         '''
