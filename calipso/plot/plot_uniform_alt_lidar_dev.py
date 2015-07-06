@@ -42,9 +42,6 @@ def drawBackscattered(filename, xrange, yrange, fig, pfig):
         dataset = np.ma.masked_equal(dataset, -9999)
         
         X = np.arange(x1, x2, dtype=np.float32)
-        
-        print time[0]
-        
         Z, null = np.meshgrid(height, X)
         data = interp2d_12(
             dataset[::],
@@ -70,7 +67,7 @@ def drawBackscattered(filename, xrange, yrange, fig, pfig):
             interpolation='nearest',
         )
        
-        fig.set_ylabel('Altitute (km)')    
+        fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Time')   
         fig.get_xaxis().set_major_locator(mpl.dates.AutoDateLocator())
         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S:%p'))
