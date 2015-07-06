@@ -149,7 +149,7 @@ class ToolsWindow(Toplevel):
                              command=self.__parent.get_shapemanager().anchor_rectangle, cursor='tcross')
         polygon_button.latch(target=self.__canvas,
                              key='motion_notify_event',
-                             command=self.__parent.get_shapemanager().rubberband, cursor='tcross')
+                             command=self.__parent.get_shapemanager().rubberband)
         polygon_button.latch(target=self.__canvas,
                              key='button_release_event',
                              command=self.__parent.get_shapemanager().fill_rectangle, cursor='tcross')

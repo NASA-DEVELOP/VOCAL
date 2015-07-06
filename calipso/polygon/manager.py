@@ -25,10 +25,10 @@ class ShapeManager(object):
         self.__master = master
         self.__current_plot = BASE_PLOT_STR
         logger.info('Defining initial shape manager')
-        self.__shape_dict = [[Shape()],
-                             [Shape()],
-                             [Shape()],
-                             [Shape()]]
+        self.__shape_dict = [[Shape(canvas)],
+                             [Shape(canvas)],
+                             [Shape(canvas)],
+                             [Shape(canvas)]]
         logger.info("Instantiating Exporting Reader")
         self.__current_list = None
         self.__current_file = ''
@@ -77,7 +77,7 @@ class ShapeManager(object):
         if self.__current_plot == BASE_PLOT:
             return
         if event.button == 1 and event.xdata and event.ydata:
-            logger.debug('Rubberbanding: %f, %f' % (event.xdata, event.ydata))
+            logger.debug('Rubberbanding: %f, %f' % (event.x, event.y))
             self.__current_list[-1].rubberband(event)
 
     def fill_rectangle(self, event):
@@ -91,19 +91,22 @@ class ShapeManager(object):
             return
         logger.debug('Filling: %d, %d' % (event.xdata, event.ydata))
         logger.info('Creating rectangle')
-        self.__current_list[-1].draw(self.__figure, self.__current_plot,
-                                     ShapeManager.outline_toggle)
+        self.__current_list[-1].fill_rectangle(self.__figure, self.__current_plot,
+                                               ShapeManager.outline_toggle)
         self.__current_list[-1].set_tag(self.generate_tag())
-        self.__current_list.append(Shape())
+        self.__current_list.append(Shape(self.__canvas))
 
     def set_hdf(self, hdf_filename):
         pass
 
     def draw(self, plot):
         self.set_plot(plot)
-        self.__current_list[-1].draw(self.__figure, self.__current_plot,
-                                     ShapeManager.outline_toggle)
-        pass
+        if len(self.__current_list) > 1:
+            logger.info('Redrawing shapes')
+            for shape in self.__current_list:
+                if not shape.is_empty():
+                    shape.redraw(self.__figure)
+
 
     def set_plot(self, plot):
         """

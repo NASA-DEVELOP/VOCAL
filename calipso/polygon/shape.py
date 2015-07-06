@@ -19,7 +19,8 @@ class Shape(object):
     color_counter = 0
     COLORS = ['snow', 'light cyan']
 
-    def __init__(self, tag='', color=''):
+    def __init__(self, canvas, tag='', color=''):
+        self.__canvas = canvas
         self.__vertices = []
         self.__coordinates = []
         self.__tag = tag
@@ -29,6 +30,9 @@ class Shape(object):
         self.__attributes = []
         self.__note = ''
         self.__id = None
+        self.lastrect = None
+        self.__prev_x = 1.0
+        self.__prev_y = 1.0
 
     def anchor_rectangle(self, event):
         """
@@ -37,8 +41,10 @@ class Shape(object):
 
         :param event: A matplotlib backend event object
         """
-        self.__vertices.append((event.x, event.y))
         self.__coordinates.append((event.xdata, event.ydata))
+        self.__vertices.append((event.x, event.y))
+        self.__prev_x = event.x
+        self.__prev_y = event.y
 
     def plot_point(self, event):
         pass
@@ -50,9 +56,26 @@ class Shape(object):
 
         :param event: A ``matplotlib.backend_bases.MouseEvent`` forwarded object.
         """
-        pass
+        try:
+            self.lastrect
+        except AttributeError:
+            pass
+        else:
+            self.__canvas._tkcanvas.delete(self.lastrect)
+        self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prev_x,
+                                                                 abs(HEIGHT - self.__prev_y - 35),
+                                                                 event.x,
+                                                                 abs(HEIGHT - event.y - 35))
 
-    def fill_rectangle(self, event):
+    def fill_rectangle(self, fig, plot=BASE_PLOT_STR, fill=False):
+        try:
+            self.lastrect
+        except AttributeError:
+            pass
+        else:
+            self.__canvas._tkcanvas.delete(self.lastrect)
+            del self.lastrect
+        self.draw(fig, plot, fill)
         pass
 
     def add_attribute(self, tag):
@@ -122,6 +145,7 @@ class Shape(object):
         pass
 
     def draw(self, fig, plot=BASE_PLOT_STR, fill=False):
+        print self.__coordinates
         cords = [[732839.154474, 1],
                  [732839.154474, 2],
                  [732839.154574, 3],
