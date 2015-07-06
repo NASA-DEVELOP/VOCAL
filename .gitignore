@@ -5,5 +5,5 @@ plot_vfm/
 *.pyc
 docs/build/
 gui/objs/
-
-/calipso/log/*.log
+calipso/.idea/*
+calipso/log/*.log
