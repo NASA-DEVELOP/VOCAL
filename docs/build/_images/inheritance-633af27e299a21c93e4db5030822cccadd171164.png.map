@@ -1,0 +1,4 @@
+<map id="inheritancefd1874f8fb" name="inheritancefd1874f8fb">
+<area shape="rect" id="node1" href="#calipso.db.DatabaseManager" title="Internally manages the database engine and any sql related objects." alt="" coords="25,55,216,80"/>
+<area shape="rect" id="node2" href="#calipso.db.dbPolygon" title="Sqlalchemy class object, contains all data that is stored inside the database" alt="" coords="284,5,431,31"/>
+</map>

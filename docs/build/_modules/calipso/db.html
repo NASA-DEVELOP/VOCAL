@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>calipso.db &mdash; CALIPSO 0.15.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.15.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for calipso.db</h1><div class="highlight"><pre>
+<span class="c">###################################</span>
+<span class="c">#Created on Jun 16, 2015</span>
+<span class="c">#</span>
+<span class="c">#@author: Grant Mercer</span>
+<span class="c">###################################</span>
+
+<span class="c"># import antigravity</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.ext.declarative</span> <span class="kn">import</span> <span class="n">declarative_base</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span><span class="p">,</span> <span class="n">Column</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">desc</span>
+<span class="kn">from</span> <span class="nn">calipso</span> <span class="kn">import</span> <span class="n">constants</span>
+<span class="kn">from</span> <span class="nn">calipso.tools.tools</span> <span class="kn">import</span> <span class="n">byteify</span>
+
+<span class="c"># Create a declarative_base for dbPolygon to inherit from</span>
+<span class="n">dbBase</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span>
+
+<div class="viewcode-block" id="dbPolygon"><a class="viewcode-back" href="../../doc/general/db.html#calipso.db.dbPolygon">[docs]</a><span class="k">class</span> <span class="nc">dbPolygon</span><span class="p">(</span><span class="n">dbBase</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sqlalchemy class object, contains all data that is stored inside the database</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s">&#39;objects&#39;</span>
+    
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c"># primary key</span>
+    <span class="n">tag</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>                    <span class="c"># shape tag</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>                  <span class="c"># color of polygon</span>
+    <span class="n">vertices</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>               <span class="c"># array of vertices, passed as string</span>
+    <span class="n">time_</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>                  <span class="c"># time object was exported</span>
+    <span class="n">hdf</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>                    <span class="c"># filename</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>                   <span class="c"># type of plot drawn on</span>
+    <span class="n">attributes</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>             <span class="c"># list of object attributes</span>
+    <span class="n">coordinates</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>            <span class="c"># plot coordinates for displaying to user</span>
+    <span class="n">notes</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>                   <span class="c"># shape notes</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">plotString</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">constants</span><span class="o">.</span><span class="n">PLOTS</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Represent the database class as a JSON object. Useful as our program</span>
+<span class="sd">        already supporst JSON reading, so simply parse out the database as </span>
+<span class="sd">        seperate JSON &#39;files&#39;</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">PLOTS</span><span class="p">)):</span>
+            <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">plotString</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">data</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">tag</span> <span class="p">:</span> 
+            <span class="p">{</span><span class="s">&quot;vertices&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> 
+             <span class="s">&quot;color&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> 
+             <span class="s">&quot;attributes&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">,</span> 
+             <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+             <span class="s">&quot;coordinates&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">,</span>
+             <span class="s">&quot;notes&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">notes</span><span class="p">}}</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&quot;hdfFile&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdf</span>
+        <span class="k">return</span> <span class="n">byteify</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+</div>
+<div class="viewcode-block" id="DatabaseManager"><a class="viewcode-back" href="../../doc/general/db.html#calipso.db.DatabaseManager">[docs]</a><span class="k">class</span> <span class="nc">DatabaseManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Internally manages the database engine and any sql related objects.</span>
+<span class="sd">    Hands out sessions with getSession() but only offers abstractions for</span>
+<span class="sd">    other functionality. The database is INDEPENDENT from the application</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Create the database engine using db/CALIPSO.db database.</span>
+<span class="sd">        Echo all commands, create Session and table</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\\</span><span class="s">..</span><span class="se">\\</span><span class="s">db</span><span class="se">\\</span><span class="s">CALIPSOdb.db&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dbEngine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s">&#39;sqlite:///&#39;</span> <span class="o">+</span> <span class="n">path</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__Session</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__dbEngine</span><span class="p">)</span>
+        <span class="n">dbBase</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">create_all</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dbEngine</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="DatabaseManager.queryUniqueTag"><a class="viewcode-back" href="../../doc/general/db.html#calipso.db.DatabaseManager.queryUniqueTag">[docs]</a>    <span class="k">def</span> <span class="nf">queryUniqueTag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Grabs a session and queries the database to find the starting tag for the application.</span>
+<span class="sd">        this tag is used so it does not overlap existing shape tags previously generated</span>
+<span class="sd">        and stored into the database</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Session</span><span class="p">()</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">dbPolygon</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">desc</span><span class="p">(</span><span class="n">dbPolygon</span><span class="o">.</span><span class="n">tag</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">objs</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&#39;(\d+)$&#39;</span><span class="p">,</span> <span class="n">objs</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">tag</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">tag</span>
+        <span class="c">#print tag</span>
+        <span class="c">#return tag</span>
+    </div>
+<div class="viewcode-block" id="DatabaseManager.getSession"><a class="viewcode-back" href="../../doc/general/db.html#calipso.db.DatabaseManager.getSession">[docs]</a>    <span class="k">def</span> <span class="nf">getSession</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns an instance of a session, USERS job to ensure session</span>
+<span class="sd">        is committed/closed</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Session</span><span class="p">()</span>
+        </div>
+<div class="viewcode-block" id="DatabaseManager.commitToDB"><a class="viewcode-back" href="../../doc/general/db.html#calipso.db.DatabaseManager.commitToDB">[docs]</a>    <span class="k">def</span> <span class="nf">commitToDB</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polyList</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Takes a list of polygons and commits them into the database,</span>
+<span class="sd">        used in polygonList to commit all visible polygons</span>
+<span class="sd">        :param polyList: the current polygonList corresponding to the active plot</span>
+<span class="sd">        :param time: time of the JSON&#39;s creation</span>
+<span class="sd">        :param f: file name</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Session</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">polyList</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">polygon</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">obx</span> <span class="o">=</span> \
+                    <span class="n">dbPolygon</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="n">polygon</span><span class="o">.</span><span class="n">getTag</span><span class="p">(),</span>
+                              <span class="n">time_</span><span class="o">=</span><span class="n">time</span><span class="p">,</span>
+                              <span class="n">hdf</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">],</span>
+                              <span class="n">plot</span><span class="o">=</span><span class="n">polygon</span><span class="o">.</span><span class="n">getPlot</span><span class="p">(),</span>
+                              <span class="n">vertices</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">getVertices</span><span class="p">()),</span> 
+                              <span class="n">color</span><span class="o">=</span><span class="n">polygon</span><span class="o">.</span><span class="n">getColor</span><span class="p">(),</span>
+                              <span class="n">attributes</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">getAttributes</span><span class="p">()),</span>
+                              <span class="n">coordinates</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">getCoordinates</span><span class="p">()),</span>
+                              <span class="n">notes</span><span class="o">=</span><span class="n">polygon</span><span class="o">.</span><span class="n">getNotes</span><span class="p">())</span>
+                <span class="n">polygon</span><span class="o">.</span><span class="n">setID</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">session</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">obx</span><span class="p">)</span>
+                
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">poly</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">dbPolygon</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">getID</span><span class="p">())</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">time_</span> <span class="o">=</span> <span class="n">time</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">getPlot</span><span class="p">()</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">hdf</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">getPlot</span><span class="p">()</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">getVertices</span><span class="p">())</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="nb">unicode</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">getColor</span><span class="p">())</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">attributes</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">getAttributes</span><span class="p">())</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">coordinates</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">getCoordinates</span><span class="p">())</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">notes</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">getNotes</span><span class="p">()</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    </div>
+<div class="viewcode-block" id="DatabaseManager.deleteItem"><a class="viewcode-back" href="../../doc/general/db.html#calipso.db.DatabaseManager.deleteItem">[docs]</a>    <span class="k">def</span> <span class="nf">deleteItem</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get a session and delete the object from the database.</span>
+<span class="sd">        :param indx: the primary key for the object passed</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Session</span><span class="p">()</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">dbPolygon</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    </div>
+<div class="viewcode-block" id="DatabaseManager.encode"><a class="viewcode-back" href="../../doc/general/db.html#calipso.db.DatabaseManager.encode">[docs]</a>    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Encode and write out a JSON object</span>
+<span class="sd">        :param filename: name of the file</span>
+<span class="sd">        :param data: Python dictionary representation of a JSON</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span>
+                
+
+<span class="c"># define the global database manager object</span></div></div>
+<span class="n">db</span> <span class="o">=</span> <span class="n">DatabaseManager</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

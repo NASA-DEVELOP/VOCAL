@@ -1,0 +1,640 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>polygon.drawer &mdash; CALIPSO 0.15.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.15.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../../index.html" />
+    <link rel="up" title="polygon" href="../polygon.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../polygon.html" accesskey="U">polygon</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for polygon.drawer</h1><div class="highlight"><pre>
+<span class="c">######################################</span>
+<span class="c">#    Created on Jun 4, 2015</span>
+<span class="c">#</span>
+<span class="c">#    @author: Nathan Qian</span>
+<span class="c">######################################</span>
+
+<span class="c"># import antigravity</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">empty_like</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">array</span>
+<span class="kn">import</span> <span class="nn">constants</span>
+
+<div class="viewcode-block" id="PolygonDrawer"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer">[docs]</a><span class="k">class</span> <span class="nc">PolygonDrawer</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Displays the polygon objects onto the canvas by supplying draw methods.</span>
+<span class="sd">    </span>
+<span class="sd">    :param canvas: The canvas to draw the object to</span>
+<span class="sd">    :param master: Central class, in this case Calipso</span>
+<span class="sd">    :param str tag: Name of shape</span>
+<span class="sd">    :param str color: Color of shape</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    
+    <span class="n">dragToggle</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">colorCounter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">COLORS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;snow&#39;</span><span class="p">,</span> <span class="s">&#39;ghost white&#39;</span><span class="p">,</span> <span class="s">&#39;white smoke&#39;</span><span class="p">,</span> <span class="s">&#39;gainsboro&#39;</span><span class="p">,</span> <span class="s">&#39;floral white&#39;</span><span class="p">,</span> <span class="s">&#39;old lace&#39;</span><span class="p">,</span>
+          <span class="s">&#39;linen&#39;</span><span class="p">,</span> <span class="s">&#39;antique white&#39;</span><span class="p">,</span> <span class="s">&#39;papaya whip&#39;</span><span class="p">,</span> <span class="s">&#39;blanched almond&#39;</span><span class="p">,</span> <span class="s">&#39;bisque&#39;</span><span class="p">,</span> <span class="s">&#39;peach puff&#39;</span><span class="p">,</span>
+          <span class="s">&#39;navajo white&#39;</span><span class="p">,</span> <span class="s">&#39;lemon chiffon&#39;</span><span class="p">,</span> <span class="s">&#39;mint cream&#39;</span><span class="p">,</span> <span class="s">&#39;azure&#39;</span><span class="p">,</span> <span class="s">&#39;alice blue&#39;</span><span class="p">,</span> <span class="s">&#39;lavender&#39;</span><span class="p">,</span>
+          <span class="s">&#39;lavender blush&#39;</span><span class="p">,</span> <span class="s">&#39;misty rose&#39;</span><span class="p">,</span> <span class="s">&#39;dark slate gray&#39;</span><span class="p">,</span> <span class="s">&#39;dim gray&#39;</span><span class="p">,</span> <span class="s">&#39;slate gray&#39;</span><span class="p">,</span>
+          <span class="s">&#39;light slate gray&#39;</span><span class="p">,</span> <span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="s">&#39;light grey&#39;</span><span class="p">,</span> <span class="s">&#39;midnight blue&#39;</span><span class="p">,</span> <span class="s">&#39;navy&#39;</span><span class="p">,</span> <span class="s">&#39;cornflower blue&#39;</span><span class="p">,</span> <span class="s">&#39;dark slate blue&#39;</span><span class="p">,</span>
+          <span class="s">&#39;slate blue&#39;</span><span class="p">,</span> <span class="s">&#39;medium slate blue&#39;</span><span class="p">,</span> <span class="s">&#39;light slate blue&#39;</span><span class="p">,</span> <span class="s">&#39;medium blue&#39;</span><span class="p">,</span> <span class="s">&#39;royal blue&#39;</span><span class="p">,</span>  <span class="s">&#39;blue&#39;</span><span class="p">,</span>
+          <span class="s">&#39;dodger blue&#39;</span><span class="p">,</span> <span class="s">&#39;deep sky blue&#39;</span><span class="p">,</span> <span class="s">&#39;sky blue&#39;</span><span class="p">,</span> <span class="s">&#39;light sky blue&#39;</span><span class="p">,</span> <span class="s">&#39;steel blue&#39;</span><span class="p">,</span> <span class="s">&#39;light steel blue&#39;</span><span class="p">,</span>
+          <span class="s">&#39;light blue&#39;</span><span class="p">,</span> <span class="s">&#39;powder blue&#39;</span><span class="p">,</span> <span class="s">&#39;pale turquoise&#39;</span><span class="p">,</span> <span class="s">&#39;dark turquoise&#39;</span><span class="p">,</span> <span class="s">&#39;medium turquoise&#39;</span><span class="p">,</span> <span class="s">&#39;turquoise&#39;</span><span class="p">,</span>
+          <span class="s">&#39;cyan&#39;</span><span class="p">,</span> <span class="s">&#39;light cyan&#39;</span><span class="p">,</span> <span class="s">&#39;cadet blue&#39;</span><span class="p">,</span> <span class="s">&#39;medium aquamarine&#39;</span><span class="p">,</span> <span class="s">&#39;aquamarine&#39;</span><span class="p">,</span> <span class="s">&#39;dark green&#39;</span><span class="p">,</span> <span class="s">&#39;dark olive green&#39;</span><span class="p">,</span>
+          <span class="s">&#39;dark sea green&#39;</span><span class="p">,</span> <span class="s">&#39;sea green&#39;</span><span class="p">,</span> <span class="s">&#39;medium sea green&#39;</span><span class="p">,</span> <span class="s">&#39;light sea green&#39;</span><span class="p">,</span> <span class="s">&#39;pale green&#39;</span><span class="p">,</span> <span class="s">&#39;spring green&#39;</span><span class="p">,</span>
+          <span class="s">&#39;lawn green&#39;</span><span class="p">,</span> <span class="s">&#39;medium spring green&#39;</span><span class="p">,</span> <span class="s">&#39;green yellow&#39;</span><span class="p">,</span> <span class="s">&#39;lime green&#39;</span><span class="p">,</span> <span class="s">&#39;yellow green&#39;</span><span class="p">,</span>
+          <span class="s">&#39;forest green&#39;</span><span class="p">,</span> <span class="s">&#39;olive drab&#39;</span><span class="p">,</span> <span class="s">&#39;dark khaki&#39;</span><span class="p">,</span> <span class="s">&#39;khaki&#39;</span><span class="p">,</span> <span class="s">&#39;pale goldenrod&#39;</span><span class="p">,</span> <span class="s">&#39;light goldenrod yellow&#39;</span><span class="p">,</span>
+          <span class="s">&#39;light yellow&#39;</span><span class="p">,</span> <span class="s">&#39;yellow&#39;</span><span class="p">,</span> <span class="s">&#39;gold&#39;</span><span class="p">,</span> <span class="s">&#39;light goldenrod&#39;</span><span class="p">,</span> <span class="s">&#39;goldenrod&#39;</span><span class="p">,</span> <span class="s">&#39;dark goldenrod&#39;</span><span class="p">,</span> <span class="s">&#39;rosy brown&#39;</span><span class="p">,</span>
+          <span class="s">&#39;indian red&#39;</span><span class="p">,</span> <span class="s">&#39;saddle brown&#39;</span><span class="p">,</span> <span class="s">&#39;sandy brown&#39;</span><span class="p">,</span>
+          <span class="s">&#39;dark salmon&#39;</span><span class="p">,</span> <span class="s">&#39;salmon&#39;</span><span class="p">,</span> <span class="s">&#39;light salmon&#39;</span><span class="p">,</span> <span class="s">&#39;orange&#39;</span><span class="p">,</span> <span class="s">&#39;dark orange&#39;</span><span class="p">,</span>
+          <span class="s">&#39;coral&#39;</span><span class="p">,</span> <span class="s">&#39;light coral&#39;</span><span class="p">,</span> <span class="s">&#39;tomato&#39;</span><span class="p">,</span> <span class="s">&#39;orange red&#39;</span><span class="p">,</span> <span class="s">&#39;red&#39;</span><span class="p">,</span> <span class="s">&#39;hot pink&#39;</span><span class="p">,</span> <span class="s">&#39;deep pink&#39;</span><span class="p">,</span> <span class="s">&#39;pink&#39;</span><span class="p">,</span> <span class="s">&#39;light pink&#39;</span><span class="p">,</span>
+          <span class="s">&#39;pale violet red&#39;</span><span class="p">,</span> <span class="s">&#39;maroon&#39;</span><span class="p">,</span> <span class="s">&#39;medium violet red&#39;</span><span class="p">,</span> <span class="s">&#39;violet red&#39;</span><span class="p">,</span>
+          <span class="s">&#39;medium orchid&#39;</span><span class="p">,</span> <span class="s">&#39;dark orchid&#39;</span><span class="p">,</span> <span class="s">&#39;dark violet&#39;</span><span class="p">,</span> <span class="s">&#39;blue violet&#39;</span><span class="p">,</span> <span class="s">&#39;purple&#39;</span><span class="p">,</span> <span class="s">&#39;medium purple&#39;</span><span class="p">,</span>
+          <span class="s">&#39;thistle&#39;</span><span class="p">,</span> <span class="s">&#39;snow2&#39;</span><span class="p">,</span> <span class="s">&#39;snow3&#39;</span><span class="p">,</span>
+          <span class="s">&#39;snow4&#39;</span><span class="p">,</span> <span class="s">&#39;seashell2&#39;</span><span class="p">,</span> <span class="s">&#39;seashell3&#39;</span><span class="p">,</span> <span class="s">&#39;seashell4&#39;</span><span class="p">,</span> <span class="s">&#39;AntiqueWhite1&#39;</span><span class="p">,</span> <span class="s">&#39;AntiqueWhite2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;AntiqueWhite3&#39;</span><span class="p">,</span> <span class="s">&#39;AntiqueWhite4&#39;</span><span class="p">,</span> <span class="s">&#39;bisque2&#39;</span><span class="p">,</span> <span class="s">&#39;bisque3&#39;</span><span class="p">,</span> <span class="s">&#39;bisque4&#39;</span><span class="p">,</span> <span class="s">&#39;PeachPuff2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;PeachPuff3&#39;</span><span class="p">,</span> <span class="s">&#39;PeachPuff4&#39;</span><span class="p">,</span> <span class="s">&#39;NavajoWhite2&#39;</span><span class="p">,</span> <span class="s">&#39;NavajoWhite3&#39;</span><span class="p">,</span> <span class="s">&#39;NavajoWhite4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;LemonChiffon2&#39;</span><span class="p">,</span> <span class="s">&#39;LemonChiffon3&#39;</span><span class="p">,</span> <span class="s">&#39;LemonChiffon4&#39;</span><span class="p">,</span> <span class="s">&#39;cornsilk2&#39;</span><span class="p">,</span> <span class="s">&#39;cornsilk3&#39;</span><span class="p">,</span>
+          <span class="s">&#39;cornsilk4&#39;</span><span class="p">,</span> <span class="s">&#39;ivory2&#39;</span><span class="p">,</span> <span class="s">&#39;ivory3&#39;</span><span class="p">,</span> <span class="s">&#39;ivory4&#39;</span><span class="p">,</span> <span class="s">&#39;honeydew2&#39;</span><span class="p">,</span> <span class="s">&#39;honeydew3&#39;</span><span class="p">,</span> <span class="s">&#39;honeydew4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;LavenderBlush2&#39;</span><span class="p">,</span> <span class="s">&#39;LavenderBlush3&#39;</span><span class="p">,</span> <span class="s">&#39;LavenderBlush4&#39;</span><span class="p">,</span> <span class="s">&#39;MistyRose2&#39;</span><span class="p">,</span> <span class="s">&#39;MistyRose3&#39;</span><span class="p">,</span>
+          <span class="s">&#39;MistyRose4&#39;</span><span class="p">,</span> <span class="s">&#39;azure2&#39;</span><span class="p">,</span> <span class="s">&#39;azure3&#39;</span><span class="p">,</span> <span class="s">&#39;azure4&#39;</span><span class="p">,</span> <span class="s">&#39;SlateBlue1&#39;</span><span class="p">,</span> <span class="s">&#39;SlateBlue2&#39;</span><span class="p">,</span> <span class="s">&#39;SlateBlue3&#39;</span><span class="p">,</span>
+          <span class="s">&#39;SlateBlue4&#39;</span><span class="p">,</span> <span class="s">&#39;RoyalBlue1&#39;</span><span class="p">,</span> <span class="s">&#39;RoyalBlue2&#39;</span><span class="p">,</span> <span class="s">&#39;RoyalBlue3&#39;</span><span class="p">,</span> <span class="s">&#39;RoyalBlue4&#39;</span><span class="p">,</span> <span class="s">&#39;blue2&#39;</span><span class="p">,</span> <span class="s">&#39;blue4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;DodgerBlue2&#39;</span><span class="p">,</span> <span class="s">&#39;DodgerBlue3&#39;</span><span class="p">,</span> <span class="s">&#39;DodgerBlue4&#39;</span><span class="p">,</span> <span class="s">&#39;SteelBlue1&#39;</span><span class="p">,</span> <span class="s">&#39;SteelBlue2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;SteelBlue3&#39;</span><span class="p">,</span> <span class="s">&#39;SteelBlue4&#39;</span><span class="p">,</span> <span class="s">&#39;DeepSkyBlue2&#39;</span><span class="p">,</span> <span class="s">&#39;DeepSkyBlue3&#39;</span><span class="p">,</span> <span class="s">&#39;DeepSkyBlue4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;SkyBlue1&#39;</span><span class="p">,</span> <span class="s">&#39;SkyBlue2&#39;</span><span class="p">,</span> <span class="s">&#39;SkyBlue3&#39;</span><span class="p">,</span> <span class="s">&#39;SkyBlue4&#39;</span><span class="p">,</span> <span class="s">&#39;LightSkyBlue1&#39;</span><span class="p">,</span> <span class="s">&#39;LightSkyBlue2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;LightSkyBlue3&#39;</span><span class="p">,</span> <span class="s">&#39;LightSkyBlue4&#39;</span><span class="p">,</span> <span class="s">&#39;SlateGray1&#39;</span><span class="p">,</span> <span class="s">&#39;SlateGray2&#39;</span><span class="p">,</span> <span class="s">&#39;SlateGray3&#39;</span><span class="p">,</span>
+          <span class="s">&#39;SlateGray4&#39;</span><span class="p">,</span> <span class="s">&#39;LightSteelBlue1&#39;</span><span class="p">,</span> <span class="s">&#39;LightSteelBlue2&#39;</span><span class="p">,</span> <span class="s">&#39;LightSteelBlue3&#39;</span><span class="p">,</span>
+          <span class="s">&#39;LightSteelBlue4&#39;</span><span class="p">,</span> <span class="s">&#39;LightBlue1&#39;</span><span class="p">,</span> <span class="s">&#39;LightBlue2&#39;</span><span class="p">,</span> <span class="s">&#39;LightBlue3&#39;</span><span class="p">,</span> <span class="s">&#39;LightBlue4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;LightCyan2&#39;</span><span class="p">,</span> <span class="s">&#39;LightCyan3&#39;</span><span class="p">,</span> <span class="s">&#39;LightCyan4&#39;</span><span class="p">,</span> <span class="s">&#39;PaleTurquoise1&#39;</span><span class="p">,</span> <span class="s">&#39;PaleTurquoise2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;PaleTurquoise3&#39;</span><span class="p">,</span> <span class="s">&#39;PaleTurquoise4&#39;</span><span class="p">,</span> <span class="s">&#39;CadetBlue1&#39;</span><span class="p">,</span> <span class="s">&#39;CadetBlue2&#39;</span><span class="p">,</span> <span class="s">&#39;CadetBlue3&#39;</span><span class="p">,</span>
+          <span class="s">&#39;CadetBlue4&#39;</span><span class="p">,</span> <span class="s">&#39;turquoise1&#39;</span><span class="p">,</span> <span class="s">&#39;turquoise2&#39;</span><span class="p">,</span> <span class="s">&#39;turquoise3&#39;</span><span class="p">,</span> <span class="s">&#39;turquoise4&#39;</span><span class="p">,</span> <span class="s">&#39;cyan2&#39;</span><span class="p">,</span> <span class="s">&#39;cyan3&#39;</span><span class="p">,</span>
+          <span class="s">&#39;cyan4&#39;</span><span class="p">,</span> <span class="s">&#39;DarkSlateGray1&#39;</span><span class="p">,</span> <span class="s">&#39;DarkSlateGray2&#39;</span><span class="p">,</span> <span class="s">&#39;DarkSlateGray3&#39;</span><span class="p">,</span> <span class="s">&#39;DarkSlateGray4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;aquamarine2&#39;</span><span class="p">,</span> <span class="s">&#39;aquamarine4&#39;</span><span class="p">,</span> <span class="s">&#39;DarkSeaGreen1&#39;</span><span class="p">,</span> <span class="s">&#39;DarkSeaGreen2&#39;</span><span class="p">,</span> <span class="s">&#39;DarkSeaGreen3&#39;</span><span class="p">,</span>
+          <span class="s">&#39;DarkSeaGreen4&#39;</span><span class="p">,</span> <span class="s">&#39;SeaGreen1&#39;</span><span class="p">,</span> <span class="s">&#39;SeaGreen2&#39;</span><span class="p">,</span> <span class="s">&#39;SeaGreen3&#39;</span><span class="p">,</span> <span class="s">&#39;PaleGreen1&#39;</span><span class="p">,</span> <span class="s">&#39;PaleGreen2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;PaleGreen3&#39;</span><span class="p">,</span> <span class="s">&#39;PaleGreen4&#39;</span><span class="p">,</span> <span class="s">&#39;SpringGreen2&#39;</span><span class="p">,</span> <span class="s">&#39;SpringGreen3&#39;</span><span class="p">,</span> <span class="s">&#39;SpringGreen4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;green2&#39;</span><span class="p">,</span> <span class="s">&#39;green3&#39;</span><span class="p">,</span> <span class="s">&#39;green4&#39;</span><span class="p">,</span> <span class="s">&#39;chartreuse2&#39;</span><span class="p">,</span> <span class="s">&#39;chartreuse3&#39;</span><span class="p">,</span> <span class="s">&#39;chartreuse4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;OliveDrab1&#39;</span><span class="p">,</span> <span class="s">&#39;OliveDrab2&#39;</span><span class="p">,</span> <span class="s">&#39;OliveDrab4&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOliveGreen1&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOliveGreen2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;DarkOliveGreen3&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOliveGreen4&#39;</span><span class="p">,</span> <span class="s">&#39;khaki1&#39;</span><span class="p">,</span> <span class="s">&#39;khaki2&#39;</span><span class="p">,</span> <span class="s">&#39;khaki3&#39;</span><span class="p">,</span> <span class="s">&#39;khaki4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;LightGoldenrod1&#39;</span><span class="p">,</span> <span class="s">&#39;LightGoldenrod2&#39;</span><span class="p">,</span> <span class="s">&#39;LightGoldenrod3&#39;</span><span class="p">,</span> <span class="s">&#39;LightGoldenrod4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;LightYellow2&#39;</span><span class="p">,</span> <span class="s">&#39;LightYellow3&#39;</span><span class="p">,</span> <span class="s">&#39;LightYellow4&#39;</span><span class="p">,</span> <span class="s">&#39;yellow2&#39;</span><span class="p">,</span> <span class="s">&#39;yellow3&#39;</span><span class="p">,</span> <span class="s">&#39;yellow4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gold2&#39;</span><span class="p">,</span> <span class="s">&#39;gold3&#39;</span><span class="p">,</span> <span class="s">&#39;gold4&#39;</span><span class="p">,</span> <span class="s">&#39;goldenrod1&#39;</span><span class="p">,</span> <span class="s">&#39;goldenrod2&#39;</span><span class="p">,</span> <span class="s">&#39;goldenrod3&#39;</span><span class="p">,</span> <span class="s">&#39;goldenrod4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;DarkGoldenrod1&#39;</span><span class="p">,</span> <span class="s">&#39;DarkGoldenrod2&#39;</span><span class="p">,</span> <span class="s">&#39;DarkGoldenrod3&#39;</span><span class="p">,</span> <span class="s">&#39;DarkGoldenrod4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;RosyBrown1&#39;</span><span class="p">,</span> <span class="s">&#39;RosyBrown2&#39;</span><span class="p">,</span> <span class="s">&#39;RosyBrown3&#39;</span><span class="p">,</span> <span class="s">&#39;RosyBrown4&#39;</span><span class="p">,</span> <span class="s">&#39;IndianRed1&#39;</span><span class="p">,</span> <span class="s">&#39;IndianRed2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;IndianRed3&#39;</span><span class="p">,</span> <span class="s">&#39;IndianRed4&#39;</span><span class="p">,</span> <span class="s">&#39;sienna1&#39;</span><span class="p">,</span> <span class="s">&#39;sienna2&#39;</span><span class="p">,</span> <span class="s">&#39;sienna3&#39;</span><span class="p">,</span> <span class="s">&#39;sienna4&#39;</span><span class="p">,</span> <span class="s">&#39;burlywood1&#39;</span><span class="p">,</span>
+          <span class="s">&#39;burlywood2&#39;</span><span class="p">,</span> <span class="s">&#39;burlywood3&#39;</span><span class="p">,</span> <span class="s">&#39;burlywood4&#39;</span><span class="p">,</span> <span class="s">&#39;wheat1&#39;</span><span class="p">,</span> <span class="s">&#39;wheat2&#39;</span><span class="p">,</span> <span class="s">&#39;wheat3&#39;</span><span class="p">,</span> <span class="s">&#39;wheat4&#39;</span><span class="p">,</span> <span class="s">&#39;tan1&#39;</span><span class="p">,</span>
+          <span class="s">&#39;tan2&#39;</span><span class="p">,</span> <span class="s">&#39;tan4&#39;</span><span class="p">,</span> <span class="s">&#39;chocolate1&#39;</span><span class="p">,</span> <span class="s">&#39;chocolate2&#39;</span><span class="p">,</span> <span class="s">&#39;chocolate3&#39;</span><span class="p">,</span> <span class="s">&#39;firebrick1&#39;</span><span class="p">,</span> <span class="s">&#39;firebrick2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;firebrick3&#39;</span><span class="p">,</span> <span class="s">&#39;firebrick4&#39;</span><span class="p">,</span> <span class="s">&#39;brown1&#39;</span><span class="p">,</span> <span class="s">&#39;brown2&#39;</span><span class="p">,</span> <span class="s">&#39;brown3&#39;</span><span class="p">,</span> <span class="s">&#39;brown4&#39;</span><span class="p">,</span> <span class="s">&#39;salmon1&#39;</span><span class="p">,</span> <span class="s">&#39;salmon2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;salmon3&#39;</span><span class="p">,</span> <span class="s">&#39;salmon4&#39;</span><span class="p">,</span> <span class="s">&#39;LightSalmon2&#39;</span><span class="p">,</span> <span class="s">&#39;LightSalmon3&#39;</span><span class="p">,</span> <span class="s">&#39;LightSalmon4&#39;</span><span class="p">,</span> <span class="s">&#39;orange2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;orange3&#39;</span><span class="p">,</span> <span class="s">&#39;orange4&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOrange1&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOrange2&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOrange3&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOrange4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;coral1&#39;</span><span class="p">,</span> <span class="s">&#39;coral2&#39;</span><span class="p">,</span> <span class="s">&#39;coral3&#39;</span><span class="p">,</span> <span class="s">&#39;coral4&#39;</span><span class="p">,</span> <span class="s">&#39;tomato2&#39;</span><span class="p">,</span> <span class="s">&#39;tomato3&#39;</span><span class="p">,</span> <span class="s">&#39;tomato4&#39;</span><span class="p">,</span> <span class="s">&#39;OrangeRed2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;OrangeRed3&#39;</span><span class="p">,</span> <span class="s">&#39;OrangeRed4&#39;</span><span class="p">,</span> <span class="s">&#39;red2&#39;</span><span class="p">,</span> <span class="s">&#39;red3&#39;</span><span class="p">,</span> <span class="s">&#39;red4&#39;</span><span class="p">,</span> <span class="s">&#39;DeepPink2&#39;</span><span class="p">,</span> <span class="s">&#39;DeepPink3&#39;</span><span class="p">,</span> <span class="s">&#39;DeepPink4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;HotPink1&#39;</span><span class="p">,</span> <span class="s">&#39;HotPink2&#39;</span><span class="p">,</span> <span class="s">&#39;HotPink3&#39;</span><span class="p">,</span> <span class="s">&#39;HotPink4&#39;</span><span class="p">,</span> <span class="s">&#39;pink1&#39;</span><span class="p">,</span> <span class="s">&#39;pink2&#39;</span><span class="p">,</span> <span class="s">&#39;pink3&#39;</span><span class="p">,</span> <span class="s">&#39;pink4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;LightPink1&#39;</span><span class="p">,</span> <span class="s">&#39;LightPink2&#39;</span><span class="p">,</span> <span class="s">&#39;LightPink3&#39;</span><span class="p">,</span> <span class="s">&#39;LightPink4&#39;</span><span class="p">,</span> <span class="s">&#39;PaleVioletRed1&#39;</span><span class="p">,</span>
+          <span class="s">&#39;PaleVioletRed2&#39;</span><span class="p">,</span> <span class="s">&#39;PaleVioletRed3&#39;</span><span class="p">,</span> <span class="s">&#39;PaleVioletRed4&#39;</span><span class="p">,</span> <span class="s">&#39;maroon1&#39;</span><span class="p">,</span> <span class="s">&#39;maroon2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;maroon3&#39;</span><span class="p">,</span> <span class="s">&#39;maroon4&#39;</span><span class="p">,</span> <span class="s">&#39;VioletRed1&#39;</span><span class="p">,</span> <span class="s">&#39;VioletRed2&#39;</span><span class="p">,</span> <span class="s">&#39;VioletRed3&#39;</span><span class="p">,</span> <span class="s">&#39;VioletRed4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;magenta2&#39;</span><span class="p">,</span> <span class="s">&#39;magenta3&#39;</span><span class="p">,</span> <span class="s">&#39;magenta4&#39;</span><span class="p">,</span> <span class="s">&#39;orchid1&#39;</span><span class="p">,</span> <span class="s">&#39;orchid2&#39;</span><span class="p">,</span> <span class="s">&#39;orchid3&#39;</span><span class="p">,</span> <span class="s">&#39;orchid4&#39;</span><span class="p">,</span> <span class="s">&#39;plum1&#39;</span><span class="p">,</span>
+          <span class="s">&#39;plum2&#39;</span><span class="p">,</span> <span class="s">&#39;plum3&#39;</span><span class="p">,</span> <span class="s">&#39;plum4&#39;</span><span class="p">,</span> <span class="s">&#39;MediumOrchid1&#39;</span><span class="p">,</span> <span class="s">&#39;MediumOrchid2&#39;</span><span class="p">,</span> <span class="s">&#39;MediumOrchid3&#39;</span><span class="p">,</span>
+          <span class="s">&#39;MediumOrchid4&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOrchid1&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOrchid2&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOrchid3&#39;</span><span class="p">,</span> <span class="s">&#39;DarkOrchid4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;purple1&#39;</span><span class="p">,</span> <span class="s">&#39;purple2&#39;</span><span class="p">,</span> <span class="s">&#39;purple3&#39;</span><span class="p">,</span> <span class="s">&#39;purple4&#39;</span><span class="p">,</span> <span class="s">&#39;MediumPurple1&#39;</span><span class="p">,</span> <span class="s">&#39;MediumPurple2&#39;</span><span class="p">,</span>
+          <span class="s">&#39;MediumPurple3&#39;</span><span class="p">,</span> <span class="s">&#39;MediumPurple4&#39;</span><span class="p">,</span> <span class="s">&#39;thistle1&#39;</span><span class="p">,</span> <span class="s">&#39;thistle2&#39;</span><span class="p">,</span> <span class="s">&#39;thistle3&#39;</span><span class="p">,</span> <span class="s">&#39;thistle4&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gray1&#39;</span><span class="p">,</span> <span class="s">&#39;gray2&#39;</span><span class="p">,</span> <span class="s">&#39;gray3&#39;</span><span class="p">,</span> <span class="s">&#39;gray4&#39;</span><span class="p">,</span> <span class="s">&#39;gray5&#39;</span><span class="p">,</span> <span class="s">&#39;gray6&#39;</span><span class="p">,</span> <span class="s">&#39;gray7&#39;</span><span class="p">,</span> <span class="s">&#39;gray8&#39;</span><span class="p">,</span> <span class="s">&#39;gray9&#39;</span><span class="p">,</span> <span class="s">&#39;gray10&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gray11&#39;</span><span class="p">,</span> <span class="s">&#39;gray12&#39;</span><span class="p">,</span> <span class="s">&#39;gray13&#39;</span><span class="p">,</span> <span class="s">&#39;gray14&#39;</span><span class="p">,</span> <span class="s">&#39;gray15&#39;</span><span class="p">,</span> <span class="s">&#39;gray16&#39;</span><span class="p">,</span> <span class="s">&#39;gray17&#39;</span><span class="p">,</span> <span class="s">&#39;gray18&#39;</span><span class="p">,</span> <span class="s">&#39;gray19&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gray20&#39;</span><span class="p">,</span> <span class="s">&#39;gray21&#39;</span><span class="p">,</span> <span class="s">&#39;gray22&#39;</span><span class="p">,</span> <span class="s">&#39;gray23&#39;</span><span class="p">,</span> <span class="s">&#39;gray24&#39;</span><span class="p">,</span> <span class="s">&#39;gray25&#39;</span><span class="p">,</span> <span class="s">&#39;gray26&#39;</span><span class="p">,</span> <span class="s">&#39;gray27&#39;</span><span class="p">,</span> <span class="s">&#39;gray28&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gray29&#39;</span><span class="p">,</span> <span class="s">&#39;gray30&#39;</span><span class="p">,</span> <span class="s">&#39;gray31&#39;</span><span class="p">,</span> <span class="s">&#39;gray32&#39;</span><span class="p">,</span> <span class="s">&#39;gray33&#39;</span><span class="p">,</span> <span class="s">&#39;gray34&#39;</span><span class="p">,</span> <span class="s">&#39;gray35&#39;</span><span class="p">,</span> <span class="s">&#39;gray36&#39;</span><span class="p">,</span> <span class="s">&#39;gray37&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gray38&#39;</span><span class="p">,</span> <span class="s">&#39;gray39&#39;</span><span class="p">,</span> <span class="s">&#39;gray40&#39;</span><span class="p">,</span> <span class="s">&#39;gray42&#39;</span><span class="p">,</span> <span class="s">&#39;gray43&#39;</span><span class="p">,</span> <span class="s">&#39;gray44&#39;</span><span class="p">,</span> <span class="s">&#39;gray45&#39;</span><span class="p">,</span> <span class="s">&#39;gray46&#39;</span><span class="p">,</span> <span class="s">&#39;gray47&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gray48&#39;</span><span class="p">,</span> <span class="s">&#39;gray49&#39;</span><span class="p">,</span> <span class="s">&#39;gray50&#39;</span><span class="p">,</span> <span class="s">&#39;gray51&#39;</span><span class="p">,</span> <span class="s">&#39;gray52&#39;</span><span class="p">,</span> <span class="s">&#39;gray53&#39;</span><span class="p">,</span> <span class="s">&#39;gray54&#39;</span><span class="p">,</span> <span class="s">&#39;gray55&#39;</span><span class="p">,</span> <span class="s">&#39;gray56&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gray57&#39;</span><span class="p">,</span> <span class="s">&#39;gray58&#39;</span><span class="p">,</span> <span class="s">&#39;gray59&#39;</span><span class="p">,</span> <span class="s">&#39;gray60&#39;</span><span class="p">,</span> <span class="s">&#39;gray61&#39;</span><span class="p">,</span> <span class="s">&#39;gray62&#39;</span><span class="p">,</span> <span class="s">&#39;gray63&#39;</span><span class="p">,</span> <span class="s">&#39;gray64&#39;</span><span class="p">,</span> <span class="s">&#39;gray65&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gray66&#39;</span><span class="p">,</span> <span class="s">&#39;gray67&#39;</span><span class="p">,</span> <span class="s">&#39;gray68&#39;</span><span class="p">,</span> <span class="s">&#39;gray69&#39;</span><span class="p">,</span> <span class="s">&#39;gray70&#39;</span><span class="p">,</span> <span class="s">&#39;gray71&#39;</span><span class="p">,</span> <span class="s">&#39;gray72&#39;</span><span class="p">,</span> <span class="s">&#39;gray73&#39;</span><span class="p">,</span> <span class="s">&#39;gray74&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gray75&#39;</span><span class="p">,</span> <span class="s">&#39;gray76&#39;</span><span class="p">,</span> <span class="s">&#39;gray77&#39;</span><span class="p">,</span> <span class="s">&#39;gray78&#39;</span><span class="p">,</span> <span class="s">&#39;gray79&#39;</span><span class="p">,</span> <span class="s">&#39;gray80&#39;</span><span class="p">,</span> <span class="s">&#39;gray81&#39;</span><span class="p">,</span> <span class="s">&#39;gray82&#39;</span><span class="p">,</span> <span class="s">&#39;gray83&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gray84&#39;</span><span class="p">,</span> <span class="s">&#39;gray85&#39;</span><span class="p">,</span> <span class="s">&#39;gray86&#39;</span><span class="p">,</span> <span class="s">&#39;gray87&#39;</span><span class="p">,</span> <span class="s">&#39;gray88&#39;</span><span class="p">,</span> <span class="s">&#39;gray89&#39;</span><span class="p">,</span> <span class="s">&#39;gray90&#39;</span><span class="p">,</span> <span class="s">&#39;gray91&#39;</span><span class="p">,</span> <span class="s">&#39;gray92&#39;</span><span class="p">,</span>
+          <span class="s">&#39;gray93&#39;</span><span class="p">,</span> <span class="s">&#39;gray94&#39;</span><span class="p">,</span> <span class="s">&#39;gray95&#39;</span><span class="p">,</span> <span class="s">&#39;gray97&#39;</span><span class="p">,</span> <span class="s">&#39;gray98&#39;</span><span class="p">,</span> <span class="s">&#39;gray99&#39;</span><span class="p">]</span>
+    
+    
+    <span class="c"># TODO: throw exception when the user draws outside of the plot</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">master</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructor</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span> <span class="o">=</span> <span class="n">canvas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__prevX</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__prevY</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span> <span class="o">=</span> <span class="n">tag</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__master</span> <span class="o">=</span> <span class="n">master</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__itemHandler</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__note</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__id</span> <span class="o">=</span> <span class="bp">None</span>
+                    
+<div class="viewcode-block" id="PolygonDrawer.anchorRectangle"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.anchorRectangle">[docs]</a>    <span class="k">def</span> <span class="nf">anchorRectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Establishes a corner of a rectangle as anchor for when the user drags the cursor to </span>
+<span class="sd">        create a rectangle. Used in &quot;Draw Rect&quot; button</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: A Tkinter passed event object</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">getToolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">17</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__prevX</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__prevY</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.plotPoint"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.plotPoint">[docs]</a>    <span class="k">def</span> <span class="nf">plotPoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">BASE_PLOT_STR</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Draws a polygon by plotting points. After the third point, if two line</span>
+<span class="sd">        segments intersect, the canvas will draw a polygon using the existing</span>
+<span class="sd">        lines and the point of intersection</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: Mouse click event</span>
+<span class="sd">        :param plot: The current plot the canvas is displaying</span>
+<span class="sd">        :param fill: Boolean for when the cavas is in fill mode</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">getToolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">17</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">create_line</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__prevX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prevY</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">COLORS</span><span class="p">[</span><span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">colorCounter</span><span class="o">%</span><span class="mi">479</span><span class="p">],</span> <span class="n">width</span><span class="o">=</span><span class="s">&quot;2&quot;</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="s">&quot;line&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canDrawPolygon</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">a1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+                <span class="n">a2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">b1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">b2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">getIntersection</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
+                <span class="n">pair</span> <span class="o">=</span> <span class="n">npArrayToTuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair</span>
+                
+                <span class="n">a1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+                <span class="n">a2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">b1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="n">b2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">getIntersection</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
+                <span class="n">pair</span> <span class="o">=</span> <span class="n">npArrayToTuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair</span>
+                
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[:</span><span class="n">index</span><span class="p">]</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[:</span><span class="n">index</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">drawPolygon</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">fill</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">=</span> <span class="n">plot</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="s">&quot;line&quot;</span><span class="p">)</span>
+                <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">colorCounter</span> <span class="o">+=</span> <span class="mi">16</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__prevX</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__prevY</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prevMX</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prevMY</span> <span class="o">=</span> <span class="n">y</span>
+                </div>
+<div class="viewcode-block" id="PolygonDrawer.rubberBand"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.rubberBand">[docs]</a>    <span class="k">def</span> <span class="nf">rubberBand</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Draws temporary helper rectangles that helps the user draw rectangles</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: A Tkinter passed event object</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__prevX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prevY</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.fillRectangle"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.fillRectangle">[docs]</a>    <span class="k">def</span> <span class="nf">fillRectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">BASE_PLOT_STR</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Draws the rectangle and stores the vertices of the rectangle internally. Used in &quot;Draw Rect&quot;</span>
+<span class="sd">        </span>
+<span class="sd">        :param event: A Tkinter passed event object</span>
+<span class="sd">        :param plot: The current plot the canvas is drawing to</span>
+<span class="sd">        :param bool fill: Boolean on whether to fill the shape </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span><span class="p">)</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
+        <span class="n">ix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">iy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">imx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">imy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">COLORS</span><span class="p">[</span><span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">colorCounter</span><span class="o">%</span><span class="mi">479</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fill</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">fillColor</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fillColor</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__itemHandler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fillColor</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;polygon&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span><span class="p">,</span> <span class="n">plot</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">getToolbar</span><span class="p">()</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">15</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">string</span><span class="p">[</span><span class="mi">17</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">iy</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">imy</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">ix</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">float</span><span class="p">(</span><span class="n">imx</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">=</span> <span class="n">plot</span>
+        <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">colorCounter</span> <span class="o">+=</span> <span class="mi">16</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.addAttribute"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.addAttribute">[docs]</a>    <span class="k">def</span> <span class="nf">addAttribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Append an attribute to the string</span>
+<span class="sd">        </span>
+<span class="sd">        :param str tag: Tag to append</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.removeAttribute"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.removeAttribute">[docs]</a>    <span class="k">def</span> <span class="nf">removeAttribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Removes an attribute</span>
+<span class="sd">        </span>
+<span class="sd">        :param str tag: Tag to search for and remove</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.setAttributes"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.setAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">setAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the attributes</span>
+<span class="sd">        </span>
+<span class="sd">        :param list attributes: Variable to set internal attributes to</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span> <span class="o">=</span> <span class="n">attributes</span>
+</div>
+<div class="viewcode-block" id="PolygonDrawer.setTag"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.setTag">[docs]</a>    <span class="k">def</span> <span class="nf">setTag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the tag</span>
+<span class="sd">        </span>
+<span class="sd">        :param str tag: Variable to set the internal tag to</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span> <span class="o">=</span> <span class="n">tag</span><span class="p">;</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.setColor"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.setColor">[docs]</a>    <span class="k">def</span> <span class="nf">setColor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the color</span>
+<span class="sd">        </span>
+<span class="sd">        :param str color: Variable to set the internal color to</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__color</span> <span class="o">=</span> <span class="n">color</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.setVertices"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.setVertices">[docs]</a>    <span class="k">def</span> <span class="nf">setVertices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vertexList</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the vertices</span>
+<span class="sd">        </span>
+<span class="sd">        :param list vertexList: List to set the internal vertices list to</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span> <span class="o">=</span> <span class="n">vertexList</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.setPlot"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.setPlot">[docs]</a>    <span class="k">def</span> <span class="nf">setPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the plot</span>
+<span class="sd">        </span>
+<span class="sd">        :param plot: Variable to set the internal plot type to</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">=</span> <span class="n">plot</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.setCoordinates"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.setCoordinates">[docs]</a>    <span class="k">def</span> <span class="nf">setCoordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the coordinates</span>
+<span class="sd">        </span>
+<span class="sd">        :param list coordinates: List to set the internal coordinates to</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span> <span class="o">=</span> <span class="n">coordinates</span>
+        
+    </div>
+<div class="viewcode-block" id="PolygonDrawer.setVertex"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.setVertex">[docs]</a>    <span class="k">def</span> <span class="nf">setVertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the vertex list at a specific location</span>
+<span class="sd">        </span>
+<span class="sd">        :param int index: Location to modify</span>
+<span class="sd">        :param point: New point</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">point</span>
+    </div>
+<div class="viewcode-block" id="PolygonDrawer.setID"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.setID">[docs]</a>    <span class="k">def</span> <span class="nf">setID</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_id</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the ID</span>
+<span class="sd">        </span>
+<span class="sd">        :param int _id: Variable to set the internal ID to</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__id</span> <span class="o">=</span> <span class="n">_id</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.setNotes"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.setNotes">[docs]</a>    <span class="k">def</span> <span class="nf">setNotes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">note</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Set the notes</span>
+<span class="sd">        </span>
+<span class="sd">        :param str note: Variable to set the internal notes to</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__note</span> <span class="o">=</span> <span class="n">note</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.getCoordinates"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getCoordinates">[docs]</a>    <span class="k">def</span> <span class="nf">getCoordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return internal coordinates variable</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.getNotes"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getNotes">[docs]</a>    <span class="k">def</span> <span class="nf">getNotes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return internal notes variable</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__note</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.getAttributes"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">getAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return attributes list</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.getPlot"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getPlot">[docs]</a>    <span class="k">def</span> <span class="nf">getPlot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return plot</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+    
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> 
+    </div>
+<div class="viewcode-block" id="PolygonDrawer.getVertices"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getVertices">[docs]</a>    <span class="k">def</span> <span class="nf">getVertices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return lits of vertices</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span>
+    </div>
+<div class="viewcode-block" id="PolygonDrawer.getColor"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getColor">[docs]</a>    <span class="k">def</span> <span class="nf">getColor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the color of the object</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__color</span>
+    </div>
+<div class="viewcode-block" id="PolygonDrawer.getID"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getID">[docs]</a>    <span class="k">def</span> <span class="nf">getID</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the ID</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: int or ``None``</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__id</span>
+</div>
+<div class="viewcode-block" id="PolygonDrawer.getTag"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getTag">[docs]</a>    <span class="k">def</span> <span class="nf">getTag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return the tag</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: str</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span>
+    </div>
+<div class="viewcode-block" id="PolygonDrawer.getItemHandler"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.getItemHandler">[docs]</a>    <span class="k">def</span> <span class="nf">getItemHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return an item handler to the object</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: handle</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__itemHandler</span>
+    </div>
+<div class="viewcode-block" id="PolygonDrawer.isInAttributes"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.isInAttributes">[docs]</a>    <span class="k">def</span> <span class="nf">isInAttributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Check if tag is in attributes</span>
+<span class="sd">        </span>
+<span class="sd">        :param str tag: Variable for checking</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    </div>
+<div class="viewcode-block" id="PolygonDrawer.move"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">dmx</span><span class="p">,</span> <span class="n">dmy</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Move the location of the object</span>
+<span class="sd">        </span>
+<span class="sd">        :param dx: Tkinter move delta x</span>
+<span class="sd">        :param dy: Tkinter move delta y</span>
+<span class="sd">        :param dmx: Matplotlib x</span>
+<span class="sd">        :param dmy: Matplotlib y</span>
+<span class="sd">        </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">)):</span>
+            <span class="n">newPoint</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dy</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newPoint</span>
+            <span class="n">newPoint</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">dmx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dmy</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newPoint</span>
+    </div>
+    <span class="k">def</span> <span class="nf">__canDrawPolygon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">b1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">b2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">)</span><span class="o">-</span><span class="mi">3</span><span class="p">):</span>
+            <span class="n">a1</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">a2</span> <span class="o">=</span> <span class="n">tupleToNpArray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">isIntersecting</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+            
+<div class="viewcode-block" id="PolygonDrawer.drawPolygon"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.drawPolygon">[docs]</a>    <span class="k">def</span> <span class="nf">drawPolygon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">BASE_PLOT_STR</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Draw the polygon to the screen</span>
+<span class="sd">        </span>
+<span class="sd">        :param plot: Plot to draw to</span>
+<span class="sd">        :param bool fill: Boolean for whether to fill in object or not</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">COLORS</span><span class="p">[</span><span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">colorCounter</span><span class="o">%</span><span class="mi">479</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">fill</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
+            <span class="n">fillColor</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fillColor</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__itemHandler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">create_polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fillColor</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;polygon&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span><span class="p">,</span> <span class="n">plot</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">=</span> <span class="n">plot</span>
+        <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">colorCounter</span> <span class="o">+=</span> <span class="mi">16</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.redrawShape"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.redrawShape">[docs]</a>    <span class="k">def</span> <span class="nf">redrawShape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Redraw the shape by first deleting the item handler and recreating it</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__itemHandler</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__itemHandler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">create_polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">,</span> <span class="n">outline</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__color</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__color</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;polygon&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span><span class="p">))</span>
+        </div>
+<div class="viewcode-block" id="PolygonDrawer.isEmpty"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.PolygonDrawer.isEmpty">[docs]</a>    <span class="k">def</span> <span class="nf">isEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Return ``True`` if empty, ``False`` otherwise</span>
+<span class="sd">        </span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        </div>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s">&quot;Coordinates:</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s">&quot;)</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s">&quot;Vertices:</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__vertices</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">(&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="s">&quot;, &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="s">&quot;)</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s">&quot;Attributes:</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">+=</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">&quot;</span> <span class="o">+</span> <span class="n">item</span> <span class="o">+</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s">&quot;Notes:</span><span class="se">\n\t</span><span class="s">&quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__note</span>
+        <span class="k">return</span> <span class="n">string</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">toggleDrag</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+        <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">dragToggle</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">PolygonDrawer</span><span class="o">.</span><span class="n">dragToggle</span>
+                            </div>
+<div class="viewcode-block" id="perpendicular"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.perpendicular">[docs]</a><span class="k">def</span> <span class="nf">perpendicular</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns a numpy array that&#39;s orthogonal to the param</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">empty_like</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">b</span>
+</div>
+<div class="viewcode-block" id="getIntersection"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.getIntersection">[docs]</a><span class="k">def</span> <span class="nf">getIntersection</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Retrieves the point of intersection of two lines given two points</span>
+<span class="sd">    on each line</span>
+<span class="sd">    :param a1, a2: Two points on the first line</span>
+<span class="sd">    :param b1, b1: Two points on the second line</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">da</span> <span class="o">=</span> <span class="n">a2</span> <span class="o">-</span> <span class="n">a1</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">b2</span> <span class="o">-</span> <span class="n">b1</span>
+    <span class="n">dp</span> <span class="o">=</span> <span class="n">a1</span> <span class="o">-</span> <span class="n">b1</span>
+    <span class="n">dap</span> <span class="o">=</span> <span class="n">perpendicular</span><span class="p">(</span><span class="n">da</span><span class="p">)</span>
+    <span class="n">denom</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">dap</span><span class="p">,</span> <span class="n">db</span><span class="p">)</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">dap</span><span class="p">,</span> <span class="n">dp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">num</span> <span class="o">/</span><span class="n">denom</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span><span class="o">*</span><span class="n">db</span> <span class="o">+</span> <span class="n">b1</span>
+</div>
+<div class="viewcode-block" id="isIntersecting"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.isIntersecting">[docs]</a><span class="k">def</span> <span class="nf">isIntersecting</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Determines if two line segments are intersecting by checking if the point of intersection</span>
+<span class="sd">    exists on the line segments</span>
+<span class="sd">    :param a1, a2: The endpoints of the first line segment</span>
+<span class="sd">    :param b1, b2: The endpoints of the second line segment</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">point</span> <span class="o">=</span> <span class="n">getIntersection</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">a1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a2</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">min</span><span class="p">(</span><span class="n">b1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b2</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span> <span class="ow">or</span>
+        <span class="p">(</span><span class="n">point</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">a1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">a2</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">b1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b2</span><span class="p">[</span><span class="mi">0</span><span class="p">])))):</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    </div>
+<div class="viewcode-block" id="tupleToNpArray"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.tupleToNpArray">[docs]</a><span class="k">def</span> <span class="nf">tupleToNpArray</span><span class="p">(</span><span class="n">pair</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Converts a tuple to a numpy array</span>
+<span class="sd">    </span>
+<span class="sd">    :param pair: Tuple</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">array</span><span class="p">([</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+    </div>
+<div class="viewcode-block" id="npArrayToTuple"><a class="viewcode-back" href="../../doc/polygon/drawer.html#polygon.drawer.npArrayToTuple">[docs]</a><span class="k">def</span> <span class="nf">npArrayToTuple</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Converts a numpy array to a tuple</span>
+<span class="sd">    </span>
+<span class="sd">    :param array: Numpy array</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../polygon.html" >polygon</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

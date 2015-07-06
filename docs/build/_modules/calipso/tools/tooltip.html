@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>calipso.tools.tooltip &mdash; CALIPSO 0.15.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.15.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../../../index.html" />
+    <link rel="up" title="calipso.tools" href="../tools.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../tools.html" accesskey="U">calipso.tools</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for calipso.tools.tooltip</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    tooltip.py</span>
+<span class="sd">    @author: Grant Mercer</span>
+<span class="sd">    6/24/2015</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">TclError</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">SOLID</span>
+
+<div class="viewcode-block" id="ToolTip"><a class="viewcode-back" href="../../../doc/tools/tooltip.html#calipso.tools.tooltip.ToolTip">[docs]</a><span class="k">class</span> <span class="nc">ToolTip</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Displays text in a label below a passed widget</span>
+<span class="sd">    </span>
+<span class="sd">    :param widget: The widget tooltip will be binding text to</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">widget</span> <span class="o">=</span> <span class="n">widget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c"># Parameter: text to display as tooltip</span>
+<div class="viewcode-block" id="ToolTip.showTip"><a class="viewcode-back" href="../../../doc/tools/tooltip.html#calipso.tools.tooltip.ToolTip.showTip">[docs]</a>    <span class="k">def</span> <span class="nf">showTip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Create and pack the tooltip, bound to the ``&#39;&lt;Enter&gt;&#39;`` event when</span>
+<span class="sd">        :py:func:`createToolTip` is called</span>
+<span class="sd">        </span>
+<span class="sd">        :param str text: string to place inside label</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">bbox</span><span class="p">(</span><span class="s">&quot;insert&quot;</span><span class="p">)</span>  <span class="c"># @UnusedVariable</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">winfo_rootx</span><span class="p">()</span> <span class="o">+</span> <span class="mi">27</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">cy</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">winfo_rooty</span><span class="p">()</span> <span class="o">+</span><span class="mi">27</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span> <span class="o">=</span> <span class="n">tw</span> <span class="o">=</span> <span class="n">Toplevel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="p">)</span>
+        <span class="n">tw</span><span class="o">.</span><span class="n">wm_overrideredirect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">tw</span><span class="o">.</span><span class="n">wm_geometry</span><span class="p">(</span><span class="s">&quot;+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c"># For Mac OS</span>
+            <span class="n">tw</span><span class="o">.</span><span class="n">tk</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s">&quot;::tk::unsupported::MacWindowStyle&quot;</span><span class="p">,</span>
+                       <span class="s">&quot;style&quot;</span><span class="p">,</span> <span class="n">tw</span><span class="o">.</span><span class="n">_w</span><span class="p">,</span>
+                       <span class="s">&quot;help&quot;</span><span class="p">,</span> <span class="s">&quot;noActivates&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">TclError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">tw</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span>
+                      <span class="n">background</span><span class="o">=</span><span class="s">&quot;#ffffe0&quot;</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">SOLID</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                      <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;tahoma&quot;</span><span class="p">,</span> <span class="s">&quot;8&quot;</span><span class="p">,</span> <span class="s">&quot;normal&quot;</span><span class="p">))</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">ipadx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ToolTip.hideTip"><a class="viewcode-back" href="../../../doc/tools/tooltip.html#calipso.tools.tooltip.ToolTip.hideTip">[docs]</a>    <span class="k">def</span> <span class="nf">hideTip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Hide or destory the tool tip label when the mouse leaves widget.</span>
+<span class="sd">        Bound to the ``&#39;&lt;Leave&gt;&#39;`` event when :py:func:`createToolTip` is called</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">tw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">tw</span><span class="p">:</span>
+            <span class="n">tw</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+</div></div>
+<span class="k">def</span> <span class="nf">createToolTip</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create an instance of :py:class:`ToolTip` and bind the ``&#39;&lt;Enter&gt;&#39;`` and</span>
+<span class="sd">    ``&#39;&lt;Leave&gt;&#39;`` events for displaying to the widget passed</span>
+<span class="sd">    </span>
+<span class="sd">    :param widget: the widget for the tooltip to be displayed below</span>
+<span class="sd">    :param str text: text contained in the tooltip</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">toolTip</span> <span class="o">=</span> <span class="n">ToolTip</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+        <span class="n">toolTip</span><span class="o">.</span><span class="n">showTip</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">leave</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+        <span class="n">toolTip</span><span class="o">.</span><span class="n">hideTip</span><span class="p">()</span>
+    <span class="n">widget</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&#39;&lt;Enter&gt;&#39;</span><span class="p">,</span> <span class="n">enter</span><span class="p">)</span>
+    <span class="n">widget</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&#39;&lt;Leave&gt;&#39;</span><span class="p">,</span> <span class="n">leave</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../tools.html" >calipso.tools</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>polygon.reader &mdash; CALIPSO 0.15.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.15.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../../index.html" />
+    <link rel="up" title="polygon" href="../polygon.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../polygon.html" accesskey="U">polygon</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for polygon.reader</h1><div class="highlight"><pre>
+<span class="c">######################################</span>
+<span class="c">#     Created on Jun 15, 2015</span>
+<span class="c">#</span>
+<span class="c">#     @author: nqian</span>
+<span class="c">######################################</span>
+<span class="c"># import antigravity</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">import</span> <span class="nn">constants</span>
+<span class="kn">from</span> <span class="nn">polygon.drawer</span> <span class="kn">import</span> <span class="n">PolygonDrawer</span>
+<span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">byteify</span>
+
+<div class="viewcode-block" id="PolygonReader"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.PolygonReader">[docs]</a><span class="k">class</span> <span class="nc">PolygonReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Reads JSON files and transfers the data into PolygonDrawer objects</span>
+<span class="sd">    </span>
+<span class="sd">    :param str fileName: Internal filename to write to</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c"># TODO: add exception handling</span>
+    <span class="c"># TODO: go over possible use cases</span>
+    <span class="c">#            loading multiple JSONs and then saving them as one</span>
+    <span class="c">#            add error for corrupted or bad data</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Initializes attributes</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__fileName</span> <span class="o">=</span> <span class="n">fileName</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="p">{}</span> 
+        
+<div class="viewcode-block" id="PolygonReader.setFileName"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.PolygonReader.setFileName">[docs]</a>    <span class="k">def</span> <span class="nf">setFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Sets the file name destination</span>
+<span class="sd">        :param fileName: the name of the file</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__fileName</span> <span class="o">=</span> <span class="n">fileName</span>
+        </div>
+<div class="viewcode-block" id="PolygonReader.readFromFileJSON"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.PolygonReader.readFromFileJSON">[docs]</a>    <span class="k">def</span> <span class="nf">readFromFileJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>   
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Reads the data from the JSON file</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__fileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">byteify</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="n">data</span>
+        </div>
+<div class="viewcode-block" id="PolygonReader.readFromStrJSON"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.PolygonReader.readFromStrJSON">[docs]</a>    <span class="k">def</span> <span class="nf">readFromStrJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Reads JSON as a string</span>
+<span class="sd">        :param data: string representation of a JSON</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="n">byteify</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">plt</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">constants</span><span class="o">.</span><span class="n">PLOTS</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="s">&quot;vertices&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;vertices&quot;</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="p">[[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;vertices&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s">&quot;coordinates&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;coordinates&quot;</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="p">[[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;coordinates&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s">&quot;attributes&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;attributes&quot;</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;attributes&quot;</span><span class="p">])</span>
+                        </div>
+<div class="viewcode-block" id="PolygonReader.packPolygonDrawer"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.PolygonReader.packPolygonDrawer">[docs]</a>    <span class="k">def</span> <span class="nf">packPolygonDrawer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygonList</span><span class="p">,</span> <span class="n">plotType</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">master</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Stores the data in the JSON into PolygonDrawers</span>
+<span class="sd">        :param polygonList: a Python list of PolygonDrawers</span>
+<span class="sd">        :param plotType: the current plot being displayed</span>
+<span class="sd">        :param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the polygonList</span>
+<span class="sd">        :param master: an instance of Calipso to initialize the blank PolygonDrawer</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">]:</span>
+                <span class="c">#print int(self.__data[plotType][shape][&#39;id&#39;]) not in [x.getID() for x in polygonList]</span>
+                <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">polygonList</span><span class="p">]:</span> <span class="k">continue</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;color&#39;</span><span class="p">]</span>
+                <span class="n">vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;vertices&#39;</span><span class="p">]</span>
+                <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;coordinates&#39;</span><span class="p">]</span>
+                <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">]</span>
+                <span class="n">notes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;notes&#39;</span><span class="p">]</span>
+                <span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setID</span><span class="p">(</span><span class="n">_id</span><span class="p">)</span>
+                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setVertices</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
+                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setPlot</span><span class="p">(</span><span class="n">plotType</span><span class="p">)</span>
+                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setAttributes</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setCoordinates</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
+                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setNotes</span><span class="p">(</span><span class="n">notes</span><span class="p">)</span>
+                <span class="n">polygonList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PolygonDrawer</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">master</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">print</span> <span class="s">&quot;Error: bad JSON file&quot;</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../polygon.html" >polygon</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>
