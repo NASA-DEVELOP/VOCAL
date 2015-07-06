@@ -22,7 +22,8 @@ dbBase = declarative_base()
 
 class DatabasePolygon(dbBase):
     """
-    Sqlalchemy class object, contains all data that is stored inside the database. Objects are represented as JSON
+    Sqlalchemy class object, contains all data that is stored inside the database.
+    Objects are represented as JSON
 
     .. py:data:: id
     .. py:data:: tag

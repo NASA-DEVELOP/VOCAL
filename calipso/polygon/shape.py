@@ -10,6 +10,7 @@ from matplotlib.patches import Polygon
 from log import logger
 import random
 
+
 # noinspection PyProtectedMember
 class Shape(object):
     """
@@ -18,13 +19,10 @@ class Shape(object):
     backend
     """
 
-    drag_toggle= False
-    color_counter = 0
-    COLORS = ['snow', 'light cyan']
+    drag_toggle = False
 
     def __init__(self, canvas, tag='', color=''):
         self.__canvas = canvas
-        self.__vertices = []
         self.__coordinates = []
         self.__tag = tag
         self.__color = color
@@ -39,13 +37,12 @@ class Shape(object):
 
     def anchor_rectangle(self, event):
         """
-        Establishes a corner of a rectangle as an anchor for when the user drags the cursor to create
-        a rectangle. Used in 'Draw Rect' button
+        Establishes a corner of a rectangle as an anchor for when the user drags the cursor to
+        create a rectangle. Used in 'Draw Rect' button
 
         :param event: A matplotlib backend event object
         """
         self.__coordinates.append((event.xdata, event.ydata))
-        self.__vertices.append((event.x, event.y))
         self.__prev_x = event.x
         self.__prev_y = event.y
 
@@ -65,18 +62,18 @@ class Shape(object):
             pass
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
+
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prev_x,
                                                                  abs(HEIGHT - self.__prev_y - 35),
                                                                  event.x,
                                                                  abs(HEIGHT - event.y - 35))
 
-    def fill_rectangle(self, event, fig, plot=BASE_PLOT_STR, fill=False):
+    def fill_rectangle(self, event, fig, fill=False):
         """
-        Draws the rectangle and stroes the cooridnates of the rectangle internally. Used
+        Draws the rectangle and stores the coordinates of the rectangle internally. Used
         in 'Draw Rect' button. Forwards argument parameters to ``draw``
 
         :param fig: Figure to draw canvas to
-        :param plot: ``constants`` ploytype to forward to draw
         :param bool fill: Whether to fill or no fill the shape
         """
         try:
@@ -86,17 +83,19 @@ class Shape(object):
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
             del self.lastrect
+
         logger.debug('Generating rectangular points')
         beg = self.__coordinates[0]
-        self.__coordinates.append((event.xdata, beg[1]))
         self.__coordinates.append((event.xdata, event.ydata))
         self.__coordinates.append((beg[0], event.ydata))
 
-        r = lambda: random.randint(0,255)
-        clr = '#%02X%02X%02X' % (r(),r(),r())
+        # Generate random color in a super cool way brah
+        r = lambda: random.randint(0, 255)
+        clr = '#%02X%02X%02X' % (r(), r(), r())
 
-        poly = Polygon(self.__coordinates, facecolor=clr)
-        fig.add_patch(poly)
+        self.__item_handler = \
+            Polygon(self.__coordinates, facecolor=clr, fill=fill)
+        fig.add_patch(self.__item_handler)
 
     def add_attribute(self, tag):
         pass
@@ -174,7 +173,15 @@ class Shape(object):
         pass
 
     def __str__(self):
-        pass
+        logger.debug('Stringing shape')
+        string = 'Coordinates:\n'
+        for point in self.__coordinates:
+            string += '  (%.4f,%.4f)\n' % (point[0], point[1])
+        string += 'Attributes:\n'
+        for item in self.__attributes:
+            string += '  %s\n' % item
+        string += 'Notes:\n  %s' % self.__note
+        return string
 
     @staticmethod
     def toggle_drag(event):

@@ -18,9 +18,9 @@ def center(toplevel, size):
     """
     w = toplevel.winfo_screenwidth()
     h = toplevel.winfo_screenheight()
-    x = w/2 - size[0]/2
-    y = h/2 - size[1]/2
-    toplevel.geometry('%dx%d+%d+%d' % (size + (x, y)))
+    x = w / 2 - size[0] / 2
+    y = h / 2 - size[1] / 2
+    toplevel.geometry('%dx%d+%d+%d' % (size[0], size[1], x, y))
 
 
 def byteify(inp):
@@ -39,19 +39,20 @@ def byteify(inp):
         return inp
 
 
-class Catcher: 
+class Catcher:
     def __init__(self, func, subst, widget):
-        self.func = func 
+        self.func = func
         self.subst = subst
         self.widget = widget
 
+    # noinspection PyBroadException
     def __call__(self, *args):
         try:
             if self.subst:
                 args = apply(self.subst, args)
             return apply(self.func, args)
         except SystemExit, msg:
-            raise SystemExit, msg
+            raise SystemExit(msg)
         except:
             print 'except'
             etype, value, tb = sys.exc_info()

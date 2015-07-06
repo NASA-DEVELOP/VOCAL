@@ -78,10 +78,12 @@ class AttributesDialog(Toplevel):
             else:
                 self.attributes_list.insert(END, tag)
         
-        remove_button = Button(self.top_frame, width=3, height=2, text='<--', command=self.remove_attribute)
+        remove_button = Button(self.top_frame, width=3, height=2, text='<--',
+                               command=self.remove_attribute)
         remove_button.grid(row=1, column=1)
         
-        move_button = Button(self.top_frame, width=3, height=2, text='-->', command=self.move_attribute)
+        move_button = Button(self.top_frame, width=3, height=2, text='-->',
+                             command=self.move_attribute)
         move_button.grid(row=1, column=2)
         
     def create_bottom_frame(self):

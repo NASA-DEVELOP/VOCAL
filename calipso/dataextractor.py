@@ -30,9 +30,11 @@ def extract_data(polygon_drawer, fname):
             max_y = max(coordinates, key=lambda ay: ay[1])
             logging.debug('Minimum x: %s\n\t Maximum x: %s', min_x, max_x)
             logging.debug('Minimum y: %s\n\t Maximum y: %s', min_y, max_y)
-            x_indices = find_idx_values(product, min_x, max_x, product['Profile_UTC_Time'][::], debug='Time')
+            x_indices = find_idx_values(product, min_x, max_x,
+                                        product['Profile_UTC_Time'][::], debug='Time')
             y_indices = \
-                find_idx_values(product, min_y, max_y, product['metadata']['Lidar_Data_Altitudes'], debug='Altitude')
+                find_idx_values(product, min_y, max_y,
+                                product['metadata']['Lidar_Data_Altitudes'], debug='Altitude')
             for x in range(x_indices[0], x_indices[1]):
                 for y in range(y_indices[0], y_indices[1]):
                     pass
