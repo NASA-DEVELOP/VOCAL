@@ -15,7 +15,7 @@ from tools.tools import Catcher
 from tools.linearalgebra import distance
 from toolswindow import ToolsWindow
 from log import logger
-from matplotlib.patches import Polygon, Rectangle
+from matplotlib.patches import Polygon
 
 import logging
 import tkFileDialog
@@ -164,28 +164,27 @@ class Calipso(object):
             try:
                 logger.info('Setting plot to backscattered xrange: ' +
                             str(xrange_) + ' yrange: ' + str(yrange))
-                # self.__parent_fig.clear()                               # clear the figure
-                # self.__fig = self.__parent_fig.add_subplot(1, 1, 1)     # create subplot
                 self.__fig.clear()
                 drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
-                self.__shapemanager.draw(constants.BACKSCATTERED)
+                self.__shapemanager.set_current(constants.BACKSCATTERED)
                 self.__drawplot_canvas.show()                            # show canvas
-                self.__toolbar.update()                                 # update toolbar
+                self.__toolbar.update()                                  # update toolbar
                 self.plot = constants.BACKSCATTERED
             except IOError:
                 logger.error('IOError, no file exists')
-                tkMessageBox.showerror('File Not Found',
-                                       'No File Exists')
+                tkMessageBox.showerror('File Not Found', 'No File Exists')
+        # TO-DO: Reimplement with new plotting technique (like backscatter)
         elif plot_type == constants.DEPOLARIZED:
             try:
-                logger.info('Setting plot to depolarized')
-                self.__parent_fig.clear()                               # clear the figure
-                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)     # create subplot
+                logger.error('Needs to be reimplemented')
+                """
+                self.__fig.clear()
                 drawDepolar(self.__file, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_plot(constants.DEPOLARIZED)       # set the internal plot
-                self.__drawplot_canvas.show()                            # show plot
-                self.__toolbar.update()                                 # update toolbar
+                self.__drawplot_canvas.show()                             # show plot
+                self.__toolbar.update()                                   # update toolbar
                 self.plot = constants.DEPOLARIZED
+                """
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
