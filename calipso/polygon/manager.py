@@ -5,10 +5,13 @@
 #    @author: Grant Mercer
 ######################################
 
-from constants import *
-from polygon.shape import Shape
+from constants import BASE_PLOT_STR, BASE_PLOT, BACKSCATTERED, BACKSCATTERED_STR, \
+    DEPOLARIZED, DEPOLARIZED_STR
+import constants
 from log import logger
 from polygon.reader import PolygonReader
+from polygon.shape import Shape
+
 
 class ShapeManager(object):
     """
