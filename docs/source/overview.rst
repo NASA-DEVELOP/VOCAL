@@ -34,33 +34,26 @@ Structure
 
 The program has the following file layout::
 
-   +---.settings
-   +---dat
-   +---db
-   |   \---manage_db
-   +---docs
-   |   +---build
-   |   |   +---.doctrees
-   |   |   |   +---classes
-   |   |   |   \---functions
-   |   |   +---classes
-   |   |   +---functions
-   |   |   +---_images
-   |   |   +---_modules
-   |   |   +---_sources
-   |   |   |   +---classes
-   |   |   |   \---functions
-   |   |   \---_static
-   |   \---source
-   |       +---classes
-   |       +---functions
-   |       \---_static
-   +---gui
-   |   +---dat
-   |   +---ico
-   |   +---objs
-   |   \---plot
-   \---plot_vfm
+   +-- calipso
+   │   +-- dat
+   │   +-- ico
+   │   +-- log
+   │   +-- objs
+   │   +-- plot
+   │   +-- plot_vfm
+   │   +-- polygon
+   │   \-- tools
+   +-- dat
+   +-- db
+   │   \-- manage_db
+   \-- docs
+       +-- source
+           +-- doc
+           │   +-- general
+           │   +-- polygon
+           │   \-- tools
+           \-- _static
+
 
 ----------------------------------------
 Features
@@ -75,11 +68,11 @@ Features
       :scale: 30%
 
 
-CALIPSO is still in a very early development phase
+VOCAL is still in a very early development phase
 
-The CALIPSO Visualization software currently contains a number of great features:
+The Visualization tool currently contains a number of great features:
 
-* Load standard L1 Calipso data and display a backscattered plot     
+* Load standard L1 Calipso data and display a backscattered and depolarized plot     
 * Manipulate the image with ``zoom``, ``move``, ``reload`` and many more
 * Draw object which are overlayed upon the plot , free draw or rect mode
 
