@@ -7,19 +7,9 @@
 import ccplot
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
-from tempfile import mkdtemp
-import os
-from PCF_genTimeUtils import extractDatetime
-from avg_lidar_data import avg_horz_data
-from findLatIndex import findLatIndex
 from PCF_genTimeUtils import extractDatetime
 import numpy as np
-from ccplot.algorithms import interp2d_12
 import matplotlib as mpl
-import numpy as np
-from regrid_lidar import regrid_lidar
-from uniform_alt_2 import uniform_alt_2
-from _testcapi import PY_SSIZE_T_MAX
 
 
 #from gui.CALIPSO_Visualization_Tool import filename
@@ -40,6 +30,13 @@ def drawBackscattered(filename, xrange, yrange, fig, pfig):
         dataset = np.ma.masked_equal(dataset, -9999)
         
         X = np.arange(x1, x2, dtype=np.float32)
+        
+        print type(dataset)
+        print len(dataset.shape)
+        print dataset
+        print dataset[0][-1]
+        print type(dataset[0][-1])
+        print type(dataset[0][0])
         
         Z, null = np.meshgrid(height, X)
         data = interp2d_12(

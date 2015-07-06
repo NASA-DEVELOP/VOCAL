@@ -53,7 +53,7 @@ class Calipso(object):
                                      height=constants.HEIGHT)                       # the frame on which we will set our canvas for drawing etc.
         
         
-        logger.info("Instatiating ToolsWindow")
+        logger.info("Instantiating ToolsWindow")
         self.__child = ToolsWindow(self, r)                                         # tools window which holds all manipulation buttons 
         self.__Parentfig = Figure(figsize=(16,11))                                  # the figure we're drawing our plot to
         self.__fig = None
@@ -158,7 +158,7 @@ class Calipso(object):
                 logger.info("Setting plot to depolarized")
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1, 1, 1)                              # create subplot
-                drawDepolar(self.__file, self.__fig, self.__Parentfig)                          # plot the depolarized image
+                drawDepolar(self.__file, xrange_, yrange, self.__fig, self.__Parentfig)                          # plot the depolarized image
                 self.__polygonList.setPlot(constants.DEPOLARIZED)                               # set the internal plot
                 self.__drawplotCanvas.show()                                                    # show plot
                 self.__toolbar.update()   

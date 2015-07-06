@@ -4,104 +4,94 @@
 # Brian Magill
 # 8/11/2014
 #
-import matplotlib as mpl
+from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 import ccplot.utils
-from avg_lidar_data import avg_horz_data
-from uniform_alt_2 import uniform_alt_2
-from regrid_lidar import regrid_lidar
-from findLatIndex import findLatIndex
-from PCF_genTimeUtils import extractDatetime
 
-def drawDepolar(filename, fig, pfig):
+from PCF_genTimeUtils import extractDatetime
+from avg_lidar_data import avg_horz_data
+import matplotlib as mpl
+import numpy as np
+
+
+def drawDepolar(filename, x_range, y_range, fig, pfig):
+    x1 = x_range[0]
+    x2 = x_range[1]
+    h1 = y_range[0]
+    h2 = y_range[1]
+    nz = 500
+    colormap = 'dat/calipso-depolar.cmap'
     AVGING_WIDTH = 15
 
-    # Read CALIPSO Data from Level 1B file
     with HDF(filename) as product:
-
-        latitude = product["Latitude"][::]
-
-        #  start_lat = 60.
-        #  end_lat = 0.
-
-        start_lat = 10.
-        end_lat = -30.
-
-        if latitude[0] > latitude[-1]:
-            #   Nighttime granule
-            min_indx = findLatIndex(start_lat, latitude)
-            max_indx = findLatIndex(end_lat, latitude)
-        else:
-            #   Daytime granule
-            min_indx = findLatIndex(end_lat, latitude)
-            max_indx = findLatIndex(start_lat, latitude)
-
-        latitude = latitude[min_indx:max_indx]
-
-        tot_532 = product["Total_Attenuated_Backscatter_532"][min_indx:max_indx,:]
-        tot_532 = tot_532.T
-
-        perp_532 = product["Perpendicular_Attenuated_Backscatter_532"][min_indx:max_indx,:]
-        perp_532 = perp_532.T
-  
+        time = product['Profile_UTC_Time'][x1:x2, 0]
+        height = product['metadata']['Lidar_Data_Altitudes']
+        tot_532 = product['Total_Attenuated_Backscatter_532'][x1:x2]
+        perp_532 = product['Perpendicular_Attenuated_Backscatter_532'][x1:x2]
         alt = product['metadata']['Lidar_Data_Altitudes']
-
-    # Exclude negative values of backscatter and excessive amounts.
-    # The latter are probably due to surface reflection and spikes.
-  
-        #tot_532 = ma.masked_where(tot_532 < MIN_SCATTER, tot_532)
-        #perp_532 = ma.masked_where(perp_532 < MIN_SCATTER, perp_532)
-
-        # Average horizontally
-
+        
+        time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
+#         tot_532 = np.ma.masked_equal(tot_532, -9999)
+#         perp_532 = np.ma.masked_equal(perp_532, -9999)
+#         
         avg_tot_532 = avg_horz_data(tot_532, AVGING_WIDTH)
         avg_perp_532 = avg_horz_data(perp_532, AVGING_WIDTH)
-        latitude = latitude[::AVGING_WIDTH]
-
         avg_parallel_AB = avg_tot_532 - avg_perp_532
         depolar_ratio = avg_perp_532/avg_parallel_AB
-
-        # Put altitudes above 8.2 km on same spacing as lower ones
-
-        MAX_ALT = 20
-        unif_alt = uniform_alt_2(MAX_ALT, alt)
-
-        regrid_depolar_ratio = regrid_lidar(alt, depolar_ratio,  unif_alt)
-
-        #fig = plt.figure(figsize=(10,7))
-#         fig = plt.figure(figsize=(12, 8))
-
-        # Setup extent of axis values for image.  
-        #   Note that altitude values are stored from top to bottom
-
-        min_alt  = unif_alt[-1]
-        max_alt  = unif_alt[0]
-        start_lat   = latitude[0][0] 
-        end_lat     = latitude[-1][0]
-        extents = [start_lat, end_lat, min_alt, max_alt]
-
-        colormap = 'dat/calipso-depolar.cmap'
-
+        
+        depolar_ratio = np.ma.masked_invalid(depolar_ratio)
+        
+#         unif_alt = uniform_alt_2(20, alt)
+#         regrid_depolar_ratio = regrid_lidar(alt, depolar_ratio, unif_alt)
+        
+        X = np.arange(x1, x2, dtype=np.float32)
+        
+        
+        print type(depolar_ratio[::])
+        print len(depolar_ratio.shape)
+        print depolar_ratio
+        print depolar_ratio[0]
+        print depolar_ratio[0][-1]
+        print type(depolar_ratio[0][-1])
+        print type(depolar_ratio[0])
+        print depolar_ratio.dtype
+        
+        
+        Z, null = np.meshgrid(height, X)
+#         data = interp2d_12(
+#             depolar_ratio[::], 
+#             X.astype(np.float32), 
+#             Z.astype(np.float32), 
+#             x1, x2, x2 - x1, 
+#             h2, h1, nz
+#         )
+        
         cmap = ccplot.utils.cmap(colormap)
         cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
-        plot_norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
-#         ax1 = fig.add_axes([0.07, 0.07, 0.85, 0.9, ])
-
-        im = fig.imshow(regrid_depolar_ratio, cmap = cm, aspect = 'auto',  
-                        norm = plot_norm, extent = extents, interpolation = None)
-
-        fig.set_ylabel('Altitude (km)')    
-        fig.set_xlabel('Latitude (degrees)')  
+        cm.set_under(cmap['under']/255.0)
+        cm.set_over(cmap['over']/255.0)
+        cm.set_bad(cmap['bad']/255.0)
+        norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
+        
+        im = fig.imshow(
+            depolar_ratio.T,
+            extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
+            cmap=cm,
+            norm=norm,
+            aspect='auto',
+            interpolation='nearest',
+        )
+       
+        fig.set_ylabel('Altitute (km)')    
+        fig.set_xlabel('Time')   
+        fig.get_xaxis().set_major_locator(mpl.dates.AutoDateLocator())
+        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+        
         granule = "%sZ%s" % extractDatetime(filename)
-        title = 'VFM Features for granule %s' % granule
-                
-        fig.set_title(title)
-
-        cbar_label = 'Depolarization Ratio'
+        title = 'Depolarized Ratio for granule %s' % granule
+        fig.set_title(title)                 
+        fig.set_title("Averaged 532 nm Depolarized Ratio")
+       
+        cbar_label = 'Depolarized Ratio 532nm (km$^{-1}$ sr$^{-1}$)'
         cbar = pfig.colorbar(im)
         cbar.set_label(cbar_label)
-
-#         plt.savefig("depolarization_ratio.png")
-#         plt.show()
-
-
