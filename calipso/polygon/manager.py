@@ -54,6 +54,7 @@ class ShapeManager(object):
         :param event: A backend passed ``matplotlib.backend_bases.MouseEvent`` object
         """
         if self.__current_plot == BASE_PLOT_STR:
+            logger.warning("Cannot draw to BASE_PLOT")
             return
         logger.debug('Anchoring %d, %d' % (event.xdata, event.ydata))
         self.__current_list[-1].anchor_rectangle(event)
@@ -75,6 +76,7 @@ class ShapeManager(object):
         :param event: A backend passes ``matplotlib.backend_bases.MouseEvent`` object
         """
         if self.__current_plot == BASE_PLOT_STR:
+            logger.warning("Cannot draw to BASE_PLOT")
             return
         if event.button == 1 and event.xdata and event.ydata:
             logger.debug('Rubberbanding: %f, %f' % (event.x, event.y))
@@ -88,6 +90,7 @@ class ShapeManager(object):
         :param event: A backend passed ``matplotlib.backend_bases.MouseEvent`` object
         """
         if self.__current_plot == BASE_PLOT_STR:
+            logger.warning("Cannot draw to BASE_PLOT")
             return
         logger.debug('Filling: %d, %d' % (event.xdata, event.ydata))
         logger.info('Creating rectangle')
@@ -100,7 +103,13 @@ class ShapeManager(object):
     def set_hdf(self, hdf_filename):
         pass
 
-    def draw(self, plot):
+    def set_current(self, plot):
+        """
+        Set the current view to ``plot``, and draw any shapes that exist in the manager for
+        this plot.
+
+        :param int plot: Acceptable plot constant from ``constants.py``
+        """
         self.set_plot(plot)
         if len(self.__current_list) > 1:
             logger.info('Redrawing shapes')
@@ -112,7 +121,7 @@ class ShapeManager(object):
         """
         Determine which list current_list should alias
 
-        :param int plot:
+        :param int plot: Acceptable plot constant from ``constants.py``
         """
         if plot == BASE_PLOT:
             logger.warning('set_plot called for BASE_PLOT')
@@ -122,13 +131,10 @@ class ShapeManager(object):
             logger.info('set_plot to BACKSCATTERED')
             self.__current_list = self.__shape_dict[BACKSCATTERED]
             self.__current_plot = BACKSCATTERED_STR
-            """
-            if len(self.__shape_list[BACKSCATTERED]) > 1:
-                logger.info("Redrawing shapes")
-                for shape in self.__shape_list[BACKSCATTERED]:
-                    if not shape.is_empty():
-                        shape.redraw(self.__figure)
-            """
+        elif plot == DEPOLARIZED:
+            logger.info('set_plot to DEPOLARIZED')
+            self.__current_list = self.__shape_dict[DEPOLARIZED]
+            self.__current_plot = DEPOLARIZED_STR
 
     def generate_tag(self, index=-1):
         """

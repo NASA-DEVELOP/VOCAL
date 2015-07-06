@@ -7,7 +7,8 @@
 
 from constants import *
 from matplotlib.patches import Polygon
-from matplotlib.patches import Rectangle
+from log import logger
+import random
 
 # noinspection PyProtectedMember
 class Shape(object):
@@ -85,17 +86,16 @@ class Shape(object):
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
             del self.lastrect
+        logger.debug('Generating rectangular points')
         beg = self.__coordinates[0]
         self.__coordinates.append((event.xdata, beg[1]))
         self.__coordinates.append((event.xdata, event.ydata))
         self.__coordinates.append((beg[0], event.ydata))
 
-        print self.__coordinates
-        cords = [[732839.154474, 1],
-                 [732839.154474, 2],
-                 [732839.154574, 3],
-                 [732839.154474, 1]]
-        poly = Polygon(self.__coordinates)
+        r = lambda: random.randint(0,255)
+        clr = '#%02X%02X%02X' % (r(),r(),r())
+
+        poly = Polygon(self.__coordinates, facecolor=clr)
         fig.add_patch(poly)
 
     def add_attribute(self, tag):
