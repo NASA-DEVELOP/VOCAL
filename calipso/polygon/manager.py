@@ -53,7 +53,7 @@ class ShapeManager(object):
 
         :param event: A backend passed ``matplotlib.backend_bases.MouseEvent`` object
         """
-        if self.__current_plot == BASE_PLOT:
+        if self.__current_plot == BASE_PLOT_STR:
             return
         logger.debug('Anchoring %d, %d' % (event.xdata, event.ydata))
         self.__current_list[-1].anchor_rectangle(event)
@@ -74,7 +74,7 @@ class ShapeManager(object):
 
         :param event: A backend passes ``matplotlib.backend_bases.MouseEvent`` object
         """
-        if self.__current_plot == BASE_PLOT:
+        if self.__current_plot == BASE_PLOT_STR:
             return
         if event.button == 1 and event.xdata and event.ydata:
             logger.debug('Rubberbanding: %f, %f' % (event.x, event.y))
@@ -87,14 +87,15 @@ class ShapeManager(object):
 
         :param event: A backend passed ``matplotlib.backend_bases.MouseEvent`` object
         """
-        if self.__current_plot == BASE_PLOT:
+        if self.__current_plot == BASE_PLOT_STR:
             return
         logger.debug('Filling: %d, %d' % (event.xdata, event.ydata))
         logger.info('Creating rectangle')
-        self.__current_list[-1].fill_rectangle(self.__figure, self.__current_plot,
+        self.__current_list[-1].fill_rectangle(event, self.__figure, self.__current_plot,
                                                ShapeManager.outline_toggle)
         self.__current_list[-1].set_tag(self.generate_tag())
         self.__current_list.append(Shape(self.__canvas))
+        self.__canvas.show()
 
     def set_hdf(self, hdf_filename):
         pass
@@ -106,7 +107,6 @@ class ShapeManager(object):
             for shape in self.__current_list:
                 if not shape.is_empty():
                     shape.redraw(self.__figure)
-
 
     def set_plot(self, plot):
         """
