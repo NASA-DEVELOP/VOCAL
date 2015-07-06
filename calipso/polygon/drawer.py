@@ -238,7 +238,7 @@ class PolygonDrawer(object):
         string = self.__master.getToolbar().message.get()
         x = string[2:10].strip()
         y = string[13:].strip()
-        x = time.strptime(x, '%I:%M:%S')
+        x = time.strptime(x, '%H:%M:%S')
         x = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min, seconds=x.tm_sec).total_seconds()
         self.__vertices.append((event.x, iy))
         self.__coordinates.append((float(x), float(imy)))

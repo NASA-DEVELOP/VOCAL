@@ -11,7 +11,7 @@ import ccplot.utils
 
 import numpy as np
 from polygon.drawer import PolygonDrawer
-from tools.linearalgebra import getVector
+from tools.linearalgebra import getVector, ray_cast
 
 
 def extract_data(polygon_drawer, filename):
@@ -29,32 +29,27 @@ def extract_data(polygon_drawer, filename):
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
 #         logging.debug("ccplot time %s", time)
     
+        min_x = min(coordinates, key=lambda x: x[0])
+        max_x = max(coordinates, key=lambda x: x[0])
+        min_y = min(coordinates, key=lambda y: y[1])
+        max_y = max(coordinates, key=lambda y: y[1])
+        logging.debug('Minimum x: %s\n\t Maximum x: %s', min_x, max_x)
+        logging.debug('Minimum y: %s\n\t Maximum y: %s', min_y, max_y)
+        x_indices = find_index_values(product, min_x, max_x, 
+                                      time,
+                                      debug="Time")
+        y_indices = find_index_values(product, min_y, max_y, 
+                                      product['metadata']['Lidar_Data_Altitudes'], 
+                                      debug="Altitude")
         if is_rectangle(coordinates):
-            min_x = min(coordinates, key=lambda x: x[0])
-            max_x = max(coordinates, key=lambda x: x[0])
-            min_y = min(coordinates, key=lambda y: y[1])
-            max_y = max(coordinates, key=lambda y: y[1])
-            logging.debug('Minimum x: %s\n\t Maximum x: %s', min_x, max_x)
-            logging.debug('Minimum y: %s\n\t Maximum y: %s', min_y, max_y)
-            x_indices = find_index_values(product, min_x, max_x, 
-                                          time,
-                                          debug="Time")
-            y_indices = find_index_values(product, min_y, max_y, 
-                                          product['metadata']['Lidar_Data_Altitudes'], 
-                                          debug="Altitude")
             for x in range(x_indices[0], x_indices[1]):
                 for y in range(y_indices[0], y_indices[1]):
                     pass
         else:
-            # TODO: algorithm if shape is not rectangular
-            min_x = min(coordinates, key=lambda x: x[0])
-            max_x = max(coordinates, key=lambda x: x[0])
-            min_y = min(coordinates, key=lambda y: y[1])
-            max_y = max(coordinates, key=lambda y: y[1])
-            vectors = []
-            for i in range(len(coordinates)-1):
-                vectors.append(getVector(coordinates[i], coordinates[i+1]))
-            
+            for x in range(x_indices[0], x_indices[1]):
+                for y in range(y_indices[0], y_indices[1]):
+                    if ray_cast(coordinates, (x,y)):
+                        pass
     
 def is_rectangle(vertices):
     '''
@@ -106,7 +101,7 @@ def time_to_seconds(t):
 if __name__=="__main__":
     logging.basicConfig(level=logging.DEBUG)
     poly = PolygonDrawer(None, None)
-    lst = [(13364, 8.32803), (13376, 8.32803), (13376, 4.46656), (13364, 4.46656)]
+    lst = [(13364.0, 8.32803), (13376.0, 8.32803), (13376.0, 4.46656), (13364.0, 4.46656)]
     poly.setCoordinates(lst)
     filename = r'C:\Users\nqian\Desktop\CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN.hdf'
     extract_data(poly, filename)
