@@ -3,9 +3,8 @@ Created on Jul 1, 2015
 
 @author: nqian
 '''
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
-import time
 
 from ccplot.hdf import HDF
 import ccplot.utils
@@ -99,8 +98,8 @@ def time_to_seconds(t):
     t = str(t)
 #     logging.debug("Converting time: %s", t)
     t = t[:-6]
-    t = time.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
-    ret = datetime.timedelta(hours=t.tm_hour, minutes=t.tm_min, seconds=t.tm_sec).total_seconds()
+    t = datetime.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
+    ret = timedelta(hours=t.hour, minutes=t.minute, seconds=t.second, microseconds=t.microsecond).total_seconds()
     logging.debug("Seconds %s", ret)
     return ret
 
