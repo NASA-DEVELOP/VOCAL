@@ -159,7 +159,9 @@ class ToolsWindow(Toplevel):
         # Free form shape creation
         free_draw_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.free_draw_img, width=30, height=30)
-        free_draw_button.latch(key='<Button-1>', command=self.__parent.get_shapemanager().plot_point, cursor='tcross')
+        free_draw_button.latch(target=self.__canvas, 
+                               key='button_press_event', 
+                               command=self.__parent.get_shapemanager().plot_point, cursor='tcross')
         free_draw_button.grid(row=1, column=3, padx=2, pady=5)
         create_tool_tip(free_draw_button, 'Free Draw')
 

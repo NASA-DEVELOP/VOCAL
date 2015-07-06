@@ -5,14 +5,15 @@
 #    @author: Grant Mercer
 ######################################
 
+from datetime import datetime, timedelta
 import random
 
 from matplotlib.patches import Polygon
 
 from constants import *
+from log import logger
 import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
-from log import logger
 from tools.linearalgebra import tuple_to_nparray, is_intersecting, \
     get_intersection, nparray_to_tuple
 
@@ -52,12 +53,16 @@ class Shape(object):
         self.__prev_x = event.x
         self.__prev_y = event.y
 
-    def plot_point(self, event, fig):
+    def plot_point(self, event, plot, fig, fill=False):
+        logger.debug("time coordinage %s", event.xdata)
+#         x = time_to_seconds(event.xdata)
         self.__coordinates.append((event.xdata, event.ydata))
+        logger.debug("Plotted point at (%s, %s)", event.xdata, event.ydata)
         if len(self.__coordinates) > 1:
             logger.debug("Drawing line from plot")
-            line = mlines.Line2D((self.__prev_x, self.__prev_y), (event.xdata, event.ydata))
-            fig.add_patch(line)
+#             line = mlines.Line2D((self.__prev_x, self.__prev_y), (event.xdata, event.ydata))
+#             fig.get_axes().add_line(line)
+            pass
         if len(self.__coordinates) > 3:
             index = self.__can_draw()
             if index > -1:
@@ -72,8 +77,8 @@ class Shape(object):
                 
                 del self.__coordinates[:index]
                 self.__coordinates.pop()
-                self.__item_handler = Polygon(self.__coordinates)
-                fig.add_patch(self.__item_handler)
+                self.draw(fig, plot, fill)
+                self.__plot = plot
                 return True
         self.__prev_x = event.xdata
         self.__prev_y = event.ydata
@@ -206,7 +211,8 @@ class Shape(object):
         return -1
 
     def draw(self, fig, plot=BASE_PLOT_STR, fill=False):
-        pass
+        logger.info("Drawing polygon")
+        self.__item_handler = Polygon(self.__coordinates)
 
     def redraw(self):
         pass
@@ -228,3 +234,13 @@ class Shape(object):
     @staticmethod
     def toggle_drag(event):
         pass
+
+def time_to_seconds(t):
+    # trouble with getting microseconds to display
+    t = str(t)
+#     logging.debug("Converting time: %s", t)
+    t = t[:-6]
+    t = datetime.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
+    ret = timedelta(hours=t.hour, minutes=t.minute, seconds=t.second, microseconds=t.microsecond).total_seconds()
+    logger.debug("Seconds %s", ret)
+    return ret
