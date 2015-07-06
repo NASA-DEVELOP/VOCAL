@@ -54,15 +54,17 @@ def drawDepolar(filename, x_range, y_range, fig, pfig):
         print depolar_ratio[0][-1]
         print type(depolar_ratio[0][-1])
         print type(depolar_ratio[0])
+        print depolar_ratio.dtype
+        
         
         Z, null = np.meshgrid(height, X)
-        data = interp2d_12(
-            depolar_ratio[::], 
-            X.astype(np.float32), 
-            Z.astype(np.float32), 
-            x1, x2, x2 - x1, 
-            h2, h1, nz
-        )
+#         data = interp2d_12(
+#             depolar_ratio[::], 
+#             X.astype(np.float32), 
+#             Z.astype(np.float32), 
+#             x1, x2, x2 - x1, 
+#             h2, h1, nz
+#         )
         
         cmap = ccplot.utils.cmap(colormap)
         cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
@@ -72,7 +74,7 @@ def drawDepolar(filename, x_range, y_range, fig, pfig):
         norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
         
         im = fig.imshow(
-            data.T,
+            depolar_ratio.T,
             extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
             cmap=cm,
             norm=norm,
