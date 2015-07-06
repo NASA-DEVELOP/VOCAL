@@ -81,17 +81,16 @@ def find_index_values(product, low, high, lst, debug=""):
 #     logging.debug('High in list %s', high in list)
     min_index = 0
     max_index = 0
-    debug = ""
     for i in range(len(lst)):
-#         try:
-        lst[i] = time_to_seconds(lst[i])
-#         if i < 100:
-#             logging.debug("New time list %s", lst[i])
-        if lst[i] is low:
-            min_index = i
-        elif lst[i] is max:
-            max_index = i
-#         except:
+        try:
+            if debug.lower() == "time":
+                lst[i] = time_to_seconds(lst[i])
+            if lst[i] is low:
+                min_index = i
+            elif lst[i] is max:
+                max_index = i
+        except ValueError:
+            continue
 #             if lst[i] is low:
 #                 min_index = i
 #             elif lst[i] is max:
@@ -101,13 +100,13 @@ def find_index_values(product, low, high, lst, debug=""):
 
 def time_to_seconds(t):
     t = str(t)
-    logging.debug("Converting time: %s", t)
+#     logging.debug("Converting time: %s", t)
 #     if len(t) <= 12:
 #         t += '0'
     t = t[:-6]
-#     t = time.strptime(t, '%d%m%y.%H%M%S%f')
     t = time.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
     ret = datetime.timedelta(hours=t.tm_hour, minutes=t.tm_min, seconds=t.tm_sec).total_seconds()
+    logging.debug("Seconds %s", ret)
     return ret
 
 if __name__=="__main__":
