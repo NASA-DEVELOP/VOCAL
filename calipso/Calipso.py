@@ -15,6 +15,7 @@ from tools.tools import Catcher
 from tools.linearalgebra import distance
 from toolswindow import ToolsWindow
 from log import logger
+from matplotlib.patches import Polygon
 
 import logging
 import tkFileDialog
@@ -69,14 +70,22 @@ class Calipso(object):
                                                    master=self.__drawplot_frame)
         # Create ToolsWindow class and pass itself + the root
         self.__child = ToolsWindow(self.__drawplot_canvas, self, r)
-        logger.info('Create PolygonList')
-        self.__shapemanager = ShapeManager(self.__fig, self)
+        logger.info('Create ShapeManager')
+        self.__shapemanager = ShapeManager(self.__fig, self.__drawplot_canvas,
+                                           self)
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplot_canvas,
                                                    self.__child.coordinate_frame)
 
 
         self.__drawplot_canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)  # pack and display canvas
         self.__drawplot_frame.pack()
+
+        cords = [[0.1, 0.2],
+         [0.2, 0.2],
+         [0.3, 0.4],
+         [0.1, 0.2]]
+        poly = Polygon(cords)
+        self.__fig.add_patch(poly)
 
     @staticmethod
     def callback(event):
@@ -155,10 +164,11 @@ class Calipso(object):
             try:
                 logger.info('Setting plot to backscattered xrange: ' +
                             str(xrange_) + ' yrange: ' + str(yrange))
-                self.__parent_fig.clear()                               # clear the figure
-                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)     # create subplot
+                # self.__parent_fig.clear()                               # clear the figure
+                # self.__fig = self.__parent_fig.add_subplot(1, 1, 1)     # create subplot
+                self.__fig.clear()
                 drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
-                self.__shapemanager.draw(self.__fig, constants.BACKSCATTERED)
+                self.__shapemanager.draw(constants.BACKSCATTERED)
                 self.__drawplot_canvas.show()                            # show canvas
                 self.__toolbar.update()                                 # update toolbar
                 self.plot = constants.BACKSCATTERED

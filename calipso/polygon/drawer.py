@@ -198,7 +198,7 @@ class PolygonDrawer(object):
                 
     def rubberBand(self, event):
         '''
-        Draws temporary helper rectangles that helps the user draw rectangles
+        Draws temporary helper rectangles that helps the user draw rectangles,
         
         :param event: A Tkinter passed event object
         '''
@@ -280,7 +280,7 @@ class PolygonDrawer(object):
         
         :param str tag: Variable to set the internal tag to
         '''
-        self.__tag = tag;
+        self.__tag = tag
         
     def setColor(self, color):
         '''

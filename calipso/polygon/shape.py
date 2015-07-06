@@ -5,7 +5,8 @@
 #    @author: Grant Mercer
 ######################################
 
-import constants
+from constants import *
+from matplotlib.patches import Polygon
 
 class Shape(object):
     """
@@ -24,7 +25,7 @@ class Shape(object):
         self.__tag = tag
         self.__color = color
         self.__item_handler = 0
-        self.__plot = constants.BASE_PLOT
+        self.__plot = BASE_PLOT
         self.__attributes = []
         self.__note = ''
         self.__id = None
@@ -39,11 +40,16 @@ class Shape(object):
         self.__vertices.append((event.x, event.y))
         self.__coordinates.append((event.xdata, event.ydata))
 
-
     def plot_point(self, event):
         pass
 
     def rubberband(self, event):
+        """
+        Draws a temporary helper rectangle that outlines the final shape of the rectangle for
+        the user. This draws to **screen** coordiantes, so backend is not needed here.
+
+        :param event: A ``matplotlib.backend_bases.MouseEvent`` forwarded object.
+        """
         pass
 
     def fill_rectangle(self, event):
@@ -115,8 +121,13 @@ class Shape(object):
     def __can_draw(self):
         pass
 
-    def draw(self):
-        pass
+    def draw(self, fig, plot=BASE_PLOT_STR, fill=False):
+        cords = [[732839.154474, 1],
+                 [732839.154474, 2],
+                 [732839.154574, 3],
+                 [732839.154474, 1]]
+        poly = Polygon(cords)
+        fig.add_patch(poly)
 
     def redraw(self):
         pass
