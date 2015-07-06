@@ -45,7 +45,7 @@ class ImportDialog(Toplevel):
         self.bottom_button_frame = None
         self.separator = None
 
-        center(self, (constants.IMPORTWIDTH, constants.IMPORTHEIGH))  # simple function to center window and set size
+        center(self, (constants.IMPORTWIDTH, constants.IMPORTHEIGH))
 
         self.container = Frame(self)  # create center frame,
         self.container.pack(side=TOP, fill=BOTH, expand=True)  # place
@@ -109,7 +109,8 @@ class ImportDialog(Toplevel):
                               DatabasePolygon.attributes.contains(self.__search_string),
                               DatabasePolygon.notes.contains(self.__search_string))):
                     lst.append(  # append any objects that were returned by the query
-                                 (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes[1:-1], obj.notes))
+                                 (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes[1:-1],
+                                  obj.notes))
                 # Push new query onto the stack and set display to list
                 self.__stack.append(self.tree.info)
                 self.tree.info = lst

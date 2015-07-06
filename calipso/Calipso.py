@@ -76,16 +76,9 @@ class Calipso(object):
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplot_canvas,
                                                    self.__child.coordinate_frame)
 
-
-        self.__drawplot_canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)  # pack and display canvas
+        # pack and display canvas
+        self.__drawplot_canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplot_frame.pack()
-
-        cords = [[0.1, 0.2],
-         [0.2, 0.2],
-         [0.3, 0.4],
-         [0.1, 0.2]]
-        poly = Polygon(cords)
-        self.__fig.add_patch(poly)
 
     @staticmethod
     def callback(event):
@@ -130,7 +123,8 @@ class Calipso(object):
 
         # Polygon Menu
         menu_polygon = Menu(menu_bar, tearoff=0)
-        menu_polygon.add_command(label='Import from Database', command=lambda: ImportDialog(self.__root, self))
+        menu_polygon.add_command(label='Import from Database',
+                                 command=lambda: ImportDialog(self.__root, self))
         menu_polygon.add_command(label='Export to Database', command=self.notify_save_db)
         menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
 
@@ -144,8 +138,8 @@ class Calipso(object):
 
     def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 20)):
         """
-        Draws to the canvas according to the *plot_type* specified in the arguments. Accepts one of the
-        attributes below
+        Draws to the canvas according to the *plot_type* specified in the arguments. Accepts one of
+        the attributes below
 
         .. py:attribute:: BASE_PLOT
         .. py:attribute:: BACKSCATTERED
@@ -173,7 +167,7 @@ class Calipso(object):
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', 'No File Exists')
-        # TO-DO: Reimplement with new plotting technique (like backscatter)
+        # TODO: Reimplement with new plotting technique (like backscatter)
         elif plot_type == constants.DEPOLARIZED:
             try:
                 logger.error('Needs to be reimplemented')
@@ -224,7 +218,8 @@ class Calipso(object):
         if self.panx < event.x:
             # Already at beginning
             if self.xrange[0] == 0:
-                logger.warning("Attempting to pan backwards, already at beginning nothing to be done")
+                logger.warning(
+                    "Attempting to pan backwards, already at beginning nothing to be done")
                 return
             # The end position would be negative
             if self.xrange[0] - dst < 0:
@@ -241,8 +236,8 @@ class Calipso(object):
 
     def create_top_gui(self):
         """
-        Initializes and creates the *File: label*, *file dialog*, and *browse button* that appear at the top
-        of the screen
+        Initializes and creates the *File: label*, *file dialog*, and *browse button* that appear
+        at the top of the screen
         """
         logger.info("Creating top screen GUI")
         # Create label , entry box and browse button
@@ -317,7 +312,8 @@ class Calipso(object):
         if fl != '':
             self.__file = fl
             segments = self.__file.rpartition('/')
-            self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT, text=segments[2])
+            self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
+                                            text=segments[2])
             self.__shapemanager.set_hdf(self.__file)
         return ''
 
@@ -380,8 +376,10 @@ class Calipso(object):
         logger.info('Opening about window')
         file_window = Toplevel(self.__root)
         file_window.title('About')
-        message = Message(file_window, text='NASA DEVELOP\n \nLaRC Spring 2015 Term \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal \
-            \n\nLaRC Summer 2015 Term \nGrant Mercer (Team Lead) \nNathan Qian')
+        message = Message(file_window, text='NASA DEVELOP\n \nLaRC Spring 2015 Term \nJordan Vaa '
+                                            '(Team Lead) \nCourtney Duquette \nAshna Aggarwal \
+                                            \n\nLaRC Summer 2015 Term \nGrant Mercer (Team Lead) '
+                                            '\nNathan Qian')
         message.pack()
 
         button_close = Button(file_window, text='Close', command=file_window.destroy)

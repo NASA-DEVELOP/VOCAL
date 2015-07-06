@@ -94,8 +94,7 @@ class ShapeManager(object):
             return
         logger.debug('Filling: %d, %d' % (event.xdata, event.ydata))
         logger.info('Creating rectangle')
-        self.__current_list[-1].fill_rectangle(event, self.__figure, self.__current_plot,
-                                               ShapeManager.outline_toggle)
+        self.__current_list[-1].fill_rectangle(event, self.__figure, ShapeManager.outline_toggle)
         self.__current_list[-1].set_tag(self.generate_tag())
         self.__current_list.append(Shape(self.__canvas))
         self.__canvas.show()

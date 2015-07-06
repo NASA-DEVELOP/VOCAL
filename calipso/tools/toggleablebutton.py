@@ -33,7 +33,7 @@ class ToggleableButton(Button):
         self.__master = master
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
-        self.configure(command=self.toggle)         # button command is always bound internally to toggle
+        self.configure(command=self.toggle)         # button command is always toggle
         toggleContainer.append(self)         # push button to static container
 
     def latch(self, target=None, key='', command=None, cursor='', destructor=None):
@@ -72,8 +72,8 @@ class ToggleableButton(Button):
     def toggle(self):
         """
         The method bound to the button, *Toggle* will internally bind the inputed keys when toggled,
-         and unbind them accordingly. Also keeps track of all toggled button via a static container and
-         ensures only one button can be toggled at any time
+         and unbind them accordingly. Also keeps track of all toggled button via a static container
+         and ensures only one button can be toggled at any time
         """
         # first flip the toggle switch
         self.isToggled = not self.isToggled
@@ -123,7 +123,7 @@ class ToolbarToggleableButton(Button):
         self.__func = func
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
-        self.configure(command=self.toggle)         # button command is always bound internally to toggle
+        self.configure(command=self.toggle)         # button command is always toggle
         toggleContainer.append(self)         # push button to static container
         
     def latch(self, cursor=''):
