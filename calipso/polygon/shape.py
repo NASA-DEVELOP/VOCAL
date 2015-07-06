@@ -10,6 +10,7 @@ import random
 
 from matplotlib.patches import Polygon
 from log import logger
+from constants import *
 import matplotlib.lines as mlines
 import matplotlib.patches as mpatches
 from tools.linearalgebra import tuple_to_nparray, is_intersecting, \
