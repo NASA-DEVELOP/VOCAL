@@ -1,0 +1,52 @@
+Folder PATH listing for volume OSDisk
+Volume serial number is FC03-73C2
+C:.
++---.settings
++---calipso
+|   +---.idea
+|   |   \---dictionaries
+|   +---dat
+|   +---ico
+|   +---log
+|   +---objs
+|   +---plot
+|   +---plot_vfm
+|   +---polygon
+|   \---tools
++---dat
++---db
+|   \---manage_db
+\---docs
+    +---build
+    |   +---.doctrees
+    |   |   \---doc
+    |   |       +---general
+    |   |       +---polygon
+    |   |       \---tools
+    |   +---doc
+    |   |   +---general
+    |   |   +---polygon
+    |   |   \---tools
+    |   +---_images
+    |   +---_modules
+    |   |   +---calipso
+    |   |   |   +---polygon
+    |   |   |   \---tools
+    |   |   +---polygon
+    |   |   \---tools
+    |   +---_sources
+    |   |   \---doc
+    |   |       +---general
+    |   |       +---polygon
+    |   |       \---tools
+    |   \---_static
+    \---source
+        +---.idea
+        +---analytics
+        +---dev
+        +---doc
+        |   +---general
+        |   +---polygon
+        |   \---tools
+        +---trouble
+        \---_static
