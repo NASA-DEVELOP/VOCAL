@@ -16,25 +16,27 @@ class ToggleableButton(Button):
     unbinds them on untoggle or forced untoggle.
 
     :param root: Root of the program, which handles the cursor
+    :param canvas: The matplotlib Tkinter canvas to connect binds to
     :param master: The location to draw the button to
     :param cnf: Button forwarded args
     :param \*\*kw: Button forwarded args
     """
 
     # noinspection PyDefaultArgument
-    def __init__(self, root, master=None, cnf={}, **kw):
+    def __init__(self, root, master, cnf={}, **kw):
         self.__bindMap = []         # bind map to be bound once toggled
         self.isToggled = False      # internal var to keep track of toggling
         self.__root = root          # root variable for setting the cursor
         self.__cursor = ''          # cursor private var
         self.__destructor = None    # destructor var called when untoggled
+        self.__cid_stack = []
         self.__master = master
         
         Button.__init__(self, master, cnf, **kw)    # call button constructor
         self.configure(command=self.toggle)         # button command is always bound internally to toggle
         toggleContainer.append(self)         # push button to static container
 
-    def latch(self, key='', command=None, cursor='', destructor=None):
+    def latch(self, target=None, key='', command=None, cursor='', destructor=None):
         """
         Allows the binding of keys to certain functions. These bindings will become
         active once the button is in a toggled state. latch can be called **multiple**
@@ -48,8 +50,8 @@ class ToggleableButton(Button):
         # only set these variables if the user entered one
         if cursor != '':
             self.__cursor = cursor
-        if key != '' and command is not None:
-            self.__bindMap.append((self.__root, key, command))
+        if key != '' and command is not None and target is not None:
+            self.__bindMap.append((target, key, command))
         if destructor is not None:
             self.__destructor = destructor
 
@@ -62,7 +64,8 @@ class ToggleableButton(Button):
         self.config(relief='raised')
         self.__root.config(cursor='')
         for pair in self.__bindMap:
-            pair[0].unbind(pair[1])
+            if self.__cid_stack:
+                pair[0].mpl_disconnect(self.__cid_stack.pop())
         if self.__destructor:
             self.__destructor()
 
@@ -83,7 +86,8 @@ class ToggleableButton(Button):
             self.__root.config(cursor='')
             self.config(relief='raised')                # raise the button, e.g. deactivated
             for pair in self.__bindMap:                 # unbind using the bindmap
-                pair[0].unbind(pair[1])
+                if self.__cid_stack:
+                    pair[0].mpl_disconnect(self.__cid_stack.pop())
             if self.__destructor:
                 self.__destructor()  # call the pseudo 'destructor'
         # else if next state is true
@@ -91,7 +95,7 @@ class ToggleableButton(Button):
             self.__root.config(cursor=self.__cursor)
             self.config(relief='sunken')                # sink the button, e.g. activate
             for pair in self.__bindMap:                 # bind using the bindmap
-                pair[0].bind(pair[1], pair[2])
+                self.__cid_stack.append(pair[0].mpl_connect(pair[1], pair[2]))
 
 
 class ToolbarToggleableButton(Button):

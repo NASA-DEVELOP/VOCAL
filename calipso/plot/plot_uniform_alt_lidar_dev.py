@@ -36,10 +36,14 @@ def drawBackscattered(filename, xrange, yrange, fig, pfig):
         height = product['metadata']['Lidar_Data_Altitudes']
         dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
         
+        print time[0]
+        
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
         dataset = np.ma.masked_equal(dataset, -9999)
         
         X = np.arange(x1, x2, dtype=np.float32)
+        
+        print time[0]
         
         Z, null = np.meshgrid(height, X)
         data = interp2d_12(
@@ -69,7 +73,7 @@ def drawBackscattered(filename, xrange, yrange, fig, pfig):
         fig.set_ylabel('Altitute (km)')    
         fig.set_xlabel('Time')   
         fig.get_xaxis().set_major_locator(mpl.dates.AutoDateLocator())
-        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S:%p'))
         
         granule = "%sZ%s" % extractDatetime(filename)
         title = 'Averaged 532 nm Total Attenuated Backscatter for granule %s' % granule

@@ -24,7 +24,7 @@ class ToolsWindow(Toplevel):
     :param parent: the class that has this instance of ToolsWindow
     :param root: the root of the program
     """
-    def __init__(self, parent, root):
+    def __init__(self, canvas, parent, root):
         Toplevel.__init__(self, root)
 
         # Images required by buttons
@@ -47,6 +47,7 @@ class ToolsWindow(Toplevel):
 
         self.__parent = parent
         self.__root = root
+        self.__canvas = canvas
         self.plot_type = IntVar()
 
         self.title('Tools')
@@ -143,11 +144,14 @@ class ToolsWindow(Toplevel):
         # Draw rectangle shape
         polygon_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.polygon_img, width=30, height=30)
-        polygon_button.latch(key='<Button-1>',
+        polygon_button.latch(target=self.__canvas,
+                             key='button_press_event',
                              command=self.__parent.get_shapemanager().anchor_rectangle, cursor='tcross')
-        polygon_button.latch(key='<B1-Motion>',
+        polygon_button.latch(target=self.__canvas,
+                             key='motion_notify_event',
                              command=self.__parent.get_shapemanager().rubberband, cursor='tcross')
-        polygon_button.latch(key='<ButtonRelease-1>',
+        polygon_button.latch(target=self.__canvas,
+                             key='button_release_event',
                              command=self.__parent.get_shapemanager().fill_rectangle, cursor='tcross')
         polygon_button.grid(row=1, column=1, padx=2, pady=5)
         create_tool_tip(polygon_button, 'Draw Rect')

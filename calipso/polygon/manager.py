@@ -30,7 +30,7 @@ class ShapeManager(object):
         pass
 
     def anchor_rectangle(self, event):
-        pass
+        print "Anchoring: ", event.xdata, event.ydata
 
     def get_count(self):
         pass
@@ -42,15 +42,17 @@ class ShapeManager(object):
         pass
 
     def rubberband(self, event):
+        print "Rubberbanding: ", event.xdata, event.ydata
         pass
 
     def fill_rectangle(self, event):
+        print "Filling: ", event.xdata, event.ydata
         pass
 
     def set_hdf(self, hdf_filename):
         pass
 
-    def draw(self):
+    def draw(self, figure, plot):
         pass
 
     def generate_tag(self, index=-1):

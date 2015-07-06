@@ -14,4 +14,4 @@ def uncaught_exception(exctype, value, tb):
 sys.excepthook = uncaught_exception
 #logging.config.fileConfig(r'/home/gdev/Github/vocal/calipso/log/logging.ini', disable_existing_loggers=False)
 logger = logging.getLogger('VOCAL')    
-#logging.config.fileConfig('log/logging.ini', disable_existing_loggers=False)
+logging.config.fileConfig('log/logging.ini', disable_existing_loggers=False)
