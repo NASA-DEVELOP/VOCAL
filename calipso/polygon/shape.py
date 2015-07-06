@@ -7,7 +7,9 @@
 
 from constants import *
 from matplotlib.patches import Polygon
+from matplotlib.patches import Rectangle
 
+# noinspection PyProtectedMember
 class Shape(object):
     """
     Displays the polygon objects onto the canvas by supplying draw methods
@@ -67,7 +69,15 @@ class Shape(object):
                                                                  event.x,
                                                                  abs(HEIGHT - event.y - 35))
 
-    def fill_rectangle(self, fig, plot=BASE_PLOT_STR, fill=False):
+    def fill_rectangle(self, event, fig, plot=BASE_PLOT_STR, fill=False):
+        """
+        Draws the rectangle and stroes the cooridnates of the rectangle internally. Used
+        in 'Draw Rect' button. Forwards argument parameters to ``draw``
+
+        :param fig: Figure to draw canvas to
+        :param plot: ``constants`` ploytype to forward to draw
+        :param bool fill: Whether to fill or no fill the shape
+        """
         try:
             self.lastrect
         except AttributeError:
@@ -75,8 +85,14 @@ class Shape(object):
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
             del self.lastrect
-        self.draw(fig, plot, fill)
-        pass
+        self.__coordinates.append((event.xdata, event.ydata))
+        print self.__coordinates
+        cords = [[732839.154474, 1],
+                 [732839.154474, 2],
+                 [732839.154574, 3],
+                 [732839.154474, 1]]
+        poly = Polygon(self.__coordinates)
+        fig.add_patch(poly)
 
     def add_attribute(self, tag):
         pass
@@ -145,13 +161,7 @@ class Shape(object):
         pass
 
     def draw(self, fig, plot=BASE_PLOT_STR, fill=False):
-        print self.__coordinates
-        cords = [[732839.154474, 1],
-                 [732839.154474, 2],
-                 [732839.154574, 3],
-                 [732839.154474, 1]]
-        poly = Polygon(cords)
-        fig.add_patch(poly)
+        pass
 
     def redraw(self):
         pass
