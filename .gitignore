@@ -1,9 +1,5 @@
-*.pyc
-gui/
-*.pyc
-plot_vfm/
+plot_vfm/*.pyc
 *.pyc
 docs/build/
-gui/objs/
-calipso/.idea/*
-calipso/log/*.log
+calipso\\.idea\\*
+calipso\\log\\*.log
