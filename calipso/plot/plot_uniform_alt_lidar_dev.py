@@ -31,6 +31,13 @@ def drawBackscattered(filename, xrange, yrange, fig, pfig):
         
         X = np.arange(x1, x2, dtype=np.float32)
         
+        print type(dataset)
+        print len(dataset.shape)
+        print dataset
+        print dataset[0][-1]
+        print type(dataset[0][-1])
+        print type(dataset[0][0])
+        
         Z, null = np.meshgrid(height, X)
         data = interp2d_12(
             dataset[::],
