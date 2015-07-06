@@ -15,7 +15,6 @@ from tools.tools import Catcher
 from tools.linearalgebra import distance
 from toolswindow import ToolsWindow
 from log import logger
-from matplotlib.patches import Polygon
 
 import logging
 import tkFileDialog
