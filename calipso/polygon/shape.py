@@ -10,6 +10,7 @@ import random
 import constants
 import matplotlib.lines as mlines
 
+from constants import Plot
 from log import logger
 from matplotlib.patches import Polygon
 from tools.linearalgebra import tuple_to_nparray, is_intersecting, \
@@ -32,7 +33,7 @@ class Shape(object):
         self.__tag = tag
         self.__color = color
         self.__item_handler = None
-        self.__plot = constants.BASE_PLOT
+        self.__plot = Plot.baseplot
         self.__attributes = []
         self.__note = ''
         self.__id = None
@@ -160,14 +161,18 @@ class Shape(object):
             Polygon(self.__coordinates, facecolor=self.__color, fill=fill)
         fig.add_patch(self.__item_handler)
 
-    def add_attribute(self, tag):
-        pass
+    def add_attribute(self, attr):
+        """
+        Append a passed attribute onto the internal attribute list
+        :param constants.Attribute attr: An attribute enum
+        """
+        self.__attributes.append(attr)
 
     def remove_attribute(self, attribute):
         """
         Remove an attribute as specified in ``constants.py`` from the internal attributes variable
 
-        :param str attribute:
+        :param constants.Attribute attribute:
         """
         self.__attributes.remove(attribute)
 
