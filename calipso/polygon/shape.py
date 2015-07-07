@@ -108,8 +108,8 @@ class Shape(object):
             pass
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
-
-        logger.debug('%f, %f', event.xdata, event.ydata)
+        if event.xdata and event.ydata:
+            logger.debug('%f, %f', event.xdata, event.ydata)
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prev_x,
                                                                  abs(constants.HEIGHT - self.__prev_y - 35),
                                                                  event.x,
@@ -131,13 +131,16 @@ class Shape(object):
             self.__canvas._tkcanvas.delete(self.lastrect)
             del self.lastrect
 
-        logger.debug('Generating rectangular points')
-        beg = self.__coordinates[0]
-        self.__coordinates.append((event.xdata, beg[1]))
-        self.__coordinates.append((event.xdata, event.ydata))
-        self.__coordinates.append((beg[0], event.ydata))
+        if event.xdata is not None and event.ydata is not None:
+            logger.debug('Generating rectangular points')
+            beg = self.__coordinates[0]
+            self.__coordinates.append((event.xdata, beg[1]))
+            self.__coordinates.append((event.xdata, event.ydata))
+            self.__coordinates.append((beg[0], event.ydata))
 
-        self.draw(fig, plot, fill)
+            self.draw(fig, plot, fill)
+        else:
+            self.__coordinates = []
 
     def draw(self, fig, plot=constants.BASE_PLOT_STR, fill=False):
         logger.info("Drawing polygon")
