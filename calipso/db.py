@@ -130,31 +130,29 @@ class DatabaseManager(object):
         session = self.__Session()
         # For every polygon object in the list except the end
         for polygon in poly_list[:-1]:
-            if polygon.getID() is None:
+            if polygon.get_id() is None:
                 obx = \
-                    DatabasePolygon(tag=polygon.getTag(),
+                    DatabasePolygon(tag=polygon.get_tag(),
                                     time_=time,
                                     hdf=f.rpartition('/')[2],
-                                    plot=polygon.getPlot(),
-                                    vertices=str(polygon.getVertices()),
-                                    color=polygon.getColor(),
-                                    attributes=str(polygon.getAttributes()),
-                                    coordinates=str(polygon.getCoordinates()),
-                                    notes=polygon.getNotes())
-                polygon.setID(1)
+                                    plot=polygon.get_plot(),
+                                    color=polygon.get_color(),
+                                    attributes=str(polygon.get_attributes()),
+                                    coordinates=str(polygon.get_coordinates()),
+                                    notes=polygon.get_notes())
+                polygon.set_id(1)
                 session.add(obx)
 
             else:
-                poly = session.query(DatabasePolygon).get(polygon.getID())
+                poly = session.query(DatabasePolygon).get(polygon.get_id())
                 poly.time_ = time
-                poly.plot = polygon.getPlot()
+                poly.plot = polygon.get_plot()
                 poly.hdf = f.rpartition('/')[2]
-                poly.plot = polygon.getPlot()
-                poly.vertices = str(polygon.getVertices())
-                poly.color = unicode(polygon.getColor())
-                poly.attributes = str(polygon.getAttributes())
-                poly.coordinates = str(polygon.getCoordinates())
-                poly.notes = polygon.getNotes()
+                poly.plot = polygon.get_plot()
+                poly.color = unicode(polygon.get_color())
+                poly.attributes = str(polygon.get_attributes())
+                poly.coordinates = str(polygon.get_coordinates())
+                poly.notes = polygon.get_notes()
         session.commit()
         session.close()
 
