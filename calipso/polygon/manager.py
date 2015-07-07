@@ -6,9 +6,7 @@
 ######################################
 from datetime import datetime
 import tkMessageBox
-import constants
 
-from datetime import datetime
 from constants import Plot
 import constants
 from db import db
@@ -303,6 +301,7 @@ class ShapeManager(object):
         :param str read_from_str: The string to read valid JSON shapes from
         """
         if read_from_str != '':
+            # TODO: shape is not being added to the list when importing from database
             logger.info('Reading JSON from string')
             self.__polygonreader.read_from_str_json(read_from_str)
         else:
