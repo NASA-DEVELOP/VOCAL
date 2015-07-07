@@ -7,6 +7,7 @@ import constants
 import re
 import tkMessageBox
 
+from constants import Plot
 from PIL import ImageTk
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import create_tool_tip
@@ -230,7 +231,10 @@ class ToolsWindow(Toplevel):
 
         # Edit shape attributes
         edit_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.edit_img, width=30, height=30)
-        edit_button.latch(key='<Button-1>', command=self.__parent.attribute_window)
+        #edit_button.latch(target=self.__canvas, key='button_press_event',
+        #                  command=self.__parent.attribute_window)
+        edit_button.latch(target=self.__canvas, key='pick_event',
+                          command=self.__parent.attribute_window)
         edit_button.grid(row=3, column=3, padx=2, pady=5)
         create_tool_tip(edit_button, 'Edit Attributes')
 
@@ -283,4 +287,4 @@ class ToolsWindow(Toplevel):
             return
 
         logger.info('Calling plot')
-        self.__parent.set_plot(self.plot_type.get(), xrange_=(beginning_range, ending_range))
+        self.__parent.set_plot(Plot(self.plot_type.get()), xrange_=(beginning_range, ending_range))
