@@ -5,13 +5,14 @@
 #    @author: Grant Mercer
 ######################################
 
-import constants
+import tkMessageBox
 
+from constants import BASE_PLOT_STR, BASE_PLOT, BACKSCATTERED, BACKSCATTERED_STR, \
+    DEPOLARIZED, DEPOLARIZED_STR
+import constants
 from log import logger
 from polygon.reader import PolygonReader
 from polygon.shape import Shape
-from constants import BASE_PLOT_STR, BASE_PLOT, BACKSCATTERED, BACKSCATTERED_STR, \
-    DEPOLARIZED, DEPOLARIZED_STR
 
 
 class ShapeManager(object):
@@ -228,7 +229,12 @@ class ShapeManager(object):
         self.__canvas.show()
 
     def properties(self, event):
-        pass
+        target = event.artist
+        for shape in self.__current_list:
+            if shape.get_itemhandler() is target:
+                tkMessageBox.showinfo("properties", str(shape))
+                return
+        logger.warning("Shape not found")
 
     def toggle_drag(self, event):
         pass

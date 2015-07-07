@@ -224,9 +224,10 @@ class ToolsWindow(Toplevel):
         create_tool_tip(load_button, 'Load JSON')
 
         # Retrieve shape properties
-        properties_button = \
-            ToggleableButton(self.__root, self.lower_button_frame, image=self.prop_img, width=30, height=30)
-        properties_button.latch(key='<Button-1>', command=self.__parent.get_shapemanager().properties)
+        properties_button = ToggleableButton(self.__root, self.lower_button_frame,
+                                            image=self.prop_img, width=30, height=30)
+        properties_button.latch(target=self.__canvas,key='pick_event', 
+                                command=self.__parent.get_shapemanager().properties)
         properties_button.grid(row=3, column=2, padx=2, pady=5)
         create_tool_tip(properties_button, 'Polygon Properties')
 
