@@ -165,6 +165,7 @@ class Calipso(object):
             try:
                 logger.info('Setting plot to backscattered xrange: ' +
                             str(xrange_) + ' yrange: ' + str(yrange))
+                self.__shapemanager.clear_refs()
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
                 drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
