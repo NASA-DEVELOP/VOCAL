@@ -354,7 +354,9 @@ class Calipso(object):
         shape = self.__shapemanager.find_shape(event)
         logger.info("Painting shape")
         ColorDialog(self.__root, shape, self.__drawplot_canvas)
-        
+
+    def get_root(self):
+        return self.__root
 
     def get_shapemanager(self):
         """
