@@ -232,8 +232,10 @@ class ToolsWindow(Toplevel):
         create_tool_tip(properties_button, 'Polygon Properties')
 
         # Edit shape attributes
-        edit_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.edit_img, width=30, height=30)
-        edit_button.latch(key='<Button-1>', command=self.__parent.attribute_window)
+        edit_button = ToggleableButton(self.__root, self.lower_button_frame, 
+                                       image=self.edit_img, width=30, height=30)
+        edit_button.latch(target=self.__canvas, key='pick_event', 
+                          command=self.__parent.attribute_window)
         edit_button.grid(row=3, column=3, padx=2, pady=5)
         create_tool_tip(edit_button, 'Edit Attributes')
 

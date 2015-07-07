@@ -73,7 +73,7 @@ class AttributesDialog(Toplevel):
         
         logger.info('Loading attributes')
         for tag in self.__availableAttributes:
-            if self.__poly.isInAttributes(tag):
+            if self.__poly.is_attribute(tag):
                 self.selected_list.insert(END, tag)
             else:
                 self.attributes_list.insert(END, tag)
@@ -100,7 +100,7 @@ class AttributesDialog(Toplevel):
         
         self.note_text = Text(self.bottom_frame, width=55, height=10)
         self.note_text.grid(row=1, column=1)
-        self.note_text.insert(END, self.__poly.getNotes())
+        self.note_text.insert(END, self.__poly.get_notes())
         
         button_frame = Frame(self.container)
         button_frame.pack(side=BOTTOM, fill=X, expand=False)
@@ -124,7 +124,7 @@ class AttributesDialog(Toplevel):
             return
         for item in selection:
             string = self.attributes_list.get(item)
-            self.__poly.addAttribute(string)
+            self.__poly.add_attribute(string)
             self.selected_list.insert(END, string)
         for item in reversed(selection):
             self.attributes_list.delete(item)
@@ -139,7 +139,7 @@ class AttributesDialog(Toplevel):
             return
         for item in selection:
             string = self.selected_list.get(item)
-            self.__poly.remove_attribute()
+            self.__poly.remove_attribute(string)
             self.attributes_list.insert(END, string)
         for item in reversed(selection):
             self.selected_list.delete(item)
@@ -150,7 +150,7 @@ class AttributesDialog(Toplevel):
         """
         logger.info('Saving note')
         note = self.note_text.get('1.0', 'end-1c')
-        self.__poly.setNotes(note)
+        self.__poly.set_notes(note)
         self.close()
     
     def clear(self):
@@ -159,7 +159,7 @@ class AttributesDialog(Toplevel):
         """
         logger.info('Deleting note')
         self.note_text.delete(1.0, END)
-        self.__poly.setNotes('')
+        self.__poly.set_notes('')
     
     def close(self):
         """
