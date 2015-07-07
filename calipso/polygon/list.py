@@ -396,16 +396,16 @@ class PolygonList(object):
         elif plot.lower() == "vfm":
             return 3
             
-    def readPlot(self, fileName="", readFromString=""):
+    def readPlot(self, fileName="", read_from_str=""):
         '''
         Load data from JSON file into polygon shapes
         
         :param str fileName: Name of JSON file to read from
-        :param str readFromString: If not a filename, read JSON from string
+        :param str read_from_str: If not a filename, read JSON from string
         '''
-        if readFromString != "":
+        if read_from_str != "":
             logger.info("Reading JSON from string")
-            self.__polyReader.readFromStrJSON(readFromString)
+            self.__polyReader.read_from_str_json(read_from_str)
         else:
             logger.info("Reading JSON from file")
             self.__polyReader.set_filename(fileName)
@@ -413,7 +413,7 @@ class PolygonList(object):
         plot = 0
         logger.info("Parse JSON data for new polygons")
         for lst in self.__polygonList:
-            self.__polyReader.packPolygonDrawer(lst, constants.PLOTS[plot], self.__canvas, self.__master)
+            self.__polyReader.pack_shape(lst, constants.PLOTS[plot], self.__canvas, self.__master)
             if PolygonList.plotStringtoInt(self.__plot) == plot:
                 for shape in lst:
                     if not shape.isEmpty():

@@ -28,7 +28,6 @@ class DatabasePolygon(dbBase):
     .. py:data:: id
     .. py:data:: tag
     .. py:data:: color
-    .. py:data:: vertices
     .. py:data:: time_
     .. py:data:: hdf
     .. py:data:: plot
@@ -41,7 +40,6 @@ class DatabasePolygon(dbBase):
     id = Column(Integer, primary_key=True)  # primary key
     tag = Column(String)  # shape tag
     color = Column(String)  # color of polygon
-    vertices = Column(String)  # array of vertices, passed as string
     time_ = Column(String)  # time object was exported
     hdf = Column(String)  # filename
     plot = Column(String)  # type of plot drawn on
@@ -63,7 +61,6 @@ class DatabasePolygon(dbBase):
         for i in range(0, len(constants.PLOTS)):
             data[self.plot_string(i)] = {}
         data[self.plot] = {self.tag: {
-            'vertices': self.vertices,
             'color': self.color,
             'attributes': self.attributes,
             'id': self.id,

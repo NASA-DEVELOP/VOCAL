@@ -6,6 +6,7 @@
 ######################################
 import constants
 
+from constants import Attributes, Attributes_fromstr
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
 from log import logger
@@ -20,20 +21,21 @@ class AttributesDialog(Toplevel):
     :param polygon_drawer: The polygonDrawer being edited
     """
     
-    def __init__(self, root, polygon_drawer):
+    def __init__(self, root, shape):
         """
         Initialize root tkinter window and master GUI window
         """
         Toplevel.__init__(self, root, width=200, height=200)
         
-        self.__poly = polygon_drawer
-        if polygon_drawer is False:
+        self.__shape = shape
+        if shape is False:
             self.close()
             return
         self.title('Edit Attributes')
         
         # copies TAGS to avoid aliasing
-        self.__availableAttributes = constants.TAGS[:]
+        self.__available_attributes = list(map(lambda x: x.name, Attributes))
+        print self.__available_attributes
         
         self.container = Frame(self)
         self.container.pack(side=TOP, fill=BOTH, expand=True)
@@ -72,8 +74,8 @@ class AttributesDialog(Toplevel):
         self.selected_list.grid(row=1, column=3)
         
         logger.info('Loading attributes')
-        for tag in self.__availableAttributes:
-            if self.__poly.is_attribute(tag):
+        for tag in self.__available_attributes:
+            if self.__shape.is_attribute(tag):
                 self.selected_list.insert(END, tag)
             else:
                 self.attributes_list.insert(END, tag)
@@ -100,7 +102,7 @@ class AttributesDialog(Toplevel):
         
         self.note_text = Text(self.bottom_frame, width=55, height=10)
         self.note_text.grid(row=1, column=1)
-        self.note_text.insert(END, self.__poly.get_notes())
+        self.note_text.insert(END, self.__shape.get_notes())
         
         button_frame = Frame(self.container)
         button_frame.pack(side=BOTTOM, fill=X, expand=False)
@@ -118,13 +120,13 @@ class AttributesDialog(Toplevel):
         """
         Saves the attributes that the user has selected
         """
-        logger.info('Setting attributes')
         selection = self.attributes_list.curselection()
         if len(selection) == 0:
             return
         for item in selection:
             string = self.attributes_list.get(item)
-            self.__poly.add_attribute(string)
+            logger.info('Adding attribute \'%s\' to shape' % string)
+            self.__shape.add_attribute(Attributes_fromstr[string])
             self.selected_list.insert(END, string)
         for item in reversed(selection):
             self.attributes_list.delete(item)
@@ -133,13 +135,13 @@ class AttributesDialog(Toplevel):
         """
         Deletes the attributes that the user has selected
         """
-        logger.info('Deleting attributes')
         selection = self.selected_list.curselection()
         if len(selection) == 0:
             return
         for item in selection:
             string = self.selected_list.get(item)
-            self.__poly.remove_attribute(string)
+            logger.info('Deleting attribute \'%s\' from shape' % string)
+            self.__shape.remove_attribute(Attributes_fromstr[string])
             self.attributes_list.insert(END, string)
         for item in reversed(selection):
             self.selected_list.delete(item)
