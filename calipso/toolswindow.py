@@ -159,8 +159,7 @@ class ToolsWindow(Toplevel):
         # Free form shape creation
         free_draw_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.free_draw_img, width=30, height=30)
-        free_draw_button.latch(target=self.__canvas, 
-                               key='button_press_event', 
+        free_draw_button.latch(target=self.__canvas, key='button_press_event', 
                                command=self.__parent.get_shapemanager().plot_point, cursor='tcross')
         free_draw_button.grid(row=1, column=3, padx=2, pady=5)
         create_tool_tip(free_draw_button, 'Free Draw')
@@ -168,8 +167,10 @@ class ToolsWindow(Toplevel):
         # Pan plot left and right
         plot_cursor_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.plot_cursor_img, width=30, height=30)
-        plot_cursor_button.latch(key='<ButtonPress-1>', command=self.__parent.pan)
-        plot_cursor_button.latch(key='<ButtonRelease-1>', command=self.__parent.render_pan)
+        plot_cursor_button.latch(target=self.__canvas, key='button_press_event', 
+                                 command=self.__parent.pan)
+        plot_cursor_button.latch(target=self.__canvas, key='button_release_event', 
+                                 command=self.__parent.render_pan)
         plot_cursor_button.latch(cursor='hand1')
         plot_cursor_button.grid(row=0, column=1, padx=2, pady=5)
         create_tool_tip(plot_cursor_button, 'Move about plot')
@@ -182,7 +183,9 @@ class ToolsWindow(Toplevel):
 
         # Erase polygon drawings
         erase_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.erase_img, width=30, height=30)
-        erase_button.latch(key='<Button-1>', command=self.__parent.get_shapemanager().delete, cursor='X_cursor')
+        erase_button.latch(target=self.__canvas, key='button_press_event', 
+                           command=self.__parent.get_shapemanager().delete, 
+                           cursor='X_cursor')
         erase_button.grid(row=1, column=4, padx=2, pady=5)
         create_tool_tip(erase_button, 'Erase polygon')
 

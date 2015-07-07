@@ -5,14 +5,12 @@
 #    @author: Grant Mercer
 ######################################
 
-from datetime import datetime, timedelta
 import random
 
-from matplotlib.patches import Polygon, Arrow
+from matplotlib.patches import Polygon
 from log import logger
-from constants import *
+import constants
 import matplotlib.lines as mlines
-import matplotlib.patches as mpatches
 from tools.linearalgebra import tuple_to_nparray, is_intersecting, \
     get_intersection, nparray_to_tuple
 
@@ -33,7 +31,7 @@ class Shape(object):
         self.__tag = tag
         self.__color = color
         self.__item_handler = None
-        self.__plot = BASE_PLOT
+        self.__plot = constants.BASE_PLOT
         self.__attributes = []
         self.__note = ''
         self.__id = None
@@ -111,9 +109,9 @@ class Shape(object):
 
         logger.debug('%f, %f', event.xdata, event.ydata )
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prev_x,
-                                                                 abs(HEIGHT - self.__prev_y - 35),
+                                                                 abs(constants.HEIGHT - self.__prev_y - 35),
                                                                  event.x,
-                                                                 abs(HEIGHT - event.y - 35))
+                                                                 abs(constants.HEIGHT - event.y - 35))
 
     def fill_rectangle(self, event, plot, fig, fill=False):
         """
@@ -139,7 +137,7 @@ class Shape(object):
 
         self.draw(fig, plot, fill)
 
-    def draw(self, fig, plot=BASE_PLOT_STR, fill=False):
+    def draw(self, fig, plot=constants.BASE_PLOT_STR, fill=False):
         logger.info("Drawing polygon")
 
         r = lambda: random.randint(0, 255)
@@ -147,7 +145,7 @@ class Shape(object):
 
         self.__plot = plot
         self.__item_handler = \
-            Polygon(self.__coordinates, facecolor=clr, fill=fill)
+            Polygon(self.__coordinates, facecolor=clr, fill=fill, picker=True)
         fig.add_patch(self.__item_handler)
 
     def add_attribute(self, tag):
@@ -288,7 +286,7 @@ class Shape(object):
         :rtype: bool
         """
         for item in self.__attributes:
-            if tag == item:
+            if attr == item:
                 logger.info('Found attribute')
                 return True
         return False
@@ -315,7 +313,10 @@ class Shape(object):
         pass
 
     def is_empty(self):
-        pass
+        if len(self.__coordinates) == 0:
+            return True
+        else:
+            return False
 
     def __str__(self):
         logger.debug('Stringing shape')
