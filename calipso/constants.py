@@ -6,9 +6,9 @@
 #    Module for all constants
 ######################################
 
-from enum import IntEnum
+from enum import Enum
 
-class Plot(IntEnum):
+class Plot(Enum):
         baseplot = 0
         backscattered = 1
         depolarized = 2

@@ -184,7 +184,7 @@ class ToolsWindow(Toplevel):
 
         # Erase polygon drawings
         erase_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.erase_img, width=30, height=30)
-        erase_button.latch(target=self.__canvas, key='button_press_event', 
+        erase_button.latch(target=self.__canvas, key='pick_event',
                            command=self.__parent.get_shapemanager().delete, 
                            cursor='X_cursor')
         erase_button.grid(row=1, column=4, padx=2, pady=5)
@@ -192,7 +192,9 @@ class ToolsWindow(Toplevel):
 
         # Recolor shapes
         paint_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.paint_img, width=30, height=30)
-        paint_button.latch(key='<Button-1>', command=self.__parent.get_shapemanager().paint, cursor='')
+        paint_button.latch(target=self.__canvas, key='pick_event',
+                           command=self.__parent.get_shapemanager().paint,
+                           cursor='')
         paint_button.grid(row=2, column=2, padx=2, pady=5)
         create_tool_tip(paint_button, 'Paint')
 
@@ -225,14 +227,13 @@ class ToolsWindow(Toplevel):
         # Retrieve shape properties
         properties_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.prop_img, width=30, height=30)
-        properties_button.latch(key='<Button-1>', command=self.__parent.get_shapemanager().properties)
+        properties_button.latch(target=self.__canvas, key='pick_event',
+                                command=self.__parent.get_shapemanager().properties)
         properties_button.grid(row=3, column=2, padx=2, pady=5)
         create_tool_tip(properties_button, 'Polygon Properties')
 
         # Edit shape attributes
         edit_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.edit_img, width=30, height=30)
-        #edit_button.latch(target=self.__canvas, key='button_press_event',
-        #                  command=self.__parent.attribute_window)
         edit_button.latch(target=self.__canvas, key='pick_event',
                           command=self.__parent.attribute_window)
         edit_button.grid(row=3, column=3, padx=2, pady=5)
