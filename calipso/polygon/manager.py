@@ -201,19 +201,30 @@ class ShapeManager(object):
     def outline(self):
         ShapeManager.outline_toggle = not ShapeManager.outline_toggle
         for shape in self.__current_list:
-            print type(shape)
             poly = shape.get_itemhandler()
             if poly is not None and ShapeManager.outline_toggle:
                 poly.set_fill(True)
-            elif poly is not None and ShapeManager.outline_toggle is False:
+            elif poly is not None and not ShapeManager.outline_toggle:
                 poly.set_fill(False)
-            self.__canvas.show()
+        self.__canvas.show()
 
     def paint(self, event):
         pass
 
     def hide(self):
-        pass
+        ShapeManager.hide_toggle = not ShapeManager.hide_toggle
+        for shape in self.__current_list:
+            poly = shape.get_itemhandler()
+            if poly is not None and ShapeManager.hide_toggle:
+                color = shape.get_color()
+                poly.set_fill(True)
+                poly.set_facecolor(color)
+                poly.set_edgecolor('#000000')
+            elif poly is not None and not ShapeManager.hide_toggle:
+                poly.set_fill(False)
+                poly.set_facecolor('none')
+                poly.set_edgecolor('none')
+        self.__canvas.show()
 
     def properties(self, event):
         pass
