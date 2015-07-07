@@ -5,7 +5,6 @@
 #    @author: Grant Mercer
 ######################################
 
-from datetime import datetime, timedelta
 import random
 import constants
 import matplotlib.lines as mlines
