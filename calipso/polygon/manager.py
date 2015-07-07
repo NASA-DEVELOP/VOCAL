@@ -61,8 +61,10 @@ class ShapeManager(object):
             logger.warning("Cannot draw to BASE_PLOT")
             return
         if event.xdata and event.ydata:
-            logger.debug('Anchoring %d, %d' % (event.xdata, event.ydata))
+            logger.info('Anchoring %d, %d' % (event.xdata, event.ydata))
             self.__current_list[-1].anchor_rectangle(event)
+        else:
+            logger.error('Anchor selected is out of range, skipping')
 
     def get_count(self):
         pass
@@ -88,6 +90,8 @@ class ShapeManager(object):
                 self.generate_tag()
                 self.__current_list.append(Shape(self.__canvas))
                 self.__canvas.show()
+        else:
+            logger.error("Point to plot is out or range, skipping")
 
     def rubberband(self, event):
         """
@@ -96,10 +100,12 @@ class ShapeManager(object):
 
         :param event: A backend passes ``matplotlib.backend_bases.MouseEvent`` object
         """
-        if self.__current_plot == BASE_PLOT_STR:
-            logger.warning("Cannot draw to BASE_PLOT")
-            return
         if event.button == 1:
+            if self.__current_plot == BASE_PLOT_STR:
+                logger.warning("Cannot draw to BASE_PLOT")
+                return
+            if len(self.__current_list[-1].get_coordinates()) is 0:
+                return
             logger.debug('Rubberbanding at %.5f, %.5f' % (event.x, event.y))
             self.__current_list[-1].rubberband(event)
 
@@ -115,6 +121,8 @@ class ShapeManager(object):
             logger.warning("Cannot draw to BASE_PLOT")
             return
         if event.xdata and event.ydata:
+            if len(self.__current_list[-1].get_coordinates()) is 0:
+                return
             logger.debug('Filling: %d, %d' % (event.xdata, event.ydata))
             logger.info('Creating rectangle')
             self.__current_list[-1].fill_rectangle(event, self.__current_plot,
@@ -143,6 +151,7 @@ class ShapeManager(object):
 
         :param int plot: Acceptable plot constant from ``constants.py``
         """
+        logger.debug('Settings plot to %s' % plot)
         self.__figure = fig
         self.set_plot(plot)
         if len(self.__current_list) > 1:
@@ -175,7 +184,6 @@ class ShapeManager(object):
         """
         Produces a unique tag for each shape for each session
 
-        :param int index: Generate new tag for given index
         :rtype: str
         """
         string = "shape" + str(self.__shape_count)

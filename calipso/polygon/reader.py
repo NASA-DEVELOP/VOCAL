@@ -14,31 +14,31 @@ from log import logger
 
 
 class PolygonReader(object):
-    '''
+    """
     Reads JSON files and transfers the data into PolygonDrawer objects
-    
+
     :param str fileName: Internal filename to write to
-    '''
+    """
 
     # TODO: add exception handling
     # TODO: go over possible use cases
     #            loading multiple JSONs and then saving them as one
     #            add error for corrupted or bad data
-    def __init__(self, fileName=""):
-        '''
+    def __init__(self, fileName=''):
+        """
         Initializes attributes
-        '''
+        """
         self.__fileName = fileName
         self.__data = {} 
         
-    def setFileName(self, fileName):
-        '''
+    def set_filename(self, filename):
+        """
         Sets the file name destination
-        :param fileName: the name of the file
-        '''
-        self.__fileName = fileName
+        :param str filename: the name of the file
+        """
+        self.__fileName = filename
         
-    def readFromFileJSON(self):   
+    def read_from_file_json(self):
         '''
         Reads the data from the JSON file
         '''
@@ -54,15 +54,15 @@ class PolygonReader(object):
         self.__data = byteify(json.loads(data))
         for plt in [x for x in self.__data if x in constants.PLOTS]:
             for shape in self.__data[plt]:
-                if "vertices" in self.__data[plt][shape]:
-                    self.__data[plt][shape]["vertices"] = \
-                        [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]["vertices"]) if len(x) == 2]
-                if "coordinates" in self.__data[plt][shape]:
-                    self.__data[plt][shape]["coordinates"] = \
-                        [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]["coordinates"]) if len(x) == 2]
-                if "attributes" in self.__data[plt][shape]:
-                    self.__data[plt][shape]["attributes"] = \
-                        ast.literal_eval(self.__data[plt][shape]["attributes"])
+                if 'vertices' in self.__data[plt][shape]:
+                    self.__data[plt][shape]['vertices'] = \
+                        [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]['vertices']) if len(x) == 2]
+                if 'coordinates' in self.__data[plt][shape]:
+                    self.__data[plt][shape]['coordinates'] = \
+                        [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]['coordinates']) if len(x) == 2]
+                if 'attributes' in self.__data[plt][shape]:
+                    self.__data[plt][shape]['attributes'] = \
+                        ast.literal_eval(self.__data[plt][shape]['attributes'])
                         
     def packPolygonDrawer(self, polygonList, plotType, canvas, master):
         '''
@@ -77,7 +77,7 @@ class PolygonReader(object):
                 #print int(self.__data[plot_type][shape]['id']) not in [x.getID() for x in polygonList]
                 entry = self.__data[plotType][shape]['id']
                 if entry is not None and int(entry) in [x.getID() for x in polygonList]: continue
-                logger.info("Found data, packing polygon with JSON data")
+                logger.info('Found data, packing polygon with JSON data')
                 color = self.__data[plotType][shape]['color']
                 vertices = self.__data[plotType][shape]['vertices']
                 coordinates = self.__data[plotType][shape]['coordinates']
@@ -93,4 +93,4 @@ class PolygonReader(object):
                 polygonList[-1].setNotes(notes)
                 polygonList.append(PolygonDrawer(canvas, master))
         except KeyError:
-            logger.error("Bad data in JSON file")
+            logger.error('Bad data in JSON file')
