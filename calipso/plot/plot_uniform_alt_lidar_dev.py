@@ -4,7 +4,7 @@
 # Brian Magill
 # 8/11/2014
 #
-import ccplot
+import ccplot.utils
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 from tempfile import mkdtemp
@@ -22,7 +22,7 @@ from uniform_alt_2 import uniform_alt_2
 from _testcapi import PY_SSIZE_T_MAX
 
 
-#from gui.CALIPSO_Visualization_Tool import filename
+# from gui.CALIPSO_Visualization_Tool import filename
 def drawBackscattered(filename, xrange, yrange, fig, pfig):   
     x1 = xrange[0]
     x2 = xrange[1]
@@ -70,7 +70,7 @@ def drawBackscattered(filename, xrange, yrange, fig, pfig):
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Time')   
         fig.get_xaxis().set_major_locator(mpl.dates.AutoDateLocator())
-        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S:%p'))
+        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
         
         granule = "%sZ%s" % extractDatetime(filename)
         title = 'Averaged 532 nm Total Attenuated Backscatter for granule %s' % granule
