@@ -27,7 +27,7 @@ class ImportDialog(Toplevel):
     """
 
     def __init__(self, root, master):
-        logger.info('Instantiating dbDialog')
+        logger.info('Instantiating ImportDialog')
         Toplevel.__init__(self, root)
 
         self.protocol('WM_DELETE_WINDOW')
@@ -149,15 +149,15 @@ class ImportDialog(Toplevel):
         """
         Import selected objects from internal_list into program
         """
-        logger.info('Importing selection')
         items = self.tree.tree.selection()
+        logger.info('Importing selection')
         # For all selected items in window
         for tag in items:
             # Find those items in internal list and import them
             logger.info('Encoding selection to JSON')
             tag = self.tree.tree.item(tag, option='values')
             names = [x.tag for x in self.__internal_list]
-            logger.info('Forward JSON to be read')
+            logger.info('Forwarding JSON to be read')
             self.__master.get_shapemanager().read_plot(
                 read_from_str=str(self.__internal_list[names.index(tag[0])]))
         logger.info('Done')
@@ -172,7 +172,7 @@ class ImportDialog(Toplevel):
             for tag in items:
                 tag = self.tree.tree.item(tag, option='values')
                 idx = self.__internal_list[[x.tag for x in self.__internal_list].index(tag[0])].id
-                logger.info('Notifying db of deletion from selection')
+                logger.info('Notifying db of deletion for \'%s\' from selection' % tag[0])
                 db.delete_item(idx)
             self.__display_all()
         logger.info('Done')
