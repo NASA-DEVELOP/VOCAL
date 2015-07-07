@@ -308,11 +308,11 @@ class ShapeManager(object):
             logger.info('Reading JSON from file')
             self.__polygonreader.set_filename(filename)
             self.__polygonreader.read_from_file_json()
-        plot = Plot.baseplot
+        plot = Plot.baseplot.value
         logger.info('Parse JSON data for new polygons')
         for lst in self.__shape_list:
             self.__polygonreader.pack_shape(lst, constants.PLOTS[plot], self.__canvas)
-            if self.__current_plot == plot:
+            if self.__current_plot.value == plot:
                 for shape in lst:
                     if not shape.is_empty():
                         logger.info('Drawing polygon')
