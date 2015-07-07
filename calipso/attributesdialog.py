@@ -6,7 +6,7 @@
 ######################################
 import constants
 
-from constants import Attributes, Attributes_fromstr
+from constants import TAGS
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
 from log import logger
@@ -34,9 +34,7 @@ class AttributesDialog(Toplevel):
         self.title('Edit Attributes')
         
         # copies TAGS to avoid aliasing
-        self.__available_attributes = list(map(lambda x: x.name, Attributes))
-        print self.__available_attributes
-        
+        self.__available_attributes = TAGS[:]
         self.container = Frame(self)
         self.container.pack(side=TOP, fill=BOTH, expand=True)
         self.top_frame = None
@@ -126,7 +124,7 @@ class AttributesDialog(Toplevel):
         for item in selection:
             string = self.attributes_list.get(item)
             logger.info('Adding attribute \'%s\' to shape' % string)
-            self.__shape.add_attribute(Attributes_fromstr[string])
+            self.__shape.add_attribute(string)
             self.selected_list.insert(END, string)
         for item in reversed(selection):
             self.attributes_list.delete(item)
@@ -141,7 +139,7 @@ class AttributesDialog(Toplevel):
         for item in selection:
             string = self.selected_list.get(item)
             logger.info('Deleting attribute \'%s\' from shape' % string)
-            self.__shape.remove_attribute(Attributes_fromstr[string])
+            self.__shape.remove_attribute(string)
             self.attributes_list.insert(END, string)
         for item in reversed(selection):
             self.selected_list.delete(item)

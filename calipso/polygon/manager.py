@@ -4,12 +4,10 @@
 #    @author: Nathan Qian
 #    @author: Grant Mercer
 ######################################
-
 from datetime import datetime
 import tkMessageBox
 
-from constants import BASE_PLOT_STR, BASE_PLOT, BACKSCATTERED, BACKSCATTERED_STR, \
-    DEPOLARIZED, DEPOLARIZED_STR, Plot
+from constants import Plot
 import constants
 from db import db
 from log import logger
@@ -168,15 +166,15 @@ class ShapeManager(object):
         """
         if plot == Plot.baseplot:
             logger.warning('set_plot called for BASE_PLOT')
-            self.__current_list = self.__shape_list[BASE_PLOT]
+            self.__current_list = self.__shape_list[Plot.baseplot]
             self.__current_plot = Plot.baseplot
         elif plot == Plot.backscattered:
             logger.info('set_plot to BACKSCATTERED')
-            self.__current_list = self.__shape_list[BACKSCATTERED]
+            self.__current_list = self.__shape_list[Plot.backscattered]
             self.__current_plot = Plot.backscattered
         elif plot == Plot.depolarized:
             logger.info('set_plot to DEPOLARIZED')
-            self.__current_list = self.__shape_list[DEPOLARIZED]
+            self.__current_list = self.__shape_list[Plot.depolarizede]
             self.__current_plot = Plot.depolarized
 
     def generate_tag(self):
