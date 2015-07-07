@@ -1,21 +1,24 @@
-#####################################
-# Created on Jul 7, 2015
+############################
+#    Created on Jul 7, 2015
 #
-# @author: nqian
-#####################################
+#    @author: nqian
+###########################
 from Tkconstants import TOP, BOTH, X, END
 from Tkinter import Toplevel, Frame, StringVar, Label, Entry, Button
 
 
 class ColorDialog(Toplevel):
     """
-    classdocs
+    Tkinter window that handles recoloring requests. 
     """
-
 
     def __init__(self, root, shape, canvas):
         """
-        Constructor
+        Instantiates the window
+        
+        :param root: The parent frame
+        :param shape: The shape object being edited
+        :param canvas: The matplotlib canvas
         """
         Toplevel.__init__(self, root, width=150, height=150)
         
@@ -38,6 +41,9 @@ class ColorDialog(Toplevel):
         self.create_top_frame()
         
     def create_top_frame(self):
+        """
+        Instantiates all the widgets
+        """
         self.top_frame = Frame(self.container)
         self.top_frame.pack(side=TOP, fill=X, expand=False)
         
@@ -72,6 +78,9 @@ class ColorDialog(Toplevel):
         paint_button.grid(row=2, column=1)
         
     def paint(self):
+        """
+        Changes the shape's color to the one entered by the user
+        """
         self.red = self.red_entry.get()
         self.green = self.green_entry.get()
         self.blue = self.blue_entry.get()
