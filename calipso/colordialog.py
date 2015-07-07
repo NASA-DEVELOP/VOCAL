@@ -12,7 +12,6 @@ class ColorDialog(Toplevel):
     Tkinter window that handles recoloring requests. 
     """
 
-
     def __init__(self, root, shape, canvas):
         """
         Instantiates the window
