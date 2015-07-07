@@ -7,8 +7,10 @@
 
 import random
 import constants
+import matplotlib as mpl
 import matplotlib.lines as mlines
 
+from ccplot.utils import calipso_time2dt
 from constants import Plot, TAGS
 from log import logger
 from matplotlib.patches import Polygon
@@ -329,7 +331,7 @@ class Shape(object):
             a1 = tuple_to_nparray(self.__coordinates[i])
             a2 = tuple_to_nparray(self.__coordinates[i+1])
             if is_intersecting(a1, a2, b1, b2):
-                logger.debug("Polygon labled for draw")
+                logger.debug("Polygon labeled for draw")
                 return i
         return -1
 
@@ -347,13 +349,17 @@ class Shape(object):
 
     def __str__(self):
         logger.debug('Stringing shape')
-        string = 'Coordinates:\n'
-        for point in self.__coordinates:
-            string += '  (%.4f,%.4f)\n' % (point[0], point[1])
-        string += 'Attributes:\n'
-        for item in self.__attributes:
-            string += '  %s\n' % item
-        string += 'Notes:\n  %s' % self.__note
+        time_cords = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S %p') for
+                      x in self.__coordinates]
+        altitude_cords = [x[1] for x in self.__coordinates]
+        string = 'Time Scale:\n\t%s - %s\n' % (min(time_cords), max(time_cords))
+        string += 'Altitude Scale:\n\t%.4f km - %.4f km\n' % (min(altitude_cords), max(altitude_cords))
+        if len(self.__attributes) > 0:
+            string += 'Attributes:\n'
+            for item in self.__attributes:
+                string += '  %s\n' % item
+        if self.__note != '':
+            string += 'Notes:\n  %s' % self.__note
         return string
 
     @staticmethod

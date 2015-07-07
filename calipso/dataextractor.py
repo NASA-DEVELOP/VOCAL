@@ -20,7 +20,7 @@ def extract_data(polygon_drawer, fname):
     coordinates = polygon_drawer.getCoordinates()
     
     with HDF(fname) as product:
-        # TODO: check if the plot is backscatter or deploarized ratio
+        # TODO: check if the plot is backscatter or depolarized ratio
         # dataset = product['Total_Attenuated_Backscatter_532'][::]
     
         if is_rectangle(coordinates):
