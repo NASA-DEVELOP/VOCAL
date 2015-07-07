@@ -56,7 +56,7 @@ class PolygonReader(object):
             for shape in self.__data[plt]:
                 if 'coordinates' in self.__data[plt][shape]:
                     self.__data[plt][shape]['coordinates'] = \
-                        [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]['coordinates']) if len(x) == 2]
+                        [[x[0], x[1]] for x in ast.literal_eval(self.__data[plt][shape]['coordinates']) if len(x) == 2]
                 if 'attributes' in self.__data[plt][shape]:
                     self.__data[plt][shape]['attributes'] = \
                         ast.literal_eval(self.__data[plt][shape]['attributes'])
