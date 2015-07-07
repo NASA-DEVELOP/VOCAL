@@ -6,11 +6,12 @@
 # import antigravity
 import ast
 import json
-import constants
 
-from polygon.drawer import PolygonDrawer
-from tools.tools import byteify
+import constants
 from log import logger
+from polygon.drawer import PolygonDrawer
+from polygon.shape import Shape
+from tools.tools import byteify
 
 
 class PolygonReader(object):
@@ -64,13 +65,12 @@ class PolygonReader(object):
                     self.__data[plt][shape]['attributes'] = \
                         ast.literal_eval(self.__data[plt][shape]['attributes'])
                         
-    def pack_shape(self, shape_list, plot_type, canvas, master):
+    def pack_shape(self, shape_list, plot_type, canvas):
         """
         Stores the data in the JSON into PolygonDrawers
         :param shape_list: a Python list of PolygonDrawers
         :param plot_type: the current plot being displayed
         :param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the shape_list
-        :param master: an instance of Calipso to initialize the blank PolygonDrawer
         """
         try:
             for shape in self.__data[plot_type]:
@@ -84,13 +84,13 @@ class PolygonReader(object):
                 attributes = self.__data[plot_type][shape]['attributes']
                 notes = self.__data[plot_type][shape]['notes']
                 _id = self.__data[plot_type][shape]['id']
-                shape_list[-1].setID(_id)
-                shape_list[-1].setColor(color)
+                shape_list[-1].set_id(_id)
+                shape_list[-1].set_color(color)
 #                 shape_list[-1].setVertices(vertices)
                 shape_list[-1].set_plot(plot_type)
-                shape_list[-1].setAttributes(attributes)
-                shape_list[-1].setCoordinates(coordinates)
-                shape_list[-1].setNotes(notes)
-                shape_list.append(PolygonDrawer(canvas, master))
+                shape_list[-1].set_attributes(attributes)
+                shape_list[-1].set_coordinates(coordinates)
+                shape_list[-1].set_notes(notes)
+                shape_list.append(Shape(canvas))
         except KeyError:
             logger.error('Bad data in JSON file')
