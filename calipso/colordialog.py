@@ -37,6 +37,9 @@ class ColorDialog(Toplevel):
         self.container.pack(side=TOP, fill=BOTH, expand=True)
         self.top_frame = None
         self.bottom_frame = None
+        self.red_entry = None
+        self.green_entry = None
+        self.blue_entry = None
         
         self.create_top_frame()
         
