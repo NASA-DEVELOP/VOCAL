@@ -6,7 +6,9 @@
 ######################################
 from datetime import datetime
 import tkMessageBox
+import constants
 
+from datetime import datetime
 from constants import Plot
 import constants
 from db import db
@@ -68,10 +70,22 @@ class ShapeManager(object):
             logger.error('Anchor selected is out of range, skipping')
 
     def get_count(self):
+        """
+        Get the total amount of objects in existence inside ShapeManager, adds
+        all lists up and subtracts the empty objects that are always appended
+        to the end of the lists.
+
+        :rtype: int
+        """
         return len(self.__shape_list[0]) + len(self.__shape_list[1]) + \
-               len(self.__shape_list[2]) + len(self.__shape_list[3]) - 4
+            len(self.__shape_list[2]) + len(self.__shape_list[3]) - 4
 
     def get_filename(self):
+        """
+        Return JSON filename string
+
+        :rtype: str
+        """
         return self.__current_file
 
     def plot_point(self, event):
@@ -162,19 +176,19 @@ class ShapeManager(object):
     def set_plot(self, plot):
         """
         Determine which list current_list should alias
-        :param int plot: Acceptable plot constant from ``constants.py``
+        :param constants.Plot plot: Acceptable plot constant from ``constants.py``
         """
         if plot == Plot.baseplot:
             logger.warning('set_plot called for BASE_PLOT')
-            self.__current_list = self.__shape_list[Plot.baseplot]
+            self.__current_list = self.__shape_list[Plot.baseplot.value]
             self.__current_plot = Plot.baseplot
         elif plot == Plot.backscattered:
             logger.info('set_plot to BACKSCATTERED')
-            self.__current_list = self.__shape_list[Plot.backscattered]
+            self.__current_list = self.__shape_list[Plot.backscattered.value]
             self.__current_plot = Plot.backscattered
         elif plot == Plot.depolarized:
             logger.info('set_plot to DEPOLARIZED')
-            self.__current_list = self.__shape_list[Plot.depolarizede]
+            self.__current_list = self.__shape_list[Plot.depolarized.value]
             self.__current_plot = Plot.depolarized
 
     def generate_tag(self):
@@ -201,6 +215,12 @@ class ShapeManager(object):
         self.__shape_count = 0
 
     def delete(self, event):
+        """
+        Delete the specified object from the screen, searches through the
+        current list to find the artist that was clicked on
+
+        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
+        """
         shape = event.artist
         for item in self.__current_list:
             poly = item.get_itemhandler()
@@ -209,8 +229,13 @@ class ShapeManager(object):
                 break
         shape.remove()
         self.__canvas.show()
+        print len(self.__current_list)
 
     def outline(self):
+        """
+        Toggle whether current shapes should be outlined or remained filled on
+        the screen
+        """
         ShapeManager.outline_toggle = not ShapeManager.outline_toggle
         for shape in self.__current_list:
             poly = shape.get_itemhandler()
@@ -224,6 +249,9 @@ class ShapeManager(object):
         pass
 
     def hide(self):
+        """
+        Hide all current shapes on the plot
+        """
         ShapeManager.hide_toggle = not ShapeManager.hide_toggle
         for shape in self.__current_list:
             poly = shape.get_itemhandler()
@@ -239,6 +267,10 @@ class ShapeManager(object):
         self.__canvas.show()
 
     def properties(self, event):
+        """
+        Return the properties of the shape clicked on by the user
+        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
+        """
         target = event.artist
         for shape in self.__current_list:
             if shape.get_itemhandler() is target:
@@ -250,6 +282,10 @@ class ShapeManager(object):
         pass
 
     def find_shape(self, event):
+        """
+        Return the handle to the shape found via the user clicking on one
+        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
+        """
         target = event.artist
         for shape in self.__current_list:
             if shape.get_itemhandler() is target:
@@ -258,21 +294,29 @@ class ShapeManager(object):
         logger.error("Shape not found")
         
     def read_plot(self, filename='', read_from_str=''):
-        if read_from_str != "":
-            logger.info("Reading JSON from string")
+        """
+        Reads shapes from either a string or a file in JSON format, and packs the screen
+        with the shapes parsed. **note:** if a string is passed as *well* as a filename,
+        the string takes priority
+
+        :param str filename: The filename to read valid JSON shapes from
+        :param str read_from_str: The string to read valid JSON shapes from
+        """
+        if read_from_str != '':
+            logger.info('Reading JSON from string')
             self.__polygonreader.read_from_str_json(read_from_str)
         else:
-            logger.info("Reading JSON from file")
+            logger.info('Reading JSON from file')
             self.__polygonreader.set_filename(filename)
             self.__polygonreader.read_from_file_json()
         plot = 0
-        logger.info("Parse JSON data for new polygons")
+        logger.info('Parse JSON data for new polygons')
         for lst in self.__shape_list:
             self.__polygonreader.pack_shape(lst, constants.PLOTS[plot], self.__canvas)
             if self.__current_plot == plot:
                 for shape in lst:
                     if not shape.is_empty():
-                        logger.info("Drawing polygon")
+                        logger.info('Drawing polygon')
                         shape.redraw_shape(self.__figure)
             plot += 1
         self.__canvas.show()
