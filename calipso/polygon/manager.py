@@ -23,6 +23,7 @@ class ShapeManager(object):
 
     outline_toggle = True
     hide_toggle = True
+    lock = None
 
     def __init__(self, figure, canvas,  master):
         self.__figure = figure
@@ -42,16 +43,8 @@ class ShapeManager(object):
         self.__data = {}
         logger.info("Querying database for unique tag")
         self.__shape_count = db.query_unique_tag()
-
-    def on_token_buttonpress(self, event):
-        pass
-
-    def on_token_buttonrelease(self, event):
-        pass
-
-    def on_token_motion(self, event):
-        pass
-
+        self.__moving_shape = None
+        
     def anchor_rectangle(self, event):
         """
         Informs the correct shape list's blank object to plot a corner of a rectangle.
