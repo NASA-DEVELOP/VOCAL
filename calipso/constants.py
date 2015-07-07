@@ -6,6 +6,14 @@
 #    Module for all constants
 ######################################
 
+from enum import Enum
+
+class Plot(Enum):
+        baseplot = 0
+        backscattered = 1
+        depolarized = 2
+        vfm = 3
+
 HEIGHT = 665
 WIDTH = 1265
 CHILDWIDTH = 200
