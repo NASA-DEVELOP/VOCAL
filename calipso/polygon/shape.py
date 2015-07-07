@@ -5,11 +5,13 @@
 #    @author: Grant Mercer
 ######################################
 
+from datetime import datetime, timedelta
 import random
 
 from matplotlib.patches import Polygon
-from log import logger
+
 import constants
+from log import logger
 import matplotlib.lines as mlines
 from tools.linearalgebra import tuple_to_nparray, is_intersecting, \
     get_intersection, nparray_to_tuple
@@ -147,7 +149,7 @@ class Shape(object):
         self.__color = clr
         self.__plot = plot
         self.__item_handler = \
-            Polygon(self.__coordinates, facecolor=clr, fill=fill, picker=True)
+            Polygon(self.__coordinates, facecolor=clr, fill=fill, picker=5)
         fig.add_patch(self.__item_handler)
 
     def redraw(self, fig, fill):
@@ -297,7 +299,7 @@ class Shape(object):
                 logger.info('Found attribute')
                 return True
         return False
-
+    
     def move(self, dx, dy, dmx, dmy):
         pass
 
