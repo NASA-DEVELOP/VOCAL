@@ -4,28 +4,30 @@
 #   @Author: Grant Mercer
 #   @Author: Nathan Qian
 ##########################
-import logging
-import tkFileDialog
-import tkMessageBox
-import constants
-
-from constants import Plot
-from sys import platform as _platform
-from bokeh.colors import white
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
-from attributesdialog import AttributesDialog
-from importdialog import ImportDialog
-from plot.plot_uniform_alt_lidar_dev import drawBackscattered
-from polygon.manager import ShapeManager
-from tools.navigationtoolbar import NavigationToolbar2CALIPSO
-from tools.tools import Catcher
-from tools.linearalgebra import distance
-from toolswindow import ToolsWindow
-from log import logger
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
     SUNKEN
+import logging
+from sys import platform as _platform
+import tkFileDialog
+import tkMessageBox
+
+from bokeh.colors import white
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
+from colordialog import ColorDialog
+from attributesdialog import AttributesDialog
+from constants import Plot
+import constants
+from importdialog import ImportDialog
+from log import logger
+from plot.plot_uniform_alt_lidar_dev import drawBackscattered
+from polygon.manager import ShapeManager
+from tools.linearalgebra import distance
+from tools.navigationtoolbar import NavigationToolbar2CALIPSO
+from tools.tools import Catcher
+from toolswindow import ToolsWindow
 
 
 class Calipso(object):
@@ -348,9 +350,10 @@ class Calipso(object):
         logger.info("Opening attributes dialog")
         AttributesDialog(self.__root, shape)
         
-    def color_window(self, event):
+    def paint_window(self, event):
         shape = self.__shapemanager.find_shape(event)
         logger.info("Painting shape")
+        ColorDialog(self.__root, shape, self.__drawplot_canvas)
         
 
     def get_shapemanager(self):
