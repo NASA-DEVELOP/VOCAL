@@ -347,6 +347,11 @@ class Calipso(object):
         shape = self.__shapemanager.find_shape(event)
         logger.info("Opening attributes dialog")
         AttributesDialog(self.__root, shape)
+        
+    def color_window(self, event):
+        shape = self.__shapemanager.find_shape(event)
+        logger.info("Painting shape")
+        
 
     def get_shapemanager(self):
         """

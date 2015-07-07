@@ -242,9 +242,6 @@ class ShapeManager(object):
                 poly.set_fill(False)
         self.__canvas.show()
 
-    def paint(self, event):
-        pass
-
     def hide(self):
         """
         Hide all current shapes on the plot
