@@ -53,10 +53,17 @@ class Shape(object):
         self.__prev_y = event.y
 
     def plot_point(self, event, plot, fig, fill=False):
-        logger.debug("time coordinage %s", event.xdata)
-#         x = time_to_seconds(event.xdata)
+        """
+        Plot a single point to the shape, connect any previous existing
+        points and fill to a shape if the current coordinate intersects
+        the beginning point.
+        :param event: A ``matplotlib.backend_bases.MouseEvent`` passed object
+        :param fig:
+        :param fill:
+        :return:
+        """
         self.__coordinates.append((event.xdata, event.ydata))
-        logger.debug("Plotted point at (%s, %s)", event.xdata, event.ydata)
+        logger.debug("Plotted point at (%0.5f, %0.5f)", event.xdata, event.ydata)
         if len(self.__coordinates) > 1:
             logger.debug("Drawing line from plot")
 #             line = mlines.Line2D((self.__prev_x, self.__prev_y), (event.xdata, event.ydata))
@@ -65,6 +72,7 @@ class Shape(object):
         if len(self.__coordinates) > 3:
             index = self.__can_draw()
             if index > -1:
+
                 logger.debug("Creating polygon from points")
                 a1 = tuple_to_nparray(self.__coordinates[index])
                 a2 = tuple_to_nparray(self.__coordinates[index+1])
@@ -77,7 +85,6 @@ class Shape(object):
                 del self.__coordinates[:index]
                 self.__coordinates.pop()
                 self.draw(fig, plot, fill)
-                self.__plot = plot
                 return True
         self.__prev_x = event.xdata
         self.__prev_y = event.ydata
@@ -102,7 +109,7 @@ class Shape(object):
                                                                  event.x,
                                                                  abs(HEIGHT - event.y - 35))
 
-    def fill_rectangle(self, event, fig, fill=False):
+    def fill_rectangle(self, event, plot, fig, fill=False):
         """
         Draws the rectangle and stores the coordinates of the rectangle internally. Used
         in 'Draw Rect' button. Forwards argument parameters to ``draw``
@@ -124,10 +131,15 @@ class Shape(object):
         self.__coordinates.append((event.xdata, event.ydata))
         self.__coordinates.append((beg[0], event.ydata))
 
-        # Generate random color in a super cool way brah
+        self.draw(fig, plot, fill)
+
+    def draw(self, fig, plot=BASE_PLOT_STR, fill=False):
+        logger.info("Drawing polygon")
+
         r = lambda: random.randint(0, 255)
         clr = '#%02X%02X%02X' % (r(), r(), r())
 
+        self.__plot = plot
         self.__item_handler = \
             Polygon(self.__coordinates, facecolor=clr, fill=fill)
         fig.add_patch(self.__item_handler)
@@ -222,10 +234,6 @@ class Shape(object):
                 logger.debug("Polygon labled for draw")
                 return i
         return -1
-
-    def draw(self, fig, plot=BASE_PLOT_STR, fill=False):
-        logger.info("Drawing polygon")
-        self.__item_handler = Polygon(self.__coordinates)
 
     def remove(self):
         self.__item_handler.remove()
