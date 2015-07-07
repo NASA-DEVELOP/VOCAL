@@ -1,4 +1,5 @@
 *.xml
 *.pyc
 *.log
+*.iml
 calipso/build/
