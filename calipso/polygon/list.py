@@ -11,7 +11,7 @@ import tkMessageBox
 import constants
 from db import db
 from polygon.drawer import PolygonDrawer
-from polygon.reader import PolygonReader
+from polygon.reader import ShapeReader
 from log import logger
 
 class PolygonList(object):
@@ -39,7 +39,7 @@ class PolygonList(object):
         self.__currentList = None           # manipulates polygonList through aliasing
         self.__currentFile = ""
         logger.info("Instantiate polygonReader")
-        self.__polyReader = PolygonReader()
+        self.__polyReader = ShapeReader()
         self.__hdf = ''
         self.__plot = constants.BASE_PLOT_STR
         logger.info("Query db for unique tag")
