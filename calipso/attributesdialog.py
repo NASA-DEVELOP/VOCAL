@@ -120,13 +120,12 @@ class AttributesDialog(Toplevel):
         """
         Saves the attributes that the user has selected
         """
-        logger.info('Setting attributes')
         selection = self.attributes_list.curselection()
-        print selection
         if len(selection) == 0:
             return
         for item in selection:
             string = self.attributes_list.get(item)
+            logger.info('Adding attribute \'%s\' to shape' % string)
             self.__shape.add_attribute(Attributes_fromstr[string])
             self.selected_list.insert(END, string)
         for item in reversed(selection):
@@ -136,13 +135,13 @@ class AttributesDialog(Toplevel):
         """
         Deletes the attributes that the user has selected
         """
-        logger.info('Deleting attributes')
         selection = self.selected_list.curselection()
         if len(selection) == 0:
             return
         for item in selection:
             string = self.selected_list.get(item)
-            self.__shape.remove_attribute()
+            logger.info('Deleting attribute \'%s\' from shape' % string)
+            self.__shape.remove_attribute(Attributes_fromstr[string])
             self.attributes_list.insert(END, string)
         for item in reversed(selection):
             self.selected_list.delete(item)
