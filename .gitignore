@@ -1,9 +1,4 @@
+*.xml
 *.pyc
-gui/
-*.pyc
-plot_vfm/
-*.pyc
-docs/build/
-gui/objs/
-
-/calipso/log/*.log
+*.log
+calipso/build/
