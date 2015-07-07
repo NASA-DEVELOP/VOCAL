@@ -11,7 +11,7 @@ from constants import Plot
 import constants
 from db import db
 from log import logger
-from polygon.reader import PolygonReader
+from polygon.reader import ShapeReader
 from polygon.shape import Shape
 
 
@@ -38,7 +38,7 @@ class ShapeManager(object):
         self.__current_list = None
         self.__current_file = ''
         self.__hdf = ''
-        self.__polygonreader = PolygonReader()
+        self.__shapereader = ShapeReader()
         self.__data = {}
         logger.info("Querying database for unique tag")
         self.__shape_count = db.query_unique_tag()
@@ -226,7 +226,6 @@ class ShapeManager(object):
                 break
         shape.remove()
         self.__canvas.show()
-        print len(self.__current_list)
 
     def outline(self):
         """
@@ -299,7 +298,7 @@ class ShapeManager(object):
         if read_from_str != '':
             # TODO: shape is not being added to the list when importing from database
             logger.info('Reading JSON from string')
-            self.__polygonreader.read_from_str_json(read_from_str)
+            self.__shapereader.read_from_str_json(read_from_str)
         else:
             logger.info('Reading JSON from file')
             self.__polygonreader.set_filename(filename)
@@ -311,13 +310,15 @@ class ShapeManager(object):
             if self.__current_plot.value == plot:
                 for shape in lst:
                     if not shape.is_empty():
-                        logger.info('Drawing polygon')
-                        shape.redraw_shape(self.__figure)
+                        logger.info('Shape found in \'%s\', drawing' %
+                                    constants.PLOTS[plot])
+                        shape.redraw(self.__figure, ShapeManager.outline_toggle)
             plot += 1
         self.__canvas.show()
 
     def save_db(self):
         if len(self.__current_list) == 1:
+            logger.error("No shapes to export to database")
             return False
         today = datetime.utcnow().replace(microsecond=0)
         db.commit_to_db(self.__current_list, str(today), self.__hdf)

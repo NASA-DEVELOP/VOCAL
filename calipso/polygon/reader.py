@@ -13,7 +13,7 @@ from polygon.shape import Shape
 from tools.tools import byteify
 
 
-class PolygonReader(object):
+class ShapeReader(object):
     """
     Reads JSON files and transfers the data into PolygonDrawer objects
 
@@ -68,6 +68,7 @@ class PolygonReader(object):
         :param plot_type: the current plot being displayed
         :param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the shape_list
         """
+        enum_plot_type = constants.plot_type_enum[plot_type]
         try:
             for shape in self.__data[plot_type]:
                 entry = self.__data[plot_type][shape]['id']
@@ -80,7 +81,7 @@ class PolygonReader(object):
                 _id = self.__data[plot_type][shape]['id']
                 shape_list[-1].set_id(_id)
                 shape_list[-1].set_color(color)
-                shape_list[-1].set_plot(plot_type)
+                shape_list[-1].set_plot(enum_plot_type)
                 shape_list[-1].set_attributes(attributes)
                 shape_list[-1].set_coordinates(coordinates)
                 shape_list[-1].set_notes(notes)
