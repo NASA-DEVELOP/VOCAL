@@ -9,7 +9,6 @@ import json
 
 import constants
 from log import logger
-from polygon.drawer import PolygonDrawer
 from polygon.shape import Shape
 from tools.tools import byteify
 
