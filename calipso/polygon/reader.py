@@ -76,7 +76,7 @@ class PolygonReader(object):
             for shape in self.__data[plot_type]:
                 # print int(self.__data[plot_type][shape]['id']) not in [x.getID() for x in shape_list]
                 entry = self.__data[plot_type][shape]['id']
-                if entry is not None and int(entry) in [x.getID() for x in shape_list]: continue
+                if entry is not None and int(entry) in [x.get_id() for x in shape_list]: continue
                 logger.info('Found data, packing polygon with JSON data')
                 color = self.__data[plot_type][shape]['color']
 #                 vertices = self.__data[plot_type][shape]['vertices']

@@ -158,7 +158,7 @@ class ImportDialog(Toplevel):
             tag = self.tree.tree.item(tag, option='values')
             names = [x.tag for x in self.__internal_list]
             logger.info('Forward JSON to be read')
-            self.__master.get_shapemanager().readPlot(
+            self.__master.get_shapemanager().read_plot(
                 read_from_str=str(self.__internal_list[names.index(tag[0])]))
         logger.info('Done')
         self.free()

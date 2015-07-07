@@ -256,14 +256,7 @@ class ShapeManager(object):
                 logger.info("Found shape")
                 return shape
         logger.error("Shape not found")
-
-    def __find_shape_by_itemhandler(self, itemhandler):
-        pass
-
-    @staticmethod
-    def plot_string_to_int(plot):
-        pass
-
+        
     def read_plot(self, filename='', read_from_str=''):
         if read_from_str != "":
             logger.info("Reading JSON from string")
@@ -285,7 +278,11 @@ class ShapeManager(object):
         self.__canvas.show()
 
     def save_db(self):
-        pass
+        if len(self.__current_list) == 1:
+            return False
+        today = datetime.utcnow().replace(microsecond=0)
+        db.commit_to_db(self.__current_list, str(today), self.__hdf)
+        return True
 
     def save_json(self, filename=''):
         if filename != "":
