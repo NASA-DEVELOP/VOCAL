@@ -183,7 +183,7 @@ class ToolsWindow(Toplevel):
 
         # Erase polygon drawings
         erase_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.erase_img, width=30, height=30)
-        erase_button.latch(target=self.__canvas, key='button_press_event', 
+        erase_button.latch(target=self.__canvas, key='pick_event', 
                            command=self.__parent.get_shapemanager().delete, 
                            cursor='X_cursor')
         erase_button.grid(row=1, column=4, padx=2, pady=5)
