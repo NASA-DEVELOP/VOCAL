@@ -408,8 +408,8 @@ class PolygonList(object):
             self.__polyReader.readFromStrJSON(readFromString)
         else:
             logger.info("Reading JSON from file")
-            self.__polyReader.setFileName(fileName)
-            self.__polyReader.readFromFileJSON()
+            self.__polyReader.set_filename(fileName)
+            self.__polyReader.read_from_file_json()
         plot = 0
         logger.info("Parse JSON data for new polygons")
         for lst in self.__polygonList:
