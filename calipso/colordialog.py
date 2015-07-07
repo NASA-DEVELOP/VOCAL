@@ -1,22 +1,22 @@
-'''
-Created on Jul 7, 2015
-
-@author: nqian
-'''
+#####################################
+# Created on Jul 7, 2015
+#
+# @author: nqian
+#####################################
 from Tkconstants import TOP, BOTH, X, END
 from Tkinter import Toplevel, Frame, StringVar, Label, Entry, Button
 
 
 class ColorDialog(Toplevel):
-    '''
+    """
     classdocs
-    '''
+    """
 
 
     def __init__(self, root, shape, canvas):
-        '''
+        """
         Constructor
-        '''
+        """
         Toplevel.__init__(self, root, width=150, height=150)
         
         self.shape = shape
