@@ -120,6 +120,17 @@ class ToolsWindow(Toplevel):
 
         Label(self.lower_button_frame, width=1).grid(row=0, column=0)
         Label(self.lower_button_frame, width=1).grid(row=0, column=5)
+        
+        # Pan plot left and right
+        plot_cursor_button = \
+            ToggleableButton(self.__root, self.lower_button_frame, image=self.plot_cursor_img, width=30, height=30)
+        plot_cursor_button.latch(target=self.__canvas, key='button_press_event', 
+                                 command=self.__parent.pan)
+        plot_cursor_button.latch(target=self.__canvas, key='button_release_event', 
+                                 command=self.__parent.render_pan)
+        plot_cursor_button.latch(cursor='hand1')
+        plot_cursor_button.grid(row=0, column=1, padx=2, pady=5)
+        create_tool_tip(plot_cursor_button, 'Move about plot')
 
         # Magnify icon
         logger.info('Creating toolbar buttons')
@@ -162,42 +173,25 @@ class ToolsWindow(Toplevel):
             ToggleableButton(self.__root, self.lower_button_frame, image=self.free_draw_img, width=30, height=30)
         free_draw_button.latch(target=self.__canvas, key='button_press_event', 
                                command=self.__parent.get_shapemanager().plot_point, cursor='tcross')
-        free_draw_button.grid(row=1, column=3, padx=2, pady=5)
+        free_draw_button.grid(row=1, column=2, padx=2, pady=5)
         create_tool_tip(free_draw_button, 'Free Draw')
-
-        # Pan plot left and right
-        plot_cursor_button = \
-            ToggleableButton(self.__root, self.lower_button_frame, image=self.plot_cursor_img, width=30, height=30)
-        plot_cursor_button.latch(target=self.__canvas, key='button_press_event', 
-                                 command=self.__parent.pan)
-        plot_cursor_button.latch(target=self.__canvas, key='button_release_event', 
-                                 command=self.__parent.render_pan)
-        plot_cursor_button.latch(cursor='hand1')
-        plot_cursor_button.grid(row=0, column=1, padx=2, pady=5)
-        create_tool_tip(plot_cursor_button, 'Move about plot')
-
-        # Move polygon and rectangles around
-        drag_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.drag_img, width=30, height=30)
-        drag_button.latch(key='<Button-2>', command=self.__parent.get_shapemanager().toggle_drag, cursor='hand1')
-        drag_button.grid(row=1, column=2, padx=2, pady=5)
-        create_tool_tip(drag_button, 'Drag')
-
+        
         # Erase polygon drawings
         erase_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.erase_img, width=30, height=30)
         erase_button.latch(target=self.__canvas, key='pick_event',
                            command=self.__parent.get_shapemanager().delete, 
                            cursor='X_cursor')
-        erase_button.grid(row=1, column=4, padx=2, pady=5)
+        erase_button.grid(row=1, column=3, padx=2, pady=5)
         create_tool_tip(erase_button, 'Erase polygon')
-
+        
         # Recolor shapes
         paint_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.paint_img, width=30, height=30)
         paint_button.latch(target=self.__canvas, key='pick_event',
                            command=self.__parent.paint_window,
                            cursor='')
-        paint_button.grid(row=2, column=2, padx=2, pady=5)
+        paint_button.grid(row=1, column=4, padx=2, pady=5)
         create_tool_tip(paint_button, 'Paint')
-
+        
         # Outline shapes
         outline_button = \
             Button(self.lower_button_frame, image=self.outline_img, width=30, height=30,
@@ -209,35 +203,35 @@ class ToolsWindow(Toplevel):
         plot_button = \
             Button(self.lower_button_frame, image=self.plot_img, width=30, height=30,
                    command=lambda: self.__parent.get_shapemanager().hide())
-        plot_button.grid(row=2, column=3, padx=2, pady=5)
+        plot_button.grid(row=2, column=2, padx=2, pady=5)
         create_tool_tip(plot_button, 'Hide polygons')
 
         # Save shapes as JSON
         save_button = \
             Button(self.lower_button_frame, image=self.save_img, width=30, height=30, command=self.__parent.save_json)
-        save_button.grid(row=2, column=4, padx=2, pady=5)
+        save_button.grid(row=2, column=3, padx=2, pady=5)
         create_tool_tip(save_button, 'Save visible\n objects\n to JSON')
-
-        # Load shapes from JSON
-        load_button = \
-            Button(self.lower_button_frame, image=self.load_img, width=30, height=30, command=self.__parent.load)
-        load_button.grid(row=3, column=1, padx=2, pady=5)
-        create_tool_tip(load_button, 'Load JSON')
 
         # Retrieve shape properties
         properties_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.prop_img, width=30, height=30)
         properties_button.latch(target=self.__canvas, key='pick_event',
                                 command=self.__parent.get_shapemanager().properties)
-        properties_button.grid(row=3, column=2, padx=2, pady=5)
+        properties_button.grid(row=3, column=1, padx=2, pady=5)
         create_tool_tip(properties_button, 'Polygon Properties')
 
         # Edit shape attributes
         edit_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.edit_img, width=30, height=30)
         edit_button.latch(target=self.__canvas, key='pick_event',
                           command=self.__parent.attribute_window)
-        edit_button.grid(row=3, column=3, padx=2, pady=5)
+        edit_button.grid(row=3, column=2, padx=2, pady=5)
         create_tool_tip(edit_button, 'Edit Attributes')
+        
+        # Load shapes from JSON
+        load_button = \
+            Button(self.lower_button_frame, image=self.load_img, width=30, height=30, command=self.__parent.load)
+        load_button.grid(row=3, column=3, padx=2, pady=5)
+        create_tool_tip(load_button, 'Load JSON')
 
     def render(self):
         """
