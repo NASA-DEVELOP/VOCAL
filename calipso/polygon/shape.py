@@ -8,7 +8,7 @@
 from datetime import datetime, timedelta
 import random
 
-from matplotlib.patches import Polygon
+from matplotlib.patches import Polygon, Arrow
 from log import logger
 from constants import *
 import matplotlib.lines as mlines
@@ -40,6 +40,7 @@ class Shape(object):
         self.lastrect = None
         self.__prev_x = 1.0
         self.__prev_y = 1.0
+        self.__lines = []
 
     def anchor_rectangle(self, event):
         """
@@ -66,8 +67,15 @@ class Shape(object):
         logger.debug("Plotted point at (%0.5f, %0.5f)", event.xdata, event.ydata)
         if len(self.__coordinates) > 1:
             logger.debug("Drawing line from plot")
-#             line = mlines.Line2D((self.__prev_x, self.__prev_y), (event.xdata, event.ydata))
-#             fig.get_axes().add_line(line)
+
+            self.__canvas.show()
+            self.__lines.append(
+                mlines.Line2D((self.__prev_x, event.xdata),
+                              (self.__prev_y, event.ydata),
+                              linewidth=2.0,
+                              color='#000000'))
+            fig.add_artist(self.__lines[-1])
+            self.__canvas.show()
             pass
         if len(self.__coordinates) > 3:
             index = self.__can_draw()
@@ -84,6 +92,9 @@ class Shape(object):
                 
                 del self.__coordinates[:index]
                 self.__coordinates.pop()
+                for line in self.__lines:
+                    line.remove()
+                self.__lines = []
                 self.draw(fig, plot, fill)
                 return True
         self.__prev_x = event.xdata
