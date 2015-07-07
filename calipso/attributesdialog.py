@@ -153,7 +153,7 @@ class AttributesDialog(Toplevel):
         """
         logger.info('Saving note')
         note = self.note_text.get('1.0', 'end-1c')
-        self.__shape.setNotes(note)
+        self.__poly.set_notes(note)
         self.close()
     
     def clear(self):
@@ -162,7 +162,7 @@ class AttributesDialog(Toplevel):
         """
         logger.info('Deleting note')
         self.note_text.delete(1.0, END)
-        self.__shape.setNotes('')
+        self.__poly.set_notes('')
     
     def close(self):
         """
