@@ -1,17 +1,22 @@
 ## Docs:
 
-http://syntaf.github.io/CALIPSO_Visualization/
+http://syntaf.github.io/vocal/
 
 ## To-do
 
 * [ ] Ensure windows are never cut off from screen (cross-platform)
 * [ ] Move polygon implementation to matplotlib
-* [ ] 
+* [ ] Create Attributes Enum
+* [ ] Create Plot enum
+* [ ] Being testing on Mac OS
+* [ ] Pull data from selected shapes
 
 ## Big Ideas:
 
 * [ ] Draw shape of object on sidebar when clicking on selection for db
 * [ ] Move database to MySQL and get away from sqlite
+* [ ] Start integrating testing?
+* [ ] Radial Shapes
 
 ## Notes: 
 

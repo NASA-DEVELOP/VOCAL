@@ -1,39 +1,100 @@
+##########################
+#
+#
+#   @Author: Grant Mercer
+#   @Author: Nathan Qian
+##########################
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
     SUNKEN
-import Tkinter as tk
-import logging, os, tkFileDialog, tkMessageBox
-
+import logging
 from sys import platform as _platform
+import tkFileDialog
+import tkMessageBox
+
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-from PIL import Image, ImageTk  # @UnresolvedImport @UnusedImport
+from colordialog import ColorDialog
 from attributesdialog import AttributesDialog
+from constants import Plot
 import constants
-from importdialog import dbDialog
-from plot.plot_depolar_ratio import drawDepolar
+from importdialog import ImportDialog
+from log import logger
 from plot.plot_uniform_alt_lidar_dev import drawBackscattered
-from polygon.list import PolygonList
+from polygon.manager import ShapeManager
+from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.tools import Catcher
-from tools.linearalgebra import distance
 from toolswindow import ToolsWindow
-from log import logger
+
 
 class Calipso(object):
-    '''
-    Main class of the application, handles all GUI related events as well as 
+    """
+    Main class of the application, handles all GUI related events as well as
     creating other GUI windows such as the toolbar or import dialog
-    '''
-    def __init__ (self, r):    
-        self.__root = r                         # root of program
-        self.__file =  ''                       # current file in use
-        self.xrange = self.yrange = (0,1000)
-        self.plot = 0
-        
+    """
+
+    def __init__(self, r):
+        self.__root = r                         # Root of program
+        self.__file = ''                        # Current file in use
+        self.xrange = self.yrange = (0, 1000)   # X and Y range for scrolling plot
+        self.panx = self.pany = 0               # Pan values for shifting map
+        self.plot = Plot.baseplot               # Current selected plot
+        self.__label_file_dialog = None
+
         # TODO: Add icon for window an task bar
+<<<<<<< HEAD
+
+        # Paned window that stretches to fit entire screen
+        base_pane = PanedWindow()
+        base_pane.pack(fill=BOTH, expand=1)
+        # Splits window into a top and bottom section
+        sectioned_pane = PanedWindow(orient=VERTICAL)
+        base_pane.add(sectioned_pane)
+        # Top pane
+        top_paned_window = PanedWindow(sectioned_pane, orient=HORIZONTAL)
+        sectioned_pane.add(top_paned_window)
+
+        # Frame to hold dialog for browsing files
+        self.__dialog_frame = Frame(top_paned_window)
+        self.__dialog_frame.pack(side=LEFT)
+
+        # Bottom half the screen
+        bottom_paned_window = PanedWindow(sectioned_pane)
+        sectioned_pane.add(bottom_paned_window)
+
+        # The frame on which we will set out canvas for drawing etc.
+        self.__drawplot_frame = Frame(bottom_paned_window,
+                                      width=constants.WIDTH,
+                                      height=constants.HEIGHT)
+
+        logger.info('Instantiating ToolsWindow')
+        # Matplotlib backend objects
+        self.__parent_fig = Figure(figsize=(16, 11))
+        self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+        self.__drawplot_canvas = FigureCanvasTkAgg(self.__parent_fig,
+                                                   master=self.__drawplot_frame)
+        # Create ToolsWindow class and pass itself + the root
+        self.__child = ToolsWindow(self.__drawplot_canvas, self, r)
+        logger.info('Create ShapeManager')
+        self.__shapemanager = ShapeManager(self.__fig, self.__drawplot_canvas,
+                                           self)
+        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplot_canvas,
+                                                   self.__child.coordinate_frame)
+
+        # pack and display canvas
+        self.__drawplot_canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+        self.__drawplot_frame.pack()
+
+    @staticmethod
+    def callback(event):
+        print event.x, event.y
+
+    def setup_window(self):
+        """
+=======
         
         basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
         basePane.pack(fill=BOTH, expand = 1)                # fill and expand
@@ -71,90 +132,104 @@ class Calipso(object):
     
     def setupWindow(self):
         '''
+>>>>>>> master
         Sets the title of root and invokes py:meth:`centerWindow`
-        '''
+        """
         self.__root.title("CALIPSO Visualization Tool")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
-        self.x = (sw - constants.WIDTH)/2
-        self.y = (sh - constants.HEIGHT)/2
-        self.__root.geometry('%dx%d+%d+%d' % (constants.WIDTH, constants.HEIGHT, self.x, self.y))
+        x = (sw - constants.WIDTH) / 2
+        y = (sh - constants.HEIGHT) / 2
+        self.__root.geometry('%dx%d+%d+%d' % (constants.WIDTH, constants.HEIGHT, x, y))
         # the child is designed to appear off to the right of the parent window, so the x location
         # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
         # plus half the distance of the window
         if _platform == "linux" or _platform == "linux2":
             logger.info("Linux system detected")
-            logger.info(self.x)
-            self.__child.geometry('%dx%d+%d+%d' % (constants.CHILDWIDTH+50, constants.CHILDHEIGHT, self.x + constants.WIDTH, self.y + constants.HEIGHT/4))
+            self.__child.geometry('%dx%d+%d+%d' % (
+                constants.CHILDWIDTH + 50, constants.CHILDHEIGHT, x + constants.WIDTH,
+                y + constants.HEIGHT / 4))
         else:
-            self.__child.geometry('%dx%d+%d+%d' % (constants.CHILDWIDTH, constants.CHILDHEIGHT, self.x + self.x*4 + 20, self.y + self.y/2))
-       
-#### MENU BAR ######################################################################################   
-    def setupMenu(self):
-        '''
-        Creates a drop down menu bar
-        '''
-        self.__menuBar = Menu(self.__root)
-        
-        #File Menu
-        self.__menuFile = Menu(self.__menuBar, tearoff=0)
-        self.__menuFile.add_command(label="Import File", command=self.importFile)
-        self.__menuFile.add_command(label="Save all", command=lambda : self.notifySaveAsJSON(saveAll=True))
-        self.__menuFile.add_command(label="Save as", command=self.notifySaveAsJSON)
-        self.__menuFile.add_separator()
-        self.__menuFile.add_command(label="Exit", command=self.__root.quit)
-        self.__menuBar.add_cascade(label="File", menu=self.__menuFile)
-        
-        #Polygon Menu
-        self.__menuPolygon = Menu(self.__menuBar, tearoff=0)
-        self.__menuPolygon.add_command(label="Import from Database", command=lambda : dbDialog(self.__root, self))
-        self.__menuPolygon.add_command(label="Export to Database", command=self.notifySaveDB)
-        self.__menuBar.add_cascade(label="Polygon", menu=self.__menuPolygon)
-        
-        #Help Menu
-        self.__menuHelp = Menu(self.__menuBar, tearoff=0)
-        self.__menuHelp.add_command(label="About", command=self.about)
-        self.__menuBar.add_cascade(label="Help", menu=self.__menuHelp)
-        
-        #configure menu to screen
-        self.__root.config(menu=self.__menuBar)
+            self.__child.geometry('%dx%d+%d+%d' % (
+                constants.CHILDWIDTH, constants.CHILDHEIGHT, x + x * 4 + 20, y + y / 2))
 
-    def setPlot(self, plotType, xrange_=(0,1000), yrange=(0,20)):
-        '''
-        Draws to the canvas according to the *plotType* specified in the arguments. Accepts one of the 
-        attributes below
-        
+    def setup_menu(self):
+        """
+        Creates a drop down menu bar
+        """
+        menu_bar = Menu(self.__root)
+
+        # File Menu
+        menu_file = Menu(menu_bar, tearoff=0)
+        menu_file.add_command(label='Import File', command=self.import_file)
+        menu_file.add_command(label='Save all', command=lambda: self.save_as_json(save_all=True))
+        menu_file.add_command(label='Save as', command=self.save_as_json)
+        menu_file.add_separator()
+        menu_file.add_command(label='Exit', command=self.__root.quit)
+        menu_bar.add_cascade(label='File', menu=menu_file)
+
+        # Polygon Menu
+        menu_polygon = Menu(menu_bar, tearoff=0)
+        menu_polygon.add_command(label='Import from Database',
+                                 command=lambda: ImportDialog(self.__root, self))
+        menu_polygon.add_command(label='Export to Database', command=self.notify_save_db)
+        menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
+
+        # Help Menu
+        menu_help = Menu(menu_bar, tearoff=0)
+        menu_help.add_command(label='About', command=self.about)
+        menu_bar.add_cascade(label='Help', menu=menu_help)
+
+        # configure menu to screen
+        self.__root.config(menu=menu_bar)
+
+    def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 20)):
+        """
+        Draws to the canvas according to the *plot_type* specified in the arguments. Accepts one of
+        the attributes below
+
         .. py:attribute:: BASE_PLOT
         .. py:attribute:: BACKSCATTERED
         .. py:attribute:: DEPOLARIZED
-        .. py:attribute:: VFML
-        
-        :param int plotType: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
-        :param (int,int) xrange: accepts a range of time to plot
+        .. py:attribute:: VFM
+
+        :param int plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
+        :param (int,int) xrange_: accepts a range of time to plot
         :param (int,int) yrange: accepts a range of altitude to plot
-        '''
+        """
         self.xrange = xrange_
         self.yrange = yrange
-        if (plotType) == constants.BASE_PLOT:
-            self.__polygonList.setPlot(constants.BASE_PLOT)                                     # sets the screen to a blank canvas
-        elif plotType == constants.BACKSCATTERED:
+        if plot_type == Plot.baseplot:
+            self.__shapemanager.set_plot(Plot.baseplot)
+        elif plot_type == Plot.backscattered:
             try:
-                #prev = self.__root.cget('cursor')
-
-                logger.info("Setting plot to backscattered xrange: " + 
-                    str(xrange_) + " yrange: " + str(yrange))
-                self.__Parentfig.clear()                                                        # clear the figure
-                self.__fig = self.__Parentfig.add_subplot(1,1,1)                                # create subplot
-                drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__Parentfig)
-                self.__drawplotCanvas.show()                                                    # show canvas
-                self.__polygonList.setPlot(constants.BACKSCATTERED)                             # set the current plot on polygonList
-                self.__toolbar.update()                                                         # update toolbar
-                self.plot = constants.BACKSCATTERED
+                logger.info('Setting plot to backscattered xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__shapemanager.clear_refs()
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.backscattered, self.__fig)
+                self.__drawplot_canvas.show()                            # show canvas
+                self.__toolbar.update()                                  # update toolbar
+                self.plot = Plot.backscattered
             except IOError:
-                logger.error("IOError, no file exists")
-                tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists in current file var
-        elif plotType == constants.DEPOLARIZED:
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', 'No File Exists')
+        # TODO: Reimplement with new plotting technique (like backscatter)
+        elif plot_type == Plot.depolarized:
             try:
+<<<<<<< HEAD
+                logger.error('Needs to be reimplemented')
+                """
+                self.__fig.clear()
+                drawDepolar(self.__file, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_plot(constants.DEPOLARIZED)       # set the internal plot
+                self.__drawplot_canvas.show()                             # show plot
+                self.__toolbar.update()                                   # update toolbar
+                self.plot = Plot.depolarized
+                """
+=======
                 logger.info("Setting plot to depolarized")
                 self.__Parentfig.clear()                                                        # clear the figure
                 self.__fig = self.__Parentfig.add_subplot(1, 1, 1)                              # create subplot
@@ -163,214 +238,250 @@ class Calipso(object):
                 self.__drawplotCanvas.show()                                                    # show plot
                 self.__toolbar.update()   
                 self.plot = constants.DEPOLARIZED                                                      # update toolbar
+>>>>>>> master
             except IOError:
-                logger.error("IOError, no file exists")
-                tkMessageBox.showerror("File Not Found", "No File Exists")                      # error if no file exists
-        elif plotType == constants.VFM:
-            logger.error("Accessing unimplemented VFM plot")
-            tkMessageBox.showerror("TODO", "Sorry, this plot is currently not implemented")  # vfm doesn't exist
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', "No File Exists")
+        elif plot_type == Plot.vfm:
+            logger.error('Accessing unimplemented VFM plot')
+            tkMessageBox.showerror("TODO", 'Sorry, this plot is currently not implemented')
+
     def reset(self):
-        '''
+        """
         Reset all objects on the screen, move pan to original
-        '''
-        logger.info("Reseting plot")
-        self.__polygonList.reset()  # reset all buttons
-        self.__toolbar.home()       # proc toolbar function to reset plot to home
-        
+        """
+        logger.info("Resetting plot")
+        self.__shapemanager.reset()      # reset all buttons
+        self.__toolbar.home()           # proc toolbar function to reset plot to home
+
     def pan(self, event):
+        """
+        Saves initial coordinates of mouse press when the user begins to pan
+
+        :param event: Tkinter passed event object
+        """
         logger.info("Pan point 1")
         self.panx = event.x
         self.pany = event.y
-    
-    def renderPan(self, event):
+
+    def render_pan(self, event):
+        """
+        Saves ending coordinates of mouse press and proceeds to find the distance
+        between the two points, scrolls the map accordingly
+
+        :param event: Tkinter passed event object
+        """
         logger.info("Pan point 2, finding distance and panning...")
+        # Find distance and add an amplifier of 1.5
         dst = int(distance(self.panx, self.pany, event.x, event.y) * 1.5)
+        # If the user is scrolling backwards
         if self.panx < event.x:
+            # Already at beginning
             if self.xrange[0] == 0:
-                logger.warning("Attempting to pan backwards, already at beginning nothing to be done")
+                logger.warning(
+                    "Attempting to pan backwards, already at beginning nothing to be done")
                 return
-            if self.xrange[0]-dst < 0:
+            # The end position would be negative
+            if self.xrange[0] - dst < 0:
                 logger.warning("Attempting to pan past beginning, setting to beginning")
+                # Set both xrange and dst to zero and simply reload beginning range
                 self.xrange = (0, self.xrange[1])
                 dst = 0
             logger.info("Panning backwards")
-            self.setPlot(self.plot, (self.xrange[0]-dst, self.xrange[1]-dst))
+            self.set_plot(self.plot, (self.xrange[0] - dst, self.xrange[1] - dst))
         else:
-            logger.info("Panning forewards")
-            self.setPlot(self.plot, (self.xrange[0]+dst, self.xrange[1]+dst))
+            logger.info("Panning forwards")
+            self.set_plot(self.plot, (self.xrange[0] + dst, self.xrange[1] + dst))
         pass
-        
-    def createTopScreenGUI(self):
-        ''' 
-        Initializes and creates the file dialog and browse button that appear at the top of the screen
-        '''
+
+    def create_top_gui(self):
+        """
+        Initializes and creates the *File: label*, *file dialog*, and *browse button* that appear
+        at the top of the screen
+        """
         logger.info("Creating top screen GUI")
-        lblFile=Label(self.__dialogFrame, text="File:")                                 # File label upper:left
-        self.__lblFileDialog = Label(self.__dialogFrame, width = 50, justify=LEFT,      # Input box that shows file currently loaded
-            bg = white, relief = SUNKEN)
-        btnBrowse = Button(self.__dialogFrame, text ='Browse', width = 10,              # same as 'open' option
-            command=self.importFile)
-        lblFile.grid(row=1, column=0)                                                   # place and pack File labe
-        self.__lblFileDialog.grid(row=1, column=1, padx=10)                             # place and pack dialog label
-        btnBrowse.grid(row=1, column=3)                                                 # pack and place 
-        
-    def notifySaveDB(self):
-        '''
+        # Create label , entry box and browse button
+        label_file = Label(self.__dialog_frame, text="File:")
+        self.__label_file_dialog = Label(self.__dialog_frame, width=50, justify=LEFT,
+                                         bg=white, relief=SUNKEN)
+        browse_button = Button(self.__dialog_frame, text='Browse', width=10,
+                               command=self.import_file)
+        label_file.grid(row=1, column=0)
+        self.__label_file_dialog.grid(row=1, column=1, padx=10)
+        browse_button.grid(row=1, column=3)
+
+    def notify_save_db(self):
+        """
         Notify the database that a save is taking place, the
         db will then save all polygons present on the screen
-        '''
-        logger.info("Notified database to save")
-        success = self.__polygonList.saveToDB()
+        """
+        logger.info('Notified database to save')
+        success = self.__shapemanager.save_db()
         if success:
-            logger.info("Success, saved to db")
-            tkMessageBox.showinfo("database", "All objects saved to database")
+            logger.info('Success, saved to db')
+            tkMessageBox.showinfo('database', 'All objects saved to database')
         else:
-            logger.error("No objects to be saved")
-            tkMessageBox.showerror("database", "No objects to be saved")
-            
-    def notifySaveJSON(self):
-        '''
+            logger.error('No objects to be saved')
+            tkMessageBox.showerror('database', 'No objects to be saved')
+
+    def save_json(self):
+        """
         Save all shapes on the map inside a JSON object given a previously
         saved file. If no file exists prompt for file
-        '''
-        logger.info("Notify JSON to save")
+        """
+        logger.info('Notify JSON to save')
         # Save to last saved file, if no file exists prompt to a new file
-        if self.__polygonList.getCount() > 0:           
-            if self.__polygonList.getFileName() == "":      
-                self.notifySaveAsJSON()                     # Still prompt for a file name if none currently exists
+        if self.__shapemanager.get_count() > 0:
+            if self.__shapemanager.get_filename() == '':
+                self.save_as_json()  # Still prompt for a file name if none currently exists
             else:
-                self.__polygonList.save()                   # Else do a normal save with internal file
+                self.__shapemanager.save_json()  # Else do a normal save with internal file
         else:
-            tkMessageBox.showerror("save as JSON", "No objects to be saved")
-            
-    def notifySaveAsJSON(self, saveAll=False):
-        '''
+            tkMessageBox.showerror('save as JSON', 'No objects to be saved')
+
+    def save_as_json(self, save_all=False):
+        """
         Save all shapes on the map given a file specified by the user
-        '''
-        logger.info("Notify JSON to save as")
+        """
+        logger.info('Notify JSON to save as')
         # Save to a file entered by user, saveAll saves ALL objects across canvas
         # and cannot be called as a normal save(must always be save as)
-        if self.__polygonList.getCount() > 0:
-            options = {}
+        if self.__shapemanager.get_count() > 0:
+            options = dict()
             options['defaultextension'] = '.json'
             options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
             f = tkFileDialog.asksaveasfilename(**options)
             if f is "":
                 return
-            if saveAll: self.__polygonList.saveAll(f) 
-            else: self.__polygonList.save(f)
+            if save_all:
+                self.__shapemanager.save_all_json(f)
+            else:
+                self.__shapemanager.save_json(f)
         else:
-            tkMessageBox.showerror("save as JSON", "No objects to be saved")
+            tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
-    def importFile(self):
-        '''
+    def import_file(self):
+        """
         Load an HDF file for use with displaying backscatter and depolarized images
-        '''
+        """
         logger.info("Importing HDF file")
         # function to import HDF file used my open and browse
-        ftypes = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        dlg = tkFileDialog.Open(filetypes = ftypes)
+        file_types = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
+        dlg = tkFileDialog.Open(filetypes=file_types)
         fl = dlg.show()
         if fl != '':
             self.__file = fl
-            Segments = self.__file.rpartition('/')
-            self.__lblFileDialog.config(width = 50, bg = white, relief = SUNKEN, justify = LEFT, text = Segments[2])
-            self.__polygonList.setHDF(self.__file)
+            segments = self.__file.rpartition('/')
+            self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
+                                            text=segments[2])
+            self.__shapemanager.set_hdf(self.__file)
         return ''
-    
+
     def load(self):
-        '''
+        """
         load JSON objects from file by calling :py:meth:`polygonlist.readPlot(f)`
-        '''
+        """
         logger.info("Loading JSON")
-        # loads JSON object by callig the polygonList internal readPlot method
-        options = {}
+        # loads JSON object by calling the polygonList internal readPlot method
+        options = dict()
         options['defaultextension'] = '.json'
         options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
         f = tkFileDialog.askopenfilename(**options)
-        if f is "":
+        if f is '':
             return
-        self.__polygonList.readPlot(f)
-    
-    def attributeWindow(self, event):
-        '''
+        self.__shapemanager.read_plot(f)
+
+    def attribute_window(self, event):
+        """
         Open attribute window for specifying attributes on objects
-        
+
         :param event: A Tkinter passed event object
-        '''
-        logger.info("Searching for polygon")
-        poly = self.__polygonList.findPolygon(event)
-        if poly:
-            logger.info("Opening attributes dialog") 
-            AttributesDialog(self.__root, poly)
+        """
+        logger.info("Grabbing shape object")
+        shape = self.__shapemanager.find_shape(event)
+        logger.info("Opening attributes dialog")
+        AttributesDialog(self.__root, shape)
+        
+    def paint_window(self, event):
+        shape = self.__shapemanager.find_shape(event)
+        logger.info("Painting shape")
+        ColorDialog(self.__root, shape, self.__drawplot_canvas)
 
-    def getPolygonList(self):
-        '''
+    def get_root(self):
+        return self.__root
+
+    def get_shapemanager(self):
+        """
         Returns the internal :py:class:`polygonList` object
-        
-        :rtype: :py:class:`polygonList`
-        '''
-        return self.__polygonList       # get functions for private varialbes
-    
-    def getToolbar(self):
-        '''
-        Returns the internal :py:class:`toolbar` object
-        
-        :rtype: :py:class:`NavigationToolbar2CALIPSO`
-        '''
-        return self.__toolbar
-    
-    def getFig(self):
-        '''
-        Returns the figure that is plotted to the canvas
-        
-        :rtype: :py:class:`Figure`
-        '''
-        if self.__fig : return self.__fig
-        logger.error("Fig does not exist")
-        
-    def about(self): 
-        '''
-        Simple TopLevel window displaying the authors
-        '''
-        logger.info("Opening about window")
-        filewin = Toplevel(self.__root)
-        filewin.title("About")
-        T = Message(filewin, text="NASA DEVELOP\n \nLaRC Spring 2015 Term \nJordan Vaa (Team Lead) \nCourtney Duquette \nAshna Aggarwal \
-            \n\nLaRC Summer 2015 Term \nGrant Mercer (Team Lead) \nNathan Qian")
-        T.pack()
-            
-        btnClose = Button(filewin, text="Close", command=filewin.destroy)
-        btnClose.pack()  
-    
-    def setupMainScreen(self):
-        '''
-        Setup the top GUI, initialize toolbar window and set the plot to a blank image
-        '''
-        logger.info("Setting up GUI")
-        self.createTopScreenGUI()
-        self.__child.setupToolBarButtons()
-        logger.info("Setting initial plot")
-        self.setPlot(constants.BASE_PLOT)
-        
-def main():
-    logging.info("Starting CALIPSO program")
-    tk.CallWrapper = Catcher    # Catch Tkinter exceptions to be written by log
-    rt = Tk()
-    logging.info("Instatiate CALIPSO program")
-    program = Calipso(rt)       # Create main GUI window
 
-    logger.info("Setting up window")
-    program.setupWindow()       # create window in center screen
-    logger.info("Setting up menu")
-    program.setupMenu()         # create top menu
-    logger.info("Setting up main screen")
-    program.setupMainScreen()   # create top buttons, initialize child and display base_plt
-        
-    rt.mainloop()               # program main loop
-    logging.info("Terminated CALIPSO program")
-    os._exit(1)
-        
-#### RUN LINES ##################################################################################        
+        :rtype: :py:class:`polygonList`
+        """
+        return self.__shapemanager  # get functions for private variables
+
+    def get_toolbar(self):
+        """
+        Returns the internal :py:class:`toolbar` object
+
+        :rtype: :py:class:`NavigationToolbar2CALIPSO`
+        """
+        return self.__toolbar
+
+    def get_fig(self):
+        """
+        Returns the figure that is plotted to the canvas
+
+        :rtype: :py:class:`Figure`
+        """
+        if self.__fig:
+            return self.__fig
+        logger.error("Fig does not exist")
+
+    def about(self):
+        """
+        Simple TopLevel window displaying the authors
+        """
+        logger.info('Opening about window')
+        file_window = Toplevel(self.__root)
+        file_window.title('About')
+        message = Message(file_window, text='NASA DEVELOP\n \nLaRC Spring 2015 Term \nJordan Vaa '
+                                            '(Team Lead) \nCourtney Duquette \nAshna Aggarwal \
+                                            \n\nLaRC Summer 2015 Term \nGrant Mercer (Team Lead) '
+                                            '\nNathan Qian')
+        message.pack()
+
+        button_close = Button(file_window, text='Close', command=file_window.destroy)
+        button_close.pack()
+
+    def setup_main_screen(self):
+        """
+        Setup the top GUI, initialize toolbar window and set the plot to a blank image
+        """
+        logger.info('Setting up GUI')
+        self.create_top_gui()
+        self.__child.setup_toolbar_buttons()
+        logger.info('Setting initial plot')
+        self.set_plot(Plot.baseplot)
+
+
+def main():
+    # Create Tkinter root and initialize Calipso
+    logging.info('Starting CALIPSO program')
+    Tk.CallWrapper = Catcher
+    rt = Tk()
+    logging.info('Instantiate CALIPSO program')
+    program = Calipso(rt)
+
+    # Setup Calipso window
+    logger.info('Setting up window')
+    program.setup_window()
+    logger.info('Setting up menu')
+    program.setup_menu()
+    logger.info('Setting up main screen')
+    program.setup_main_screen()
+
+    # Begin program
+    rt.mainloop()
+    logging.info('Terminated CALIPSO program')
+
 if __name__ == "__main__":
     main()

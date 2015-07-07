@@ -6,33 +6,37 @@
 Welcome to the Visualization of Calipso Tool (VOCAL)!
 ============================================================
 
-Everything you'll need to know about vocal project from both a developer and user standpoint can be read about here! If you're looking to add to the doc chain, please ensure you reference current .rst documents to build your new documentation. Conforming to the previous style is important for maintaining clarity in both the code base and documentation
+Everything you'll need to know from installation to developing the application can be found here! VOCAL aim's to have a very in depth doc page in order to promote open source development and allow for VOCAL to evolve as the users see fit. Refer to the side bar on the left to navigate about the doc page, and use the search button at the top corner if you're looking for specific areas.
 
-Information:
-=============
+Contents
+============
 
 .. toctree::
    :maxdepth: 2
+   :caption: User Documentation
 
    overview
    installation
    tutorial
-   troubleshoot
-
-Documentation:
-==============
-
+ 
 .. toctree::
    :maxdepth: 2
+   :caption: Developer Documentation
 
-   conventions
-   buildingdocs
+   dev/conventions
+   dev/enviroment
+   dev/docs
+   dev/site
    doc/modules
-
-Indices and tables
-==================
 
 * :ref:`genindex`
 * :ref:`modindex`
-* :ref:`search`
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Support
+
+   trouble/faq
+   trouble/issuetracker
+   trouble/contact
 

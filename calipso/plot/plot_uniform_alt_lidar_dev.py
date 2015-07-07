@@ -4,15 +4,19 @@
 # Brian Magill
 # 8/11/2014
 #
-import ccplot
+import ccplot.utils
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
+<<<<<<< HEAD
+from ccplot.utils import calipso_time2dt
+=======
+>>>>>>> master
 from PCF_genTimeUtils import extractDatetime
 import numpy as np
 import matplotlib as mpl
 
 
-#from gui.CALIPSO_Visualization_Tool import filename
+# from gui.CALIPSO_Visualization_Tool import filename
 def drawBackscattered(filename, xrange, yrange, fig, pfig):   
     x1 = xrange[0]
     x2 = xrange[1]
@@ -30,6 +34,8 @@ def drawBackscattered(filename, xrange, yrange, fig, pfig):
         dataset = np.ma.masked_equal(dataset, -9999)
         
         X = np.arange(x1, x2, dtype=np.float32)
+<<<<<<< HEAD
+=======
         
         print type(dataset)
         print len(dataset.shape)
@@ -38,6 +44,7 @@ def drawBackscattered(filename, xrange, yrange, fig, pfig):
         print type(dataset[0][-1])
         print type(dataset[0][0])
         
+>>>>>>> master
         Z, null = np.meshgrid(height, X)
         data = interp2d_12(
             dataset[::],
@@ -63,7 +70,7 @@ def drawBackscattered(filename, xrange, yrange, fig, pfig):
             interpolation='nearest',
         )
        
-        fig.set_ylabel('Altitute (km)')    
+        fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Time')   
         fig.get_xaxis().set_major_locator(mpl.dates.AutoDateLocator())
         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))

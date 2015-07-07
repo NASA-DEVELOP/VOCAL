@@ -4,154 +4,166 @@
 # @author: Grant Mercer
 #
 ######################################
+import constants
 
+from constants import TAGS
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
-
-import constants
 from log import logger
 
+
+
 class AttributesDialog(Toplevel):
-    '''
+    """
     Dialog window for creating and assigning attributes to objects
-    '''
+
+    :param root: The parent frame
+    :param polygon_drawer: The polygonDrawer being edited
+    """
     
-    def __init__(self, root, polygonDrawer):
-        '''
+    def __init__(self, root, shape):
+        """
         Initialize root tkinter window and master GUI window
-        :param root: the parent frame
-        :param polygonDrawer: the polygonDrawer being edited
-        '''
+        """
         Toplevel.__init__(self, root, width=200, height=200)
         
-        self.__poly = polygonDrawer
-        if polygonDrawer is False:
+        self.__shape = shape
+        if shape is False:
             self.close()
             return
-        self.title("Edit Attributes")
+        self.title('Edit Attributes')
         
         # copies TAGS to avoid aliasing
-        self.__availableAttributes = constants.TAGS[:]
-        
+        self.__available_attributes = TAGS[:]
         self.container = Frame(self)
-        self.container.pack(side=TOP, fill=BOTH, expand=True) 
+        self.container.pack(side=TOP, fill=BOTH, expand=True)
+        self.top_frame = None
+        self.bottom_frame = None
+        self.note_text = None
+        self.attributes_list = None
+        self.selected_list = None
             
-        logger.info("Creating top frame")
-        self.createTopFrame()
-        logger.info("Creating bottom frame")
-        self.createBottomFrame()
+        logger.info('Creating top frame')
+        self.create_top_frame()
+        logger.info('Creating bottom frame')
+        self.create_bottom_frame()
         
-    def createTopFrame(self):
-        '''
+    def create_top_frame(self):
+        """
         Initializes the top half of the window
-        '''
-        self.topFrame = Frame(self.container)                       
-        self.topFrame.pack(side=TOP, fill=X, expand=False)
+        """
+        self.top_frame = Frame(self.container)
+        self.top_frame.pack(side=TOP, fill=X, expand=False)
         
-        attributeString = StringVar()
-        attributeString.set("Attributes:")
-        attributeLabel = Label(self.topFrame, textvariable=attributeString)
-        attributeLabel.grid(row=0, column=0)
+        attributes_string = StringVar()
+        attributes_string.set('Attributes:')
+        attributes_label = Label(self.top_frame, textvariable=attributes_string)
+        attributes_label.grid(row=0, column=0)
         
-        selectedString = StringVar()
-        selectedString.set("Selected:")
-        selectedLabel = Label(self.topFrame, textvariable=selectedString)
-        selectedLabel.grid(row=0, column=3)
+        selected_string = StringVar()
+        selected_string.set('Selected:')
+        selected_label = Label(self.top_frame, textvariable=selected_string)
+        selected_label.grid(row=0, column=3)
         
-        self.attributeList = Listbox(self.topFrame, width=30, height=30, selectmode=EXTENDED)
-        self.attributeList.grid(row=1, column=0)
+        self.attributes_list = Listbox(self.top_frame, width=30, height=30, selectmode=EXTENDED)
+        self.attributes_list.grid(row=1, column=0)
         
-        self.selectedList = Listbox(self.topFrame, width=30, height=30, selectmode=EXTENDED)
-        self.selectedList.grid(row=1, column=3)
+        self.selected_list = Listbox(self.top_frame, width=30, height=30, selectmode=EXTENDED)
+        self.selected_list.grid(row=1, column=3)
         
-        logger.info("Loading attributes")
-        for tag in self.__availableAttributes:
-            if self.__poly.isInAttributes(tag):
-                self.selectedList.insert(END, tag)
+        logger.info('Loading attributes')
+        for tag in self.__available_attributes:
+            if self.__shape.is_attribute(tag):
+                self.selected_list.insert(END, tag)
             else:
-                self.attributeList.insert(END, tag)
+                self.attributes_list.insert(END, tag)
         
-        removeButton = Button(self.topFrame, width=3, height=2, text="<--", command=self.removeAttribute)
-        removeButton.grid(row=1, column=1)
+        remove_button = Button(self.top_frame, width=3, height=2, text='<--',
+                               command=self.remove_attribute)
+        remove_button.grid(row=1, column=1)
         
-        moveButton = Button(self.topFrame, width=3, height=2, text="-->", command=self.moveAttribute)
-        moveButton.grid(row=1, column=2)
+        move_button = Button(self.top_frame, width=3, height=2, text='-->',
+                             command=self.move_attribute)
+        move_button.grid(row=1, column=2)
         
-    def createBottomFrame(self):
-        '''
+    def create_bottom_frame(self):
+        """
         Initializes the bottom half of the window
-        '''
-        self.bottomFrame = Frame(self.container)                       
-        self.bottomFrame.pack(side=BOTTOM, fill=X, expand=False)
+        """
+        self.bottom_frame = Frame(self.container)
+        self.bottom_frame.pack(side=BOTTOM, fill=X, expand=False)
         
-        noteString = StringVar()
-        noteString.set("Notes:")
-        noteLabel = Label(self.bottomFrame, textvariable=noteString)
-        noteLabel.grid(row=0, column=1)
+        note_string = StringVar()
+        note_string.set('Notes:')
+        note_label = Label(self.bottom_frame, textvariable=note_string)
+        note_label.grid(row=0, column=1)
         
-        self.noteText = Text(self.bottomFrame, width=55, height=10)
-        self.noteText.grid(row=1, column=1)
-        self.noteText.insert(END, self.__poly.getNotes())
+        self.note_text = Text(self.bottom_frame, width=55, height=10)
+        self.note_text.grid(row=1, column=1)
+        self.note_text.insert(END, self.__shape.get_notes())
         
-        buttonFrame = Frame(self.container)
-        buttonFrame.pack(side=BOTTOM, fill=X, expand=False)
+        button_frame = Frame(self.container)
+        button_frame.pack(side=BOTTOM, fill=X, expand=False)
         
-        acceptButton = Button(buttonFrame, text="Save", command=self.save)
-        acceptButton.grid(row=0, column=0)
+        accept_button = Button(button_frame, text='Save', command=self.save)
+        accept_button.grid(row=0, column=0)
         
-        cancelButton = Button(buttonFrame, text="Clear Note", command=self.clear)
-        cancelButton.grid(row=0, column=1)
+        cancel_button = Button(button_frame, text='Clear Note', command=self.clear)
+        cancel_button.grid(row=0, column=1)
         
-#         closeButton = Button(buttonFrame, text="Close", command=self.close)
+#         closeButton = Button(buttonFrame, text='Close', command=self.close)
 #         closeButton.grid(row=3, column=2)
         
-    def moveAttribute(self):
-        '''
+    def move_attribute(self):
+        """
         Saves the attributes that the user has selected
-        '''
-        logger.info("Setting attributes")
-        selection = self.attributeList.curselection()
+        """
+        selection = self.attributes_list.curselection()
         if len(selection) == 0:
             return
         for item in selection:
-            string = self.attributeList.get(item)
-            self.__poly.addAttribute(string)
-            self.selectedList.insert(END, string)
+            string = self.attributes_list.get(item)
+            logger.info('Adding attribute \'%s\' to shape' % string)
+            self.__shape.add_attribute(string)
+            self.selected_list.insert(END, string)
         for item in reversed(selection):
-            self.attributeList.delete(item)
+            self.attributes_list.delete(item)
     
-    def removeAttribute(self):
-        '''
+    def remove_attribute(self):
+        """
         Deletes the attributes that the user has selected
-        '''
-        logger.info("Deleting attributes")
-        selection = self.selectedList.curselection()
+        """
+        selection = self.selected_list.curselection()
         if len(selection) == 0:
             return
         for item in selection:
-            string = self.selectedList.get(item)
-            self.__poly.removeAttribute(string)
-            self.attributeList.insert(END, string)
+            string = self.selected_list.get(item)
+            logger.info('Deleting attribute \'%s\' from shape' % string)
+            self.__shape.remove_attribute(string)
+            self.attributes_list.insert(END, string)
         for item in reversed(selection):
-            self.selectedList.delete(item)
+            self.selected_list.delete(item)
     
     def save(self):
-        '''
+        """
         Saves the note
-        '''
-        logger.info("Saving note")
-        note = self.noteText.get('1.0', 'end-1c')
-        self.__poly.setNotes(note)
+        """
+        logger.info('Saving note')
+        note = self.note_text.get('1.0', 'end-1c')
+        self.__shape.set_notes(note)
         self.close()
     
     def clear(self):
-        '''
+        """
         Deletes the note
-        '''
-        logger.info("Deleting note")
-        self.noteText.delete(1.0, END)
-        self.__poly.setNotes("")
+        """
+        logger.info('Deleting note')
+        self.note_text.delete(1.0, END)
+        self.__shape.set_notes('')
     
     def close(self):
-        logger.info("Closing window")
+        """
+        Closes window
+        """
+        logger.info('Closing window')
         self.destroy()
