@@ -9,6 +9,7 @@ import tkFileDialog
 import tkMessageBox
 import constants
 
+from constants import Plot
 from sys import platform as _platform
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -38,7 +39,7 @@ class Calipso(object):
         self.__file = ''                        # Current file in use
         self.xrange = self.yrange = (0, 1000)   # X and Y range for scrolling plot
         self.panx = self.pany = 0               # Pan values for shifting map
-        self.plot = 0                           # Current selected plot
+        self.plot = Plot.baseplot               # Current selected plot
         self.__label_file_dialog = None
 
         # TODO: Add icon for window an task bar
@@ -156,24 +157,24 @@ class Calipso(object):
         """
         self.xrange = xrange_
         self.yrange = yrange
-        if plot_type == constants.BASE_PLOT:
-            self.__shapemanager.set_plot(constants.BASE_PLOT)
-        elif plot_type == constants.BACKSCATTERED:
+        if plot_type == Plot.baseplot:
+            self.__shapemanager.set_plot(Plot.baseplot)
+        elif plot_type == Plot.backscattered:
             try:
                 logger.info('Setting plot to backscattered xrange: ' +
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
                 drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
-                self.__shapemanager.set_current(constants.BACKSCATTERED, self.__fig)
+                self.__shapemanager.set_current(Plot.backscattered, self.__fig)
                 self.__drawplot_canvas.show()                            # show canvas
                 self.__toolbar.update()                                  # update toolbar
-                self.plot = constants.BACKSCATTERED
+                self.plot = Plot.backscattered
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', 'No File Exists')
         # TODO: Reimplement with new plotting technique (like backscatter)
-        elif plot_type == constants.DEPOLARIZED:
+        elif plot_type == Plot.depolarized:
             try:
                 logger.error('Needs to be reimplemented')
                 """
@@ -182,12 +183,12 @@ class Calipso(object):
                 self.__shapemanager.set_plot(constants.DEPOLARIZED)       # set the internal plot
                 self.__drawplot_canvas.show()                             # show plot
                 self.__toolbar.update()                                   # update toolbar
-                self.plot = constants.DEPOLARIZED
+                self.plot = Plot.depolarized
                 """
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
-        elif plot_type == constants.VFM:
+        elif plot_type == Plot.vfm:
             logger.error('Accessing unimplemented VFM plot')
             tkMessageBox.showerror("TODO", 'Sorry, this plot is currently not implemented')
 
@@ -342,11 +343,10 @@ class Calipso(object):
 
         :param event: A Tkinter passed event object
         """
-        logger.info("Searching for polygon")
-        poly = self.__shapemanager.find_shape(event)
-        if poly:
-            logger.info("Opening attributes dialog")
-            AttributesDialog(self.__root, poly)
+        logger.info("Grabbing shape object")
+        shape = self.__shapemanager.find_shape(event)
+        logger.info("Opening attributes dialog")
+        AttributesDialog(self.__root, shape)
 
     def get_shapemanager(self):
         """
@@ -398,7 +398,7 @@ class Calipso(object):
         self.create_top_gui()
         self.__child.setup_toolbar_buttons()
         logger.info('Setting initial plot')
-        self.set_plot(constants.BASE_PLOT)
+        self.set_plot(Plot.baseplot)
 
 
 def main():

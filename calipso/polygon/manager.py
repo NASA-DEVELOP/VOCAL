@@ -58,7 +58,6 @@ class ShapeManager(object):
     def anchor_rectangle(self, event):
         """
         Informs the correct shape list's blank object to plot a corner of a rectangle.
-
         :param event: A backend passed ``matplotlib.backend_bases.MouseEvent`` object
         """
         if self.__current_plot == BASE_PLOT_STR:
@@ -102,7 +101,6 @@ class ShapeManager(object):
         """
         Uses a blank shape to draw 'helper rectangles' that outline the final shape of the
         object. wrapper function for calling :py:class:`polygon.Shape` method.
-
         :param event: A backend passes ``matplotlib.backend_bases.MouseEvent`` object
         """
         if event.button == 1:
@@ -119,7 +117,6 @@ class ShapeManager(object):
         """
         Informs the correct shape list's blank object to draw a rectangle to the screen
         using the provided coordinates
-
         :param event: A backend passed ``matplotlib.backend_bases.MouseEvent`` object
         """
         if self.__current_plot == BASE_PLOT_STR:
@@ -143,7 +140,6 @@ class ShapeManager(object):
     def set_hdf(self, hdf_filename):
         """
         Set the internal HDF filename variable
-
         :param str hdf_filename: Name of new HDF filename
         """
         self.__hdf = hdf_filename
@@ -153,7 +149,6 @@ class ShapeManager(object):
         Set the current view to ``plot``, and draw any shapes that exist in the manager for
         this plot. This is called each time a new view is rendered to the screen by
         ``set_plot`` in *Calipso*
-
         :param int plot: Acceptable plot constant from ``constants.py``
         """
         logger.debug('Settings plot to %s' % plot)
@@ -169,7 +164,6 @@ class ShapeManager(object):
     def set_plot(self, plot):
         """
         Determine which list current_list should alias
-
         :param int plot: Acceptable plot constant from ``constants.py``
         """
         if plot == BASE_PLOT:
@@ -188,7 +182,6 @@ class ShapeManager(object):
     def generate_tag(self):
         """
         Produces a unique tag for each shape for each session
-
         :rtype: str
         """
         string = "shape" + str(self.__shape_count)
@@ -277,11 +270,21 @@ class ShapeManager(object):
     def read_plot(self, filename='', read_from_str=''):
         if read_from_str != "":
             logger.info("Reading JSON from string")
-            self.__polygonreader.readFromStrJSON(read_from_str)
+            self.__polygonreader.read_from_str_json(read_from_str)
         else:
             logger.info("Reading JSON from file")
-            self.__polyreader.set_filename(filename)
-            self.__polyreader.read_from_file_json()
+            self.__polygonreader.set_filename(filename)
+            self.__polygonreader.read_from_file_json()
+        plot = 0
+        logger.info("Parse JSON data for new polygons")
+        for lst in self.__polygonList:
+            self.__polygonreader.pack_shape(lst, constants.PLOTS[plot], self.__canvas, self.__master)
+            if ShapeManager.plotStringtoInt(self.__plot) == plot:
+                for shape in lst:
+                    if not shape.isEmpty():
+                        logger.info("Drawing polygon")
+                        shape.redrawShape()
+            plot += 1
 
     def save_db(self):
         pass

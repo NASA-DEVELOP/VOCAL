@@ -7,6 +7,7 @@ import constants
 import re
 import tkMessageBox
 
+from constants import Plot
 from PIL import ImageTk
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import create_tool_tip
@@ -176,16 +177,14 @@ class ToolsWindow(Toplevel):
         create_tool_tip(plot_cursor_button, 'Move about plot')
 
         # Move polygon and rectangles around
-        drag_button = \
-            ToggleableButton(self.__root, self.lower_button_frame, image=self.drag_img, width=30, height=30)
+        drag_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.drag_img, width=30, height=30)
         drag_button.latch(key='<Button-2>', command=self.__parent.get_shapemanager().toggle_drag, cursor='hand1')
         drag_button.grid(row=1, column=2, padx=2, pady=5)
         create_tool_tip(drag_button, 'Drag')
 
         # Erase polygon drawings
-        erase_button = ToggleableButton(self.__root, self.lower_button_frame, 
-                                        image=self.erase_img, width=30, height=30)
-        erase_button.latch(target=self.__canvas, key='pick_event', 
+        erase_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.erase_img, width=30, height=30)
+        erase_button.latch(target=self.__canvas, key='button_press_event', 
                            command=self.__parent.get_shapemanager().delete, 
                            cursor='X_cursor')
         erase_button.grid(row=1, column=4, padx=2, pady=5)
@@ -224,17 +223,17 @@ class ToolsWindow(Toplevel):
         create_tool_tip(load_button, 'Load JSON')
 
         # Retrieve shape properties
-        properties_button = ToggleableButton(self.__root, self.lower_button_frame,
-                                            image=self.prop_img, width=30, height=30)
-        properties_button.latch(target=self.__canvas,key='pick_event', 
-                                command=self.__parent.get_shapemanager().properties)
+        properties_button = \
+            ToggleableButton(self.__root, self.lower_button_frame, image=self.prop_img, width=30, height=30)
+        properties_button.latch(key='<Button-1>', command=self.__parent.get_shapemanager().properties)
         properties_button.grid(row=3, column=2, padx=2, pady=5)
         create_tool_tip(properties_button, 'Polygon Properties')
 
         # Edit shape attributes
-        edit_button = ToggleableButton(self.__root, self.lower_button_frame, 
-                                       image=self.edit_img, width=30, height=30)
-        edit_button.latch(target=self.__canvas, key='pick_event', 
+        edit_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.edit_img, width=30, height=30)
+        #edit_button.latch(target=self.__canvas, key='button_press_event',
+        #                  command=self.__parent.attribute_window)
+        edit_button.latch(target=self.__canvas, key='pick_event',
                           command=self.__parent.attribute_window)
         edit_button.grid(row=3, column=3, padx=2, pady=5)
         create_tool_tip(edit_button, 'Edit Attributes')
@@ -288,4 +287,4 @@ class ToolsWindow(Toplevel):
             return
 
         logger.info('Calling plot')
-        self.__parent.set_plot(self.plot_type.get(), xrange_=(beginning_range, ending_range))
+        self.__parent.set_plot(Plot(self.plot_type.get()), xrange_=(beginning_range, ending_range))
