@@ -176,13 +176,15 @@ class ToolsWindow(Toplevel):
         create_tool_tip(plot_cursor_button, 'Move about plot')
 
         # Move polygon and rectangles around
-        drag_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.drag_img, width=30, height=30)
+        drag_button = \
+            ToggleableButton(self.__root, self.lower_button_frame, image=self.drag_img, width=30, height=30)
         drag_button.latch(key='<Button-2>', command=self.__parent.get_shapemanager().toggle_drag, cursor='hand1')
         drag_button.grid(row=1, column=2, padx=2, pady=5)
         create_tool_tip(drag_button, 'Drag')
 
         # Erase polygon drawings
-        erase_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.erase_img, width=30, height=30)
+        erase_button = ToggleableButton(self.__root, self.lower_button_frame, 
+                                        image=self.erase_img, width=30, height=30)
         erase_button.latch(target=self.__canvas, key='pick_event', 
                            command=self.__parent.get_shapemanager().delete, 
                            cursor='X_cursor')

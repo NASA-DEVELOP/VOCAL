@@ -199,7 +199,15 @@ class ShapeManager(object):
         print len(self.__current_list)
 
     def outline(self):
-        pass
+        ShapeManager.outline_toggle = not ShapeManager.outline_toggle
+        for shape in self.__current_list:
+            print type(shape)
+            poly = shape.get_itemhandler()
+            if poly is not None and ShapeManager.outline_toggle:
+                poly.set_fill(True)
+            elif poly is not None and ShapeManager.outline_toggle is False:
+                poly.set_fill(False)
+            self.__canvas.show()
 
     def paint(self, event):
         pass
