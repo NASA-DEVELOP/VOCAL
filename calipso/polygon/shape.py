@@ -154,7 +154,7 @@ class Shape(object):
 
     def redraw(self, fig, fill):
         self.__item_handler = \
-            Polygon(self.__coordinates, facecolor=self.__color, fill=fill)
+            Polygon(self.__coordinates, facecolor=self.__color, fill=fill, picker=5)
         fig.add_patch(self.__item_handler)
 
     def add_attribute(self, tag):
