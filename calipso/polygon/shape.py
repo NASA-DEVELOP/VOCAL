@@ -160,6 +160,10 @@ class Shape(object):
         self.__item_handler = \
             Polygon(self.__coordinates, facecolor=self.__color, fill=fill)
         fig.add_patch(self.__item_handler)
+        
+    def redraw_shape(self, fig):
+        self.__item_handler = Polygon(self.__coordinates, facecolor=self.__color)
+        fig.add_patch(self.__item_handler)
 
     def add_attribute(self, attr):
         """
