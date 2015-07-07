@@ -4,10 +4,10 @@
 #    @author: Nathan Qian
 #    6/3/2015
 ###################################
-from log import logger
-
 import sys
+import datetime
 
+from log import logger
 
 def center(toplevel, size):
     """
@@ -37,6 +37,17 @@ def byteify(inp):
         return inp.encode('utf-8')
     else:
         return inp
+
+def time_to_seconds(t):
+    # trouble with getting microseconds to display
+    t = str(t)
+    # logging.debug("Converting time: %s", t)
+    t = t[:-6]
+    t = datetime.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
+    ret = datetime.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second, microseconds=t.microsecond).total_seconds()
+    logger.debug("Seconds %s", ret)
+    return ret
+
 
 
 class Catcher:

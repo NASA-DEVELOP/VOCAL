@@ -6,11 +6,12 @@
 # import antigravity
 import ast
 import json
-
 import constants
+
 from polygon.drawer import PolygonDrawer
 from tools.tools import byteify
 from log import logger
+
 
 class PolygonReader(object):
     '''

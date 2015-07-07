@@ -4,6 +4,9 @@
 #    @author: Grant Mercer
 #
 ###################################
+import collections
+import tkMessageBox
+import constants
 
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE
@@ -12,10 +15,6 @@ from db import db, DatabasePolygon
 from tools.tools import center
 from tools.treelistbox import TreeListBox
 from log import logger
-
-import collections
-import tkMessageBox
-import constants
 
 
 class ImportDialog(Toplevel):
