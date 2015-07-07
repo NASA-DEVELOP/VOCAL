@@ -59,16 +59,13 @@ class Shape(object):
         points and fill to a shape if the current coordinate intersects
         the beginning point.
         :param event: A ``matplotlib.backend_bases.MouseEvent`` passed object
-        :param fig:
-        :param fill:
-        :return:
+        :param fig: The figure to be drawing the canvas to
+        :param bool fill: Whether the shape will have a solid fill or not
         """
         self.__coordinates.append((event.xdata, event.ydata))
         logger.debug("Plotted point at (%0.5f, %0.5f)", event.xdata, event.ydata)
         if len(self.__coordinates) > 1:
             logger.debug("Drawing line from plot")
-
-            self.__canvas.show()
             self.__lines.append(
                 mlines.Line2D((self.__prev_x, event.xdata),
                               (self.__prev_y, event.ydata),
@@ -76,11 +73,9 @@ class Shape(object):
                               color='#000000'))
             fig.add_artist(self.__lines[-1])
             self.__canvas.show()
-            pass
         if len(self.__coordinates) > 3:
             index = self.__can_draw()
             if index > -1:
-
                 logger.debug("Creating polygon from points")
                 a1 = tuple_to_nparray(self.__coordinates[index])
                 a2 = tuple_to_nparray(self.__coordinates[index+1])
@@ -181,59 +176,122 @@ class Shape(object):
         self.__tag = tag
 
     def set_color(self, color):
+        """
+        Set internal color variable
+        :param str color: Valid hexadecimal color value
+        """
         self.__color = color
 
-    def set_vertices(self, vertex_list):
-        pass
-
     def set_plot(self, plot):
+        """
+        Manually set the new value of the internal plot variable. **unsafe**
+        :param str plot: Plot value
+        """
         self.__plot = plot
 
     def set_coordinates(self, coordinates):
+        """
+        Pass a list of coordinates to set to the shape to. *just because it exists
+        does not mean you should use it* -me
+
+        :param list coordinates:
+        """
         self.__coordinates = coordinates
 
-    def set_vertex(self, index, point):
-        pass
-
     def set_id(self, _id):
+        """
+        Set the database ID of the shape. **unsafe** to use outside letting
+        database call this.
+
+        :param int _id: Database primary key
+        """
         self.__id = id
 
     def set_notes(self, note):
+        """
+        Pass a string containing new notes to set the shape to
+
+        :param str note: New note string
+        """
         self.__note = note
 
     def get_coordinates(self):
+        """
+        Return the list of coordinates internally maintained by shape
+
+        :rtype: list
+        """
         return self.__coordinates
 
     def get_notes(self):
+        """
+        Return the notes string internally maintained by shape
+
+        :rtype: str
+        """
         return self.__note
 
     def get_attributes(self):
+        """
+        Return attributes list maintained by shape
+
+        :rtype: list
+        """
         return self.__attributes
 
     def get_plot(self):
+        """
+        Return the plot type
+
+        :rtype: int
+        """
         return self.__plot
 
     def get_color(self):
+        """
+        Return the hexdecimal color value
+
+        :rtype: str
+        """
         return self.__color
 
     def get_id(self):
+        """
+        Return the database ID of shape
+
+        :rtype: int
+        """
         return self.__id
 
     def get_tag(self):
+        """
+        Return the program Tag of shape
+
+        :rtype: str
+        """
         return self.__tag
 
     def get_itemhandler(self):
+        """
+        Return the item handler object to the actual backend base
+
+        :rtype: ``matplotlib.patches.polygon``
+        """
         return self.__item_handler
 
-    def is_attribute(self, tag):
+    def is_attribute(self, attr):
+        """
+        Return ``True`` if *attr* is inside the attributes list, ``False``
+        otherwise.
+
+        :param str attr:
+        :rtype: bool
+        """
         for item in self.__attributes:
             if tag == item:
                 logger.info('Found attribute')
                 return True
         return False
-
-    def move(self, dx, dy, dmx, dmy):
-        pass
 
     def __can_draw(self):
         b1 = tuple_to_nparray(self.__coordinates[-1])
@@ -247,6 +305,10 @@ class Shape(object):
         return -1
 
     def remove(self):
+        """
+        Wrapper function to internally call matplotlib backend to remove
+        the shape from the figure
+        """
         self.__item_handler.remove()
 
     def redraw(self):
@@ -269,13 +331,3 @@ class Shape(object):
     @staticmethod
     def toggle_drag(event):
         pass
-
-def time_to_seconds(t):
-    # trouble with getting microseconds to display
-    t = str(t)
-#     logging.debug("Converting time: %s", t)
-    t = t[:-6]
-    t = datetime.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
-    ret = timedelta(hours=t.hour, minutes=t.minute, seconds=t.second, microseconds=t.microsecond).total_seconds()
-    logger.debug("Seconds %s", ret)
-    return ret
