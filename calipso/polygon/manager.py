@@ -101,7 +101,7 @@ class ShapeManager(object):
             check = self.__current_list[-1].plot_point(event, self.__current_plot,
                                                        self.__figure, ShapeManager.outline_toggle)
             if check:
-                self.generate_tag()
+                self.__current_list[-1].set_tag(self.generate_tag())
                 self.__current_list.append(Shape(self.__canvas))
                 self.__canvas.show()
         else:

@@ -55,9 +55,6 @@ class PolygonReader(object):
         self.__data = byteify(json.loads(data))
         for plt in [x for x in self.__data if x in constants.PLOTS]:
             for shape in self.__data[plt]:
-#                 if 'vertices' in self.__data[plt][shape]:
-#                     self.__data[plt][shape]['vertices'] = \
-#                         [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]['vertices']) if len(x) == 2]
                 if 'coordinates' in self.__data[plt][shape]:
                     self.__data[plt][shape]['coordinates'] = \
                         [[x[0],x[1]] for x in ast.literal_eval(self.__data[plt][shape]['coordinates']) if len(x) == 2]
@@ -74,19 +71,16 @@ class PolygonReader(object):
         """
         try:
             for shape in self.__data[plot_type]:
-                # print int(self.__data[plot_type][shape]['id']) not in [x.getID() for x in shape_list]
                 entry = self.__data[plot_type][shape]['id']
                 if entry is not None and int(entry) in [x.get_id() for x in shape_list]: continue
                 logger.info('Found data, packing polygon with JSON data')
                 color = self.__data[plot_type][shape]['color']
-#                 vertices = self.__data[plot_type][shape]['vertices']
                 coordinates = self.__data[plot_type][shape]['coordinates']
                 attributes = self.__data[plot_type][shape]['attributes']
                 notes = self.__data[plot_type][shape]['notes']
                 _id = self.__data[plot_type][shape]['id']
                 shape_list[-1].set_id(_id)
                 shape_list[-1].set_color(color)
-#                 shape_list[-1].setVertices(vertices)
                 shape_list[-1].set_plot(plot_type)
                 shape_list[-1].set_attributes(attributes)
                 shape_list[-1].set_coordinates(coordinates)

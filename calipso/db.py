@@ -135,7 +135,7 @@ class DatabaseManager(object):
                     DatabasePolygon(tag=polygon.get_tag(),
                                     time_=time,
                                     hdf=f.rpartition('/')[2],
-                                    plot=polygon.get_plot(),
+                                    plot=polygon.get_plot().name,
                                     color=polygon.get_color(),
                                     attributes=str(polygon.get_attributes()),
                                     coordinates=str(polygon.get_coordinates()),
@@ -148,7 +148,7 @@ class DatabaseManager(object):
                 poly.time_ = time
                 poly.plot = polygon.get_plot()
                 poly.hdf = f.rpartition('/')[2]
-                poly.plot = polygon.get_plot()
+                poly.plot = polygon.get_plot().name
                 poly.color = unicode(polygon.get_color())
                 poly.attributes = str(polygon.get_attributes())
                 poly.coordinates = str(polygon.get_coordinates())
