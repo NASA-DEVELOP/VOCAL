@@ -7,12 +7,11 @@
 
 from datetime import datetime, timedelta
 import random
-
-from matplotlib.patches import Polygon
-
 import constants
-from log import logger
 import matplotlib.lines as mlines
+
+from log import logger
+from matplotlib.patches import Polygon
 from tools.linearalgebra import tuple_to_nparray, is_intersecting, \
     get_intersection, nparray_to_tuple
 
@@ -110,7 +109,7 @@ class Shape(object):
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
 
-        logger.debug('%f, %f', event.xdata, event.ydata )
+        logger.debug('%f, %f', event.xdata, event.ydata)
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prev_x,
                                                                  abs(constants.HEIGHT - self.__prev_y - 35),
                                                                  event.x,
@@ -143,6 +142,7 @@ class Shape(object):
     def draw(self, fig, plot=constants.BASE_PLOT_STR, fill=False):
         logger.info("Drawing polygon")
 
+        # Generates a gnarly random color brah
         r = lambda: random.randint(0, 255)
         clr = '#%02X%02X%02X' % (r(), r(), r())
 
@@ -212,7 +212,7 @@ class Shape(object):
 
         :param int _id: Database primary key
         """
-        self.__id = id
+        self.__id = _id
 
     def set_notes(self, note):
         """
@@ -341,13 +341,3 @@ class Shape(object):
     @staticmethod
     def toggle_drag(event):
         pass
-
-def time_to_seconds(t):
-    # trouble with getting microseconds to display
-    t = str(t)
-#     logging.debug("Converting time: %s", t)
-    t = t[:-6]
-    t = datetime.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
-    ret = timedelta(hours=t.hour, minutes=t.minute, seconds=t.second, microseconds=t.microsecond).total_seconds()
-    logger.debug("Seconds %s", ret)
-    return ret

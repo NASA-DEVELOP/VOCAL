@@ -5,12 +5,13 @@
 #    @author: Grant Mercer
 ######################################
 
-from constants import BASE_PLOT_STR, BASE_PLOT, BACKSCATTERED, BACKSCATTERED_STR, \
-    DEPOLARIZED, DEPOLARIZED_STR
 import constants
+
 from log import logger
 from polygon.reader import PolygonReader
 from polygon.shape import Shape
+from constants import BASE_PLOT_STR, BASE_PLOT, BACKSCATTERED, BACKSCATTERED_STR, \
+    DEPOLARIZED, DEPOLARIZED_STR
 
 
 class ShapeManager(object):
@@ -103,7 +104,7 @@ class ShapeManager(object):
     def fill_rectangle(self, event):
         """
         Informs the correct shape list's blank object to draw a rectangle to the screen
-        using the provided cooridnates
+        using the provided coordinates
 
         :param event: A backend passed ``matplotlib.backend_bases.MouseEvent`` object
         """
