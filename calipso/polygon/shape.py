@@ -179,7 +179,7 @@ class Shape(object):
     def set_attributes(self, attributes_list):
         """
         Set the internal list of attributes to a custom passed list
-        :param attributes_list:
+        :param list attributes_list:
         """
         self.__attributes = attributes_list
 
