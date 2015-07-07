@@ -14,38 +14,6 @@ class Plot(Enum):
         depolarized = 2
         vfm = 3
 
-
-class Attributes(Enum):
-    aerosol = 0
-    aerosol_LC = 1
-    clean = 2
-    continental = 3
-    clean_marine = 4
-    cloud = 5
-    cloud_LC = 6
-    dust = 7
-    polluted_continental = 8
-    polluted_continental_dust = 9
-    polluted_dust = 10
-    polluted_marine = 11
-    smoke = 12
-    stratospheric_layer = 13
-
-Attributes_fromstr = {'aerosol': Attributes.aerosol,
-                      'aerosol_LC': Attributes.aerosol_LC,
-                      'clean': Attributes.clean,
-                      'continental': Attributes.continental,
-                      'clean_marine': Attributes.clean_marine,
-                      'cloud': Attributes.cloud,
-                      'cloud_LC': Attributes.cloud_LC,
-                      'dust': Attributes.dust,
-                      'polluted_continental': Attributes.polluted_continental,
-                      'polluted_continental_dust': Attributes.polluted_continental_dust,
-                      'polluted_dust': Attributes.polluted_dust,
-                      'polluted_marine': Attributes.polluted_marine,
-                      'smoke': Attributes.smoke,
-                      'stratospheric_layer': Attributes.stratospheric_layer}
-
 HEIGHT = 665
 WIDTH = 1265
 CHILDWIDTH = 200

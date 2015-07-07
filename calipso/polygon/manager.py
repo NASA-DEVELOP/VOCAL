@@ -4,13 +4,11 @@
 #    @author: Nathan Qian
 #    @author: Grant Mercer
 ######################################
+import tkMessageBox
+import constants
 
 from datetime import datetime
-import tkMessageBox
-
-from constants import BASE_PLOT_STR, BASE_PLOT, BACKSCATTERED, BACKSCATTERED_STR, \
-    DEPOLARIZED, DEPOLARIZED_STR
-import constants
+from constants import Plot
 from db import db
 from log import logger
 from polygon.reader import PolygonReader
@@ -30,7 +28,7 @@ class ShapeManager(object):
         self.__figure = figure
         self.__canvas = canvas
         self.__master = master
-        self.__current_plot = BASE_PLOT_STR
+        self.__current_plot = Plot.baseplot
         logger.info('Defining initial shape manager')
         self.__shape_list = [[Shape(canvas)],
                              [Shape(canvas)],
@@ -60,7 +58,7 @@ class ShapeManager(object):
         Informs the correct shape list's blank object to plot a corner of a rectangle.
         :param event: A backend passed ``matplotlib.backend_bases.MouseEvent`` object
         """
-        if self.__current_plot == BASE_PLOT_STR:
+        if self.__current_plot == Plot.baseplot:
             logger.warning("Cannot draw to BASE_PLOT")
             return
         if event.xdata and event.ydata:
@@ -83,7 +81,7 @@ class ShapeManager(object):
         polygon is formed
         :param event: A ``matplotlib.backend_bases.MouseEvent`` passed object
         """
-        if self.__current_plot == constants.BASE_PLOT_STR:
+        if self.__current_plot == constants.Plot.baseplot:
             logger.warning('Cannot draw to the base plot')
             return
         if event.xdata and event.ydata:
@@ -104,7 +102,7 @@ class ShapeManager(object):
         :param event: A backend passes ``matplotlib.backend_bases.MouseEvent`` object
         """
         if event.button == 1:
-            if self.__current_plot == BASE_PLOT_STR:
+            if self.__current_plot == Plot.baseplot:
                 logger.warning("Cannot draw to BASE_PLOT")
                 return
             if len(self.__current_list[-1].get_coordinates()) is 0:
@@ -119,7 +117,7 @@ class ShapeManager(object):
         using the provided coordinates
         :param event: A backend passed ``matplotlib.backend_bases.MouseEvent`` object
         """
-        if self.__current_plot == BASE_PLOT_STR:
+        if self.__current_plot == Plot.baseplot:
             logger.warning("Cannot draw to BASE_PLOT")
             return
         if event.xdata and event.ydata:
@@ -166,18 +164,18 @@ class ShapeManager(object):
         Determine which list current_list should alias
         :param int plot: Acceptable plot constant from ``constants.py``
         """
-        if plot == BASE_PLOT:
+        if plot == Plot.baseplot:
             logger.warning('set_plot called for BASE_PLOT')
-            self.__current_list = self.__shape_list[BASE_PLOT]
-            self.__current_plot = BASE_PLOT_STR
-        elif plot == BACKSCATTERED:
+            self.__current_list = self.__shape_list[Plot.baseplot.value]
+            self.__current_plot = Plot.baseplot
+        elif plot == Plot.backscattered:
             logger.info('set_plot to BACKSCATTERED')
-            self.__current_list = self.__shape_list[BACKSCATTERED]
-            self.__current_plot = BACKSCATTERED_STR
-        elif plot == DEPOLARIZED:
+            self.__current_list = self.__shape_list[Plot.backscattered.value]
+            self.__current_plot = Plot.backscattered
+        elif plot == Plot.depolarized:
             logger.info('set_plot to DEPOLARIZED')
-            self.__current_list = self.__shape_list[DEPOLARIZED]
-            self.__current_plot = DEPOLARIZED_STR
+            self.__current_list = self.__shape_list[Plot.depolarized.value]
+            self.__current_plot = Plot.depolarized
 
     def generate_tag(self):
         """

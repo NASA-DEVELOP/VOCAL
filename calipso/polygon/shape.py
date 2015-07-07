@@ -10,7 +10,7 @@ import random
 import constants
 import matplotlib.lines as mlines
 
-from constants import Plot
+from constants import Plot, TAGS
 from log import logger
 from matplotlib.patches import Polygon
 from tools.linearalgebra import tuple_to_nparray, is_intersecting, \
@@ -164,23 +164,33 @@ class Shape(object):
     def add_attribute(self, attr):
         """
         Append a passed attribute onto the internal attribute list
-        :param constants.Attribute attr: An attribute enum
+        :param str attr: An attribute enum
         """
-        self.__attributes.append(attr)
+        if attr in TAGS:
+            self.__attributes.append(attr)
+        else:
+            logger.error('Caught invalid attribute for adding \'%s\'' % attr)
 
-    def remove_attribute(self, attribute):
+    def remove_attribute(self, attr):
         """
         Remove an attribute as specified in ``constants.py`` from the internal attributes variable
 
-        :param constants.Attribute attribute:
+        :param str attr:
         """
-        self.__attributes.remove(attribute)
+        if attr in TAGS:
+            self.__attributes.remove(attr)
+        else:
+            logger.error('Caught invalid attribute for removal \'%s\'' % attr)
 
     def set_attributes(self, attributes_list):
         """
         Set the internal list of attributes to a custom passed list
         :param list attributes_list:
         """
+        for i in attributes_list:
+            if i not in TAGS:
+                logger.error('Caught invalid attribute for setting \'%s\'' % i)
+                return
         self.__attributes = attributes_list
 
     def set_tag(self, tag):
@@ -200,7 +210,7 @@ class Shape(object):
     def set_plot(self, plot):
         """
         Manually set the new value of the internal plot variable. **unsafe**
-        :param str plot: Plot value
+        :param constants.Plot plot: Plot value
         """
         self.__plot = plot
 
