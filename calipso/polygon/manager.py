@@ -39,10 +39,9 @@ class ShapeManager(object):
         self.__current_file = ''
         self.__hdf = ''
         self.__polygonreader = PolygonReader()
-        self.__shape_count = 0
         self.__data = {}
-        # logger.info("Querying database for unique tag")
-        # self.__count = db.query.unique_tag()
+        logger.info("Querying database for unique tag")
+        self.__shape_count = db.query_unique_tag()
 
     def on_token_buttonpress(self, event):
         pass
