@@ -32,7 +32,7 @@ class Shape(object):
         self.__coordinates = []
         self.__tag = tag
         self.__color = color
-        self.__item_handler = 0
+        self.__item_handler = None
         self.__plot = BASE_PLOT
         self.__attributes = []
         self.__note = ''
@@ -226,6 +226,9 @@ class Shape(object):
     def draw(self, fig, plot=BASE_PLOT_STR, fill=False):
         logger.info("Drawing polygon")
         self.__item_handler = Polygon(self.__coordinates)
+
+    def remove(self):
+        self.__item_handler.remove()
 
     def redraw(self):
         pass
