@@ -307,7 +307,7 @@ class ShapeManager(object):
             logger.info('Reading JSON from file')
             self.__polygonreader.set_filename(filename)
             self.__polygonreader.read_from_file_json()
-        plot = Plot.baseplot
+        plot = 0
         logger.info('Parse JSON data for new polygons')
         for lst in self.__shape_list:
             self.__polygonreader.pack_shape(lst, constants.PLOTS[plot], self.__canvas)
