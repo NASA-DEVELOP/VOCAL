@@ -25,7 +25,6 @@ class ShapeManager(object):
 
     outline_toggle = True
     hide_toggle = True
-    lock = None
 
     def __init__(self, figure, canvas,  master):
         self.__figure = figure
@@ -46,6 +45,7 @@ class ShapeManager(object):
         logger.info("Querying database for unique tag")
         self.__shape_count = db.query_unique_tag()
         self.__moving_shape = None
+        self.property_window = None
         
     def anchor_rectangle(self, event):
         """
@@ -105,6 +105,7 @@ class ShapeManager(object):
         """
         Uses a blank shape to draw 'helper rectangles' that outline the final shape of the
         object. wrapper function for calling :py:class:`polygon.Shape` method.
+
         :param event: A backend passes ``matplotlib.backend_bases.MouseEvent`` object
         """
         if event.button == 1:
@@ -121,6 +122,7 @@ class ShapeManager(object):
         """
         Informs the correct shape list's blank object to draw a rectangle to the screen
         using the provided coordinates
+
         :param event: A backend passed ``matplotlib.backend_bases.MouseEvent`` object
         """
         if self.__current_plot == Plot.baseplot:
@@ -144,6 +146,7 @@ class ShapeManager(object):
     def set_hdf(self, hdf_filename):
         """
         Set the internal HDF filename variable
+
         :param str hdf_filename: Name of new HDF filename
         """
         self.__hdf = hdf_filename
@@ -153,6 +156,7 @@ class ShapeManager(object):
         Set the current view to ``plot``, and draw any shapes that exist in the manager for
         this plot. This is called each time a new view is rendered to the screen by
         ``set_plot`` in *Calipso*
+
         :param int plot: Acceptable plot constant from ``constants.py``
         """
         logger.debug('Settings plot to %s' % plot)
@@ -167,7 +171,9 @@ class ShapeManager(object):
 
     def set_plot(self, plot):
         """
-        Determine which list current_list should alias
+        Determine which list current_list should alias, also set internal plot
+        variable
+
         :param constants.Plot plot: Acceptable plot constant from ``constants.py``
         """
         if plot == Plot.baseplot:
@@ -186,6 +192,7 @@ class ShapeManager(object):
     def generate_tag(self):
         """
         Produces a unique tag for each shape for each session
+
         :rtype: str
         """
         string = "shape" + str(self.__shape_count)
@@ -203,8 +210,6 @@ class ShapeManager(object):
         idx = self.__shape_list.index(self.__current_list)
         self.__shape_list[idx] = [Shape(self.__canvas)]
         self.__current_list = self.__shape_list[idx]
-
-        self.__shape_count = 0
 
     def delete(self, event):
         """
@@ -232,8 +237,10 @@ class ShapeManager(object):
             poly = shape.get_itemhandler()
             if poly is not None and ShapeManager.outline_toggle:
                 poly.set_fill(True)
+                poly.set_linewidth(1.0)
             elif poly is not None and not ShapeManager.outline_toggle:
                 poly.set_fill(False)
+                poly.set_linewidth(2.0)
         self.__canvas.show()
 
     def hide(self):
@@ -257,7 +264,9 @@ class ShapeManager(object):
     # noinspection PyProtectedMember
     def properties(self, event):
         """
-        Return the properties of the shape clicked on by the user
+        Return the properties of the shape clicked on by the user and create a small
+        tooltip which displays these properties
+
         :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
         """
         target = event.artist
@@ -269,9 +278,10 @@ class ShapeManager(object):
                     return
                 self.property_window = Toplevel()
                 self.property_window.wm_overrideredirect(1)
-                self.property_window.geometry('+%d+%d' %
-                                    (self.__master.get_root().winfo_pointerx() - 60,
-                                     self.__master.get_root().winfo_pointery()))
+                self.property_window.\
+                    geometry('+%d+%d' %
+                             (self.__master.get_root().winfo_pointerx() - 60,
+                              self.__master.get_root().winfo_pointery()))
                 try:
                     self.property_window.tk.call('::Tk::unsupported::MacWindowStyle',
                                                  'style', self.property_window._w,
@@ -286,17 +296,22 @@ class ShapeManager(object):
                 return
         logger.warning("Shape not found")
 
+    # noinspection PyUnusedLocal
     def destroy_property_window(self, event):
+        """
+        Helper function to destroy the properties window when clicked, sets the
+        variable back to a ``none`` state and unbinds ``<Button-1>`` from *root*
+
+        :param event: Ignored event passed by Tkinter
+        """
         self.property_window.destroy()
         self.property_window = None
         self.__master.get_root().unbind('<Button-1>')
 
-    def toggle_drag(self, event):
-        pass
-
     def find_shape(self, event):
         """
         Return the handle to the shape found via the user clicking on one
+
         :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
         """
         target = event.artist
@@ -321,12 +336,12 @@ class ShapeManager(object):
             self.__shapereader.read_from_str_json(read_from_str)
         else:
             logger.info('Reading JSON from file')
-            self.__polygonreader.set_filename(filename)
-            self.__polygonreader.read_from_file_json()
+            self.__shapereader.set_filename(filename)
+            self.__shapereader.read_from_file_json()
         plot = Plot.baseplot.value
         logger.info('Parse JSON data for new polygons')
         for lst in self.__shape_list:
-            self.__polygonreader.pack_shape(lst, constants.PLOTS[plot], self.__canvas)
+            self.__shapereader.pack_shape(lst, constants.PLOTS[plot], self.__canvas)
             if self.__current_plot.value == plot:
                 for shape in lst:
                     if not shape.is_empty():
@@ -337,6 +352,14 @@ class ShapeManager(object):
         self.__canvas.show()
 
     def save_db(self):
+        """
+        Commit all polygons currently in display to the database. Existing database
+        objects will simply be updated, while objects not present in the database
+        will be assigned a new primary key and have an entry generated for them.
+        Returns ``True`` if success, ``False`` otherwise
+
+        :rtype: bool
+        """
         if len(self.__current_list) == 1:
             logger.error("No shapes to export to database")
             return False
@@ -345,12 +368,20 @@ class ShapeManager(object):
         return True
 
     def save_json(self, filename=''):
+        """
+        Save all shapes visible on the screen to a previously specified JSON object,
+        if no file is passed the internal file variable is used. There should **never**
+        arise a case where no file is passed either from the internal or external
+        parameters, ``Calipso`` has proper error checking.
+
+        :param str filename: custom filename to save JSON objects to
+        """
         if filename != "":
             self.__current_file = filename
         today = datetime.utcnow().replace(microsecond=0)
         self.__data['time'] = str(today)
         self.__data['hdffile'] = self.__hdf
-        shapeDict = {}
+        shape_dict = {}
         for i in range(len(self.__shape_list)):
             self.__data[constants.PLOTS[i]] = {}
         i = self.__shape_list.index(self.__current_list)
@@ -362,12 +393,17 @@ class ShapeManager(object):
             note = self.__shape_list[i][j].get_notes()
             _id = self.__shape_list[i][j].get_id()
             value = {"coordinates": coordinates, "color": color, "attributes": attributes, "notes": note, "id": _id}
-            shapeDict[tag] = value
-        self.__data[constants.PLOTS[i]] = shapeDict
+            shape_dict[tag] = value
+        self.__data[constants.PLOTS[i]] = shape_dict
         logger.info("Encoding to JSON")
         db.encode(self.__current_file, self.__data)
 
     def save_all_json(self, filename=""):
+        """
+        Same as ``save_json``, but save **all** shapes across **all** plots instead.
+
+        :param str filename: custom filename to save JSON objects to
+        """
         logger.info("Saving all shapes to JSON")
         if filename is not None:
             self.__current_file = filename
@@ -375,7 +411,7 @@ class ShapeManager(object):
         self.__data['time'] = str(today)
         self.__data['hdffile'] = self.__hdf
         for i in range(len(self.__shape_list)):
-            shapeDict = {}
+            shape_dict = {}
             for j in range(len(self.__shape_list[i])-1):
                 tag = self.__shape_list[i][j].get_tag()
                 coordinates = self.__shape_list[i][j].get_coordinates()
@@ -384,7 +420,7 @@ class ShapeManager(object):
                 note = self.__shape_list[i][j].get_notes()
                 _id = self.__shape_list[i][j].get_id()
                 value = {"coordinates": coordinates, "color": color, "attributes": attributes, "notes": note, "id": _id}
-            shapeDict[tag] = value
-        self.__data[constants.PLOTS[i]] = shapeDict
+            shape_dict[tag] = value
+        self.__data[constants.PLOTS[i]] = shape_dict
         logger.info("Encoding to JSON")
         db.encode(self.__current_file, self.__data)
