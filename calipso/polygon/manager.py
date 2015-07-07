@@ -275,7 +275,13 @@ class ShapeManager(object):
         pass
 
     def read_plot(self, filename='', read_from_str=''):
-        pass
+        if read_from_str != "":
+            logger.info("Reading JSON from string")
+            self.__polygonreader.readFromStrJSON(read_from_str)
+        else:
+            logger.info("Reading JSON from file")
+            self.__polyreader.set_filename(filename)
+            self.__polyreader.read_from_file_json()
 
     def save_db(self):
         pass
