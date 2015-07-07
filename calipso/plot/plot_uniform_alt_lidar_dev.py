@@ -7,7 +7,10 @@
 import ccplot.utils
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
+<<<<<<< HEAD
 from ccplot.utils import calipso_time2dt
+=======
+>>>>>>> master
 from PCF_genTimeUtils import extractDatetime
 import numpy as np
 import matplotlib as mpl
@@ -31,6 +34,17 @@ def drawBackscattered(filename, xrange, yrange, fig, pfig):
         dataset = np.ma.masked_equal(dataset, -9999)
         
         X = np.arange(x1, x2, dtype=np.float32)
+<<<<<<< HEAD
+=======
+        
+        print type(dataset)
+        print len(dataset.shape)
+        print dataset
+        print dataset[0][-1]
+        print type(dataset[0][-1])
+        print type(dataset[0][0])
+        
+>>>>>>> master
         Z, null = np.meshgrid(height, X)
         data = interp2d_12(
             dataset[::],
