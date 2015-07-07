@@ -158,7 +158,7 @@ class Shape(object):
         fig.add_patch(self.__item_handler)
 
     def add_attribute(self, tag):
-        pass
+        self.__attributes.append(tag)
 
     def remove_attribute(self, attribute):
         """

@@ -13,6 +13,7 @@ import constants
 from log import logger
 from polygon.reader import PolygonReader
 from polygon.shape import Shape
+from attributesdialog import AttributesDialog
 
 
 class ShapeManager(object):
@@ -235,12 +236,17 @@ class ShapeManager(object):
                 tkMessageBox.showinfo("properties", str(shape))
                 return
         logger.warning("Shape not found")
-
+        
     def toggle_drag(self, event):
         pass
 
     def find_shape(self, event):
-        pass
+        target = event.artist
+        for shape in self.__current_list:
+            if shape.get_itemhandler() is target:
+                logger.info("Found shape")
+                return shape
+        logger.error("Shape not found")
 
     def __find_shape_by_itemhandler(self, itemhandler):
         pass
