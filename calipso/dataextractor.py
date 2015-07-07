@@ -3,13 +3,13 @@
 #
 #   @author: Nathan Qian
 ###################################
-from ccplot.hdf import HDF
-from tools.linearalgebra import get_vector
-from polygon.drawer import PolygonDrawer
-
 import datetime
 import logging
 import time
+
+from ccplot.hdf import HDF
+from tools.linearalgebra import get_vector
+from polygon.drawer import PolygonDrawer
 
 
 # TODO: find out what time standard the hdf file uses

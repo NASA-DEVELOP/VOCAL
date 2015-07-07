@@ -3,16 +3,16 @@
 #
 #   @author: Grant Mercer
 ###################################
-from Tkinter import Label, Toplevel, Frame, Button, IntVar, BOTH, FALSE, \
-    BOTTOM, Radiobutton, Entry, X, TOP
+import constants
+import re
+import tkMessageBox
+
 from PIL import ImageTk
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import create_tool_tip
 from log import logger
-
-import constants
-import re
-import tkMessageBox
+from Tkinter import Label, Toplevel, Frame, Button, IntVar, BOTH, FALSE, \
+    BOTTOM, Radiobutton, Entry, X, TOP
 
 
 class ToolsWindow(Toplevel):
