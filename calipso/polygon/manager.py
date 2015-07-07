@@ -151,6 +151,12 @@ class ShapeManager(object):
         """
         self.__hdf = hdf_filename
 
+    def clear_refs(self):
+        for shape in self.__current_list[:-1]:
+            ih = shape.get_itemhandler()
+            if ih is not None:
+                ih.remove()
+
     def set_current(self, plot, fig):
         """
         Set the current view to ``plot``, and draw any shapes that exist in the manager for
@@ -166,7 +172,7 @@ class ShapeManager(object):
             logger.info('Redrawing shapes')
             for shape in self.__current_list[:-1]:
                 if not shape.is_empty():
-                    shape.redraw(self.__figure, ShapeManager.outline_toggle)
+                    shape.loaded_draw(self.__figure, ShapeManager.outline_toggle)
             self.__canvas.show()
 
     def set_plot(self, plot):

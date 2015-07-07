@@ -158,8 +158,29 @@ class Shape(object):
         fig.add_patch(self.__item_handler)
 
     def redraw(self, fig, fill):
-        if self.__item_handler:
+        """
+        Function to draw the shape in the event the shape *may* or *may not* already
+        be drawn. Checks if the image already exists, if not draws the image
+
+        :param fig: A ``SubplotAxes`` object to add the patch to
+        :param bool fill: Boolean value whether to have the shape filled in when
+        drawn or not
+        """
+        if self.__item_handler.is_figure_set():
             self.__item_handler.remove()
+        self.__item_handler = \
+            Polygon(self.__coordinates, facecolor=self.__color, fill=fill, picker=5)
+        fig.add_patch(self.__item_handler)
+
+    def loaded_draw(self, fig, fill):
+        """
+        Called in the case of panning the plot, since panning the plot invalidates
+        the previous figure, the figures must first be cleared and the shapes are removed.
+        Loaded draw draws the shapes back into view using a new figure.
+
+        :param fig: A ``SubplotAxes`` object to add the patch to
+        :param bool fill: Boolean value whether to have the shape filled in when drawn to or not
+        """
         self.__item_handler = \
             Polygon(self.__coordinates, facecolor=self.__color, fill=fill, picker=5)
         fig.add_patch(self.__item_handler)
