@@ -188,7 +188,7 @@ class ShapeManager(object):
         self.__shape_count = 0
 
     def delete(self, event):
-        print "Received delete request"
+        pass
 
     def outline(self):
         pass
