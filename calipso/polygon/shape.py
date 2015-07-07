@@ -355,7 +355,3 @@ class Shape(object):
             string += '  %s\n' % item
         string += 'Notes:\n  %s' % self.__note
         return string
-
-    @staticmethod
-    def toggle_drag(event):
-        pass
