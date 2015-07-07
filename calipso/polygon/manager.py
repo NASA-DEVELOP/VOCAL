@@ -4,11 +4,12 @@
 #    @author: Nathan Qian
 #    @author: Grant Mercer
 ######################################
-from datetime import datetime
 import tkMessageBox
-
-from constants import Plot
 import constants
+
+from Tkinter import Toplevel, Label, SOLID, TclError, LEFT
+from constants import Plot
+from datetime import datetime
 from db import db
 from log import logger
 from polygon.reader import ShapeReader
@@ -42,6 +43,7 @@ class ShapeManager(object):
         self.__data = {}
         logger.info("Querying database for unique tag")
         self.__shape_count = db.query_unique_tag()
+        self.property_window = None
 
     def on_token_buttonpress(self, event):
         pass
@@ -259,18 +261,43 @@ class ShapeManager(object):
                 poly.set_edgecolor('none')
         self.__canvas.show()
 
+    # noinspection PyProtectedMember
     def properties(self, event):
         """
         Return the properties of the shape clicked on by the user
         :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
         """
         target = event.artist
+        mevent = event.mouseevent
+        print mevent.x, mevent.y
         for shape in self.__current_list:
             if shape.get_itemhandler() is target:
-                tkMessageBox.showinfo("properties", str(shape))
+                if self.property_window is not None:
+                    return
+                self.property_window = Toplevel()
+                self.property_window.wm_overrideredirect(1)
+                self.property_window.geometry('+%d+%d' %
+                                    (self.__master.get_root().winfo_pointerx() - 60,
+                                     self.__master.get_root().winfo_pointery()))
+                try:
+                    self.property_window.tk.call('::Tk::unsupported::MacWindowStyle',
+                                                 'style', self.property_window._w,
+                                                 'help', 'noActivates')
+                except TclError:
+                    pass
+                label = Label(self.property_window, text=str(shape), justify=LEFT,
+                              background='#ffffe0', relief=SOLID, borderwidth=1,
+                              font=('tahoma', '8', 'normal'))
+                label.pack(ipadx=1)
+                self.__master.get_root().bind('<Button-1>', self.destroy_property_window)
                 return
         logger.warning("Shape not found")
-        
+
+    def destroy_property_window(self, event):
+        self.property_window.destroy()
+        self.property_window = None
+        self.__master.get_root().unbind('<Button-1>')
+
     def toggle_drag(self, event):
         pass
 
