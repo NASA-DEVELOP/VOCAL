@@ -405,7 +405,7 @@ class PolygonList(object):
         '''
         if readFromString != "":
             logger.info("Reading JSON from string")
-            self.__polyReader.readFromStrJSON(readFromString)
+            self.__polyReader.read_from_str_json(readFromString)
         else:
             logger.info("Reading JSON from file")
             self.__polyReader.set_filename(fileName)
@@ -413,7 +413,7 @@ class PolygonList(object):
         plot = 0
         logger.info("Parse JSON data for new polygons")
         for lst in self.__polygonList:
-            self.__polyReader.packPolygonDrawer(lst, constants.PLOTS[plot], self.__canvas, self.__master)
+            self.__polyReader.pack_shape(lst, constants.PLOTS[plot], self.__canvas, self.__master)
             if PolygonList.plotStringtoInt(self.__plot) == plot:
                 for shape in lst:
                     if not shape.isEmpty():
