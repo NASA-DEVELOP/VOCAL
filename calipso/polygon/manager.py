@@ -5,15 +5,16 @@
 #    @author: Grant Mercer
 ######################################
 
+from datetime import datetime
 import tkMessageBox
 
 from constants import BASE_PLOT_STR, BASE_PLOT, BACKSCATTERED, BACKSCATTERED_STR, \
     DEPOLARIZED, DEPOLARIZED_STR
 import constants
+from db import db
 from log import logger
 from polygon.reader import PolygonReader
 from polygon.shape import Shape
-from attributesdialog import AttributesDialog
 
 
 class ShapeManager(object):
@@ -41,6 +42,7 @@ class ShapeManager(object):
         self.__hdf = ''
         self.__polygonreader = PolygonReader()
         self.__shape_count = 0
+        self.__data = {}
         # logger.info("Querying database for unique tag")
         # self.__count = db.query.unique_tag()
 
@@ -69,10 +71,11 @@ class ShapeManager(object):
             logger.error('Anchor selected is out of range, skipping')
 
     def get_count(self):
-        pass
+        return len(self.__shape_list[0]) + len(self.__shape_list[1]) + \
+               len(self.__shape_list[2]) + len(self.__shape_list[3]) - 4
 
     def get_filename(self):
-        pass
+        return self.__current_file
 
     def plot_point(self, event):
         """
@@ -268,10 +271,6 @@ class ShapeManager(object):
         pass
 
     @staticmethod
-    def __plot_into_string(plot):
-        pass
-
-    @staticmethod
     def plot_string_to_int(plot):
         pass
 
@@ -282,7 +281,46 @@ class ShapeManager(object):
         pass
 
     def save_json(self, filename=''):
-        pass
+        if filename != "":
+            self.__current_file = filename
+        today = datetime.utcnow().replace(microsecond=0)
+        self.__data['time'] = str(today)
+        self.__data['hdffile'] = self.__hdf
+        shapeDict = {}
+        for i in range(len(self.__shape_list)):
+            self.__data[constants.PLOTS[i]] = {}
+        i = self.__shape_list.index(self.__current_list)
+        for j in range(len(self.__current_list)-1):
+            tag = self.__current_list[j].get_tag()
+            coordinates = self.__current_list[j].get_coordinates()
+            color = self.__current_list[j].get_color()
+            attributes = self.__shape_list[i][j].get_attributes()
+            note = self.__shape_list[i][j].get_notes()
+            _id = self.__shape_list[i][j].get_id()
+            value = {"coordinates": coordinates, "color": color, "attributes": attributes, "notes": note, "id": _id}
+            shapeDict[tag] = value
+        self.__data[constants.PLOTS[i]] = shapeDict
+        logger.info("Encoding to JSON")
+        db.encode(self.__current_file, self.__data)
 
-    def save_all_json(self, filename):
-        pass
+    def save_all_json(self, filename=""):
+        logger.info("Saving all shapes to JSON")
+        if filename is not None:
+            self.__current_file = filename
+        today = datetime.utcnow().replace(microsecond=0)
+        self.__data['time'] = str(today)
+        self.__data['hdffile'] = self.__hdf
+        for i in range(len(self.__shape_list)):
+            shapeDict = {}
+            for j in range(len(self.__shape_list[i])-1):
+                tag = self.__shape_list[i][j].get_tag()
+                coordinates = self.__shape_list[i][j].get_coordinates()
+                color = self.__shape_list[i][j].get_color()
+                attributes = self.__shape_list[i][j].get_attributes()
+                note = self.__shape_list[i][j].get_notes()
+                _id = self.__shape_list[i][j].get_id()
+                value = {"coordinates": coordinates, "color": color, "attributes": attributes, "notes": note, "id": _id}
+            shapeDict[tag] = value
+        self.__data[constants.PLOTS[i]] = shapeDict
+        logger.info("Encoding to JSON")
+        db.encode(self.__current_file, self.__data)
