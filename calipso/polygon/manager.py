@@ -126,7 +126,7 @@ class ShapeManager(object):
         """
         self.__hdf = hdf_filename
 
-    def set_current(self, plot):
+    def set_current(self, plot, fig):
         """
         Set the current view to ``plot``, and draw any shapes that exist in the manager for
         this plot. This is called each time a new view is rendered to the screen by
@@ -134,12 +134,14 @@ class ShapeManager(object):
 
         :param int plot: Acceptable plot constant from ``constants.py``
         """
+        self.__figure = fig
         self.set_plot(plot)
         if len(self.__current_list) > 1:
             logger.info('Redrawing shapes')
-            for shape in self.__current_list:
+            for shape in self.__current_list[:-1]:
                 if not shape.is_empty():
-                    shape.redraw(self.__figure)
+                    shape.redraw(self.__figure, ShapeManager.outline_toggle)
+            self.__canvas.show()
 
     def set_plot(self, plot):
         """

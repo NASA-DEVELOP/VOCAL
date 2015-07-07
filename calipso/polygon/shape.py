@@ -89,6 +89,7 @@ class Shape(object):
                     line.remove()
                 self.__lines = []
                 self.draw(fig, plot, fill)
+                self.__plot = plot
                 return True
         self.__prev_x = event.xdata
         self.__prev_y = event.ydata
@@ -143,9 +144,15 @@ class Shape(object):
         r = lambda: random.randint(0, 255)
         clr = '#%02X%02X%02X' % (r(), r(), r())
 
+        self.__color = clr
         self.__plot = plot
         self.__item_handler = \
             Polygon(self.__coordinates, facecolor=clr, fill=fill, picker=True)
+        fig.add_patch(self.__item_handler)
+
+    def redraw(self, fig, fill):
+        self.__item_handler = \
+            Polygon(self.__coordinates, facecolor=self.__color, fill=fill)
         fig.add_patch(self.__item_handler)
 
     def add_attribute(self, tag):
@@ -291,6 +298,9 @@ class Shape(object):
                 return True
         return False
 
+    def move(self, dx, dy, dmx, dmy):
+        pass
+
     def __can_draw(self):
         b1 = tuple_to_nparray(self.__coordinates[-1])
         b2 = tuple_to_nparray(self.__coordinates[-2])
@@ -308,9 +318,6 @@ class Shape(object):
         the shape from the figure
         """
         self.__item_handler.remove()
-
-    def redraw(self):
-        pass
 
     def is_empty(self):
         if len(self.__coordinates) == 0:
@@ -332,3 +339,13 @@ class Shape(object):
     @staticmethod
     def toggle_drag(event):
         pass
+
+def time_to_seconds(t):
+    # trouble with getting microseconds to display
+    t = str(t)
+#     logging.debug("Converting time: %s", t)
+    t = t[:-6]
+    t = datetime.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
+    ret = timedelta(hours=t.hour, minutes=t.minute, seconds=t.second, microseconds=t.microsecond).total_seconds()
+    logger.debug("Seconds %s", ret)
+    return ret
