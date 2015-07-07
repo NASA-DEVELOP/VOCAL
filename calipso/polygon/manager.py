@@ -39,10 +39,9 @@ class ShapeManager(object):
         self.__current_file = ''
         self.__hdf = ''
         self.__polygonreader = PolygonReader()
-        self.__shape_count = 0
         self.__data = {}
-        # logger.info("Querying database for unique tag")
-        # self.__count = db.query.unique_tag()
+        logger.info("Querying database for unique tag")
+        self.__shape_count = db.query_unique_tag()
 
     def on_token_buttonpress(self, event):
         pass
@@ -101,7 +100,7 @@ class ShapeManager(object):
             check = self.__current_list[-1].plot_point(event, self.__current_plot,
                                                        self.__figure, ShapeManager.outline_toggle)
             if check:
-                self.generate_tag()
+                self.__current_list[-1].set_tag(self.generate_tag())
                 self.__current_list.append(Shape(self.__canvas))
                 self.__canvas.show()
         else:
