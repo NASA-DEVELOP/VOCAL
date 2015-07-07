@@ -152,7 +152,7 @@ class ShapeManager(object):
             self.__current_list = self.__shape_list[DEPOLARIZED]
             self.__current_plot = DEPOLARIZED_STR
 
-    def generate_tag(self, index=-1):
+    def generate_tag(self):
         """
         Produces a unique tag for each shape for each session
 
@@ -168,14 +168,14 @@ class ShapeManager(object):
         Clear the screen of any shapes present from the current_list
         """
         logger.info("Resetting ShapeManager")
-        for shape in self.__current_list:
+        for shape in self.__current_list[:-1]:
             shape.remove()
+        self.__canvas.show()
         idx = self.__shape_list.index(self.__current_list)
         self.__shape_list[idx] = [Shape(self.__canvas)]
         self.__current_list = self.__shape_list[idx]
 
-        self.__count = 0
-        pass
+        self.__shape_count = 0
 
     def delete(self, event):
         pass
