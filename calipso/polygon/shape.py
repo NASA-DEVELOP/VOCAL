@@ -142,7 +142,7 @@ class Shape(object):
         else:
             self.__coordinates = []
 
-    def draw(self, fig, plot=constants.BASE_PLOT_STR, fill=False):
+    def draw(self, fig, plot=Plot.baseplot, fill=False):
         logger.info("Drawing polygon")
 
         # Generates a gnarly random color brah
@@ -156,12 +156,10 @@ class Shape(object):
         fig.add_patch(self.__item_handler)
 
     def redraw(self, fig, fill):
+        if self.__item_handler:
+            self.__item_handler.remove()
         self.__item_handler = \
-            Polygon(self.__coordinates, facecolor=self.__color, fill=fill)
-        fig.add_patch(self.__item_handler)
-        
-    def redraw_shape(self, fig):
-        self.__item_handler = Polygon(self.__coordinates, facecolor=self.__color)
+            Polygon(self.__coordinates, facecolor=self.__color, fill=fill, picker=5)
         fig.add_patch(self.__item_handler)
 
     def add_attribute(self, attr):
@@ -345,8 +343,7 @@ class Shape(object):
     def is_empty(self):
         if len(self.__coordinates) == 0:
             return True
-        else:
-            return False
+        return False
 
     def __str__(self):
         logger.debug('Stringing shape')
