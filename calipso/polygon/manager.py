@@ -188,7 +188,15 @@ class ShapeManager(object):
         self.__shape_count = 0
 
     def delete(self, event):
-        pass
+        shape = event.artist
+        for item in self.__current_list:
+            poly = item.get_itemhandler()
+            if poly == shape:
+                self.__current_list.remove(item)
+                break
+        shape.remove()
+        self.__canvas.show()
+        print len(self.__current_list)
 
     def outline(self):
         pass
