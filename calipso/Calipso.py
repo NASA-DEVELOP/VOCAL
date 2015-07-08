@@ -23,6 +23,7 @@ import constants
 from importdialog import ImportDialog
 from log import logger
 from plot.plot_uniform_alt_lidar_dev import drawBackscattered
+from plot.plot_depolar_ratio import drawDepolar
 from polygon.manager import ShapeManager
 from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
@@ -179,14 +180,14 @@ class Calipso(object):
         elif plot_type == Plot.depolarized:
             try:
                 logger.error('Needs to be reimplemented')
-                """
-                self.__fig.clear()
-                drawDepolar(self.__file, self.__fig, self.__parent_fig)
-                self.__shapemanager.set_plot(constants.DEPOLARIZED)       # set the internal plot
-                self.__drawplot_canvas.show()                             # show plot
-                self.__toolbar.update()                                   # update toolbar
+                self.__shapemanager.clear_refs()
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                drawDepolar(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.depolarized, self.__fig)
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
                 self.plot = Plot.depolarized
-                """
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
