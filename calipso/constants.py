@@ -14,25 +14,12 @@ class Plot(Enum):
     depolarized = 2
     vfm = 3
 
-# plot_type_enum = {'base_plot': Plot.baseplot,
-#                   'backscattered': Plot.backscattered,
-#                   'depolarized': Plot.depolarized,
-#                   'vfm': Plot.vfm}
-
 HEIGHT = 665
 WIDTH = 1265
 CHILDWIDTH = 200
 CHILDHEIGHT = 325
 IMPORTWIDTH = 1000
 IMPORTHEIGH = 500
-
-FILE_NAME = 0
-COLOR = 1
-ATTRIBUTES = 2
-CUSTOM = 3
-
-VERTICES = "vertices"
-DATE = "date"
 
 # READ ONLY
 TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', 'cloud LC',

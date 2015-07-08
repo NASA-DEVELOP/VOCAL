@@ -28,6 +28,7 @@ from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.tools import Catcher
 from toolswindow import ToolsWindow
+from tkColorChooser import askcolor
 
 
 class Calipso(object):
@@ -353,7 +354,15 @@ class Calipso(object):
     def paint_window(self, event):
         shape = self.__shapemanager.find_shape(event)
         logger.info("Painting shape")
-        ColorDialog(self.__root, shape, self.__drawplot_canvas)
+        color = askcolor()
+        print color[0]
+        if color[0] is not None:
+            red = format(color[0][0], '02x')
+            green = format(color[0][1], '02x')
+            blue = format(color[0][2], '02x')
+            color = '#' + red + green + blue
+            shape.get_itemhandler().set_facecolor(color)
+            self.__drawplot_canvas.show()
 
     def get_root(self):
         return self.__root

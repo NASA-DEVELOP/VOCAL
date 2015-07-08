@@ -46,13 +46,13 @@ def drawDepolar(filename, x_range, y_range, fig, pfig):
         end_lat = -30.
 
         if latitude[0] > latitude[-1]:
-           # Nighttime granule
-           min_indx = findLatIndex(start_lat, latitude)
-           max_indx = findLatIndex(end_lat, latitude)
+            # Nighttime granule
+            min_indx = findLatIndex(start_lat, latitude)
+            max_indx = findLatIndex(end_lat, latitude)
         else:
-           # Daytime granule
-           min_indx = findLatIndex(end_lat, latitude)
-           max_indx = findLatIndex(start_lat, latitude)
+            # Daytime granule
+            min_indx = findLatIndex(end_lat, latitude)
+            max_indx = findLatIndex(start_lat, latitude)
 
         latitude = latitude[min_indx:max_indx]
         tot_532 = product['Total_Attenuated_Backscatter_532'][x1:x2].T
