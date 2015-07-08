@@ -11,6 +11,7 @@ http://syntaf.github.io/vocal/
 * [ ] Being testing on Mac OS
 * [ ] Pull data from selected shapes
 * [ ] Create more indepth color wheel for selecting shape colors
+* [ ] Format attributes and color properly
 
 ## Big Ideas:
 
