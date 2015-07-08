@@ -5,11 +5,12 @@ http://syntaf.github.io/vocal/
 ## To-do
 
 * [ ] Ensure windows are never cut off from screen (cross-platform)
-* [ ] Move polygon implementation to matplotlib
-* [ ] Create Attributes Enum
-* [ ] Create Plot enum
+* [x] Move polygon implementation to matplotlib
+* [x] Create Attributes Enum
+* [x] Create Plot enum
 * [ ] Being testing on Mac OS
 * [ ] Pull data from selected shapes
+* [ ] Create more indepth color wheel for selecting shape colors
 
 ## Big Ideas:
 
