@@ -10,16 +10,11 @@ import constants
 import matplotlib as mpl
 import matplotlib.lines as mlines
 
-from ccplot.utils import calipso_time2dt
 from constants import Plot, TAGS
 from log import logger
 from matplotlib.patches import Polygon
 from tools.linearalgebra import tuple_to_nparray, is_intersecting, \
     get_intersection, nparray_to_tuple
-from constants import *
-from matplotlib.patches import Polygon
-from log import logger
-import random
 
 
 # noinspection PyProtectedMember
