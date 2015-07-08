@@ -5,12 +5,10 @@
 #    @author: Grant Mercer
 ######################################
 from datetime import datetime
-import tkMessageBox
 import constants
 
 from Tkinter import Toplevel, Label, SOLID, TclError, LEFT
 from constants import Plot
-from datetime import datetime
 from db import db
 from log import logger
 from polygon.reader import ShapeReader

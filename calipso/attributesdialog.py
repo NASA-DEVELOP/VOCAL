@@ -4,8 +4,6 @@
 # @author: Grant Mercer
 #
 ######################################
-import constants
-
 from constants import TAGS
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox

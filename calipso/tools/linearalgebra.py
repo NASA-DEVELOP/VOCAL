@@ -70,20 +70,12 @@ def tuple_to_nparray(pair):
 def nparray_to_tuple(nparray):
     """
     Converts a numpy array to a tuple
-<<<<<<< HEAD
 
     :param nparray: Numpy array
     :rtype: (int, int)
     """
     x = nparray[0]
     y = nparray[1]
-    return x, y
-=======
-    
-    :param array: Numpy array
-    '''
-    x = array[0]
-    y = array[1]
     return (x, y)
 
 def ray_cast(coordinates, point):
@@ -95,10 +87,9 @@ def ray_cast(coordinates, point):
     ray_start = (0, point[1])
     count = 0
     for i in range(-1, len(coordinates)-1):
-        if isIntersecting(coordinates[i], coordinates[i+1], ray_start, point):
+        if is_intersecting(coordinates[i], coordinates[i+1], ray_start, point):
             count += 1
     if count % 2 == 1:
         return True
     else:
         return False
->>>>>>> master

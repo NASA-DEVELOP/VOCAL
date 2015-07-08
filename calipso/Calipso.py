@@ -45,7 +45,6 @@ class Calipso(object):
         self.__label_file_dialog = None
 
         # TODO: Add icon for window an task bar
-<<<<<<< HEAD
 
         # Paned window that stretches to fit entire screen
         base_pane = PanedWindow()
@@ -94,45 +93,6 @@ class Calipso(object):
 
     def setup_window(self):
         """
-=======
-        
-        basePane = PanedWindow()                            # main paned window that stretches to fit entire screen
-        basePane.pack(fill=BOTH, expand = 1)                # fill and expand
-        sectionedPane = PanedWindow(orient=VERTICAL)        # paned window that splits into a top and bottom section
-        basePane.add(sectionedPane)
-        
-        pndwinTop = PanedWindow(sectionedPane, orient=HORIZONTAL)                   # the paned window which holds all buttons
-        sectionedPane.add(pndwinTop)                                                # set pndwinTop to sectionedPane
-        
-        self.__dialogFrame = Frame(pndwinTop)                                       # frame to hold dialog for browsing files
-        self.__dialogFrame.pack(side = LEFT)
-        
-        pndwinBottom = PanedWindow(sectionedPane)                                   # expands the distance below the button
-        sectionedPane.add(pndwinBottom)
-        self.__drawplotFrame = Frame(pndwinBottom, 
-                                     width=constants.WIDTH, 
-                                     height=constants.HEIGHT)                       # the frame on which we will set our canvas for drawing etc.
-        
-        
-        logger.info("Instantiating ToolsWindow")
-        self.__child = ToolsWindow(self, r)                                         # tools window which holds all manipulation buttons 
-        self.__Parentfig = Figure(figsize=(16,11))                                  # the figure we're drawing our plot to
-        self.__fig = None
-        self.__drawplotCanvas = FigureCanvasTkAgg(self.__Parentfig,                 # canvas USING the figure we're drawing our plot to \
-            master=self.__drawplotFrame)   
-        logger.info("Create PolygonList")
-        self.__polygonList = PolygonList(self.__drawplotCanvas, self)               # internal polygonList
-        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplotCanvas,           # create barebones toolbar we can borrow backend functions from \
-            self.__child.coordinateFrame)
-        
-        
-        self.__drawplotCanvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)   # pack and display canvas
-        self.__drawplotFrame.pack()
-        
-    
-    def setupWindow(self):
-        '''
->>>>>>> master
         Sets the title of root and invokes py:meth:`centerWindow`
         """
         self.__root.title("CALIPSO Visualization Tool")
@@ -219,7 +179,6 @@ class Calipso(object):
         # TODO: Reimplement with new plotting technique (like backscatter)
         elif plot_type == Plot.depolarized:
             try:
-<<<<<<< HEAD
                 logger.error('Needs to be reimplemented')
                 """
                 self.__fig.clear()
@@ -229,16 +188,6 @@ class Calipso(object):
                 self.__toolbar.update()                                   # update toolbar
                 self.plot = Plot.depolarized
                 """
-=======
-                logger.info("Setting plot to depolarized")
-                self.__Parentfig.clear()                                                        # clear the figure
-                self.__fig = self.__Parentfig.add_subplot(1, 1, 1)                              # create subplot
-                drawDepolar(self.__file, xrange_, yrange, self.__fig, self.__Parentfig)                          # plot the depolarized image
-                self.__polygonList.setPlot(constants.DEPOLARIZED)                               # set the internal plot
-                self.__drawplotCanvas.show()                                                    # show plot
-                self.__toolbar.update()   
-                self.plot = constants.DEPOLARIZED                                                      # update toolbar
->>>>>>> master
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
