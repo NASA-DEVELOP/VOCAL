@@ -19,7 +19,6 @@ from plot.plot_depolar_ratio import drawDepolar
 from plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from polygon.manager import ShapeManager
 from attributesdialog import AttributesDialog
-from colordialog import ColorDialog
 from constants import Plot
 import constants
 from importdialog import ImportDialog
