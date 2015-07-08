@@ -18,7 +18,6 @@ from matplotlib.figure import Figure
 from plot.plot_depolar_ratio import drawDepolar
 from plot.plot_uniform_alt_lidar_dev import drawBackscattered
 from polygon.manager import ShapeManager
-
 from attributesdialog import AttributesDialog
 from colordialog import ColorDialog
 from constants import Plot
@@ -180,11 +179,13 @@ class Calipso(object):
         elif plot_type == Plot.depolarized:
             try:
                 logger.error('Needs to be reimplemented')
-                self.__fig.clear()
+                self.__shapemanager.clear_refs()
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
                 drawDepolar(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
-                self.__shapemanager.set_current(Plot.depolarized, self.__fig)       # set the internal plot
-                self.__drawplot_canvas.show()                             # show plot
-                self.__toolbar.update()                                   # update toolbar
+                self.__shapemanager.set_current(Plot.depolarized, self.__fig)
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
                 self.plot = Plot.depolarized
             except IOError:
                 logger.error('IOError, no file exists')
