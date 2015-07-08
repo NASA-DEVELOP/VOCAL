@@ -15,15 +15,16 @@ import tkMessageBox
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+from plot.plot_depolar_ratio import drawDepolar
+from plot.plot_uniform_alt_lidar_dev import drawBackscattered
+from polygon.manager import ShapeManager
 
-from colordialog import ColorDialog
 from attributesdialog import AttributesDialog
+from colordialog import ColorDialog
 from constants import Plot
 import constants
 from importdialog import ImportDialog
 from log import logger
-from plot.plot_uniform_alt_lidar_dev import drawBackscattered
-from polygon.manager import ShapeManager
 from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.tools import Catcher
@@ -179,14 +180,12 @@ class Calipso(object):
         elif plot_type == Plot.depolarized:
             try:
                 logger.error('Needs to be reimplemented')
-                """
                 self.__fig.clear()
-                drawDepolar(self.__file, self.__fig, self.__parent_fig)
-                self.__shapemanager.set_plot(constants.DEPOLARIZED)       # set the internal plot
+                drawDepolar(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.depolarized, self.__fig)       # set the internal plot
                 self.__drawplot_canvas.show()                             # show plot
                 self.__toolbar.update()                                   # update toolbar
                 self.plot = Plot.depolarized
-                """
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
