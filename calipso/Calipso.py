@@ -45,7 +45,6 @@ class Calipso(object):
         self.__label_file_dialog = None
 
         # TODO: Add icon for window an task bar
-
         # Paned window that stretches to fit entire screen
         base_pane = PanedWindow()
         base_pane.pack(fill=BOTH, expand=1)

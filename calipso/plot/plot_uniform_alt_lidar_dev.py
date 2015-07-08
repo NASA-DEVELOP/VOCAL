@@ -7,18 +7,17 @@
 import ccplot.utils
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
-from ccplot.utils import calipso_time2dt
 from PCF_genTimeUtils import extractDatetime
 import numpy as np
 import matplotlib as mpl
 
 
 # from gui.CALIPSO_Visualization_Tool import filename
-def drawBackscattered(filename, xrange, yrange, fig, pfig):   
-    x1 = xrange[0]
-    x2 = xrange[1]
-    h1 = yrange[0]
-    h2 = yrange[1]
+def drawBackscattered(filename, x_range, y_range, fig, pfig):   
+    x1 = x_range[0]
+    x2 = x_range[1]
+    h1 = y_range[0]
+    h2 = y_range[1]
     nz = 500
     colormap = 'dat/calipso-backscatter.cmap'
 

@@ -335,7 +335,6 @@ class ShapeManager(object):
         :param str read_from_str: The string to read valid JSON shapes from
         """
         if read_from_str != '':
-            # TODO: shape is not being added to the list when importing from database
             logger.info('Reading JSON from string')
             self.__shapereader.read_from_str_json(read_from_str)
         else:

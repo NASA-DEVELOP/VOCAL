@@ -94,10 +94,10 @@ class ToolsWindow(Toplevel):
 
         # Plot selection type
         Radiobutton(self.upper_button_frame, text='Backscattered',
-                    variable=self.plot_type, value=constants.BACKSCATTERED)\
+                    variable=self.plot_type, value=Plot.backscattered.value)\
             .grid(row=1, column=0, sticky='w')
         Radiobutton(self.upper_button_frame, text='Depolarized',
-                    variable=self.plot_type, value=constants.DEPOLARIZED).\
+                    variable=self.plot_type, value=Plot.depolarized.value).\
             grid(row=2, column=0, sticky='w')
 
         self.upper_range_frame = Frame(self.container)

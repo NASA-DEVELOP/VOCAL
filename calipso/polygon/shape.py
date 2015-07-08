@@ -340,9 +340,6 @@ class Shape(object):
                 logger.info('Found attribute')
                 return True
         return False
-    
-    def move(self, dx, dy, dmx, dmy):
-        pass
 
     def __can_draw(self):
         b1 = tuple_to_nparray(self.__coordinates[-1])
@@ -381,7 +378,3 @@ class Shape(object):
         if self.__note != '':
             string += 'Notes:\n  %s' % self.__note
         return string
-
-    @staticmethod
-    def toggle_drag(event):
-        pass
