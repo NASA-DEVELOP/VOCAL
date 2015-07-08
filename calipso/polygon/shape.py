@@ -371,10 +371,11 @@ class Shape(object):
         altitude_cords = [x[1] for x in self.__coordinates]
         string = 'Time Scale:\n\t%s - %s\n' % (min(time_cords), max(time_cords))
         string += 'Altitude Scale:\n\t%.4f km - %.4f km\n' % (min(altitude_cords), max(altitude_cords))
+        string += 'Color:\n\t%s\n' % self.__color
         if len(self.__attributes) > 0:
             string += 'Attributes:\n'
             for item in self.__attributes:
-                string += '  %s\n' % item
+                string += '\t%s\n' % item
         if self.__note != '':
             string += 'Notes:\n  %s' % self.__note
         return string
