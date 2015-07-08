@@ -5,17 +5,13 @@
 # 8/11/2014
 #
 import sys
-import matplotlib.pyplot as plt 
 import matplotlib as mpl
-import numpy as np
-from numpy import ma
 from ccplot.hdf import HDF
 import ccplot.utils
 from avg_lidar_data import avg_horz_data
 from uniform_alt_2 import uniform_alt_2
 from regrid_lidar import regrid_lidar
-from findLatIndex import findLatIndex
-from PCF_genTimeUtils import calipsoISO_to_times, extractDatetime
+from PCF_genTimeUtils import extractDatetime
 
 AVGING_WIDTH = 15
 
@@ -79,6 +75,9 @@ def drawDepolar(filename, x_range, y_range, fig, pfig):
 
     cmap = ccplot.utils.cmap(colormap)
     cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
+#     cm.set_under(cmap['under']/255.0)
+#     cm.set_over(cmap['over']/255.0)
+#     cm.set_bad(cmap['bad']/255.0)
     plot_norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
 
     im = fig.imshow(regrid_depolar_ratio,
