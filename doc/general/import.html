@@ -1,114 +1,214 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Import Dialog &mdash; CALIPSO 0.15.2 documentation</title>
-    
-    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '0.15.2',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="CALIPSO 0.15.2 documentation" href="../../index.html" />
-    <link rel="up" title="General" href="general.html" />
-    <link rel="next" title="Tools Window" href="toolswindow.html" />
-    <link rel="prev" title="Database" href="db.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="toolswindow.html" title="Tools Window"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="db.html" title="Database"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
-          <li><a href="../modules.html" >Modules</a> &raquo;</li>
-          <li><a href="general.html" accesskey="U">General</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Import Dialog &mdash; VOCAL 0.15.2 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="VOCAL 0.15.2 documentation" href="../../index.html"/>
+        <link rel="up" title="General" href="general.html"/>
+        <link rel="next" title="Tools Window" href="toolswindow.html"/>
+        <link rel="prev" title="Database" href="db.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../index.html" class="fa fa-home"> VOCAL</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../packages.html">Required Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Code Documentation</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="general.html">General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../polygon/polygon.html">Polygon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/tools.html">Tools</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">VOCAL</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../modules.html">Code Documentation</a> &raquo;</li>
+      
+          <li><a href="general.html">General</a> &raquo;</li>
+      
+    <li>Import Dialog</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../../_sources/doc/general/import.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
             
   <div class="section" id="import-dialog">
 <h1>Import Dialog<a class="headerlink" href="#import-dialog" title="Permalink to this headline">¶</a></h1>
 <p class="graphviz">
-<img src="../../_images/inheritance-9d4191ea3a9700d22b83b17c9f26b1a72cabfcb7.png" alt="Inheritance diagram of importdialog" usemap="#inheritancec390265a60" class="inheritance"/>
+<img src="../../_images/inheritance-0997c6895b4a1aa3ce15698cd99c504943d3a043.png" alt="Inheritance diagram of importdialog" usemap="#inheritancec390265a60" class="inheritance"/>
 <map id="inheritancec390265a60" name="inheritancec390265a60">
 <area shape="rect" id="node1" title="Internal class." alt="" coords="147,55,283,80"/>
 <area shape="rect" id="node3" title="Toplevel widget, e.g. for dialogs." alt="" coords="331,31,441,56"/>
 <area shape="rect" id="node2" title="Internal class." alt="" coords="5,55,99,80"/>
-<area shape="rect" id="node5" href="#importdialog.dbDialog" title="Dialog window which prompts user for a selection of objects to import as well as" alt="" coords="489,31,636,56"/>
+<area shape="rect" id="node5" href="#importdialog.ImportDialog" title="Dialog window which prompts user for a selection of objects to import as well as" alt="" coords="489,31,657,56"/>
 <area shape="rect" id="node4" title="Provides functions for the communication with the window manager." alt="" coords="170,5,259,31"/>
 </map>
 </p>
 <span class="target" id="module-importdialog"></span><dl class="class">
-<dt id="importdialog.dbDialog">
-<em class="property">class </em><tt class="descname">dbDialog</tt><big>(</big><em>root</em>, <em>master</em><big>)</big><a class="reference internal" href="../../_modules/importdialog.html#dbDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog">
+<em class="property">class </em><code class="descname">ImportDialog</code><span class="sig-paren">(</span><em>root</em>, <em>master</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dialog window which prompts user for a selection of objects to import as well as
 showing a customizable list for displaying the data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Param:</th><td class="field-body">root: root Tk widget, often Tk()</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Param:</th><td class="field-body">master: the main window, for access of polygonList</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
-<dt id="importdialog.dbDialog.createBottomFrame">
-<tt class="descname">createBottomFrame</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.createBottomFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.createBottomFrame" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog.create_bottom_frame">
+<code class="descname">create_bottom_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.create_bottom_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.create_bottom_frame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and display database in listbox, also add lower button frame for import
 button</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="importdialog.dbDialog.createTopFrame">
-<tt class="descname">createTopFrame</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.createTopFrame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.createTopFrame" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog.create_top_frame">
+<code class="descname">create_top_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.create_top_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.create_top_frame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the upper frame of the window in charge of buttons</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="importdialog.dbDialog.deleteDb">
-<tt class="descname">deleteDb</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.deleteDb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.deleteDb" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog.delete_from_db">
+<code class="descname">delete_from_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.delete_from_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.delete_from_db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete selected objects from database</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="importdialog.dbDialog.free">
-<tt class="descname">free</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.free"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.free" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog.free">
+<code class="descname">free</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.free"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.free" title="Permalink to this definition">¶</a></dt>
 <dd><p>Free window</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="importdialog.dbDialog.importSelection">
-<tt class="descname">importSelection</tt><big>(</big><big>)</big><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.importSelection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.importSelection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Import selected objects from libox into program</p>
+<dt id="importdialog.ImportDialog.import_selection">
+<code class="descname">import_selection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.import_selection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.import_selection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import selected objects from internal_list into program</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="importdialog.dbDialog.refineSearch">
-<tt class="descname">refineSearch</tt><big>(</big><em>event</em><big>)</big><a class="reference internal" href="../../_modules/importdialog.html#dbDialog.refineSearch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.dbDialog.refineSearch" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog.refine_search">
+<code class="descname">refine_search</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.refine_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.refine_search" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to dynamically narrow the results of a search while the
-user types into the search bar. Checks if the character is 
+user types into the search bar. Checks if the character is
 alpha numeric , and if so queries the database for the combined
 string. A backend stack keeps track of past searches, when the
 user enters the backspace code a previous instance is popped
@@ -122,61 +222,69 @@ and reloaded.
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="db.html"
-                        title="previous chapter">Database</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="toolswindow.html"
-                        title="next chapter">Tools Window</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../../_sources/doc/general/import.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="toolswindow.html" class="btn btn-neutral float-right" title="Tools Window">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="db.html" class="btn btn-neutral" title="Database"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
     </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="toolswindow.html" title="Tools Window"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="db.html" title="Database"
-             >previous</a> |</li>
-        <li><a href="../../index.html">CALIPSO 0.15.2 documentation</a> &raquo;</li>
-          <li><a href="../modules.html" >Modules</a> &raquo;</li>
-          <li><a href="general.html" >General</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
-    </div>
-  </body>
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.15.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

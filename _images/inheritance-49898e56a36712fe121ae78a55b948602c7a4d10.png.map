@@ -1,0 +1,4 @@
+<map id="inheritance53bde99ac8" name="inheritance53bde99ac8">
+<area shape="rect" id="node1" href="#db.DatabaseManager" title="Internally manages the database engine and any sql related objects." alt="" coords="48,55,193,80"/>
+<area shape="rect" id="node2" href="#db.DatabasePolygon" title="Sqlalchemy class object, contains all data that is stored inside the database." alt="" coords="284,5,427,31"/>
+</map>

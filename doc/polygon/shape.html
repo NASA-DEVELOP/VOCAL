@@ -1,0 +1,578 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Shape &mdash; VOCAL 0.15.2 documentation</title>
+  
+
+  
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="VOCAL 0.15.2 documentation" href="../../index.html"/>
+        <link rel="up" title="Polygon" href="polygon.html"/>
+        <link rel="next" title="Tools" href="../tools/tools.html"/>
+        <link rel="prev" title="ShapeReader" href="reader.html"/> 
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+          <a href="../../index.html" class="fa fa-home"> VOCAL</a>
+        
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../packages.html">Required Packages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Code Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general/general.html">General</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="polygon.html">Polygon</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/tools.html">Tools</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">VOCAL</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../modules.html">Code Documentation</a> &raquo;</li>
+      
+          <li><a href="polygon.html">Polygon</a> &raquo;</li>
+      
+    <li>Shape</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          <a href="../../_sources/doc/polygon/shape.txt" rel="nofollow"> View page source</a>
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="shape">
+<h1>Shape<a class="headerlink" href="#shape" title="Permalink to this headline">¶</a></h1>
+<p class="graphviz">
+<img src="../../_images/inheritance-eabeae485c0e73d98e1ad8fbb28bd87439135305.png" alt="Inheritance diagram of polygon.shape" usemap="#inheritance6cb8afe8cb" class="inheritance"/>
+<map id="inheritance6cb8afe8cb" name="inheritance6cb8afe8cb">
+<area shape="rect" id="node1" href="#polygon.shape.Shape" title="Displays the polygon objects onto the canvas by supplying draw methods" alt="" coords="5,5,152,31"/>
+</map>
+</p>
+<span class="target" id="module-polygon.shape"></span><dl class="class">
+<dt id="polygon.shape.Shape">
+<em class="property">class </em><code class="descname">Shape</code><span class="sig-paren">(</span><em>canvas</em>, <em>tag=''</em>, <em>color=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the polygon objects onto the canvas by supplying draw methods
+and maintaining internal information on the shape. Draws to matplotlib
+backend</p>
+<dl class="method">
+<dt id="polygon.shape.Shape.add_attribute">
+<code class="descname">add_attribute</code><span class="sig-paren">(</span><em>attr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.add_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.add_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append a passed attribute onto the internal attribute list
+:param str attr: An attribute enum</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.anchor_rectangle">
+<code class="descname">anchor_rectangle</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.anchor_rectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.anchor_rectangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Establishes a corner of a rectangle as an anchor for when the user drags the cursor to
+create a rectangle. Used in &#8216;Draw Rect&#8217; button</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A matplotlib backend event object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>fig</em>, <em>plot=&lt;Plot.baseplot: 0&gt;</em>, <em>fill=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the shape to the canvas, onto the passed figure. Only fill the
+object if the <em>fill</em> parameter is set to <code class="docutils literal"><span class="pre">True</span></code>
+:param fig: A <code class="docutils literal"><span class="pre">SubplotAxes</span></code> object from the matplotlib backend
+:param plot: <code class="docutils literal"><span class="pre">constants.Plot</span></code> enum specifying which plot the object belongs to
+:param bool fill: <code class="docutils literal"><span class="pre">False</span></code> for fill, <code class="docutils literal"><span class="pre">True</span></code> for outline</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.fill_rectangle">
+<code class="descname">fill_rectangle</code><span class="sig-paren">(</span><em>event</em>, <em>plot</em>, <em>fig</em>, <em>fill=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.fill_rectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.fill_rectangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws the rectangle and stores the coordinates of the rectangle internally. Used
+in &#8216;Draw Rect&#8217; button. Forwards argument parameters to <code class="docutils literal"><span class="pre">draw</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fig</strong> &#8211; Figure to draw canvas to</li>
+<li><strong>fill</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Whether to fill or no fill the shape</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.get_attributes">
+<code class="descname">get_attributes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.get_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.get_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return attributes list maintained by shape</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.get_color">
+<code class="descname">get_color</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.get_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.get_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the hexdecimal color value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.get_coordinates">
+<code class="descname">get_coordinates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.get_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.get_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of coordinates internally maintained by shape</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.get_id">
+<code class="descname">get_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.get_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.get_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the database ID of shape</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.get_itemhandler">
+<code class="descname">get_itemhandler</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.get_itemhandler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.get_itemhandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the item handler object to the actual backend base</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal"><span class="pre">matplotlib.patches.polygon</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.get_notes">
+<code class="descname">get_notes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.get_notes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.get_notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the notes string internally maintained by shape</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.get_plot">
+<code class="descname">get_plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.get_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.get_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the plot type</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)">int</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.get_tag">
+<code class="descname">get_tag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.get_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.get_tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the program Tag of shape</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.is_attribute">
+<code class="descname">is_attribute</code><span class="sig-paren">(</span><em>attr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.is_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.is_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal"><span class="pre">True</span></code> if <em>attr</em> is inside the attributes list, <code class="docutils literal"><span class="pre">False</span></code>
+otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attr</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.is_empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal"><span class="pre">True</span></code> if empty, <code class="docutils literal"><span class="pre">False</span></code> otherwise</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.loaded_draw">
+<code class="descname">loaded_draw</code><span class="sig-paren">(</span><em>fig</em>, <em>fill</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.loaded_draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.loaded_draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called in the case of panning the plot, since panning the plot invalidates
+the previous figure, the figures must first be cleared and the shapes are removed.
+Loaded draw draws the shapes back into view using a new figure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fig</strong> &#8211; A <code class="docutils literal"><span class="pre">SubplotAxes</span></code> object to add the patch to</li>
+<li><strong>fill</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Boolean value whether to have the shape filled in when drawn to or not</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.plot_point">
+<code class="descname">plot_point</code><span class="sig-paren">(</span><em>event</em>, <em>plot</em>, <em>fig</em>, <em>fill=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.plot_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.plot_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a single point to the shape, connect any previous existing
+points and fill to a shape if the current coordinate intersects
+the beginning point.
+:param event: A <code class="docutils literal"><span class="pre">matplotlib.backend_bases.MouseEvent</span></code> passed object
+:param fig: The figure to be drawing the canvas to
+:param bool fill: Whether the shape will have a solid fill or not</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.redraw">
+<code class="descname">redraw</code><span class="sig-paren">(</span><em>fig</em>, <em>fill</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.redraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.redraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to draw the shape in the event the shape <em>may</em> or <em>may not</em> already
+be drawn. Checks if the image already exists, if not draws the image</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fig</strong> &#8211; A <code class="docutils literal"><span class="pre">SubplotAxes</span></code> object to add the patch to</li>
+<li><strong>fill</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Boolean value whether to have the shape filled in when drawn or not</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.remove">
+<code class="descname">remove</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper function to internally call matplotlib backend to remove
+the shape from the figure</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.remove_attribute">
+<code class="descname">remove_attribute</code><span class="sig-paren">(</span><em>attr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.remove_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.remove_attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove an attribute as specified in <code class="docutils literal"><span class="pre">constants.py</span></code> from the internal attributes variable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attr</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.rubberband">
+<code class="descname">rubberband</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.rubberband"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.rubberband" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws a temporary helper rectangle that outlines the final shape of the rectangle for
+the user. This draws to <strong>screen</strong> coordiantes, so backend is not needed here.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A <code class="docutils literal"><span class="pre">matplotlib.backend_bases.MouseEvent</span></code> forwarded object.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.set_attributes">
+<code class="descname">set_attributes</code><span class="sig-paren">(</span><em>attributes_list</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.set_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.set_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the internal list of attributes to a custom passed list
+:param list attributes_list:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.set_color">
+<code class="descname">set_color</code><span class="sig-paren">(</span><em>color</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.set_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.set_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set internal color variable
+:param str color: Valid hexadecimal color value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.set_coordinates">
+<code class="descname">set_coordinates</code><span class="sig-paren">(</span><em>coordinates</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.set_coordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.set_coordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pass a list of coordinates to set to the shape to. <em>just because it exists
+does not mean you should use it</em> -me</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>coordinates</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.set_id">
+<code class="descname">set_id</code><span class="sig-paren">(</span><em>_id</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.set_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.set_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the database ID of the shape. <strong>unsafe</strong> to use outside letting
+database call this.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>_id</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Database primary key</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.set_notes">
+<code class="descname">set_notes</code><span class="sig-paren">(</span><em>note</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.set_notes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.set_notes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pass a string containing new notes to set the shape to</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>note</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; New note string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.set_plot">
+<code class="descname">set_plot</code><span class="sig-paren">(</span><em>plot</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.set_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.set_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manually set the new value of the internal plot variable. <strong>unsafe</strong>
+:param constants.Plot plot: Plot value</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.set_tag">
+<code class="descname">set_tag</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.set_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.set_tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set internal tag variable
+:param str tag:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../tools/tools.html" class="btn btn-neutral float-right" title="Tools">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="reader.html" class="btn btn-neutral" title="ShapeReader"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.15.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
