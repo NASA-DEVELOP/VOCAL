@@ -58,8 +58,8 @@ class DatabasePolygon(dbBase):
         separate JSON 'files'
         """
         data = {}
-        for i in range(0, len(constants.PLOTS)):
-            data[self.plot_string(i)] = {}
+        for key in constants.plot_type_enum:
+            data[key] = {}
         data[self.plot] = {self.tag: {
             'color': self.color,
             'attributes': self.attributes,

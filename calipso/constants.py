@@ -14,6 +14,11 @@ class Plot(Enum):
     depolarized = 2
     vfm = 3
 
+plot_type_enum = {'base_plot': Plot.baseplot,
+                  'backscattered': Plot.backscattered,
+                  'depolarized': Plot.depolarized,
+                  'vfm': Plot.vfm}
+
 HEIGHT = 665
 WIDTH = 1265
 CHILDWIDTH = 200

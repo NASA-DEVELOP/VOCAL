@@ -340,17 +340,17 @@ class ShapeManager(object):
             logger.info('Reading JSON from file')
             self.__shapereader.set_filename(filename)
             self.__shapereader.read_from_file_json()
-        plot = Plot.baseplot.value
-        logger.info('Parse JSON data for new polygons')
-        for lst in self.__shape_list:
-            self.__shapereader.pack_shape(lst, constants.PLOTS[plot], self.__canvas)
-            if self.__current_plot.value == plot:
-                for shape in lst:
-                    if not shape.is_empty():
-                        logger.info('Shape found in \'%s\', drawing' %
-                                    constants.PLOTS[plot])
-                        shape.redraw(self.__figure, ShapeManager.outline_toggle)
-            plot += 1
+        for key in constants.plot_type_enum:
+            logger.info('Parse JSON data for new polygons')
+            for lst in self.__shape_list:
+                self.__shapereader.pack_shape(lst, key, self.__canvas)
+                if self.__current_plot == constants.plot_type_enum[key]:
+                    for shape in lst:
+                        if not shape.is_empty():
+                            logger.info('Shape found in \'%s\', drawing' %
+                                        constants.PLOTS[plot])
+                            shape.redraw(self.__figure, ShapeManager.outline_toggle)
+                plot += 1
         self.__canvas.show()
 
     def save_db(self):
