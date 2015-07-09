@@ -3,13 +3,11 @@
 #
 #@author: nqian
 ###############################
-from Tkconstants import TOP, BOTH
-from Tkinter import Toplevel, Frame
+from Tkinter import Toplevel
 
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg,\
+    NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
-from matplotlib.patches import Polygon
-from numpy import arange, sin, pi
 
 
 class ExtractDialog(Toplevel):
@@ -23,23 +21,22 @@ class ExtractDialog(Toplevel):
         Instantiates attributes
         """
         Toplevel.__init__(self, root)
+        x_vals = [0, 3, 10, 15]
+        y_vals = [232, 120, 45, 23]
+        
         self.shape = shape
-        self.draw_frame = Frame(root)
-        self.parent_fig = Figure(figsize=(8, 5))
-        self.fig = self.parent_fig.add_subplot(1, 1, 1)
-        self.canvas = FigureCanvasTkAgg(self.parent_fig, master=self.draw_frame)
+        self.fig = Figure(figsize=(8, 5))
+        self.ax = self.fig.add_subplot(1, 1, 1)
+        self.plot = self.ax.plot(x_vals, y_vals, 'k-')
+        self.ax.set_xlabel('Time')
+        self.ax.set_ylabel('Altitude (km)')
+        self.ax.set_title('Horse Stable')
+        
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
+        self.canvas.show()
+        self.canvas.get_tk_widget().grid(row=0)
+        toolbar = NavigationToolbar2TkAgg(self.canvas, self)
+        toolbar.grid(row=1)
+        toolbar.update()
         
         self.title("Data Subplot")
-        self.canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
-        self.draw_frame.pack()
-        
-        t = arange(0.0, 3.0, 0.01)
-        s = sin(2 * pi * t)
-        self.fig.plot(t, s)
-        
-        self.fig.set_ylabel('Altitude (km)')
-        self.fig.set_xlabel('Time')
-        self.canvas.show()
-        
-        polygon = Polygon([(4,5), (4,9), (8,9), (8,5)])
-        self.fig.add_patch(polygon)
