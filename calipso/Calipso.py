@@ -11,6 +11,7 @@ import logging
 from sys import platform as _platform
 import tkFileDialog
 import tkMessageBox
+import webbrowser
 
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -137,6 +138,8 @@ class Calipso(object):
 
         # Help Menu
         menu_help = Menu(menu_bar, tearoff=0)
+        menu_help.add_command(label='Documentation', command=lambda: webbrowser.open_new(
+            constants.HELP_PAGE))
         menu_help.add_command(label='About', command=self.about)
         menu_bar.add_cascade(label='Help', menu=menu_help)
 
