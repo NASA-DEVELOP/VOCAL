@@ -5,7 +5,9 @@
 #    6/3/2015
 ###################################
 import sys
-import datetime
+import ast
+import matplotlib as mpl
+from datetime import datetime
 
 from log import logger
 
@@ -48,6 +50,16 @@ def time_to_seconds(t):
     logger.debug("Seconds %s", ret)
     return ret
 
+def get_shape_ranges(date, coordinates):
+    cords = ast.literal_eval(coordinates)
+    time_cords = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S %p') for
+                  x in cords]
+    altitude_cords = [x[1] for x in cords]
+    print date
+    start_date = date.split(' ')[0]
+
+    return '%s, %s - %s' % (start_date, min(time_cords), max(time_cords)), \
+           '%07.4f km - %07.4f km' % (min(altitude_cords), max(altitude_cords))
 
 
 class Catcher:

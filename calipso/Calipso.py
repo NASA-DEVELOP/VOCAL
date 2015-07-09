@@ -12,7 +12,9 @@ from sys import platform as _platform
 import tkFileDialog
 import tkMessageBox
 import webbrowser
+import matplotlib.image as mpimg
 
+from matplotlib.lines import Line2D
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -164,6 +166,10 @@ class Calipso(object):
         self.yrange = yrange
         if plot_type == Plot.baseplot:
             self.__shapemanager.set_plot(Plot.baseplot)
+            im = mpimg.imread('../help.png')
+            self.__fig.get_yaxis().set_visible(False)
+            self.__fig.get_xaxis().set_visible(False)
+            self.__fig.imshow(im, aspect='auto')
         elif plot_type == Plot.backscattered:
             try:
                 logger.info('Setting plot to backscattered xrange: ' +
