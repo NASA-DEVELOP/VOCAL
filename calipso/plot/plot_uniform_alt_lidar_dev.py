@@ -7,7 +7,6 @@
 import ccplot.utils
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
-from PCF_genTimeUtils import extractDatetime
 import numpy as np
 import matplotlib as mpl
 
@@ -58,11 +57,7 @@ def drawBackscattered(filename, x_range, y_range, fig, pfig):
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Time')   
         fig.get_xaxis().set_major_locator(mpl.dates.AutoDateLocator())
-        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
-        
-        granule = "%sZ%s" % extractDatetime(filename)
-        title = 'Averaged 532 nm Total Attenuated Backscatter for granule %s' % granule
-        fig.set_title(title)                 
+        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))        
         fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
        
         cbar_label = 'Total Attenuated Backscatter 532nm (km$^{-1}$ sr$^{-1}$)'
