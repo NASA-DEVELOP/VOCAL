@@ -12,7 +12,7 @@ from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE
 from sqlalchemy import or_
 from db import db, DatabasePolygon
-from tools.tools import center
+from tools.tools import center, get_shape_ranges
 from tools.treelistbox import TreeListBox
 from log import logger
 
@@ -107,9 +107,10 @@ class ImportDialog(Toplevel):
                               DatabasePolygon.tag.contains(self.__search_string),
                               DatabasePolygon.attributes.contains(self.__search_string),
                               DatabasePolygon.notes.contains(self.__search_string))):
+                    time_range, altitude_range = get_shape_ranges(obj.time_, obj.coordinates)
                     lst.append(  # append any objects that were returned by the query
-                                 (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes[1:-1],
-                                  obj.notes))
+                                 (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
+                                  obj.notes, obj.hdf))
                 # Push new query onto the stack and set display to list
                 self.__stack.append(self.tree.info)
                 self.tree.info = lst
@@ -134,7 +135,8 @@ class ImportDialog(Toplevel):
         self.bottom_button_frame.pack(side=BOTTOM, fill=X, expand=False)
 
         self.tree = TreeListBox(self.bottom_frame,
-                                ['name', 'plot', 'date', 'file', 'attributes', 'notes'])
+                                ['name', 'plot', 'time range', 'altitude range',
+                                 'attributes', 'notes', 'file'])
 
         for obj in self.session.query(DatabasePolygon).all():
             self.__internal_list.append(obj)  # insert JSON obj representation into internal list
@@ -187,8 +189,9 @@ class ImportDialog(Toplevel):
         if self.tree.info:
             self.__stack.append(self.tree.info)
         for obj in self.session.query(DatabasePolygon).all():
+            time_range, altitude_range = get_shape_ranges(obj.time_, obj.coordinates)
             lst.append(  # user see's this list
-                         (obj.tag, obj.plot, obj.time_, obj.hdf, obj.attributes[1:-1], obj.notes))
+                         (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1], obj.notes, obj.hdf))
 
         self.tree.info = lst
         self.tree.update()
@@ -201,3 +204,5 @@ class ImportDialog(Toplevel):
         self.session.commit()
         self.session.close()
         self.destroy()
+
+
