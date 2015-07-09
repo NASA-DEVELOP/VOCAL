@@ -21,6 +21,8 @@ CHILDHEIGHT = 325
 IMPORTWIDTH = 1000
 IMPORTHEIGH = 500
 
+PLOTS = ["base_plot", "backscattered", "depolarized", "vfm"]
+
 # READ ONLY
 TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', 'cloud LC',
         'dust', 'polluted continental', 'polluted continental dust', 'polluted dust',

@@ -376,7 +376,7 @@ class Calipso(object):
         """
         shape = self.__shapemanager.find_shape(event)
         logger.info("Extracting data")
-        ExtractDialog(self.__root, shape)
+        ExtractDialog(self.__root, shape, self.__file)
 
     def get_root(self):
         return self.__root
