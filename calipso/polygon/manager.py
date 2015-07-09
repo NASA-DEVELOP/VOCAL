@@ -348,9 +348,8 @@ class ShapeManager(object):
                     for shape in lst:
                         if not shape.is_empty():
                             logger.info('Shape found in \'%s\', drawing' %
-                                        constants.PLOTS[plot])
+                                        key)
                             shape.redraw(self.__figure, ShapeManager.outline_toggle)
-                plot += 1
         self.__canvas.show()
 
     def save_db(self):

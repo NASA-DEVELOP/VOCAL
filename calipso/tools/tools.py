@@ -55,7 +55,6 @@ def get_shape_ranges(date, coordinates):
     time_cords = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S %p') for
                   x in cords]
     altitude_cords = [x[1] for x in cords]
-    print date
     start_date = date.split(' ')[0]
 
     return '%s, %s - %s' % (start_date, min(time_cords), max(time_cords)), \

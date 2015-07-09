@@ -52,7 +52,7 @@ class ShapeReader(object):
         :param data: string representation of a JSON
         """
         self.__data = byteify(json.loads(data))
-        for plt in [x for x in self.__data if x in constants.plot_type_enum.values()]:
+        for plt in [x for x in self.__data if x in constants.plot_type_enum.keys()]:
             for shape in self.__data[plt]:
                 if 'coordinates' in self.__data[plt][shape]:
                     self.__data[plt][shape]['coordinates'] = \
