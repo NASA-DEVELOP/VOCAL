@@ -13,8 +13,9 @@ import tkFileDialog
 import tkMessageBox
 import webbrowser
 import matplotlib.image as mpimg
+import matplotlib
+matplotlib.use('tkAgg')
 
-from matplotlib.lines import Line2D
 from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -76,8 +77,7 @@ class Calipso(object):
         # Matplotlib backend objects
         self.__parent_fig = Figure(figsize=(16, 11))
         self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-#         self.__parent_fig.subplots_adjust(left=0.05, bottom=0.05, right=0.98, top=0.98)
-        self.__parent_fig.tight_layout(pad=3.5, h_pad=5.0, w_pad=5.0)
+        self.__parent_fig.set_tight_layout(True)
         self.__drawplot_canvas = FigureCanvasTkAgg(self.__parent_fig,
                                                    master=self.__drawplot_frame)
         # Create ToolsWindow class and pass itself + the root
