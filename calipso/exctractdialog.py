@@ -78,8 +78,12 @@ class ExtractDialog(Toplevel):
                                Z.astype(np.float32),
                                x1, x2, x2 - x1,
                                h2, h1, nz)
-            print data
             
             for i in range(x1, x2):
-                for j in range(h1, h2):
-                    pass
+                if self.shape.in_x_extent(time[i]):
+#                     print 'i: ' + str(i)
+                    for j in range(h1, h2):
+                        # check if (i, j) is inside the shape with ray casting
+                        if self.shape.in_y_extent(j):
+#                             pass
+                            print 'j: ' + str(j)
