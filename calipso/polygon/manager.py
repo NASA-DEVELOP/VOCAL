@@ -275,11 +275,10 @@ class ShapeManager(object):
         """
         target = event.artist
         mevent = event.mouseevent
-        print mevent.x, mevent.y
         for shape in self.__current_list:
             if shape.get_itemhandler() is target:
                 if self.property_window is not None:
-                    return
+                    self.destroy_property_window()
                 self.property_window = Toplevel()
                 self.property_window.wm_overrideredirect(1)
                 self.property_window.\
@@ -301,7 +300,7 @@ class ShapeManager(object):
         logger.warning("Shape not found")
 
     # noinspection PyUnusedLocal
-    def destroy_property_window(self, event):
+    def destroy_property_window(self, event=None):
         """
         Helper function to destroy the properties window when clicked, sets the
         variable back to a ``none`` state and unbinds ``<Button-1>`` from *root*

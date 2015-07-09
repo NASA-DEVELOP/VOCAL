@@ -375,5 +375,5 @@ class Shape(object):
             for item in self.__attributes:
                 string += '\t%s\n' % item
         if self.__note != '':
-            string += 'Notes:\n  %s' % self.__note
+            string += 'Notes:\n\t%s' % self.__note
         return string

@@ -27,3 +27,4 @@ TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', '
         'polluted marine', 'smoke', 'stratospheric layer']
 
 LOG_FILENAME = 'log/CALIPSO_debug.log'
+HELP_PAGE = 'http://syntaf.github.io/vocal/'
