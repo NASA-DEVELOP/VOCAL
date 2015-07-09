@@ -1,8 +1,6 @@
 *.xml
 *.pyc
 *.log
-<<<<<<< HEAD
 *.iml
-=======
->>>>>>> master
+*.db
 calipso/build/

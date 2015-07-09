@@ -49,14 +49,13 @@ def drawBackscattered(filename, x_range, y_range, fig, pfig):
             data.T,
             extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
             cmap=cm,
-            norm=norm,
             aspect='auto',
+            norm=norm,
             interpolation='nearest',
         )
        
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Time')   
-        fig.get_xaxis().set_major_locator(mpl.dates.AutoDateLocator())
         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))        
         fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
        
