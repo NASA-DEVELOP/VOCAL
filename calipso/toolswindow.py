@@ -3,16 +3,17 @@
 #
 #   @author: Grant Mercer
 ###################################
+from Tkconstants import END
+from Tkinter import Label, Toplevel, Frame, Button, IntVar, BOTH, FALSE, \
+    BOTTOM, Radiobutton, Entry, X, TOP
 import re
 import tkMessageBox
 
-from constants import Plot
 from PIL import ImageTk
+from constants import Plot
+from log import logger
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import create_tool_tip
-from log import logger
-from Tkinter import Label, Toplevel, Frame, Button, IntVar, BOTH, FALSE, \
-    BOTTOM, Radiobutton, Entry, X, TOP
 
 
 class ToolsWindow(Toplevel):
@@ -107,11 +108,13 @@ class ToolsWindow(Toplevel):
             grid(row=3, column=0, pady=5, sticky='w')
         self.begin_range_entry = Entry(self.upper_range_frame, width=12)
         self.begin_range_entry.grid(row=3, column=1, pady=5, sticky='w')
+        self.begin_range_entry.insert(END, '0')
 
         Label(self.upper_range_frame, text='to').\
             grid(row=3, column=2, pady=5, sticky='w')
         self.end_range_entry = Entry(self.upper_range_frame, width=11)
         self.end_range_entry.grid(row=3, column=3, pady=5, sticky='w')
+        self.end_range_entry.insert(END, '1000')
 
         self.lower_button_frame = Frame(self.container)
         self.lower_button_frame.config(highlightthickness=1)

@@ -239,8 +239,8 @@ class Calipso(object):
                 # Set both xrange and dst to zero and simply reload beginning range
                 self.xrange = (0, self.xrange[1])
                 dst = 0
-            logger.info("Panning backwards")
             self.set_plot(self.plot, (self.xrange[0] - dst, self.xrange[1] - dst))
+            logger.info("Panning backwards")
         else:
             logger.info("Panning forwards")
             self.set_plot(self.plot, (self.xrange[0] + dst, self.xrange[1] + dst))
@@ -379,7 +379,7 @@ class Calipso(object):
         """
         shape = self.__shapemanager.find_shape(event)
         logger.info("Extracting data")
-        ExtractDialog(self.__root, shape, self.__file)
+        ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange)
 
     def get_root(self):
         return self.__root
