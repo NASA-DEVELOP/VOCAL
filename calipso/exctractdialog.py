@@ -4,13 +4,16 @@
 #@author: nqian
 ###############################
 from Tkinter import Toplevel
-import numpy as np
 
+import ccplot
+from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, \
     NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
-import ccplot
+
+import matplotlib as mpl
+import numpy as np
 
 
 class ExtractDialog(Toplevel):
@@ -55,6 +58,8 @@ class ExtractDialog(Toplevel):
         x2 = self.x_range[1]
         h1 = self.y_range[0]
         h2 = self.y_range[1]
+        nz = 500
+        
         plot = self.shape.get_plot()
         with HDF(self.filename) as product:
             time = product['Profile_UTC_Time'][x1:x2, 0]
@@ -62,14 +67,23 @@ class ExtractDialog(Toplevel):
             dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
             
             time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
+            for i in range(len(time)):
+                time[i] = mpl.dates.date2num(time[i])
             dataset = np.ma.masked_equal(dataset, -9999)
             X = np.arange(x1, x2, dtype=np.float32)
             Z, null = np.meshgrid(height, X)
+            data = interp2d_12(
+                               dataset[::],
+                               X.astype(np.float32),
+                               Z.astype(np.float32),
+                               x1, x2, x2 - x1,
+                               h2, h1, nz)
             
-            print time
-            print height
-            print len(dataset.shape)
-            print dataset[0][3]
-            print X
-            print Z
-            print null
+            for i in range(x1, x2):
+                if self.shape.in_x_extent(time[i]):
+#                     print 'i: ' + str(i)
+                    for j in range(h1, h2):
+                        # check if (i, j) is inside the shape with ray casting
+                        if self.shape.in_y_extent(j):
+#                             pass
+                            print 'j: ' + str(j)

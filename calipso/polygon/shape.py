@@ -370,6 +370,20 @@ class Shape(object):
         if len(self.__coordinates) == 0:
             return True
         return False
+    
+    def in_x_extent(self, x):
+        time_cords = [pair[0] for pair in self.__coordinates]
+        if min(time_cords) <= x <= max(time_cords):
+            return True
+        else:
+            return False
+        
+    def in_y_extent(self, y):
+        altitude_cords = [pair[1] for pair in self.__coordinates]
+        if min(altitude_cords) <= y <= max(altitude_cords):
+            return True
+        else:
+            return False
 
     def __str__(self):
         logger.debug('Stringing shape')
