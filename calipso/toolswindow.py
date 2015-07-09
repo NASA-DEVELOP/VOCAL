@@ -3,7 +3,6 @@
 #
 #   @author: Grant Mercer
 ###################################
-import constants
 import re
 import tkMessageBox
 
@@ -45,6 +44,7 @@ class ToolsWindow(Toplevel):
         self.redo_img = ImageTk.PhotoImage(file='ico/forward.png')
         self.undo_img = ImageTk.PhotoImage(file='ico/back.png')
         self.magnify_draw_img = ImageTk.PhotoImage(file='ico/magnify.png')
+        self.extract_img = ImageTk.PhotoImage(file='ico/button.png')
 
         self.__parent = parent
         self.__root = root
@@ -211,6 +211,12 @@ class ToolsWindow(Toplevel):
             Button(self.lower_button_frame, image=self.save_img, width=30, height=30, command=self.__parent.save_json)
         save_button.grid(row=2, column=3, padx=2, pady=5)
         create_tool_tip(save_button, 'Save visible\n objects\n to JSON')
+        
+        # Load shapes from JSON
+        load_button = \
+            Button(self.lower_button_frame, image=self.load_img, width=30, height=30, command=self.__parent.load)
+        load_button.grid(row=2, column=4, padx=2, pady=5)
+        create_tool_tip(load_button, 'Load JSON')
 
         # Retrieve shape properties
         properties_button = \
@@ -227,11 +233,12 @@ class ToolsWindow(Toplevel):
         edit_button.grid(row=3, column=2, padx=2, pady=5)
         create_tool_tip(edit_button, 'Edit Attributes')
         
-        # Load shapes from JSON
-        load_button = \
-            Button(self.lower_button_frame, image=self.load_img, width=30, height=30, command=self.__parent.load)
-        load_button.grid(row=3, column=3, padx=2, pady=5)
-        create_tool_tip(load_button, 'Load JSON')
+        # Extract data
+        extract_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.extract_img, width=30, height=30)
+        extract_button.latch(target=self.__canvas, key='pick_event', 
+                             command=self.__parent.extract_window)
+        extract_button.grid(row=3, column=3, padx=2, pady=5)
+        create_tool_tip(extract_button, 'Extract data from shape')
 
     def render(self):
         """

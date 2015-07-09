@@ -28,6 +28,7 @@ from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.tools import Catcher
 from toolswindow import ToolsWindow
 from tkColorChooser import askcolor
+from exctractdialog import ExtractDialog
 
 
 class Calipso(object):
@@ -351,10 +352,14 @@ class Calipso(object):
         AttributesDialog(self.__root, shape)
         
     def paint_window(self, event):
+        """
+        Opens the paint window for specifying the shape's color
+        
+        :param event: A Tkinter passed event object
+        """
         shape = self.__shapemanager.find_shape(event)
         logger.info("Painting shape")
         color = askcolor()
-        print color[0]
         if color[0] is not None:
             red = format(color[0][0], '02x')
             green = format(color[0][1], '02x')
@@ -362,6 +367,16 @@ class Calipso(object):
             color = '#' + red + green + blue
             shape.get_itemhandler().set_facecolor(color)
             self.__drawplot_canvas.show()
+            
+    def extract_window(self, event):
+        """
+        Opens a subwindow that displays the data bounded by the shape
+        
+        :param event: A Tkinter passed event object
+        """
+        shape = self.__shapemanager.find_shape(event)
+        logger.info("Extracting data")
+        ExtractDialog(self.__root, shape)
 
     def get_root(self):
         return self.__root

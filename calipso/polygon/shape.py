@@ -25,8 +25,6 @@ class Shape(object):
     backend
     """
 
-    drag_toggle = False
-
     def __init__(self, canvas, tag='', color=''):
         self.__canvas = canvas
         self.__coordinates = []
