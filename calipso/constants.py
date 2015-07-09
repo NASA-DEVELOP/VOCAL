@@ -19,6 +19,8 @@ plot_type_enum = {'base_plot': Plot.baseplot,
                   'depolarized': Plot.depolarized,
                   'vfm': Plot.vfm}
 
+PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm']
+
 HEIGHT = 665
 WIDTH = 1265
 CHILDWIDTH = 200
