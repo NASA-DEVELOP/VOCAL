@@ -41,6 +41,12 @@ def byteify(inp):
         return inp
 
 def time_to_seconds(t):
+    """
+    Convert a time string into a strings containing only seconds
+
+    :param str t: time in *%Y-%m-%d %H:%M:%S.%f* format
+    :rtype: str
+    """
     # trouble with getting microseconds to display
     t = str(t)
     # logging.debug("Converting time: %s", t)
@@ -51,6 +57,14 @@ def time_to_seconds(t):
     return ret
 
 def get_shape_ranges(date, coordinates):
+    """
+    Given the list of coordinates , return a tuple containing formatted strings for
+    the range of time and altitude
+
+    :param str date: A string in the format *%Y-%m-%d %H:%M:%S.%f*
+    :param list coordinates: The list of coordinates to determine the ranges from
+    :rtype: (str, str)
+    """
     cords = ast.literal_eval(coordinates)
     time_cords = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S %p') for
                   x in cords]
@@ -62,6 +76,10 @@ def get_shape_ranges(date, coordinates):
 
 
 class Catcher:
+    """
+    A Tkinter overloaded class for forwarding the exception ouput
+    directly to the log
+    """
     def __init__(self, func, subst, widget):
         self.func = func
         self.subst = subst

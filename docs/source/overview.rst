@@ -62,10 +62,10 @@ Features
 .. class:: left: blank program, right: shapes form around selected areas of the plot
 
    .. image:: _static/program.png
-      :scale: 30%
+      :scale: 20%
 
    .. image:: _static/programShapesActive.png
-      :scale: 30%
+      :scale: 20%
 
 
 VOCAL is still in a very early development phase

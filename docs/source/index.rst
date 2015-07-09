@@ -12,8 +12,8 @@ Contents
 ============
 
 .. toctree::
-   :maxdepth: 2
    :caption: User Documentation
+   :maxdepth: 2
 
    overview
    installation

@@ -92,10 +92,6 @@ class Calipso(object):
         self.__drawplot_canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplot_frame.pack()
 
-    @staticmethod
-    def callback(event):
-        print event.x, event.y
-
     def setup_window(self):
         """
         Sets the title of root and invokes py:meth:`centerWindow`
@@ -390,6 +386,9 @@ class Calipso(object):
         ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange)
 
     def get_root(self):
+        """
+        Return the root of the application
+        """
         return self.__root
 
     def get_shapemanager(self):

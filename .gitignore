@@ -3,4 +3,4 @@
 *.log
 *.iml
 *.db
-calipso/build/
+docs/build/

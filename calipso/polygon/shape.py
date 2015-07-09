@@ -142,6 +142,13 @@ class Shape(object):
             self.__coordinates = []
 
     def draw(self, fig, plot=Plot.baseplot, fill=False):
+        """
+        Draw the shape to the canvas, onto the passed figure. Only fill the
+        object if the *fill* parameter is set to ``True``
+        :param fig: A ``SubplotAxes`` object from the matplotlib backend
+        :param plot: ``constants.Plot`` enum specifying which plot the object belongs to
+        :param bool fill: ``False`` for fill, ``True`` for outline
+        """
         logger.info("Drawing polygon")
 
         # Generates a gnarly random color brah
@@ -160,8 +167,7 @@ class Shape(object):
         be drawn. Checks if the image already exists, if not draws the image
 
         :param fig: A ``SubplotAxes`` object to add the patch to
-        :param bool fill: Boolean value whether to have the shape filled in when
-        drawn or not
+        :param bool fill: Boolean value whether to have the shape filled in when drawn or not
         """
         if self.__item_handler.is_figure_set():
             self.__item_handler.remove()
@@ -358,6 +364,9 @@ class Shape(object):
         self.__item_handler.remove()
 
     def is_empty(self):
+        """
+        Return ``True`` if empty, ``False`` otherwise
+        """
         if len(self.__coordinates) == 0:
             return True
         return False

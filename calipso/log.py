@@ -5,6 +5,7 @@
 ###################################
 import logging.config
 import sys
+import os
 
 
 def uncaught_exception(exctype, value, tb):
@@ -14,5 +15,7 @@ def uncaught_exception(exctype, value, tb):
 sys.excepthook = uncaught_exception
 # logging.config.fileConfig(r'/home/gdev/Github/vocal/calipso/log/logging.ini',
 # disable_existing_loggers=False)
-logger = logging.getLogger('VOCAL')    
-logging.config.fileConfig('log/logging.ini', disable_existing_loggers=False)
+logger = logging.getLogger('VOCAL')
+
+path = os.path.dirname(os.path.realpath(__file__)) + '\\log\\logging.ini'
+logging.config.fileConfig(path, disable_existing_loggers=False)
