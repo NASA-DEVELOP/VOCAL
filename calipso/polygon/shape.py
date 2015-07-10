@@ -169,7 +169,7 @@ class Shape(object):
         :param fig: A ``SubplotAxes`` object to add the patch to
         :param bool fill: Boolean value whether to have the shape filled in when drawn or not
         """
-        if self.__item_handler.is_figure_set():
+        if self.__item_handler is not None and self.__item_handler.is_figure_set():
             self.__item_handler.remove()
         self.__item_handler = \
             Polygon(self.__coordinates, facecolor=self.__color, fill=fill, picker=5)
