@@ -204,5 +204,3 @@ class ImportDialog(Toplevel):
         self.session.commit()
         self.session.close()
         self.destroy()
-
-

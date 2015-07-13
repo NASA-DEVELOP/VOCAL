@@ -5,7 +5,7 @@
 #
 ######################################
 from constants import TAGS
-from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED, RIGHT, CENTER, LEFT
+from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED, LEFT
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
 from log import logger
 
@@ -16,7 +16,7 @@ class AttributesDialog(Toplevel):
     Dialog window for creating and assigning attributes to objects
 
     :param root: The parent frame
-    :param polygon_drawer: The polygonDrawer being edited
+    :param shape: The ShapeManager being edited
     """
     
     def __init__(self, root, shape):
