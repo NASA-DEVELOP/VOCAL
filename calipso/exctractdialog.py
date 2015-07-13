@@ -83,6 +83,13 @@ class ExtractDialog(Toplevel):
             test = np.empty_like(data)
             second = []
 #             test = np.ma.masked_equal(test, 0)
+
+            bbox = self.ax.get_window_extent().transformed(self.fig.dpi_scale_trans.inverted())
+            width, height = bbox.width, bbox.height
+            width *= self.fig.dpi
+            height *= self.fig.dpi
+            
+            print "Pixel height: ", height
             
             min_x = min(self.shape.get_coordinates(), key=lambda x: x[0])
             max_x = max(self.shape.get_coordinates(), key=lambda x: x[0])
@@ -92,6 +99,7 @@ class ExtractDialog(Toplevel):
             
             i = 0
             j = 0
+            # TODO: trim data outside of the shape
             for x in range(x1, x2):
                 if self.shape.in_x_extent(time[x]):
                     second.append([])
@@ -113,9 +121,11 @@ class ExtractDialog(Toplevel):
                             second[i].append(data[x][y])
                             j += 1
                     i += 1
-                
+            print len(data[0])
+            print data    
             print second
             print len(second)
+            second = np.array(second)
                             
 #             data = np.ma.masked_where(test == 0.0, data)
 #             print data
@@ -126,6 +136,9 @@ class ExtractDialog(Toplevel):
             cm.set_over(cmap['over']/255.0)
             cm.set_bad(cmap['bad']/255.0)
             norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
+            
+            print time[min_yindex]
+            print time[max_yindex]
             
             im = self.ax.imshow(
                 data.T,
