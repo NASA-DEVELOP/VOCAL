@@ -89,20 +89,20 @@ class ExtractDialog(Toplevel):
             max_y = -sys.maxint -1
             
             for i in range(x1, x2):
-                if time[i] < min_x:
-                    min_x = i
-                elif time[i] > max_x:
-                    max_x = i
                 if self.shape.in_x_extent(time[i]):
+                    if time[i] < min_x:
+                        min_x = i
+                    elif time[i] > max_x:
+                        max_x = i
                     for j in range(h1, h2):
-                        if j < min_y:
-                            min_y = j
-                        elif j > max_y:
-                            max_y = j
                         # check if (i, j) is inside the shape with ray casting
                         # exclude points on the lines
 #                         test = np.ma.masked_where(ray_cast(self.shape.get_coordinates(), (time[i], j)), data)
                         if ray_cast(self.shape.get_coordinates(), (time[i], j)):
+                            if j < min_y:
+                                min_y = j
+                            elif j > max_y:
+                                max_y = j
 #                             print data[i][j]
                             test[i][j] = 1
                             print test[i][j]
@@ -119,10 +119,12 @@ class ExtractDialog(Toplevel):
             
             print time[min_x]
             print time[max_x]
+            print min_x
+            print max_x
             
             im = self.ax.imshow(
                 data.T,
-                extend=(mpl.dates.date2num(time[min_x]), mpl.dates.date2num(time[max_x]), min_y, max_y), 
+                extent=(time[min_x], time[max_x], min_y, max_y), 
                 cmap=cm,
                 aspect='auto',
                 norm=norm,
