@@ -124,7 +124,6 @@ def ray_cast(coordinates, point):
     for i in range(-1, len(coordinates)-1):
         if is_intersecting(tuple_to_nparray(coordinates[i]), tuple_to_nparray(coordinates[i+1]), ray_start, point):
             count += 1
-    print count
     if count % 2 == 1:
         return True
     else:

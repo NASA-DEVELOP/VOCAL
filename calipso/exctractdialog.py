@@ -79,17 +79,12 @@ class ExtractDialog(Toplevel):
                                Z.astype(np.float32),
                                x1, x2, x2 - x1,
                                h2, h1, nz)
-            print self.shape.get_coordinates()
             
             for i in range(x1, x2):
                 if self.shape.in_x_extent(time[i]):
-#                     print 'i: ' + str(time[i])
                     for j in range(h1, h2):
-#                         print j
                         # check if (i, j) is inside the shape with ray casting
                         # exclude points on the lines
-#                         if self.shape.in_y_extent(j):\
                         if ray_cast(self.shape.get_coordinates(), (time[i], j)):
-#                             print 'j: ' + str(j)
-#                             print data[i][j]
+                            print data[i][j]
                             pass
