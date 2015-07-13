@@ -38,10 +38,10 @@ def get_intersection(a1, a2, b1, b2):
     dap = perpendicular(da)
     denom = dot(dap, db)
     num = dot(dap, dp)
-    print "Division: ", (num / denom.astype(float))
-    print "Multiplication: ", (num / denom.astype(float)) * db
-    if denom[0] == denom[1] == 0:
+    if denom == 0:
         return
+#     print "Division: ", (num / denom.astype(float))
+#     print "Multiplication: ", (num / denom.astype(float)) * db
     return (num / denom.astype(float)) * db + b1
 
 
@@ -54,7 +54,8 @@ def is_intersecting(a1, a2, b1, b2):
     :rtype: bool
     """
     point = get_intersection(a1, a2, b1, b2)
-    if ((point[0] < max(min(a1[0], a2[0]), min(b1[0], b2[0]))) or
+    if point is None or \
+            ((point[0] < max(min(a1[0], a2[0]), min(b1[0], b2[0]))) or
             (point[0] > min(max(a1[0], a2[0]), max(b1[0], b2[0])))):
         return False
     else:
@@ -95,7 +96,16 @@ def ray_cast(coordinates, point):
         # incorrect outputs from is_intersecting
         if is_intersecting(tuple_to_nparray(coordinates[i]), tuple_to_nparray(coordinates[i+1]), ray_start, point):
             count += 1
+    print count
     if count % 2 == 1:
         return True
     else:
         return False
+
+if __name__=="__main__":
+    coordinates = [[732475.03126909223, 8.0858515924085701], 
+                   [732475.03136109223, 8.0858515924085701], 
+                   [732475.03136109223, 2.990958703266271], 
+                   [732475.03126909223, 2.990958703266271]]
+    point = [732475.0313150922, 5.538405147837421]
+    print ray_cast(coordinates, point)
