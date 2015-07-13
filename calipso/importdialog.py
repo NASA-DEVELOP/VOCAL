@@ -9,7 +9,7 @@ import tkMessageBox
 import constants
 
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
-    Label, BOTTOM, TOP, X, RIDGE
+    Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar
 from sqlalchemy import or_
 from db import db, DatabasePolygon
 from tools.tools import center, get_shape_ranges
@@ -43,6 +43,7 @@ class ImportDialog(Toplevel):
         self.bottom_frame = None
         self.bottom_button_frame = None
         self.separator = None
+        self.filter_file = IntVar()
 
         center(self, (constants.IMPORTWIDTH, constants.IMPORTHEIGH))
 
@@ -66,14 +67,43 @@ class ImportDialog(Toplevel):
         label.grid(row=0, column=0, padx=5, pady=10)
         self.e.grid(row=0, column=1, padx=5, pady=10)
 
-        spacer = Label(self.top_frame, width=20)  # create space between frame outline
-        spacer.grid(row=0, column=2)
-        self.top_frame.columnconfigure(2, weight=1)
+        check_button = Checkbutton(self.top_frame, text="Filter for this file",
+                                   variable=self.filter_file,
+                                   command=self.filter_by_current_file)
+        check_button.grid(row=0, column=2, padx=5, pady=10)
+
+        spacer = Label(self.top_frame, width=30)  # create space between frame outline
+        spacer.grid(row=0, column=3)
+        self.top_frame.columnconfigure(3, weight=1)
 
         # custom command for filtering objects by properties
         delete_button = Button(self.top_frame, text='Delete', command=self.delete_from_db,
                                width=10)
-        delete_button.grid(row=0, column=3, padx=15)
+        delete_button.grid(row=0, column=4, padx=15)
+
+    def filter_by_current_file(self):
+        """
+        Command function for the check button located beside the entry box in Import Dialog.
+        Lists all shapes given by only the current file when checked. If unchecked displays
+        all entries.
+        """
+        if self.filter_file.get():
+            fn = self.__master.get_file().rpartition('/')[2]
+            lst = list()
+            for obj in self.session.query(DatabasePolygon).filter_by(
+                hdf=fn
+            ):
+                time_range, altitude_range = get_shape_ranges(obj.coordinates)
+                lst.append(
+                    (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
+                     obj.notes, obj.time_, obj.hdf))
+            if not lst:
+                logger.warning("Query returned None, no shapes found")
+            logger.info("Displaying %d shapes contained in %s" % (len(lst), fn))
+            self.tree.info = lst
+            self.tree.update()
+        else:
+            self.__display_all()
 
     def refine_search(self, event):
         """
