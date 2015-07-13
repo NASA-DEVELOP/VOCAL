@@ -3,8 +3,9 @@
 #
 # @author: nqian
 #############################
-from numpy import empty_like, dot, array
 from math import sqrt
+
+from numpy import empty_like, dot, array
 
 
 def get_vector(point1, point2):
@@ -24,6 +25,22 @@ def perpendicular(a):
 def distance(x1, y1, x2, y2):
     return sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
+def is_in_segment(a, b, c):
+    """
+    @param a: numpy array of the first point
+    @param b: numpy array of the second point
+    @param c: numpy array of the tested point
+    """
+    cross_product = (c[1] - a[1]) * (b[0] - a[0]) - (c[0] - a[0]) * (b[1] - a[1])
+    if abs(cross_product) > 0.00001:
+        return False
+    dot_product = (c[0] - a[0]) * (b[0] - a[0]) + (c[1] - a[1]) * (b[1] - a[1])
+    if dot_product < 0:
+        return False
+    length2_ba = (b[0] - a[0])**2 + (b[1] - a[1])**2
+    if dot_product > length2_ba:
+        return False
+    return True
 
 def get_intersection(a1, a2, b1, b2):
     """
@@ -32,6 +49,7 @@ def get_intersection(a1, a2, b1, b2):
     :param a1, a2: Two points on the first line
     :param b1, b1: Two points on the second line
     """
+    # source of algorithm: http://stackoverflow.com/questions/3252194/numpy-and-line-intersections
     da = a2 - a1
     db = b2 - b1
     dp = a1 - b1
@@ -60,9 +78,14 @@ def is_intersecting(a1, a2, b1, b2):
     # a2 = array([2, 2])
     # b1 = array([1, 3])
     # b2 = array([3, 3])
+    # check from: http://stackoverflow.com/questions/3838329/how-can-i-check-if-two-segments-intersect
+#     if point is None or \
+#             ((point[0] < max(min(a1[0], a2[0]), min(b1[0], b2[0]))) or
+#             (point[0] > min(max(a1[0], a2[0]), max(b1[0], b2[0])))):
+#         return False
     if point is None or \
-            ((point[0] < max(min(a1[0], a2[0]), min(b1[0], b2[0]))) or
-            (point[0] > min(max(a1[0], a2[0]), max(b1[0], b2[0])))):
+          (not is_in_segment(a1, a2, point) or 
+           not is_in_segment(b1, b2, point)):
         return False
     else:
         return True
@@ -99,7 +122,6 @@ def ray_cast(coordinates, point):
     point = tuple_to_nparray(point)
     count = 0
     for i in range(-1, len(coordinates)-1):
-        # incorrect outputs from is_intersecting
         if is_intersecting(tuple_to_nparray(coordinates[i]), tuple_to_nparray(coordinates[i+1]), ray_start, point):
             count += 1
     print count
