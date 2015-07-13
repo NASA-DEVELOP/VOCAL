@@ -38,6 +38,8 @@ def get_intersection(a1, a2, b1, b2):
     dap = perpendicular(da)
     denom = dot(dap, db)
     num = dot(dap, dp)
+    print "Division: ", (num / denom.astype(float))
+    print "Multiplication: ", (num / denom.astype(float)) * db
     return (num / denom.astype(float)) * db + b1
 
 
@@ -84,10 +86,12 @@ def ray_cast(coordinates, point):
     number of intersections is odd, the point lies inside the polygon and 
     returns true. Else, the point is outside of the polygon and returns false.
     '''
-    ray_start = (0, point[1])
+    ray_start = tuple_to_nparray((point[0], 0))
+    point = tuple_to_nparray(point)
     count = 0
     for i in range(-1, len(coordinates)-1):
-        if is_intersecting(coordinates[i], coordinates[i+1], ray_start, point):
+        # incorrect outputs from is_intersecting
+        if is_intersecting(tuple_to_nparray(coordinates[i]), tuple_to_nparray(coordinates[i+1]), ray_start, point):
             count += 1
     if count % 2 == 1:
         return True
