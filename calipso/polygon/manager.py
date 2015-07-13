@@ -341,7 +341,8 @@ class ShapeManager(object):
             self.__shapereader.set_filename(filename)
             self.__shapereader.read_from_file_json()
 
-        for key, lst in zip(constants.plot_type_enum, self.__shape_list):
+        for key in constants.plot_type_enum:
+            lst = self.__shape_list[constants.plot_type_enum[key].value]
             logger.info('Parse JSON data for plot %s' % key)
             self.__shapereader.pack_shape(lst, key, self.__canvas)
             if self.__current_plot == constants.plot_type_enum[key]:
@@ -350,11 +351,6 @@ class ShapeManager(object):
                         logger.info('Shape found in \'%s\', drawing' %
                                     key)
                         shape.redraw(self.__figure, ShapeManager.outline_toggle)
-
-        for key, lst in zip(constants.plot_type_enum, self.__shape_list):
-            print key, lst,
-            for obj in lst:
-                print obj.get_tag(),
 
         self.__canvas.show()
 
