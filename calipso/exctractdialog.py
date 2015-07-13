@@ -79,12 +79,19 @@ class ExtractDialog(Toplevel):
                                Z.astype(np.float32),
                                x1, x2, x2 - x1,
                                h2, h1, nz)
+            test = np.empty_like(data)
+#             test = np.ma.masked_equal(test, 0)
             
             for i in range(x1, x2):
                 if self.shape.in_x_extent(time[i]):
                     for j in range(h1, h2):
                         # check if (i, j) is inside the shape with ray casting
                         # exclude points on the lines
+#                         test = np.ma.masked_where(ray_cast(self.shape.get_coordinates(), (time[i], j)), data)
                         if ray_cast(self.shape.get_coordinates(), (time[i], j)):
-                            print data[i][j]
+#                             print data[i][j]
+                            test[i][j] = 1
+                            print test[i][j]
                             pass
+            print test
+#             print data
