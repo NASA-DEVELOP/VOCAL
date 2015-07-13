@@ -8,6 +8,7 @@
 
 from enum import Enum
 
+
 class Plot(Enum):
     baseplot = 0
     backscattered = 1

@@ -56,7 +56,7 @@ def time_to_seconds(t):
     logger.debug("Seconds %s", ret)
     return ret
 
-def get_shape_ranges(date, coordinates):
+def get_shape_ranges(coordinates):
     """
     Given the list of coordinates , return a tuple containing formatted strings for
     the range of time and altitude
@@ -69,7 +69,7 @@ def get_shape_ranges(date, coordinates):
     time_cords = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S %p') for
                   x in cords]
     altitude_cords = [x[1] for x in cords]
-    start_date = date.split(' ')[0]
+    start_date = mpl.dates.num2date(cords[0][0]).strftime('%Y-%m-%d')
 
     return '%s, %s - %s' % (start_date, min(time_cords), max(time_cords)), \
            '%07.4f km - %07.4f km' % (min(altitude_cords), max(altitude_cords))

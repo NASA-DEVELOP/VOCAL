@@ -98,10 +98,6 @@ class ShapeManager(object):
                 self.__current_list[-1].set_tag(self.generate_tag())
                 self.__current_list.append(Shape(self.__canvas))
                 self.__canvas.show()
-            for i in range(len(self.__shape_list)):
-                logger.debug("shape_list: %s", i)
-                for shape in self.__shape_list[i]:
-                    logger.debug(shape.get_color())
         else:
             logger.error("Point to plot is out or range, skipping")
 
@@ -146,10 +142,6 @@ class ShapeManager(object):
             logger.error('Bounds out of plot range, skipping')
             self.__current_list[-1].set_coordinates([])
             self.__canvas._tkcanvas.delete(self.__current_list[-1].lastrect)
-        for i in range(len(self.__shape_list)):
-            logger.debug("shape_list: %s", i)
-            for shape in self.__shape_list[i]:
-                logger.debug(shape.get_color())
 
     def set_hdf(self, hdf_filename):
         """
@@ -372,10 +364,6 @@ class ShapeManager(object):
                         shape.redraw(self.__figure, ShapeManager.outline_toggle)
 
         self.__canvas.show()
-        for i in range(len(self.__shape_list)):
-            logger.debug("shape_list: %s", i)
-            for shape in self.__shape_list[i]:
-                logger.debug(shape.get_color())
 
     def save_db(self):
         """

@@ -1,15 +1,14 @@
 ################################
-#Created on Jul 9, 2015
+#   Created on Jul 9, 2015
 #
-#@author: nqian
+#   @author: nqian
 ###############################
 from Tkinter import Toplevel
 
 import ccplot
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, \
-    NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 import matplotlib as mpl

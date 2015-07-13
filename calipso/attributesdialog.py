@@ -5,7 +5,7 @@
 #
 ######################################
 from constants import TAGS
-from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED
+from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED, LEFT
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
 from log import logger
 
@@ -16,7 +16,7 @@ class AttributesDialog(Toplevel):
     Dialog window for creating and assigning attributes to objects
 
     :param root: The parent frame
-    :param polygon_drawer: The polygonDrawer being edited
+    :param shape: The ShapeManager being edited
     """
     
     def __init__(self, root, shape):
@@ -63,11 +63,11 @@ class AttributesDialog(Toplevel):
         selected_label = Label(self.top_frame, textvariable=selected_string)
         selected_label.grid(row=0, column=3)
         
-        self.attributes_list = Listbox(self.top_frame, width=30, height=30, selectmode=EXTENDED)
-        self.attributes_list.grid(row=1, column=0)
+        self.attributes_list = Listbox(self.top_frame, width=30, selectmode=EXTENDED)
+        self.attributes_list.grid(row=1, column=0, padx=6)
         
-        self.selected_list = Listbox(self.top_frame, width=30, height=30, selectmode=EXTENDED)
-        self.selected_list.grid(row=1, column=3)
+        self.selected_list = Listbox(self.top_frame, width=30, selectmode=EXTENDED)
+        self.selected_list.grid(row=1, column=3, padx=6)
         
         logger.info('Loading attributes')
         for tag in self.__available_attributes:
@@ -97,17 +97,17 @@ class AttributesDialog(Toplevel):
         note_label.grid(row=0, column=1)
         
         self.note_text = Text(self.bottom_frame, width=55, height=10)
-        self.note_text.grid(row=1, column=1)
+        self.note_text.grid(row=1, column=1, padx=6)
         self.note_text.insert(END, self.__shape.get_notes())
         
         button_frame = Frame(self.container)
         button_frame.pack(side=BOTTOM, fill=X, expand=False)
         
-        accept_button = Button(button_frame, text='Save', command=self.save)
-        accept_button.grid(row=0, column=0)
+        accept_button = Button(button_frame, text='Save', width=9, command=self.save)
+        accept_button.pack(side=LEFT, pady=5, padx=2)
         
-        cancel_button = Button(button_frame, text='Clear Note', command=self.clear)
-        cancel_button.grid(row=0, column=1)
+        cancel_button = Button(button_frame, text='Clear Note', width=9, command=self.clear)
+        cancel_button.pack(side=LEFT, pady=5, padx=2)
         
 #         closeButton = Button(buttonFrame, text='Close', command=self.close)
 #         closeButton.grid(row=3, column=2)
