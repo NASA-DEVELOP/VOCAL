@@ -54,6 +54,12 @@ def is_intersecting(a1, a2, b1, b2):
     :rtype: bool
     """
     point = get_intersection(a1, a2, b1, b2)
+    # fails when non intersecting line segments orthogonal to bases 
+    # i.e. when
+    # a1 = array([2, 0])
+    # a2 = array([2, 2])
+    # b1 = array([1, 3])
+    # b2 = array([3, 3])
     if point is None or \
             ((point[0] < max(min(a1[0], a2[0]), min(b1[0], b2[0]))) or
             (point[0] > min(max(a1[0], a2[0]), max(b1[0], b2[0])))):
@@ -103,6 +109,18 @@ def ray_cast(coordinates, point):
         return False
 
 if __name__=="__main__":
+    a1 = array([0, 0])
+    a2 = array([2, 2])
+    b1 = array([1, 4])
+    b2 = array([3, 2])
+    print is_intersecting(a1, a2, b1, b2)
+    
+    a1 = array([2, 0])
+    a2 = array([2, 2])
+    b1 = array([1, 3])
+    b2 = array([3, 3])
+    print is_intersecting(a1, a2, b1, b2)
+    
     coordinates = [[732475.03126909223, 8.0858515924085701], 
                    [732475.03136109223, 8.0858515924085701], 
                    [732475.03136109223, 2.990958703266271], 
