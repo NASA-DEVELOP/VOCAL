@@ -161,6 +161,8 @@ class DatabaseManager(object):
 
             else:
                 poly = session.query(DatabasePolygon).get(polygon.get_id())
+                if poly is None:
+                    continue
                 poly.time_ = time
                 poly.plot = polygon.get_plot()
                 poly.hdf = f.rpartition('/')[2]
