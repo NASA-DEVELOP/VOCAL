@@ -293,7 +293,7 @@ class ShapeManager(object):
         :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
         """
         target = event.artist
-        mevent = event.mouseevent
+        logger.debug("Creating property window for shape")
         for shape in self.__current_list:
             if shape.get_itemhandler() is target:
                 if self.property_window is not None:
