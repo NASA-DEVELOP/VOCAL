@@ -417,6 +417,14 @@ class Calipso(object):
             return self.__fig
         logger.error("Fig does not exist")
 
+    def get_file(self):
+        """
+        Return the current HDF file being displayed
+
+        :type: str
+        """
+        return self.__file
+
     def about(self):
         """
         Simple TopLevel window displaying the authors
