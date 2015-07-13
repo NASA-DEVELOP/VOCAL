@@ -84,6 +84,7 @@ class ShapeReader(object):
                 notes = self.__data[plot_type][shape]['notes']
                 _id = self.__data[plot_type][shape]['id']
                 shape_list[-1].set_id(_id)
+                shape_list[-1].set_tag(shape)
                 shape_list[-1].set_color(color)
                 shape_list[-1].set_plot(enum_plot_type)
                 shape_list[-1].set_attributes(attributes)
