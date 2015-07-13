@@ -4,6 +4,7 @@
 #   @author: nqian
 ###############################
 from Tkinter import Toplevel
+import sys
 
 import ccplot
 from ccplot.algorithms import interp2d_12
@@ -59,6 +60,7 @@ class ExtractDialog(Toplevel):
         h1 = self.y_range[0]
         h2 = self.y_range[1]
         nz = 500
+        colormap = 'dat/calipso-backscatter.cmap'
         
         plot = self.shape.get_plot()
         with HDF(self.filename) as product:
@@ -81,9 +83,22 @@ class ExtractDialog(Toplevel):
             test = np.empty_like(data)
 #             test = np.ma.masked_equal(test, 0)
             
+            min_x = sys.maxint
+            max_x = -sys.maxint - 1
+            min_y = sys.maxint
+            max_y = -sys.maxint -1
+            
             for i in range(x1, x2):
+                if time[i] < min_x:
+                    min_x = i
+                elif time[i] > max_x:
+                    max_x = i
                 if self.shape.in_x_extent(time[i]):
                     for j in range(h1, h2):
+                        if j < min_y:
+                            min_y = j
+                        elif j > max_y:
+                            max_y = j
                         # check if (i, j) is inside the shape with ray casting
                         # exclude points on the lines
 #                         test = np.ma.masked_where(ray_cast(self.shape.get_coordinates(), (time[i], j)), data)
@@ -91,6 +106,26 @@ class ExtractDialog(Toplevel):
 #                             print data[i][j]
                             test[i][j] = 1
                             print test[i][j]
-                            pass
-            print test
-#             print data
+                            
+            data = np.ma.masked_where(test == 0.0, data)
+            print data
+            
+            cmap = ccplot.utils.cmap(colormap)
+            cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
+            cm.set_under(cmap['under']/255.0)
+            cm.set_over(cmap['over']/255.0)
+            cm.set_bad(cmap['bad']/255.0)
+            norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
+            
+            print time[min_x]
+            print time[max_x]
+            
+            im = self.ax.imshow(
+                data.T,
+                extend=(mpl.dates.date2num(time[min_x]), mpl.dates.date2num(time[max_x]), min_y, max_y), 
+                cmap=cm,
+                aspect='auto',
+                norm=norm,
+                interpolation='nearest'
+            )
+                
