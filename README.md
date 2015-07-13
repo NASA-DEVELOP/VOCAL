@@ -10,8 +10,8 @@ http://syntaf.github.io/vocal/
 * [x] Create Plot enum
 * [ ] Being testing on Mac OS
 * [ ] Pull data from selected shapes
-* [ ] Create more indepth color wheel for selecting shape colors
-* [ ] Format attributes and color properly
+* [x] Create more indepth color wheel for selecting shape colors
+* [x] Format attributes and color properly
 
 ## Big Ideas:
 
