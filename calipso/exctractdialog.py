@@ -107,8 +107,8 @@ class ExtractDialog(Toplevel):
                             test[i][j] = 1
                             print test[i][j]
                             
-            data = np.ma.masked_where(test == 0.0, data)
-            print data
+#             data = np.ma.masked_where(test == 0.0, data)
+#             print data
             
             cmap = ccplot.utils.cmap(colormap)
             cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
@@ -131,3 +131,4 @@ class ExtractDialog(Toplevel):
                 interpolation='nearest'
             )
                 
+            cbar = self.fig.colorbar(im)
