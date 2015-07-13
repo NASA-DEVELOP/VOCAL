@@ -107,10 +107,10 @@ class ImportDialog(Toplevel):
                               DatabasePolygon.tag.contains(self.__search_string),
                               DatabasePolygon.attributes.contains(self.__search_string),
                               DatabasePolygon.notes.contains(self.__search_string))):
-                    time_range, altitude_range = get_shape_ranges(obj.time_, obj.coordinates)
+                    time_range, altitude_range = get_shape_ranges(obj.coordinates)
                     lst.append(  # append any objects that were returned by the query
                                  (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
-                                  obj.notes, obj.hdf))
+                                  obj.notes, obj.time_, obj.hdf))
                 # Push new query onto the stack and set display to list
                 self.__stack.append(self.tree.info)
                 self.tree.info = lst
@@ -136,7 +136,7 @@ class ImportDialog(Toplevel):
 
         self.tree = TreeListBox(self.bottom_frame,
                                 ['name', 'plot', 'time range', 'altitude range',
-                                 'attributes', 'notes', 'file'])
+                                 'attributes', 'notes', 'last edited', 'file'])
 
         for obj in self.session.query(DatabasePolygon).all():
             self.__internal_list.append(obj)  # insert JSON obj representation into internal list
@@ -189,9 +189,10 @@ class ImportDialog(Toplevel):
         if self.tree.info:
             self.__stack.append(self.tree.info)
         for obj in self.session.query(DatabasePolygon).all():
-            time_range, altitude_range = get_shape_ranges(obj.time_, obj.coordinates)
+            time_range, altitude_range = get_shape_ranges(obj.coordinates)
             lst.append(  # user see's this list
-                         (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1], obj.notes, obj.hdf))
+                         (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
+                          obj.notes, obj.time_, obj.hdf))
 
         self.tree.info = lst
         self.tree.update()
