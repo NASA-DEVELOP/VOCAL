@@ -40,6 +40,8 @@ def get_intersection(a1, a2, b1, b2):
     num = dot(dap, dp)
     print "Division: ", (num / denom.astype(float))
     print "Multiplication: ", (num / denom.astype(float)) * db
+    if denom[0] == denom[1] == 0:
+        return
     return (num / denom.astype(float)) * db + b1
 
 

@@ -4,15 +4,17 @@
 #    @author: Nathan Qian
 #    @author: Grant Mercer
 ######################################
-from datetime import datetime
-import constants
-
 from Tkinter import Toplevel, Label, SOLID, TclError, LEFT
-from constants import Plot
-from db import db
-from log import logger
+from datetime import datetime
+
 from polygon.reader import ShapeReader
 from polygon.shape import Shape
+
+from constants import Plot
+import constants
+from db import db
+from log import logger
+import tkMessageBox
 
 
 class ShapeManager(object):
@@ -421,6 +423,7 @@ class ShapeManager(object):
         self.__data[constants.PLOTS[i]] = shape_dict
         logger.info("Encoding to JSON")
         db.encode(self.__current_file, self.__data)
+        tkMessageBox.showinfo('save', 'Shapes saved successfully')
 
     def save_all_json(self, filename=""):
         """
