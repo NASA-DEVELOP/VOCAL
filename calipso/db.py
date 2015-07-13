@@ -165,6 +165,7 @@ class DatabaseManager(object):
         session = self.__Session()
         item = session.query(DatabasePolygon).get(idx)
         if item is not None:
+            logger.error('Entry %d can not be deleted, query returned None' % idx)
             session.delete(item)
         logger.info('Committing database')
         session.commit()
