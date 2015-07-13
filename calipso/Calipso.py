@@ -395,7 +395,7 @@ class Calipso(object):
         """
         Returns the internal :py:class:`polygonList` object
 
-        :rtype: :py:class:`polygonList`
+        :rtype: :py:class:`polygon.manager.ShapeManager`
         """
         return self.__shapemanager  # get functions for private variables
 
@@ -403,7 +403,7 @@ class Calipso(object):
         """
         Returns the internal :py:class:`toolbar` object
 
-        :rtype: :py:class:`NavigationToolbar2CALIPSO`
+        :rtype: :py:class:`tools.navigationtoolbar.NavigationToolbar2CALIPSO`
         """
         return self.__toolbar
 
@@ -411,7 +411,7 @@ class Calipso(object):
         """
         Returns the figure that is plotted to the canvas
 
-        :rtype: :py:class:`Figure`
+        :rtype: :py:class:`matplotlib.figure.Figure`
         """
         if self.__fig:
             return self.__fig
@@ -421,7 +421,7 @@ class Calipso(object):
         """
         Return the current HDF file being displayed
 
-        :type: str
+        :type: :py:class:`str`
         """
         return self.__file
 

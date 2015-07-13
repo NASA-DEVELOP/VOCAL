@@ -25,6 +25,7 @@ class ShapeManager(object):
 
     outline_toggle = True
     hide_toggle = True
+    shape_count = db.query_unique_tag()
 
     def __init__(self, figure, canvas,  master):
         self.__figure = figure
@@ -43,7 +44,6 @@ class ShapeManager(object):
         self.__shapereader = ShapeReader()
         self.__data = {}
         logger.info("Querying database for unique tag")
-        self.__shape_count = db.query_unique_tag()
         self.__moving_shape = None
         self.property_window = None
         
@@ -67,7 +67,7 @@ class ShapeManager(object):
         all lists up and subtracts the empty objects that are always appended
         to the end of the lists.
 
-        :rtype: int
+        :rtype: :py:class:`int`
         """
         return len(self.__shape_list[0]) + len(self.__shape_list[1]) + \
             len(self.__shape_list[2]) + len(self.__shape_list[3]) - 4
@@ -76,7 +76,7 @@ class ShapeManager(object):
         """
         Return JSON filename string
 
-        :rtype: str
+        :rtype: :py:class:`str`
         """
         return self.__current_file
 
@@ -85,6 +85,7 @@ class ShapeManager(object):
         Plot a single point to the screen for the current shape object,
         if other points exist, a line is drawn between then until a
         polygon is formed
+
         :param event: A ``matplotlib.backend_bases.MouseEvent`` passed object
         """
         if self.__current_plot == Plot.baseplot:
@@ -152,6 +153,13 @@ class ShapeManager(object):
         self.__hdf = hdf_filename
 
     def clear_refs(self):
+        """
+        Clear all references to the current figure, this is called
+        in the ``Calipso`` class when a plot is to be set as to ensure
+        no dangling references are left. If we we're writing this in
+        Rust we wouldn't need to worry about this because Rust has better
+        ownership semantics ;)
+        """
         for shape in self.__current_list[:-1]:
             ih = shape.get_itemhandler()
             if ih is not None:
@@ -195,14 +203,15 @@ class ShapeManager(object):
             self.__current_list = self.__shape_list[Plot.depolarized.value]
             self.__current_plot = Plot.depolarized
 
-    def generate_tag(self):
+    @staticmethod
+    def generate_tag():
         """
         Produces a unique tag for each shape for each session
 
-        :rtype: str
+        :rtype: :py:class:`str`
         """
-        string = "shape" + str(self.__shape_count)
-        self.__shape_count += 1
+        string = "shape" + str(ShapeManager.shape_count)
+        ShapeManager.shape_count += 1
         return string
 
     def reset(self):
@@ -372,7 +381,7 @@ class ShapeManager(object):
         will be assigned a new primary key and have an entry generated for them.
         Returns ``True`` if success, ``False`` otherwise
 
-        :rtype: bool
+        :rtype: :py:class:`bool`
         """
         if len(self.__current_list) == 1:
             logger.error("No shapes to export to database")

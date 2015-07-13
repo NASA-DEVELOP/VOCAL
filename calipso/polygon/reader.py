@@ -11,6 +11,7 @@ import constants
 from log import logger
 from polygon.shape import Shape
 from tools.tools import byteify
+from db import db
 
 
 class ShapeReader(object):
@@ -29,11 +30,12 @@ class ShapeReader(object):
         Initializes attributes
         """
         self.filename = filename
-        self.__data = {} 
-        
+        self.__data = {}
+
     def set_filename(self, filename):
         """
         Sets the file name destination
+
         :param str filename: the name of the file
         """
         self.filename = filename
@@ -49,6 +51,7 @@ class ShapeReader(object):
     def read_from_str_json(self, data):
         """
         Reads JSON as a string
+
         :param data: string representation of a JSON
         """
         self.__data = byteify(json.loads(data))
@@ -67,10 +70,12 @@ class ShapeReader(object):
     def pack_shape(self, shape_list, plot_type, canvas):
         """
         Stores the data in the JSON into PolygonDrawers
+
         :param shape_list: a Python list of PolygonDrawers
         :param plot_type: the current plot being displayed
         :param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the shape_list
         """
+        from polygon.manager import ShapeManager
         enum_plot_type = constants.plot_type_enum[plot_type]
         try:
             for shape in self.__data[plot_type]:
@@ -83,8 +88,15 @@ class ShapeReader(object):
                 attributes = self.__data[plot_type][shape]['attributes']
                 notes = self.__data[plot_type][shape]['notes']
                 _id = self.__data[plot_type][shape]['id']
+                if db.exists_tag(shape):
+                    new = ShapeManager.generate_tag()
+                    logger.warning(
+                        'Shape tag already exists in database, creating new tag % s'
+                        % new)
+                    shape_list[-1].set_tag(new)
+                else:
+                    shape_list[-1].set_tag(shape)
                 shape_list[-1].set_id(_id)
-                shape_list[-1].set_tag(shape)
                 shape_list[-1].set_color(color)
                 shape_list[-1].set_plot(enum_plot_type)
                 shape_list[-1].set_attributes(attributes)

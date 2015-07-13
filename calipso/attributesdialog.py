@@ -10,7 +10,6 @@ from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
 from log import logger
 
 
-
 class AttributesDialog(Toplevel):
     """
     Dialog window for creating and assigning attributes to objects

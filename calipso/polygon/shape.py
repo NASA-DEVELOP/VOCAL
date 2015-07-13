@@ -56,6 +56,7 @@ class Shape(object):
         Plot a single point to the shape, connect any previous existing
         points and fill to a shape if the current coordinate intersects
         the beginning point.
+
         :param event: A ``matplotlib.backend_bases.MouseEvent`` passed object
         :param fig: The figure to be drawing the canvas to
         :param bool fill: Whether the shape will have a solid fill or not
@@ -145,6 +146,7 @@ class Shape(object):
         """
         Draw the shape to the canvas, onto the passed figure. Only fill the
         object if the *fill* parameter is set to ``True``
+
         :param fig: A ``SubplotAxes`` object from the matplotlib backend
         :param plot: ``constants.Plot`` enum specifying which plot the object belongs to
         :param bool fill: ``False`` for fill, ``True`` for outline
@@ -191,6 +193,7 @@ class Shape(object):
     def add_attribute(self, attr):
         """
         Append a passed attribute onto the internal attribute list
+
         :param str attr: An attribute enum
         """
         if attr in TAGS:
@@ -212,6 +215,7 @@ class Shape(object):
     def set_attributes(self, attributes_list):
         """
         Set the internal list of attributes to a custom passed list
+
         :param list attributes_list:
         """
         for i in attributes_list:
@@ -223,6 +227,7 @@ class Shape(object):
     def set_tag(self, tag):
         """
         Set internal tag variable
+
         :param str tag:
         """
         self.__tag = tag
@@ -230,6 +235,7 @@ class Shape(object):
     def set_color(self, color):
         """
         Set internal color variable
+
         :param str color: Valid hexadecimal color value
         """
         self.__color = color
@@ -237,6 +243,7 @@ class Shape(object):
     def set_plot(self, plot):
         """
         Manually set the new value of the internal plot variable. **unsafe**
+
         :param constants.Plot plot: Plot value
         """
         self.__plot = plot
@@ -271,7 +278,7 @@ class Shape(object):
         """
         Return the list of coordinates internally maintained by shape
 
-        :rtype: list
+        :rtype: :py:class:`list`
         """
         return self.__coordinates
 
@@ -279,7 +286,7 @@ class Shape(object):
         """
         Return the notes string internally maintained by shape
 
-        :rtype: str
+        :rtype: :py:class:`str`
         """
         return self.__note
 
@@ -287,7 +294,7 @@ class Shape(object):
         """
         Return attributes list maintained by shape
 
-        :rtype: list
+        :rtype: :py:class:`list`
         """
         return self.__attributes
 
@@ -295,7 +302,7 @@ class Shape(object):
         """
         Return the plot type
 
-        :rtype: int
+        :rtype: :py:class:`int`
         """
         return self.__plot
 
@@ -303,7 +310,7 @@ class Shape(object):
         """
         Return the hexdecimal color value
 
-        :rtype: str
+        :rtype: :py:class:`str`
         """
         return self.__color
 
@@ -311,7 +318,7 @@ class Shape(object):
         """
         Return the database ID of shape
 
-        :rtype: int
+        :rtype: :py:class:`int`
         """
         return self.__id
 
@@ -319,7 +326,7 @@ class Shape(object):
         """
         Return the program Tag of shape
 
-        :rtype: str
+        :rtype: :py:class:`str`
         """
         return self.__tag
 
@@ -327,7 +334,7 @@ class Shape(object):
         """
         Return the item handler object to the actual backend base
 
-        :rtype: ``matplotlib.patches.polygon``
+        :rtype: :py:class:`matplotlib.patches.polygon`
         """
         return self.__item_handler
 
@@ -337,7 +344,7 @@ class Shape(object):
         otherwise.
 
         :param str attr:
-        :rtype: bool
+        :rtype: :py:class:`bool`
         """
         for item in self.__attributes:
             if attr == item:

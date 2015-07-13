@@ -72,8 +72,8 @@ class ToggleableButton(Button):
     def toggle(self):
         """
         The method bound to the button, *Toggle* will internally bind the inputed keys when toggled,
-         and unbind them accordingly. Also keeps track of all toggled button via a static container
-         and ensures only one button can be toggled at any time
+        and unbind them accordingly. Also keeps track of all toggled button via a static container
+        and ensures only one button can be toggled at any time
         """
         # first flip the toggle switch
         self.isToggled = not self.isToggled

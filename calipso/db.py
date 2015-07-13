@@ -110,6 +110,21 @@ class DatabaseManager(object):
         logger.info('Found unique tag %s' % tag)
         return tag
 
+    def exists_tag(self, tag):
+        """
+        Check the database if a tag currently exists, if so return True, else
+        return False
+
+        :rtype: :py:class:`bool`
+        """
+        session = self.__Session()
+        query = session.query(DatabasePolygon).filter_by(tag=tag)
+        if query is None:
+            session.close()
+            return False
+        session.close()
+        return True
+
     def get_session(self):
         """
         Returns an instance of a session, USERS job to ensure session
@@ -122,6 +137,7 @@ class DatabaseManager(object):
         """
         Takes a list of polygons and commits them into the database,
         used in polygonList to commit all visible polygons
+
         :param poly_list: the current polygonList corresponding to the active plot
         :param time: time of the JSON's creation
         :param f: file name
@@ -159,6 +175,7 @@ class DatabaseManager(object):
     def delete_item(self, idx):
         """
         Get a session and delete the object from the database.
+
         :param idx: the primary key for the object passed
         """
         logger.info('Deleting database entry')
@@ -175,6 +192,7 @@ class DatabaseManager(object):
     def encode(filename, data):
         """
         Encode and write out a JSON object
+
         :param filename: name of the file
         :param data: Python dictionary representation of a JSON
         """
