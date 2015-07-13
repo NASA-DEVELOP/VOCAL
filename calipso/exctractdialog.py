@@ -43,7 +43,7 @@ class ExtractDialog(Toplevel):
         self.plot = self.ax.plot(x_vals, y_vals, 'k-')
         self.ax.set_xlabel('Time')
         self.ax.set_ylabel('Altitude (km)')
-        self.ax.set_title('Horse Stable')
+        self.ax.set_title('Shape Subplot')
         
         self.canvas = FigureCanvasTkAgg(self.fig, master=self)
         self.canvas.show()
@@ -81,31 +81,51 @@ class ExtractDialog(Toplevel):
                                x1, x2, x2 - x1,
                                h2, h1, nz)
             test = np.empty_like(data)
+            second = []
 #             test = np.ma.masked_equal(test, 0)
+
+            bbox = self.ax.get_window_extent().transformed(self.fig.dpi_scale_trans.inverted())
+            width, height = bbox.width, bbox.height
+            width *= self.fig.dpi
+            height *= self.fig.dpi
             
-            min_x = sys.maxint
-            max_x = -sys.maxint - 1
-            min_y = sys.maxint
-            max_y = -sys.maxint -1
+            print "Pixel height: ", height
             
-            for i in range(x1, x2):
-                if self.shape.in_x_extent(time[i]):
-                    if time[i] < min_x:
-                        min_x = i
-                    elif time[i] > max_x:
-                        max_x = i
-                    for j in range(h1, h2):
+            min_x = min(self.shape.get_coordinates(), key=lambda x: x[0])
+            max_x = max(self.shape.get_coordinates(), key=lambda x: x[0])
+            min_y = min(self.shape.get_coordinates(), key=lambda y: y[1])
+            max_y = max(self.shape.get_coordinates(), key=lambda y: y[1])
+            min_xindex, min_yindex, max_xindex, max_yindex = 0, 0, 0, 0
+            
+            i = 0
+            j = 0
+            # TODO: trim data outside of the shape
+            for x in range(x1, x2):
+                if self.shape.in_x_extent(time[x]):
+                    second.append([])
+                    if abs(time[x] - min_x[0]) >= 0.00001:
+                        min_xindex = x
+                    elif abs(time[x] - max_x[0]) >= 0.00001:
+                        max_xindex = x
+                    for y in range(h1, h2):
                         # check if (i, j) is inside the shape with ray casting
                         # exclude points on the lines
 #                         test = np.ma.masked_where(ray_cast(self.shape.get_coordinates(), (time[i], j)), data)
-                        if ray_cast(self.shape.get_coordinates(), (time[i], j)):
-                            if j < min_y:
-                                min_y = j
-                            elif j > max_y:
-                                max_y = j
+                        if ray_cast(self.shape.get_coordinates(), (time[x], y)):
+                            if abs(y - min_y[1]) >= 0.00001:
+                                min_yindex = y
+                            elif abs(y - max_y[1]) >= 0.00001:
+                                max_yindex = y
 #                             print data[i][j]
-                            test[i][j] = 1
-                            print test[i][j]
+                            test[x][y] = 1
+                            second[i].append(data[x][y])
+                            j += 1
+                    i += 1
+            print len(data[0])
+            print data    
+            print second
+            print len(second)
+            second = np.array(second)
                             
 #             data = np.ma.masked_where(test == 0.0, data)
 #             print data
@@ -117,18 +137,14 @@ class ExtractDialog(Toplevel):
             cm.set_bad(cmap['bad']/255.0)
             norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
             
-            print time[min_x]
-            print time[max_x]
-            print min_x
-            print max_x
+            print time[min_yindex]
+            print time[max_yindex]
             
             im = self.ax.imshow(
                 data.T,
-                extent=(time[min_x], time[max_x], min_y, max_y), 
+                extent=(time[min_xindex], time[max_xindex], min_yindex, max_yindex), 
                 cmap=cm,
                 aspect='auto',
                 norm=norm,
                 interpolation='nearest'
             )
-                
-            cbar = self.fig.colorbar(im)
