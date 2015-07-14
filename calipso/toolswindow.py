@@ -157,6 +157,35 @@ class ToolsWindow(Toplevel):
         redo_button.grid(row=0, column=4, padx=2, pady=5)
         create_tool_tip(redo_button, 'Next View')
 
+        # Home button
+        home_button = Button(self.lower_button_frame, image=self.home_img,
+                             command=lambda: self.__parent.get_toolbar().home(),
+                             width=30, height=30)
+        home_button.grid(row=1, column=1, padx=2, pady=5)
+        create_tool_tip(home_button, 'Home')
+
+        # Retrieve shape properties
+        properties_button = \
+            ToggleableButton(self.__root, self.lower_button_frame, image=self.prop_img, width=30, height=30)
+        properties_button.latch(target=self.__canvas, key='pick_event',
+                                command=self.__parent.get_shapemanager().properties)
+        properties_button.grid(row=1, column=2, padx=2, pady=5)
+        create_tool_tip(properties_button, 'Polygon Properties')
+
+        # Edit shape attributes
+        edit_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.edit_img, width=30, height=30)
+        edit_button.latch(target=self.__canvas, key='pick_event',
+                          command=self.__parent.attribute_window)
+        edit_button.grid(row=1, column=3, padx=2, pady=5)
+        create_tool_tip(edit_button, 'Edit Attributes')
+
+        # Extract data
+        extract_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.extract_img, width=30, height=30)
+        extract_button.latch(target=self.__canvas, key='pick_event',
+                             command=self.__parent.extract_window)
+        extract_button.grid(row=1, column=4, padx=2, pady=5)
+        create_tool_tip(extract_button, 'Extract data from shape')
+
         # Draw rectangle shape
         polygon_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.polygon_img, width=30, height=30)
@@ -169,7 +198,7 @@ class ToolsWindow(Toplevel):
         polygon_button.latch(target=self.__canvas,
                              key='button_release_event',
                              command=self.__parent.get_shapemanager().fill_rectangle, cursor='tcross')
-        polygon_button.grid(row=1, column=1, padx=2, pady=5)
+        polygon_button.grid(row=2, column=1, padx=2, pady=5)
         create_tool_tip(polygon_button, 'Draw Rect')
 
         # Free form shape creation
@@ -177,7 +206,7 @@ class ToolsWindow(Toplevel):
             ToggleableButton(self.__root, self.lower_button_frame, image=self.free_draw_img, width=30, height=30)
         free_draw_button.latch(target=self.__canvas, key='button_press_event', 
                                command=self.__parent.get_shapemanager().plot_point, cursor='tcross')
-        free_draw_button.grid(row=1, column=2, padx=2, pady=5)
+        free_draw_button.grid(row=2, column=2, padx=2, pady=5)
         create_tool_tip(free_draw_button, 'Free Draw')
         
         # Erase polygon drawings
@@ -185,7 +214,7 @@ class ToolsWindow(Toplevel):
         erase_button.latch(target=self.__canvas, key='pick_event',
                            command=self.__parent.get_shapemanager().delete, 
                            cursor='X_cursor')
-        erase_button.grid(row=1, column=3, padx=2, pady=5)
+        erase_button.grid(row=2, column=3, padx=2, pady=5)
         create_tool_tip(erase_button, 'Erase polygon')
         
         # Recolor shapes
@@ -193,63 +222,34 @@ class ToolsWindow(Toplevel):
         paint_button.latch(target=self.__canvas, key='pick_event',
                            command=self.__parent.paint_window,
                            cursor='')
-        paint_button.grid(row=1, column=4, padx=2, pady=5)
+        paint_button.grid(row=2, column=4, padx=2, pady=5)
         create_tool_tip(paint_button, 'Paint')
         
         # Outline shapes
         outline_button = \
             Button(self.lower_button_frame, image=self.outline_img, width=30, height=30,
                    command=lambda: self.__parent.get_shapemanager().outline())
-        outline_button.grid(row=2, column=1, padx=2, pady=5)
+        outline_button.grid(row=3, column=1, padx=2, pady=5)
         create_tool_tip(outline_button, 'Focus')
 
         # Hide shapes
         plot_button = \
             Button(self.lower_button_frame, image=self.plot_img, width=30, height=30,
                    command=lambda: self.__parent.get_shapemanager().hide())
-        plot_button.grid(row=2, column=2, padx=2, pady=5)
+        plot_button.grid(row=3, column=2, padx=2, pady=5)
         create_tool_tip(plot_button, 'Hide polygons')
 
         # Save shapes as JSON
         save_button = \
             Button(self.lower_button_frame, image=self.save_img, width=30, height=30, command=self.__parent.save_json)
-        save_button.grid(row=2, column=3, padx=2, pady=5)
+        save_button.grid(row=3, column=3, padx=2, pady=5)
         create_tool_tip(save_button, 'Save visible\n objects\n to JSON')
         
         # Load shapes from JSON
         load_button = \
             Button(self.lower_button_frame, image=self.load_img, width=30, height=30, command=self.__parent.load)
-        load_button.grid(row=2, column=4, padx=2, pady=5)
+        load_button.grid(row=3, column=4, padx=2, pady=5)
         create_tool_tip(load_button, 'Load JSON')
-
-        # Retrieve shape properties
-        properties_button = \
-            ToggleableButton(self.__root, self.lower_button_frame, image=self.prop_img, width=30, height=30)
-        properties_button.latch(target=self.__canvas, key='pick_event',
-                                command=self.__parent.get_shapemanager().properties)
-        properties_button.grid(row=3, column=1, padx=2, pady=5)
-        create_tool_tip(properties_button, 'Polygon Properties')
-
-        # Edit shape attributes
-        edit_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.edit_img, width=30, height=30)
-        edit_button.latch(target=self.__canvas, key='pick_event',
-                          command=self.__parent.attribute_window)
-        edit_button.grid(row=3, column=2, padx=2, pady=5)
-        create_tool_tip(edit_button, 'Edit Attributes')
-        
-        # Extract data
-        extract_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.extract_img, width=30, height=30)
-        extract_button.latch(target=self.__canvas, key='pick_event', 
-                             command=self.__parent.extract_window)
-        extract_button.grid(row=3, column=3, padx=2, pady=5)
-        create_tool_tip(extract_button, 'Extract data from shape')
-        
-        # Home button
-        home_button = Button(self.lower_button_frame, image=self.home_img,
-                            command=lambda: self.__parent.get_toolbar().home(), 
-                            width=30, height=30)
-        home_button.grid(row=3, column=4, padx=2, pady=5)
-        create_tool_tip(home_button, 'Home')
 
     def render(self):
         """
