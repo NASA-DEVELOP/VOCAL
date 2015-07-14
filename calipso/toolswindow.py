@@ -46,6 +46,7 @@ class ToolsWindow(Toplevel):
         self.undo_img = ImageTk.PhotoImage(file='ico/back.png')
         self.magnify_draw_img = ImageTk.PhotoImage(file='ico/magnify.png')
         self.extract_img = ImageTk.PhotoImage(file='ico/button.png')
+        self.home_img = ImageTk.PhotoImage(file='ico/home.png')
 
         self.__parent = parent
         self.__root = root
@@ -242,6 +243,13 @@ class ToolsWindow(Toplevel):
                              command=self.__parent.extract_window)
         extract_button.grid(row=3, column=3, padx=2, pady=5)
         create_tool_tip(extract_button, 'Extract data from shape')
+        
+        # Home button
+        home_button = Button(self.lower_button_frame, image=self.home_img,
+                            command=lambda: self.__parent.get_toolbar().home(), 
+                            width=30, height=30)
+        home_button.grid(row=3, column=4, padx=2, pady=5)
+        create_tool_tip(home_button, 'Home')
 
     def render(self):
         """

@@ -4,7 +4,6 @@
 #   @author: nqian
 ###############################
 from Tkinter import Toplevel
-import sys
 
 import ccplot
 from ccplot.algorithms import interp2d_12
@@ -118,17 +117,13 @@ class ExtractDialog(Toplevel):
                                 max_yindex = y
 #                             print data[i][j]
                             test[x][y] = 1
+#                             print "(%s, %s)" %(x, y)
                             second[i].append(data[x][y])
                             j += 1
                     i += 1
-            print len(data[0])
-            print data    
-            print second
-            print len(second)
-            second = np.array(second)
                             
 #             data = np.ma.masked_where(test == 0.0, data)
-#             print data
+            print data
             
             cmap = ccplot.utils.cmap(colormap)
             cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
@@ -148,3 +143,5 @@ class ExtractDialog(Toplevel):
                 norm=norm,
                 interpolation='nearest'
             )
+            
+            self.ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
