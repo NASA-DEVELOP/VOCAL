@@ -115,8 +115,8 @@ class ImportDialog(Toplevel):
         and reloaded.
         :param event: search box events
         """
-        # If character is a letter or number, add to search_string
-        if event.char.isalnum():
+        # Append to search string
+        if event.char:
             self.__search_string += event.char
         # If the entry box is NOT empty
         if self.e.get() != '':
@@ -134,9 +134,10 @@ class ImportDialog(Toplevel):
                 # For all objects in the database
                 for obj in self.session.query(DatabasePolygon).filter(
                         or_(  # query the database for if search_string is contained in
-                              DatabasePolygon.tag.contains(self.__search_string),
-                              DatabasePolygon.attributes.contains(self.__search_string),
-                              DatabasePolygon.notes.contains(self.__search_string))):
+                              # self.__search_string.strip() to remove leading and ending spaces
+                              DatabasePolygon.tag.contains(self.__search_string.strip()),
+                              DatabasePolygon.attributes.contains(self.__search_string.strip()),
+                              DatabasePolygon.notes.contains(self.__search_string.strip()))):
                     time_range, altitude_range = get_shape_ranges(obj.coordinates)
                     lst.append(  # append any objects that were returned by the query
                                  (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],

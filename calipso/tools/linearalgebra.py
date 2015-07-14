@@ -21,7 +21,6 @@ def perpendicular(a):
     b[1] = a[0]
     return b
 
-
 def distance(x1, y1, x2, y2):
     return sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
@@ -29,8 +28,8 @@ def is_in_segment(a, b, c):
     """
     Checks if the passed numpy arrays are in the segment
 
-    :param a: numpy array of the first point
-    :param b: numpy array of the second point
+    :param a: numpy array of first endpoint of the line segment
+    :param b: numpy array second endpoint of the line segment
     :param c: numpy array of the tested point
     """
     cross_product = (c[1] - a[1]) * (b[0] - a[0]) - (c[0] - a[0]) * (b[1] - a[1])
@@ -59,10 +58,9 @@ def get_intersection(a1, a2, b1, b2):
     dap = perpendicular(da)
     denom = dot(dap, db)
     num = dot(dap, dp)
+    # if denom is 0, the line segments are parallel
     if denom == 0:
         return
-#     print "Division: ", (num / denom.astype(float))
-#     print "Multiplication: ", (num / denom.astype(float)) * db
     return (num / denom.astype(float)) * db + b1
 
 
@@ -76,24 +74,13 @@ def is_intersecting(a1, a2, b1, b2):
     :rtype: :py:class:`bool`
     """
     point = get_intersection(a1, a2, b1, b2)
-    # fails when non intersecting line segments orthogonal to bases 
-    # i.e. when
-    # a1 = array([2, 0])
-    # a2 = array([2, 2])
-    # b1 = array([1, 3])
-    # b2 = array([3, 3])
-    # check from: http://stackoverflow.com/questions/3838329/how-can-i-check-if-two-segments-intersect
-#     if point is None or \
-#             ((point[0] < max(min(a1[0], a2[0]), min(b1[0], b2[0]))) or
-#             (point[0] > min(max(a1[0], a2[0]), max(b1[0], b2[0])))):
-#         return False
+    # original check from: http://stackoverflow.com/questions/3838329/how-can-i-check-if-two-segments-intersect
     if point is None or \
           (not is_in_segment(a1, a2, point) or 
            not is_in_segment(b1, b2, point)):
         return False
     else:
         return True
-
 
 def tuple_to_nparray(pair):
     """

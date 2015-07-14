@@ -47,9 +47,6 @@ class ExtractDialog(Toplevel):
         self.canvas = FigureCanvasTkAgg(self.fig, master=self)
         self.canvas.show()
         self.canvas.get_tk_widget().grid(row=0)
-#         toolbar = NavigationToolbar2TkAgg(self.canvas, self)
-#         toolbar.grid(row=1)
-#         toolbar.update()
         self.title("Data Subplot")
         self.read_shape_data()
         
