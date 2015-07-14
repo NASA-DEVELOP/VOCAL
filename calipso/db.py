@@ -162,6 +162,7 @@ class DatabaseManager(object):
             else:
                 poly = session.query(DatabasePolygon).get(polygon.get_id())
                 if poly is None:
+                    logger.error("This should never happen, why did it happen?")
                     continue
                 poly.time_ = time
                 poly.plot = polygon.get_plot()

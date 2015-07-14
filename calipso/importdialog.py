@@ -187,8 +187,8 @@ class ImportDialog(Toplevel):
         # For all selected items in window
         for tag in items:
             # Find those items in internal list and import them
-            logger.info('Encoding selection to JSON')
             tag = self.tree.tree.item(tag, option='values')
+            logger.info('Encoding \'%s\' to JSON' % tag[0])
             names = [x.tag for x in self.__internal_list]
             logger.info('Forwarding JSON to be read')
             self.__master.get_shapemanager().read_plot(
@@ -214,7 +214,7 @@ class ImportDialog(Toplevel):
         """
         Helper function to simply display all objects in the database
         """
-        logger.info('Displaying entries')
+        logger.info('Displaying all entries')
         lst = list()
         # Push previous display to stack
         if self.tree.info:
