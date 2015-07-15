@@ -98,9 +98,16 @@ def time_to_seconds(t):
     return datetime.timedelta(hours=t.tm_hour, minutes=t.tm_min, seconds=t.tm_sec).total_seconds()
 
 if __name__ == '__main__':
+    """
     logging.basicConfig(level=logging.DEBUG)
     poly = ShapeManager(None, None)
     lst = [(13364.0, 8.32803), (13376.0, 8.32803), (13376.0, 4.46656), (13364.0, 4.46656)]
     poly.setCoordinates(lst)
     filename = r'C:\Users\nqian\Desktop\CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN.hdf'
     extract_data(poly, filename)
+    """
+    from tools.tools import interpolation_search
+    numbers = [-100, -6, 0, 1, 5, 14, 15, 26, 99]
+    value = 15
+
+    print interpolation_search(numbers, value)

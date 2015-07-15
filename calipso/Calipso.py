@@ -320,6 +320,10 @@ class Calipso(object):
         """
         Load an HDF file for use with displaying backscatter and depolarized images
         """
+        logger.debug('CHANGE BEFORE COMMITTING')
+        self.__file = r'C:\Users\gamercer\Desktop\CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN.hdf'
+        self.set_plot(Plot.backscattered)
+        """
         logger.info("Importing HDF file")
         # function to import HDF file used my open and browse
         file_types = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
@@ -332,6 +336,7 @@ class Calipso(object):
                                             text=segments[2])
             self.__shapemanager.set_hdf(self.__file)
         return ''
+        """
 
     def load(self):
         """
