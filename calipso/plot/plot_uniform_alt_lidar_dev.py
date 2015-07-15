@@ -24,7 +24,7 @@ def drawBackscattered(filename, x_range, y_range, fig, pfig):
         time = product['Profile_UTC_Time'][x1:x2, 0]
         height = product['metadata']['Lidar_Data_Altitudes']
         dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
-        
+
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
         dataset = np.ma.masked_equal(dataset, -9999)
         
