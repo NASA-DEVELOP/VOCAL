@@ -39,6 +39,7 @@ class Shape(object):
         self.__prev_x = 1.0
         self.__prev_y = 1.0
         self.__lines = []
+        self.__saved = False
 
     def anchor_rectangle(self, event):
         """
@@ -189,6 +190,15 @@ class Shape(object):
         self.__item_handler = \
             Polygon(self.__coordinates, facecolor=self.__color, fill=fill, picker=5)
         fig.add_patch(self.__item_handler)
+        
+    def paint(self, color):
+        """
+        Changes the color of the shape and saves it internally
+        
+        :param color: the new color of the shape
+        """
+        self.set_color(color)
+        self.__saved = False
 
     def add_attribute(self, attr):
         """
@@ -198,6 +208,7 @@ class Shape(object):
         """
         if attr in TAGS:
             self.__attributes.append(attr)
+            self.__saved = False
         else:
             logger.error('Caught invalid attribute for adding \'%s\'' % attr)
 
@@ -209,6 +220,7 @@ class Shape(object):
         """
         if attr in TAGS:
             self.__attributes.remove(attr)
+            self.__saved = False
         else:
             logger.error('Caught invalid attribute for removal \'%s\'' % attr)
 
@@ -223,6 +235,12 @@ class Shape(object):
                 logger.error('Caught invalid attribute for setting \'%s\'' % i)
                 return
         self.__attributes = attributes_list
+        
+    def save(self):
+        """
+        Marks the shape as saved
+        """
+        self.__saved = True
 
     def set_tag(self, tag):
         """
@@ -273,6 +291,12 @@ class Shape(object):
         :param str note: New note string
         """
         self.__note = note
+        
+    def get_saved(self):
+        """
+        Returns if the shape has been saved or not
+        """
+        return self.__saved
 
     def get_coordinates(self):
         """

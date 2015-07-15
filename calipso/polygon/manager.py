@@ -202,7 +202,7 @@ class ShapeManager(object):
             logger.info('set_plot to DEPOLARIZED')
             self.__current_list = self.__shape_list[Plot.depolarized.value]
             self.__current_plot = Plot.depolarized
-
+            
     @staticmethod
     def generate_tag():
         """
@@ -284,6 +284,27 @@ class ShapeManager(object):
                 poly.set_facecolor('none')
                 poly.set_edgecolor('none')
         self.__canvas.show()
+        
+    def is_all_saved(self, plot=None):
+        """
+        Checks if all the shapes have been saved. If plot is None, the method
+        will check if all shapes in every plot has been saved. If a plot is
+        specified, then it will only check the shapes in the specified plot.
+        This method will automatically ignore the last blank shapes.
+        
+        :param plot: the plot of the shapes to check
+        """
+        if plot is None:
+            for i in range(len(self.__shape_list)):
+                for j in range(len(self.__shape_list[i])-1):
+                    if not self.__shape_list[i][j].get_saved():
+                        return False
+            return True
+        else:
+            for i in range(len(self.__shape_list[plot.value])-1):
+                if not self.__shape_list[plot.value][i].get_saved():
+                    return False
+            return True                     
 
     # noinspection PyProtectedMember
     def properties(self, event):
@@ -421,6 +442,9 @@ class ShapeManager(object):
         logger.info("Encoding to JSON")
         db.encode(self.__current_file, self.__data)
         tkMessageBox.showinfo('save', 'Shapes saved successfully')
+        for shape in self.__current_list:
+            if not shape.get_saved():
+                shape.save()
 
     def save_all_json(self, filename=""):
         """
@@ -448,3 +472,8 @@ class ShapeManager(object):
         self.__data[constants.PLOTS[i]] = shape_dict
         logger.info("Encoding to JSON")
         db.encode(self.__current_file, self.__data)
+        tkMessageBox.showinfo('save', 'Shapes saved successfully')
+        for lst in self.__shape_list:
+            for shape in lst:
+                if not shape.get_saved():
+                    shape.save()

@@ -91,6 +91,7 @@ class Calipso(object):
         # pack and display canvas
         self.__drawplot_canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplot_frame.pack()
+        self.__root.protocol('WM_DELETE_WINDOW', self.close)
 
     def setup_window(self):
         """
@@ -315,6 +316,10 @@ class Calipso(object):
                 self.__shapemanager.save_json(f)
         else:
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
+            
+    def transient_save(self, root):
+        self.save_json()
+        root.destroy()
 
     def import_file(self):
         """
@@ -451,6 +456,27 @@ class Calipso(object):
         logger.info('Setting initial plot')
         self.set_plot(Plot.baseplot)
 
+    def close(self):
+        """
+        Checks if the all the shapes are saved. If a shape is unsaved, the
+        program will ask the user whether save or not, and then close the 
+        program
+        """
+        if not self.__shapemanager.is_all_saved():
+            save_window = Toplevel(self.__root)
+            save_window.transient(self.__root)
+            save_window.title("Close Without Saving")
+            message = Message(save_window, text='There are unsaved shapes on the plot. Close without saving?')
+            message.grid(row=0)
+            
+            save_button = Button(save_window, text='Save', command=lambda: self.transient_save(self.__root))
+            save_button.grid(row=1, column=0)
+            cancel_button = Button(save_window, text='Cancel', command=save_window.destroy)
+            cancel_button.grid(row=1, column=1)
+            close_button = Button(save_window, text='Close', command=self.__root.destroy)
+            close_button.grid(row=1, column=2)
+        else:
+            self.__root.destroy()
 
 def main():
     # Create Tkinter root and initialize Calipso
