@@ -33,7 +33,6 @@ from tools.tools import Catcher
 from toolswindow import ToolsWindow
 from tkColorChooser import askcolor
 from exctractdialog import ExtractDialog
-from tools.rain import rain
 
 
 class Calipso(object):
