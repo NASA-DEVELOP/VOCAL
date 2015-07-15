@@ -64,15 +64,24 @@ class ExtractDialog(Toplevel):
         plot = self.shape.get_plot()
         with HDF(self.filename) as product:
             time = product['Profile_UTC_Time'][x1:x2, 0]
+            height = product['metadata']['Lidar_Data_Altitudes']
             n_time = np.array([mpl.dates.date2num(ccplot.utils.calipso_time2dt(t)) for t in time])
+
             min_time = min(time_cords)
             max_time = max(time_cords)
+            min_altitude = min(altitude_cords)
+            max_altitude = max(altitude_cords)
 
-            x1 = interpolation_search(n_time, min_time)
-            x2 = interpolation_search(n_time, max_time)
+            for h in height:
+                print h,
+
+            x1 = int(interpolation_search(n_time, min_time))
+            x2 = int(interpolation_search(n_time, max_time))
+
+            h1 = int(interpolation_search(height, min_altitude))
+            h2 = int(interpolation_search(height, max_altitude))
 
             time = product['Profile_UTC_Time'][x1:x2, 0]
-            height = product['metadata']['Lidar_Data_Altitudes']
             dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
             time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
 

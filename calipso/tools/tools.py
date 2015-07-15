@@ -89,6 +89,7 @@ def interpolation_search(sorted_list, to_find):
         else:
             return mid
 
+    print '%f -> %f' % (to_find, abs(sorted_list[low] - to_find))
     if abs(sorted_list[low] - to_find) < .001:
         return low
     return None
