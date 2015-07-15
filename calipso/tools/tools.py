@@ -89,10 +89,13 @@ def interpolation_search(sorted_list, to_find, variance):
         else:
             return mid
 
-    print '%f -> %f' % (to_find, abs(sorted_list[low] - to_find))
-    if abs(sorted_list[low] - to_find) < variance:
-        return low
-    return None
+    t_var = variance
+    while abs(sorted_list[low] - to_find) > variance:
+        t_var += .001
+    if variance != t_var:
+        logger.warning("interpolation variance expanded to %f to meet requirements"
+                       % variance)
+    return low
 
 
 

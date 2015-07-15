@@ -20,7 +20,7 @@ from bokeh.colors import white
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from plot.plot_depolar_ratio import drawDepolar
-from plot.plot_uniform_alt_lidar_dev import drawBackscattered
+from plot.plot_uniform_alt_lidar_dev import render_backscattered
 from polygon.manager import ShapeManager
 from attributesdialog import AttributesDialog
 from constants import Plot
@@ -175,7 +175,7 @@ class Calipso(object):
                 self.__shapemanager.clear_refs()
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                drawBackscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                render_backscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.backscattered, self.__fig)
                 self.__drawplot_canvas.show()                            # show canvas
                 self.__toolbar.update()                                  # update toolbar
@@ -382,7 +382,7 @@ class Calipso(object):
         :param event: A Tkinter passed event object
         """
         shape = self.__shapemanager.find_shape(event)
-        logger.info("Extracting data")
+        logger.info("Extracting data for %s" % shape.get_tag())
         ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange)
 
     def get_root(self):
