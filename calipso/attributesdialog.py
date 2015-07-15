@@ -40,6 +40,7 @@ class AttributesDialog(Toplevel):
         self.attributes_list = None
         self.selected_list = None
             
+        self.transient(root)
         logger.info('Creating top frame')
         self.create_top_frame()
         logger.info('Creating bottom frame')

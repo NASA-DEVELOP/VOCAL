@@ -44,6 +44,7 @@ class ImportDialog(Toplevel):
         self.bottom_button_frame = None
         self.separator = None
         self.filter_file = IntVar()
+        self.transient(root)
 
         center(self, (constants.IMPORTWIDTH, constants.IMPORTHEIGH))
 
