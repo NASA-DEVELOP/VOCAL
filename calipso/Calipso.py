@@ -293,6 +293,7 @@ class Calipso(object):
                 self.save_as_json()  # Still prompt for a file name if none currently exists
             else:
                 self.__shapemanager.save_json()  # Else do a normal save with internal file
+            tkMessageBox.showinfo('save', 'Shapes saved successfully')
         else:
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
@@ -463,18 +464,13 @@ class Calipso(object):
         program
         """
         if not self.__shapemanager.is_all_saved():
-            save_window = Toplevel(self.__root)
-            save_window.transient(self.__root)
-            save_window.title("Close Without Saving")
-            message = Message(save_window, text='There are unsaved shapes on the plot. Close without saving?')
-            message.grid(row=0)
-            
-            save_button = Button(save_window, text='Save', command=lambda: self.transient_save(self.__root))
-            save_button.grid(row=1, column=0)
-            cancel_button = Button(save_window, text='Cancel', command=save_window.destroy)
-            cancel_button.grid(row=1, column=1)
-            close_button = Button(save_window, text='Close', command=self.__root.destroy)
-            close_button.grid(row=1, column=2)
+            answer = tkMessageBox.\
+                askyesnocancel('Close Without Saving',
+                               'There are unsaved shapes on the plot. Save these shapes?')
+            if answer:
+                self.transient_save(self.__root)
+            elif not answer:
+                self.__root.destroy()
         else:
             self.__root.destroy()
 

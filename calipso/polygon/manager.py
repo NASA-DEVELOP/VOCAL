@@ -436,7 +436,6 @@ class ShapeManager(object):
         self.__data[constants.PLOTS[i]] = shape_dict
         logger.info("Encoding to JSON")
         db.encode(self.__current_file, self.__data)
-        tkMessageBox.showinfo('save', 'Shapes saved successfully')
         for shape in self.__current_list:
             if not shape.get_saved():
                 shape.save()
@@ -467,7 +466,6 @@ class ShapeManager(object):
         self.__data[constants.PLOTS[i]] = shape_dict
         logger.info("Encoding to JSON")
         db.encode(self.__current_file, self.__data)
-        tkMessageBox.showinfo('save', 'Shapes saved successfully')
         for lst in self.__shape_list:
             for shape in lst:
                 if not shape.get_saved():
