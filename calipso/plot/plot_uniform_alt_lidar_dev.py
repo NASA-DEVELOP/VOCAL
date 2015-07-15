@@ -1,6 +1,8 @@
 #!/opt/local/bin/python2.7
 #
 # plot_uniform_alt_lidar.py
+# Nathan Qian
+# Grant Mercer
 # Brian Magill
 # 8/11/2014
 #
@@ -12,7 +14,8 @@ import matplotlib as mpl
 
 
 # from gui.CALIPSO_Visualization_Tool import filename
-def drawBackscattered(filename, x_range, y_range, fig, pfig):   
+# noinspection PyUnresolvedReferences
+def render_backscattered(filename, x_range, y_range, fig, pfig):
     x1 = x_range[0]
     x2 = x_range[1]
     h1 = y_range[0]
@@ -28,12 +31,12 @@ def drawBackscattered(filename, x_range, y_range, fig, pfig):
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
         dataset = np.ma.masked_equal(dataset, -9999)
         
-        X = np.arange(x1, x2, dtype=np.float32)
-        Z, null = np.meshgrid(height, X)
+        _x = np.arange(x1, x2, dtype=np.float32)
+        _y, null = np.meshgrid(height, _x)
         data = interp2d_12(
             dataset[::],
-            X.astype(np.float32),
-            Z.astype(np.float32),
+            _x.astype(np.float32),
+            _y.astype(np.float32),
             x1, x2, x2 - x1,
             h2, h1, nz,
         )

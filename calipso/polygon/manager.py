@@ -242,14 +242,11 @@ class ShapeManager(object):
         for item in self.__current_list:
             poly = item.get_itemhandler()
             if poly == shape:
+                logger.info('Deleting %s' % item.get_tag())
                 self.__current_list.remove(item)
                 break
         shape.remove()
         self.__canvas.show()
-        for i in range(len(self.__shape_list)):
-            logger.debug("shape_list: %s", i)
-            for shape in self.__shape_list[i]:
-                logger.debug(shape.get_color())
 
     def outline(self):
         """
@@ -361,9 +358,7 @@ class ShapeManager(object):
         target = event.artist
         for shape in self.__current_list:
             if shape.get_itemhandler() is target:
-                logger.info("Found shape")
                 return shape
-        logger.error("Shape not found")
         
     def read_plot(self, filename='', read_from_str=''):
         """

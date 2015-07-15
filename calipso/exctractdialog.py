@@ -2,6 +2,7 @@
 #   Created on Jul 9, 2015
 #
 #   @author: nqian
+#   @author: Grant Mercer
 ###############################
 from Tkinter import Toplevel
 
@@ -10,13 +11,15 @@ from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-from constants import TIME_VARIANCE, ALTITUDE_VARIANCE
+from constants import TIME_VARIANCE
 
 import matplotlib as mpl
 import numpy as np
 from tools.tools import interpolation_search
+from log import logger
 
 
+# noinspection PyUnresolvedReferences
 class ExtractDialog(Toplevel):
     """
     Displays a subplot containing the data bounded by a shape
@@ -30,7 +33,9 @@ class ExtractDialog(Toplevel):
         :param: shape: The shape that bounds the data
         :param: filename: The name of the file on display 
         """
+        logger.info('Opening ExtractDialog')
         Toplevel.__init__(self, root)
+        self.transient(root)
         x_vals = [0, 3, 10, 15]
         y_vals = [232, 120, 45, 23]
         
@@ -48,19 +53,29 @@ class ExtractDialog(Toplevel):
         self.canvas = FigureCanvasTkAgg(self.fig, master=self)
         self.canvas.show()
         self.canvas.get_tk_widget().grid(row=0)
-        self.title("Data Subplot")
+        self.title('Data Subplot')
+        logger.info('Reading shape data')
         self.read_shape_data()
         
     def read_shape_data(self):
+        """
+        Read coordinate data from the shape to determine the new bounds of the subplot.
+        Shape bounds are taken with simple ``max()`` and ``min()`` functions, however
+        determining their location within the time array is much more difficult as matplotlib
+        only handles *real* locations, not relative to the numpy data arrays. To solve this
+        issue an algorithm called ``interpolation_search`` is used, which computes the nearest
+        time coordinate for bounding, and with a complexity of only ``O(log log(n))``
+        """
         cords = self.shape.get_coordinates()
         time_cords, altitude_cords = zip(*cords)
         x1 = self.x_range[0]
         x2 = self.x_range[1]
-        h1 = self.y_range[0]
-        h2 = self.y_range[1]
+        h1 = min(altitude_cords)
+        h2 = max(altitude_cords)
         nz = 500
         colormap = 'dat/calipso-backscatter.cmap'
-        
+
+        # TODO Show correct plot when depolarized starts working
         plot = self.shape.get_plot()
         with HDF(self.filename) as product:
             time = product['Profile_UTC_Time'][x1:x2, 0]
@@ -70,27 +85,24 @@ class ExtractDialog(Toplevel):
             min_time = min(time_cords)
             max_time = max(time_cords)
 
+            logger.info("Applying search algorithm to determine shape bounds")
             x1 = int(interpolation_search(n_time, min_time, TIME_VARIANCE))
             x2 = int(interpolation_search(n_time, max_time, TIME_VARIANCE))
 
-            h1 = min(altitude_cords)
-            h2 = max(altitude_cords)
-
-            print h1, h2
-
+            logger.info("Setting bounds for new subplot")
             time = product['Profile_UTC_Time'][x1:x2, 0]
             dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
             time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
 
             dataset = np.ma.masked_equal(dataset, -9999)
-            X = np.arange(x1, x2, dtype=np.float32)
-            Z, null = np.meshgrid(height, X)
+            _x = np.arange(x1, x2, dtype=np.float32)
+            _z, null = np.meshgrid(height, _x)
             data = interp2d_12(
-                               dataset[::],
-                               X.astype(np.float32),
-                               Z.astype(np.float32),
-                               x1, x2, x2 - x1,
-                               h2, h1, nz)
+                dataset[::],
+                _x.astype(np.float32),
+                _z.astype(np.float32),
+                x1, x2, x2 - x1,
+                h2, h1, nz)
 
             cmap = ccplot.utils.cmap(colormap)
             cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
@@ -98,7 +110,8 @@ class ExtractDialog(Toplevel):
             cm.set_over(cmap['over']/255.0)
             cm.set_bad(cmap['bad']/255.0)
             norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
-            
+
+            logger.info("Setting colormap, displaying")
             self.ax.imshow(
                 data.T,
                 extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
