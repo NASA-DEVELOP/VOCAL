@@ -123,11 +123,11 @@ class Calipso(object):
 
         # File Menu
         menu_file = Menu(menu_bar, tearoff=0)
-        menu_file.add_command(label='Import File', command=self.import_file)
-        menu_file.add_command(label='Save all', command=lambda: self.save_as_json(save_all=True))
-        menu_file.add_command(label='Save as', command=self.save_as_json)
+        menu_file.add_command(label='Import file', command=self.import_file)
+        menu_file.add_command(label='Save all shapes', command=lambda: self.save_as_json(save_all=True))
+        menu_file.add_command(label='Save as shapes', command=self.save_as_json)
         menu_file.add_separator()
-        menu_file.add_command(label='Exit', command=self.__root.quit)
+        menu_file.add_command(label='Exit', command=self.close)
         menu_bar.add_cascade(label='File', menu=menu_file)
 
         # Polygon Menu
@@ -464,12 +464,15 @@ class Calipso(object):
         program
         """
         if not self.__shapemanager.is_all_saved():
+            logger.warning("Unsaved shapes found")
             answer = tkMessageBox.\
                 askyesnocancel('Close Without Saving',
                                'There are unsaved shapes on the plot. Save these shapes?')
             if answer:
+                logger.info("Saving shapes")
                 self.transient_save(self.__root)
             elif not answer:
+                logger.info("Dumping unsaved shapes")
                 self.__root.destroy()
         else:
             self.__root.destroy()
