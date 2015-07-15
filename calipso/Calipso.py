@@ -113,7 +113,7 @@ class Calipso(object):
                 y + constants.HEIGHT / 4))
         else:
             self.__child.geometry('%dx%d+%d+%d' % (
-                constants.CHILDWIDTH, constants.CHILDHEIGHT, x + x * 4 + 20, y + y / 2))
+                constants.CHILDWIDTH, constants.CHILDHEIGHT, x + constants.WIDTH, y + constants.HEIGHT / 4))
 
     def setup_menu(self):
         """
