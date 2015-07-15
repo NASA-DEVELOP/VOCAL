@@ -226,10 +226,6 @@ class ShapeManager(object):
         idx = self.__shape_list.index(self.__current_list)
         self.__shape_list[idx] = [Shape(self.__canvas)]
         self.__current_list = self.__shape_list[idx]
-        for i in range(len(self.__shape_list)):
-            logger.debug("shape_list: %s", i)
-            for shape in self.__shape_list[i]:
-                logger.debug(shape.get_color())
 
     def delete(self, event):
         """

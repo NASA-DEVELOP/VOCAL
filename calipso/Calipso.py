@@ -33,6 +33,7 @@ from tools.tools import Catcher
 from toolswindow import ToolsWindow
 from tkColorChooser import askcolor
 from exctractdialog import ExtractDialog
+from tools.rain import rain
 
 
 class Calipso(object):
@@ -165,10 +166,10 @@ class Calipso(object):
         self.yrange = yrange
         if plot_type == Plot.baseplot:
             self.__shapemanager.set_plot(Plot.baseplot)
-            im = mpimg.imread('../help.png')
+            im = mpimg.imread('dat/CALIPSO.jpg')
             self.__fig.get_yaxis().set_visible(False)
             self.__fig.get_xaxis().set_visible(False)
-            self.__fig.imshow(im, aspect='auto')
+            self.__fig.imshow(im)
         elif plot_type == Plot.backscattered:
             try:
                 logger.info('Setting plot to backscattered xrange: ' +
