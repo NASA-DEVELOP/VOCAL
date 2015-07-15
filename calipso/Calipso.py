@@ -6,7 +6,7 @@
 ##########################
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
-    SUNKEN
+    SUNKEN, PhotoImage
 import logging
 from sys import platform as _platform
 import tkFileDialog
@@ -33,7 +33,7 @@ from tools.tools import Catcher
 from toolswindow import ToolsWindow
 from tkColorChooser import askcolor
 from exctractdialog import ExtractDialog
-
+from PIL import ImageTk
 
 class Calipso(object):
     """
@@ -482,6 +482,7 @@ def main():
     logging.info('Starting CALIPSO program')
     Tk.CallWrapper = Catcher
     rt = Tk()
+    rt.iconbitmap(r'ico/broadcasting.ico')
     logging.info('Instantiate CALIPSO program')
     program = Calipso(rt)
 
