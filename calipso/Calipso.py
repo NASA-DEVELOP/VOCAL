@@ -48,6 +48,7 @@ class Calipso(object):
         self.panx = self.pany = 0               # Pan values for shifting map
         self.plot = Plot.baseplot               # Current selected plot
         self.__label_file_dialog = None
+        self.__new_file_flag = False
 
         # TODO: Add icon for window an task bar
         # Paned window that stretches to fit entire screen
@@ -228,6 +229,8 @@ class Calipso(object):
 
         :param event: Tkinter passed event object
         """
+        if self.__new_file_flag:
+            pass
         logger.info("Pan point 2, finding distance and panning...")
         # Find distance and add an amplifier of 1.5
         dst = int(distance(self.panx, self.pany, event.x, event.y) * 1.5)
@@ -331,12 +334,13 @@ class Calipso(object):
         dlg = tkFileDialog.Open(filetypes=file_types)
         fl = dlg.show()
         if fl != '':
+            if not self.__file is None and not fl is self.__file:
+                self.__new_file_flag = True
             self.__file = fl
             segments = self.__file.rpartition('/')
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
                                             text=segments[2])
             self.__shapemanager.set_hdf(self.__file)
-        return ''
 
     def load(self):
         """
@@ -465,7 +469,7 @@ class Calipso(object):
         if not self.__shapemanager.is_all_saved():
             save_window = Toplevel(self.__root)
             save_window.transient(self.__root)
-            save_window.title("Close Without Saving")
+            save_window.title('Close Without Saving')
             message = Message(save_window, text='There are unsaved shapes on the plot. Close without saving?')
             message.grid(row=0)
             
@@ -477,6 +481,18 @@ class Calipso(object):
             close_button.grid(row=1, column=2)
         else:
             self.__root.destroy()
+            
+    def new_file_save(self):
+        """
+        Checks if all the shapes are saved before loading the new file. If a
+        shape is unsaved, the program will ask the user to save or not before
+        continuing
+        """
+        save_window = Toplevel(self.__root)
+        save_window.transient(self.__root)
+        save_window.title('Close Without Saving')
+        
+        
 
 def main():
     # Create Tkinter root and initialize Calipso
