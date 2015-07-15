@@ -226,10 +226,6 @@ class ShapeManager(object):
         idx = self.__shape_list.index(self.__current_list)
         self.__shape_list[idx] = [Shape(self.__canvas)]
         self.__current_list = self.__shape_list[idx]
-        for i in range(len(self.__shape_list)):
-            logger.debug("shape_list: %s", i)
-            for shape in self.__shape_list[i]:
-                logger.debug(shape.get_color())
 
     def delete(self, event):
         """
@@ -436,7 +432,6 @@ class ShapeManager(object):
         self.__data[constants.PLOTS[i]] = shape_dict
         logger.info("Encoding to JSON")
         db.encode(self.__current_file, self.__data)
-        tkMessageBox.showinfo('save', 'Shapes saved successfully')
         for shape in self.__current_list:
             if not shape.get_saved():
                 shape.save()
@@ -467,7 +462,6 @@ class ShapeManager(object):
         self.__data[constants.PLOTS[i]] = shape_dict
         logger.info("Encoding to JSON")
         db.encode(self.__current_file, self.__data)
-        tkMessageBox.showinfo('save', 'Shapes saved successfully')
         for lst in self.__shape_list:
             for shape in lst:
                 if not shape.get_saved():

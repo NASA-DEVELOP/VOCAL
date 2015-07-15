@@ -6,7 +6,7 @@
 ##########################
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
-    SUNKEN
+    SUNKEN, PhotoImage
 import logging
 from sys import platform as _platform
 import tkFileDialog
@@ -33,7 +33,7 @@ from tools.tools import Catcher
 from toolswindow import ToolsWindow
 from tkColorChooser import askcolor
 from exctractdialog import ExtractDialog
-
+from PIL import ImageTk
 
 class Calipso(object):
     """
@@ -124,11 +124,11 @@ class Calipso(object):
 
         # File Menu
         menu_file = Menu(menu_bar, tearoff=0)
-        menu_file.add_command(label='Import File', command=self.import_file)
-        menu_file.add_command(label='Save all', command=lambda: self.save_as_json(save_all=True))
-        menu_file.add_command(label='Save as', command=self.save_as_json)
+        menu_file.add_command(label='Import file', command=self.import_file)
+        menu_file.add_command(label='Save all shapes', command=lambda: self.save_as_json(save_all=True))
+        menu_file.add_command(label='Save as shapes', command=self.save_as_json)
         menu_file.add_separator()
-        menu_file.add_command(label='Exit', command=self.__root.quit)
+        menu_file.add_command(label='Exit', command=self.close)
         menu_bar.add_cascade(label='File', menu=menu_file)
 
         # Polygon Menu
@@ -166,10 +166,10 @@ class Calipso(object):
         self.yrange = yrange
         if plot_type == Plot.baseplot:
             self.__shapemanager.set_plot(Plot.baseplot)
-            im = mpimg.imread('../help.png')
+            im = mpimg.imread('dat/CALIPSO.jpg')
             self.__fig.get_yaxis().set_visible(False)
             self.__fig.get_xaxis().set_visible(False)
-            self.__fig.imshow(im, aspect='auto')
+            self.__fig.imshow(im)
         elif plot_type == Plot.backscattered:
             try:
                 logger.info('Setting plot to backscattered xrange: ' +
@@ -296,6 +296,7 @@ class Calipso(object):
                 self.save_as_json()  # Still prompt for a file name if none currently exists
             else:
                 self.__shapemanager.save_json()  # Else do a normal save with internal file
+            tkMessageBox.showinfo('save', 'Shapes saved successfully')
         else:
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
@@ -467,18 +468,16 @@ class Calipso(object):
         program
         """
         if not self.__shapemanager.is_all_saved():
-            save_window = Toplevel(self.__root)
-            save_window.transient(self.__root)
-            save_window.title('Close Without Saving')
-            message = Message(save_window, text='There are unsaved shapes on the plot. Close without saving?')
-            message.grid(row=0)
-            
-            save_button = Button(save_window, text='Save', command=lambda: self.transient_save(self.__root))
-            save_button.grid(row=1, column=0)
-            cancel_button = Button(save_window, text='Cancel', command=save_window.destroy)
-            cancel_button.grid(row=1, column=1)
-            close_button = Button(save_window, text='Close', command=self.__root.destroy)
-            close_button.grid(row=1, column=2)
+            logger.warning("Unsaved shapes found")
+            answer = tkMessageBox.\
+                askyesnocancel('Close Without Saving',
+                               'There are unsaved shapes on the plot. Save these shapes?')
+            if answer:
+                logger.info("Saving shapes")
+                self.transient_save(self.__root)
+            elif not answer:
+                logger.info("Dumping unsaved shapes")
+                self.__root.destroy()
         else:
             self.__root.destroy()
             
@@ -499,6 +498,7 @@ def main():
     logging.info('Starting CALIPSO program')
     Tk.CallWrapper = Catcher
     rt = Tk()
+    rt.iconbitmap(r'ico/broadcasting.ico')
     logging.info('Instantiate CALIPSO program')
     program = Calipso(rt)
 
