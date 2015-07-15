@@ -74,7 +74,7 @@ def get_shape_ranges(coordinates):
     return '%s, %s - %s' % (start_date, min(time_cords), max(time_cords)), \
            '%07.4f km - %07.4f km' % (min(altitude_cords), max(altitude_cords))
 
-def interpolation_search(sorted_list, to_find):
+def interpolation_search(sorted_list, to_find, variance):
     low = 0
     high = len(sorted_list) - 1
 
@@ -90,9 +90,10 @@ def interpolation_search(sorted_list, to_find):
             return mid
 
     print '%f -> %f' % (to_find, abs(sorted_list[low] - to_find))
-    if abs(sorted_list[low] - to_find) < .001:
+    if abs(sorted_list[low] - to_find) < variance:
         return low
     return None
+
 
 
 class Catcher:
