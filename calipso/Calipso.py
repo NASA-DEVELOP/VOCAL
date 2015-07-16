@@ -6,7 +6,7 @@
 ##########################
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
-    SUNKEN
+    SUNKEN, StringVar
 import logging
 from sys import platform as _platform
 import tkFileDialog
@@ -96,7 +96,7 @@ class Calipso(object):
         """
         Sets the title of root and invokes py:meth:`centerWindow`
         """
-        self.__root.title("CALIPSO Visualization Tool")
+        self.__root.title("CALIPSO Visualization Tool (VOCAL)")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
         x = (sw - constants.WIDTH) / 2
@@ -329,7 +329,6 @@ class Calipso(object):
         Function to save the file before closing the application. If the user
         decides they wish to save before closing, transient_save is called to
         save to JSON then proceeds to exit the application.
-        :param root:
         """
         self.save_json()
         self.__root.destroy()
@@ -344,8 +343,8 @@ class Calipso(object):
         dlg = tkFileDialog.Open(filetypes=file_types)
         fl = dlg.show()
         if fl != '':
-            if not self.__file is None and not fl is self.__file:
-                self.new_file_flag = True
+            if self.__file is not None and fl is not self.__file:
+                self.__new_file_flag = True
             self.__file = fl
             segments = self.__file.rpartition('/')
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
