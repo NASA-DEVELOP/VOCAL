@@ -309,6 +309,11 @@ class ToolsWindow(Toplevel):
             tkMessageBox.showerror('toolswindow',
                                    'Range cannot be less than zero or smaller than 100 steps')
             return
+        
+        if ending_range - beginning_range > 15000:
+            logger.error('Error, specified range %d , %d is too large' % (beginning_range, ending_range))
+            tkMessageBox.showerror('toolswindow', 'Range cannot be greater than 15000 steps')
+            return
 
         logger.info('Calling plot')
         self.__parent.set_plot(Plot(self.plot_type.get()), xrange_=(beginning_range, ending_range))

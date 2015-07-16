@@ -6,7 +6,7 @@
 ##########################
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
-    SUNKEN, StringVar
+    SUNKEN
 import logging
 from sys import platform as _platform
 import tkFileDialog
@@ -492,17 +492,6 @@ class Calipso(object):
                 pass
         else:
             self.__root.destroy()
-            
-    def new_file_save(self):
-        """
-        Checks if all the shapes are saved before loading the new file. If a
-        shape is unsaved, the program will ask the user to save or not before
-        continuing
-        """
-        save_window = Toplevel(self.__root)
-        save_window.transient(self.__root)
-        save_window.title('Close Without Saving')
-        
 
 def main():
     # Create Tkinter root and initialize Calipso
