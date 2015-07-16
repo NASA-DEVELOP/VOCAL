@@ -47,7 +47,7 @@ class Calipso(object):
         self.panx = self.pany = 0               # Pan values for shifting map
         self.plot = Plot.baseplot               # Current selected plot
         self.__label_file_dialog = None
-        self.__new_file_flag = False
+        self.new_file_flag = False
 
         # TODO: Add icon for window an task bar
         # Create three paned windows, two which split the screen vertically upon a single pane
@@ -96,7 +96,7 @@ class Calipso(object):
         """
         Sets the title of root and invokes py:meth:`centerWindow`
         """
-        self.__root.title("Visualization of CALIPSO (VOCAL)")
+        self.__root.title("CALIPSO Visualization Tool (VOCAL)")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
         x = (sw - constants.WIDTH) / 2
@@ -234,8 +234,6 @@ class Calipso(object):
 
         :param event: Tkinter passed event object
         """
-        if self.__new_file_flag:
-            pass
         logger.info("Pan point 2, finding distance and panning...")
         # Find distance and add an amplifier of 1.5
         dst = int(distance(self.panx, self.pany, event.x, event.y) * 1.5)

@@ -255,6 +255,17 @@ class ToolsWindow(Toplevel):
         """
         Errors checks all user entered parameters and calls ``set_plot`` from *Calipso*
         """
+        if self.__parent.new_file_flag and \
+              not self.__parent.get_shapemanager().is_all_saved(self.__parent.plot):
+            answer = tkMessageBox.\
+                askyesnocancel('Close Without Saving',
+                               'There are unsaved shapes on the plot. Save these shapes?')
+            if answer is True:
+                self.__parent.save_json()
+            elif answer is False:
+                pass
+            elif answer is None:
+                return
         logger.info('Grabbing range and safe checking')
         if self.plot_type.get() == 0:
             logger.error('No plot type set')
