@@ -17,6 +17,7 @@ options = {
            'build_exe':{
                         'packages': ['tkinter',
                                      'matplotlib',
+                                     'webbrowser',
                                      
                                      ]
                         }
