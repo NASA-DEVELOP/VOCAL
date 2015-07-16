@@ -205,3 +205,6 @@ class DatabaseManager(object):
 
 # define the global database manager object
 db = DatabaseManager()
+
+if __name__ == '__main__':
+    pass

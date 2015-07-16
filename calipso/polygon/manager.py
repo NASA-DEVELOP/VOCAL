@@ -14,7 +14,6 @@ from constants import Plot
 import constants
 from db import db
 from log import logger
-import tkMessageBox
 
 
 class ShapeManager(object):

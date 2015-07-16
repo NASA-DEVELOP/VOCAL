@@ -2,6 +2,7 @@
 #     Created on Jun 15, 2015
 #
 #     @author: nqian
+#     @author: Grant Mercer
 ######################################
 # import antigravity
 import ast
@@ -52,7 +53,7 @@ class ShapeReader(object):
         """
         Reads JSON as a string
 
-        :param data: string representation of a JSON
+        :param str data: string representation of a JSON object
         """
         self.__data = byteify(json.loads(data))
         keys = [x for x in self.__data if x in constants.plot_type_enum.keys()]
@@ -62,7 +63,8 @@ class ShapeReader(object):
             for shape in self.__data[plt]:
                 if 'coordinates' in self.__data[plt][shape]:
                     self.__data[plt][shape]['coordinates'] = \
-                        [[x[0], x[1]] for x in ast.literal_eval(self.__data[plt][shape]['coordinates']) if len(x) == 2]
+                        [[x[0], x[1]] for x in ast.literal_eval(
+                            self.__data[plt][shape]['coordinates']) if len(x) == 2]
                 if 'attributes' in self.__data[plt][shape]:
                     self.__data[plt][shape]['attributes'] = \
                         ast.literal_eval(self.__data[plt][shape]['attributes'])

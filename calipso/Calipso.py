@@ -9,6 +9,7 @@ from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     SUNKEN
 import logging
 from sys import platform as _platform
+import os
 import tkFileDialog
 import tkMessageBox
 import webbrowser
@@ -48,6 +49,7 @@ class Calipso(object):
         self.plot = Plot.baseplot               # Current selected plot
         self.__label_file_dialog = None
         self.new_file_flag = False
+        self.path = os.path.dirname(os.path.realpath(__file__))
 
         # TODO: Add icon for window an task bar
         # Create three paned windows, two which split the screen vertically upon a single pane
@@ -113,8 +115,8 @@ class Calipso(object):
         else:
             self.__child.geometry('%dx%d+%d+%d' % (
                 constants.CHILDWIDTH, constants.CHILDHEIGHT, x + constants.WIDTH + 50, y + constants.HEIGHT / 4))
-        self.__root.wm_iconbitmap(r'ico/broadcasting.ico')
-        self.__child.wm_iconbitmap(r'ico/broadcasting.ico')
+        self.__root.wm_iconbitmap(self.path + r'\ico\broadcasting.ico')
+        self.__child.wm_iconbitmap(self.path + r'\ico\broadcasting.ico')
 
     def setup_menu(self):
         """
@@ -154,20 +156,20 @@ class Calipso(object):
         the attributes below
 
         .. py:attribute:: BASE_PLOT
-        .. py:attribute:: BACKSCATTERED
+        .. py:attribute:: BACKSCATTE RED
         .. py:attribute:: DEPOLARIZED
         .. py:attribute:: VFM
 
-        :param :py:class:`int` plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
-        :param (:py:class:`int`,:py:class:`int`) xrange_: accepts a range of time to plot
-        :param (:py:class:`int`,:py:class:`int`) yrange: accepts a range of altitude to plot
+        :param int plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
+        :param list xrange\_: accepts a range of time to plot
+        :param list yrange: accepts a range of altitude to plot
         """
         self.xrange = xrange_
         self.yrange = yrange
         if plot_type == Plot.baseplot:
             # Hide the axis and print an image
             self.__shapemanager.set_plot(Plot.baseplot)
-            im = mpimg.imread('dat/CALIPSO.jpg')
+            im = mpimg.imread(self.path + r'\dat\CALIPSO.jpg')
             self.__fig.get_yaxis().set_visible(False)
             self.__fig.get_xaxis().set_visible(False)
             self.__fig.imshow(im)
@@ -207,7 +209,7 @@ class Calipso(object):
                 tkMessageBox.showerror('File Not Found', "No File Exists")
         elif plot_type == Plot.vfm:
             logger.error('Accessing unimplemented VFM plot')
-            tkMessageBox.showerror("TODO", 'Sorry, this plot is currently not implemented')
+            tkMessageBox.showerror('TODO', 'Sorry, this plot is currently not implemented')
 
     def reset(self):
         """
@@ -234,7 +236,7 @@ class Calipso(object):
 
         :param event: Tkinter passed event object
         """
-        logger.info("Pan point 2, finding distance and panning...")
+        logger.info('Pan point 2, finding distance and panning...')
         # Find distance and add an amplifier of 1.5
         dst = int(distance(self.panx, self.pany, event.x, event.y) * 1.5)
         # If the user is scrolling backwards
@@ -242,18 +244,18 @@ class Calipso(object):
             # Already at beginning
             if self.xrange[0] == 0:
                 logger.warning(
-                    "Attempting to pan backwards, already at beginning nothing to be done")
+                    'Attempting to pan backwards, already at beginning nothing to be done')
                 return
             # The end position would be negative
             if self.xrange[0] - dst < 0:
-                logger.warning("Attempting to pan past beginning, setting to beginning")
+                logger.warning('Attempting to pan past beginning, setting to beginning')
                 # Set both xrange and dst to zero and simply reload beginning range
                 self.xrange = (0, self.xrange[1])
                 dst = 0
             self.set_plot(self.plot, (self.xrange[0] - dst, self.xrange[1] - dst))
-            logger.info("Panning backwards")
+            logger.info('Panning backwards')
         else:
-            logger.info("Panning forwards")
+            logger.info('Panning forwards')
             self.set_plot(self.plot, (self.xrange[0] + dst, self.xrange[1] + dst))
         pass
 
@@ -262,7 +264,7 @@ class Calipso(object):
         Initializes and creates the *File: label*, *file dialog*, and *browse button* that appear
         at the top of the screen
         """
-        logger.info("Creating top screen GUI")
+        logger.info('Creating top screen GUI')
         # Create label , entry box and browse button
         label_file = Label(self.__dialog_frame, text="File:")
         self.__label_file_dialog = Label(self.__dialog_frame, width=50, justify=LEFT,
@@ -295,6 +297,7 @@ class Calipso(object):
         logger.info('Notify JSON to save')
         # Save to last saved file, if no file exists prompt to a new file
         if self.__shapemanager.get_count() > 0:
+            saved = True
             if self.__shapemanager.get_filename() == '':
                 saved = self.save_as_json()  # Still prompt for a file name if none currently exists
             else:
@@ -338,14 +341,14 @@ class Calipso(object):
         """
         Load an HDF file for use with displaying backscatter and depolarized images
         """
-        logger.info("Importing HDF file")
+        logger.info('Importing HDF file')
         # function to import HDF file used my open and browse
         file_types = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
         dlg = tkFileDialog.Open(filetypes=file_types)
         fl = dlg.show()
         if fl != '':
             if self.__file is not None and fl is not self.__file:
-                self.__new_file_flag = True
+                self.new_file_flag = True
             self.__file = fl
             segments = self.__file.rpartition('/')
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
@@ -356,7 +359,7 @@ class Calipso(object):
         """
         load JSON objects from file by calling :py:meth:`polygonlist.readPlot(f)`
         """
-        logger.info("Loading JSON")
+        logger.info('Loading JSON')
         # loads JSON object by calling the polygonList internal readPlot method
         options = dict()
         options['defaultextension'] = '.json'
@@ -372,9 +375,9 @@ class Calipso(object):
 
         :param event: A Tkinter passed event object
         """
-        logger.info("Grabbing shape object")
+        logger.info('Grabbing shape object')
         shape = self.__shapemanager.find_shape(event)
-        logger.info("Opening attributes dialog")
+        logger.info('Opening attributes dialog')
         AttributesDialog(self.__root, shape)
         
     def paint_window(self, event):
@@ -384,7 +387,7 @@ class Calipso(object):
         :param event: A Tkinter passed event object
         """
         shape = self.__shapemanager.find_shape(event)
-        logger.info("Painting shape")
+        logger.info('Painting shape')
         color = askcolor()
         if color[0] is not None:
             red = format(color[0][0], '02x')
@@ -436,7 +439,7 @@ class Calipso(object):
         """
         if self.__fig:
             return self.__fig
-        logger.error("Fig does not exist")
+        logger.error('Fig does not exist')
 
     def get_file(self):
         """
@@ -479,15 +482,15 @@ class Calipso(object):
         program
         """
         if not self.__shapemanager.is_all_saved():
-            logger.warning("Unsaved shapes found")
+            logger.warning('Unsaved shapes found')
             answer = tkMessageBox.\
                 askyesnocancel('Close Without Saving',
                                'There are unsaved shapes on the plot. Save these shapes?')
             if answer is True:
-                logger.info("Saving shapes")
+                logger.info('Saving shapes')
                 self.transient_save()
             elif answer is False:
-                logger.info("Dumping unsaved shapes")
+                logger.info('Dumping unsaved shapes')
                 self.__root.destroy()
             elif answer is None:
                 pass
@@ -514,5 +517,5 @@ def main():
     rt.mainloop()
     logging.info('Terminated CALIPSO program')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

@@ -28,5 +28,5 @@ executables = [Executable('Calipso.py', base=base)]
 setup(name='test',
       version='0.1',
       description='a test',
-      executables=executables
+      executables=executables, requires=['matplotlib']
     )
