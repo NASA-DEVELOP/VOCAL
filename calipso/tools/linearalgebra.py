@@ -121,23 +121,3 @@ def ray_cast(coordinates, point):
         return True
     else:
         return False
-
-if __name__ == "__main__":
-    a1 = array([0, 0])
-    a2 = array([2, 2])
-    b1 = array([1, 4])
-    b2 = array([3, 2])
-    print is_intersecting(a1, a2, b1, b2)
-    
-    a1 = array([2, 0])
-    a2 = array([2, 2])
-    b1 = array([1, 3])
-    b2 = array([3, 3])
-    print is_intersecting(a1, a2, b1, b2)
-    
-    coordinates = [[732475.03126909223, 8.0858515924085701], 
-                   [732475.03136109223, 8.0858515924085701], 
-                   [732475.03136109223, 2.990958703266271], 
-                   [732475.03126909223, 2.990958703266271]]
-    point = [732475.0313150922, 5.538405147837421]
-    print ray_cast(coordinates, point)

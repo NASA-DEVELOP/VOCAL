@@ -6,7 +6,7 @@
 ##########################
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
-    SUNKEN, PhotoImage
+    SUNKEN
 import logging
 from sys import platform as _platform
 import tkFileDialog
@@ -474,12 +474,14 @@ class Calipso(object):
             answer = tkMessageBox.\
                 askyesnocancel('Close Without Saving',
                                'There are unsaved shapes on the plot. Save these shapes?')
-            if answer:
+            if answer is True:
                 logger.info("Saving shapes")
                 self.transient_save(self.__root)
-            elif not answer:
+            elif answer is False:
                 logger.info("Dumping unsaved shapes")
                 self.__root.destroy()
+            elif answer is None:
+                pass
         else:
             self.__root.destroy()
             
