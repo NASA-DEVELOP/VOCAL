@@ -7,6 +7,7 @@
 ######################################
 
 from enum import Enum
+import os
 
 
 class Plot(Enum):
@@ -39,3 +40,4 @@ HELP_PAGE = 'http://syntaf.github.io/vocal/'
 
 TIME_VARIANCE = 0.001
 ALTITUDE_VARIANCE = 0.3
+PATH = os.path.dirname(os.path.realpath(__file__))

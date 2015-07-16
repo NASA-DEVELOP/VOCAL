@@ -8,10 +8,9 @@ from Tkinter import Label, Toplevel, Frame, Button, IntVar, BOTH, FALSE, \
     BOTTOM, Radiobutton, Entry, X, TOP
 import re
 import tkMessageBox
-import os
 
 from PIL import ImageTk
-from constants import Plot
+from constants import Plot, PATH
 from log import logger
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import create_tool_tip
@@ -28,26 +27,25 @@ class ToolsWindow(Toplevel):
     """
     def __init__(self, canvas, parent, root):
         Toplevel.__init__(self, root)
-        path = os.path.dirname(os.path.realpath(__file__))
         # Images required by buttons
-        self.test_img = ImageTk.PhotoImage(file=path + r'\ico\button.png')
-        self.edit_img = ImageTk.PhotoImage(file=path + r'\ico\edit.png')
-        self.prop_img = ImageTk.PhotoImage(file=path + r'\ico\cog.png')
-        self.load_img = ImageTk.PhotoImage(file=path + r'\ico\load.png')
-        self.save_img = ImageTk.PhotoImage(file=path + r'\ico\save.png')
-        self.plot_img = ImageTk.PhotoImage(file=path + r'\ico\hide.png')
-        self.outline_img = ImageTk.PhotoImage(file=path + r'\ico\focus.png')
-        self.paint_img = ImageTk.PhotoImage(file=path + r'\ico\paint.png')
-        self.erase_img = ImageTk.PhotoImage(file=path + r'\ico\eraser.png')
-        self.drag_img = ImageTk.PhotoImage(file=path + r'\ico\cursorhand.png')
-        self.plot_cursor_img = ImageTk.PhotoImage(file=path + r'\ico\plotcursor.png')
-        self.free_draw_img = ImageTk.PhotoImage(file=path + r'\ico\freedraw.png')
-        self.polygon_img = ImageTk.PhotoImage(file=path + r'\ico\polygon.png')
-        self.redo_img = ImageTk.PhotoImage(file=path + r'\ico\forward.png')
-        self.undo_img = ImageTk.PhotoImage(file=path + r'\ico\back.png')
-        self.magnify_draw_img = ImageTk.PhotoImage(file=path + r'\ico\magnify.png')
-        self.extract_img = ImageTk.PhotoImage(file=path + r'\ico\button.png')
-        self.home_img = ImageTk.PhotoImage(file=path + r'\ico\home.png')
+        self.test_img = ImageTk.PhotoImage(file=PATH + r'\ico\button.png')
+        self.edit_img = ImageTk.PhotoImage(file=PATH + r'\ico\edit.png')
+        self.prop_img = ImageTk.PhotoImage(file=PATH + r'\ico\cog.png')
+        self.load_img = ImageTk.PhotoImage(file=PATH + r'\ico\load.png')
+        self.save_img = ImageTk.PhotoImage(file=PATH + r'\ico\save.png')
+        self.plot_img = ImageTk.PhotoImage(file=PATH + r'\ico\hide.png')
+        self.outline_img = ImageTk.PhotoImage(file=PATH + r'\ico\focus.png')
+        self.paint_img = ImageTk.PhotoImage(file=PATH + r'\ico\paint.png')
+        self.erase_img = ImageTk.PhotoImage(file=PATH + r'\ico\eraser.png')
+        self.drag_img = ImageTk.PhotoImage(file=PATH + r'\ico\cursorhand.png')
+        self.plot_cursor_img = ImageTk.PhotoImage(file=PATH + r'\ico\plotcursor.png')
+        self.free_draw_img = ImageTk.PhotoImage(file=PATH + r'\ico\freedraw.png')
+        self.polygon_img = ImageTk.PhotoImage(file=PATH + r'\ico\polygon.png')
+        self.redo_img = ImageTk.PhotoImage(file=PATH + r'\ico\forward.png')
+        self.undo_img = ImageTk.PhotoImage(file=PATH + r'\ico\back.png')
+        self.magnify_draw_img = ImageTk.PhotoImage(file=PATH + r'\ico\magnify.png')
+        self.extract_img = ImageTk.PhotoImage(file=PATH + r'\ico\button.png')
+        self.home_img = ImageTk.PhotoImage(file=PATH + r'\ico\home.png')
 
         self.__parent = parent
         self.__root = root

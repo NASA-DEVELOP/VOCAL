@@ -9,7 +9,6 @@ from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     SUNKEN
 import logging
 from sys import platform as _platform
-import os
 import tkFileDialog
 import tkMessageBox
 import webbrowser
@@ -24,7 +23,7 @@ from plot.plot_depolar_ratio import drawDepolar
 from plot.plot_uniform_alt_lidar_dev import render_backscattered
 from polygon.manager import ShapeManager
 from attributesdialog import AttributesDialog
-from constants import Plot
+from constants import Plot, PATH
 import constants
 from importdialog import ImportDialog
 from log import logger
@@ -49,7 +48,6 @@ class Calipso(object):
         self.plot = Plot.baseplot               # Current selected plot
         self.__label_file_dialog = None
         self.new_file_flag = False
-        self.path = os.path.dirname(os.path.realpath(__file__))
 
         # TODO: Add icon for window an task bar
         # Create three paned windows, two which split the screen vertically upon a single pane
@@ -115,8 +113,8 @@ class Calipso(object):
         else:
             self.__child.geometry('%dx%d+%d+%d' % (
                 constants.CHILDWIDTH, constants.CHILDHEIGHT, x + constants.WIDTH + 50, y + constants.HEIGHT / 4))
-        self.__root.wm_iconbitmap(self.path + r'\ico\broadcasting.ico')
-        self.__child.wm_iconbitmap(self.path + r'\ico\broadcasting.ico')
+        self.__root.wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
+        self.__child.wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
 
     def setup_menu(self):
         """
@@ -169,7 +167,7 @@ class Calipso(object):
         if plot_type == Plot.baseplot:
             # Hide the axis and print an image
             self.__shapemanager.set_plot(Plot.baseplot)
-            im = mpimg.imread(self.path + r'\dat\CALIPSO.jpg')
+            im = mpimg.imread(PATH + r'\dat\CALIPSO.jpg')
             self.__fig.get_yaxis().set_visible(False)
             self.__fig.get_xaxis().set_visible(False)
             self.__fig.imshow(im)

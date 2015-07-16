@@ -6,6 +6,7 @@
 import logging.config
 import sys
 import os
+from constants import PATH
 
 
 def uncaught_exception(exctype, value, tb):
@@ -17,7 +18,7 @@ sys.excepthook = uncaught_exception
 # disable_existing_loggers=False)
 logger = logging.getLogger('VOCAL')
 
-path = os.path.dirname(os.path.realpath(__file__)) + r'\log\logging.ini'
+path = PATH + r'\log\logging.ini'
 logging.config.fileConfig(path, disable_existing_loggers=False)
 
 if __name__ == '__main__':
