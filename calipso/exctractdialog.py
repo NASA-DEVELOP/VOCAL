@@ -35,17 +35,16 @@ class ExtractDialog(Toplevel):
         """
         logger.info('Opening ExtractDialog')
         Toplevel.__init__(self, root)
+        self.geometry('+%d+%d' % (root.winfo_rootx(), root.winfo_rooty()))
         self.transient(root)
-        x_vals = [0, 3, 10, 15]
-        y_vals = [232, 120, 45, 23]
-        
+
+        self.__root = root
         self.shape = shape
         self.filename = filename
         self.x_range = x_range
         self.y_range = y_range
         self.fig = Figure(figsize=(8, 5))
         self.ax = self.fig.add_subplot(1, 1, 1)
-        self.plot = self.ax.plot(x_vals, y_vals, 'k-')
         self.ax.set_xlabel('Time')
         self.ax.set_ylabel('Altitude (km)')
         self.ax.set_title('%s' % shape.get_tag())
@@ -122,3 +121,7 @@ class ExtractDialog(Toplevel):
             )
             
             self.ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+
+        histogram_window = Toplevel(self)
+        histogram_window.transient(self.__root)
+        histogram_window.geometry('+%d+%d' % (self.__root.winfo_rootx() + self.winfo_x()*2, self.__root.winfo_rooty()))

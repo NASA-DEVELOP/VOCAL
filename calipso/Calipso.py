@@ -6,7 +6,7 @@
 ##########################
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
-    SUNKEN
+    SUNKEN, StringVar
 import logging
 from sys import platform as _platform
 import tkFileDialog
@@ -96,7 +96,7 @@ class Calipso(object):
         """
         Sets the title of root and invokes py:meth:`centerWindow`
         """
-        self.__root.title("CALIPSO Visualization Tool")
+        self.__root.title("Visualization of CALIPSO (VOCAL)")
         sw = self.__root.winfo_screenwidth()
         sh = self.__root.winfo_screenheight()
         x = (sw - constants.WIDTH) / 2
