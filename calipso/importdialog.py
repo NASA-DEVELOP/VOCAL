@@ -68,7 +68,7 @@ class ImportDialog(Toplevel):
         label.grid(row=0, column=0, padx=5, pady=10)
         self.e.grid(row=0, column=1, padx=5, pady=10)
 
-        check_button = Checkbutton(self.top_frame, text="Filter for this file",
+        check_button = Checkbutton(self.top_frame, text='Filter for this file',
                                    variable=self.filter_file,
                                    command=self.filter_by_current_file)
         check_button.grid(row=0, column=2, padx=5, pady=10)
@@ -91,7 +91,7 @@ class ImportDialog(Toplevel):
         if self.filter_file.get():
             fn = self.__master.get_file().rpartition('/')[2]
             lst = self.get_current_file_shapes()
-            logger.info("Displaying %d shapes contained in %s" % (len(lst), fn))
+            logger.info('Displaying %d shapes contained in %s' % (len(lst), fn))
             lst = [x for x in lst if x in self.tree.info]
             self.__stack.append(self.tree.info)
             self.tree.info = lst
@@ -111,7 +111,7 @@ class ImportDialog(Toplevel):
                 (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
                  obj.notes, obj.time_, obj.hdf))
         if not lst:
-            logger.warning("Query returned None, no shapes found")
+            logger.warning('Query returned None, no shapes found')
         return lst
 
     def refine_search(self, event):

@@ -117,11 +117,11 @@ class ExtractDialog(Toplevel):
             min_time = min(time_cords)
             max_time = max(time_cords)
 
-            logger.info("Applying search algorithm to determine shape bounds")
+            logger.info('Applying search algorithm to determine shape bounds')
             x1 = int(interpolation_search(n_time, min_time, TIME_VARIANCE))
             x2 = int(interpolation_search(n_time, max_time, TIME_VARIANCE))
 
-            logger.info("Setting bounds for new subplot")
+            logger.info('Setting bounds for new subplot')
             time = time[x1:x2]
             dataset = dataset[x1:x2]
             time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
@@ -176,11 +176,11 @@ class ExtractDialog(Toplevel):
             min_time = min(time_cords)
             max_time = max(time_cords)
 
-            logger.info("Applying search algorithm to determine shape bounds")
+            logger.info('Applying search algorithm to determine shape bounds')
             x1 = int(interpolation_search(n_time, min_time, TIME_VARIANCE))
             x2 = int(interpolation_search(n_time, max_time, TIME_VARIANCE))
 
-            logger.info("Setting bounds for new subplot")
+            logger.info('Setting bounds for new subplot')
             time = time[x1:x2]
             dataset = dataset[x1:x2]
             time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
