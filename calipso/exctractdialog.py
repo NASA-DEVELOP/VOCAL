@@ -55,6 +55,10 @@ class ExtractDialog(Toplevel):
         self.title('Data Subplot')
         logger.info('Reading shape data')
         self.read_shape_data()
+
+    @staticmethod
+    def ignore():
+        pass
         
     def read_shape_data(self):
         """
@@ -123,5 +127,16 @@ class ExtractDialog(Toplevel):
             self.ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
 
         histogram_window = Toplevel(self)
-        histogram_window.transient(self.__root)
         histogram_window.geometry('+%d+%d' % (self.__root.winfo_rootx() + self.winfo_x()*2, self.__root.winfo_rooty()))
+        histogram_window.protocol('WM_DELETE_WINDOW', ExtractDialog.ignore)
+        histogram_window.transient(self.__root)
+
+        hist_fig = Figure(figsize=(8, 5))
+        hist_ax = hist_fig.add_subplot(1, 1, 1)
+        hist_ax.set_xlabel('Time')
+        hist_ax.set_ylabel('Altitude (km)')
+
+        hist_canvas = FigureCanvasTkAgg(hist_fig, master=self)
+        hist_canvas.show()
+        hist_canvas.get_tk_widget().grid(row=0)
+        histogram_window.title('Histogram')
