@@ -33,7 +33,6 @@ from tools.tools import Catcher
 from toolswindow import ToolsWindow
 from tkColorChooser import askcolor
 from exctractdialog import ExtractDialog
-from PIL import ImageTk
 
 class Calipso(object):
     """
@@ -51,13 +50,11 @@ class Calipso(object):
         self.__new_file_flag = False
 
         # TODO: Add icon for window an task bar
-        # Paned window that stretches to fit entire screen
+        # Create three paned windows, two which split the screen vertically upon a single pane
         base_pane = PanedWindow()
         base_pane.pack(fill=BOTH, expand=1)
-        # Splits window into a top and bottom section
         sectioned_pane = PanedWindow(orient=VERTICAL)
         base_pane.add(sectioned_pane)
-        # Top pane
         top_paned_window = PanedWindow(sectioned_pane, orient=HORIZONTAL)
         sectioned_pane.add(top_paned_window)
 
@@ -74,7 +71,6 @@ class Calipso(object):
                                       width=constants.WIDTH,
                                       height=constants.HEIGHT)
 
-        logger.info('Instantiating ToolsWindow')
         # Matplotlib backend objects
         self.__parent_fig = Figure(figsize=(16, 11))
         self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
@@ -82,10 +78,12 @@ class Calipso(object):
         self.__drawplot_canvas = FigureCanvasTkAgg(self.__parent_fig,
                                                    master=self.__drawplot_frame)
         # Create ToolsWindow class and pass itself + the root
+        logger.info('Creating ToolsWindow')
         self.__child = ToolsWindow(self.__drawplot_canvas, self, r)
-        logger.info('Create ShapeManager')
+        logger.info('Creating ShapeManager')
         self.__shapemanager = ShapeManager(self.__fig, self.__drawplot_canvas,
                                            self)
+        logger.info('Binding matplotlib backend to canvas and frame')
         self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplot_canvas,
                                                    self.__child.coordinate_frame)
 
@@ -106,7 +104,7 @@ class Calipso(object):
         self.__root.geometry('%dx%d+%d+%d' % (constants.WIDTH, constants.HEIGHT, x, y))
         # the child is designed to appear off to the right of the parent window, so the x location
         # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
-        # plus half the distance of the window
+        # plus a fourth the distance of the window
         if _platform == "linux" or _platform == "linux2":
             logger.info("Linux system detected")
             self.__child.geometry('%dx%d+%d+%d' % (
@@ -114,7 +112,7 @@ class Calipso(object):
                 y + constants.HEIGHT / 4))
         else:
             self.__child.geometry('%dx%d+%d+%d' % (
-                constants.CHILDWIDTH, constants.CHILDHEIGHT, x + constants.WIDTH, y + constants.HEIGHT / 4))
+                constants.CHILDWIDTH, constants.CHILDHEIGHT, x + constants.WIDTH + 50, y + constants.HEIGHT / 4))
         self.__root.wm_iconbitmap(r'ico/broadcasting.ico')
         self.__child.wm_iconbitmap(r'ico/broadcasting.ico')
 
@@ -160,13 +158,14 @@ class Calipso(object):
         .. py:attribute:: DEPOLARIZED
         .. py:attribute:: VFM
 
-        :param int plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
-        :param (int,int) xrange_: accepts a range of time to plot
-        :param (int,int) yrange: accepts a range of altitude to plot
+        :param :py:class:`int` plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
+        :param (:py:class:`int`,:py:class:`int`) xrange_: accepts a range of time to plot
+        :param (:py:class:`int`,:py:class:`int`) yrange: accepts a range of altitude to plot
         """
         self.xrange = xrange_
         self.yrange = yrange
         if plot_type == Plot.baseplot:
+            # Hide the axis and print an image
             self.__shapemanager.set_plot(Plot.baseplot)
             im = mpimg.imread('dat/CALIPSO.jpg')
             self.__fig.get_yaxis().set_visible(False)
@@ -174,6 +173,8 @@ class Calipso(object):
             self.__fig.imshow(im)
         elif plot_type == Plot.backscattered:
             try:
+                # Clear any references to the current figure, construct a new figure
+                # and render the backscattered plot to it
                 logger.info('Setting plot to backscattered xrange: ' +
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__shapemanager.clear_refs()
@@ -190,6 +191,8 @@ class Calipso(object):
         # TODO: Reimplement with new plotting technique (like backscatter)
         elif plot_type == Plot.depolarized:
             try:
+                # Clear any references to the current figure, construct a new figure
+                # and render the depolarized plot to it
                 logger.error('Needs to be reimplemented')
                 self.__shapemanager.clear_refs()
                 self.__parent_fig.clear()
@@ -323,9 +326,15 @@ class Calipso(object):
         else:
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
             
-    def transient_save(self, root):
+    def transient_save(self):
+        """
+        Function to save the file before closing the application. If the user
+        decides they wish to save before closing, transient_save is called to
+        save to JSON then proceeds to exit the application.
+        :param root:
+        """
         self.save_json()
-        root.destroy()
+        self.__root.destroy()
 
     def import_file(self):
         """
@@ -400,6 +409,8 @@ class Calipso(object):
     def get_root(self):
         """
         Return the root of the application
+
+        :rtype: A Tkinter root
         """
         return self.__root
 
@@ -476,7 +487,7 @@ class Calipso(object):
                                'There are unsaved shapes on the plot. Save these shapes?')
             if answer is True:
                 logger.info("Saving shapes")
-                self.transient_save(self.__root)
+                self.transient_save()
             elif answer is False:
                 logger.info("Dumping unsaved shapes")
                 self.__root.destroy()
@@ -494,7 +505,6 @@ class Calipso(object):
         save_window = Toplevel(self.__root)
         save_window.transient(self.__root)
         save_window.title('Close Without Saving')
-        
         
 
 def main():
