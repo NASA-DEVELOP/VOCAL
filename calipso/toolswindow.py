@@ -27,7 +27,6 @@ class ToolsWindow(Toplevel):
     """
     def __init__(self, canvas, parent, root):
         Toplevel.__init__(self, root)
-        self.iconbitmap(r'ico/broadcasting.ico')
 
         # Images required by buttons
         self.test_img = ImageTk.PhotoImage(file='ico/button.png')

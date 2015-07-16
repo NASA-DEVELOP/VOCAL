@@ -114,7 +114,9 @@ class Calipso(object):
                 y + constants.HEIGHT / 4))
         else:
             self.__child.geometry('%dx%d+%d+%d' % (
-                constants.CHILDWIDTH, constants.CHILDHEIGHT, x + x * 4 + 20, y + y / 2))
+                constants.CHILDWIDTH, constants.CHILDHEIGHT, x + constants.WIDTH, y + constants.HEIGHT / 4))
+        self.__root.wm_iconbitmap(r'ico/broadcasting.ico')
+        self.__child.wm_iconbitmap(r'ico/broadcasting.ico')
 
     def setup_menu(self):
         """
@@ -498,7 +500,6 @@ def main():
     logging.info('Starting CALIPSO program')
     Tk.CallWrapper = Catcher
     rt = Tk()
-    rt.iconbitmap(r'ico/broadcasting.ico')
     logging.info('Instantiate CALIPSO program')
     program = Calipso(rt)
 
