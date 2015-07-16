@@ -331,7 +331,6 @@ class Calipso(object):
         Function to save the file before closing the application. If the user
         decides they wish to save before closing, transient_save is called to
         save to JSON then proceeds to exit the application.
-        :param root:
         """
         self.save_json()
         self.__root.destroy()
@@ -346,7 +345,7 @@ class Calipso(object):
         dlg = tkFileDialog.Open(filetypes=file_types)
         fl = dlg.show()
         if fl != '':
-            if not self.__file is None and not fl is self.__file:
+            if self.__file is not None and fl is not self.__file:
                 self.__new_file_flag = True
             self.__file = fl
             segments = self.__file.rpartition('/')

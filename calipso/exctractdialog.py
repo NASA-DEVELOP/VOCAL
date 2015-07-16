@@ -53,6 +53,26 @@ class ExtractDialog(Toplevel):
         self.canvas.show()
         self.canvas.get_tk_widget().grid(row=0)
         self.title('Data Subplot')
+
+        x = self.__root.winfo_rootx() + self.winfo_x()*2
+        y = self.__root.winfo_rooty()
+        """
+        self.histogram_window = Toplevel(self)
+        self.histogram_window.geometry('+%d+%d' % (x, y))
+        self.histogram_window.protocol('WM_DELETE_WINDOW', ExtractDialog.ignore)
+        self.histogram_window.transient(self.__root)
+        self.histogram_window.update()
+
+        self.hist_fig = Figure(figsize=(8, 5))
+        self.hist_ax = self.hist_fig.add_subplot(1, 1, 1)
+        self.hist_ax.set_xlabel('Time')
+        self.hist_ax.set_ylabel('Altitude (km)')
+
+        self.hist_canvas = FigureCanvasTkAgg(self.hist_fig, master=self)
+        self.hist_canvas.show()
+        self.hist_canvas.get_tk_widget().grid(row=0)
+        self.histogram_window.title('Histogram')
+        """
         logger.info('Reading shape data')
         self.read_shape_data()
 
@@ -69,8 +89,10 @@ class ExtractDialog(Toplevel):
         issue an algorithm called ``interpolation_search`` is used, which computes the nearest
         time coordinate for bounding, and with a complexity of only ``O(log log(n))``
         """
+
         cords = self.shape.get_coordinates()
         time_cords, altitude_cords = zip(*cords)
+        print self.x_range
         x1 = self.x_range[0]
         x2 = self.x_range[1]
         h1 = min(altitude_cords)
@@ -83,6 +105,7 @@ class ExtractDialog(Toplevel):
         with HDF(self.filename) as product:
             time = product['Profile_UTC_Time'][x1:x2, 0]
             height = product['metadata']['Lidar_Data_Altitudes']
+            dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
             n_time = np.array([mpl.dates.date2num(ccplot.utils.calipso_time2dt(t)) for t in time])
 
             min_time = min(time_cords)
@@ -93,8 +116,8 @@ class ExtractDialog(Toplevel):
             x2 = int(interpolation_search(n_time, max_time, TIME_VARIANCE))
 
             logger.info("Setting bounds for new subplot")
-            time = product['Profile_UTC_Time'][x1:x2, 0]
-            dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
+            time = time[x1:x2]
+            dataset = dataset[x1:x2]
             time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
 
             dataset = np.ma.masked_equal(dataset, -9999)
@@ -126,17 +149,3 @@ class ExtractDialog(Toplevel):
             
             self.ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
 
-        histogram_window = Toplevel(self)
-        histogram_window.geometry('+%d+%d' % (self.__root.winfo_rootx() + self.winfo_x()*2, self.__root.winfo_rooty()))
-        histogram_window.protocol('WM_DELETE_WINDOW', ExtractDialog.ignore)
-        histogram_window.transient(self.__root)
-
-        hist_fig = Figure(figsize=(8, 5))
-        hist_ax = hist_fig.add_subplot(1, 1, 1)
-        hist_ax.set_xlabel('Time')
-        hist_ax.set_ylabel('Altitude (km)')
-
-        hist_canvas = FigureCanvasTkAgg(hist_fig, master=self)
-        hist_canvas.show()
-        hist_canvas.get_tk_widget().grid(row=0)
-        histogram_window.title('Histogram')
