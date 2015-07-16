@@ -296,10 +296,11 @@ class Calipso(object):
         # Save to last saved file, if no file exists prompt to a new file
         if self.__shapemanager.get_count() > 0:
             if self.__shapemanager.get_filename() == '':
-                self.save_as_json()  # Still prompt for a file name if none currently exists
+                saved = self.save_as_json()  # Still prompt for a file name if none currently exists
             else:
                 self.__shapemanager.save_json()  # Else do a normal save with internal file
-            tkMessageBox.showinfo('save', 'Shapes saved successfully')
+            if saved:
+                tkMessageBox.showinfo('save', 'Shapes saved successfully')
         else:
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
@@ -315,8 +316,8 @@ class Calipso(object):
             options['defaultextension'] = '.json'
             options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
             f = tkFileDialog.asksaveasfilename(**options)
-            if f is "":
-                return
+            if f is '':
+                return False
             if save_all:
                 self.__shapemanager.save_all_json(f)
             else:
