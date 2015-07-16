@@ -47,7 +47,7 @@ class Calipso(object):
         self.panx = self.pany = 0               # Pan values for shifting map
         self.plot = Plot.baseplot               # Current selected plot
         self.__label_file_dialog = None
-        self.__new_file_flag = False
+        self.new_file_flag = False
 
         # TODO: Add icon for window an task bar
         # Create three paned windows, two which split the screen vertically upon a single pane
@@ -234,8 +234,6 @@ class Calipso(object):
 
         :param event: Tkinter passed event object
         """
-        if self.__new_file_flag:
-            pass
         logger.info("Pan point 2, finding distance and panning...")
         # Find distance and add an amplifier of 1.5
         dst = int(distance(self.panx, self.pany, event.x, event.y) * 1.5)
@@ -347,7 +345,7 @@ class Calipso(object):
         fl = dlg.show()
         if fl != '':
             if not self.__file is None and not fl is self.__file:
-                self.__new_file_flag = True
+                self.new_file_flag = True
             self.__file = fl
             segments = self.__file.rpartition('/')
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
