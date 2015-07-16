@@ -22,36 +22,62 @@ shapes, and saving and loading shapes.
 Starting Up
 --------------------------------------------------
 
-To load a CALIPSO hdf file from the local file directory, click the "Browse" 
-button and select the desired hdf file. The file text box will now update and 
-display the name of the imported hdf file. The main screen will appear blank 
-at first. To display a plot, click the "Plot Type" button in the toolwindow. 
-A drop down menu will appear with the available plots. Clicking on a selection
-will dipslay the plot on the main screen. 
+To load a CALIPSO hdf file from the local file directory, click the |browse| button at the
+top of the screen. Navigate to the .HDF file of your choice and select **open** The file text box will now update and
+display the name of the imported hdf file. The main screen will appear blank at first. To display a plot,
+Select the type of plot you would like to render and an optional step (*the default is from 0 to 1000*).
+Hit **Render** to visualize the data to the screen.
  
-.. image:: _static/loadHDF.png
-   :scale: 40%
+.. image:: _static/load_hdf.png
+   :scale: 60%
  	   
 --------------------------------------------------
 Plot Navigation
 --------------------------------------------------
 
-The first row of buttons provide plot navigation. The four pointed arrows are 
-the pan button. Pressing this button will allow you to move the plot across 
-the screen by clicking and dragging the plot with the left mouse button. The 
-next button with the magnifying glass icon is the zoom button. Selecting this 
-button will allow you to zoom in and out of the plot. To zoom in, click and 
-drag with the left mouse button the area on the plot you wish to zoom in. To 
-zoom out, click and drag with the right mouse button and the plot will zoom 
-out based upon the scale difference of the area you highlighted. The next two 
-buttons are the undo and redo buttons, respectively. Clicking the undo button 
-will undo the most recent pan or zoom action. The redo button will redo any 
-pan or zoom action. Lastly, the "Reset" button will rest all plot navigation 
-actions and return the plot window back to its initial state.
+The first row of toolbar buttons allows you to manipulate the plot for the purpose of drawing.
+
+* |move| Pan: Clicking and dragging will allow you to move the plot across
+  the screen by the amount of drag used, either left or right.
+* |magn| Magnify: Selecting this
+  button will allow you to zoom in and out of the plot. To zoom in, click and
+  drag with the left mouse button the area on the plot you wish to zoom in. To
+  zoom out, click and drag with the right mouse button and the plot will zoom
+  out based upon the scale difference of the area you highlighted.
+* |undo| Undo: jump to the previous magnification zoom frame
+* |redo| Redo: jump forward to the next magnification zoom frame
+* |home| Home: reset the view to the original render
+
+-------------------------------------------------
+Shape Extraction and Viewing
+-------------------------------------------------
+
+The second row of buttons (minus the home button) is dedicated to the viewing, assigning, and
+extraction of data from shapes
+
+* |prop| Properties: Clicking on a shape while the properties button is active will open a small
+  window detailing the range of time and altitude covered by the shape, attributes, and notes.
+  click once more to hide the properties window
+* |attr| Attributes: Clicking on a shape while the attributes button is active will open a
+  dialog window for assigning attributes to shapes. Attributes on the **left** are the *available*
+  attributes, the **right** side is the *selected* attributes. Add any notes you wish and click
+  ``save`` to save the notes and attributes. These can be viewed with |prop|
+* |extr| Extract: Clicking on a shape while the extract button is active will create a subplot
+  containing only the data enclosed in the shape. Future features are to come but for now a
+  subplot and histogram are generated for the shape.
 
 --------------------------------------------------
 Shape Drawing
 --------------------------------------------------
+
+The third row of buttons is for creating and manipulating the physical properties of
+shapes drawn to the plot.
+
+* |rect| Rectangle: Dragging the cursor in the plot will create an outline of a rectangle,
+  upon release of the cursor the shape will be created in place of the outline.
+* |fred| Free Draw: Clicking on the plot will create a *vertex*, multiple clicks will
+  bind vertices together and create lines. If a new line is found interesting an
+  existing line a shape will be formed at the intersection being the enclosing vertex.
 
 The next seven buttons are used for shape drawing. The rectangle icon 
 represents rectangle drawing. Pressing this button will allow you to draw 
@@ -111,3 +137,22 @@ selecting a start and end entry. To delete the selected entries click on the
 "Delete" button at the top right of the window. If you wish to import these
 shapes, click on the "Import" button at the bottom of the window, and the plot
 will automatically draw all the loaded shapes.
+
+
+.. |browse| image:: _static/browse_button.png
+.. |move| image:: _static/move_button.png
+.. |magn| image:: _static/magnify_button.png
+.. |undo| image:: _static/undo_button.png
+.. |redo| image:: _static/redo_button.png
+.. |home| image:: _static/home_button.png
+.. |prop| image:: _static/properties_button.png
+.. |attr| image:: _static/attributes_button.png
+.. |extr| image:: _static/extract_button.png
+.. |rect| image:: _static/rect_button.png
+.. |fred| image:: _static/freedraw_button.png
+.. |eras| image:: _static/erase_button.png
+.. |pain| image:: _static/paint_button.png
+.. |focs| image:: _static/focus_button.png
+.. |hide| image:: _static/hide_button.png
+.. |save| image:: _static/save_button.png
+.. |load| image:: _static/load_button.png
