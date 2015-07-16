@@ -90,21 +90,29 @@ class ImportDialog(Toplevel):
         """
         if self.filter_file.get():
             fn = self.__master.get_file().rpartition('/')[2]
-            lst = list()
-            for obj in self.session.query(DatabasePolygon).filter_by(
-                hdf=fn
-            ):
-                time_range, altitude_range = get_shape_ranges(obj.coordinates)
-                lst.append(
-                    (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
-                     obj.notes, obj.time_, obj.hdf))
-            if not lst:
-                logger.warning("Query returned None, no shapes found")
+            lst = self.get_current_file_shapes()
             logger.info("Displaying %d shapes contained in %s" % (len(lst), fn))
+            lst = [x for x in lst if x in self.tree.info]
+            self.__stack.append(self.tree.info)
             self.tree.info = lst
             self.tree.update()
         else:
-            self.__display_all()
+            self.tree.info = self.__stack.pop()
+            self.tree.update()
+
+    def get_current_file_shapes(self):
+        fn = self.__master.get_file().rpartition('/')[2]
+        lst = list()
+        for obj in self.session.query(DatabasePolygon).filter_by(
+            hdf=fn
+        ):
+            time_range, altitude_range = get_shape_ranges(obj.coordinates)
+            lst.append(
+                (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
+                 obj.notes, obj.time_, obj.hdf))
+        if not lst:
+            logger.warning("Query returned None, no shapes found")
+        return lst
 
     def refine_search(self, event):
         """
@@ -144,12 +152,21 @@ class ImportDialog(Toplevel):
                                  (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
                                   obj.notes, obj.time_, obj.hdf))
                 # Push new query onto the stack and set display to list
+                if self.filter_file.get():
+                    sub_list = set(self.get_current_file_shapes())
+                    lst = [x for x in lst if x in sub_list]
                 self.__stack.append(self.tree.info)
                 self.tree.info = lst
                 self.tree.update()
         else:
-            self.__search_string = ''
-            self.__display_all()
+            if self.filter_file.get():
+                sub_list = set(self.get_current_file_shapes())
+                self.__search_string = ''
+                self.tree.info = sub_list
+                self.tree.update()
+            else:
+                self.__search_string = ''
+                self.__display_all()
         logger.info('Displaying refined search')
 
     def create_bottom_frame(self):
