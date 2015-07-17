@@ -5,18 +5,34 @@ Getting Started
 This tutorial provides an overview on how to use the CALIPSO Visualization 
 Tool program.
 
------------
-Main Screen
------------
+----------------
+Interface Layout
+----------------
 
-The CALIPSO Visualization Tool window is the main screen for displaying 
-CALIPSO data and shapes. The menu bar provides access to the shape database 
-and loading CAlIPSO hdf files. The Visualization Tool window is accompanied by
-a toolwindow that contains buttons for manipulating the main screen, drawing 
-shapes, and saving and loading shapes. 
- 
+Upon first starting VOCAL, you will be greeted with the initial view of the application. The large center most
+window is the main screen for displaying data from ``.HDF`` files, this will be where you **see** the data.
+
 .. image:: _static/startup.png
    :scale: 40%
+
+The top most menu bar contains three directories: ``file`` , ``polygon`` and ``help``. These are self explanatory,
+
+* ``file`` allows a user to import an HDF (same as |browse|), save all objects from all plots to a JSON file, save
+  only *visible* objects on the screen to a JSON file, or exit the application.
+* ``polygon`` relates to the database use, see :ref:`database` for more information.
+* ``help`` shows information on the project, and links to this website
+
+Off to the right is the tools window, this window is dedicated to the manipulation of the data displayed to the plot.
+
+* |rese| destroy all shapes existing in the plot and reset the view back to the original view of the initial
+  render
+* |back| Selection option used when visualizing, having this option checked will display the data
+  as backscattered
+* |depo| Selection option used when visualizing, having this option checked will display the data as
+  depolarized.
+* |step| Specify the range of time to plot to, from ``x`` to ``y``. Default is ``x`` + 1000 if no ``y``, and
+  0 - 1000 if neither ``x`` nor ``y``
+* |fren| Visualize the data given the conditions entered into **step** and **backscattered/depolarized**
        
 -----------
 Starting Up
@@ -25,8 +41,9 @@ Starting Up
 To load a CALIPSO hdf file from the local file directory, click the |browse| button at the
 top of the screen. Navigate to the .HDF file of your choice and select **open** The file text box will now update and
 display the name of the imported hdf file. The main screen will appear blank at first. To display a plot,
-Select the type of plot you would like to render and an optional step (*the default is from 0 to 1000*).
-Hit **Render** to visualize the data to the screen.
+Select the type of plot you would like with either |back| or |depo| to render and an optional step
+|step| (*the default is from 0 to 1000*).
+Hit |rend| to visualize the data to the screen.
  
 .. image:: _static/load_hdf.png
    :scale: 60%
@@ -97,7 +114,7 @@ of shapes to a JSON file.
 * |hide| Hide: Similar to Focus, but pressing this button will **completely** hide all shapes,
   they still exist; however they simply won't be drawn to the screen.
 * |save| Save: Save all existing objects in the **current** plot to a ``JSON`` formatted file.
-  These objects can be loaded back into the screen with the next button and can be shared
+  These objects can be loaded back into the screen with |load| and can be shared
   between researchers that wish to personally hand over shapes to another user for loading. If
   you wish to save all shapes from **every** plot into one fill, these is a ``save all`` option
   in the file menu for this.
@@ -105,28 +122,60 @@ of shapes to a JSON file.
   display them to the plot.
 
 
+.. _database:
+
 ------------------
 Using the Database
 ------------------
 
-The CALIPSO Visualization Tool has access to a database that can save shapes,
-so that other users can share the shapes they have drawn. To save shapes to 
-the database, click on "Polygon" from the menu bar and select "Export to
-Database." The program will take each individual shape drawn on each plot and 
-saves each shape independently in the database. To import shapes from the 
-database, click on "Polygon" from the menu bar and select "Import from 
-Database." A dialog box will appear, displaying all the shapes saved on the 
-database. To help find specific shapes, you can sort name, plot, date, file,
-attributes, and notes by clicking on the header bar. To search specifically 
-within the attributes, use the search bar at the top of the dialog to filter 
-shapes. To select an individual shape, simply click on an entry. For multiple
-entries, hold the Control button on the keyboard while clicking on entries. To
-retrieve successive entries, hold the Shift button on the keyboard while 
-selecting a start and end entry. To delete the selected entries click on the 
-"Delete" button at the top right of the window. If you wish to import these
-shapes, click on the "Import" button at the bottom of the window, and the plot
-will automatically draw all the loaded shapes.
+One of the defining features of VOCAL is the ability to import and export shapes to a database, this can
+help researchers share information about aerosols and their trajectory. The database can be accessed under
+the ``polygon`` menu, offering to either *import from database* or *export to database* . Let's start with exporting.
 
+Say you have a number of shapes you've labeled with attributes and want to share with other researchers
+
+.. image:: _static/to_be_exported.png
+   :scale: 50%
+
+Exporting these shapes is as easy as going to the ``polygon`` menu and hitting *export to database*
+
+|expo|
+
+All objects have now been exported to the database! All done! Now lets import some shapes, consider down the road
+your database now has a number of different objects from different files; your coworker tells you "Hey, check out
+shape 31 by John and it's properties". There are a couple ways to go about this, first head over to the
+*import from database* window.
+
+|impo|
+
+This will open the import dialog
+
+.. image:: _static/db_window.png
+   :scale: 70%
+
+|dbse| allows the user to dynamically query the database for keys entered into the search bar. It will currently
+search the ``Name``, ``Attributes``, and ``Notes`` notes categories for the string entered. |dbfi| will filter
+all entries based on whether the filename matches the current filename loaded, *note:* this will **not** work
+if your HDF has been renamed in anyway from the standard CALIPSO naming conventions. |dbde| will delete any
+selected entries from the database, and this is **permanent**, there's no undo button here.
+
+
+So you can go ahead and search either the query *John* to get all notes that include the name john, or
+*shape31* to get the specific shape. All names are **unique**, if at any time you see two shapes with the
+same tag this is a bug on our part please report that issue immediately to us for fixing. So searching for *shape31*
+will leave you with
+
+.. image:: _static/db_searched.png
+
+Clicking |dbim| will now import the selection to your internal shape manager. If you aren't on the correct file the
+shape was drawn one you won't be able to see it, each file has a unique range of time thus on object can be loaded
+onto multiple files. Scrolling right on the import window would have revealed the column File Name, which read
+``CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN``, so upon loading up that file walla! your object should appear.
+
+.. image:: _static/db_shape_imported.png
+
+you're free to view properties of this shape, export it's data to JSON or even modify the shape and re-export it
+back to the database.
 
 .. |browse| image:: _static/browse_button.png
 .. |move| image:: _static/move_button.png
@@ -145,3 +194,21 @@ will automatically draw all the loaded shapes.
 .. |hide| image:: _static/hide_button.png
 .. |save| image:: _static/save_button.png
 .. |load| image:: _static/load_button.png
+
+.. |rese| image:: _static/reset_button.png
+.. |back| image:: _static/backscattered_button.png
+.. |depo| image:: _static/depolarized_button.png
+.. |rend| image:: _static/render_button.png
+   :scale: 50%
+.. |fren| image:: _static/render_button.png
+.. |step| image:: _static/step_entry.png
+
+
+.. |expo| image:: _static/exporting_menu.png
+.. |impo| image:: _static/importing_menu.png
+
+.. |dbwi| image:: _static/db_window.png
+.. |dbse| image:: _static/db_search.png
+.. |dbfi| image:: _static/db_filter.png
+.. |dbde| image:: _static/db_delete.png
+.. |dbim| image:: _static/db_import.png

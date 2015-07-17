@@ -79,7 +79,7 @@ class ExtractDialog(Toplevel):
         self.hist_canvas.get_tk_widget().grid(row=0)
         self.histogram_window.title('Histogram')
 
-        #self.create_histogram()
+        # self.create_histogram()
         self.histogram_window.update()
         self.histogram_window.deiconify()
 
@@ -184,7 +184,6 @@ class ExtractDialog(Toplevel):
             time = time[x1:x2]
             dataset = dataset[x1:x2]
             time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
-
 
             dataset = np.ma.masked_equal(dataset, -9999)
             _x = np.arange(x1, x2, dtype=np.float32)
