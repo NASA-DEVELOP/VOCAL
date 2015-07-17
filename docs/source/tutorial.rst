@@ -1,13 +1,13 @@
-=====================
+===============
 Getting Started
-=====================
+===============
 
 This tutorial provides an overview on how to use the CALIPSO Visualization 
 Tool program.
 
---------------------------------------------------
+-----------
 Main Screen
---------------------------------------------------
+-----------
 
 The CALIPSO Visualization Tool window is the main screen for displaying 
 CALIPSO data and shapes. The menu bar provides access to the shape database 
@@ -18,9 +18,9 @@ shapes, and saving and loading shapes.
 .. image:: _static/startup.png
    :scale: 40%
        
---------------------------------------------------
+-----------
 Starting Up
---------------------------------------------------
+-----------
 
 To load a CALIPSO hdf file from the local file directory, click the |browse| button at the
 top of the screen. Navigate to the .HDF file of your choice and select **open** The file text box will now update and
@@ -31,9 +31,9 @@ Hit **Render** to visualize the data to the screen.
 .. image:: _static/load_hdf.png
    :scale: 60%
  	   
---------------------------------------------------
-Plot Navigation
---------------------------------------------------
+-------------------
+Navigating the Plot
+-------------------
 
 The first row of toolbar buttons allows you to manipulate the plot for the purpose of drawing.
 
@@ -48,9 +48,9 @@ The first row of toolbar buttons allows you to manipulate the plot for the purpo
 * |redo| Redo: jump forward to the next magnification zoom frame
 * |home| Home: reset the view to the original render
 
--------------------------------------------------
-Shape Extraction and Viewing
--------------------------------------------------
+-------------------------------------------
+Extracting and Viewing Attributes of Shapes
+-------------------------------------------
 
 The second row of buttons (minus the home button) is dedicated to the viewing, assigning, and
 extraction of data from shapes
@@ -66,9 +66,9 @@ extraction of data from shapes
   containing only the data enclosed in the shape. Future features are to come but for now a
   subplot and histogram are generated for the shape.
 
---------------------------------------------------
-Shape Drawing
---------------------------------------------------
+--------------
+Drawing Shapes
+--------------
 
 The third row of buttons is for creating and manipulating the physical properties of
 shapes drawn to the plot.
@@ -78,47 +78,36 @@ shapes drawn to the plot.
 * |fred| Free Draw: Clicking on the plot will create a *vertex*, multiple clicks will
   bind vertices together and create lines. If a new line is found interesting an
   existing line a shape will be formed at the intersection being the enclosing vertex.
+* |eras| Erase: Selecting this button and clicking a shape will remove it from the plot. *note: *
+  this will **not** delete the object in a database or JSON file if it is loaded, that is a
+  separate deletion itself
+* |pain| Paint: Give a shape a new color value by selecting either a predefined color or
+  some custom value on the color wheel. Changing the color of a shape will not create
+  a new shape, simply update the color value of existing shapes you've loaded.
 
-The next seven buttons are used for shape drawing. The rectangle icon 
-represents rectangle drawing. Pressing this button will allow you to draw 
-rectangles. After pressing the button, click and drag with the left mouse 
-button to draw a rectangle. The hand icon is the shape dragging button. When 
-this button is selected, you can drag shapes by clicking and dragging with the
-left mouse button. The pencil icon represents the free draw action. With this
-action, you can draw polygon shapes. To draw a shape, click with the left 
-mouse button to plot a point. Click again on a different spot to draw another 
-point. After you plot the third point, if a line intersects with any 
-previously drawn line, the plot will draw a shape based on the point of 
-intersection. The last button in the row is the erase button, which allows 
-you to delete shapes drawn on the plot. To delete a shape, simply click with 
-the left mouse button the desired shape to be deleted.
+---------------------------
+Hiding and Exporting Shapes
+---------------------------
 
-In the third row, the button with overlapping rectangles is the toggle outline
-button. When this button is pressed, all shapes drawn on the plot will only 
-display their outlines. Pressing the button again will fill the shapes with 
-solid colors. The next button is the paint button. To recolor a drawn shape, 
-click with the left mouse button the desired shape. A dialog will prompt you 
-to select which color to repaint the shape. The third button in the row is the
-hide shapes button. Pressing this button will hide all shapes drawn on the 
-plot. Clicking on the button again will make the shapes visible again.
+The last row of buttons deals with global state of shape viewing as well as the exporting
+of shapes to a JSON file.
 
---------------------------------------------------
-Shape Saving and Loading
---------------------------------------------------
+* |focs| Focus: Press this button to display all shapes *and* future shapes as unfilled.
+  Only the outline of the shapes will be drawn, pressing this one more reverts the change
+* |hide| Hide: Similar to Focus, but pressing this button will **completely** hide all shapes,
+  they still exist; however they simply won't be drawn to the screen.
+* |save| Save: Save all existing objects in the **current** plot to a ``JSON`` formatted file.
+  These objects can be loaded back into the screen with the next button and can be shared
+  between researchers that wish to personally hand over shapes to another user for loading. If
+  you wish to save all shapes from **every** plot into one fill, these is a ``save all`` option
+  in the file menu for this.
+* |load| Load: Given a valid ``.JSON`` file, load all polygon objects present in the file and
+  display them to the plot.
 
-To save shapes draw on the plot, click on the button with the floppy disk 
-image (third row, fourth button). If the shapes haven't been saved previously,
-a file dialog will prompt you to save the shapes on your local file directory.
-The shapes are saved as JavaScript Object Notation (JSON) files with the .json
-file extension. If the shapes have been already saved, saving the shapes again
-will automatically update the JSON file. To load the file, select the file 
-with the folder icon (fourth row, first button). A file dialog will prompt you
-to select one JSON file to import from your local file directory. The plot
-will then draw the shapes according from the data saved in the JSON.
 
---------------------------------------------------
-Importing and Exporting form the Database
---------------------------------------------------
+------------------
+Using the Database
+------------------
 
 The CALIPSO Visualization Tool has access to a database that can save shapes,
 so that other users can share the shapes they have drawn. To save shapes to 
