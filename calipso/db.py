@@ -147,6 +147,7 @@ class DatabaseManager(object):
         # For every polygon object in the list except the end
         for polygon in poly_list[:-1]:
             if polygon.get_id() is None:
+                logger.debug('committing new shape: %s' % polygon.get_tag())
                 obx = \
                     DatabasePolygon(tag=polygon.get_tag(),
                                     time_=time,
@@ -156,13 +157,15 @@ class DatabaseManager(object):
                                     attributes=str(polygon.get_attributes()),
                                     coordinates=str(polygon.get_coordinates()),
                                     notes=polygon.get_notes())
-                polygon.set_id(1)
                 session.add(obx)
+                session.commit()
+                polygon.set_id(obx.id)
 
             else:
+                logger.debug('updating existing entry: %s' % polygon.get_tag())
                 poly = session.query(DatabasePolygon).get(polygon.get_id())
                 if poly is None:
-                    logger.error("This should never happen, why did it happen?")
+                    logger.critical('This should never happen, why did it happen?')
                     continue
                 poly.time_ = time
                 poly.plot = polygon.get_plot()
@@ -172,7 +175,7 @@ class DatabaseManager(object):
                 poly.attributes = str(polygon.get_attributes())
                 poly.coordinates = str(polygon.get_coordinates())
                 poly.notes = polygon.get_notes()
-        session.commit()
+                session.commit()
         session.close()
 
     def delete_item(self, idx):
