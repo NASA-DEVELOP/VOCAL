@@ -65,7 +65,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#additional-information">Additional Information</a></li>
@@ -78,12 +78,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#using-the-database">Using the Database</a></li>
 </ul>
 </li>
 </ul>
@@ -207,12 +208,6 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="doc/general/calipso.html#Calipso.Calipso.BACKSCATTERED">BACKSCATTERED (Calipso attribute)</a>
-  </dt>
-
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
-      
   <dt><a href="doc/general/calipso.html#Calipso.Calipso.BASE_PLOT">BASE_PLOT (Calipso attribute)</a>
   </dt>
 
@@ -237,9 +232,19 @@
   </dt>
 
       
+  <dt><a href="doc/polygon/manager.html#polygon.manager.ShapeManager.clear_refs">clear_refs() (ShapeManager method)</a>
+  </dt>
+
+      
   <dt><a href="doc/general/attributes.html#attributesdialog.AttributesDialog.close">close() (AttributesDialog method)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="doc/general/calipso.html#Calipso.Calipso.close">(Calipso method)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="doc/general/db.html#db.DatabaseManager.commit_to_db">commit_to_db() (DatabaseManager method)</a>
   </dt>
@@ -378,6 +383,10 @@
   <dt><a href="doc/general/db.html#db.DatabaseManager.encode">encode() (DatabaseManager static method)</a>
   </dt>
 
+      
+  <dt><a href="doc/general/db.html#db.DatabaseManager.exists_tag">exists_tag() (DatabaseManager method)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
@@ -401,11 +410,15 @@
 
       </dl></dd>
       
-  <dt><a href="doc/polygon/manager.html#polygon.manager.ShapeManager.find_shape">find_shape() (ShapeManager method)</a>
+  <dt><a href="doc/general/import.html#importdialog.ImportDialog.filter_by_current_file">filter_by_current_file() (ImportDialog method)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="doc/polygon/manager.html#polygon.manager.ShapeManager.find_shape">find_shape() (ShapeManager method)</a>
+  </dt>
+
       
   <dt><a href="doc/general/import.html#importdialog.ImportDialog.free">free() (ImportDialog method)</a>
   </dt>
@@ -417,7 +430,7 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="doc/polygon/manager.html#polygon.manager.ShapeManager.generate_tag">generate_tag() (ShapeManager method)</a>
+  <dt><a href="doc/polygon/manager.html#polygon.manager.ShapeManager.generate_tag">generate_tag() (ShapeManager static method)</a>
   </dt>
 
       
@@ -438,6 +451,10 @@
 
       
   <dt><a href="doc/general/calipso.html#Calipso.Calipso.get_fig">get_fig() (Calipso method)</a>
+  </dt>
+
+      
+  <dt><a href="doc/general/calipso.html#Calipso.Calipso.get_file">get_file() (Calipso method)</a>
   </dt>
 
       
@@ -464,6 +481,10 @@
 
       
   <dt><a href="doc/general/calipso.html#Calipso.Calipso.get_root">get_root() (Calipso method)</a>
+  </dt>
+
+      
+  <dt><a href="doc/polygon/shape.html#polygon.shape.Shape.get_saved">get_saved() (Shape method)</a>
   </dt>
 
       
@@ -524,6 +545,10 @@
   <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="doc/general/import.html#module-importdialog">importdialog (module)</a>
+  </dt>
+
+      
+  <dt><a href="doc/polygon/manager.html#polygon.manager.ShapeManager.is_all_saved">is_all_saved() (ShapeManager method)</a>
   </dt>
 
       
@@ -611,6 +636,10 @@
   </dt>
 
       
+  <dt><a href="doc/polygon/shape.html#polygon.shape.Shape.paint">paint() (Shape method)</a>
+  </dt>
+
+      
   <dt><a href="doc/general/calipso.html#Calipso.Calipso.paint_window">paint_window() (Calipso method)</a>
   </dt>
 
@@ -618,6 +647,12 @@
   <dt><a href="doc/general/calipso.html#Calipso.Calipso.pan">pan() (Calipso method)</a>
   </dt>
 
+      
+  <dt><a href="doc/general/consts.html#constants.Plot">Plot (class in constants)</a>
+  </dt>
+
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="doc/polygon/shape.html#polygon.shape.Shape.plot_point">plot_point() (Shape method)</a>
   </dt>
@@ -628,8 +663,6 @@
   </dt>
 
       </dl></dd>
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="doc/polygon/manager.html#module-polygon.manager">polygon.manager (module)</a>
   </dt>
@@ -744,6 +777,12 @@
   <dt><a href="doc/general/attributes.html#attributesdialog.AttributesDialog.save">save() (AttributesDialog method)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="doc/polygon/shape.html#polygon.shape.Shape.save">(Shape method)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="doc/polygon/manager.html#polygon.manager.ShapeManager.save_all_json">save_all_json() (ShapeManager method)</a>
   </dt>
@@ -865,6 +904,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%" valign="top"><dl>
       
+  <dt><a href="doc/general/consts.html#TAGS">TAGS (built-in variable)</a>
+  </dt>
+
+      
   <dt><a href="doc/tools/toggleablebutton.html#tools.toggleablebutton.ToggleableButton.toggle">toggle() (ToggleableButton method)</a>
   </dt>
 
@@ -910,6 +953,10 @@
 
       
   <dt><a href="doc/tools/tooltip.html#tools.tooltip.ToolTip">ToolTip (class in tools.tooltip)</a>
+  </dt>
+
+      
+  <dt><a href="doc/general/calipso.html#Calipso.Calipso.transient_save">transient_save() (Calipso method)</a>
   </dt>
 
       

@@ -65,7 +65,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#additional-information">Additional Information</a></li>
@@ -78,12 +78,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#using-the-database">Using the Database</a></li>
 </ul>
 </li>
 </ul>
@@ -253,6 +254,21 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Found unique tag </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tag</span>
 </div>
+<div class="viewcode-block" id="DatabaseManager.exists_tag"><a class="viewcode-back" href="../doc/general/db.html#db.DatabaseManager.exists_tag">[docs]</a>    <span class="k">def</span> <span class="nf">exists_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check the database if a tag currently exists, if so return True, else</span>
+<span class="sd">        return False</span>
+
+<span class="sd">        :rtype: :py:class:`bool`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Session</span><span class="p">()</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">query</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">True</span>
+</div>
 <div class="viewcode-block" id="DatabaseManager.get_session"><a class="viewcode-back" href="../doc/general/db.html#db.DatabaseManager.get_session">[docs]</a>    <span class="k">def</span> <span class="nf">get_session</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns an instance of a session, USERS job to ensure session</span>
@@ -265,6 +281,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Takes a list of polygons and commits them into the database,</span>
 <span class="sd">        used in polygonList to commit all visible polygons</span>
+
 <span class="sd">        :param poly_list: the current polygonList corresponding to the active plot</span>
 <span class="sd">        :param time: time of the JSON&#39;s creation</span>
 <span class="sd">        :param f: file name</span>
@@ -288,6 +305,9 @@
 
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">poly</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">polygon</span><span class="o">.</span><span class="n">get_id</span><span class="p">())</span>
+                <span class="k">if</span> <span class="n">poly</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;This should never happen, why did it happen?&quot;</span><span class="p">)</span>
+                    <span class="k">continue</span>
                 <span class="n">poly</span><span class="o">.</span><span class="n">time_</span> <span class="o">=</span> <span class="n">time</span>
                 <span class="n">poly</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">polygon</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
                 <span class="n">poly</span><span class="o">.</span><span class="n">hdf</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
@@ -302,12 +322,15 @@
 <div class="viewcode-block" id="DatabaseManager.delete_item"><a class="viewcode-back" href="../doc/general/db.html#db.DatabaseManager.delete_item">[docs]</a>    <span class="k">def</span> <span class="nf">delete_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get a session and delete the object from the database.</span>
+
 <span class="sd">        :param idx: the primary key for the object passed</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Deleting database entry&#39;</span><span class="p">)</span>
         <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Session</span><span class="p">()</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
-        <span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Entry </span><span class="si">%d</span><span class="s"> can not be deleted, query returned None&#39;</span> <span class="o">%</span> <span class="n">idx</span><span class="p">)</span>
+            <span class="n">session</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Committing database&#39;</span><span class="p">)</span>
         <span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -316,6 +339,7 @@
 <div class="viewcode-block" id="DatabaseManager.encode"><a class="viewcode-back" href="../doc/general/db.html#db.DatabaseManager.encode">[docs]</a>    <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Encode and write out a JSON object</span>
+
 <span class="sd">        :param filename: name of the file</span>
 <span class="sd">        :param data: Python dictionary representation of a JSON</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -325,6 +349,9 @@
 
 <span class="c"># define the global database manager object</span></div></div>
 <span class="n">db</span> <span class="o">=</span> <span class="n">DatabaseManager</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">pass</span>
 </pre></div>
 
           </div>

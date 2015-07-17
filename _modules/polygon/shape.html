@@ -65,7 +65,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -78,12 +78,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
 </ul>
 </li>
 </ul>
@@ -182,6 +183,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_x</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__lines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">False</span>
 
 <div class="viewcode-block" id="Shape.anchor_rectangle"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.anchor_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">anchor_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -199,6 +201,7 @@
 <span class="sd">        Plot a single point to the shape, connect any previous existing</span>
 <span class="sd">        points and fill to a shape if the current coordinate intersects</span>
 <span class="sd">        the beginning point.</span>
+
 <span class="sd">        :param event: A ``matplotlib.backend_bases.MouseEvent`` passed object</span>
 <span class="sd">        :param fig: The figure to be drawing the canvas to</span>
 <span class="sd">        :param bool fill: Whether the shape will have a solid fill or not</span>
@@ -253,9 +256,9 @@
         <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%f</span><span class="s">, </span><span class="si">%f</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__prev_x</span><span class="p">,</span>
-                                                                 <span class="nb">abs</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">-</span> <span class="mi">35</span><span class="p">),</span>
+                                                                 <span class="nb">abs</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">-</span> <span class="mi">57</span><span class="p">),</span>
                                                                  <span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
-                                                                 <span class="nb">abs</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">-</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">35</span><span class="p">))</span>
+                                                                 <span class="nb">abs</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">-</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">57</span><span class="p">))</span>
 </div>
 <div class="viewcode-block" id="Shape.fill_rectangle"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.fill_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">fill_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -288,6 +291,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draw the shape to the canvas, onto the passed figure. Only fill the</span>
 <span class="sd">        object if the *fill* parameter is set to ``True``</span>
+
 <span class="sd">        :param fig: A ``SubplotAxes`` object from the matplotlib backend</span>
 <span class="sd">        :param plot: ``constants.Plot`` enum specifying which plot the object belongs to</span>
 <span class="sd">        :param bool fill: ``False`` for fill, ``True`` for outline</span>
@@ -312,7 +316,7 @@
 <span class="sd">        :param fig: A ``SubplotAxes`` object to add the patch to</span>
 <span class="sd">        :param bool fill: Boolean value whether to have the shape filled in when drawn or not</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">is_figure_set</span><span class="p">():</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">is_figure_set</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="o">=</span> \
             <span class="n">Polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__color</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="n">picker</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
@@ -330,14 +334,25 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="o">=</span> \
             <span class="n">Polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__color</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="n">picker</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
         <span class="n">fig</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="p">)</span>
+        </div>
+<div class="viewcode-block" id="Shape.paint"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.paint">[docs]</a>    <span class="k">def</span> <span class="nf">paint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Changes the color of the shape and saves it internally</span>
+<span class="sd">        </span>
+<span class="sd">        :param color: the new color of the shape</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">False</span>
 </div>
 <div class="viewcode-block" id="Shape.add_attribute"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.add_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">add_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Append a passed attribute onto the internal attribute list</span>
+
 <span class="sd">        :param str attr: An attribute enum</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">TAGS</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Caught invalid attribute for adding </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">attr</span><span class="p">)</span>
 </div>
@@ -349,12 +364,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">TAGS</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Caught invalid attribute for removal </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">attr</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Shape.set_attributes"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">set_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes_list</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set the internal list of attributes to a custom passed list</span>
+
 <span class="sd">        :param list attributes_list:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">attributes_list</span><span class="p">:</span>
@@ -362,10 +379,17 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Caught invalid attribute for setting </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
                 <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span> <span class="o">=</span> <span class="n">attributes_list</span>
+        </div>
+<div class="viewcode-block" id="Shape.save"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Marks the shape as saved</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="Shape.set_tag"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_tag">[docs]</a>    <span class="k">def</span> <span class="nf">set_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set internal tag variable</span>
+
 <span class="sd">        :param str tag:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span> <span class="o">=</span> <span class="n">tag</span>
@@ -373,6 +397,7 @@
 <div class="viewcode-block" id="Shape.set_color"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_color">[docs]</a>    <span class="k">def</span> <span class="nf">set_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set internal color variable</span>
+
 <span class="sd">        :param str color: Valid hexadecimal color value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__color</span> <span class="o">=</span> <span class="n">color</span>
@@ -380,6 +405,7 @@
 <div class="viewcode-block" id="Shape.set_plot"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_plot">[docs]</a>    <span class="k">def</span> <span class="nf">set_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Manually set the new value of the internal plot variable. **unsafe**</span>
+
 <span class="sd">        :param constants.Plot plot: Plot value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">=</span> <span class="n">plot</span>
@@ -409,12 +435,18 @@
 <span class="sd">        :param str note: New note string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__note</span> <span class="o">=</span> <span class="n">note</span>
+        </div>
+<div class="viewcode-block" id="Shape.get_saved"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_saved">[docs]</a>    <span class="k">def</span> <span class="nf">get_saved</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns if the shape has been saved or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span>
 </div>
 <div class="viewcode-block" id="Shape.get_coordinates"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">get_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the list of coordinates internally maintained by shape</span>
 
-<span class="sd">        :rtype: list</span>
+<span class="sd">        :rtype: :py:class:`list`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span>
 </div>
@@ -422,7 +454,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the notes string internally maintained by shape</span>
 
-<span class="sd">        :rtype: str</span>
+<span class="sd">        :rtype: :py:class:`str`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__note</span>
 </div>
@@ -430,7 +462,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return attributes list maintained by shape</span>
 
-<span class="sd">        :rtype: list</span>
+<span class="sd">        :rtype: :py:class:`list`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span>
 </div>
@@ -438,7 +470,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the plot type</span>
 
-<span class="sd">        :rtype: int</span>
+<span class="sd">        :rtype: :py:class:`int`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span>
 </div>
@@ -446,7 +478,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the hexdecimal color value</span>
 
-<span class="sd">        :rtype: str</span>
+<span class="sd">        :rtype: :py:class:`str`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__color</span>
 </div>
@@ -454,7 +486,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the database ID of shape</span>
 
-<span class="sd">        :rtype: int</span>
+<span class="sd">        :rtype: :py:class:`int`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__id</span>
 </div>
@@ -462,7 +494,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the program Tag of shape</span>
 
-<span class="sd">        :rtype: str</span>
+<span class="sd">        :rtype: :py:class:`str`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span>
 </div>
@@ -470,7 +502,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the item handler object to the actual backend base</span>
 
-<span class="sd">        :rtype: ``matplotlib.patches.polygon``</span>
+<span class="sd">        :rtype: :py:class:`matplotlib.patches.polygon`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span>
 </div>
@@ -480,7 +512,7 @@
 <span class="sd">        otherwise.</span>
 
 <span class="sd">        :param str attr:</span>
-<span class="sd">        :rtype: bool</span>
+<span class="sd">        :rtype: :py:class:`bool`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
@@ -513,7 +545,21 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">True</span>
         <span class="k">return</span> <span class="bp">False</span>
-</div>
+    </div>
+    <span class="k">def</span> <span class="nf">in_x_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">time_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">time_cords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="nb">max</span><span class="p">(</span><span class="n">time_cords</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        
+    <span class="k">def</span> <span class="nf">in_y_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">altitude_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">altitude_cords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="nb">max</span><span class="p">(</span><span class="n">altitude_cords</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Stringing shape&#39;</span><span class="p">)</span>
         <span class="n">time_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">mpl</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">num2date</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S %p&#39;</span><span class="p">)</span> <span class="k">for</span>

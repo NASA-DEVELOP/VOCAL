@@ -67,7 +67,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -80,12 +80,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
 </ul>
 </li>
 </ul>
@@ -203,6 +204,14 @@ creating other GUI windows such as the toolbar or import dialog</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="Calipso.Calipso.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the all the shapes are saved. If a shape is unsaved, the
+program will ask the user whether save or not, and then close the 
+program</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="Calipso.Calipso.create_top_gui">
 <code class="descname">create_top_gui</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.create_top_gui"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.create_top_gui" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initializes and creates the <em>File: label</em>, <em>file dialog</em>, and <em>browse button</em> that appear
@@ -231,7 +240,21 @@ at the top of the screen</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Figure</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">matplotlib.figure.Figure</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.get_file">
+<code class="descname">get_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.get_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current HDF file being displayed</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -241,6 +264,14 @@ at the top of the screen</p>
 <dt id="Calipso.Calipso.get_root">
 <code class="descname">get_root</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.get_root"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.get_root" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the root of the application</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A Tkinter root</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -251,7 +282,7 @@ at the top of the screen</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">polygonList</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../polygon/manager.html#polygon.manager.ShapeManager" title="polygon.manager.ShapeManager"><code class="xref py py-class docutils literal"><span class="pre">polygon.manager.ShapeManager</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -265,7 +296,7 @@ at the top of the screen</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">NavigationToolbar2CALIPSO</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO" title="tools.navigationtoolbar.NavigationToolbar2CALIPSO"><code class="xref py py-class docutils literal"><span class="pre">tools.navigationtoolbar.NavigationToolbar2CALIPSO</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -363,8 +394,8 @@ the attributes below</p>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="Calipso.Calipso.BACKSCATTERED">
-<code class="descname">BACKSCATTERED</code><a class="headerlink" href="#Calipso.Calipso.BACKSCATTERED" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="descname">BACKSCATTE RED</code></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -383,8 +414,8 @@ the attributes below</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>plot_type</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; accepts <code class="docutils literal"><span class="pre">BASE_PLOT,</span> <span class="pre">BACKSCATTERED,</span> <span class="pre">DEPOLARIZED,</span> <span class="pre">VFM</span></code></li>
-<li><strong>xrange</strong> (<em>(int,int)</em>) &#8211; accepts a range of time to plot</li>
-<li><strong>yrange</strong> (<em>(int,int)</em>) &#8211; accepts a range of altitude to plot</li>
+<li><strong>xrange_</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; accepts a range of time to plot</li>
+<li><strong>yrange</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; accepts a range of altitude to plot</li>
 </ul>
 </td>
 </tr>
@@ -408,6 +439,14 @@ the attributes below</p>
 <dt id="Calipso.Calipso.setup_window">
 <code class="descname">setup_window</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.setup_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.setup_window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the title of root and invokes py:meth:<cite>centerWindow</cite></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.transient_save">
+<code class="descname">transient_save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.transient_save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.transient_save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to save the file before closing the application. If the user
+decides they wish to save before closing, transient_save is called to
+save to JSON then proceeds to exit the application.</p>
 </dd></dl>
 
 </dd></dl>

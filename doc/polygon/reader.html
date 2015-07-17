@@ -67,7 +67,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -80,12 +80,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
 </ul>
 </li>
 </ul>
@@ -169,10 +170,20 @@
 <dl class="method">
 <dt id="polygon.reader.ShapeReader.pack_shape">
 <code class="descname">pack_shape</code><span class="sig-paren">(</span><em>shape_list</em>, <em>plot_type</em>, <em>canvas</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#ShapeReader.pack_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.ShapeReader.pack_shape" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stores the data in the JSON into PolygonDrawers
-:param shape_list: a Python list of PolygonDrawers
-:param plot_type: the current plot being displayed
-:param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the shape_list</p>
+<dd><p>Stores the data in the JSON into PolygonDrawers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>shape_list</strong> &#8211; a Python list of PolygonDrawers</li>
+<li><strong>plot_type</strong> &#8211; the current plot being displayed</li>
+<li><strong>canvas</strong> &#8211; a Tkinter canvas to initializes the blank PolygonDrawer in the shape_list</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -184,15 +195,29 @@
 <dl class="method">
 <dt id="polygon.reader.ShapeReader.read_from_str_json">
 <code class="descname">read_from_str_json</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#ShapeReader.read_from_str_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.ShapeReader.read_from_str_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads JSON as a string
-:param data: string representation of a JSON</p>
+<dd><p>Reads JSON as a string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; string representation of a JSON object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.reader.ShapeReader.set_filename">
 <code class="descname">set_filename</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#ShapeReader.set_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.ShapeReader.set_filename" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the file name destination
-:param str filename: the name of the file</p>
+<dd><p>Sets the file name destination</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; the name of the file</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

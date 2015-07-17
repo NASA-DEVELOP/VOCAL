@@ -67,7 +67,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -80,12 +80,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
 </ul>
 </li>
 </ul>
@@ -190,6 +191,14 @@ button</p>
 <dt id="importdialog.ImportDialog.delete_from_db">
 <code class="descname">delete_from_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.delete_from_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.delete_from_db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete selected objects from database</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="importdialog.ImportDialog.filter_by_current_file">
+<code class="descname">filter_by_current_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.filter_by_current_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.filter_by_current_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Command function for the check button located beside the entry box in Import Dialog.
+Lists all shapes given by only the current file when checked. If unchecked displays
+all entries.</p>
 </dd></dl>
 
 <dl class="method">

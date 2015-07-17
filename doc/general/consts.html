@@ -67,7 +67,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -80,12 +80,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
 </ul>
 </li>
 </ul>
@@ -148,6 +149,36 @@
             
   <div class="section" id="constants">
 <h1>Constants<a class="headerlink" href="#constants" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="constants.Plot">
+<em class="property">class </em><code class="descname">Plot</code><a class="reference internal" href="../../_modules/constants.html#Plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#constants.Plot" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt>
+<code class="descname">baseplot=0</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">backscattered=1</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">depolarized=2</code></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">vfm=3</code></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="data">
+<dt>
+<code class="descname">plot_type_enum = {'base_plot': Plot.baseplot, 'backscattered': Plot.backscattered, 'depolarized': Plot.depolarized, 'vfm': Plot.vfm}</code></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt>
 <code class="descname">HEIGHT          = 665</code></dt>
@@ -165,7 +196,7 @@
 
 <dl class="attribute">
 <dt>
-<code class="descname">CHILDHEIGHT     = 300</code></dt>
+<code class="descname">CHILDHEIGHT     = 325</code></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -178,104 +209,9 @@
 <code class="descname">IMPORTHEIGH     = 500</code></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
-<dt>
-<code class="descname">BASE_PLOT       = 0</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">BACKSCATTERED   = 1</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">DEPOLARIZED     = 2</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">VFM             = 3</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">FILE_NAME       = 0</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">COLOR           = 1</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">ATTRIBUTES      = 2</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">CUSTOM          = 3</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">BASE_PLOT_STR       = &quot;base_plot&quot;</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">BACKSCATTERED_STR   = &quot;backscattered&quot;</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">DEPOLARIZED_STR     = &quot;depolarized&quot;</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">VFM_STR             = &quot;vfm&quot;</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">PLOTS = [&quot;base_plot&quot;, &quot;backscattered&quot;, &quot;depolarized&quot;, &quot;vfm&quot;]</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">VERTICES        = &quot;vertices&quot;</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">DATE            = &quot;date&quot;</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', 'cloud LC',</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">'dust', 'polluted continental', 'polluted continental dust', 'polluted dust',</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">'polluted marine', 'smoke', 'stratospheric layer']</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">TKXMID = 629.5</code></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt>
-<code class="descname">TKYMID = 314</code></dt>
+<dl class="data">
+<dt id="TAGS">
+<code class="descname">TAGS</code><a class="headerlink" href="#TAGS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

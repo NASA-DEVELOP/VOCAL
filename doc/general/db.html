@@ -67,7 +67,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -80,12 +80,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
 </ul>
 </li>
 </ul>
@@ -165,25 +166,67 @@ other functionality. The database is INDEPENDENT from the application</p>
 <dt id="db.DatabaseManager.commit_to_db">
 <code class="descname">commit_to_db</code><span class="sig-paren">(</span><em>poly_list</em>, <em>time</em>, <em>f</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.commit_to_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.commit_to_db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a list of polygons and commits them into the database,
-used in polygonList to commit all visible polygons
-:param poly_list: the current polygonList corresponding to the active plot
-:param time: time of the JSON&#8217;s creation
-:param f: file name</p>
+used in polygonList to commit all visible polygons</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>poly_list</strong> &#8211; the current polygonList corresponding to the active plot</li>
+<li><strong>time</strong> &#8211; time of the JSON&#8217;s creation</li>
+<li><strong>f</strong> &#8211; file name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="db.DatabaseManager.delete_item">
 <code class="descname">delete_item</code><span class="sig-paren">(</span><em>idx</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.delete_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.delete_item" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a session and delete the object from the database.
-:param idx: the primary key for the object passed</p>
+<dd><p>Get a session and delete the object from the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>idx</strong> &#8211; the primary key for the object passed</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="db.DatabaseManager.encode">
 <em class="property">static </em><code class="descname">encode</code><span class="sig-paren">(</span><em>filename</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.encode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Encode and write out a JSON object
-:param filename: name of the file
-:param data: Python dictionary representation of a JSON</p>
+<dd><p>Encode and write out a JSON object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> &#8211; name of the file</li>
+<li><strong>data</strong> &#8211; Python dictionary representation of a JSON</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="db.DatabaseManager.exists_tag">
+<code class="descname">exists_tag</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.exists_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.exists_tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the database if a tag currently exists, if so return True, else
+return False</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -262,7 +305,7 @@ Objects are represented as JSON</p>
 
 <dl class="data">
 <dt id="db.db">
-<code class="descname">db</code><em class="property"> = &lt;db.DatabaseManager object at 0x07B9DE30&gt;</em><a class="headerlink" href="#db.db" title="Permalink to this definition">¶</a></dt>
+<code class="descname">db</code><em class="property"> = &lt;db.DatabaseManager object at 0x07BEFCD0&gt;</em><a class="headerlink" href="#db.db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Internally manages the database engine and any sql related objects.
 Hands out sessions with getSession() but only offers abstractions for
 other functionality. The database is INDEPENDENT from the application</p>

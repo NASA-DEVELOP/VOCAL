@@ -65,7 +65,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#additional-information">Additional Information</a></li>
@@ -78,12 +78,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#using-the-database">Using the Database</a></li>
 </ul>
 </li>
 </ul>
@@ -148,10 +149,9 @@
 <span class="c">#</span>
 <span class="c">######################################</span>
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">TAGS</span>
-<span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="kn">import</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">BOTTOM</span><span class="p">,</span> <span class="n">END</span><span class="p">,</span> <span class="n">EXTENDED</span>
+<span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="kn">import</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">BOTTOM</span><span class="p">,</span> <span class="n">END</span><span class="p">,</span> <span class="n">EXTENDED</span><span class="p">,</span> <span class="n">LEFT</span>
 <span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">StringVar</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">Text</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">Listbox</span>
 <span class="kn">from</span> <span class="nn">log</span> <span class="kn">import</span> <span class="n">logger</span>
-
 
 
 <div class="viewcode-block" id="AttributesDialog"><a class="viewcode-back" href="../doc/general/attributes.html#attributesdialog.AttributesDialog">[docs]</a><span class="k">class</span> <span class="nc">AttributesDialog</span><span class="p">(</span><span class="n">Toplevel</span><span class="p">):</span>
@@ -159,7 +159,7 @@
 <span class="sd">    Dialog window for creating and assigning attributes to objects</span>
 
 <span class="sd">    :param root: The parent frame</span>
-<span class="sd">    :param polygon_drawer: The polygonDrawer being edited</span>
+<span class="sd">    :param shape: The ShapeManager being edited</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
@@ -184,6 +184,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">attributes_list</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">selected_list</span> <span class="o">=</span> <span class="bp">None</span>
             
+        <span class="bp">self</span><span class="o">.</span><span class="n">transient</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Creating top frame&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">create_top_frame</span><span class="p">()</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Creating bottom frame&#39;</span><span class="p">)</span>
@@ -206,11 +207,11 @@
         <span class="n">selected_label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">selected_string</span><span class="p">)</span>
         <span class="n">selected_label</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">attributes_list</span> <span class="o">=</span> <span class="n">Listbox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">selectmode</span><span class="o">=</span><span class="n">EXTENDED</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">attributes_list</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attributes_list</span> <span class="o">=</span> <span class="n">Listbox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">selectmode</span><span class="o">=</span><span class="n">EXTENDED</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attributes_list</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">selected_list</span> <span class="o">=</span> <span class="n">Listbox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">selectmode</span><span class="o">=</span><span class="n">EXTENDED</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">selected_list</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_list</span> <span class="o">=</span> <span class="n">Listbox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">selectmode</span><span class="o">=</span><span class="n">EXTENDED</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected_list</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
         
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Loading attributes&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__available_attributes</span><span class="p">:</span>
@@ -240,17 +241,17 @@
         <span class="n">note_label</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">note_text</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">55</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">note_text</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">note_text</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">note_text</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape</span><span class="o">.</span><span class="n">get_notes</span><span class="p">())</span>
         
         <span class="n">button_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>
         <span class="n">button_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
         
-        <span class="n">accept_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">button_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Save&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">)</span>
-        <span class="n">accept_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">accept_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">button_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Save&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">)</span>
+        <span class="n">accept_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         
-        <span class="n">cancel_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">button_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Clear Note&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">)</span>
-        <span class="n">cancel_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">cancel_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">button_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Clear Note&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">)</span>
+        <span class="n">cancel_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         
 <span class="c">#         closeButton = Button(buttonFrame, text=&#39;Close&#39;, command=self.close)</span>
 <span class="c">#         closeButton.grid(row=3, column=2)</span>

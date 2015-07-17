@@ -67,7 +67,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -80,12 +80,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
 </ul>
 </li>
 </ul>
@@ -163,8 +164,15 @@ backend</p>
 <dl class="method">
 <dt id="polygon.shape.Shape.add_attribute">
 <code class="descname">add_attribute</code><span class="sig-paren">(</span><em>attr</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.add_attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.add_attribute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Append a passed attribute onto the internal attribute list
-:param str attr: An attribute enum</p>
+<dd><p>Append a passed attribute onto the internal attribute list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attr</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; An attribute enum</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -186,10 +194,20 @@ create a rectangle. Used in &#8216;Draw Rect&#8217; button</p>
 <dt id="polygon.shape.Shape.draw">
 <code class="descname">draw</code><span class="sig-paren">(</span><em>fig</em>, <em>plot=&lt;Plot.baseplot: 0&gt;</em>, <em>fill=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the shape to the canvas, onto the passed figure. Only fill the
-object if the <em>fill</em> parameter is set to <code class="docutils literal"><span class="pre">True</span></code>
-:param fig: A <code class="docutils literal"><span class="pre">SubplotAxes</span></code> object from the matplotlib backend
-:param plot: <code class="docutils literal"><span class="pre">constants.Plot</span></code> enum specifying which plot the object belongs to
-:param bool fill: <code class="docutils literal"><span class="pre">False</span></code> for fill, <code class="docutils literal"><span class="pre">True</span></code> for outline</p>
+object if the <em>fill</em> parameter is set to <code class="docutils literal"><span class="pre">True</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fig</strong> &#8211; A <code class="docutils literal"><span class="pre">SubplotAxes</span></code> object from the matplotlib backend</li>
+<li><strong>plot</strong> &#8211; <code class="docutils literal"><span class="pre">constants.Plot</span></code> enum specifying which plot the object belongs to</li>
+<li><strong>fill</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; <code class="docutils literal"><span class="pre">False</span></code> for fill, <code class="docutils literal"><span class="pre">True</span></code> for outline</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -219,7 +237,7 @@ in &#8216;Draw Rect&#8217; button. Forwards argument parameters to <code class="
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">list</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -233,7 +251,7 @@ in &#8216;Draw Rect&#8217; button. Forwards argument parameters to <code class="
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -247,7 +265,7 @@ in &#8216;Draw Rect&#8217; button. Forwards argument parameters to <code class="
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">list</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -261,7 +279,7 @@ in &#8216;Draw Rect&#8217; button. Forwards argument parameters to <code class="
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)">int</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -275,7 +293,7 @@ in &#8216;Draw Rect&#8217; button. Forwards argument parameters to <code class="
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal"><span class="pre">matplotlib.patches.polygon</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">matplotlib.patches.polygon</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -289,7 +307,7 @@ in &#8216;Draw Rect&#8217; button. Forwards argument parameters to <code class="
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -303,10 +321,16 @@ in &#8216;Draw Rect&#8217; button. Forwards argument parameters to <code class="
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)">int</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.shape.Shape.get_saved">
+<code class="descname">get_saved</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.get_saved"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.get_saved" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the shape has been saved or not</p>
 </dd></dl>
 
 <dl class="method">
@@ -317,7 +341,7 @@ in &#8216;Draw Rect&#8217; button. Forwards argument parameters to <code class="
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -334,7 +358,7 @@ otherwise.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attr</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">bool</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -367,14 +391,38 @@ Loaded draw draws the shapes back into view using a new figure.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="polygon.shape.Shape.paint">
+<code class="descname">paint</code><span class="sig-paren">(</span><em>color</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.paint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.paint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the color of the shape and saves it internally</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> &#8211; the new color of the shape</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="polygon.shape.Shape.plot_point">
 <code class="descname">plot_point</code><span class="sig-paren">(</span><em>event</em>, <em>plot</em>, <em>fig</em>, <em>fill=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.plot_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.plot_point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a single point to the shape, connect any previous existing
 points and fill to a shape if the current coordinate intersects
-the beginning point.
-:param event: A <code class="docutils literal"><span class="pre">matplotlib.backend_bases.MouseEvent</span></code> passed object
-:param fig: The figure to be drawing the canvas to
-:param bool fill: Whether the shape will have a solid fill or not</p>
+the beginning point.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>event</strong> &#8211; A <code class="docutils literal"><span class="pre">matplotlib.backend_bases.MouseEvent</span></code> passed object</li>
+<li><strong>fig</strong> &#8211; The figure to be drawing the canvas to</li>
+<li><strong>fill</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Whether the shape will have a solid fill or not</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -433,17 +481,37 @@ the user. This draws to <strong>screen</strong> coordiantes, so backend is not n
 </dd></dl>
 
 <dl class="method">
+<dt id="polygon.shape.Shape.save">
+<code class="descname">save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Marks the shape as saved</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="polygon.shape.Shape.set_attributes">
 <code class="descname">set_attributes</code><span class="sig-paren">(</span><em>attributes_list</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.set_attributes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.set_attributes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the internal list of attributes to a custom passed list
-:param list attributes_list:</p>
+<dd><p>Set the internal list of attributes to a custom passed list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>attributes_list</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; </td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.shape.Shape.set_color">
 <code class="descname">set_color</code><span class="sig-paren">(</span><em>color</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.set_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.set_color" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set internal color variable
-:param str color: Valid hexadecimal color value</p>
+<dd><p>Set internal color variable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>color</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Valid hexadecimal color value</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -493,15 +561,29 @@ database call this.</p>
 <dl class="method">
 <dt id="polygon.shape.Shape.set_plot">
 <code class="descname">set_plot</code><span class="sig-paren">(</span><em>plot</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.set_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.set_plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Manually set the new value of the internal plot variable. <strong>unsafe</strong>
-:param constants.Plot plot: Plot value</p>
+<dd><p>Manually set the new value of the internal plot variable. <strong>unsafe</strong></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plot</strong> (<a class="reference internal" href="../general/consts.html#constants.Plot" title="constants.Plot"><em>constants.Plot</em></a>) &#8211; Plot value</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="polygon.shape.Shape.set_tag">
 <code class="descname">set_tag</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.set_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.set_tag" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set internal tag variable
-:param str tag:</p>
+<dd><p>Set internal tag variable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; </td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

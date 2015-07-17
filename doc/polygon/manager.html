@@ -67,7 +67,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -80,12 +80,13 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
 </ul>
 </li>
 </ul>
@@ -167,6 +168,16 @@ call and provides other export functionality</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="polygon.manager.ShapeManager.clear_refs">
+<code class="descname">clear_refs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.clear_refs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.clear_refs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear all references to the current figure, this is called
+in the <code class="docutils literal"><span class="pre">Calipso</span></code> class when a plot is to be set as to ensure
+no dangling references are left. If we we&#8217;re writing this in
+Rust we wouldn&#8217;t need to worry about this because Rust has better
+ownership semantics ;)</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="polygon.manager.ShapeManager.delete">
 <code class="descname">delete</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.delete" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete the specified object from the screen, searches through the
@@ -225,15 +236,15 @@ using the provided coordinates</p>
 </table>
 </dd></dl>
 
-<dl class="method">
+<dl class="staticmethod">
 <dt id="polygon.manager.ShapeManager.generate_tag">
-<code class="descname">generate_tag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.generate_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.generate_tag" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="descname">generate_tag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.generate_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.generate_tag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Produces a unique tag for each shape for each session</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -249,7 +260,7 @@ to the end of the lists.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)">int</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">int</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -263,7 +274,7 @@ to the end of the lists.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -273,6 +284,23 @@ to the end of the lists.</p>
 <dt id="polygon.manager.ShapeManager.hide">
 <code class="descname">hide</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.hide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.hide" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hide all current shapes on the plot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.is_all_saved">
+<code class="descname">is_all_saved</code><span class="sig-paren">(</span><em>plot=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.is_all_saved"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.is_all_saved" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if all the shapes have been saved. If plot is None, the method
+will check if all shapes in every plot has been saved. If a plot is
+specified, then it will only check the shapes in the specified plot.
+This method will automatically ignore the last blank shapes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plot</strong> &#8211; the plot of the shapes to check</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -287,8 +315,15 @@ the screen</p>
 <code class="descname">plot_point</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.plot_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.plot_point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot a single point to the screen for the current shape object,
 if other points exist, a line is drawn between then until a
-polygon is formed
-:param event: A <code class="docutils literal"><span class="pre">matplotlib.backend_bases.MouseEvent</span></code> passed object</p>
+polygon is formed</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A <code class="docutils literal"><span class="pre">matplotlib.backend_bases.MouseEvent</span></code> passed object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -372,7 +407,7 @@ Returns <code class="docutils literal"><span class="pre">True</span></code> if s
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">bool</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -434,7 +469,7 @@ variable</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plot</strong> (<em>constants.Plot</em>) &#8211; Acceptable plot constant from <code class="docutils literal"><span class="pre">constants.py</span></code></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plot</strong> (<a class="reference internal" href="../general/consts.html#constants.Plot" title="constants.Plot"><em>constants.Plot</em></a>) &#8211; Acceptable plot constant from <code class="docutils literal"><span class="pre">constants.py</span></code></td>
 </tr>
 </tbody>
 </table>
