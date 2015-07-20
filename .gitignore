@@ -5,4 +5,5 @@
 *.db
 calipso/.idea
 docs/source/.idea
+docs/source/analytics
 docs/build/
