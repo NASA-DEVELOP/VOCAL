@@ -84,7 +84,8 @@ class ShapeReader(object):
                 entry = self.__data[plot_type][shape]['id']
                 if entry is not None and int(entry) in [x.get_id() for x in shape_list]:
                     continue
-                logger.info('Found data, packing polygon with JSON data')
+                logger.info('Found data in %s, packing polygon with JSON data'
+                            % enum_plot_type)
                 color = self.__data[plot_type][shape]['color']
                 coordinates = self.__data[plot_type][shape]['coordinates']
                 attributes = self.__data[plot_type][shape]['attributes']

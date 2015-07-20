@@ -335,6 +335,8 @@ class ShapeManager(object):
             return True                     
 
     # noinspection PyProtectedMember
+
+    # noinspection PyProtectedMember
     def properties(self, event):
         """
         Return the properties of the shape clicked on by the user and create a small
@@ -410,7 +412,6 @@ class ShapeManager(object):
 
         for key in constants.plot_type_enum:
             lst = self.__shape_list[constants.plot_type_enum[key].value]
-            logger.info('Parse JSON data for plot %s' % key)
             self.__shapereader.pack_shape(lst, key, self.__canvas)
             if self.__current_plot == constants.plot_type_enum[key]:
                 for shape in lst:
