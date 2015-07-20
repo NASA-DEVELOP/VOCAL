@@ -20,6 +20,11 @@ class ShapeOptionMenu(Menubutton):
     """
     Custom OptionMenu which allows the user to select a value from
     a menu and update upon button click.
+
+    :param master: The widget to draw to
+    :param variable: A ``StringVar()`` object for displaying options
+    :param str value: The default value of the menu
+    :param **kwargs: Tkinter dict args *note:* **only** supports `-command`
     """
 
     def __init__(self, master, variable, value, **kwargs):
