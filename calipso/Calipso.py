@@ -4,9 +4,10 @@
 #   @Author: Grant Mercer
 #   @Author: Nathan Qian
 ##########################
+from Tkconstants import RIGHT
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
-    SUNKEN
+    SUNKEN, OptionMenu, StringVar
 import logging
 from sys import platform as _platform
 import tkFileDialog
@@ -61,6 +62,8 @@ class Calipso(object):
         # Frame to hold dialog for browsing files
         self.__dialog_frame = Frame(top_paned_window)
         self.__dialog_frame.pack(side=LEFT)
+        self.__dialog_shape_frame = Frame(top_paned_window)
+        self.__dialog_shape_frame.pack(side=RIGHT)
 
         # Bottom half the screen
         bottom_paned_window = PanedWindow(sectioned_pane)
@@ -272,6 +275,21 @@ class Calipso(object):
         label_file.grid(row=1, column=0)
         self.__label_file_dialog.grid(row=1, column=1, padx=10)
         browse_button.grid(row=1, column=3)
+
+        var = StringVar()
+
+        self.option_menu = OptionMenu(self.__dialog_shape_frame, var, "", command=self.goto_shape_optionmenu)
+        self.option_menu.bind("<ButtonPress-1>", self.update_shape_optionmenu)
+        self.option_menu.pack(side=RIGHT, padx=10)
+
+    def goto_shape_optionmenu(self, val):
+        print "k"
+
+    def update_shape_optionmenu(self, event):
+        print "command"
+        ops = [x.get_tag() for x in self.__shapemanager.get_current_list() if x is not None]
+        self.option_menu.config(values=ops)
+
 
     def notify_save_db(self):
         """

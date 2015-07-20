@@ -79,6 +79,18 @@ class ShapeManager(object):
         """
         return self.__current_file
 
+    def get_current_list(self):
+        """
+        Return the current list
+
+        .. warning::
+           This function should **never** be used for any write operation. Using
+           this function should be for **read only**.
+
+        :rtype: :py:class:`list`
+        """
+        return self.__current_list
+
     def plot_point(self, event):
         """
         Plot a single point to the screen for the current shape object,
