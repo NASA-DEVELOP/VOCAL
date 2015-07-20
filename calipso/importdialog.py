@@ -206,11 +206,21 @@ class ImportDialog(Toplevel):
         for tag in items:
             # Find those items in internal list and import them
             tag = self.tree.tree.item(tag, option='values')
-            logger.info('Encoding \'%s\' to JSON' % tag[0])
-            names = [x.tag for x in self.__internal_list]
-            logger.info('Forwarding JSON to be read')
-            self.__master.get_shapemanager().read_plot(
-                read_from_str=str(self.__internal_list[names.index(tag[0])]))
+            fname = tag[-1]
+            cfname = self.__master.get_file().rpartition('/')[2]
+            if cfname != fname and \
+                tkMessageBox.askyesno('Unmatched files',
+                                      '%s is from a different file than currently'
+                                      % tag[0] +
+                                      ' loaded, proceed anyways? \ncurrent:%s \nloaded:%s'
+                                      % (tag[-1], cfname)):
+                logger.info('Encoding \'%s\' to JSON' % tag[0])
+                names = [x.tag for x in self.__internal_list]
+                logger.info('Forwarding JSON to be read')
+                self.__master.get_shapemanager().read_plot(
+                    read_from_str=str(self.__internal_list[names.index(tag[0])]))
+            else:
+                logger.info('skipping loading for %s' % tag[0])
         logger.info('Done')
         self.free()
 

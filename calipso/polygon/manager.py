@@ -165,11 +165,13 @@ class ShapeManager(object):
         :param str tag: The tag of the object
         """
         if tag == "" and self.__phl:
+            logger.info('Disabling highlight')
             self.__phl.set_highlight(False)
             self.__canvas.show()
             return
         for shape in self.__current_list[:-1]:
             if shape.get_tag() == tag:
+                logger.info('Highlighting %s' % tag)
                 if self.__phl:
                     self.__phl.set_highlight(False)
                 self.__phl = shape
