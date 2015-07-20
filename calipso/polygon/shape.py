@@ -432,7 +432,7 @@ class Shape(object):
             return False
 
     def __str__(self):
-        logger.debug('Stringing shape')
+        logger.debug('Stringing %s' % self.__tag)
         time_cords = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S %p') for
                       x in self.__coordinates]
         altitude_cords = [x[1] for x in self.__coordinates]

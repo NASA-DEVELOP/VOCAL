@@ -210,7 +210,7 @@ class ImportDialog(Toplevel):
             fname = tag[-1]
             cfname = self.__master.get_file().rpartition('/')[2]
             if fname != cfname:
-                skip = tkMessageBox.\
+                skip = not tkMessageBox.\
                     askyesno('Unmatched files',
                              '%s is from a different file than currently'
                              % tag[0] +
