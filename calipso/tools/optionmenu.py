@@ -1,5 +1,5 @@
 from Tkconstants import RAISED
-from Tkinter import MenuButton, TclError
+from Tkinter import Menubutton, TclError, Widget, Menu
 
 
 class _SetIt:
@@ -16,7 +16,7 @@ class _SetIt:
         if self.__callback:
             self.__callback(self.__value, *args)
 
-class ShapeOptionMenu(MenuButton):
+class ShapeOptionMenu(Menubutton):
     """
     Custom OptionMenu which allows the user to select a value from
     a menu and update upon button click.
@@ -27,13 +27,24 @@ class ShapeOptionMenu(MenuButton):
               'indicatoron': 1, 'relief': RAISED, 'anchor': 'c',
               'highlightthickness': 2}
         Widget.__init__(self, master, 'menubutton', kw)
+        self.var = variable
         self.widget_name = 'tk_optionmenu'
-        menu = self.__menu = Menu(self, name='menu', tearoff=0)
-        self.menuname = menu._w
-        callback = kwargs.get('command')
+        self.__menu = Menu(self, name='menu', tearoff=0)
+        self.menuname = self.__menu._w
+        self.callback = kwargs.get('command')
         if 'command' in kwargs:
             del kwargs['command']
         if kwargs:
             raise TclError('unknown option -' + kwargs.keys()[0])
-        menu.add_command(label=value,
-                         command=_SetIt(variable, value, callback))
+        self.__menu.add_command(label=value,
+                                command=_SetIt(variable, value, self.callback))
+        self['menu'] = self.__menu
+
+    def set_menu(self, options):
+        del self.__menu
+        self.__menu = Menu(self, name='menu', tearoff=0)
+        for op in options:
+            self.__menu.add_command(label=op,
+                                    command=_SetIt(self.var, op,
+                                                   self.callback))
+

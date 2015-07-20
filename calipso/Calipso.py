@@ -28,6 +28,7 @@ from constants import Plot, PATH
 import constants
 from importdialog import ImportDialog
 from log import logger
+from tools.optionmenu import ShapeOptionMenu
 from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.tools import Catcher
@@ -278,7 +279,8 @@ class Calipso(object):
 
         var = StringVar()
 
-        self.option_menu = OptionMenu(self.__dialog_shape_frame, var, "", command=self.goto_shape_optionmenu)
+        self.option_menu = ShapeOptionMenu(self.__dialog_shape_frame, var, "",
+                                           command=self.goto_shape_optionmenu)
         self.option_menu.bind("<ButtonPress-1>", self.update_shape_optionmenu)
         self.option_menu.pack(side=RIGHT, padx=10)
 
@@ -288,7 +290,7 @@ class Calipso(object):
     def update_shape_optionmenu(self, event):
         print "command"
         ops = [x.get_tag() for x in self.__shapemanager.get_current_list() if x is not None]
-        self.option_menu.config(values=ops)
+        self.option_menu.set_menu(ops)
 
 
     def notify_save_db(self):
