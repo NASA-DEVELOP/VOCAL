@@ -457,6 +457,8 @@ class ShapeManager(object):
             self.__data[constants.PLOTS[i]] = {}
         i = self.__shape_list.index(self.__current_list)
         for j in range(len(self.__current_list)-1):
+            if not self.__current_list[j].get_saved():
+                self.__current_list[j].save()
             tag = self.__current_list[j].get_tag()
             coordinates = self.__current_list[j].get_coordinates()
             color = self.__current_list[j].get_color()
@@ -468,9 +470,6 @@ class ShapeManager(object):
         self.__data[constants.PLOTS[i]] = shape_dict
         logger.info("Encoding to JSON")
         db.encode(self.__current_file, self.__data)
-        for shape in self.__current_list:
-            if not shape.get_saved():
-                shape.save()
 
     def save_all_json(self, filename=""):
         """
@@ -487,6 +486,8 @@ class ShapeManager(object):
         for i in range(len(self.__shape_list)):
             shape_dict = {}
             for j in range(len(self.__shape_list[i])-1):
+                if not self.__shape_list[i][j].get_saved():
+                    self.__shape_list[i][j].save()
                 tag = self.__shape_list[i][j].get_tag()
                 coordinates = self.__shape_list[i][j].get_coordinates()
                 color = self.__shape_list[i][j].get_color()
@@ -498,7 +499,3 @@ class ShapeManager(object):
         self.__data[constants.PLOTS[i]] = shape_dict
         logger.info("Encoding to JSON")
         db.encode(self.__current_file, self.__data)
-        for lst in self.__shape_list:
-            for shape in lst:
-                if not shape.get_saved():
-                    shape.save()

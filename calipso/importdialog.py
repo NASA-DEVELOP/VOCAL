@@ -203,17 +203,20 @@ class ImportDialog(Toplevel):
         items = self.tree.tree.selection()
         logger.info('Importing selection')
         # For all selected items in window
+        skip = False
         for tag in items:
             # Find those items in internal list and import them
             tag = self.tree.tree.item(tag, option='values')
             fname = tag[-1]
             cfname = self.__master.get_file().rpartition('/')[2]
-            if cfname != fname and \
-                tkMessageBox.askyesno('Unmatched files',
-                                      '%s is from a different file than currently'
-                                      % tag[0] +
-                                      ' loaded, proceed anyways? \ncurrent:%s \nloaded:%s'
-                                      % (tag[-1], cfname)):
+            if fname != cfname:
+                skip = tkMessageBox.\
+                    askyesno('Unmatched files',
+                             '%s is from a different file than currently'
+                             % tag[0] +
+                             ' loaded, proceed anyways? \ncurrent:%s \nloaded:%s'
+                             % (tag[-1], cfname))
+            if not skip:
                 logger.info('Encoding \'%s\' to JSON' % tag[0])
                 names = [x.tag for x in self.__internal_list]
                 logger.info('Forwarding JSON to be read')

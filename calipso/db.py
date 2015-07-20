@@ -176,6 +176,8 @@ class DatabaseManager(object):
                 poly.coordinates = str(polygon.get_coordinates())
                 poly.notes = polygon.get_notes()
                 session.commit()
+            if not polygon.get_save():
+                polygon.save()
         session.close()
 
     def delete_item(self, idx):
