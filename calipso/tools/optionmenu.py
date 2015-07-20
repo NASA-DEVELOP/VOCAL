@@ -46,6 +46,12 @@ class ShapeOptionMenu(Menubutton):
         self['menu'] = self.__menu
 
     def set_menu(self, options):
+        """
+        Set the internal menu, this allows the program to dynamically
+        create menus on the fly when a user clicks.
+
+        :param list options: A list of :py:class:`str` objects which is the new menu
+        """
         del self.__menu
         self.__menu = Menu(self, name='menu', tearoff=0)
         for op in options:

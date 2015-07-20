@@ -3,4 +3,6 @@
 *.log
 *.iml
 *.db
+calipso/.idea
+docs/source/.idea
 docs/build/
