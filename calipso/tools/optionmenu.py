@@ -30,7 +30,7 @@ class ShapeOptionMenu(Menubutton):
         self.var = variable
         self.widget_name = 'tk_optionmenu'
         self.__menu = Menu(self, name='menu', tearoff=0)
-        self.menuname = self.__menu._w
+        self.menu_name = self.__menu._w
         self.callback = kwargs.get('command')
         if 'command' in kwargs:
             del kwargs['command']

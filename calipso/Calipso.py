@@ -50,6 +50,8 @@ class Calipso(object):
         self.plot = Plot.baseplot               # Current selected plot
         self.__label_file_dialog = None
         self.new_file_flag = False
+        self.option_menu = None
+        self.shape_var = StringVar()
 
         # TODO: Add icon for window an task bar
         # Create three paned windows, two which split the screen vertically upon a single pane
@@ -277,12 +279,12 @@ class Calipso(object):
         self.__label_file_dialog.grid(row=1, column=1, padx=10)
         browse_button.grid(row=1, column=3)
 
-        var = StringVar()
-
-        self.option_menu = ShapeOptionMenu(self.__dialog_shape_frame, var, "",
+        self.option_menu = ShapeOptionMenu(self.__dialog_shape_frame, self.shape_var, "",
                                            command=self.goto_shape_optionmenu)
         self.option_menu.bind("<ButtonPress-1>", self.update_shape_optionmenu)
         self.option_menu.pack(side=RIGHT, padx=10)
+        label_shapes = Label(self.__dialog_shape_frame, text="Select")
+        label_shapes.pack(side=RIGHT)
 
     def goto_shape_optionmenu(self, val):
         print "k"
@@ -291,7 +293,6 @@ class Calipso(object):
         print "command"
         ops = [x.get_tag() for x in self.__shapemanager.get_current_list() if x is not None]
         self.option_menu.set_menu(ops)
-
 
     def notify_save_db(self):
         """
