@@ -140,7 +140,8 @@ class Calipso(object):
         # Polygon Menu
         menu_polygon = Menu(menu_bar, tearoff=0)
         menu_polygon.add_command(label='Import from Database',
-                                 command=lambda: ImportDialog(self.__root, self))
+                                 command=lambda: ImportDialog(self.__root, self).
+                                 wm_iconbitmap(PATH + r'\ico\broadcasting.ico'))
         menu_polygon.add_command(label='Export to Database', command=self.notify_save_db)
         menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
 
@@ -401,7 +402,8 @@ class Calipso(object):
         logger.info('Grabbing shape object')
         shape = self.__shapemanager.find_shape(event)
         logger.info('Opening attributes dialog')
-        AttributesDialog(self.__root, shape)
+        AttributesDialog(self.__root, shape).\
+            wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
         
     def paint_window(self, event):
         """
@@ -428,7 +430,8 @@ class Calipso(object):
         """
         shape = self.__shapemanager.find_shape(event)
         logger.info("Extracting data for %s" % shape.get_tag())
-        ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange)
+        ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange).\
+            wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
 
     def get_root(self):
         """
