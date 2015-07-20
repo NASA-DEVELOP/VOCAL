@@ -44,6 +44,7 @@ class ShapeManager(object):
         self.__data = {}
         logger.info("Querying database for unique tag")
         self.__moving_shape = None
+        self.__phl = None
         self.property_window = None
         
     def anchor_rectangle(self, event):
@@ -154,6 +155,23 @@ class ShapeManager(object):
             logger.error('Bounds out of plot range, skipping')
             self.__current_list[-1].set_coordinates([])
             self.__canvas._tkcanvas.delete(self.__current_list[-1].lastrect)
+
+    def highlight(self, tag):
+        """
+        Highlight the shape specified by ``tag``. Also keeps track of
+        a the previous highlight in order to unhighlight it before
+        highlighting the current tag
+
+        :param str tag: The tag of the object
+        """
+        for shape in self.__current_list[:-1]:
+            if shape.get_tag() == tag:
+                if self.__phl:
+                    self.__phl.set_highlight(False)
+                self.__phl = shape
+                shape.set_highlight(True)
+                break
+        self.__canvas.show()
 
     def set_hdf(self, hdf_filename):
         """

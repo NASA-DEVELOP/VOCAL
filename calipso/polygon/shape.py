@@ -235,7 +235,22 @@ class Shape(object):
                 logger.error('Caught invalid attribute for setting \'%s\'' % i)
                 return
         self.__attributes = attributes_list
-        
+
+    def set_highlight(self, highlight):
+        """
+        Set the ``linewidth`` and ``linestyle`` attributes of a the internal item
+        handler. Highlights if *highlight* is ``True``, otherwise sets to normal
+        outline.
+
+        :param bool highlight:
+        """
+        if highlight:
+            self.__item_handler.set_linewidth(3.0)
+            self.__item_handler.set_linestyle('dashed')
+        else:
+            self.__item_handler.set_linewidth(1.0)
+            self.__item_handler.set_linestyle('solid')
+
     def save(self):
         """
         Marks the shape as saved

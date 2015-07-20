@@ -280,17 +280,21 @@ class Calipso(object):
         browse_button.grid(row=1, column=3)
 
         self.option_menu = ShapeOptionMenu(self.__dialog_shape_frame, self.shape_var, "",
-                                           command=self.goto_shape_optionmenu)
+                                           command=lambda x: self.__shapemanager.highlight(x))
         self.option_menu.bind("<ButtonPress-1>", self.update_shape_optionmenu)
         self.option_menu.pack(side=RIGHT, padx=10)
         label_shapes = Label(self.__dialog_shape_frame, text="Select")
         label_shapes.pack(side=RIGHT)
 
-    def goto_shape_optionmenu(self, val):
-        print "k"
-
+    # noinspection PyUnusedLocal
     def update_shape_optionmenu(self, event):
-        print "command"
+        """
+        Callback function bound to *<ButtonPress-1>* which displays the current list
+        of shapes on the plot to the option menu. All tags are grabbed which can then
+        be selected by the user to see which object they are looking for.
+
+        :param event: Tkinter passed event object, **ignored**
+        """
         ops = [x.get_tag() for x in self.__shapemanager.get_current_list() if x is not None]
         self.option_menu.set_menu(ops)
 
