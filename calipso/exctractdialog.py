@@ -4,7 +4,8 @@
 #   @author: nqian
 #   @author: Grant Mercer
 ###############################
-from Tkinter import Toplevel
+from Tkinter import Toplevel, Frame, TOP, BOTH, X, Button, BOTTOM,\
+    LEFT
 
 import ccplot
 from ccplot.algorithms import interp2d_12
@@ -39,6 +40,12 @@ class ExtractDialog(Toplevel):
         self.transient(root)
         logger.info('Opening ExtractDialog')
 
+        self.window_frame = Frame(self)
+        self.window_frame.pack(side=TOP, fill=BOTH, expand=True)
+
+        self.canvas_frame = Frame(self.window_frame)
+        self.canvas_frame.pack(side=TOP, fill=X)
+
         self.__root = root
         self.shape = shape
         self.filename = filename
@@ -50,7 +57,7 @@ class ExtractDialog(Toplevel):
         self.ax.set_ylabel('Altitude (km)')
         self.ax.set_title('%s' % shape.get_tag())
         
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=self.canvas_frame)
         self.canvas.show()
         self.canvas.get_tk_widget().grid(row=0)
         self.title('Data Subplot')
@@ -59,6 +66,12 @@ class ExtractDialog(Toplevel):
         self.create_subplot()
         self.update()
         self.deiconify()
+
+        self.button_frame = Frame(self.window_frame, highlightthickness=1,
+                                  highlightbackground='grey')
+        self.button_frame.pack(side=BOTTOM, fill=X, padx=5, pady=5)
+        but = Button(self.button_frame, text="Extract to file")
+        but.pack(side=LEFT, padx=10, pady=10)
 
         logger.info('Creating histogram')
         x = self.__root.winfo_rootx() + self.winfo_x()*2

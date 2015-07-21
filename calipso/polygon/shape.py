@@ -112,9 +112,9 @@ class Shape(object):
         if event.xdata and event.ydata:
             logger.debug('%f, %f', event.xdata, event.ydata)
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prev_x,
-                                                                 abs(constants.HEIGHT - self.__prev_y - 57),
+                                                                 abs(constants.HEIGHT - self.__prev_y - 62),
                                                                  event.x,
-                                                                 abs(constants.HEIGHT - event.y - 57))
+                                                                 abs(constants.HEIGHT - event.y - 62))
 
     def fill_rectangle(self, event, plot, fig, fill=False):
         """
