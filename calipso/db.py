@@ -245,7 +245,7 @@ class DatabaseManager(object):
         logger.info('querying unique tag for new database objects')
         new = self.query_unique_tag()
 
-        for root, dirs, files in os.walk(PATH + '\\tmp'):
+        for root, dirs, files in os.walk(PATH + 'tmp'):
             for file_ in files:
                 with open(os.path.join(root, file_), 'r') as ifile:
                     data = byteify(json.load(ifile))

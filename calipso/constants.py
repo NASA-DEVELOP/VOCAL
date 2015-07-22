@@ -8,7 +8,6 @@
 
 import os
 
-
 class Plot(object):
     baseplot = 0
     backscattered = 1
