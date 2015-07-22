@@ -336,6 +336,8 @@ class Calipso(object):
                 self.__shapemanager.save_json()  # Else do a normal save with internal file
             if saved:
                 tkMessageBox.showinfo('save', 'Shapes saved successfully')
+            else:
+                return False
         else:
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
@@ -360,15 +362,6 @@ class Calipso(object):
         else:
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
             
-    def transient_save(self):
-        """
-        Function to save the file before closing the application. If the user
-        decides they wish to save before closing, transient_save is called to
-        save to JSON then proceeds to exit the application.
-        """
-        self.save_json()
-        self.__root.destroy()
-
     def import_file(self):
         """
         Load an HDF file for use with displaying backscatter and depolarized images
@@ -522,12 +515,16 @@ class Calipso(object):
                                'There are unsaved shapes on the plot. Save these shapes?')
             if answer is True:
                 logger.info('Saving shapes')
-                self.transient_save()
+                saved = self.save_json()
+                if saved:
+                    self.__root.destroy()
+                else:
+                    return
             elif answer is False:
                 logger.info('Dumping unsaved shapes')
                 self.__root.destroy()
             elif answer is None:
-                pass
+                return
         else:
             self.__root.destroy()
 
