@@ -101,8 +101,9 @@ def interpolation_search(sorted_list, to_find, variance):
 
 def zipdir(path, ziph):
     for root, dirs, files in os.walk(path):
+        print root, dirs, files
         for file in files:
-            ziph.write(os.path.join(root, file))
+            ziph.write(os.path.join(root, file), file)
 
 class Catcher:
     """
