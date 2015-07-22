@@ -19,6 +19,7 @@ from tools.tools import byteify
 from log import logger
 import zipfile
 import shutil
+import ast
 
 # Create a declarative_base for dbPolygon to inherit from
 dbBase = declarative_base()
@@ -72,7 +73,7 @@ class DatabasePolygon(dbBase):
             'notes': self.notes}}
         data['time'] = self.time_
         data['hdfFile'] = self.hdf
-        logger.info('Converting from unicode to ASCII')
+        logger.info('Converting unicode to ASCII')
         return byteify(json.dumps(data))
 
 
@@ -180,7 +181,7 @@ class DatabaseManager(object):
                 poly.coordinates = str(polygon.get_coordinates())
                 poly.notes = polygon.get_notes()
                 session.commit()
-            if not polygon.get_save():
+            if not polygon.get_saved():
                 polygon.save()
         session.close()
 
@@ -211,14 +212,15 @@ class DatabaseManager(object):
         :rtype: bool
         """
         session = self.__Session()
+        print PATH
         if os.path.exists(PATH + 'tmp'):
-            logger.error('tmp directory should not exist, will not zip')
+            logger.error('Tmp directory should not exist, will not zip')
             return False
-        logger.info('creating /tmp and exporting shapes')
+        logger.info('Creating /tmp and exporting shapes')
         os.makedirs(PATH + 'tmp')
         for shape in session.query(DatabasePolygon).order_by(DatabasePolygon.tag):
             self.encode(PATH + 'tmp\\' + shape.tag + '.json', str(shape))
-        logger.info('packing /tmp into %s' % zip_fname)
+        logger.info('Packing /tmp into %s' % zip_fname)
         zipf = zipfile.ZipFile(zip_fname, 'w')
         zipdir(PATH + 'tmp', zipf)
         zipf.close()
@@ -234,6 +236,45 @@ class DatabaseManager(object):
 
         :rtype: bool
         """
+        session = self.__Session()
+
+        zip_ref = zipfile.ZipFile(zip_fname, 'r')
+        zip_ref.extractall(PATH + '\\tmp')
+        zip_ref.close()
+
+        logger.info('querying unique tag for new database objects')
+        new = self.query_unique_tag()
+
+        for root, dirs, files in os.walk(PATH + '\\tmp'):
+            for file_ in files:
+                with open(os.path.join(root, file_), 'r') as ifile:
+                    data = byteify(json.load(ifile))
+
+                data = ast.literal_eval(data)
+                keys = [x for x in data if x in constants.plot_type_enum.keys()]
+                for key in keys:
+                    for shape in data[key]:
+                        fshape = data[key][shape]
+                        tag = 'shape' + str(new)
+                        time = data['time']
+                        hdf = data['hdfFile']
+                        color = fshape['color']
+                        coordinates = fshape['coordinates']
+                        attributes = fshape['attributes']
+                        notes = fshape['notes']
+
+                        obx = \
+                            DatabasePolygon(tag=tag,
+                                            time_=time,
+                                            hdf=hdf,
+                                            plot=key,
+                                            color=color,
+                                            coordinates=coordinates,
+                                            attributes=attributes,
+                                            notes=notes)
+                        session.add(obx)
+                        new += 1
+        session.commit()
         return True
 
     @staticmethod
@@ -246,7 +287,7 @@ class DatabaseManager(object):
         """
         with open(filename, 'w') as outfile:
             json.dump(data, outfile)
-        logger.info('Successfully encoded')
+        logger.info('Successfully encoded %s' % filename)
 
 # define the global database manager object
 db = DatabaseManager()

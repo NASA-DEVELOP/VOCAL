@@ -308,8 +308,8 @@ class Calipso(object):
         :return:
         """
         options = dict()
-        options['defaultextension'] = '.json'
-        options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
+        options['defaultextension'] = '.zip'
+        options['filetypes'] = [('CALIPSO Data Archive', '*.zip'), ('All files', '*')]
         fl = tkFileDialog.askopenfilename(**options)
         if fl != '':
             log_fname = fl.rpartition('/')[2]
@@ -395,7 +395,7 @@ class Calipso(object):
             wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
 
     # noinspection PyUnusedLocal
-    def import_window(self, event):
+    def import_window(self):
         """
         Open the database import window allowing the user to import and
         delete entries.

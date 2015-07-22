@@ -25,7 +25,7 @@ class Shape(object):
     backend
     """
 
-    def __init__(self, canvas, tag='', color=''):
+    def __init__(self, canvas=None, tag='', color=''):
         self.__canvas = canvas
         self.__coordinates = []
         self.__tag = tag
