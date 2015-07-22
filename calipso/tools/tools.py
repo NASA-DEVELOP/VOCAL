@@ -8,6 +8,8 @@ import sys
 import ast
 import matplotlib as mpl
 from datetime import datetime
+import os
+import zipfile
 
 from log import logger
 
@@ -97,7 +99,10 @@ def interpolation_search(sorted_list, to_find, variance):
                        % variance)
     return low
 
-
+def zipdir(path, ziph):
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            ziph.write(os.path.join(root, file))
 
 class Catcher:
     """

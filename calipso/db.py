@@ -9,12 +9,14 @@ import json
 import os
 import re
 import constants
+from tools.tools import zipdir
 
 from sqlalchemy import create_engine, Column, Integer, String, desc
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from tools.tools import byteify
 from log import logger
+import zipfile
 
 # Create a declarative_base for dbPolygon to inherit from
 dbBase = declarative_base()
@@ -195,6 +197,20 @@ class DatabaseManager(object):
         logger.info('Committing database')
         session.commit()
         session.close()
+
+    def dump_to_json(self, dir_):
+        session = self.__Session()
+        if not os.path.exists(dir_):
+            os.makedirs(dir_)
+        for shape in session.query(DatabasePolygon).order_by(DatabasePolygon.tag):
+            self.encode(dir_ + '\\' + shape.tag + '.json', str(shape))
+        zipf = zipfile.ZipFile(dir_ + '.zip', 'w')
+        zipdir(dir_, zipf)
+        zipf.close()
+        return True
+
+    def import_from_json(self, fname):
+        return True
 
     @staticmethod
     def encode(filename, data):
