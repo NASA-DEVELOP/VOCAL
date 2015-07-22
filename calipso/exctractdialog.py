@@ -28,7 +28,7 @@ class ExtractDialog(Toplevel):
 
     def __init__(self, root, shape, filename, x_range, y_range):
         """
-        Instantiates attributess
+        Instantiates attributes
         
         :param: root: root Tk widget
         :param: shape: The shape that bounds the data
@@ -133,6 +133,8 @@ class ExtractDialog(Toplevel):
             logger.info('Applying search algorithm to determine shape bounds')
             x1 = int(interpolation_search(n_time, min_time, TIME_VARIANCE))
             x2 = int(interpolation_search(n_time, max_time, TIME_VARIANCE))
+
+            print x1, x2
 
             logger.info('Setting bounds for new subplot')
             time = time[x1:x2]

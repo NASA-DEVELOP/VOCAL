@@ -88,7 +88,7 @@ def interpolation_search(sorted_list, to_find, variance):
             high = mid - 1
         else:
             return mid
-
+    print "intp:", low, sorted_list[low], to_find
     t_var = variance
     while abs(sorted_list[low] - to_find) > variance:
         t_var += .001

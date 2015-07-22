@@ -284,6 +284,7 @@ class ShapeManager(object):
         Toggle whether current shapes should be outlined or remained filled on
         the screen
         """
+        logger.info('removing shape fill for all shapes')
         ShapeManager.outline_toggle = not ShapeManager.outline_toggle
         for shape in self.__current_list:
             poly = shape.get_itemhandler()
@@ -299,6 +300,8 @@ class ShapeManager(object):
         """
         Hide all current shapes on the plot
         """
+
+        logger.info('hiding all shapes from view')
         ShapeManager.hide_toggle = not ShapeManager.hide_toggle
         for shape in self.__current_list:
             poly = shape.get_itemhandler()

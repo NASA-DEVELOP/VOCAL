@@ -101,7 +101,7 @@ def nparray_to_tuple(nparray):
     """
     x = nparray[0]
     y = nparray[1]
-    return (x, y)
+    return x, y
 
 def ray_cast(coordinates, point):
     """
