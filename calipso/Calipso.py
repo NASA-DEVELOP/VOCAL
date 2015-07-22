@@ -395,7 +395,7 @@ class Calipso(object):
             wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
 
     # noinspection PyUnusedLocal
-    def import_window(self, event):
+    def import_window(self):
         """
         Open the database import window allowing the user to import and
         delete entries.

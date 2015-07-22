@@ -6,11 +6,10 @@
 #    Module for all constants
 ######################################
 
-from enum import Enum
 import os
 
 
-class Plot(Enum):
+class Plot(object):
     baseplot = 0
     backscattered = 1
     depolarized = 2
