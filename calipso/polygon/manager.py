@@ -227,15 +227,15 @@ class ShapeManager(object):
         """
         if plot == Plot.baseplot:
             logger.warning('set_plot called for BASE_PLOT')
-            self.__current_list = self.__shape_list[Plot.baseplot.value]
+            self.__current_list = self.__shape_list[Plot.baseplot]
             self.__current_plot = Plot.baseplot
         elif plot == Plot.backscattered:
             logger.info('set_plot to BACKSCATTERED')
-            self.__current_list = self.__shape_list[Plot.backscattered.value]
+            self.__current_list = self.__shape_list[Plot.backscattered]
             self.__current_plot = Plot.backscattered
         elif plot == Plot.depolarized:
             logger.info('set_plot to DEPOLARIZED')
-            self.__current_list = self.__shape_list[Plot.depolarized.value]
+            self.__current_list = self.__shape_list[Plot.depolarized]
             self.__current_plot = Plot.depolarized
             
     @staticmethod
@@ -415,7 +415,7 @@ class ShapeManager(object):
 
         for key in constants.plot_type_enum:
             lst = self.__shape_list[constants.plot_type_enum[key].value]
-            self.__shapereader.pack_shape(lst, key, self.__canvas)
+            self.__shapereader.pack_shape(lst, key, self.__canvas, read_from_str)
             if self.__current_plot == constants.plot_type_enum[key]:
                 for shape in lst:
                     if not shape.is_empty():
