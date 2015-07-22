@@ -9,12 +9,16 @@ import json
 import os
 import re
 import constants
+from tools.tools import zipdir
 
+from constants import PATH
 from sqlalchemy import create_engine, Column, Integer, String, desc
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from tools.tools import byteify
 from log import logger
+import zipfile
+import shutil
 
 # Create a declarative_base for dbPolygon to inherit from
 dbBase = declarative_base()
@@ -195,6 +199,42 @@ class DatabaseManager(object):
         logger.info('Committing database')
         session.commit()
         session.close()
+
+    def dump_to_json(self, zip_fname):
+        """
+        Dump the contents of the database into a JSON file with the specific format
+        of DatabasePolygon. Creates a directory '{PROJECT}/tmp' and exports all db
+        objects to it, then zips the directory and deletes tmp. Returns ``True`` on
+        success, ``False`` otherwise
+
+        :param str zip_fname: name of the zip file
+        :rtype: bool
+        """
+        session = self.__Session()
+        if os.path.exists(PATH + 'tmp'):
+            logger.error('tmp directory should not exist, will not zip')
+            return False
+        logger.info('creating /tmp and exporting shapes')
+        os.makedirs(PATH + 'tmp')
+        for shape in session.query(DatabasePolygon).order_by(DatabasePolygon.tag):
+            self.encode(PATH + 'tmp\\' + shape.tag + '.json', str(shape))
+        logger.info('packing /tmp into %s' % zip_fname)
+        zipf = zipfile.ZipFile(zip_fname, 'w')
+        zipdir(PATH + 'tmp', zipf)
+        zipf.close()
+        shutil.rmtree(PATH + 'tmp')
+        session.close()
+        return True
+
+    def import_from_json(self, zip_fname):
+        """
+        Import a *.zip* file selected by the user, the zip file must be
+        the same format as how ``dump_to_json`` creates a zip, otherwise
+        an error will be raised.
+
+        :rtype: bool
+        """
+        return True
 
     @staticmethod
     def encode(filename, data):
