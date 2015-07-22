@@ -239,7 +239,7 @@ class DatabaseManager(object):
         session = self.__Session()
 
         zip_ref = zipfile.ZipFile(zip_fname, 'r')
-        zip_ref.extractall(PATH + '\\tmp')
+        zip_ref.extractall(PATH + 'tmp')
         zip_ref.close()
 
         logger.info('querying unique tag for new database objects')
@@ -275,6 +275,7 @@ class DatabaseManager(object):
                         session.add(obx)
                         new += 1
         session.commit()
+        shutil.rmtree(PATH + 'tmp')
         return True
 
     @staticmethod
