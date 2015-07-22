@@ -4,38 +4,42 @@
 #   @Author: Grant Mercer
 #   @Author: Nathan Qian
 ##########################
-from Tkconstants import RIGHT
+from Tkconstants import RIGHT, END
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
-    SUNKEN, OptionMenu, StringVar
-import antigravity
+    SUNKEN, StringVar
 import logging
 from sys import platform as _platform
+from tkColorChooser import askcolor
 import tkFileDialog
 import tkMessageBox
 import webbrowser
-import matplotlib.image as mpimg
-import matplotlib
-matplotlib.use('tkAgg')
 
+from attributesdialog import AttributesDialog
 from bokeh.colors import white
+from constants import Plot, PATH
+import constants
+from exctractdialog import ExtractDialog
+from importdialog import ImportDialog
+from log import logger
+import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from plot.plot_depolar_ratio import drawDepolar
 from plot.plot_uniform_alt_lidar_dev import render_backscattered
 from polygon.manager import ShapeManager
-from attributesdialog import AttributesDialog
-from constants import Plot, PATH
-import constants
-from importdialog import ImportDialog
-from log import logger
-from tools.optionmenu import ShapeOptionMenu
 from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
+from tools.optionmenu import ShapeOptionMenu
 from tools.tools import Catcher
 from toolswindow import ToolsWindow
-from tkColorChooser import askcolor
-from exctractdialog import ExtractDialog
+
+import matplotlib.image as mpimg
+
+
+# import antigravity
+matplotlib.use('tkAgg')
+
 
 class Calipso(object):
     """
@@ -263,7 +267,10 @@ class Calipso(object):
         else:
             logger.info('Panning forwards')
             self.set_plot(self.plot, (self.xrange[0] + dst, self.xrange[1] + dst))
-        pass
+        self.__child.begin_range_entry.delete(0, END)
+        self.__child.end_range_entry.delete(0, END)
+        self.__child.begin_range_entry.insert(END, str(self.xrange[0]))
+        self.__child.end_range_entry.insert(END, str(self.xrange[1]))
 
     def create_top_gui(self):
         """

@@ -10,5 +10,6 @@
 <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
 <path>C:\Users\nqian\git\CALIPSO_Visualization\calipso\polygon</path>
 <path>C:\Users\nqian\git\CALIPSO_Visualization\calipso\plot</path>
+<path>C:\Users\nqian\git\CALIPSO_Visualization\calipso</path>
 </pydev_pathproperty>
 </pydev_project>
