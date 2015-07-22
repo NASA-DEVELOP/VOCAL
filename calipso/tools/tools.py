@@ -124,7 +124,6 @@ def zipdir(path, ziph):
     :param ZipFile ziph: A :py:class:`ZipFile` object
     """
     for root, dirs, files in os.walk(path):
-        print root, dirs, files
         for file_ in files:
             ziph.write(os.path.join(root, file_), file_)
 
