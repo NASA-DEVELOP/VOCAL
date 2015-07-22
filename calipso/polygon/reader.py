@@ -69,7 +69,7 @@ class ShapeReader(object):
                     self.__data[plt][shape]['attributes'] = \
                         ast.literal_eval(self.__data[plt][shape]['attributes'])
                         
-    def pack_shape(self, shape_list, plot_type, canvas):
+    def pack_shape(self, shape_list, plot_type, canvas, read_from_str=None):
         """
         Stores the data in the JSON into PolygonDrawers
 
@@ -91,7 +91,7 @@ class ShapeReader(object):
                 attributes = self.__data[plot_type][shape]['attributes']
                 notes = self.__data[plot_type][shape]['notes']
                 _id = self.__data[plot_type][shape]['id']
-                if db.exists_tag(shape):
+                if db.exists_tag(shape) and not read_from_str:
                     new = ShapeManager.generate_tag()
                     logger.warning(
                         'Shape tag already exists in database, creating new tag % s'

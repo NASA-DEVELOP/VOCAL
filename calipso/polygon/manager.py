@@ -415,7 +415,7 @@ class ShapeManager(object):
 
         for key in constants.plot_type_enum:
             lst = self.__shape_list[constants.plot_type_enum[key].value]
-            self.__shapereader.pack_shape(lst, key, self.__canvas)
+            self.__shapereader.pack_shape(lst, key, self.__canvas, read_from_str)
             if self.__current_plot == constants.plot_type_enum[key]:
                 for shape in lst:
                     if not shape.is_empty():
