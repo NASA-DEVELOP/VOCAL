@@ -77,6 +77,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../packages.html">Required Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
@@ -447,6 +448,22 @@ the attributes below</p>
 <dd><p>Function to save the file before closing the application. If the user
 decides they wish to save before closing, transient_save is called to
 save to JSON then proceeds to exit the application.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.update_shape_optionmenu">
+<code class="descname">update_shape_optionmenu</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.update_shape_optionmenu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.update_shape_optionmenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback function bound to <em>&lt;ButtonPress-1&gt;</em> which displays the current list
+of shapes on the plot to the option menu. All tags are grabbed which can then
+be selected by the user to see which object they are looking for.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object, <strong>ignored</strong></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

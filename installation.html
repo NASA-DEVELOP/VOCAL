@@ -76,6 +76,7 @@
 <li class="toctree-l2"><a class="reference internal" href="packages.html">Required Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="#os-x">OS X </a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Getting Started</a><ul>
@@ -144,7 +145,12 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>Installation guide for both Windows <a class="footnote-reference" href="#f1" id="id1">[1]</a> and Linux users List of required packages:</p>
+<p>VOCAL is still in it&#8217;s early stages of development, and does not yet offer an in-depth
+installer. As a result running VOCAL requires you to setup the development environment,
+which can be tricky for those not well versed in programming. We&#8217;ve tried to be as
+descriptive as possible in our installation guide for both Windows <a class="footnote-reference" href="#f1" id="id1">[1]</a> , Linux and Mac
+users. If you have any questions or trouble installing VOCAL, feel free to ask for help
+from the <a class="reference internal" href="trouble/contact.html"><em>support page</em></a> and describe your issue to us.</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="packages.html">Required Packages</a></li>
@@ -157,71 +163,155 @@
 <div class="section" id="windows">
 <h2>Windows <a class="footnote-reference" href="#f1" id="id2">[1]</a><a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
-<li>Download Python Anaconda 2.7</li>
-<li>Open a terminal, navigate to the Anaconda installation directory and type <code class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">numpy</span></code>, <code class="docutils literal"><span class="pre">y</span></code>, <code class="docutils literal"><span class="pre">exit</span></code></li>
-<li>Grab the <a class="reference external" href="https://code.google.com/p/pythonxy/wiki/AdditionalPlugins">basemap package</a><ul>
-<li>Execute <code class="docutils literal"><span class="pre">basemap-1.0.2_py27.exe</span></code></li>
-<li>The destination directory is <code class="docutils literal"><span class="pre">\Anaconda\Lib\site-packages\basemap</span></code></li>
+<li>download Python Anaconda 2.7</li>
+<li>open a terminal, navigate to the Anaconda installation directory and type
+<code class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">numpy</span></code> , <code class="docutils literal"><span class="pre">y</span></code></li>
+<li>grab the <em>basemap</em> package <code class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">basemap</span></code>, <code class="docutils literal"><span class="pre">y</span></code></li>
+<li>install PIL <code class="docutils literal"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">pil</span></code>, <code class="docutils literal"><span class="pre">y</span></code><ul>
+<li>PIL is an old library and can often cause some errors, if when running
+VOCAL you receive the error <code class="docutils literal"><span class="pre">Import</span> <span class="pre">Error:</span> <span class="pre">cannot</span> <span class="pre">import</span> <span class="pre">name</span> <span class="pre">_imagingtk</span></code>,
+see the <a class="reference internal" href="trouble/faq.html"><em>FAQ</em></a> on fixing this error</li>
 </ul>
 </li>
-<li>To install CCPLOT:<ul>
-<li>Get <a class="reference external" href="http://sourceforge.net/projects/ccplot/files/ccplot/ccplot-1.5-rc7.win32-py2.7.exe">ccplot-1.5-rc7.win32-py2.7.exe</a></li>
-<li>Run <code class="docutils literal"><span class="pre">ccplot-1.5-rc7.win32-py2.7.exe</span></code></li>
-<li>Browse to the Anaconda install directory and install in <code class="docutils literal"><span class="pre">\Anaconda\Lib\site-packages\</span></code></li>
-<li>More information is at <a class="reference external" href="http://ccplot.org/">http://ccplot.org/</a></li>
+<li>to install CCPLOT:<ul>
+<li>get <a class="reference external" href="http://sourceforge.net/projects/ccplot/files/ccplot/ccplot-1.5-rc7.win32-py2.7.exe">ccplot-1.5-rc7.win32-py2.7.exe</a></li>
+<li>run <code class="docutils literal"><span class="pre">ccplot-1.5-rc7.win32-py2.7.exe</span></code></li>
+<li>browse to the Anaconda install directory and install in <code class="docutils literal"><span class="pre">\Anaconda\Lib\site-packages\</span></code></li>
+<li>more information is at <a class="reference external" href="http://ccplot.org/">http://ccplot.org/</a></li>
 </ul>
 </li>
-<li>Install Eclipse Luna <a class="footnote-reference" href="#f2" id="id3">[2]</a> , then once Eclipse is installed and running<ul>
-<li>Within Eclipse, go to <em>help</em> &#8211;&gt; <em>Install New Software</em><ul>
-<li>Input PyDev Website (<a class="reference external" href="http://pydev.org/updates">http://pydev.org/updates</a>)</li>
+<li>if using Eclipse <a class="footnote-reference" href="#f2" id="id3">[2]</a> :, then once Eclipse is installed and running<ul>
+<li>within Eclipse, go to <em>help</em> &#8211;&gt; <em>Install New Software</em><ul>
+<li>input PyDev Website (<a class="reference external" href="http://pydev.org/updates">http://pydev.org/updates</a>)</li>
 </ul>
 </li>
-<li>Under <em>Windws</em> &#8211;&gt; <em>Preferences</em> &#8211;&gt; <em>PyDev</em> &#8211;&gt; <em>Interpreters</em> &#8211;&gt; <em>Python</em><ul>
+<li>under <em>Windows</em> &#8211;&gt; <em>Preferences</em> &#8211;&gt; <em>PyDev</em> &#8211;&gt; <em>Interpreters</em> &#8211;&gt; <em>Python</em><ul>
 <li>&#8220;Advanced Auto Config&#8221; or manually find Anaconda</li>
 </ul>
 </li>
+<li>import the existing &#8220;CALIPSO_Visualizer&#8221; package under the <code class="docutils literal"><span class="pre">file</span></code> menu</li>
 </ul>
 </li>
-<li>Import the existing &#8220;CALIPSO_Visualizer&#8221; package under the <code class="docutils literal"><span class="pre">file</span></code> menu</li>
+<li>if using PyCharm : Simply set the python interpreter to the one supplied by anaconda.</li>
 </ol>
 </div>
 <div class="section" id="linux">
 <h2>Linux <a class="footnote-reference" href="#f3" id="id4">[3]</a><a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
 <ol class="arabic simple">
-<li>Start off by grabbing the SciPy Stack<ul>
+<li>start off by grabbing the SciPy Stack<ul>
 <li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-numpy</span> <span class="pre">python-scipy</span> <span class="pre">python-matplotlib</span></code></li>
 </ul>
 </li>
-<li>Install basemap<ul>
+<li>install basemap<ul>
 <li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-mpltoolkits.basemap</span></code></li>
 </ul>
 </li>
-<li>Installing CCPLOT<ul>
+<li>installing CCPLOT<ul>
 <li>CCPLOT has quite a bit of dependencies, so run<ul>
 <li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">--no-intall-recommends</span> <span class="pre">cython</span> <span class="pre">libhdf4-dev</span> <span class="pre">libhdfeos-dev</span> <span class="pre">python-imaging</span> <span class="pre">ttf-bitstream-vera</span></code></li>
 </ul>
 </li>
-<li>Now CCPLOT needs to be built on Linux, so grab the <a class="reference external" href="https://sourceforge.net/projects/ccplot/files/ccplot/ccplot-1.5.tar.gz/download">source</a></li>
-<li>Extract the source anywhere you&#8217;d like, the directory does not matter</li>
+<li>now CCPLOT needs to be built on Linux, so grab the <a class="reference external" href="https://sourceforge.net/projects/ccplot/files/ccplot/ccplot-1.5.tar.gz/download">source</a></li>
+<li>extract the source anywhere you&#8217;d like, the directory does not matter</li>
 <li><code class="docutils literal"><span class="pre">cd</span></code> into the CCPLOT folder you just extracted</li>
-<li>Run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></code></li>
-<li><em>Note</em> if python cannot find <code class="docutils literal"><span class="pre">HdfEosDef.h</span></code><ul>
-<li>Run <code class="docutils literal"><span class="pre">dpkg</span> <span class="pre">-L</span></code></li>
-<li>Search for the location of <code class="docutils literal"><span class="pre">HdfEosDef.h</span></code>, it is commonly found in <code class="docutils literal"><span class="pre">usr/include/x86_64-linux-gnu/hdf/</span></code></li>
-<li>Open <code class="docutils literal"><span class="pre">setup.py</span></code> in the CCPLOT folder, and change line 24 to include your path</li>
-<li>The new line would like similar to <code class="docutils literal"><span class="pre">hdf_include_dirs</span> <span class="pre">=</span> <span class="pre">['/usr/include/x86_64-linux-gnu/hdf',</span> <span class="pre">'/usr/include/hdf',</span> <span class="pre">'/usr/local/include/hdf/',</span> <span class="pre">'/opt/local/include']</span></code></li>
-<li>Rerun <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></code></li>
+<li>run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></code></li>
+<li><em>note</em> if python cannot find <code class="docutils literal"><span class="pre">HdfEosDef.h</span></code><ul>
+<li>run <code class="docutils literal"><span class="pre">dpkg</span> <span class="pre">-L</span></code></li>
+<li>search for the location of <code class="docutils literal"><span class="pre">HdfEosDef.h</span></code>, it is commonly found in <code class="docutils literal"><span class="pre">usr/include/x86_64-linux-gnu/hdf/</span></code></li>
+<li>open <code class="docutils literal"><span class="pre">setup.py</span></code> in the CCPLOT folder, and change line 24 to include your path</li>
+<li>the new line would like similar to <code class="docutils literal"><span class="pre">hdf_include_dirs</span> <span class="pre">=</span> <span class="pre">['/usr/include/x86_64-linux-gnu/hdf',</span> <span class="pre">'/usr/include/hdf',</span> <span class="pre">'/usr/local/include/hdf/',</span> <span class="pre">'/opt/local/include']</span></code></li>
+<li>rerun <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></code></li>
 </ul>
 </li>
-<li>Run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code> , <code class="docutils literal"><span class="pre">sudo</span></code> may be required as well</li>
+<li>run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code> , <code class="docutils literal"><span class="pre">sudo</span></code> may be required as well</li>
 <li>CCPLOT should be installed</li>
 </ul>
 </li>
-<li>Install bokeh.color<ul>
+<li>install bokeh.color<ul>
 <li><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">pip</span> <span class="pre">install</span> <span class="pre">bokeh</span></code></li>
 </ul>
 </li>
-<li>Run the application with <code class="docutils literal"><span class="pre">python</span> <span class="pre">CALIPSO_Visualization_Tool.py</span></code></li>
+<li>run the application with <code class="docutils literal"><span class="pre">python</span> <span class="pre">CALIPSO_Visualization_Tool.py</span></code></li>
+</ol>
+</div>
+<div class="section" id="os-x">
+<h2>OS X <a class="footnote-reference" href="#f4" id="id5">[4]</a><a class="headerlink" href="#os-x" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">install XCode</p>
+<ul class="simple">
+<li>if using OS 10.9, install xcode 6.2</li>
+</ul>
+</li>
+<li><p class="first">install macport</p>
+<ul>
+<li><p class="first">if <em>port</em> command not found in terminal, edit paths by</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">vi</span> <span class="pre">/etc/paths</span></code></p>
+</li>
+<li><p class="first">add the following lines:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">/opt/local/bin</span></code></li>
+<li><code class="docutils literal"><span class="pre">/opt/local/sbin</span></code></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">restart terminal</p>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">do <code class="docutils literal"><span class="pre">port</span> <span class="pre">selfupdate</span></code></p>
+<blockquote>
+<div><ul>
+<li><p class="first">if you receive the error <em>&#8216;rsync: failed to connect to &lt;address&gt; : connection
+refused (61) ...&#8217;</em></p>
+<blockquote>
+<div><ul class="simple">
+<li>it is likely your firewall is preventing access to the address <a class="reference external" href="https://trac.macports.org/wiki/FAQ#selfupdatefails">ref</a></li>
+<li>navigate to <em>/opt/local/etc/macports</em> in your terminal</li>
+<li>open <em>sources.config</em> with admin access <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">vim</span> <span class="pre">sources.conf</span></code></li>
+<li>comment out the <strong>last</strong> line, replace it with
+<code class="docutils literal"><span class="pre">https://distfiles.macports.org/ports.tar.gz</span> <span class="pre">[default]</span></code> <a class="reference external" href="https://trac.macports.org/wiki/howto/PortTreeTarball">ref</a></li>
+<li>run <code class="docutils literal"><span class="pre">port</span> <span class="pre">-v</span> <span class="pre">-d</span> <span class="pre">sync</span></code></li>
+<li>run <code class="docutils literal"><span class="pre">port</span> <span class="pre">search</span> <span class="pre">hdf4</span></code></li>
+<li>you should have queries show up, meaning ports it working!</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">run <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">port</span> <span class="pre">install</span> <span class="pre">hdf4</span> <span class="pre">hdfeos</span> <span class="pre">py27-cython</span> <span class="pre">py27-numpy</span> <span class="pre">py27-matplotlib</span>
+<span class="pre">py27-matplotlib-basemap</span></code></p>
+</li>
+<li><p class="first">as root, do the following commands</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">mv</span> <span class="pre">/usr/bin/python</span> <span class="pre">/usr/bin/python.orig</span></code></li>
+<li><code class="docutils literal"><span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">/opt/local/bin/python</span> <span class="pre">/usr/bin/python</span></code></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">run <code class="docutils literal"><span class="pre">port</span> <span class="pre">select</span> <span class="pre">--set</span> <span class="pre">python</span> <span class="pre">python27</span></code></p>
+</li>
+<li><p class="first">download <em>ccplot-1.5.tar.gz</em> from <a class="reference external" href="http://sourceforge.net/projects/ccplot/files/ccplot/ccplot-1.5.tar.gz/download">here</a></p>
+<blockquote>
+<div><ul class="simple">
+<li>run <code class="docutils literal"><span class="pre">tar</span> <span class="pre">xzf</span> <span class="pre">ccplot-1.5.tar.gz</span></code></li>
+<li><code class="docutils literal"><span class="pre">cd</span> <span class="pre">ccplot-1.5.tar.gz</span></code></li>
+<li><code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></code></li>
+<li><code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span> <span class="pre">--user</span></code></li>
+<li><code class="docutils literal"><span class="pre">ccplot</span> <span class="pre">-v</span></code></li>
+<li>and ccplot should be a recgonizable command!</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">download the IDE of your choice, or run <code class="docutils literal"><span class="pre">python</span> <span class="pre">Calipso.py</span></code></p>
+</li>
+</ul>
+</li>
 </ol>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
@@ -233,13 +323,19 @@
 <table class="docutils footnote" frame="void" id="f2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>Eclipse is not mandatory, but <strong>highly</strong> recommended</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>Eclipse is not mandatory, and not recommended over PyCharm, but can be used to develop</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="f3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id4">[3]</a></td><td>The packages specified in the instructions may not be comprehensive, if additional packages are required please inform the team so they can correctly add them to the docs</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[4]</a></td><td>Tested on OS X 9.5</td></tr>
 </tbody>
 </table>
 </div>

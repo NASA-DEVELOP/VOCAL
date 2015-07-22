@@ -75,6 +75,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../packages.html">Required Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
@@ -148,9 +149,11 @@
 <span class="c">#   @Author: Grant Mercer</span>
 <span class="c">#   @Author: Nathan Qian</span>
 <span class="c">##########################</span>
+<span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="kn">import</span> <span class="n">RIGHT</span>
 <span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Tk</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Menu</span><span class="p">,</span> <span class="n">PanedWindow</span><span class="p">,</span> \
     <span class="n">Frame</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">HORIZONTAL</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">VERTICAL</span><span class="p">,</span> <span class="n">Message</span><span class="p">,</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> \
-    <span class="n">SUNKEN</span>
+    <span class="n">SUNKEN</span><span class="p">,</span> <span class="n">OptionMenu</span><span class="p">,</span> <span class="n">StringVar</span>
+<span class="kn">import</span> <span class="nn">antigravity</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">platform</span> <span class="k">as</span> <span class="n">_platform</span>
 <span class="kn">import</span> <span class="nn">tkFileDialog</span>
@@ -171,6 +174,7 @@
 <span class="kn">import</span> <span class="nn">constants</span>
 <span class="kn">from</span> <span class="nn">importdialog</span> <span class="kn">import</span> <span class="n">ImportDialog</span>
 <span class="kn">from</span> <span class="nn">log</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">tools.optionmenu</span> <span class="kn">import</span> <span class="n">ShapeOptionMenu</span>
 <span class="kn">from</span> <span class="nn">tools.linearalgebra</span> <span class="kn">import</span> <span class="n">distance</span>
 <span class="kn">from</span> <span class="nn">tools.navigationtoolbar</span> <span class="kn">import</span> <span class="n">NavigationToolbar2CALIPSO</span>
 <span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">Catcher</span>
@@ -192,6 +196,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span>               <span class="c"># Current selected plot</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__label_file_dialog</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">new_file_flag</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shape_var</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
 
         <span class="c"># TODO: Add icon for window an task bar</span>
         <span class="c"># Create three paned windows, two which split the screen vertically upon a single pane</span>
@@ -205,6 +211,8 @@
         <span class="c"># Frame to hold dialog for browsing files</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__dialog_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">top_paned_window</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__dialog_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">top_paned_window</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">)</span>
 
         <span class="c"># Bottom half the screen</span>
         <span class="n">bottom_paned_window</span> <span class="o">=</span> <span class="n">PanedWindow</span><span class="p">(</span><span class="n">sectioned_pane</span><span class="p">)</span>
@@ -278,7 +286,8 @@
         <span class="c"># Polygon Menu</span>
         <span class="n">menu_polygon</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="n">menu_bar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Import from Database&#39;</span><span class="p">,</span>
-                                 <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">ImportDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="bp">self</span><span class="p">))</span>
+                                 <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">ImportDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span>
+                                 <span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">r&#39;\ico\broadcasting.ico&#39;</span><span class="p">))</span>
         <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Export to Database&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">notify_save_db</span><span class="p">)</span>
         <span class="n">menu_bar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Polygon&#39;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu_polygon</span><span class="p">)</span>
 
@@ -416,6 +425,25 @@
         <span class="n">label_file</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__label_file_dialog</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         <span class="n">browse_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span> <span class="o">=</span> <span class="n">ShapeOptionMenu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_var</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+                                           <span class="n">command</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;&lt;ButtonPress-1&gt;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_shape_optionmenu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">label_shapes</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Select&quot;</span><span class="p">)</span>
+        <span class="n">label_shapes</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">)</span>
+
+    <span class="c"># noinspection PyUnusedLocal</span></div>
+<div class="viewcode-block" id="Calipso.update_shape_optionmenu"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.update_shape_optionmenu">[docs]</a>    <span class="k">def</span> <span class="nf">update_shape_optionmenu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Callback function bound to *&lt;ButtonPress-1&gt;* which displays the current list</span>
+<span class="sd">        of shapes on the plot to the option menu. All tags are grabbed which can then</span>
+<span class="sd">        be selected by the user to see which object they are looking for.</span>
+
+<span class="sd">        :param event: Tkinter passed event object, **ignored**</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ops</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_tag</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">get_current_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span><span class="o">.</span><span class="n">set_menu</span><span class="p">(</span><span class="n">ops</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Calipso.notify_save_db"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.notify_save_db">[docs]</a>    <span class="k">def</span> <span class="nf">notify_save_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -520,7 +548,8 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Grabbing shape object&#39;</span><span class="p">)</span>
         <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">find_shape</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Opening attributes dialog&#39;</span><span class="p">)</span>
-        <span class="n">AttributesDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+        <span class="n">AttributesDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">r&#39;\ico\broadcasting.ico&#39;</span><span class="p">)</span>
         </div>
 <div class="viewcode-block" id="Calipso.paint_window"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.paint_window">[docs]</a>    <span class="k">def</span> <span class="nf">paint_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -547,7 +576,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">find_shape</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Extracting data for </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_tag</span><span class="p">())</span>
-        <span class="n">ExtractDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xrange</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yrange</span><span class="p">)</span>
+        <span class="n">ExtractDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xrange</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yrange</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">r&#39;\ico\broadcasting.ico&#39;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Calipso.get_root"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.get_root">[docs]</a>    <span class="k">def</span> <span class="nf">get_root</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

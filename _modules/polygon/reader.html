@@ -75,6 +75,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../packages.html">Required Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
@@ -228,7 +229,8 @@
                 <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">shape_list</span><span class="p">]:</span>
                     <span class="k">continue</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Found data, packing polygon with JSON data&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Found data in </span><span class="si">%s</span><span class="s">, packing polygon with JSON data&#39;</span>
+                            <span class="o">%</span> <span class="n">enum_plot_type</span><span class="p">)</span>
                 <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;color&#39;</span><span class="p">]</span>
                 <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;coordinates&#39;</span><span class="p">]</span>
                 <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">]</span>

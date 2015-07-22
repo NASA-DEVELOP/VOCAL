@@ -77,6 +77,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../packages.html">Required Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
@@ -267,6 +268,25 @@ to the end of the lists.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="polygon.manager.ShapeManager.get_current_list">
+<code class="descname">get_current_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.get_current_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.get_current_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current list</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This function should <strong>never</strong> be used for any write operation. Using
+this function should be for <strong>read only</strong>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">list</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="polygon.manager.ShapeManager.get_filename">
 <code class="descname">get_filename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.get_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.get_filename" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return JSON filename string</p>
@@ -284,6 +304,22 @@ to the end of the lists.</p>
 <dt id="polygon.manager.ShapeManager.hide">
 <code class="descname">hide</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.hide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.hide" title="Permalink to this definition">¶</a></dt>
 <dd><p>Hide all current shapes on the plot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.highlight">
+<code class="descname">highlight</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.highlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.highlight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Highlight the shape specified by <code class="docutils literal"><span class="pre">tag</span></code>. Also keeps track of
+a the previous highlight in order to unhighlight it before
+highlighting the current tag</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The tag of the object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">

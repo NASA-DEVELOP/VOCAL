@@ -22,6 +22,10 @@ The top most menu bar contains three directories: ``file`` , ``polygon`` and ``h
 * ``polygon`` relates to the database use, see :ref:`database` for more information.
 * ``help`` shows information on the project, and links to this website
 
+Located near the menu and off to the top right you'll find |sele| , this drop down menu is populated with all shapes
+currently drawn to the plot and will highlight the selected shape. If you wish to unselect all shapes, selecting the
+blank field will do so
+
 Off to the right is the tools window, this window is dedicated to the manipulation of the data displayed to the plot.
 
 * |rese| destroy all shapes existing in the plot and reset the view back to the original view of the initial
@@ -206,6 +210,7 @@ back to the database.
 
 .. |expo| image:: _static/exporting_menu.png
 .. |impo| image:: _static/importing_menu.png
+.. |sele| image:: _static/select_menu.png
 
 .. |dbwi| image:: _static/db_window.png
 .. |dbse| image:: _static/db_search.png

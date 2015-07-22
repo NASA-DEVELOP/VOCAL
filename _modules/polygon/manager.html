@@ -75,6 +75,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../packages.html">Required Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
@@ -188,6 +189,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Querying database for unique tag&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__moving_shape</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span> <span class="o">=</span> <span class="bp">None</span>
         
 <div class="viewcode-block" id="ShapeManager.anchor_rectangle"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.anchor_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">anchor_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
@@ -222,6 +224,18 @@
 <span class="sd">        :rtype: :py:class:`str`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.get_current_list"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.get_current_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the current list</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">           This function should **never** be used for any write operation. Using</span>
+<span class="sd">           this function should be for **read only**.</span>
+
+<span class="sd">        :rtype: :py:class:`list`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span>
 </div>
 <div class="viewcode-block" id="ShapeManager.plot_point"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.plot_point">[docs]</a>    <span class="k">def</span> <span class="nf">plot_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -286,6 +300,29 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Bounds out of plot range, skipping&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_coordinates</span><span class="p">([])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lastrect</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.highlight"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.highlight">[docs]</a>    <span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Highlight the shape specified by ``tag``. Also keeps track of</span>
+<span class="sd">        a the previous highlight in order to unhighlight it before</span>
+<span class="sd">        highlighting the current tag</span>
+
+<span class="sd">        :param str tag: The tag of the object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Disabling highlight&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_tag</span><span class="p">()</span> <span class="o">==</span> <span class="n">tag</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Highlighting </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span> <span class="o">=</span> <span class="n">shape</span>
+                <span class="n">shape</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="ShapeManager.set_hdf"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.set_hdf">[docs]</a>    <span class="k">def</span> <span class="nf">set_hdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hdf_filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -392,6 +429,7 @@
 <span class="sd">        Toggle whether current shapes should be outlined or remained filled on</span>
 <span class="sd">        the screen</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;removing shape fill for all shapes&#39;</span><span class="p">)</span>
         <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span>
         <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
             <span class="n">poly</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
@@ -407,6 +445,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Hide all current shapes on the plot</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;hiding all shapes from view&#39;</span><span class="p">)</span>
         <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span>
         <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
             <span class="n">poly</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
@@ -442,6 +482,8 @@
                     <span class="k">return</span> <span class="bp">False</span>
             <span class="k">return</span> <span class="bp">True</span>                     
 
+    <span class="c"># noinspection PyProtectedMember</span>
+
     <span class="c"># noinspection PyProtectedMember</span></div>
 <div class="viewcode-block" id="ShapeManager.properties"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -451,7 +493,7 @@
 <span class="sd">        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">target</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">artist</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Creating property window for shape&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Creating property window&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span> <span class="ow">is</span> <span class="n">target</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
@@ -518,7 +560,6 @@
 
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">:</span>
             <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Parse JSON data for plot </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">pack_shape</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">==</span> <span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
                 <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
@@ -564,6 +605,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">constants</span><span class="o">.</span><span class="n">PLOTS</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_saved</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_tag</span><span class="p">()</span>
             <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">()</span>
             <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">()</span>
@@ -575,9 +618,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">constants</span><span class="o">.</span><span class="n">PLOTS</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">shape_dict</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Encoding to JSON&quot;</span><span class="p">)</span>
         <span class="n">db</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_saved</span><span class="p">():</span>
-                <span class="n">shape</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="ShapeManager.save_all_json"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.save_all_json">[docs]</a>    <span class="k">def</span> <span class="nf">save_all_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -594,6 +634,8 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">)):</span>
             <span class="n">shape_dict</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_saved</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
                 <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_tag</span><span class="p">()</span>
                 <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">()</span>
                 <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">()</span>
@@ -604,11 +646,7 @@
             <span class="n">shape_dict</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">constants</span><span class="o">.</span><span class="n">PLOTS</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">shape_dict</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Encoding to JSON&quot;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">lst</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_saved</span><span class="p">():</span>
-                    <span class="n">shape</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div></div>
+        <span class="n">db</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>

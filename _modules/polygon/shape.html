@@ -75,6 +75,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../packages.html">Required Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
@@ -256,9 +257,9 @@
         <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%f</span><span class="s">, </span><span class="si">%f</span><span class="s">&#39;</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__prev_x</span><span class="p">,</span>
-                                                                 <span class="nb">abs</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">-</span> <span class="mi">57</span><span class="p">),</span>
+                                                                 <span class="nb">abs</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">-</span> <span class="mi">62</span><span class="p">),</span>
                                                                  <span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
-                                                                 <span class="nb">abs</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">-</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">57</span><span class="p">))</span>
+                                                                 <span class="nb">abs</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">-</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="mi">62</span><span class="p">))</span>
 </div>
 <div class="viewcode-block" id="Shape.fill_rectangle"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.fill_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">fill_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -379,7 +380,22 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Caught invalid attribute for setting </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">)</span>
                 <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span> <span class="o">=</span> <span class="n">attributes_list</span>
-        </div>
+</div>
+<div class="viewcode-block" id="Shape.set_highlight"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_highlight">[docs]</a>    <span class="k">def</span> <span class="nf">set_highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">highlight</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the ``linewidth`` and ``linestyle`` attributes of a the internal item</span>
+<span class="sd">        handler. Highlights if *highlight* is ``True``, otherwise sets to normal</span>
+<span class="sd">        outline.</span>
+
+<span class="sd">        :param bool highlight:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">highlight</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s">&#39;dashed&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s">&#39;solid&#39;</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="Shape.save"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Marks the shape as saved</span>
@@ -561,7 +577,7 @@
             <span class="k">return</span> <span class="bp">False</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Stringing shape&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Stringing </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span><span class="p">)</span>
         <span class="n">time_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">mpl</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">num2date</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S %p&#39;</span><span class="p">)</span> <span class="k">for</span>
                       <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">]</span>
         <span class="n">altitude_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">]</span>

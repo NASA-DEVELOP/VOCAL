@@ -75,6 +75,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../packages.html">Required Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
@@ -347,14 +348,27 @@
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Importing selection&#39;</span><span class="p">)</span>
         <span class="c"># For all selected items in window</span>
+        <span class="n">skip</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
             <span class="c"># Find those items in internal list and import them</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="s">&#39;values&#39;</span><span class="p">)</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Encoding </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s"> to JSON&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">tag</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">]</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Forwarding JSON to be read&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_shapemanager</span><span class="p">()</span><span class="o">.</span><span class="n">read_plot</span><span class="p">(</span>
-                <span class="n">read_from_str</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">[</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])]))</span>
+            <span class="n">fname</span> <span class="o">=</span> <span class="n">tag</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">cfname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_file</span><span class="p">()</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">fname</span> <span class="o">!=</span> <span class="n">cfname</span><span class="p">:</span>
+                <span class="n">skip</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">tkMessageBox</span><span class="o">.</span>\
+                    <span class="n">askyesno</span><span class="p">(</span><span class="s">&#39;Unmatched files&#39;</span><span class="p">,</span>
+                             <span class="s">&#39;</span><span class="si">%s</span><span class="s"> is from a different file than currently&#39;</span>
+                             <span class="o">%</span> <span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span>
+                             <span class="s">&#39; loaded, proceed anyways? </span><span class="se">\n</span><span class="s">current:</span><span class="si">%s</span><span class="s"> </span><span class="se">\n</span><span class="s">loaded:</span><span class="si">%s</span><span class="s">&#39;</span>
+                             <span class="o">%</span> <span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">cfname</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">skip</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Encoding </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s"> to JSON&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">tag</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">]</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Forwarding JSON to be read&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_shapemanager</span><span class="p">()</span><span class="o">.</span><span class="n">read_plot</span><span class="p">(</span>
+                    <span class="n">read_from_str</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">[</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])]))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;skipping loading for </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Done&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
 </div>

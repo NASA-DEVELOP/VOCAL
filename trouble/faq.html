@@ -76,6 +76,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../packages.html">Required Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
@@ -144,18 +145,18 @@
             
   <div class="section" id="troubleshoot">
 <h1>Troubleshoot<a class="headerlink" href="#troubleshoot" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-python"><div class="highlight"><pre>&gt; How do I actually run this project?
+<div class="highlight-python"><div class="highlight"><pre>&gt; how do I actually run this project?
 </pre></div>
 </div>
 <blockquote>
 <div>The main is included in <code class="docutils literal"><span class="pre">Calipso.py</span></code>, once you&#8217;ve followed the installation instructions run it through either eclipse or <code class="docutils literal"><span class="pre">python</span> <span class="pre">Calipso.py</span></code></div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre>&gt; When I try to run the project I get the error:
+<div class="highlight-python"><div class="highlight"><pre>&gt; when I try to run the project I get the error:
 &gt; ImportError:  cannot import name _imagingtk
 </pre></div>
 </div>
 <blockquote>
 <div><p>First, ensure you do not have PIL installed alongside Pillow. These two packages can not coexist and will likely cause issues if you have both installed.</p>
-<p>If that is not the case, for Linux users try running sudo apt-get install python-imaging-tk . Windows users need to take a couple extra steps</p>
+<p>If that is not the case, for Linux users try running <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-imaging-tk</span></code> . Windows users need to take a couple extra steps</p>
 <ul class="simple">
 <li>Remove any related packages on conda, <code class="docutils literal"><span class="pre">conda</span> <span class="pre">remove</span> <span class="pre">PIL</span></code> or <code class="docutils literal"><span class="pre">conda</span> <span class="pre">remove</span> <span class="pre">Pilow</span></code></li>
 <li>Install <code class="docutils literal"><span class="pre">PIL</span></code> from <a class="reference external" href="http://www.pythonware.com/products/pil/">here</a> , <code class="docutils literal"><span class="pre">PIL-1.1.7.win32-py2.7.exe</span></code></li>
@@ -166,7 +167,18 @@
 </div>
 <blockquote>
 <div>This is an error due to the setup.py script not being comprehensive, the solution is covered in the <a class="reference internal" href="../installation.html"><em>Installation</em></a> instructions for Linux. You can also read about why you get this issue on the github bug tracker for ccplot <a class="reference external" href="https://github.com/peterkuma/ccplot/issues/1">here[1]</a></div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre>&gt; While importing PIL on windows, Eclipse tells me Image
+<div class="highlight-python"><div class="highlight"><pre>&gt; running &#39;port selfupdate&#39; gives me error about the connection being refused
+</pre></div>
+</div>
+<blockquote>
+<div>Your firewall is likely blocked, see the <a class="reference internal" href="../installation.html"><em>OS X installations instructions</em></a> for further information</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>&gt; ccplot can&#39;t seem to find the package basemap, but I already installed it
+</pre></div>
+</div>
+<blockquote>
+<div>The problem is that your python path is probably set to the default python supplied by OS X,
+but you want to use the python supplied by macports. To do this see the <a class="reference internal" href="../installation.html"><em>OS X installations instructions</em></a></div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>&gt; while importing PIL on windows, Eclipse tells me Image
 &gt; and ImageTk are unresolved
 </pre></div>
 </div>
