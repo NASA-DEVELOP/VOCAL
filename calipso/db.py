@@ -200,13 +200,15 @@ class DatabaseManager(object):
         session.commit()
         session.close()
 
-    def dump_to_json(self, dir_):
+    def dump_to_json(self, fl):
         session = self.__Session()
-        if not os.path.exists(dir_):
-            os.makedirs(PATH + 'tmp')
+        if os.path.exists(PATH + 'tmp'):
+            logger.error('tmp directory should not exist, will not zip')
+            return False
+        os.makedirs(PATH + 'tmp')
         for shape in session.query(DatabasePolygon).order_by(DatabasePolygon.tag):
             self.encode(PATH + 'tmp\\' + shape.tag + '.json', str(shape))
-        zipf = zipfile.ZipFile(dir_ + '.zip', 'w')
+        zipf = zipfile.ZipFile(fl, 'w')
         zipdir(PATH + 'tmp', zipf)
         zipf.close()
         shutil.rmtree(PATH + 'tmp')

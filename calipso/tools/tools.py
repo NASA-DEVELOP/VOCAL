@@ -9,9 +9,9 @@ import ast
 import matplotlib as mpl
 from datetime import datetime
 import os
-import zipfile
 
 from log import logger
+
 
 def center(toplevel, size):
     """
@@ -42,6 +42,7 @@ def byteify(inp):
     else:
         return inp
 
+
 def time_to_seconds(t):
     """
     Convert a time string into a strings containing only seconds
@@ -54,9 +55,11 @@ def time_to_seconds(t):
     # logging.debug("Converting time: %s", t)
     t = t[:-6]
     t = datetime.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
-    ret = datetime.timedelta(hours=t.hour, minutes=t.minute, seconds=t.second, microseconds=t.microsecond).total_seconds()
+    ret = datetime.timedelta(hours=t.hour, minutes=t.minute,
+                             seconds=t.second, microseconds=t.microsecond).total_seconds()
     logger.debug("Seconds %s", ret)
     return ret
+
 
 def get_shape_ranges(coordinates):
     """
@@ -76,7 +79,19 @@ def get_shape_ranges(coordinates):
     return '%s, %s - %s' % (start_date, min(time_cords), max(time_cords)), \
            '%07.4f km - %07.4f km' % (min(altitude_cords), max(altitude_cords))
 
+
 def interpolation_search(sorted_list, to_find, variance):
+    """
+    Interpolation  search algorithm for determining the location of the
+    point according to sorted_list, the sorted_list has a constant step
+    and can thus give this algorithm the complexity of just ``O(log log(n))``
+
+    :param list sorted_list: The sorted list to search in
+    :param float to_find: The point to find
+    :param float variance: A constant variance allowed for finding the point
+
+    :rtype: float
+    """
     low = 0
     high = len(sorted_list) - 1
 
@@ -90,7 +105,6 @@ def interpolation_search(sorted_list, to_find, variance):
             high = mid - 1
         else:
             return mid
-    print "intp:", low, sorted_list[low], to_find
     t_var = variance
     while abs(sorted_list[low] - to_find) > variance:
         t_var += .001
@@ -99,11 +113,21 @@ def interpolation_search(sorted_list, to_find, variance):
                        % variance)
     return low
 
+
 def zipdir(path, ziph):
+    """
+    Zip the contents of a directory into the ZipFile object ziph,
+    walks through the directory entered and will copy all files to
+    the BASE directory of the ZipFile
+
+    :param str path: The path of the folder to zip
+    :param ZipFile ziph: A :py:class:`ZipFile` object
+    """
     for root, dirs, files in os.walk(path):
         print root, dirs, files
-        for file in files:
-            ziph.write(os.path.join(root, file), file)
+        for file_ in files:
+            ziph.write(os.path.join(root, file_), file_)
+
 
 class Catcher:
     """

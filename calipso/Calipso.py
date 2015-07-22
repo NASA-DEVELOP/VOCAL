@@ -4,12 +4,13 @@
 #   @Author: Grant Mercer
 #   @Author: Nathan Qian
 ##########################
+import matplotlib
+matplotlib.use('tkAgg')
 from Tkconstants import RIGHT, END
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
     SUNKEN, StringVar
 import logging
-import re
 from sys import platform as _platform
 from tkColorChooser import askcolor
 import tkFileDialog
@@ -23,7 +24,6 @@ import constants
 from exctractdialog import ExtractDialog
 from importdialog import ImportDialog
 from log import logger
-import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from plot.plot_depolar_ratio import drawDepolar
@@ -34,10 +34,8 @@ from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.optionmenu import ShapeOptionMenu
 from tools.tools import Catcher
 from toolswindow import ToolsWindow
-from datetime import datetime
 from db import db
 import matplotlib.image as mpimg
-matplotlib.use('tkAgg')
 
 class Calipso(object):
     """
@@ -286,18 +284,20 @@ class Calipso(object):
         Export the contents of the database to a JSON file, which can then be
         loaded into other databases and have all shapes imported
         """
-        today = datetime.utcnow().replace(microsecond=0)
-        today = re.sub("[^0-9]", "", str(today))
-        dir = constants.PATH + today
-        log_dir = today
-        logger.info('Dumping database to \'%s.zip\'' % log_dir)
-        success = db.dump_to_json(dir)
-        if success:
-            logger.info('Success, JSON file created')
-            tkMessageBox.showinfo('database', 'Database exported to \'%s.zip\'' % dir)
-        else:
-            logger.error('No objects to be saved')
-            tkMessageBox.showerror('database', 'No objects inside database to export to JSON')
+        options = dict()
+        options['defaultextension'] = '.zip'
+        options['filetypes'] = [('ZIP Files', '*.zip'), ('All files', '*')]
+        fl = tkFileDialog.asksaveasfilename(**options)
+        if fl != '':
+            log_fname = fl.rpartition('/')[2]
+            logger.info('Dumping database to \'%s\'' % log_fname)
+            success = db.dump_to_json(fl)
+            if success:
+                logger.info('Success, JSON file created')
+                tkMessageBox.showinfo('database', 'Database exported to \'%s\'' % log_fname)
+            else:
+                logger.error('No objects to be saved')
+                tkMessageBox.showerror('database', 'No objects inside database to export to JSON')
 
     @staticmethod
     def import_json_db():
@@ -312,10 +312,9 @@ class Calipso(object):
         options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
         fl = tkFileDialog.askopenfilename(**options)
         if fl != '':
-            fname = fl
-            log_fname = fname.rpartition('/')[2]
+            log_fname = fl.rpartition('/')[2]
             logger.info('Importing database from \'%s\'' % log_fname)
-            success = db.import_from_json(fname)
+            success = db.import_from_json(fl)
             if success:
                 logger.info('Success, JSON file imported')
                 tkMessageBox.showinfo('database', 'shapes from %s imported' % log_fname)
@@ -395,7 +394,14 @@ class Calipso(object):
         ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange).\
             wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
 
+    # noinspection PyUnusedLocal
     def import_window(self, event):
+        """
+        Open the database import window allowing the user to import and
+        delete entries.
+
+        :param event: ignored Tkinter event object
+        """
         logger.info('Opening database import window')
         ImportDialog(self.__root, self).\
             wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
