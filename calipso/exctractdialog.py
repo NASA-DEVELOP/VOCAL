@@ -18,6 +18,7 @@ import matplotlib as mpl
 import numpy as np
 from tools.tools import interpolation_search
 from log import logger
+import tkMessageBox
 
 
 # noinspection PyUnresolvedReferences
@@ -63,7 +64,12 @@ class ExtractDialog(Toplevel):
         self.title('Data Subplot')
 
         logger.info('Reading shape data')
-        self.create_subplot()
+        try:
+            self.create_subplot()
+        except ZeroDivisionError:
+            logger.error('Shape too small to extract data')
+            tkMessageBox.showerror('extractdialog', 'Shape too small to extract data')
+            return
         self.update()
         self.deiconify()
 
@@ -133,8 +139,9 @@ class ExtractDialog(Toplevel):
             logger.info('Applying search algorithm to determine shape bounds')
             x1 = int(interpolation_search(n_time, min_time, TIME_VARIANCE))
             x2 = int(interpolation_search(n_time, max_time, TIME_VARIANCE))
-
-            print x1, x2
+            
+            if abs(x1 - x2) <= 1:
+                raise ZeroDivisionError
 
             logger.info('Setting bounds for new subplot')
             time = time[x1:x2]

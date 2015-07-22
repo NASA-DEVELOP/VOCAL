@@ -111,6 +111,7 @@ def interpolation_search(sorted_list, to_find, variance):
     if variance != t_var:
         logger.warning("interpolation variance expanded to %f to meet requirements"
                        % variance)
+    logger.debug("Interpolation low: %s", low)
     return low
 
 
