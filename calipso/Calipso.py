@@ -8,6 +8,7 @@ from Tkconstants import RIGHT
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
     SUNKEN, OptionMenu, StringVar
+import antigravity
 import logging
 from sys import platform as _platform
 import tkFileDialog
