@@ -4,40 +4,40 @@
 #   @Author: Grant Mercer
 #   @Author: Nathan Qian
 ##########################
-from Tkconstants import RIGHT
+from Tkconstants import RIGHT, END
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
-    SUNKEN, OptionMenu, StringVar
+    SUNKEN, StringVar
 import logging
 import re
 from sys import platform as _platform
+from tkColorChooser import askcolor
 import tkFileDialog
 import tkMessageBox
 import webbrowser
-import matplotlib.image as mpimg
-import matplotlib
-matplotlib.use('tkAgg')
 
+from attributesdialog import AttributesDialog
 from bokeh.colors import white
+from constants import Plot, PATH
+import constants
+from exctractdialog import ExtractDialog
+from importdialog import ImportDialog
+from log import logger
+import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from plot.plot_depolar_ratio import drawDepolar
 from plot.plot_uniform_alt_lidar_dev import render_backscattered
 from polygon.manager import ShapeManager
-from attributesdialog import AttributesDialog
-from constants import Plot, PATH
-import constants
-from importdialog import ImportDialog
-from log import logger
-from tools.optionmenu import ShapeOptionMenu
 from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
+from tools.optionmenu import ShapeOptionMenu
 from tools.tools import Catcher
 from toolswindow import ToolsWindow
-from tkColorChooser import askcolor
-from exctractdialog import ExtractDialog
 from datetime import datetime
 from db import db
+import matplotlib.image as mpimg
+matplotlib.use('tkAgg')
 
 class Calipso(object):
     """
@@ -208,7 +208,10 @@ class Calipso(object):
         else:
             logger.info('Panning forwards')
             self.set_plot(self.plot, (self.xrange[0] + dst, self.xrange[1] + dst))
-        pass
+        self.__child.begin_range_entry.delete(0, END)
+        self.__child.end_range_entry.delete(0, END)
+        self.__child.begin_range_entry.insert(END, str(self.xrange[0]))
+        self.__child.end_range_entry.insert(END, str(self.xrange[1]))
 
     # noinspection PyUnusedLocal
     def update_shape_optionmenu(self, event):
@@ -237,6 +240,8 @@ class Calipso(object):
                 self.__shapemanager.save_json()  # Else do a normal save with internal file
             if saved:
                 tkMessageBox.showinfo('save', 'Shapes saved successfully')
+            else:
+                return False
         else:
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
@@ -318,15 +323,6 @@ class Calipso(object):
                 logger.error('Invalid JSON file')
                 tkMessageBox.showerror('database', 'Invalid JSON file %s' % log_fname)
             
-    def transient_save(self):
-        """
-        Function to save the file before closing the application. If the user
-        decides they wish to save before closing, transient_save is called to
-        save to JSON then proceeds to exit the application.
-        """
-        self.save_json()
-        self.__root.destroy()
-
     def import_file(self):
         """
         Load an HDF file for use with displaying backscatter and depolarized images
@@ -568,12 +564,16 @@ class Calipso(object):
                                'There are unsaved shapes on the plot. Save these shapes?')
             if answer is True:
                 logger.info('Saving shapes')
-                self.transient_save()
+                saved = self.save_json()
+                if saved:
+                    self.__root.destroy()
+                else:
+                    return
             elif answer is False:
                 logger.info('Dumping unsaved shapes')
                 self.__root.destroy()
             elif answer is None:
-                pass
+                return
         else:
             self.__root.destroy()
 
