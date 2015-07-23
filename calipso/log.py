@@ -32,7 +32,7 @@ config = {
                 },
           'loggers': {
                 '': {
-                     'handlers': ['logfile'],
+                     'handlers': ['logfile', 'consoleHandler'],
                      'level': 'DEBUG',
                      'propagate': True
                      }
