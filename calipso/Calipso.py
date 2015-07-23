@@ -19,7 +19,7 @@ import webbrowser
 
 from attributesdialog import AttributesDialog
 from bokeh.colors import white
-from constants import Plot, PATH
+from constants import Plot, PATH, ICO
 import constants
 from exctractdialog import ExtractDialog
 from importdialog import ImportDialog
@@ -118,7 +118,7 @@ class Calipso(object):
         if plot_type == Plot.baseplot:
             # Hide the axis and print an image
             self.__shapemanager.set_plot(Plot.baseplot)
-            im = mpimg.imread(PATH + r'\dat\CALIPSO.jpg')
+            im = mpimg.imread(PATH + '/dat/CALIPSO.jpg')
             self.__fig.get_yaxis().set_visible(False)
             self.__fig.get_xaxis().set_visible(False)
             self.__fig.imshow(im)
@@ -364,7 +364,7 @@ class Calipso(object):
         shape = self.__shapemanager.find_shape(event)
         logger.info('Opening attributes dialog')
         AttributesDialog(self.__root, shape).\
-            wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
+            wm_iconbitmap(ICO)
         
     def paint_window(self, event):
         """
@@ -392,7 +392,7 @@ class Calipso(object):
         shape = self.__shapemanager.find_shape(event)
         logger.info("Extracting data for %s" % shape.get_tag())
         ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange).\
-            wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
+            wm_iconbitmap(ICO)
 
     # noinspection PyUnusedLocal
     def import_window(self):
@@ -404,7 +404,7 @@ class Calipso(object):
         """
         logger.info('Opening database import window')
         ImportDialog(self.__root, self).\
-            wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
+            wm_iconbitmap(ICO)
 
     def get_root(self):
         """
@@ -485,8 +485,8 @@ class Calipso(object):
         else:
             self.__child.geometry('%dx%d+%d+%d' % (
                 constants.CHILDWIDTH, constants.CHILDHEIGHT, x + constants.WIDTH + 50, y + constants.HEIGHT / 4))
-        self.__root.wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
-        self.__child.wm_iconbitmap(PATH + r'\ico\broadcasting.ico')
+            self.__root.wm_iconbitmap(ICO)
+            self.__child.wm_iconbitmap(ICO)
 
     def create_top_gui(self):
         """

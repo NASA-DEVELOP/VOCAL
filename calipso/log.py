@@ -18,7 +18,7 @@ sys.excepthook = uncaught_exception
 # disable_existing_loggers=False)
 logger = logging.getLogger('VOCAL')
 
-path = PATH + r'\log\logging.ini'
+path = PATH + '/log/logging.ini'
 logging.config.fileConfig(path, disable_existing_loggers=False)
 
 if __name__ == '__main__':
