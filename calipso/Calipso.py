@@ -485,8 +485,8 @@ class Calipso(object):
         else:
             self.__child.geometry('%dx%d+%d+%d' % (
                 constants.CHILDWIDTH, constants.CHILDHEIGHT, x + constants.WIDTH + 50, y + constants.HEIGHT / 4))
-            self.__root.wm_iconbitmap(ICO)
-            self.__child.wm_iconbitmap(ICO)
+        self.__root.wm_iconbitmap(ICO)
+        self.__child.wm_iconbitmap(ICO)
 
     def create_top_gui(self):
         """

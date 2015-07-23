@@ -157,7 +157,7 @@ class DatabaseManager(object):
                     DatabasePolygon(tag=polygon.get_tag(),
                                     time_=time,
                                     hdf=f.rpartition('/')[2],
-                                    plot=polygon.get_plot().name,
+                                    plot=constants.plot_type_enum.keys()[polygon.get_plot()],
                                     color=polygon.get_color(),
                                     attributes=str(polygon.get_attributes()),
                                     coordinates=str(polygon.get_coordinates()),
