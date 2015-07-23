@@ -12,7 +12,7 @@ import constants
 from tools.tools import zipdir
 
 from constants import PATH
-from sqlalchemy import create_engine, Column, Integer, String, desc
+from sqlalchemy import create_engine, Column, Integer, String, func, NUMERIC
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from tools.tools import byteify
@@ -103,7 +103,9 @@ class DatabaseManager(object):
         """
         session = self.__Session()
         # Grab db objects sorted by tag
-        db_objects = session.query(DatabasePolygon).order_by(desc(DatabasePolygon.tag))
+        db_objects = session.query(DatabasePolygon).order_by(
+            func.cast(func.replace(DatabasePolygon.tag, 'shape', ''),
+                      NUMERIC).desc())
         # If database is empty, set tag to 0
         if db_objects.count() == 0:
             logger.info('No tags found, setting base case')

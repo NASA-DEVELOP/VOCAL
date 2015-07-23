@@ -40,6 +40,7 @@ HELP_PAGE = 'http://syntaf.github.io/vocal/'
 TIME_VARIANCE = 0.001
 ALTITUDE_VARIANCE = 0.3
 PATH = os.path.dirname(os.path.realpath(__file__))
+
 ICO = PATH + '/ico/broadcasting.ico'
 if _platform == "linux" or _platform == "linux2":
     ICO = ''
