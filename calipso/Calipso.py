@@ -547,9 +547,9 @@ class Calipso(object):
         menu_polygon.add_command(label='Import from Database', command=self.import_window)
         menu_polygon.add_command(label='Export to Database', command=self.export_db)
         menu_polygon.add_separator()
-        menu_polygon.add_command(label='Import JSON to Database',
+        menu_polygon.add_command(label='Import archive to database',
                                  command=Calipso.import_json_db)
-        menu_polygon.add_command(label='Export Database to JSON',
+        menu_polygon.add_command(label='Export database to archive',
                                  command=Calipso.export_json_db)
         menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
 
