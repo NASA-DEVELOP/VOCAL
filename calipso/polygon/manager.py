@@ -185,6 +185,14 @@ class ShapeManager(object):
         """
         self.__hdf = hdf_filename
 
+    def get_hdf(self):
+        """
+        Return the hdf string that objects are currently drawn to
+
+        :rtype: :py:class:`str`
+        """
+        return self.__hdf
+
     def clear_refs(self):
         """
         Clear all references to the current figure, this is called
@@ -247,18 +255,25 @@ class ShapeManager(object):
         ShapeManager.shape_count += 1
         return string
 
-    def reset(self):
+    def reset(self, all_=False):
         """
         Clear the screen of any shapes present from the current_list
         """
-        logger.info("Resetting ShapeManager")
-        for shape in self.__current_list:
-            if not shape.is_empty():
-                shape.remove()
-        self.__canvas.show()
-        idx = self.__shape_list.index(self.__current_list)
-        self.__shape_list[idx] = [Shape(self.__canvas)]
-        self.__current_list = self.__shape_list[idx]
+        if all_:
+            logger.info('clearing all shapes')
+            self.__shape_list = [[Shape(self.__canvas)],           # baseplot
+                                 [Shape(self.__canvas)],           # backscattered
+                                 [Shape(self.__canvas)],           # depolarized
+                                 [Shape(self.__canvas)]]           # vfm
+        else:
+            logger.info('Resetting ShapeManager')
+            for shape in self.__current_list:
+                if not shape.is_empty():
+                    shape.remove()
+            self.__canvas.show()
+            idx = self.__shape_list.index(self.__current_list)
+            self.__shape_list[idx] = [Shape(self.__canvas)]
+            self.__current_list = self.__shape_list[idx]
 
     def delete(self, event):
         """

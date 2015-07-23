@@ -128,14 +128,18 @@ class Calipso(object):
                 # and render the backscattered plot to it
                 logger.info('Setting plot to backscattered xrange: ' +
                             str(xrange_) + ' yrange: ' + str(yrange))
-                self.__shapemanager.clear_refs()
+                if self.__shapemanager.get_hdf() != '' and \
+                   self.__file != self.__shapemanager.get_hdf():
+                    self.__shapemanager.reset(all_=True)
+                else:
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
                 render_backscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.backscattered, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
-                self.__shapemanager.reset()
                 self.plot = Plot.backscattered
             except IOError:
                 logger.error('IOError, no file exists')
@@ -146,14 +150,18 @@ class Calipso(object):
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
                 logger.error('Needs to be reimplemented')
-                self.__shapemanager.clear_refs()
+                if self.__shapemanager.get_hdf() != '' and \
+                   self.__file != self.__shapemanager.get_hdf():
+                    self.__shapemanager.reset(all_=True)
+                else:
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
                 drawDepolar(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.depolarized, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
-                self.__shapemanager.reset()
                 self.plot = Plot.depolarized
             except IOError:
                 logger.error('IOError, no file exists')
@@ -347,7 +355,6 @@ class Calipso(object):
             segments = self.__file.rpartition('/')
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
                                             text=segments[2])
-            self.__shapemanager.set_hdf(self.__file)
 
     def load(self):
         """
