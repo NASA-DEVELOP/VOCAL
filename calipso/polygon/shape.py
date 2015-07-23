@@ -6,13 +6,14 @@
 ######################################
 
 import random
-import constants
+
 import matplotlib as mpl
 import matplotlib.lines as mlines
-
-from constants import Plot, TAGS
-from log import logger
 from matplotlib.patches import Polygon
+
+import constants
+from constants import Plot, TAGS
+from log.log import logger
 from tools.linearalgebra import tuple_to_nparray, is_intersecting, \
     get_intersection, nparray_to_tuple
 

@@ -12,7 +12,7 @@ from polygon.reader import ShapeReader
 from polygon.shape import Shape
 from constants import Plot
 from db import db
-from log import logger
+from log.log import logger
 
 
 class ShapeManager(object):

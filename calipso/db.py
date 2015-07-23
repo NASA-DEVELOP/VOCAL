@@ -8,18 +8,19 @@
 import json
 import os
 import re
+import zipfile
+import shutil
+import ast
+
 import constants
 from tools.tools import zipdir
-
 from constants import PATH
 from sqlalchemy import create_engine, Column, Integer, String, func, NUMERIC
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from tools.tools import byteify
-from log import logger
-import zipfile
-import shutil
-import ast
+from log.log import logger
+
 
 # Create a declarative_base for dbPolygon to inherit from
 dbBase = declarative_base()

@@ -11,7 +11,7 @@ import tkMessageBox
 
 from PIL import ImageTk
 from constants import Plot, PATH
-from log import logger
+from log.log import logger
 from tools.toggleablebutton import ToggleableButton, ToolbarToggleableButton
 from tools.tooltip import create_tool_tip
 

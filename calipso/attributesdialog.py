@@ -4,10 +4,11 @@
 # @author: Grant Mercer
 #
 ######################################
-from constants import TAGS
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED, LEFT
 from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
-from log import logger
+
+from constants import TAGS
+from log.log import logger
 
 
 class AttributesDialog(Toplevel):

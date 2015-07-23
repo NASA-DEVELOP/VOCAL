@@ -10,7 +10,7 @@ import json
 import constants
 
 from constants import PLOTS
-from log import logger
+from log.log import logger
 from polygon.shape import Shape
 from tools.tools import byteify
 from db import db
