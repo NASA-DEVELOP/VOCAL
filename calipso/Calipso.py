@@ -493,11 +493,18 @@ class Calipso(object):
         # the child is designed to appear off to the right of the parent window, so the x location
         # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
         # plus a fourth the distance of the window
+        print _platform
         if _platform == "linux" or _platform == "linux2":
             logger.info("Linux system detected")
             self.__child.geometry('%dx%d+%d+%d' % (
                 constants.CHILDWIDTH + 50, constants.CHILDHEIGHT, x + constants.WIDTH,
                 y + constants.HEIGHT / 4))
+        elif _platform == 'darwin':
+            logger.info('OSX system detected')
+            self.__child.geometry('%dx%d+%d+%d' % (
+                constants.CHILDWIDTH + 75, constants.CHILDHEIGHT + 50, x + constants.WIDTH,
+                y + constants.HEIGHT / 4
+            ))
         else:
             self.__child.geometry('%dx%d+%d+%d' % (
                 constants.CHILDWIDTH, constants.CHILDHEIGHT, x + constants.WIDTH + 50, y + constants.HEIGHT / 4))
