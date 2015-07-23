@@ -106,6 +106,7 @@ class ShapeReader(object):
                 shape_list[-1].set_attributes(attributes)
                 shape_list[-1].set_coordinates(coordinates)
                 shape_list[-1].set_notes(notes)
+                shape_list[-1].save()
                 shape_list.append(Shape(canvas))
         except KeyError:
             logger.error('Bad data in JSON file')
