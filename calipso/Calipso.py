@@ -281,23 +281,29 @@ class Calipso(object):
     @staticmethod
     def export_json_db():
         """
-        Export the contents of the database to a JSON file, which can then be
+        Export the contents of the database to an archive containing JSON, which can then be
         loaded into other databases and have all shapes imported
         """
-        options = dict()
-        options['defaultextension'] = '.zip'
-        options['filetypes'] = [('ZIP Files', '*.zip'), ('All files', '*')]
-        fl = tkFileDialog.asksaveasfilename(**options)
-        if fl != '':
-            log_fname = fl.rpartition('/')[2]
-            logger.info('Dumping database to \'%s\'' % log_fname)
-            success = db.dump_to_json(fl)
-            if success:
-                logger.info('Success, JSON file created')
-                tkMessageBox.showinfo('database', 'Database exported to \'%s\'' % log_fname)
-            else:
-                logger.error('No objects to be saved')
-                tkMessageBox.showerror('database', 'No objects inside database to export to JSON')
+        if tkMessageBox.askyesno('Export database',
+                                 'Database will be exported to a specified' +
+                                 ' archive (this operation is a copy, not a move)' +
+                                 ' continue?'):
+            options = dict()
+            options['defaultextension'] = '.zip'
+            options['filetypes'] = [('ZIP Files', '*.zip'), ('All files', '*')]
+            fl = tkFileDialog.asksaveasfilename(**options)
+            if fl != '':
+                log_fname = fl.rpartition('/')[2]
+                logger.info('Dumping database to \'%s\'' % log_fname)
+                success = db.dump_to_json(fl)
+                if success:
+                    logger.info('Success, JSON file created')
+                    tkMessageBox.showinfo('database', 'Database exported to \'%s\'' % log_fname)
+                else:
+                    logger.error('No objects to be saved')
+                    tkMessageBox.showerror('database', 'No objects inside database to export to JSON')
+        else:
+            logger.info('Export to database canceled')
 
     @staticmethod
     def import_json_db():
@@ -317,7 +323,8 @@ class Calipso(object):
             success = db.import_from_json(fl)
             if success:
                 logger.info('Success, JSON file imported')
-                tkMessageBox.showinfo('database', 'shapes from %s imported' % log_fname)
+                tkMessageBox.showinfo('database', 'shapes from %s imported ' % log_fname +
+                                      '(note: new tags have been assigned to these shapes!)')
             else:
                 logger.error('Invalid JSON file')
                 tkMessageBox.showerror('database', 'Invalid JSON file %s' % log_fname)

@@ -4,14 +4,13 @@
 #    @author: Nathan Qian
 #    @author: Grant Mercer
 ######################################
+import constants
+
 from Tkinter import Toplevel, Label, SOLID, TclError, LEFT
 from datetime import datetime
-
 from polygon.reader import ShapeReader
 from polygon.shape import Shape
-
 from constants import Plot
-import constants
 from db import db
 from log import logger
 
@@ -22,30 +21,29 @@ class ShapeManager(object):
     call and provides other export functionality
     """
 
-    outline_toggle = True
-    hide_toggle = True
-    shape_count = db.query_unique_tag()
+    outline_toggle = True                   # global var for setting fill of shapes
+    hide_toggle = True                      # global var for hiding shapes
+    shape_count = db.query_unique_tag()     # global shape_count for initial shape tag
 
     def __init__(self, figure, canvas,  master):
-        self.__figure = figure
-        self.__canvas = canvas
-        self.__master = master
-        self.__current_plot = Plot.baseplot
+        self.__figure = figure                          # figure to draw to
+        self.__canvas = canvas                          # canvas the figure lives on
+        self.__master = master                          # CALIPSO
+        self.__current_plot = Plot.baseplot             # default plot
         logger.info('Defining initial shape manager')
-        self.__shape_list = [[Shape(canvas)],
-                             [Shape(canvas)],
-                             [Shape(canvas)],
-                             [Shape(canvas)]]
+        self.__shape_list = [[Shape(canvas)],           # baseplot
+                             [Shape(canvas)],           # backscattered
+                             [Shape(canvas)],           # depolarized
+                             [Shape(canvas)]]           # vfm
         logger.info("Instantiating Exporting Reader")
-        self.__current_list = None
-        self.__current_file = ''
-        self.__hdf = ''
-        self.__shapereader = ShapeReader()
-        self.__data = {}
+        self.__current_list = None          # aliases shape_list's current plot
+        self.__current_file = ''            # current JSON file, NOT .hdf file!
+        self.__hdf = ''                     # hdf file
+        self.__shapereader = ShapeReader()  # internal reader object for exporting
+        self.__data = {}                    # data to hold JSON data for exporting
         logger.info("Querying database for unique tag")
-        self.__moving_shape = None
-        self.__phl = None
-        self.property_window = None
+        self.__phl = None                   # 'previoushighlightshape', for unsetting highlight
+        self.property_window = None         # creates a property window
         
     def anchor_rectangle(self, event):
         """

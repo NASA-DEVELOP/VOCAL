@@ -7,8 +7,9 @@
 # import antigravity
 import ast
 import json
-
 import constants
+
+from constants import PLOTS
 from log import logger
 from polygon.shape import Shape
 from tools.tools import byteify
@@ -85,7 +86,7 @@ class ShapeReader(object):
                 if entry is not None and int(entry) in [x.get_id() for x in shape_list]:
                     continue
                 logger.info('Found data in %s, packing polygon with JSON data'
-                            % enum_plot_type)
+                            % PLOTS[enum_plot_type])
                 color = self.__data[plot_type][shape]['color']
                 coordinates = self.__data[plot_type][shape]['coordinates']
                 attributes = self.__data[plot_type][shape]['attributes']

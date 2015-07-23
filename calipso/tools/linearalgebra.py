@@ -22,6 +22,16 @@ def perpendicular(a):
     return b
 
 def distance(x1, y1, x2, y2):
+    """
+    Find the distance between two points on an arbitrary scale
+
+    :param x1: x coordinate 1
+    :param y1: y coordinate 1
+    :param x2: x coordinate 2
+    :param y2: y coordinate 2
+
+    :rtype: float
+    """
     return sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
 def is_in_segment(a, b, c):

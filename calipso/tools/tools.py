@@ -50,9 +50,7 @@ def time_to_seconds(t):
     :param str t: time in *%Y-%m-%d %H:%M:%S.%f* format
     :rtype: :py:class:`str`
     """
-    # trouble with getting microseconds to display
     t = str(t)
-    # logging.debug("Converting time: %s", t)
     t = t[:-6]
     t = datetime.strptime(t, '%Y-%m-%d %H:%M:%S.%f')
     ret = datetime.timedelta(hours=t.hour, minutes=t.minute,
@@ -131,7 +129,7 @@ def zipdir(path, ziph):
 
 class Catcher:
     """
-    A Tkinter overloaded class for forwarding the exception ouput
+    A Tkinter overloaded class for forwarding the exception output
     directly to the log
     """
     def __init__(self, func, subst, widget):
@@ -148,6 +146,5 @@ class Catcher:
         except SystemExit, msg:
             raise SystemExit(msg)
         except:
-            print 'except'
             etype, value, tb = sys.exc_info()
             logger.exception('Uncaught exception: ' + str(etype) + str(value) + str(tb))

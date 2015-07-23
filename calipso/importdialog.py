@@ -30,40 +30,42 @@ class ImportDialog(Toplevel):
         logger.info('Instantiating ImportDialog')
         Toplevel.__init__(self, root)
 
-        self.protocol('WM_DELETE_WINDOW')
-        self.session = db.get_session()
-        self.__internal_list = list()
-        self.__stack = collections.deque(maxlen=15)
-        self.__search_string = ''
-        self.__master = master
-        self.title('Import from existing database')
-        self.tree = None
-        self.e = None
-        self.top_frame = None
-        self.bottom_frame = None
-        self.bottom_button_frame = None
-        self.separator = None
-        self.filter_file = IntVar()
-#         self.transient(root)
+        self.protocol('WM_DELETE_WINDOW', self.free)
+        self.session = db.get_session()                 # import window holds a session
+        self.__internal_list = list()                   # internal list of db objs
+        self.__stack = collections.deque(maxlen=15)     # stack for searching
+        self.__search_string = ''                       # search string
+        self.__master = master                          # CALIPSO class
+        self.title('Import from existing database')     # window title
+        self.tree = None                                # tree viewing class
+        self.e = None                                   # entry box for searching
+        self.top_frame = None                           # top Tkinter frame
+        self.bottom_frame = None                        # bottom Tkinter frame
+        self.bottom_button_frame = None                 # bottom BUTTON Tkinter frame
+        self.separator = None                           # separator line
+        self.filter_file = IntVar()                     # int_var for filtering by file
 
         center(self, (constants.IMPORTWIDTH, constants.IMPORTHEIGH))
 
-        self.container = Frame(self)  # create center frame,
+        self.container = Frame(self)    # create center frame,
         self.container.pack(side=TOP, fill=BOTH, expand=True)  # place
 
-        self.create_top_frame()  # create the top frame and pack buttons / etc. on it
-        self.create_bottom_frame()  # create the bottom frame and pack
+        self.create_top_frame()         # create the top frame and pack buttons / etc. on it
+        self.create_bottom_frame()      # create the bottom frame and pack
 
     def create_top_frame(self):
         """
-        Initialize the upper frame of the window in charge of buttons
+        Initialize the upper frame of the window in charge of buttons, in order:
+        creates a top_frame, sets a 'Search' label and binds an entry box beside
+        it, which calls ``refine_search`` upon a user releasing a key after pressing.
+        Then binds the *delete* button to ``data_from_db``
         """
         logger.info('Creating top frame')
-        self.top_frame = Frame(self.container)  # create top frame
+        self.top_frame = Frame(self.container)
         self.top_frame.pack(side=TOP, fill=X, expand=False)
 
-        label = Label(self.top_frame, text='Search ')  # search label
-        self.e = Entry(self.top_frame)  # input box for searching specific attributes
+        label = Label(self.top_frame, text='Search ')
+        self.e = Entry(self.top_frame)
         self.e.bind('<KeyRelease>', self.refine_search)
         label.grid(row=0, column=0, padx=5, pady=10)
         self.e.grid(row=0, column=1, padx=5, pady=10)
@@ -73,101 +75,13 @@ class ImportDialog(Toplevel):
                                    command=self.filter_by_current_file)
         check_button.grid(row=0, column=2, padx=5, pady=10)
 
-        spacer = Label(self.top_frame, width=30)  # create space between frame outline
+        spacer = Label(self.top_frame, width=30)
         spacer.grid(row=0, column=3)
         self.top_frame.columnconfigure(3, weight=1)
 
-        # custom command for filtering objects by properties
         delete_button = Button(self.top_frame, text='Delete', command=self.delete_from_db,
                                width=10)
         delete_button.grid(row=0, column=4, padx=15)
-
-    def filter_by_current_file(self):
-        """
-        Command function for the check button located beside the entry box in Import Dialog.
-        Lists all shapes given by only the current file when checked. If unchecked displays
-        all entries.
-        """
-        if self.filter_file.get():
-            fn = self.__master.get_file().rpartition('/')[2]
-            lst = self.get_current_file_shapes()
-            logger.info('Displaying %d shapes contained in %s' % (len(lst), fn))
-            lst = [x for x in lst if x in self.tree.info]
-            self.__stack.append(self.tree.info)
-            self.tree.info = lst
-            self.tree.update()
-        else:
-            self.tree.info = self.__stack.pop()
-            self.tree.update()
-
-    def get_current_file_shapes(self):
-        fn = self.__master.get_file().rpartition('/')[2]
-        lst = list()
-        for obj in self.session.query(DatabasePolygon).filter_by(
-            hdf=fn
-        ):
-            time_range, altitude_range = get_shape_ranges(obj.coordinates)
-            lst.append(
-                (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
-                 obj.notes, obj.time_, obj.hdf))
-        if not lst:
-            logger.warning('Query returned None, no shapes found')
-        return lst
-
-    def refine_search(self, event):
-        """
-        Function to dynamically narrow the results of a search while the
-        user types into the search bar. Checks if the character is
-        alpha numeric , and if so queries the database for the combined
-        string. A backend stack keeps track of past searches, when the
-        user enters the backspace code a previous instance is popped
-        and reloaded.
-        :param event: search box events
-        """
-        # Append to search string
-        if event.char:
-            self.__search_string += event.char
-        # If the entry box is NOT empty
-        if self.e.get() != '':
-            # But If a backspace is entered
-            if event.char == '':
-                # Remove one letter from search string and pop stack
-                self.__search_string = self.__search_string[:-1]
-                if self.__stack:
-                    self.tree.info = self.__stack.pop()
-                    self.tree.update()
-            # Else if the character is alphanumeric
-            elif event.char.isalnum():
-                # Temporary variable to create new list
-                lst = list()
-                # For all objects in the database
-                for obj in self.session.query(DatabasePolygon).filter(
-                        or_(  # query the database for if search_string is contained in
-                              # self.__search_string.strip() to remove leading and ending spaces
-                              DatabasePolygon.tag.contains(self.__search_string.strip()),
-                              DatabasePolygon.attributes.contains(self.__search_string.strip()),
-                              DatabasePolygon.notes.contains(self.__search_string.strip()))):
-                    time_range, altitude_range = get_shape_ranges(obj.coordinates)
-                    lst.append(  # append any objects that were returned by the query
-                                 (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
-                                  obj.notes, obj.time_, obj.hdf))
-                # Push new query onto the stack and set display to list
-                if self.filter_file.get():
-                    sub_list = set(self.get_current_file_shapes())
-                    lst = [x for x in lst if x in sub_list]
-                self.__stack.append(self.tree.info)
-                self.tree.info = lst
-                self.tree.update()
-        else:
-            if self.filter_file.get():
-                sub_list = set(self.get_current_file_shapes())
-                self.__search_string = ''
-                self.tree.info = sub_list
-                self.tree.update()
-            else:
-                self.__search_string = ''
-                self.__display_all()
-        logger.info('Displaying refined search')
 
     def create_bottom_frame(self):
         """
@@ -196,12 +110,106 @@ class ImportDialog(Toplevel):
                         command=self.import_selection)
         button.pack(side=BOTTOM, pady=10)
 
+    def filter_by_current_file(self):
+        """
+        Command function for the check button located beside the entry box in Import Dialog.
+        Lists all shapes given by only the current file when checked. If unchecked displays
+        all entries.
+        """
+        if self.filter_file.get():
+            fn = self.__master.get_file().rpartition('/')[2]
+            lst = self.get_current_file_shapes()
+            logger.info('Displaying %d shapes contained in %s' % (len(lst), fn))
+            lst = [x for x in lst if x in self.tree.info]
+            self.__stack.append(self.tree.info)
+            self.tree.info = lst
+            self.tree.update()
+        else:
+            self.tree.info = self.__stack.pop()
+            self.tree.update()
+
+    def get_current_file_shapes(self):
+        """
+        Return a list of all shapes contained in the current file, queries the
+        database looking for all entries with the column *tag* that match the
+        file returned by the rpartitioned ``Calipso.get_file()`` function
+
+        :rtype: list
+        """
+        fn = self.__master.get_file().rpartition('/')[2]
+        lst = list()
+        for obj in self.session.query(DatabasePolygon).filter_by(
+            hdf=fn
+        ):
+            time_range, altitude_range = get_shape_ranges(obj.coordinates)
+            lst.append(
+                (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
+                 obj.notes, obj.time_, obj.hdf))
+        if not lst:
+            logger.warning('Query returned None, no shapes found')
+        return lst
+
+    def refine_search(self, event):
+        """
+        Function to dynamically narrow the results of a search while the
+        user types into the search bar. Checks if the character is
+        alpha numeric , and if so queries the database for the combined
+        string. A backend stack keeps track of past searches, when the
+        user enters the backspace code a previous instance is popped
+        and reloaded.
+        :param event: search box events
+        """
+        # append to search string
+        if event.char:
+            self.__search_string += event.char
+        # if the entry box is NOT empty
+        if self.e.get() != '':
+            # but If a backspace is entered that means we want to pop the stack
+            if event.char == '':
+                # remove one letter from search string and pop stack
+                self.__search_string = self.__search_string[:-1]
+                if self.__stack:
+                    self.tree.info = self.__stack.pop()
+                    self.tree.update()
+            # else if the character is alphanumeric
+            elif event.char.isalnum():
+                # temporary variable to create new list
+                lst = list()
+                # for all objects in the database
+                for obj in self.session.query(DatabasePolygon).filter(
+                        or_(  # query the database for if search_string is contained in
+                              # self.__search_string.strip() to remove leading and ending spaces
+                              DatabasePolygon.tag.contains(self.__search_string.strip()),
+                              DatabasePolygon.attributes.contains(self.__search_string.strip()),
+                              DatabasePolygon.notes.contains(self.__search_string.strip()))):
+                    time_range, altitude_range = get_shape_ranges(obj.coordinates)
+                    lst.append(  # append any objects that were returned by the query
+                                 (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
+                                  obj.notes, obj.time_, obj.hdf))
+                # push new query onto the stack and set display to list
+                if self.filter_file.get():
+                    sub_list = set(self.get_current_file_shapes())
+                    lst = [x for x in lst if x in sub_list]
+                self.__stack.append(self.tree.info)
+                self.tree.info = lst
+                self.tree.update()
+        else:
+            if self.filter_file.get():
+                sub_list = set(self.get_current_file_shapes())
+                self.__search_string = ''
+                self.tree.info = sub_list
+                self.tree.update()
+            else:
+                self.__search_string = ''
+                self.__display_all()
+        logger.info('Displaying refined search')
+
     def import_selection(self):
         """
         Import selected objects from internal_list into program
         """
         items = self.tree.tree.selection()
-        logger.info('Importing selection')
+        logger.info('Parsing selection')
         # For all selected items in window
         skip = False
         for tag in items:
@@ -224,7 +232,6 @@ class ImportDialog(Toplevel):
                     read_from_str=str(self.__internal_list[names.index(tag[0])]))
             else:
                 logger.info('skipping loading for %s' % tag[0])
-        logger.info('Done')
         self.free()
 
     def delete_from_db(self):
@@ -260,9 +267,10 @@ class ImportDialog(Toplevel):
 
     def free(self):
         """
-        Free window
+        Commit the session, destroy the window and ensure the session is
+        closed correctly
         """
-        logger.info('Closing window')
+        logger.info('Closing import window')
         self.session.commit()
         self.session.close()
         self.destroy()
