@@ -64,10 +64,10 @@ class AttributesDialog(Toplevel):
         selected_label = Label(self.top_frame, textvariable=selected_string)
         selected_label.grid(row=0, column=3)
         
-        self.attributes_list = Listbox(self.top_frame, width=30, selectmode=EXTENDED)
+        self.attributes_list = Listbox(self.top_frame, width=30, height=15, selectmode=EXTENDED)
         self.attributes_list.grid(row=1, column=0, padx=6)
         
-        self.selected_list = Listbox(self.top_frame, width=30, selectmode=EXTENDED)
+        self.selected_list = Listbox(self.top_frame, width=30, height=15, selectmode=EXTENDED)
         self.selected_list.grid(row=1, column=3, padx=6)
         
         logger.info('Loading attributes')

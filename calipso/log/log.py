@@ -48,8 +48,6 @@ sys.excepthook = uncaught_exception
 # disable_existing_loggers=False)
 logger = logging.getLogger('VOCAL')
 
-path = PATH + '/log/logging.ini'
-# logging.config.fileConfig(path, disable_existing_loggers=False)
 logging.config.dictConfig(config)
 
 if __name__ == '__main__':
