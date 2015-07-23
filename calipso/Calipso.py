@@ -133,8 +133,9 @@ class Calipso(object):
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
                 render_backscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.backscattered, self.__fig)
-                self.__drawplot_canvas.show()                            # show canvas
-                self.__toolbar.update()                                  # update toolbar
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
+                self.__shapemanager.reset()
                 self.plot = Plot.backscattered
             except IOError:
                 logger.error('IOError, no file exists')
@@ -152,6 +153,7 @@ class Calipso(object):
                 self.__shapemanager.set_current(Plot.depolarized, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
+                self.__shapemanager.reset()
                 self.plot = Plot.depolarized
             except IOError:
                 logger.error('IOError, no file exists')
@@ -165,8 +167,8 @@ class Calipso(object):
         Reset all objects on the screen, move pan to original
         """
         logger.info("Resetting plot")
-        self.__shapemanager.reset()      # reset all buttons
-        self.__toolbar.home()           # proc toolbar function to reset plot to home
+        self.__shapemanager.reset()      # reset all shapes
+        self.__toolbar.home()            # proc toolbar function to reset plot to home
 
     def pan(self, event):
         """
