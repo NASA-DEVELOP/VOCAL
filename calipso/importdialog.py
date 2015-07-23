@@ -239,13 +239,12 @@ class ImportDialog(Toplevel):
                 logger.info('Notifying db of deletion for \'%s\' from selection' % tag[0])
                 db.delete_item(idx)
             self.__display_all()
-        logger.info('Done')
 
     def __display_all(self):
         """
         Helper function to simply display all objects in the database
         """
-        logger.info('Displaying all entries')
+        logger.info('Refreshing dialog view')
         lst = list()
         # Push previous display to stack
         if self.tree.info:

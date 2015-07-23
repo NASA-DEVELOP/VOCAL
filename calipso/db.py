@@ -102,11 +102,13 @@ class DatabaseManager(object):
         and stored into the database
         """
         session = self.__Session()
-        # Grab db objects sorted by tag
+        # Grab db objects sorted by a tags NUMERIC portion, not the shape portion
         db_objects = session.query(DatabasePolygon).order_by(
             func.cast(func.replace(DatabasePolygon.tag, 'shape', ''),
                       NUMERIC).desc())
-        # If database is empty, set tag to 0
+
+        # If database is empty, set tag to 0, otherwise get the number potion of
+        # the shape with the highest numeric value and start there
         if db_objects.count() == 0:
             logger.info('No tags found, setting base case')
             tag = 0
@@ -151,8 +153,9 @@ class DatabaseManager(object):
         """
         logger.info('Committing to database')
         session = self.__Session()
-        # For every polygon object in the list except the end
+        # for every polygon object in the list except the end
         for polygon in poly_list[:-1]:
+            # if the ID does not exist we have a new object to commit
             if polygon.get_id() is None:
                 logger.debug('committing new shape: %s' % polygon.get_tag())
                 obx = \
@@ -167,7 +170,7 @@ class DatabaseManager(object):
                 session.add(obx)
                 session.commit()
                 polygon.set_id(obx.id)
-
+            # otherwise we simply update the entries of the existing database object
             else:
                 logger.debug('updating existing entry: %s' % polygon.get_tag())
                 poly = session.query(DatabasePolygon).get(polygon.get_id())
@@ -193,12 +196,17 @@ class DatabaseManager(object):
 
         :param idx: the primary key for the object passed
         """
-        logger.info('Deleting database entry')
         session = self.__Session()
+        # search for item by unique db ID
         item = session.query(DatabasePolygon).get(idx)
         if item is not None:
-            logger.error('Entry %d can not be deleted, query returned None' % idx)
+            logger.info('Deleting %s' % item.tag)
             session.delete(item)
+        else:
+            logger.error('%s can not be deleted, query returned None' % item.tag)
+            logger.error('You\'ve likely gotten this error because multiple shapes' +
+                         'are sharing the same tag, this is BAD and means the code' +
+                         'is bugged, fix it!')
         logger.info('Committing database')
         session.commit()
         session.close()
@@ -214,19 +222,20 @@ class DatabaseManager(object):
         :rtype: bool
         """
         session = self.__Session()
-        print PATH
-        if os.path.exists(PATH + 'tmp'):
+        # tmp should not previously exist because we don't want files we didn't
+        # add ourselves
+        if os.path.exists(PATH + '/../tmp'):
             logger.error('Tmp directory should not exist, will not zip')
             return False
         logger.info('Creating /tmp and exporting shapes')
-        os.makedirs(PATH + 'tmp')
+        os.makedirs(PATH + '/../tmp')
         for shape in session.query(DatabasePolygon).order_by(DatabasePolygon.tag):
-            self.encode(PATH + 'tmp\\' + shape.tag + '.json', str(shape))
+            self.encode(PATH + '/../tmp/' + shape.tag + '.json', str(shape))
         logger.info('Packing /tmp into %s' % zip_fname)
         zipf = zipfile.ZipFile(zip_fname, 'w')
-        zipdir(PATH + 'tmp', zipf)
+        zipdir(PATH + '/../tmp', zipf)
         zipf.close()
-        shutil.rmtree(PATH + 'tmp')
+        shutil.rmtree(PATH + '/../tmp')
         session.close()
         return True
 
@@ -234,20 +243,24 @@ class DatabaseManager(object):
         """
         Import a *.zip* file selected by the user, the zip file must be
         the same format as how ``dump_to_json`` creates a zip, otherwise
-        an error will be raised.
+        an error will be raised. Uses functionality similar to ``ShapeReader``,
+        but as db should **never** be dependent on another class we need to
+        impl our own import method. The big difference here is that shapes
+        are not added to the current shape list, instead are only loaded into
+        the local database.
 
         :rtype: bool
         """
         session = self.__Session()
 
         zip_ref = zipfile.ZipFile(zip_fname, 'r')
-        zip_ref.extractall(PATH + 'tmp')
+        zip_ref.extractall(PATH + '/../tmp')
         zip_ref.close()
 
         logger.info('querying unique tag for new database objects')
         new = self.query_unique_tag()
 
-        for root, dirs, files in os.walk(PATH + 'tmp'):
+        for root, dirs, files in os.walk(PATH + '/../tmp'):
             for file_ in files:
                 with open(os.path.join(root, file_), 'r') as ifile:
                     data = byteify(json.load(ifile))
@@ -277,7 +290,7 @@ class DatabaseManager(object):
                         session.add(obx)
                         new += 1
         session.commit()
-        shutil.rmtree(PATH + 'tmp')
+        shutil.rmtree(PATH + '/../tmp')
         return True
 
     @staticmethod
