@@ -82,10 +82,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
 </ul>
@@ -149,38 +150,38 @@
 <span class="c">#   @Author: Grant Mercer</span>
 <span class="c">#   @Author: Nathan Qian</span>
 <span class="c">##########################</span>
-<span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="kn">import</span> <span class="n">RIGHT</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">&#39;tkAgg&#39;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="kn">import</span> <span class="n">RIGHT</span><span class="p">,</span> <span class="n">END</span>
 <span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Tk</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Menu</span><span class="p">,</span> <span class="n">PanedWindow</span><span class="p">,</span> \
     <span class="n">Frame</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">HORIZONTAL</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">VERTICAL</span><span class="p">,</span> <span class="n">Message</span><span class="p">,</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> \
-    <span class="n">SUNKEN</span><span class="p">,</span> <span class="n">OptionMenu</span><span class="p">,</span> <span class="n">StringVar</span>
-<span class="kn">import</span> <span class="nn">antigravity</span>
+    <span class="n">SUNKEN</span><span class="p">,</span> <span class="n">StringVar</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">platform</span> <span class="k">as</span> <span class="n">_platform</span>
+<span class="kn">from</span> <span class="nn">tkColorChooser</span> <span class="kn">import</span> <span class="n">askcolor</span>
 <span class="kn">import</span> <span class="nn">tkFileDialog</span>
 <span class="kn">import</span> <span class="nn">tkMessageBox</span>
 <span class="kn">import</span> <span class="nn">webbrowser</span>
-<span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="kn">as</span> <span class="nn">mpimg</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="n">matplotlib</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s">&#39;tkAgg&#39;</span><span class="p">)</span>
 
+<span class="kn">from</span> <span class="nn">attributesdialog</span> <span class="kn">import</span> <span class="n">AttributesDialog</span>
 <span class="kn">from</span> <span class="nn">bokeh.colors</span> <span class="kn">import</span> <span class="n">white</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">Plot</span><span class="p">,</span> <span class="n">PATH</span><span class="p">,</span> <span class="n">ICO</span>
+<span class="kn">import</span> <span class="nn">constants</span>
+<span class="kn">from</span> <span class="nn">exctractdialog</span> <span class="kn">import</span> <span class="n">ExtractDialog</span>
+<span class="kn">from</span> <span class="nn">importdialog</span> <span class="kn">import</span> <span class="n">ImportDialog</span>
+<span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">matplotlib.backends.backend_tkagg</span> <span class="kn">import</span> <span class="n">FigureCanvasTkAgg</span>
 <span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="kn">import</span> <span class="n">Figure</span>
 <span class="kn">from</span> <span class="nn">plot.plot_depolar_ratio</span> <span class="kn">import</span> <span class="n">drawDepolar</span>
 <span class="kn">from</span> <span class="nn">plot.plot_uniform_alt_lidar_dev</span> <span class="kn">import</span> <span class="n">render_backscattered</span>
 <span class="kn">from</span> <span class="nn">polygon.manager</span> <span class="kn">import</span> <span class="n">ShapeManager</span>
-<span class="kn">from</span> <span class="nn">attributesdialog</span> <span class="kn">import</span> <span class="n">AttributesDialog</span>
-<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">Plot</span><span class="p">,</span> <span class="n">PATH</span>
-<span class="kn">import</span> <span class="nn">constants</span>
-<span class="kn">from</span> <span class="nn">importdialog</span> <span class="kn">import</span> <span class="n">ImportDialog</span>
-<span class="kn">from</span> <span class="nn">log</span> <span class="kn">import</span> <span class="n">logger</span>
-<span class="kn">from</span> <span class="nn">tools.optionmenu</span> <span class="kn">import</span> <span class="n">ShapeOptionMenu</span>
 <span class="kn">from</span> <span class="nn">tools.linearalgebra</span> <span class="kn">import</span> <span class="n">distance</span>
 <span class="kn">from</span> <span class="nn">tools.navigationtoolbar</span> <span class="kn">import</span> <span class="n">NavigationToolbar2CALIPSO</span>
+<span class="kn">from</span> <span class="nn">tools.optionmenu</span> <span class="kn">import</span> <span class="n">ShapeOptionMenu</span>
 <span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">Catcher</span>
 <span class="kn">from</span> <span class="nn">toolswindow</span> <span class="kn">import</span> <span class="n">ToolsWindow</span>
-<span class="kn">from</span> <span class="nn">tkColorChooser</span> <span class="kn">import</span> <span class="n">askcolor</span>
-<span class="kn">from</span> <span class="nn">exctractdialog</span> <span class="kn">import</span> <span class="n">ExtractDialog</span>
+<span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="kn">as</span> <span class="nn">mpimg</span>
 
 <div class="viewcode-block" id="Calipso"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso">[docs]</a><span class="k">class</span> <span class="nc">Calipso</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -244,63 +245,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__drawplot_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">protocol</span><span class="p">(</span><span class="s">&#39;WM_DELETE_WINDOW&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Calipso.setup_window"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.setup_window">[docs]</a>    <span class="k">def</span> <span class="nf">setup_window</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sets the title of root and invokes py:meth:`centerWindow`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;CALIPSO Visualization Tool (VOCAL)&quot;</span><span class="p">)</span>
-        <span class="n">sw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">winfo_screenwidth</span><span class="p">()</span>
-        <span class="n">sh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">winfo_screenheight</span><span class="p">()</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">sw</span> <span class="o">-</span> <span class="n">constants</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">sh</span> <span class="o">-</span> <span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-        <span class="c"># the child is designed to appear off to the right of the parent window, so the x location</span>
-        <span class="c"># is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y</span>
-        <span class="c"># plus a fourth the distance of the window</span>
-        <span class="k">if</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s">&quot;linux&quot;</span> <span class="ow">or</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s">&quot;linux2&quot;</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Linux system detected&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__child</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
-                <span class="n">constants</span><span class="o">.</span><span class="n">CHILDWIDTH</span> <span class="o">+</span> <span class="mi">50</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CHILDHEIGHT</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">,</span>
-                <span class="n">y</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">4</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__child</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
-                <span class="n">constants</span><span class="o">.</span><span class="n">CHILDWIDTH</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CHILDHEIGHT</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">WIDTH</span> <span class="o">+</span> <span class="mi">50</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">4</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">r&#39;\ico\broadcasting.ico&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__child</span><span class="o">.</span><span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">r&#39;\ico\broadcasting.ico&#39;</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Calipso.setup_menu"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.setup_menu">[docs]</a>    <span class="k">def</span> <span class="nf">setup_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a drop down menu bar</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">menu_bar</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">)</span>
-
-        <span class="c"># File Menu</span>
-        <span class="n">menu_file</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="n">menu_bar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Import file&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">import_file</span><span class="p">)</span>
-        <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Save all shapes&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_as_json</span><span class="p">(</span><span class="n">save_all</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
-        <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Save as shapes&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">save_as_json</span><span class="p">)</span>
-        <span class="n">menu_file</span><span class="o">.</span><span class="n">add_separator</span><span class="p">()</span>
-        <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Exit&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">)</span>
-        <span class="n">menu_bar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;File&#39;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu_file</span><span class="p">)</span>
-
-        <span class="c"># Polygon Menu</span>
-        <span class="n">menu_polygon</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="n">menu_bar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Import from Database&#39;</span><span class="p">,</span>
-                                 <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">ImportDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span>
-                                 <span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">r&#39;\ico\broadcasting.ico&#39;</span><span class="p">))</span>
-        <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Export to Database&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">notify_save_db</span><span class="p">)</span>
-        <span class="n">menu_bar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Polygon&#39;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu_polygon</span><span class="p">)</span>
-
-        <span class="c"># Help Menu</span>
-        <span class="n">menu_help</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="n">menu_bar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">menu_help</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Documentation&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">webbrowser</span><span class="o">.</span><span class="n">open_new</span><span class="p">(</span>
-            <span class="n">constants</span><span class="o">.</span><span class="n">HELP_PAGE</span><span class="p">))</span>
-        <span class="n">menu_help</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;About&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">about</span><span class="p">)</span>
-        <span class="n">menu_bar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Help&#39;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu_help</span><span class="p">)</span>
-
-        <span class="c"># configure menu to screen</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">menu</span><span class="o">=</span><span class="n">menu_bar</span><span class="p">)</span>
-</div>
 <div class="viewcode-block" id="Calipso.set_plot"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.set_plot">[docs]</a>    <span class="k">def</span> <span class="nf">set_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot_type</span><span class="p">,</span> <span class="n">xrange_</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">),</span> <span class="n">yrange</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draws to the canvas according to the *plot_type* specified in the arguments. Accepts one of</span>
@@ -320,7 +264,7 @@
         <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">:</span>
             <span class="c"># Hide the axis and print an image</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">set_plot</span><span class="p">(</span><span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">)</span>
-            <span class="n">im</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">r&#39;\dat\CALIPSO.jpg&#39;</span><span class="p">)</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/dat/CALIPSO.jpg&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__fig</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__fig</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__fig</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
@@ -330,13 +274,18 @@
                 <span class="c"># and render the backscattered plot to it</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Setting plot to backscattered xrange: &#39;</span> <span class="o">+</span>
                             <span class="nb">str</span><span class="p">(</span><span class="n">xrange_</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; yrange: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">yrange</span><span class="p">))</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">clear_refs</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">get_hdf</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span> <span class="ow">and</span> \
+                   <span class="bp">self</span><span class="o">.</span><span class="n">__file</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">get_hdf</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">all_</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">clear_refs</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">set_hdf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__parent_fig</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__fig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parent_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="n">render_backscattered</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">,</span> <span class="n">xrange_</span><span class="p">,</span> <span class="n">yrange</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parent_fig</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">set_current</span><span class="p">(</span><span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fig</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__drawplot_canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>                            <span class="c"># show canvas</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__toolbar</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>                                  <span class="c"># update toolbar</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__drawplot_canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__toolbar</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span>
             <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;IOError, no file exists&#39;</span><span class="p">)</span>
@@ -347,7 +296,12 @@
                 <span class="c"># Clear any references to the current figure, construct a new figure</span>
                 <span class="c"># and render the depolarized plot to it</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Needs to be reimplemented&#39;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">clear_refs</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">get_hdf</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span> <span class="ow">and</span> \
+                   <span class="bp">self</span><span class="o">.</span><span class="n">__file</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">get_hdf</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">all_</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">clear_refs</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">set_hdf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__parent_fig</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__fig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parent_fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="n">drawDepolar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">,</span> <span class="n">xrange_</span><span class="p">,</span> <span class="n">yrange</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__fig</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parent_fig</span><span class="p">)</span>
@@ -367,8 +321,8 @@
 <span class="sd">        Reset all objects on the screen, move pan to original</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Resetting plot&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>      <span class="c"># reset all buttons</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__toolbar</span><span class="o">.</span><span class="n">home</span><span class="p">()</span>           <span class="c"># proc toolbar function to reset plot to home</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>      <span class="c"># reset all shapes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__toolbar</span><span class="o">.</span><span class="n">home</span><span class="p">()</span>            <span class="c"># proc toolbar function to reset plot to home</span>
 </div>
 <div class="viewcode-block" id="Calipso.pan"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.pan">[docs]</a>    <span class="k">def</span> <span class="nf">pan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -408,30 +362,10 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Panning forwards&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">set_plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">dst</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">dst</span><span class="p">))</span>
-        <span class="k">pass</span>
-</div>
-<div class="viewcode-block" id="Calipso.create_top_gui"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.create_top_gui">[docs]</a>    <span class="k">def</span> <span class="nf">create_top_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes and creates the *File: label*, *file dialog*, and *browse button* that appear</span>
-<span class="sd">        at the top of the screen</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Creating top screen GUI&#39;</span><span class="p">)</span>
-        <span class="c"># Create label , entry box and browse button</span>
-        <span class="n">label_file</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;File:&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__label_file_dialog</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span>
-                                         <span class="n">bg</span><span class="o">=</span><span class="n">white</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">SUNKEN</span><span class="p">)</span>
-        <span class="n">browse_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Browse&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                               <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">import_file</span><span class="p">)</span>
-        <span class="n">label_file</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__label_file_dialog</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-        <span class="n">browse_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span> <span class="o">=</span> <span class="n">ShapeOptionMenu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_var</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
-                                           <span class="n">command</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;&lt;ButtonPress-1&gt;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_shape_optionmenu</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-        <span class="n">label_shapes</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Select&quot;</span><span class="p">)</span>
-        <span class="n">label_shapes</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__child</span><span class="o">.</span><span class="n">begin_range_entry</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__child</span><span class="o">.</span><span class="n">end_range_entry</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__child</span><span class="o">.</span><span class="n">begin_range_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__child</span><span class="o">.</span><span class="n">end_range_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 
     <span class="c"># noinspection PyUnusedLocal</span></div>
 <div class="viewcode-block" id="Calipso.update_shape_optionmenu"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.update_shape_optionmenu">[docs]</a>    <span class="k">def</span> <span class="nf">update_shape_optionmenu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
@@ -444,20 +378,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">ops</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_tag</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">get_current_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span><span class="o">.</span><span class="n">set_menu</span><span class="p">(</span><span class="n">ops</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Calipso.notify_save_db"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.notify_save_db">[docs]</a>    <span class="k">def</span> <span class="nf">notify_save_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Notify the database that a save is taking place, the</span>
-<span class="sd">        db will then save all polygons present on the screen</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Notified database to save&#39;</span><span class="p">)</span>
-        <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">save_db</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Success, saved to db&#39;</span><span class="p">)</span>
-            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s">&#39;database&#39;</span><span class="p">,</span> <span class="s">&#39;All objects saved to database&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;No objects to be saved&#39;</span><span class="p">)</span>
-            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;database&#39;</span><span class="p">,</span> <span class="s">&#39;No objects to be saved&#39;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Calipso.save_json"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.save_json">[docs]</a>    <span class="k">def</span> <span class="nf">save_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -474,6 +394,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">save_json</span><span class="p">()</span>  <span class="c"># Else do a normal save with internal file</span>
             <span class="k">if</span> <span class="n">saved</span><span class="p">:</span>
                 <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s">&#39;save&#39;</span><span class="p">,</span> <span class="s">&#39;Shapes saved successfully&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;save as JSON&#39;</span><span class="p">,</span> <span class="s">&#39;No objects to be saved&#39;</span><span class="p">)</span>
 </div>
@@ -497,16 +419,72 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">save_json</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;save as JSON&#39;</span><span class="p">,</span> <span class="s">&#39;No objects to be saved&#39;</span><span class="p">)</span>
-            </div>
-<div class="viewcode-block" id="Calipso.transient_save"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.transient_save">[docs]</a>    <span class="k">def</span> <span class="nf">transient_save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Function to save the file before closing the application. If the user</span>
-<span class="sd">        decides they wish to save before closing, transient_save is called to</span>
-<span class="sd">        save to JSON then proceeds to exit the application.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">save_json</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
 </div>
+<div class="viewcode-block" id="Calipso.export_db"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.export_db">[docs]</a>    <span class="k">def</span> <span class="nf">export_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Notify the database that a save is taking place, the</span>
+<span class="sd">        db will then save all polygons present on the screen</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Notified database to save&#39;</span><span class="p">)</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">save_db</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Success, saved to db&#39;</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s">&#39;database&#39;</span><span class="p">,</span> <span class="s">&#39;All objects saved to database&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;No objects to be saved&#39;</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;database&#39;</span><span class="p">,</span> <span class="s">&#39;No objects to be saved&#39;</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Calipso.export_json_db"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.export_json_db">[docs]</a>    <span class="k">def</span> <span class="nf">export_json_db</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Export the contents of the database to an archive containing JSON, which can then be</span>
+<span class="sd">        loaded into other databases and have all shapes imported</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">askyesno</span><span class="p">(</span><span class="s">&#39;Export database&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;Database will be exported to a specified&#39;</span> <span class="o">+</span>
+                                 <span class="s">&#39; archive (this operation is a copy, not a move)&#39;</span> <span class="o">+</span>
+                                 <span class="s">&#39; continue?&#39;</span><span class="p">):</span>
+            <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="n">options</span><span class="p">[</span><span class="s">&#39;defaultextension&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;.zip&#39;</span>
+            <span class="n">options</span><span class="p">[</span><span class="s">&#39;filetypes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&#39;ZIP Files&#39;</span><span class="p">,</span> <span class="s">&#39;*.zip&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;All files&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">)]</span>
+            <span class="n">fl</span> <span class="o">=</span> <span class="n">tkFileDialog</span><span class="o">.</span><span class="n">asksaveasfilename</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fl</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">log_fname</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Dumping database to </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">log_fname</span><span class="p">)</span>
+                <span class="n">success</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">dump_to_json</span><span class="p">(</span><span class="n">fl</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Success, JSON file created&#39;</span><span class="p">)</span>
+                    <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s">&#39;database&#39;</span><span class="p">,</span> <span class="s">&#39;Database exported to </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">log_fname</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;No objects to be saved&#39;</span><span class="p">)</span>
+                    <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;database&#39;</span><span class="p">,</span> <span class="s">&#39;No objects inside database to export to JSON&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Export to database canceled&#39;</span><span class="p">)</span>
+</div>
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Calipso.import_json_db"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.import_json_db">[docs]</a>    <span class="k">def</span> <span class="nf">import_json_db</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Import the contents of a JSON file to the database, works hand in hand</span>
+<span class="sd">        with the ``export_json_db`` class method. This will allows users to share</span>
+<span class="sd">        their database without needing to manually move their db file.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">options</span><span class="p">[</span><span class="s">&#39;defaultextension&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;.zip&#39;</span>
+        <span class="n">options</span><span class="p">[</span><span class="s">&#39;filetypes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&#39;CALIPSO Data Archive&#39;</span><span class="p">,</span> <span class="s">&#39;*.zip&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;All files&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">)]</span>
+        <span class="n">fl</span> <span class="o">=</span> <span class="n">tkFileDialog</span><span class="o">.</span><span class="n">askopenfilename</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fl</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">log_fname</span> <span class="o">=</span> <span class="n">fl</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Importing database from </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">log_fname</span><span class="p">)</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">import_from_json</span><span class="p">(</span><span class="n">fl</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Success, JSON file imported&#39;</span><span class="p">)</span>
+                <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s">&#39;database&#39;</span><span class="p">,</span> <span class="s">&#39;shapes from </span><span class="si">%s</span><span class="s"> imported &#39;</span> <span class="o">%</span> <span class="n">log_fname</span> <span class="o">+</span>
+                                      <span class="s">&#39;(note: new tags have been assigned to these shapes!)&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Invalid JSON file&#39;</span><span class="p">)</span>
+                <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;database&#39;</span><span class="p">,</span> <span class="s">&#39;Invalid JSON file </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">log_fname</span><span class="p">)</span>
+            </div>
 <div class="viewcode-block" id="Calipso.import_file"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.import_file">[docs]</a>    <span class="k">def</span> <span class="nf">import_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load an HDF file for use with displaying backscatter and depolarized images</span>
@@ -523,7 +501,6 @@
             <span class="n">segments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__label_file_dialog</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">white</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">SUNKEN</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span>
                                             <span class="n">text</span><span class="o">=</span><span class="n">segments</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">set_hdf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Calipso.load"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -549,7 +526,7 @@
         <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">find_shape</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Opening attributes dialog&#39;</span><span class="p">)</span>
         <span class="n">AttributesDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span><span class="o">.</span>\
-            <span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">r&#39;\ico\broadcasting.ico&#39;</span><span class="p">)</span>
+            <span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">ICO</span><span class="p">)</span>
         </div>
 <div class="viewcode-block" id="Calipso.paint_window"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.paint_window">[docs]</a>    <span class="k">def</span> <span class="nf">paint_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -558,13 +535,13 @@
 <span class="sd">        :param event: A Tkinter passed event object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">find_shape</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Painting shape&#39;</span><span class="p">)</span>
         <span class="n">color</span> <span class="o">=</span> <span class="n">askcolor</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
             <span class="n">red</span> <span class="o">=</span> <span class="n">format</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;02x&#39;</span><span class="p">)</span>
             <span class="n">green</span> <span class="o">=</span> <span class="n">format</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="s">&#39;02x&#39;</span><span class="p">)</span>
             <span class="n">blue</span> <span class="o">=</span> <span class="n">format</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">],</span> <span class="s">&#39;02x&#39;</span><span class="p">)</span>
             <span class="n">color</span> <span class="o">=</span> <span class="s">&#39;#&#39;</span> <span class="o">+</span> <span class="n">red</span> <span class="o">+</span> <span class="n">green</span> <span class="o">+</span> <span class="n">blue</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Painting </span><span class="si">%s</span><span class="s"> -&gt; </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">get_tag</span><span class="p">(),</span> <span class="n">color</span><span class="p">))</span>
             <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__drawplot_canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
             </div>
@@ -577,7 +554,19 @@
         <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">find_shape</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Extracting data for </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_tag</span><span class="p">())</span>
         <span class="n">ExtractDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xrange</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yrange</span><span class="p">)</span><span class="o">.</span>\
-            <span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">r&#39;\ico\broadcasting.ico&#39;</span><span class="p">)</span>
+            <span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">ICO</span><span class="p">)</span>
+
+    <span class="c"># noinspection PyUnusedLocal</span></div>
+<div class="viewcode-block" id="Calipso.import_window"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.import_window">[docs]</a>    <span class="k">def</span> <span class="nf">import_window</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open the database import window allowing the user to import and</span>
+<span class="sd">        delete entries.</span>
+
+<span class="sd">        :param event: ignored Tkinter event object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Opening database import window&#39;</span><span class="p">)</span>
+        <span class="n">ImportDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">ICO</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Calipso.get_root"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.get_root">[docs]</a>    <span class="k">def</span> <span class="nf">get_root</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -637,6 +626,96 @@
         <span class="n">button_close</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">file_window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Close&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="n">file_window</span><span class="o">.</span><span class="n">destroy</span><span class="p">)</span>
         <span class="n">button_close</span><span class="o">.</span><span class="n">pack</span><span class="p">()</span>
 </div>
+<div class="viewcode-block" id="Calipso.setup_window"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.setup_window">[docs]</a>    <span class="k">def</span> <span class="nf">setup_window</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the title of root and invokes py:meth:`centerWindow`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;CALIPSO Visualization Tool (VOCAL)&quot;</span><span class="p">)</span>
+        <span class="n">sw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">winfo_screenwidth</span><span class="p">()</span>
+        <span class="n">sh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">winfo_screenheight</span><span class="p">()</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">sw</span> <span class="o">-</span> <span class="n">constants</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">sh</span> <span class="o">-</span> <span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="c"># the child is designed to appear off to the right of the parent window, so the x location</span>
+        <span class="c"># is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y</span>
+        <span class="c"># plus a fourth the distance of the window</span>
+        <span class="k">print</span> <span class="n">_platform</span>
+        <span class="k">if</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s">&quot;linux&quot;</span> <span class="ow">or</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s">&quot;linux2&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Linux system detected&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__child</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">constants</span><span class="o">.</span><span class="n">CHILDWIDTH</span> <span class="o">+</span> <span class="mi">50</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CHILDHEIGHT</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">,</span>
+                <span class="n">y</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s">&#39;darwin&#39;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;OSX system detected&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__child</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">constants</span><span class="o">.</span><span class="n">CHILDWIDTH</span> <span class="o">+</span> <span class="mi">75</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CHILDHEIGHT</span> <span class="o">+</span> <span class="mi">50</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">WIDTH</span><span class="p">,</span>
+                <span class="n">y</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">4</span>
+            <span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__child</span><span class="o">.</span><span class="n">geometry</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%d</span><span class="s">x</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">constants</span><span class="o">.</span><span class="n">CHILDWIDTH</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">CHILDHEIGHT</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">WIDTH</span> <span class="o">+</span> <span class="mi">50</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">/</span> <span class="mi">4</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">ICO</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__child</span><span class="o">.</span><span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">ICO</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Calipso.create_top_gui"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.create_top_gui">[docs]</a>    <span class="k">def</span> <span class="nf">create_top_gui</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes and creates the *File: label*, *file dialog*, and *browse button* that appear</span>
+<span class="sd">        at the top of the screen</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Creating top screen GUI&#39;</span><span class="p">)</span>
+        <span class="c"># Create label , entry box and browse button</span>
+        <span class="n">label_file</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;File:&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__label_file_dialog</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span>
+                                         <span class="n">bg</span><span class="o">=</span><span class="n">white</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">SUNKEN</span><span class="p">)</span>
+        <span class="n">browse_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Browse&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                               <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">import_file</span><span class="p">)</span>
+        <span class="n">label_file</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__label_file_dialog</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">browse_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span> <span class="o">=</span> <span class="n">ShapeOptionMenu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_var</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+                                           <span class="n">command</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;&lt;ButtonPress-1&gt;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_shape_optionmenu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">label_shapes</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Select&quot;</span><span class="p">)</span>
+        <span class="n">label_shapes</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Calipso.setup_menu"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.setup_menu">[docs]</a>    <span class="k">def</span> <span class="nf">setup_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a drop down menu bar</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">menu_bar</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">)</span>
+
+        <span class="c"># File Menu</span>
+        <span class="n">menu_file</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="n">menu_bar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Import file&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">import_file</span><span class="p">)</span>
+        <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Save all shapes&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_as_json</span><span class="p">(</span><span class="n">save_all</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+        <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Save as shapes&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">save_as_json</span><span class="p">)</span>
+        <span class="n">menu_file</span><span class="o">.</span><span class="n">add_separator</span><span class="p">()</span>
+        <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Exit&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">)</span>
+        <span class="n">menu_bar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;File&#39;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu_file</span><span class="p">)</span>
+
+        <span class="c"># Polygon Menu</span>
+        <span class="n">menu_polygon</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="n">menu_bar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Import from Database&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">import_window</span><span class="p">)</span>
+        <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Export to Database&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">export_db</span><span class="p">)</span>
+        <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_separator</span><span class="p">()</span>
+        <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Import archive to database&#39;</span><span class="p">,</span>
+                                 <span class="n">command</span><span class="o">=</span><span class="n">Calipso</span><span class="o">.</span><span class="n">import_json_db</span><span class="p">)</span>
+        <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Export database to archive&#39;</span><span class="p">,</span>
+                                 <span class="n">command</span><span class="o">=</span><span class="n">Calipso</span><span class="o">.</span><span class="n">export_json_db</span><span class="p">)</span>
+        <span class="n">menu_bar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Polygon&#39;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu_polygon</span><span class="p">)</span>
+
+        <span class="c"># Help Menu</span>
+        <span class="n">menu_help</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="n">menu_bar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">menu_help</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Documentation&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">webbrowser</span><span class="o">.</span><span class="n">open_new</span><span class="p">(</span>
+            <span class="n">constants</span><span class="o">.</span><span class="n">HELP_PAGE</span><span class="p">))</span>
+        <span class="n">menu_help</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;About&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">about</span><span class="p">)</span>
+        <span class="n">menu_bar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Help&#39;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu_help</span><span class="p">)</span>
+
+        <span class="c"># configure menu to screen</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">menu</span><span class="o">=</span><span class="n">menu_bar</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="Calipso.setup_main_screen"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.setup_main_screen">[docs]</a>    <span class="k">def</span> <span class="nf">setup_main_screen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Setup the top GUI, initialize toolbar window and set the plot to a blank image</span>
@@ -660,12 +739,16 @@
                                <span class="s">&#39;There are unsaved shapes on the plot. Save these shapes?&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">answer</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Saving shapes&#39;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">transient_save</span><span class="p">()</span>
+                <span class="n">saved</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_json</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">saved</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span>
             <span class="k">elif</span> <span class="n">answer</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Dumping unsaved shapes&#39;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
             <span class="k">elif</span> <span class="n">answer</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">pass</span>
+                <span class="k">return</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
 </div></div>

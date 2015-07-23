@@ -82,10 +82,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
 </ul>
@@ -151,11 +152,10 @@
 <span class="c">#    Module for all constants</span>
 <span class="c">######################################</span>
 
-<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">platform</span> <span class="k">as</span> <span class="n">_platform</span>
 
-
-<div class="viewcode-block" id="Plot"><a class="viewcode-back" href="../doc/general/consts.html#constants.Plot">[docs]</a><span class="k">class</span> <span class="nc">Plot</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<div class="viewcode-block" id="Plot"><a class="viewcode-back" href="../doc/general/consts.html#constants.Plot">[docs]</a><span class="k">class</span> <span class="nc">Plot</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">baseplot</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">backscattered</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">depolarized</span> <span class="o">=</span> <span class="mi">2</span>
@@ -186,6 +186,10 @@
 <span class="n">TIME_VARIANCE</span> <span class="o">=</span> <span class="mf">0.001</span>
 <span class="n">ALTITUDE_VARIANCE</span> <span class="o">=</span> <span class="mf">0.3</span>
 <span class="n">PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
+
+<span class="n">ICO</span> <span class="o">=</span> <span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/broadcasting.ico&#39;</span>
+<span class="k">if</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s">&quot;linux&quot;</span> <span class="ow">or</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s">&quot;linux2&quot;</span><span class="p">:</span>
+    <span class="n">ICO</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
 </pre></div>
 
           </div>

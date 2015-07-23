@@ -84,10 +84,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
 </ul>
@@ -220,6 +221,20 @@ at the top of the screen</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="Calipso.Calipso.export_db">
+<code class="descname">export_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.export_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.export_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notify the database that a save is taking place, the
+db will then save all polygons present on the screen</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="Calipso.Calipso.export_json_db">
+<em class="property">static </em><code class="descname">export_json_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.export_json_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.export_json_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export the contents of the database to an archive containing JSON, which can then be
+loaded into other databases and have all shapes imported</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="Calipso.Calipso.extract_window">
 <code class="descname">extract_window</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.extract_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.extract_window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Opens a subwindow that displays the data bounded by the shape</p>
@@ -309,17 +324,34 @@ at the top of the screen</p>
 <dd><p>Load an HDF file for use with displaying backscatter and depolarized images</p>
 </dd></dl>
 
+<dl class="staticmethod">
+<dt id="Calipso.Calipso.import_json_db">
+<em class="property">static </em><code class="descname">import_json_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.import_json_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.import_json_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import the contents of a JSON file to the database, works hand in hand
+with the <code class="docutils literal"><span class="pre">export_json_db</span></code> class method. This will allows users to share
+their database without needing to manually move their db file.
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.import_window">
+<code class="descname">import_window</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.import_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.import_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open the database import window allowing the user to import and
+delete entries.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; ignored Tkinter event object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="Calipso.Calipso.load">
 <code class="descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>load JSON objects from file by calling <code class="xref py py-meth docutils literal"><span class="pre">polygonlist.readPlot(f)()</span></code></p>
-</dd></dl>
-
-<dl class="method">
-<dt id="Calipso.Calipso.notify_save_db">
-<code class="descname">notify_save_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.notify_save_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.notify_save_db" title="Permalink to this definition">¶</a></dt>
-<dd><p>Notify the database that a save is taking place, the
-db will then save all polygons present on the screen</p>
 </dd></dl>
 
 <dl class="method">
@@ -440,14 +472,6 @@ the attributes below</p>
 <dt id="Calipso.Calipso.setup_window">
 <code class="descname">setup_window</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.setup_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.setup_window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets the title of root and invokes py:meth:<cite>centerWindow</cite></p>
-</dd></dl>
-
-<dl class="method">
-<dt id="Calipso.Calipso.transient_save">
-<code class="descname">transient_save</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.transient_save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.transient_save" title="Permalink to this definition">¶</a></dt>
-<dd><p>Function to save the file before closing the application. If the user
-decides they wish to save before closing, transient_save is called to
-save to JSON then proceeds to exit the application.</p>
 </dd></dl>
 
 <dl class="method">

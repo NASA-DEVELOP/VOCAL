@@ -84,10 +84,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
 </ul>
@@ -185,7 +186,10 @@ button</p>
 <dl class="method">
 <dt id="importdialog.ImportDialog.create_top_frame">
 <code class="descname">create_top_frame</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.create_top_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.create_top_frame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the upper frame of the window in charge of buttons</p>
+<dd><p>Initialize the upper frame of the window in charge of buttons, in order:
+creates a top_frame, sets a &#8216;Search&#8217; label and binds an entry box beside
+it, which calls <code class="docutils literal"><span class="pre">refine_search</span></code> upon a user releasing a key after pressing.
+Then binds the <em>delete</em> button to <code class="docutils literal"><span class="pre">data_from_db</span></code></p>
 </dd></dl>
 
 <dl class="method">
@@ -205,7 +209,24 @@ all entries.</p>
 <dl class="method">
 <dt id="importdialog.ImportDialog.free">
 <code class="descname">free</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.free"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.free" title="Permalink to this definition">¶</a></dt>
-<dd><p>Free window</p>
+<dd><p>Commit the session, destroy the window and ensure the session is
+closed correctly</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="importdialog.ImportDialog.get_current_file_shapes">
+<code class="descname">get_current_file_shapes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.get_current_file_shapes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.get_current_file_shapes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all shapes contained in the current file, queries the
+database looking for all entries with the column <em>tag</em> that match the
+file returned by the rpartitioned <code class="docutils literal"><span class="pre">Calipso.get_file()</span></code> function</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">

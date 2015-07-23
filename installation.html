@@ -83,10 +83,11 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#drawing-shapes">Drawing Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
 </ul>
@@ -283,22 +284,20 @@ refused (61) ...&#8217;</em></p>
 </ul>
 </div></blockquote>
 </li>
+</ul>
+</li>
 <li><p class="first">run <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">port</span> <span class="pre">install</span> <span class="pre">hdf4</span> <span class="pre">hdfeos</span> <span class="pre">py27-cython</span> <span class="pre">py27-numpy</span> <span class="pre">py27-matplotlib</span>
 <span class="pre">py27-matplotlib-basemap</span></code></p>
 </li>
 <li><p class="first">as root, do the following commands</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><code class="docutils literal"><span class="pre">mv</span> <span class="pre">/usr/bin/python</span> <span class="pre">/usr/bin/python.orig</span></code></li>
 <li><code class="docutils literal"><span class="pre">ln</span> <span class="pre">-s</span> <span class="pre">/opt/local/bin/python</span> <span class="pre">/usr/bin/python</span></code></li>
+<li>run <code class="docutils literal"><span class="pre">port</span> <span class="pre">select</span> <span class="pre">--set</span> <span class="pre">python</span> <span class="pre">python27</span></code></li>
 </ul>
-</div></blockquote>
-</li>
-<li><p class="first">run <code class="docutils literal"><span class="pre">port</span> <span class="pre">select</span> <span class="pre">--set</span> <span class="pre">python</span> <span class="pre">python27</span></code></p>
 </li>
 <li><p class="first">download <em>ccplot-1.5.tar.gz</em> from <a class="reference external" href="http://sourceforge.net/projects/ccplot/files/ccplot/ccplot-1.5.tar.gz/download">here</a></p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li>run <code class="docutils literal"><span class="pre">tar</span> <span class="pre">xzf</span> <span class="pre">ccplot-1.5.tar.gz</span></code></li>
 <li><code class="docutils literal"><span class="pre">cd</span> <span class="pre">ccplot-1.5.tar.gz</span></code></li>
 <li><code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></code></li>
@@ -306,11 +305,12 @@ refused (61) ...&#8217;</em></p>
 <li><code class="docutils literal"><span class="pre">ccplot</span> <span class="pre">-v</span></code></li>
 <li>and ccplot should be a recgonizable command!</li>
 </ul>
-</div></blockquote>
+</li>
+<li><p class="first">Install bokeh <code class="docutils literal"><span class="pre">port</span> <span class="pre">install</span> <span class="pre">py27-bokeh</span></code></p>
+</li>
+<li><p class="first">Install sqlalchemy <code class="docutils literal"><span class="pre">port</span> <span class="pre">install</span> <span class="pre">py27-sqlalchemy</span></code></p>
 </li>
 <li><p class="first">download the IDE of your choice, or run <code class="docutils literal"><span class="pre">python</span> <span class="pre">Calipso.py</span></code></p>
-</li>
-</ul>
 </li>
 </ol>
 <p class="rubric">Footnotes</p>

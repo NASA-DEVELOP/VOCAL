@@ -82,10 +82,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
 </ul>
@@ -152,9 +153,10 @@
 <span class="c"># import antigravity</span>
 <span class="kn">import</span> <span class="nn">ast</span>
 <span class="kn">import</span> <span class="nn">json</span>
-
 <span class="kn">import</span> <span class="nn">constants</span>
-<span class="kn">from</span> <span class="nn">log</span> <span class="kn">import</span> <span class="n">logger</span>
+
+<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">PLOTS</span>
+<span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">polygon.shape</span> <span class="kn">import</span> <span class="n">Shape</span>
 <span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">byteify</span>
 <span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span>
@@ -214,7 +216,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">]</span> <span class="o">=</span> \
                         <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">])</span>
                         </div>
-<div class="viewcode-block" id="ShapeReader.pack_shape"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.ShapeReader.pack_shape">[docs]</a>    <span class="k">def</span> <span class="nf">pack_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape_list</span><span class="p">,</span> <span class="n">plot_type</span><span class="p">,</span> <span class="n">canvas</span><span class="p">):</span>
+<div class="viewcode-block" id="ShapeReader.pack_shape"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.ShapeReader.pack_shape">[docs]</a>    <span class="k">def</span> <span class="nf">pack_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape_list</span><span class="p">,</span> <span class="n">plot_type</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">read_from_str</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stores the data in the JSON into PolygonDrawers</span>
 
@@ -230,13 +232,13 @@
                 <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">shape_list</span><span class="p">]:</span>
                     <span class="k">continue</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Found data in </span><span class="si">%s</span><span class="s">, packing polygon with JSON data&#39;</span>
-                            <span class="o">%</span> <span class="n">enum_plot_type</span><span class="p">)</span>
+                            <span class="o">%</span> <span class="n">PLOTS</span><span class="p">[</span><span class="n">enum_plot_type</span><span class="p">])</span>
                 <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;color&#39;</span><span class="p">]</span>
                 <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;coordinates&#39;</span><span class="p">]</span>
                 <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">]</span>
                 <span class="n">notes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;notes&#39;</span><span class="p">]</span>
                 <span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">exists_tag</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">exists_tag</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">read_from_str</span><span class="p">:</span>
                     <span class="n">new</span> <span class="o">=</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">generate_tag</span><span class="p">()</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                         <span class="s">&#39;Shape tag already exists in database, creating new tag </span><span class="si">% s</span><span class="s">&#39;</span>
@@ -250,6 +252,7 @@
                 <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_attributes</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
                 <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_coordinates</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
                 <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_notes</span><span class="p">(</span><span class="n">notes</span><span class="p">)</span>
+                <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
                 <span class="n">shape_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Shape</span><span class="p">(</span><span class="n">canvas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Bad data in JSON file&#39;</span><span class="p">)</span></div></div>

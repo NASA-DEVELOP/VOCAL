@@ -83,10 +83,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#navigating-the-plot">Navigating the Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#drawing-shapes">Drawing Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
 </ul>
@@ -201,8 +202,8 @@ out based upon the scale difference of the area you highlighted.</li>
 <li><img alt="home" src="_images/home_button.png" /> Home: reset the view to the original render</li>
 </ul>
 </div>
-<div class="section" id="extracting-and-viewing-attributes-of-shapes">
-<h2>Extracting and Viewing Attributes of Shapes<a class="headerlink" href="#extracting-and-viewing-attributes-of-shapes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="viewing-properties-of-shapes">
+<h2>Viewing Properties of Shapes<a class="headerlink" href="#viewing-properties-of-shapes" title="Permalink to this headline">¶</a></h2>
 <p>The second row of buttons (minus the home button) is dedicated to the viewing, assigning, and
 extraction of data from shapes</p>
 <ul class="simple">
@@ -236,8 +237,8 @@ some custom value on the color wheel. Changing the color of a shape will not cre
 a new shape, simply update the color value of existing shapes you&#8217;ve loaded.</li>
 </ul>
 </div>
-<div class="section" id="hiding-and-exporting-shapes">
-<h2>Hiding and Exporting Shapes<a class="headerlink" href="#hiding-and-exporting-shapes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="hiding-and-sharing-specific-shapes">
+<h2>Hiding and Sharing Specific Shapes<a class="headerlink" href="#hiding-and-sharing-specific-shapes" title="Permalink to this headline">¶</a></h2>
 <p>The last row of buttons deals with global state of shape viewing as well as the exporting
 of shapes to a JSON file.</p>
 <ul class="simple">
@@ -259,11 +260,17 @@ display them to the plot.</li>
 <p>One of the defining features of VOCAL is the ability to import and export shapes to a database, this can
 help researchers share information about aerosols and their trajectory. The database can be accessed under
 the <code class="docutils literal"><span class="pre">polygon</span></code> menu, offering to either <em>import from database</em> or <em>export to database</em> . Let&#8217;s start with exporting.</p>
+<div class="section" id="exporting-shapes">
+<h3>Exporting Shapes<a class="headerlink" href="#exporting-shapes" title="Permalink to this headline">¶</a></h3>
 <p>Say you have a number of shapes you&#8217;ve labeled with attributes and want to share with other researchers</p>
 <a class="reference internal image-reference" href="_images/to_be_exported.png"><img alt="_images/to_be_exported.png" src="_images/to_be_exported.png" style="width: 640.5px; height: 351.5px;" /></a>
 <p>Exporting these shapes is as easy as going to the <code class="docutils literal"><span class="pre">polygon</span></code> menu and hitting <em>export to database</em></p>
 <p><img alt="expo" src="_images/exporting_menu.png" /></p>
-<p>All objects have now been exported to the database! All done! Now lets import some shapes, consider down the road
+<p>All objects have now been exported to the database! All done!</p>
+</div>
+<div class="section" id="importing-shapes">
+<h3>Importing Shapes<a class="headerlink" href="#importing-shapes" title="Permalink to this headline">¶</a></h3>
+<p>Now lets import some shapes, consider down the road
 your database now has a number of different objects from different files; your coworker tells you &#8220;Hey, check out
 shape 31 by John and it&#8217;s properties&#8221;. There are a couple ways to go about this, first head over to the
 <em>import from database</em> window.</p>
@@ -287,6 +294,47 @@ onto multiple files. Scrolling right on the import window would have revealed th
 <img alt="_images/db_shape_imported.png" src="_images/db_shape_imported.png" />
 <p>you&#8217;re free to view properties of this shape, export it&#8217;s data to JSON or even modify the shape and re-export it
 back to the database.</p>
+</div>
+</div>
+<div class="section" id="sharing-your-database">
+<h2>Sharing Your Database<a class="headerlink" href="#sharing-your-database" title="Permalink to this headline">¶</a></h2>
+<p>Now say you get into contact with another researcher, one who&#8217;s been developing a database on tracking low
+hanging clouds in the atmosphere for example; you&#8217;ve been focusing on tracking other objects but
+would love to take a look at his shapes, well VOCAL has a feature for sharing entire databases with each
+other!</p>
+<div class="section" id="exporting-to-an-archive">
+<h3>Exporting To an Archive<a class="headerlink" href="#exporting-to-an-archive" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s export a database first, you&#8217;ll find the database exportation feature in the <strong>Polygon</strong> menu option,
+pictured here:</p>
+<p><img alt="exar" src="_images/exporting_archive_menu.png" /></p>
+<p>Selecting this option will ask you if you wish to really export your database to an achive, and selecting
+yes will prompt you with a file dialog for choosing the name and location of the archive you&#8217;d like to
+create.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Exporting your database is a <em>copy</em> operation, the contents of your database will remain the same and
+simply be copied to the archive, which can be loaded as shown below</p>
+</div>
+<p>Once exported you&#8217;ll have an archive of your specified name, something like <code class="docutils literal"><span class="pre">my_shapes.zip</span></code>. Feel free
+to take a peek inside the file, it&#8217;s simply a formatted zip containing your shapes exported in a JSON
+format. Now you can share this archive file to whoever you wish and easily share your entire database
+for other researchers!</p>
+</div>
+<div class="section" id="importing-from-an-archive">
+<h3>Importing From an Archive<a class="headerlink" href="#importing-from-an-archive" title="Permalink to this headline">¶</a></h3>
+<p>Now when you receive a database archive yourself, you&#8217;ll want to import that archive and start using the
+shapes right away; the command <code class="docutils literal"><span class="pre">Import</span> <span class="pre">archive</span> <span class="pre">to</span> <span class="pre">database</span></code> will do just that.</p>
+<p><img alt="imar" src="_images/importing_archive_menu.png" /></p>
+<p>Upon clicking this menu option, a prompt will open asking you for a valid <em>.zip</em> file. Navigate to a zip
+file in the valid format that <code class="docutils literal"><span class="pre">Export</span> <span class="pre">database</span> <span class="pre">to</span> <span class="pre">archive</span></code> produced, and open that. VOCAL will
+then extract the data from that file and import all objects located in the archive.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Importing shapes from an archive will <strong>not</strong> preserve their tag, regardless of whether is already
+exists or not, imported shapes are treated as &#8216;new&#8217; creations e.g. they will be assigned a unique tag
+based off of the current database tags.</p>
+</div>
+</div>
 </div>
 </div>
 

@@ -82,10 +82,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
 </ul>
@@ -149,16 +150,15 @@
 <span class="c">#    @author: Nathan Qian</span>
 <span class="c">#    @author: Grant Mercer</span>
 <span class="c">######################################</span>
+<span class="kn">import</span> <span class="nn">constants</span>
+
 <span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">SOLID</span><span class="p">,</span> <span class="n">TclError</span><span class="p">,</span> <span class="n">LEFT</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-
 <span class="kn">from</span> <span class="nn">polygon.reader</span> <span class="kn">import</span> <span class="n">ShapeReader</span>
 <span class="kn">from</span> <span class="nn">polygon.shape</span> <span class="kn">import</span> <span class="n">Shape</span>
-
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">Plot</span>
-<span class="kn">import</span> <span class="nn">constants</span>
 <span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span>
-<span class="kn">from</span> <span class="nn">log</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span>
 
 
 <div class="viewcode-block" id="ShapeManager"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager">[docs]</a><span class="k">class</span> <span class="nc">ShapeManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -167,30 +167,29 @@
 <span class="sd">    call and provides other export functionality</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">outline_toggle</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">hide_toggle</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">shape_count</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query_unique_tag</span><span class="p">()</span>
+    <span class="n">outline_toggle</span> <span class="o">=</span> <span class="bp">True</span>                   <span class="c"># global var for setting fill of shapes</span>
+    <span class="n">hide_toggle</span> <span class="o">=</span> <span class="bp">True</span>                      <span class="c"># global var for hiding shapes</span>
+    <span class="n">shape_count</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">query_unique_tag</span><span class="p">()</span>     <span class="c"># global shape_count for initial shape tag</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figure</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span>  <span class="n">master</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__figure</span> <span class="o">=</span> <span class="n">figure</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span> <span class="o">=</span> <span class="n">canvas</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__master</span> <span class="o">=</span> <span class="n">master</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__figure</span> <span class="o">=</span> <span class="n">figure</span>                          <span class="c"># figure to draw to</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span> <span class="o">=</span> <span class="n">canvas</span>                          <span class="c"># canvas the figure lives on</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__master</span> <span class="o">=</span> <span class="n">master</span>                          <span class="c"># CALIPSO</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span>             <span class="c"># default plot</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Defining initial shape manager&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Shape</span><span class="p">(</span><span class="n">canvas</span><span class="p">)],</span>
-                             <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="n">canvas</span><span class="p">)],</span>
-                             <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="n">canvas</span><span class="p">)],</span>
-                             <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="n">canvas</span><span class="p">)]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Shape</span><span class="p">(</span><span class="n">canvas</span><span class="p">)],</span>           <span class="c"># baseplot</span>
+                             <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="n">canvas</span><span class="p">)],</span>           <span class="c"># backscattered</span>
+                             <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="n">canvas</span><span class="p">)],</span>           <span class="c"># depolarized</span>
+                             <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="n">canvas</span><span class="p">)]]</span>           <span class="c"># vfm</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Instantiating Exporting Reader&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span> <span class="o">=</span> <span class="n">ShapeReader</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">None</span>          <span class="c"># aliases shape_list&#39;s current plot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>            <span class="c"># current JSON file, NOT .hdf file!</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>                     <span class="c"># hdf file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span> <span class="o">=</span> <span class="n">ShapeReader</span><span class="p">()</span>  <span class="c"># internal reader object for exporting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="p">{}</span>                    <span class="c"># data to hold JSON data for exporting</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Querying database for unique tag&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__moving_shape</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span> <span class="o">=</span> <span class="bp">None</span>                   <span class="c"># &#39;previoushighlightshape&#39;, for unsetting highlight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span> <span class="o">=</span> <span class="bp">None</span>         <span class="c"># creates a property window</span>
         
 <div class="viewcode-block" id="ShapeManager.anchor_rectangle"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.anchor_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">anchor_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -332,6 +331,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span> <span class="o">=</span> <span class="n">hdf_filename</span>
 </div>
+<div class="viewcode-block" id="ShapeManager.get_hdf"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.get_hdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_hdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the hdf string that objects are currently drawn to</span>
+
+<span class="sd">        :rtype: :py:class:`str`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span>
+</div>
 <div class="viewcode-block" id="ShapeManager.clear_refs"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.clear_refs">[docs]</a>    <span class="k">def</span> <span class="nf">clear_refs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clear all references to the current figure, this is called</span>
@@ -372,15 +379,15 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;set_plot called for BASE_PLOT&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span>
         <span class="k">elif</span> <span class="n">plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;set_plot to BACKSCATTERED&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span>
         <span class="k">elif</span> <span class="n">plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;set_plot to DEPOLARIZED&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span>
             </div>
     <span class="nd">@staticmethod</span>
@@ -394,18 +401,25 @@
         <span class="n">ShapeManager</span><span class="o">.</span><span class="n">shape_count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">string</span>
 </div>
-<div class="viewcode-block" id="ShapeManager.reset"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ShapeManager.reset"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clear the screen of any shapes present from the current_list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Resetting ShapeManager&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">shape</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
-                <span class="n">shape</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-        <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">)]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">all_</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;clearing all shapes&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">)],</span>           <span class="c"># baseplot</span>
+                                 <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">)],</span>           <span class="c"># backscattered</span>
+                                 <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">)],</span>           <span class="c"># depolarized</span>
+                                 <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">)]]</span>           <span class="c"># vfm</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Resetting ShapeManager&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">shape</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+                    <span class="n">shape</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">)]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 </div>
 <div class="viewcode-block" id="ShapeManager.delete"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -429,7 +443,7 @@
 <span class="sd">        Toggle whether current shapes should be outlined or remained filled on</span>
 <span class="sd">        the screen</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;removing shape fill for all shapes&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;setting all shape fill to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">))</span>
         <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span>
         <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
             <span class="n">poly</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
@@ -446,7 +460,7 @@
 <span class="sd">        Hide all current shapes on the plot</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;hiding all shapes from view&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Settings hide option for all shapes to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span><span class="p">))</span>
         <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span>
         <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
             <span class="n">poly</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
@@ -559,8 +573,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">read_from_file_json</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">:</span>
-            <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">pack_shape</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">)</span>
+            <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">pack_shape</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">,</span> <span class="n">read_from_str</span><span class="p">)</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">==</span> <span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
                 <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">shape</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>

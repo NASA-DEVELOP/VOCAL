@@ -84,10 +84,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
 </ul>
@@ -158,7 +159,7 @@
 </p>
 <span class="target" id="module-polygon.shape"></span><dl class="class">
 <dt id="polygon.shape.Shape">
-<em class="property">class </em><code class="descname">Shape</code><span class="sig-paren">(</span><em>canvas</em>, <em>tag=''</em>, <em>color=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">Shape</code><span class="sig-paren">(</span><em>canvas=None</em>, <em>tag=''</em>, <em>color=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Displays the polygon objects onto the canvas by supplying draw methods
 and maintaining internal information on the shape. Draws to matplotlib
 backend</p>
@@ -193,7 +194,7 @@ create a rectangle. Used in &#8216;Draw Rect&#8217; button</p>
 
 <dl class="method">
 <dt id="polygon.shape.Shape.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>fig</em>, <em>plot=&lt;Plot.baseplot: 0&gt;</em>, <em>fill=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>fig</em>, <em>plot=0</em>, <em>fill=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/shape.html#Shape.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.shape.Shape.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the shape to the canvas, onto the passed figure. Only fill the
 object if the <em>fill</em> parameter is set to <code class="docutils literal"><span class="pre">True</span></code></p>
 <table class="docutils field-list" frame="void" rules="none">

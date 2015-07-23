@@ -82,10 +82,11 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#starting-up">Starting Up</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#extracting-and-viewing-attributes-of-shapes">Extracting and Viewing Attributes of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#drawing-shapes">Drawing Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#hiding-and-exporting-shapes">Hiding and Exporting Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
 </ul>
@@ -326,12 +327,12 @@
   <dt><a href="doc/general/db.html#db.DatabasePolygon.tag">DatabasePolygon.tag (in module db)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="doc/general/db.html#db.DatabasePolygon.time_">DatabasePolygon.time_ (in module db)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="doc/general/db.html#db.db">db (in module db)</a>
   </dt>
@@ -374,6 +375,10 @@
   <dt><a href="doc/tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO.draw_rubberband">draw_rubberband() (NavigationToolbar2CALIPSO method)</a>
   </dt>
 
+      
+  <dt><a href="doc/general/db.html#db.DatabaseManager.dump_to_json">dump_to_json() (DatabaseManager method)</a>
+  </dt>
+
   </dl></td>
 </tr></table>
 
@@ -388,8 +393,16 @@
   <dt><a href="doc/general/db.html#db.DatabaseManager.exists_tag">exists_tag() (DatabaseManager method)</a>
   </dt>
 
+      
+  <dt><a href="doc/general/calipso.html#Calipso.Calipso.export_db">export_db() (Calipso method)</a>
+  </dt>
+
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="doc/general/calipso.html#Calipso.Calipso.export_json_db">export_json_db() (Calipso static method)</a>
+  </dt>
+
       
   <dt><a href="doc/general/calipso.html#Calipso.Calipso.extract_window">extract_window() (Calipso method)</a>
   </dt>
@@ -451,6 +464,10 @@
   </dt>
 
       
+  <dt><a href="doc/general/import.html#importdialog.ImportDialog.get_current_file_shapes">get_current_file_shapes() (ImportDialog method)</a>
+  </dt>
+
+      
   <dt><a href="doc/polygon/manager.html#polygon.manager.ShapeManager.get_current_list">get_current_list() (ShapeManager method)</a>
   </dt>
 
@@ -467,11 +484,15 @@
   </dt>
 
       
-  <dt><a href="doc/polygon/shape.html#polygon.shape.Shape.get_id">get_id() (Shape method)</a>
+  <dt><a href="doc/polygon/manager.html#polygon.manager.ShapeManager.get_hdf">get_hdf() (ShapeManager method)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="doc/polygon/shape.html#polygon.shape.Shape.get_id">get_id() (Shape method)</a>
+  </dt>
+
       
   <dt><a href="doc/polygon/shape.html#polygon.shape.Shape.get_itemhandler">get_itemhandler() (Shape method)</a>
   </dt>
@@ -543,15 +564,27 @@
   </dt>
 
       
+  <dt><a href="doc/general/db.html#db.DatabaseManager.import_from_json">import_from_json() (DatabaseManager method)</a>
+  </dt>
+
+      
+  <dt><a href="doc/general/calipso.html#Calipso.Calipso.import_json_db">import_json_db() (Calipso static method)</a>
+  </dt>
+
+      
   <dt><a href="doc/general/import.html#importdialog.ImportDialog.import_selection">import_selection() (ImportDialog method)</a>
   </dt>
 
       
-  <dt><a href="doc/general/import.html#importdialog.ImportDialog">ImportDialog (class in importdialog)</a>
+  <dt><a href="doc/general/calipso.html#Calipso.Calipso.import_window">import_window() (Calipso method)</a>
   </dt>
 
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
+      
+  <dt><a href="doc/general/import.html#importdialog.ImportDialog">ImportDialog (class in importdialog)</a>
+  </dt>
+
       
   <dt><a href="doc/general/import.html#module-importdialog">importdialog (module)</a>
   </dt>
@@ -614,14 +647,10 @@
   <dt><a href="doc/tools/navigationtoolbar2calipso.html#module-navigationtoolbar">navigationtoolbar (module)</a>
   </dt>
 
-      
-  <dt><a href="doc/tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO">NavigationToolbar2CALIPSO (class in tools.navigationtoolbar)</a>
-  </dt>
-
   </dl></td>
   <td style="width: 33%" valign="top"><dl>
       
-  <dt><a href="doc/general/calipso.html#Calipso.Calipso.notify_save_db">notify_save_db() (Calipso method)</a>
+  <dt><a href="doc/tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO">NavigationToolbar2CALIPSO (class in tools.navigationtoolbar)</a>
   </dt>
 
   </dl></td>
@@ -946,12 +975,12 @@
   <dt><a href="doc/tools/toggleablebutton.html#module-tools.toggleablebutton">tools.toggleablebutton (module)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="doc/tools/tooltip.html#module-tools.tooltip">tools.tooltip (module)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="doc/tools/treelistbox.html#module-tools.treelistbox">tools.treelistbox (module)</a>
   </dt>
@@ -966,10 +995,6 @@
 
       
   <dt><a href="doc/tools/tooltip.html#tools.tooltip.ToolTip">ToolTip (class in tools.tooltip)</a>
-  </dt>
-
-      
-  <dt><a href="doc/general/calipso.html#Calipso.Calipso.transient_save">transient_save() (Calipso method)</a>
   </dt>
 
       
