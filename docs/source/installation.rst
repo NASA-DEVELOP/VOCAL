@@ -129,24 +129,29 @@ OS X [#f4]_
          * run ``port -v -d sync``
          * run ``port search hdf4``
          * you should have queries show up, meaning ports it working!
-   * run ``sudo port install hdf4 hdfeos py27-cython py27-numpy py27-matplotlib
-     py27-matplotlib-basemap``
-   * as root, do the following commands
+3. run ``sudo port install hdf4 hdfeos py27-cython py27-numpy py27-matplotlib
+   py27-matplotlib-basemap``
 
-      * ``mv /usr/bin/python /usr/bin/python.orig``
-      * ``ln -s /opt/local/bin/python /usr/bin/python``
+4. as root, do the following commands
+
+   * ``mv /usr/bin/python /usr/bin/python.orig``
+   * ``ln -s /opt/local/bin/python /usr/bin/python``
 
    * run ``port select --set python python27``
-   * download *ccplot-1.5.tar.gz* from `here`_
+5. download *ccplot-1.5.tar.gz* from `here`_
 
-      * run ``tar xzf ccplot-1.5.tar.gz``
-      * ``cd ccplot-1.5.tar.gz``
-      * ``python setup.py build``
-      * ``python setup.py install --user``
-      * ``ccplot -v``
-      * and ccplot should be a recgonizable command!
+   * run ``tar xzf ccplot-1.5.tar.gz``
+   * ``cd ccplot-1.5.tar.gz``
+   * ``python setup.py build``
+   * ``python setup.py install --user``
+   * ``ccplot -v``
+   * and ccplot should be a recgonizable command!
 
-   * download the IDE of your choice, or run ``python Calipso.py``
+6. Install bokeh ``port install py27-bokeh``
+
+7. Install sqlalchemy ``port install py27-sqlalchemy``
+
+8. download the IDE of your choice, or run ``python Calipso.py``
 
 .. _basemap package: https://code.google.com/p/pythonxy/wiki/AdditionalPlugins
 

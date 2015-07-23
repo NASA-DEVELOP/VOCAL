@@ -69,9 +69,9 @@ The first row of toolbar buttons allows you to manipulate the plot for the purpo
 * |redo| Redo: jump forward to the next magnification zoom frame
 * |home| Home: reset the view to the original render
 
--------------------------------------------
-Extracting and Viewing Attributes of Shapes
--------------------------------------------
+----------------------------
+Viewing Properties of Shapes
+----------------------------
 
 The second row of buttons (minus the home button) is dedicated to the viewing, assigning, and
 extraction of data from shapes
@@ -106,9 +106,9 @@ shapes drawn to the plot.
   some custom value on the color wheel. Changing the color of a shape will not create
   a new shape, simply update the color value of existing shapes you've loaded.
 
----------------------------
-Hiding and Exporting Shapes
----------------------------
+----------------------------------
+Hiding and Sharing Specific Shapes
+----------------------------------
 
 The last row of buttons deals with global state of shape viewing as well as the exporting
 of shapes to a JSON file.
@@ -136,6 +136,9 @@ One of the defining features of VOCAL is the ability to import and export shapes
 help researchers share information about aerosols and their trajectory. The database can be accessed under
 the ``polygon`` menu, offering to either *import from database* or *export to database* . Let's start with exporting.
 
+Exporting Shapes
+################
+
 Say you have a number of shapes you've labeled with attributes and want to share with other researchers
 
 .. image:: _static/to_be_exported.png
@@ -145,7 +148,12 @@ Exporting these shapes is as easy as going to the ``polygon`` menu and hitting *
 
 |expo|
 
-All objects have now been exported to the database! All done! Now lets import some shapes, consider down the road
+All objects have now been exported to the database! All done!
+
+Importing Shapes
+################
+
+Now lets import some shapes, consider down the road
 your database now has a number of different objects from different files; your coworker tells you "Hey, check out
 shape 31 by John and it's properties". There are a couple ways to go about this, first head over to the
 *import from database* window.
@@ -181,6 +189,57 @@ onto multiple files. Scrolling right on the import window would have revealed th
 you're free to view properties of this shape, export it's data to JSON or even modify the shape and re-export it
 back to the database.
 
+---------------------
+Sharing Your Database
+---------------------
+
+Now say you get into contact with another researcher, one who's been developing a database on tracking low
+hanging clouds in the atmosphere for example; you've been focusing on tracking other objects but
+would love to take a look at his shapes, well VOCAL has a feature for sharing entire databases with each
+other!
+
+Exporting To an Archive
+#######################
+
+Let's export a database first, you'll find the database exportation feature in the **Polygon** menu option,
+pictured here:
+
+|exar|
+
+Selecting this option will ask you if you wish to really export your database to an achive, and selecting
+yes will prompt you with a file dialog for choosing the name and location of the archive you'd like to
+create.
+
+.. note::
+
+   Exporting your database is a *copy* operation, the contents of your database will remain the same and
+   simply be copied to the archive, which can be loaded as shown below
+
+Once exported you'll have an archive of your specified name, something like ``my_shapes.zip``. Feel free
+to take a peek inside the file, it's simply a formatted zip containing your shapes exported in a JSON
+format. Now you can share this archive file to whoever you wish and easily share your entire database
+for other researchers!
+
+Importing From an Archive
+#########################
+
+Now when you receive a database archive yourself, you'll want to import that archive and start using the
+shapes right away; the command ``Import archive to database`` will do just that.
+
+|imar|
+
+Upon clicking this menu option, a prompt will open asking you for a valid *.zip* file. Navigate to a zip
+file in the valid format that ``Export database to archive`` produced, and open that. VOCAL will
+then extract the data from that file and import all objects located in the archive.
+
+.. warning::
+
+   Importing shapes from an archive will **not** preserve their tag, regardless of whether is already
+   exists or not, imported shapes are treated as 'new' creations e.g. they will be assigned a unique tag
+   based off of the current database tags.
+
+
+
 .. |browse| image:: _static/browse_button.png
 .. |move| image:: _static/move_button.png
 .. |magn| image:: _static/magnify_button.png
@@ -210,6 +269,8 @@ back to the database.
 
 .. |expo| image:: _static/exporting_menu.png
 .. |impo| image:: _static/importing_menu.png
+.. |imar| image:: _static/importing_archive_menu.png
+.. |exar| image:: _static/exporting_archive_menu.png
 .. |sele| image:: _static/select_menu.png
 
 .. |dbwi| image:: _static/db_window.png
