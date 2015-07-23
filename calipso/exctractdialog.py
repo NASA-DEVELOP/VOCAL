@@ -6,19 +6,19 @@
 ###############################
 from Tkinter import Toplevel, Frame, TOP, BOTH, X, Button, BOTTOM,\
     LEFT
+import tkMessageBox
 
 import ccplot
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-from constants import TIME_VARIANCE
-
 import matplotlib as mpl
 import numpy as np
+
+from constants import TIME_VARIANCE
 from tools.tools import interpolation_search
-from log import logger
-import tkMessageBox
+from calipso.log.log import logger
 
 
 # noinspection PyUnresolvedReferences

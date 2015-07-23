@@ -6,15 +6,15 @@
 ###################################
 import collections
 import tkMessageBox
-import constants
-
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar
+
+import constants
 from sqlalchemy import or_
 from db import db, DatabasePolygon
 from tools.tools import center, get_shape_ranges
 from tools.treelistbox import TreeListBox
-from log import logger
+from calipso.log.log import logger
 
 
 class ImportDialog(Toplevel):

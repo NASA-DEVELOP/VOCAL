@@ -9,7 +9,7 @@ import ast
 import json
 
 import constants
-from log import logger
+from calipso.log.log import logger
 from polygon.shape import Shape
 from tools.tools import byteify
 from db import db

@@ -6,11 +6,12 @@
 ###################################
 import sys
 import ast
-import matplotlib as mpl
 from datetime import datetime
 import os
 
-from log import logger
+import matplotlib as mpl
+
+from calipso.log.log import logger
 
 
 def center(toplevel, size):

@@ -6,7 +6,7 @@
 import logging.config
 import sys
 import os
-from constants import PATH
+from calipso.constants import PATH
 
 config = {
           'version': 1,

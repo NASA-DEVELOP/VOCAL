@@ -9,11 +9,10 @@ from datetime import datetime
 
 from polygon.reader import ShapeReader
 from polygon.shape import Shape
-
 from constants import Plot
 import constants
 from db import db
-from log import logger
+from calipso.log.log import logger
 
 
 class ShapeManager(object):
