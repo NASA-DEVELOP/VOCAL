@@ -20,7 +20,7 @@ config = {
                 'logfile': {
                     'class': 'logging.FileHandler',
                     'level': 'NOTSET',
-                    'filename': 'log/trace.log',
+                    'filename': PATH + '/log/trace.log',
                     'mode': 'w+',
                     'formatter': 'logfileformatter'
                     },
