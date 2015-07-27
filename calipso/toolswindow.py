@@ -264,58 +264,75 @@ class ToolsWindow(Toplevel):
         load_button.grid(row=3, column=4, padx=2, pady=5)
         create_tool_tip(load_button, 'Load JSON')
 
-    def render(self):
-        """
-        Errors checks all user entered parameters and calls ``set_plot`` from *Calipso*
-        """
-        logger.info('Grabbing range and safe checking')
-        if self.plot_type.get() == 0:
-            logger.error('No plot type set')
-            tkMessageBox.showerror('toolswindow', 'No plot type specified')
-            return
-
-        # default beginning and ending range
-        beginning_range = 0
-        ending_range = 1000
-
+    @staticmethod
+    def __check_range(beginning_range, ending_range, min_range,
+                      begin_range_entry, end_range_entry):
         # If entry has text
-        if self.begin_range_entry.get():
+        if begin_range_entry.get():
             # If entry is not ONLY numbers
-            if not re.match('[0-9]+', self.begin_range_entry.get()) or '.' in self.begin_range_entry.get():
+            if not re.match('[0-9]+', begin_range_entry.get()) or '.' in begin_range_entry.get():
                 logger.error('Beginning range invalid, not all numeric')
                 tkMessageBox.showerror('toolswindow',
                                        'Invalid beginning range, range must only contain digits')
-                return
+                return None
             # default ending range is beginning_range + 1000
-            beginning_range = int(self.begin_range_entry.get())
+            beginning_range = int(begin_range_entry.get())
             ending_range = beginning_range + 1000
         # If entry as text
-        if self.end_range_entry.get():
+        if end_range_entry.get():
             # If entry is not ONLY numbers
-            if not re.match('[0-9]+', self.end_range_entry.get()) or '.' in self.end_range_entry.get():
+            if not re.match('[0-9]+', end_range_entry.get()) or '.' in end_range_entry.get():
                 logger.error('Ending range invalid, not all numeric')
                 tkMessageBox.showerror('toolswindow',
                                        'Invalid ending range, range must only contain digits')
-                return
-            ending_range = int(self.end_range_entry.get())
+                return None
+            ending_range = int(end_range_entry.get())
 
         if beginning_range > ending_range:
             logger.error('Beginning range larger than ending range %d > %d' % (beginning_range, ending_range))
             tkMessageBox.showerror('toolswindow',
                                    'Beginning range cannot be larger than ending range')
-            return
+            return None
 
         # If any negative values or the step is too small
-        if beginning_range < 0 or ending_range < 0 or ending_range - beginning_range < 100:
+        if beginning_range < 0 or ending_range < 0 or ending_range - beginning_range < min_range:
             logger.error('Error, invalid range specifiers %d , %d' % (beginning_range, ending_range))
             tkMessageBox.showerror('toolswindow',
                                    'Range cannot be less than zero or smaller than 100 steps')
-            return
-        
+            return None
+
         if ending_range - beginning_range > 15000:
             logger.error('Error, specified range %d , %d is too large' % (beginning_range, ending_range))
             tkMessageBox.showerror('toolswindow', 'Range cannot be greater than 15000 steps')
+            return None
+
+        return beginning_range, ending_range
+
+    def render(self):
+        """
+        Errors checks all user entered parameters and calls ``set_plot`` from *Calipso*
+        """
+        if self.plot_type.get() == 0:
+            logger.error('No plot type set')
+            tkMessageBox.showerror('toolswindow', 'No plot type specified')
+            return
+
+        if not self.__parent.get_file():
+            logger.error('No file entered')
+            tkMessageBox.showerror('toolswindow', 'No file loaded')
+            return
+
+        time_range = ToolsWindow.__check_range(0, 1000, 100,
+                                               self.begin_range_entry,
+                                               self.end_range_entry)
+        alt_range = ToolsWindow.__check_range(0, 20, 5,
+                                              self.begin_alt_range_entry,
+                                              self.end_alt_range_entry)
+
+        logger.info('Grabbing range and safe checking')
+        if time_range is None or alt_range is None:
             return
 
         logger.info('Calling plot')
-        self.__parent.set_plot(self.plot_type.get(), xrange_=(beginning_range, ending_range))
+        self.__parent.set_plot(self.plot_type.get(),
+                               xrange_=time_range, yrange=alt_range)
