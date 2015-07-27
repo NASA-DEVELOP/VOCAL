@@ -6,6 +6,8 @@
 # Brian Magill
 # 8/11/2014
 #
+import tkMessageBox
+
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 import ccplot.utils
@@ -26,6 +28,14 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
 
     with HDF(filename) as product:
         time = product['Profile_UTC_Time'][x1:x2, 0]
+        minimum = min(product['Profile_UTC_Time'][::])[0]
+        maximum = max(product['Profile_UTC_Time'][::])[0]
+        
+        # lenght of time determines how far the file can be viewed
+        if time[-1] >= maximum and len(time) < 950:
+            raise IndexError
+        if time[0] < minimum:
+            raise IndexError
         height = product['metadata']['Lidar_Data_Altitudes']
         dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
         latitude = product['Latitude'][x1:x2, 0]
@@ -59,10 +69,11 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
             norm=norm,
             interpolation='nearest',
         )
-
+       
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Time')   
         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+        fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
        
         cbar_label = 'Total Attenuated Backscatter 532nm (km$^{-1}$ sr$^{-1}$)'
         cbar = pfig.colorbar(im)

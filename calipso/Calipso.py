@@ -144,6 +144,8 @@ class Calipso(object):
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', 'No File Exists')
+            except IndexError:
+                tkMessageBox.showerror('Backscattered Plot', 'Index out of bounds')
         # TODO: Reimplement with new plotting technique (like backscatter)
         elif plot_type == Plot.depolarized:
             try:
