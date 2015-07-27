@@ -10,7 +10,6 @@ from matplotlib.backends.backend_tkagg import NavigationToolbar2
 
 import numpy as np
 
-
 # noinspection PyProtectedMember
 class NavigationToolbar2CALIPSO(NavigationToolbar2):
     """
@@ -91,7 +90,10 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
     
     def configure_subplots(self):
         pass
-    
+
+    def push_current(self):
+        pass
+
     def set_active(self, ind):
         pass
     

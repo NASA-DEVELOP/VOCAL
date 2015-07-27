@@ -72,6 +72,9 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         ax2.set_xlabel('Latitude')
         ax2.set_xlim(latitude[0], latitude[-1])
 
+        fig.set_zorder(1)
+        ax2.set_zorder(0)
+
         title = fig.set_title('Averaged 532 nm Total Attenuated Backscatter')
         title_xy = title.get_position()
         title.set_position([title_xy[0], title_xy[1]*1.07])

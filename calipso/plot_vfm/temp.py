@@ -2,42 +2,43 @@
 Demo of image that's been clipped by a circular patch.
 """
 
-# Double pendulum formula translated from the C code at
-# http://www.physics.usyd.edu.au/~wheat/dpend_html/solve_dpend.c
+#!/usr/bin/env python
 
-from Tkinter import Tk, Toplevel
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib
+matplotlib.use('TkAgg')
+
+from numpy import arange, sin, pi
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
-import time
+import Tkinter as Tk
 
-class min_example(Toplevel):
-    def __init__(self, root):
-        Toplevel.__init__(self, root)
-        self.geometry('+%d+%d' % (200, 200))
-        self.title('TEST')
-        self.transient(root)
-
-        self.__root = root
-        self.fig = Figure(figsize=(8, 5))
-        self.ax = self.fig.add_subplot(1, 1, 1)
-        self.ax.set_xlabel('Time')
-        self.ax.set_ylabel('Altitude (km)')
-
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
-        self.canvas.show()
-        self.create_win()
-
-    def create_win(self):
-
-        time.sleep(2)
-
-        test_win = Toplevel(self)
-        test_win.title('LAGS')
-        test_win.geometry('+%d+%d' % (800, 800))
-        test_win.transient(self.__root)
+root = Tk.Tk()
+root.wm_title("Embedding in TK")
 
 
-rt = Tk()
-rt.title('ROOT')
-min_example(rt)
-rt.mainloop()
+f = Figure(figsize=(5,4), dpi=100)
+a = f.add_subplot(111)
+t = arange(0.0,3.0,0.01)
+s = sin(2*pi*t)
+
+a.plot(t,s)
+
+y = a.twiny()
+
+# a tk.DrawingArea
+f.sca(a)
+print f.gca().get_xlim()
+y.set_picker(False)
+a.set(pickable=True)
+print a.pickable()
+canvas = FigureCanvasTkAgg(f, master=root)
+canvas.show()
+canvas.get_tk_widget().pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
+
+toolbar = NavigationToolbar2TkAgg( canvas, root )
+toolbar.update()
+canvas._tkcanvas.pack(side=Tk.TOP, fill=Tk.BOTH, expand=1)
+
+Tk.mainloop()
+# If you put root.destroy() here, it will cause an error if
+# the window is closed with the window manager.
