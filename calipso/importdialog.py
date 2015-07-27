@@ -14,6 +14,7 @@ from sqlalchemy import or_
 from db import db, DatabasePolygon
 from tools.tools import center, get_shape_ranges
 from tools.treelistbox import TreeListBox
+from tools.tooltip import create_tool_tip
 from log.log import logger
 
 
@@ -66,6 +67,7 @@ class ImportDialog(Toplevel):
 
         label = Label(self.top_frame, text='Search ')
         self.e = Entry(self.top_frame)
+        create_tool_tip(self.e, 'Search in Name, Attributes, Notes')
         self.e.bind('<KeyRelease>', self.refine_search)
         label.grid(row=0, column=0, padx=5, pady=10)
         self.e.grid(row=0, column=1, padx=5, pady=10)
@@ -75,13 +77,17 @@ class ImportDialog(Toplevel):
                                    command=self.filter_by_current_file)
         check_button.grid(row=0, column=2, padx=5, pady=10)
 
+        advanced_filter = Button(self.top_frame, text='Advanced',
+                                 command=self.advanced_prompt)
+        advanced_filter.grid(row=0, column=3, padx=5, pady=10)
+
         spacer = Label(self.top_frame, width=30)
-        spacer.grid(row=0, column=3)
-        self.top_frame.columnconfigure(3, weight=1)
+        spacer.grid(row=0, column=4)
+        self.top_frame.columnconfigure(4, weight=1)
 
         delete_button = Button(self.top_frame, text='Delete', command=self.delete_from_db,
                                width=10)
-        delete_button.grid(row=0, column=4, padx=15)
+        delete_button.grid(row=0, column=5, padx=15)
 
     def create_bottom_frame(self):
         """
@@ -246,6 +252,9 @@ class ImportDialog(Toplevel):
                 logger.info('Notifying db of deletion for \'%s\' from selection' % tag[0])
                 db.delete_item(idx)
             self.__display_all()
+
+    def advanced_prompt(self):
+        pass
 
     def __display_all(self):
         """

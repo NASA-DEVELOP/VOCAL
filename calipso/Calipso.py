@@ -91,7 +91,8 @@ class Calipso(object):
         self.__shapemanager = ShapeManager(self.__fig, self.__drawplot_canvas,
                                            self)
         logger.info('Binding matplotlib backend to canvas and frame')
-        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplot_canvas,
+        self.__toolbar = NavigationToolbar2CALIPSO(self,
+                                                   self.__drawplot_canvas,
                                                    self.__child.coordinate_frame)
 
         # pack and display canvas
@@ -455,7 +456,7 @@ class Calipso(object):
         """
         Returns the figure that is plotted to the canvas
 
-        :rtype: :py:class:`matplotlib.figure.Figure`
+        :rtype: :py:class:`SubplotAxes`
         """
         if self.__fig:
             return self.__fig
