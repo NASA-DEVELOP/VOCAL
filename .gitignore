@@ -4,6 +4,7 @@
 *.iml
 *.db
 calipso/.idea
+calipso/hdf
 docs/source/.idea
 docs/source/analytics
 docs/build/
