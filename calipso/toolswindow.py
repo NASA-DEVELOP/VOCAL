@@ -334,8 +334,5 @@ class ToolsWindow(Toplevel):
             return
 
         logger.info('Calling plot')
-        try:
-            self.__parent.set_plot(self.plot_type.get(),
+        self.__parent.set_plot(self.plot_type.get(),
                                xrange_=time_range, yrange=alt_range)
-        except IndexError:
-            tkMessageBox.showerror('toolswindow', 'Indes is out of bounds')

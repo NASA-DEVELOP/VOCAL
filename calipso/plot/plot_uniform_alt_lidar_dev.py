@@ -6,6 +6,8 @@
 # Brian Magill
 # 8/11/2014
 #
+import tkMessageBox
+
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 import ccplot.utils
@@ -29,11 +31,8 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         minimum = min(product['Profile_UTC_Time'][::])[0]
         maximum = max(product['Profile_UTC_Time'][::])[0]
         
-        print time[0]
-        print time[-1]
-        print maximum
-        print minimum
-        if time[-1] > maximum:
+        # lenght of time determines how far the file can be viewed
+        if time[-1] >= maximum and len(time) < 950:
             raise IndexError
         if time[0] < minimum:
             raise IndexError
@@ -65,7 +64,6 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         im = fig.imshow(
             data.T,
             extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
-#             extent=(latitude[0], latitude[-1], h1, h2),
             cmap=cm,
             aspect='auto',
             norm=norm,
@@ -75,10 +73,6 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Time')   
         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
-        
-#         ax_coor = fig.twiny()
-#         ax_coor.set_xlabel('Coordinates')
-#         ax_coor.set_xlim(latitude[0], latitude[-1])  
         fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
        
         cbar_label = 'Total Attenuated Backscatter 532nm (km$^{-1}$ sr$^{-1}$)'
