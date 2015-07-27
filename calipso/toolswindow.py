@@ -78,7 +78,7 @@ class ToolsWindow(Toplevel):
         """
         pass
 
-    def setup_toolbar_buttons_linwin(self):
+    def setup_toolbar_buttons(self):
         """
         Create tool bar buttons
         """
