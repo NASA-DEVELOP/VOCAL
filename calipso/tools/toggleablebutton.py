@@ -4,6 +4,8 @@
 #    6/24/2015
 ######################################
 from Tkinter import Button
+import ttk
+from sys import platform as _platform
 
 # global button container for managing state
 toggleContainer = []  
@@ -21,6 +23,8 @@ class ToggleableButton(Button):
     :param cnf: Button forwarded args
     :param \*\*kw: Button forwarded args
     """
+
+
 
     # noinspection PyDefaultArgument
     def __init__(self, root, master, cnf={}, **kw):
@@ -96,6 +100,21 @@ class ToggleableButton(Button):
             self.config(relief='sunken')                # sink the button, e.g. activate
             for pair in self.__bindMap:                 # bind using the bindmap
                 self.__cid_stack.append(pair[0].mpl_connect(pair[1], pair[2]))
+
+class ToggleableButtonMac(ToggleableButton):
+
+
+    SINKABLE_BUTTON = 'SunkableButton_TButton'
+
+    def __init__(self, root, master, cnf={}, **kw):
+        ToggleableButton.__init__(root, master, cnf, **kw)
+        self.stle = ttk.Style()
+
+    def untoggle(self):
+        pass
+
+    def toggle(self):
+        pass
 
 
 class ToolbarToggleableButton(Button):

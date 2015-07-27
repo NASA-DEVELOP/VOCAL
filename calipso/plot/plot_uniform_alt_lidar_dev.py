@@ -6,8 +6,6 @@
 # Brian Magill
 # 8/11/2014
 #
-import tkMessageBox
-
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 import ccplot.utils
