@@ -34,6 +34,8 @@ TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', '
         'dust', 'polluted continental', 'polluted continental dust', 'polluted dust',
         'polluted marine', 'smoke', 'stratospheric layer']
 
+OFFSET = 62
+
 LOG_FILENAME = 'log/CALIPSO_debug.log'
 HELP_PAGE = 'http://syntaf.github.io/vocal/'
 
@@ -44,3 +46,4 @@ PATH = os.path.dirname(os.path.realpath(__file__))
 ICO = PATH + '/ico/broadcasting.ico'
 if _platform == "linux" or _platform == "linux2":
     ICO = ''
+    OFFSET = 41
