@@ -577,7 +577,10 @@ class Calipso(object):
         """
         logger.info('Setting up GUI')
         self.create_top_gui()
-        self.__child.setup_toolbar_buttons()
+        if _platform is 'linux' or _platform is 'linux2' or _platform is 'win32':
+            self.__child.setup_toolbar_buttons_linwin()
+        else:
+            pass
         logger.info('Setting initial plot')
         self.set_plot(Plot.baseplot)
 
