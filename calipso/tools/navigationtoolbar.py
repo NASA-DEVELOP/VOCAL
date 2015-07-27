@@ -80,6 +80,15 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
             del self.lastrect
 
     def mouse_move(self, event):
+        """
+        The event bound to mouse motion once the plot is rendered, this function will simply
+        display the coordinates the mouse is currently over. Custom implemented so that the
+        coordinate system can also display 'lat'. This is done by grabbing the axes and finding
+        both 'time' and 'latitude' axes, then using ``transData`` to translate their coordinates
+        to screen coordinates **then** back to the other axis coordinates
+
+        :param event: A matplotlib event
+        """
         self._set_cursor(event)
 
         if event.inaxes and event.inaxes.get_navigate():
@@ -90,9 +99,8 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
                 lat = axes[labels.index(u'Latitude')]
                 time = axes[labels.index(u'Time')]
                 s = format_coord(event.inaxes, event.xdata, event.ydata,
-                    lat.transData.inverted().transform(
-                    time.transData.transform(np.array([event.xdata, event.ydata]))
-                )[0])
+                                 lat.transData.inverted().transform(
+                                     time.transData.transform(np.array([event.xdata, event.ydata])))[0])
             except (ValueError, OverflowError):
                 pass
             else:
