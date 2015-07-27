@@ -99,7 +99,7 @@ class Calipso(object):
         self.__drawplot_frame.pack()
         self.__root.protocol('WM_DELETE_WINDOW', self.close)
 
-    def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 20)):
+    def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 30)):
         """
         Draws to the canvas according to the *plot_type* specified in the arguments. Accepts one of
         the attributes below
@@ -493,7 +493,6 @@ class Calipso(object):
         # the child is designed to appear off to the right of the parent window, so the x location
         # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
         # plus a fourth the distance of the window
-        print _platform
         if _platform == "linux" or _platform == "linux2":
             logger.info("Linux system detected")
             self.__child.geometry('%dx%d+%d+%d' % (

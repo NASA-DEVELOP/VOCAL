@@ -67,7 +67,9 @@ class ToolsWindow(Toplevel):
         self.upper_range_frame = None
         self.lower_button_frame = None
         self.begin_range_entry = None
+        self.begin_alt_range_entry = None
         self.end_range_entry = None
+        self.end_alt_range_entry = None
 
     @staticmethod
     def ignore():
@@ -115,6 +117,18 @@ class ToolsWindow(Toplevel):
         self.end_range_entry = Entry(self.upper_range_frame, width=11)
         self.end_range_entry.grid(row=3, column=3, pady=5, sticky='w')
         self.end_range_entry.insert(END, '1000')
+
+        Label(self.upper_range_frame, text='Alt').\
+            grid(row=4, column=0, pady=5, sticky='w')
+        self.begin_alt_range_entry = Entry(self.upper_range_frame, width=12)
+        self.begin_alt_range_entry.grid(row=4, column=1, pady=5, sticky='w')
+        self.begin_alt_range_entry.insert(END, '0')
+
+        Label(self.upper_range_frame, text='to').\
+            grid(row=4, column=2, pady=5, sticky='w')
+        self.end_alt_range_entry = Entry(self.upper_range_frame, width=11)
+        self.end_alt_range_entry.grid(row=4, column=3, pady=5, sticky='w')
+        self.end_alt_range_entry.insert(END, '20')
 
         self.lower_button_frame = Frame(self.container)
         self.lower_button_frame.config(highlightthickness=1)
