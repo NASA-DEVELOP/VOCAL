@@ -6,11 +6,12 @@
 # Brian Magill
 # 8/11/2014
 #
-import ccplot.utils
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
-import numpy as np
+import ccplot.utils
+
 import matplotlib as mpl
+import numpy as np
 
 
 # from gui.CALIPSO_Visualization_Tool import filename
@@ -27,6 +28,8 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         time = product['Profile_UTC_Time'][x1:x2, 0]
         height = product['metadata']['Lidar_Data_Altitudes']
         dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
+        latitude = product['Latitude'][x1:x2, 0]
+        longitude = product['Longitude'][x1:x2, 0]
 
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
         dataset = np.ma.masked_equal(dataset, -9999)
@@ -51,6 +54,7 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         im = fig.imshow(
             data.T,
             extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
+#             extent=(latitude[0], latitude[-1], h1, h2),
             cmap=cm,
             aspect='auto',
             norm=norm,
@@ -59,7 +63,11 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
        
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Time')   
-        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))        
+        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+        
+#         ax_coor = fig.twiny()
+#         ax_coor.set_xlabel('Coordinates')
+#         ax_coor.set_xlim(latitude[0], latitude[-1])  
         fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
        
         cbar_label = 'Total Attenuated Backscatter 532nm (km$^{-1}$ sr$^{-1}$)'
