@@ -26,12 +26,16 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
 
     with HDF(filename) as product:
         time = product['Profile_UTC_Time'][x1:x2, 0]
-        minimum = min(product['Profile_UTC_Time'][::])
-        maximum = max(product['Profile_UTC_Time'][::])
+        minimum = min(product['Profile_UTC_Time'][::])[0]
+        maximum = max(product['Profile_UTC_Time'][::])[0]
         
-        if time[0] > maximum or time[-1] > maximum:
+        print time[0]
+        print time[-1]
+        print maximum
+        print minimum
+        if time[-1] > maximum:
             raise IndexError
-        if time[0] < minimum or time[-1] < minimum:
+        if time[0] < minimum:
             raise IndexError
         height = product['metadata']['Lidar_Data_Altitudes']
         dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
