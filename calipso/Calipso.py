@@ -99,7 +99,7 @@ class Calipso(object):
         self.__drawplot_frame.pack()
         self.__root.protocol('WM_DELETE_WINDOW', self.close)
 
-    def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 30)):
+    def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 20)):
         """
         Draws to the canvas according to the *plot_type* specified in the arguments. Accepts one of
         the attributes below
@@ -190,6 +190,7 @@ class Calipso(object):
         self.panx = event.x
         self.pany = event.y
 
+    # noinspection PyTypeChecker
     def render_pan(self, event):
         """
         Saves ending coordinates of mouse press and proceeds to find the distance
@@ -217,7 +218,9 @@ class Calipso(object):
             logger.info('Panning backwards')
         else:
             logger.info('Panning forwards')
-            self.set_plot(self.plot, (self.xrange[0] + dst, self.xrange[1] + dst))
+            self.set_plot(self.plot, xrange_=(self.xrange[0] + dst, self.xrange[1] + dst),
+                          yrange=(int(self.__child.begin_alt_range_entry.get()),
+                                  int(self.__child.end_alt_range_entry.get())))
         self.__child.begin_range_entry.delete(0, END)
         self.__child.end_range_entry.delete(0, END)
         self.__child.begin_range_entry.insert(END, str(self.xrange[0]))
