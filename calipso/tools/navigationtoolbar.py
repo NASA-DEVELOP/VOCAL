@@ -126,9 +126,6 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
     def configure_subplots(self):
         pass
 
-    def push_current(self):
-        pass
-
     def set_active(self, ind):
         pass
     
