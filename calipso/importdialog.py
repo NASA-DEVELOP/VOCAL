@@ -104,8 +104,9 @@ class ImportDialog(Toplevel):
         self.bottom_button_frame.pack(side=BOTTOM, fill=X, expand=False)
 
         self.tree = TreeListBox(self.bottom_frame,
-                                ['name', 'plot', 'time range', 'altitude range',
-                                 'attributes', 'notes', 'last edited', 'file'])
+                                ['name', 'plot', 'time range', 'latitude range',
+                                 'altitude range', 'attributes', 'notes', 'last edited',
+                                 'file'])
 
         for obj in self.session.query(DatabasePolygon).all():
             self.__internal_list.append(obj)  # insert JSON obj representation into internal list
@@ -149,7 +150,7 @@ class ImportDialog(Toplevel):
         ):
             time_range, altitude_range = get_shape_ranges(obj.coordinates)
             lst.append(
-                (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
+                (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
                  obj.notes, obj.time_, obj.hdf))
         if not lst:
             logger.warning('Query returned None, no shapes found')
@@ -190,7 +191,7 @@ class ImportDialog(Toplevel):
                               DatabasePolygon.notes.contains(self.__search_string.strip()))):
                     time_range, altitude_range = get_shape_ranges(obj.coordinates)
                     lst.append(  # append any objects that were returned by the query
-                                 (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
+                                 (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
                                   obj.notes, obj.time_, obj.hdf))
                 # push new query onto the stack and set display to list
                 if self.filter_file.get():
@@ -268,7 +269,7 @@ class ImportDialog(Toplevel):
         for obj in self.session.query(DatabasePolygon).all():
             time_range, altitude_range = get_shape_ranges(obj.coordinates)
             lst.append(  # user see's this list
-                         (obj.tag, obj.plot, time_range, altitude_range, obj.attributes[1:-1],
+                         (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
                           obj.notes, obj.time_, obj.hdf))
 
         self.tree.info = lst

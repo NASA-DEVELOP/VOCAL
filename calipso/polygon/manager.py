@@ -447,7 +447,7 @@ class ShapeManager(object):
         :rtype: :py:class:`bool`
         """
         if len(self.__current_list) == 1:
-            logger.error("No shapes to export to database")
+            logger.error('No shapes to export to database')
             return False
         today = datetime.utcnow().replace(microsecond=0)
         db.commit_to_db(self.__current_list, str(today), self.__hdf)
@@ -462,7 +462,7 @@ class ShapeManager(object):
 
         :param str filename: custom filename to save JSON objects to
         """
-        if filename != "":
+        if filename != '':
             self.__current_file = filename
         today = datetime.utcnow().replace(microsecond=0)
         self.__data['time'] = str(today)
@@ -476,14 +476,16 @@ class ShapeManager(object):
                 self.__current_list[j].save()
             tag = self.__current_list[j].get_tag()
             coordinates = self.__current_list[j].get_coordinates()
+            lat = self.__current_list[j].generate_lat_range()
             color = self.__current_list[j].get_color()
             attributes = self.__shape_list[i][j].get_attributes()
             note = self.__shape_list[i][j].get_notes()
             _id = self.__shape_list[i][j].get_id()
-            value = {"coordinates": coordinates, "color": color, "attributes": attributes, "notes": note, "id": _id}
+            value = {'coordinates': coordinates, 'lat': lat, 'color': color,
+                     'attributes': attributes, 'notes': note, 'id': _id}
             shape_dict[tag] = value
         self.__data[constants.PLOTS[i]] = shape_dict
-        logger.info("Encoding to JSON")
+        logger.info('Encoding to JSON')
         db.encode(self.__current_file, self.__data)
 
     def save_all_json(self, filename=""):
@@ -505,12 +507,14 @@ class ShapeManager(object):
                     self.__shape_list[i][j].save()
                 tag = self.__shape_list[i][j].get_tag()
                 coordinates = self.__shape_list[i][j].get_coordinates()
+                lat = self.__shape_list[i][j].generate_lat_range()
                 color = self.__shape_list[i][j].get_color()
                 attributes = self.__shape_list[i][j].get_attributes()
                 note = self.__shape_list[i][j].get_notes()
                 _id = self.__shape_list[i][j].get_id()
-                value = {"coordinates": coordinates, "color": color, "attributes": attributes, "notes": note, "id": _id}
+                value = {'coordinates': coordinates, 'lat': lat, 'color': color,
+                         'attributes': attributes, 'notes': note, 'id': _id}
             shape_dict[tag] = value
         self.__data[constants.PLOTS[i]] = shape_dict
-        logger.info("Encoding to JSON")
+        logger.info('Encoding to JSON')
         db.encode(self.__current_file, self.__data)

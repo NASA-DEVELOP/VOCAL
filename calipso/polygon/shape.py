@@ -9,6 +9,7 @@ import random
 
 import matplotlib as mpl
 import matplotlib.lines as mlines
+import numpy as np
 from matplotlib.patches import Polygon
 
 import constants
@@ -429,6 +430,17 @@ class Shape(object):
             return True
         else:
             return False
+
+    def generate_lat_range(self):
+        axes = self.__canvas.figure.get_axes()
+        labels = [x.get_xlabel() for x in axes]
+        lat = axes[labels.index(u'Latitude')]
+        time = axes[labels.index(u'Time')]
+        min_ = lat.transData.inverted().transform(
+            time.transData.transform(np.array(min(self.__coordinates))))[0]
+        max_ = lat.transData.inverted().transform(
+            time.transData.transform(np.array(max(self.__coordinates))))[0]
+        return '%.4f - %.4f' % (min_, max_)
 
     def __str__(self):
         logger.debug('Stringing %s' % self.__tag)
