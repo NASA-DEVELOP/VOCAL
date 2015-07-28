@@ -28,7 +28,6 @@ class ToolsWindow(Toplevel):
     def __init__(self, canvas, parent, root):
         Toplevel.__init__(self, root)
         # Images required by buttons
-        self.test_img = ImageTk.PhotoImage(file=PATH + '/ico/button.png')
         self.edit_img = ImageTk.PhotoImage(file=PATH + '/ico/edit.png')
         self.prop_img = ImageTk.PhotoImage(file=PATH + '/ico/cog.png')
         self.load_img = ImageTk.PhotoImage(file=PATH + '/ico/load.png')
@@ -44,7 +43,7 @@ class ToolsWindow(Toplevel):
         self.redo_img = ImageTk.PhotoImage(file=PATH + '/ico/forward.png')
         self.undo_img = ImageTk.PhotoImage(file=PATH + '/ico/back.png')
         self.magnify_draw_img = ImageTk.PhotoImage(file=PATH + '/ico/magnify.png')
-        self.extract_img = ImageTk.PhotoImage(file=PATH + '/ico/button.png')
+        self.extract_img = ImageTk.PhotoImage(file=PATH + '/ico/extract.png')
         self.home_img = ImageTk.PhotoImage(file=PATH + '/ico/home.png')
 
         self.__parent = parent
