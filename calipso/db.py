@@ -14,7 +14,7 @@ import ast
 
 import constants
 from tools.tools import zipdir
-from constants import PATH
+from constants import PATH, PLOTS
 from sqlalchemy import create_engine, Column, Integer, String, func, NUMERIC
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -166,7 +166,7 @@ class DatabaseManager(object):
                     DatabasePolygon(tag=polygon.get_tag(),
                                     time_=time,
                                     hdf=f.rpartition('/')[2],
-                                    plot=constants.PLOTS[polygon.get_plot()],
+                                    plot=PLOTS[polygon.get_plot()],
                                     color=polygon.get_color(),
                                     attributes=str(polygon.get_attributes()),
                                     coordinates=str(polygon.get_coordinates()),
@@ -183,9 +183,8 @@ class DatabaseManager(object):
                     logger.critical('This should never happen, why did it happen?')
                     continue
                 poly.time_ = time
-                poly.plot = polygon.get_plot()
                 poly.hdf = f.rpartition('/')[2]
-                poly.plot = polygon.get_plot().name
+                poly.plot = PLOTS[polygon.get_plot()]
                 poly.color = unicode(polygon.get_color())
                 poly.attributes = str(polygon.get_attributes())
                 poly.coordinates = str(polygon.get_coordinates())
