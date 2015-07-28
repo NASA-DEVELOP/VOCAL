@@ -448,6 +448,7 @@ class Shape(object):
                       x in self.__coordinates]
         altitude_cords = [x[1] for x in self.__coordinates]
         string = 'Time Scale:\n\t%s - %s\n' % (min(time_cords), max(time_cords))
+        string += 'Latitude Scale:\n\t%s\n' % self.generate_lat_range()
         string += 'Altitude Scale:\n\t%.4f km - %.4f km\n' % (min(altitude_cords), max(altitude_cords))
         string += 'Color:\n\t%s\n' % self.__color
         if len(self.__attributes) > 0:
