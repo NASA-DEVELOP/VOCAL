@@ -17,6 +17,7 @@ Contents
 
    overview
    installation
+   gettingdata
    tutorial
  
 .. toctree::
@@ -39,4 +40,5 @@ Contents
    trouble/faq
    trouble/issuetracker
    trouble/contact
+
 

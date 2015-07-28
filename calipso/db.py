@@ -52,6 +52,7 @@ class DatabasePolygon(dbBase):
     attributes = Column(String)  # list of object attributes
     coordinates = Column(String)  # plot coordinates for displaying to user
     notes = Column(String)  # shape notes
+    lat = Column(String)
 
     @staticmethod
     def plot_string(i):
@@ -71,6 +72,7 @@ class DatabasePolygon(dbBase):
             'attributes': self.attributes,
             'id': self.id,
             'coordinates': self.coordinates,
+            'lat': self.lat,
             'notes': self.notes}}
         data['time'] = self.time_
         data['hdfFile'] = self.hdf
@@ -159,6 +161,7 @@ class DatabaseManager(object):
             # if the ID does not exist we have a new object to commit
             if polygon.get_id() is None:
                 logger.debug('committing new shape: %s' % polygon.get_tag())
+                lat = polygon.generate_lat_range()
                 obx = \
                     DatabasePolygon(tag=polygon.get_tag(),
                                     time_=time,
@@ -167,6 +170,7 @@ class DatabaseManager(object):
                                     color=polygon.get_color(),
                                     attributes=str(polygon.get_attributes()),
                                     coordinates=str(polygon.get_coordinates()),
+                                    lat=lat,
                                     notes=polygon.get_notes())
                 session.add(obx)
                 session.commit()
@@ -280,6 +284,7 @@ class DatabaseManager(object):
                         coordinates = fshape['coordinates']
                         attributes = fshape['attributes']
                         notes = fshape['notes']
+                        lat = fshape['lat']
 
                         obx = \
                             DatabasePolygon(tag=tag,
@@ -288,6 +293,7 @@ class DatabaseManager(object):
                                             plot=key,
                                             color=color,
                                             coordinates=coordinates,
+                                            lat=lat,
                                             attributes=attributes,
                                             notes=notes)
                         session.add(obx)

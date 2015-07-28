@@ -91,7 +91,8 @@ class Calipso(object):
         self.__shapemanager = ShapeManager(self.__fig, self.__drawplot_canvas,
                                            self)
         logger.info('Binding matplotlib backend to canvas and frame')
-        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplot_canvas,
+        self.__toolbar = NavigationToolbar2CALIPSO(self,
+                                                   self.__drawplot_canvas,
                                                    self.__child.coordinate_frame)
 
         # pack and display canvas
@@ -237,6 +238,9 @@ class Calipso(object):
         """
         ops = [x.get_tag() for x in self.__shapemanager.get_current_list() if x is not None]
         self.option_menu.set_menu(ops)
+
+    def highlight_selected_shape(self, tag):
+        self.__shapemanager.highlight(tag)
 
     def save_json(self):
         """
@@ -455,7 +459,7 @@ class Calipso(object):
         """
         Returns the figure that is plotted to the canvas
 
-        :rtype: :py:class:`matplotlib.figure.Figure`
+        :rtype: :py:class:`SubplotAxes`
         """
         if self.__fig:
             return self.__fig
@@ -532,7 +536,7 @@ class Calipso(object):
         browse_button.grid(row=1, column=3)
 
         self.option_menu = ShapeOptionMenu(self.__dialog_shape_frame, self.shape_var, "",
-                                           command=lambda x: self.__shapemanager.highlight(x))
+                                           command=self.highlight_selected_shape)
         self.option_menu.bind("<ButtonPress-1>", self.update_shape_optionmenu)
         self.option_menu.pack(side=RIGHT, padx=10)
         label_shapes = Label(self.__dialog_shape_frame, text="Select")

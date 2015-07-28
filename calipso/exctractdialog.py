@@ -99,8 +99,8 @@ class ExtractDialog(Toplevel):
         self.histogram_window.title('Histogram')
 
         # self.create_histogram()
-        self.histogram_window.update()
-        self.histogram_window.deiconify()
+        # self.histogram_window.update()
+        # self.histogram_window.deiconify()
 
     @staticmethod
     def ignore():

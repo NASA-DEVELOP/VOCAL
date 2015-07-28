@@ -14,7 +14,6 @@ from log.log import logger
 class AttributesDialog(Toplevel):
     """
     Dialog window for creating and assigning attributes to objects
-
     :param root: The parent frame
     :param shape: The ShapeManager being edited
     """

@@ -27,6 +27,22 @@ def center(toplevel, size):
     y = h / 2 - size[1] / 2
     toplevel.geometry('%dx%d+%d+%d' % (size[0], size[1], x, y))
 
+def format_coord(axes, x, y, z):
+    """Return a format string formatting the *x*, *y* coord"""
+    if x is None:
+        xs = '???'
+    else:
+        xs = axes.format_xdata(x)
+    if y is None:
+        ys = '???'
+    else:
+        ys = axes.format_ydata(y)
+    if z is None:
+        zs = '???'
+    else:
+        zs = z
+    return 'x=%s y=%s lat=%s' % (xs, ys, zs)
+
 
 def byteify(inp):
     """

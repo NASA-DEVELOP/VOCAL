@@ -6,8 +6,6 @@
 # Brian Magill
 # 8/11/2014
 #
-import tkMessageBox
-
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 import ccplot.utils
@@ -79,13 +77,13 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         cbar = pfig.colorbar(im)
         cbar.set_label(cbar_label)
 
-        ax2 = fig.twiny()
-        ax2.set_xlabel('Latitude')
-        ax2.set_xlim(latitude[0], latitude[-1])
+    ax = fig.twiny()
+    ax.set_xlabel('Latitude')
+    ax.set_xlim(latitude[0], latitude[-1])
 
-        fig.set_zorder(1)
-        ax2.set_zorder(0)
+    fig.set_zorder(1)
+    ax.set_zorder(0)
 
-        title = fig.set_title('Averaged 532 nm Total Attenuated Backscatter')
-        title_xy = title.get_position()
-        title.set_position([title_xy[0], title_xy[1]*1.07])
+    title = fig.set_title('Averaged 532 nm Total Attenuated Backscatter')
+    title_xy = title.get_position()
+    title.set_position([title_xy[0], title_xy[1]*1.07])

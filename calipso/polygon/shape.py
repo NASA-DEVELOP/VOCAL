@@ -9,6 +9,7 @@ import random
 
 import matplotlib as mpl
 import matplotlib.lines as mlines
+import numpy as np
 from matplotlib.patches import Polygon
 
 import constants
@@ -110,8 +111,6 @@ class Shape(object):
             pass
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
-        if event.xdata and event.ydata:
-            logger.debug('%f, %f', event.xdata, event.ydata)
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prev_x,
                                                                  abs(constants.HEIGHT - self.__prev_y - OFFSET),
                                                                  event.x,
@@ -432,12 +431,24 @@ class Shape(object):
         else:
             return False
 
+    def generate_lat_range(self):
+        axes = self.__canvas.figure.get_axes()
+        labels = [x.get_xlabel() for x in axes]
+        lat = axes[labels.index(u'Latitude')]
+        time = axes[labels.index(u'Time')]
+        min_ = lat.transData.inverted().transform(
+            time.transData.transform(np.array(min(self.__coordinates))))[0]
+        max_ = lat.transData.inverted().transform(
+            time.transData.transform(np.array(max(self.__coordinates))))[0]
+        return '%.4f - %.4f' % (min_, max_)
+
     def __str__(self):
         logger.debug('Stringing %s' % self.__tag)
         time_cords = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S %p') for
                       x in self.__coordinates]
         altitude_cords = [x[1] for x in self.__coordinates]
         string = 'Time Scale:\n\t%s - %s\n' % (min(time_cords), max(time_cords))
+        string += 'Latitude Scale:\n\t%s\n' % self.generate_lat_range()
         string += 'Altitude Scale:\n\t%.4f km - %.4f km\n' % (min(altitude_cords), max(altitude_cords))
         string += 'Color:\n\t%s\n' % self.__color
         if len(self.__attributes) > 0:
