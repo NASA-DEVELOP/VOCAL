@@ -1,5 +1,5 @@
 Getting the Data
-=====================
+================
 
 Data collected by the CALIPSO satellite is free to the public, all it takes is going through a couple
 of steps to order the data. **eosweb** is the primary distributor for the satellite, you can find their
