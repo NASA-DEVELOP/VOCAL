@@ -21,7 +21,7 @@ import sphinx_rtd_theme
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath('.'))
 # Modify this line to the calipso dir of the repository
-sys.path.append(os.path.dirname(os.path.realpath(__file__)) + r'\..\..\calipso')
+sys.path.append(os.path.dirname(os.path.realpath(__file__)) + '/../../calipso')
 
 # -- General configuration ------------------------------------------------
 

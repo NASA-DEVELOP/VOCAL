@@ -17,6 +17,7 @@ Contents
 
    overview
    installation
+   gettingdata
    tutorial
  
 .. toctree::
