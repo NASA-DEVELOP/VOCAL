@@ -28,11 +28,14 @@ CHILDWIDTH = 200
 CHILDHEIGHT = 350
 IMPORTWIDTH = 1000
 IMPORTHEIGH = 500
+IMADVWIDTH = 400
+IMADVHEIGHT = 400
 
 # READ ONLY
 TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', 'cloud LC',
         'dust', 'polluted continental', 'polluted continental dust', 'polluted dust',
-        'polluted marine', 'smoke', 'stratospheric layer']
+        'polluted marine', 'smoke', 'stratospheric layer', 'volcanic plume',
+        'polar stratospheric cloud']
 
 OFFSET = 62
 

@@ -93,7 +93,7 @@ class DatabaseManager(object):
         Echo all commands, create Session and table
         """
         logger.info('Instantiating DatabaseManager')
-        path = os.path.dirname(os.path.realpath(__file__)) + r'./../db/CALIPSOdb.db'
+        path = os.path.dirname(os.path.realpath(__file__)) + './../db/CALIPSOdb.db'
         self.__dbEngine = create_engine('sqlite:///' + path, echo=False)
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)

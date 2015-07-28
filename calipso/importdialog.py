@@ -37,6 +37,7 @@ class ImportDialog(Toplevel):
         self.__stack = collections.deque(maxlen=15)     # stack for searching
         self.__search_string = ''                       # search string
         self.__master = master                          # CALIPSO class
+        self.__root = root
         self.title('Import from existing database')     # window title
         self.tree = None                                # tree viewing class
         self.e = None                                   # entry box for searching
@@ -255,7 +256,15 @@ class ImportDialog(Toplevel):
             self.__display_all()
 
     def advanced_prompt(self):
-        pass
+        advanced_window = Toplevel(self.__root)
+        advanced_window.transient(self)
+
+        center(advanced_window, (constants.IMADVWIDTH, constants.IMADVHEIGHT))
+
+        window_frame = Frame(advanced_window)
+        window_frame.pack(fill=BOTH, expand=True)
+        Label(window_frame, text='Filter by time range: ').grid(row=0, column=0, padx=5, pady=5, sticky='w')
+        Label(window_frame, text='Filter by latitude range: ').grid(row=1, column=0, padx=5, pady=5, sticky='w')
 
     def __display_all(self):
         """
