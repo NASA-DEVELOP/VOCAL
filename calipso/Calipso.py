@@ -91,7 +91,8 @@ class Calipso(object):
         self.__shapemanager = ShapeManager(self.__fig, self.__drawplot_canvas,
                                            self)
         logger.info('Binding matplotlib backend to canvas and frame')
-        self.__toolbar = NavigationToolbar2CALIPSO(self.__drawplot_canvas,
+        self.__toolbar = NavigationToolbar2CALIPSO(self,
+                                                   self.__drawplot_canvas,
                                                    self.__child.coordinate_frame)
 
         # pack and display canvas
@@ -144,6 +145,8 @@ class Calipso(object):
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', 'No File Exists')
+            except IndexError:
+                tkMessageBox.showerror('Backscattered Plot', 'Index out of bounds')
         # TODO: Reimplement with new plotting technique (like backscatter)
         elif plot_type == Plot.depolarized:
             try:
@@ -188,6 +191,7 @@ class Calipso(object):
         self.panx = event.x
         self.pany = event.y
 
+    # noinspection PyTypeChecker
     def render_pan(self, event):
         """
         Saves ending coordinates of mouse press and proceeds to find the distance
@@ -215,7 +219,9 @@ class Calipso(object):
             logger.info('Panning backwards')
         else:
             logger.info('Panning forwards')
-            self.set_plot(self.plot, (self.xrange[0] + dst, self.xrange[1] + dst))
+            self.set_plot(self.plot, xrange_=(self.xrange[0] + dst, self.xrange[1] + dst),
+                          yrange=(int(self.__child.begin_alt_range_entry.get()),
+                                  int(self.__child.end_alt_range_entry.get())))
         self.__child.begin_range_entry.delete(0, END)
         self.__child.end_range_entry.delete(0, END)
         self.__child.begin_range_entry.insert(END, str(self.xrange[0]))
@@ -450,7 +456,7 @@ class Calipso(object):
         """
         Returns the figure that is plotted to the canvas
 
-        :rtype: :py:class:`matplotlib.figure.Figure`
+        :rtype: :py:class:`SubplotAxes`
         """
         if self.__fig:
             return self.__fig
@@ -493,7 +499,6 @@ class Calipso(object):
         # the child is designed to appear off to the right of the parent window, so the x location
         # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
         # plus a fourth the distance of the window
-        print _platform
         if _platform == "linux" or _platform == "linux2":
             logger.info("Linux system detected")
             self.__child.geometry('%dx%d+%d+%d' % (

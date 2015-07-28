@@ -6,11 +6,12 @@
 # Brian Magill
 # 8/11/2014
 #
-import ccplot.utils
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
-import numpy as np
+import ccplot.utils
+
 import matplotlib as mpl
+import numpy as np
 
 
 # from gui.CALIPSO_Visualization_Tool import filename
@@ -25,8 +26,18 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
 
     with HDF(filename) as product:
         time = product['Profile_UTC_Time'][x1:x2, 0]
+        minimum = min(product['Profile_UTC_Time'][::])[0]
+        maximum = max(product['Profile_UTC_Time'][::])[0]
+        
+        # lenght of time determines how far the file can be viewed
+        if time[-1] >= maximum and len(time) < 950:
+            raise IndexError
+        if time[0] < minimum:
+            raise IndexError
         height = product['metadata']['Lidar_Data_Altitudes']
         dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
+        latitude = product['Latitude'][x1:x2, 0]
+        longitude = product['Longitude'][x1:x2, 0]
 
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
         dataset = np.ma.masked_equal(dataset, -9999)
@@ -59,9 +70,20 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
        
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Time')   
-        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))        
+        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
         fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
        
         cbar_label = 'Total Attenuated Backscatter 532nm (km$^{-1}$ sr$^{-1}$)'
         cbar = pfig.colorbar(im)
         cbar.set_label(cbar_label)
+
+    ax = fig.twiny()
+    ax.set_xlabel('Latitude')
+    ax.set_xlim(latitude[0], latitude[-1])
+
+    fig.set_zorder(1)
+    ax.set_zorder(0)
+
+    title = fig.set_title('Averaged 532 nm Total Attenuated Backscatter')
+    title_xy = title.get_position()
+    title.set_position([title_xy[0], title_xy[1]*1.07])

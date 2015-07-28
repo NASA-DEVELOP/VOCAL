@@ -25,7 +25,7 @@ PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm']
 HEIGHT = 665
 WIDTH = 1265
 CHILDWIDTH = 200
-CHILDHEIGHT = 325
+CHILDHEIGHT = 350
 IMPORTWIDTH = 1000
 IMPORTHEIGH = 500
 

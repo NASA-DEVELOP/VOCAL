@@ -7,9 +7,9 @@
 
 from Tkinter import StringVar, Label
 from matplotlib.backends.backend_tkagg import NavigationToolbar2
+from tools import format_coord
 
 import numpy as np
-
 
 # noinspection PyProtectedMember
 class NavigationToolbar2CALIPSO(NavigationToolbar2):
@@ -23,9 +23,10 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
     :param master: The master program (Calipso)
     """
     
-    def __init__(self, canvas, master):
+    def __init__(self, master, canvas, frame):
         self.canvas = canvas
         self.master = master
+        self.frame = frame
         self.lastrect = None
         NavigationToolbar2.__init__(self, canvas)
         
@@ -34,9 +35,12 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
         Sets a string var which self updates with the coordinates of the cursor
         relative to the plot
         """
-        self.message = StringVar(master=self.master)
-        self._message_label = Label(master=self.master, textvariable=self.message)
+        self.message = StringVar(master=self.frame)
+        self._message_label = Label(master=self.frame, textvariable=self.message)
         self._message_label.grid(row=3, column=1)
+        self.lat_message = StringVar(master=self.frame)
+        self._lat_message_label = Label(master=self.frame, textvariable=self.lat_message)
+        self._lat_message_label.grid(row=3, column=2)
 
     def draw_rubberband(self, event, x0, y0, x1, y1):
         """
@@ -74,6 +78,38 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
         else:
             self.canvas._tkcanvas.delete(self.lastrect)
             del self.lastrect
+
+    def mouse_move(self, event):
+        """
+        The event bound to mouse motion once the plot is rendered, this function will simply
+        display the coordinates the mouse is currently over. Custom implemented so that the
+        coordinate system can also display 'lat'. This is done by grabbing the axes and finding
+        both 'time' and 'latitude' axes, then using ``transData`` to translate their coordinates
+        to screen coordinates **then** back to the other axis coordinates
+
+        :param event: A matplotlib event
+        """
+        self._set_cursor(event)
+
+        if event.inaxes and event.inaxes.get_navigate():
+
+            try:
+                axes = self.canvas.figure.get_axes()
+                labels = [x.get_xlabel() for x in axes]
+                lat = axes[labels.index(u'Latitude')]
+                time = axes[labels.index(u'Time')]
+                s = format_coord(event.inaxes, event.xdata, event.ydata,
+                                 lat.transData.inverted().transform(
+                                     time.transData.transform(np.array([event.xdata, event.ydata])))[0])
+            except (ValueError, OverflowError):
+                pass
+            else:
+                if len(self.mode):
+                    self.set_message('%s, %s' % (self.mode, s))
+                else:
+                    self.set_message(s)
+        else:
+            self.set_message(self.mode)
         
     def set_message(self, s):
         """
@@ -91,7 +127,10 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
     
     def configure_subplots(self):
         pass
-    
+
+    def push_current(self):
+        pass
+
     def set_active(self, ind):
         pass
     
