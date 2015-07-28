@@ -110,8 +110,6 @@ class Shape(object):
             pass
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
-        if event.xdata and event.ydata:
-            logger.debug('%f, %f', event.xdata, event.ydata)
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prev_x,
                                                                  abs(constants.HEIGHT - self.__prev_y - OFFSET),
                                                                  event.x,

@@ -89,8 +89,6 @@ class NavigationToolbar2CALIPSO(NavigationToolbar2):
 
         :param event: A matplotlib event
         """
-        self._set_cursor(event)
-
         if event.inaxes and event.inaxes.get_navigate():
 
             try:

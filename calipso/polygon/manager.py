@@ -125,7 +125,6 @@ class ShapeManager(object):
                 return
             if len(self.__current_list[-1].get_coordinates()) is 0:
                 return
-            logger.debug('Rubberbanding at %.5f, %.5f' % (event.x, event.y))
             self.__current_list[-1].rubberband(event)
 
     # noinspection PyProtectedMember
