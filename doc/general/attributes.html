@@ -75,7 +75,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -89,15 +89,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -118,9 +130,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../polygon/polygon.html">Polygon</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/drawer.html">PolygonDrawer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/list.html">PolygonList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/reader.html">PolygonReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/manager.html">ShapeManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/reader.html">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/shape.html">Shape</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/tools.html">Tools</a><ul>
@@ -193,20 +205,10 @@
 </p>
 <span class="target" id="module-attributesdialog"></span><dl class="class">
 <dt id="attributesdialog.AttributesDialog">
-<em class="property">class </em><code class="descname">AttributesDialog</code><span class="sig-paren">(</span><em>root</em>, <em>polygon_drawer</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/attributesdialog.html#AttributesDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#attributesdialog.AttributesDialog" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dialog window for creating and assigning attributes to objects</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>root</strong> &#8211; The parent frame</li>
-<li><strong>polygon_drawer</strong> &#8211; The polygonDrawer being edited</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+<em class="property">class </em><code class="descname">AttributesDialog</code><span class="sig-paren">(</span><em>root</em>, <em>shape</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/attributesdialog.html#AttributesDialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#attributesdialog.AttributesDialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dialog window for creating and assigning attributes to objects
+:param root: The parent frame
+:param shape: The ShapeManager being edited</p>
 <dl class="method">
 <dt id="attributesdialog.AttributesDialog.clear">
 <code class="descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/attributesdialog.html#AttributesDialog.clear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#attributesdialog.AttributesDialog.clear" title="Permalink to this definition">¶</a></dt>
@@ -259,10 +261,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="calipso.html" class="btn btn-neutral float-right" title="Calipso" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="calipso.html" class="btn btn-neutral float-right" title="Calipso">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="general.html" class="btn btn-neutral" title="General" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="general.html" class="btn btn-neutral" title="General"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -274,10 +276,12 @@
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
   </div>
+
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
-</footer>
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+</footer>
         </div>
       </div>
 

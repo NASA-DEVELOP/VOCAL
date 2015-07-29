@@ -74,7 +74,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#additional-information">Additional Information</a></li>
@@ -88,15 +88,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -117,9 +129,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../doc/polygon/polygon.html">Polygon</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/drawer.html">PolygonDrawer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/list.html">PolygonList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/reader.html">PolygonReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/manager.html">ShapeManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/reader.html">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/shape.html">Shape</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../doc/tools/tools.html">Tools</a><ul>
@@ -176,18 +188,18 @@
             
   <div class="section" id="troubleshoot">
 <h1>Troubleshoot<a class="headerlink" href="#troubleshoot" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-python"><div class="highlight"><pre>&gt; How do I actually run this project?
+<div class="highlight-python"><div class="highlight"><pre>&gt; how do I actually run this project?
 </pre></div>
 </div>
 <blockquote>
 <div>The main is included in <code class="docutils literal"><span class="pre">Calipso.py</span></code>, once you&#8217;ve followed the installation instructions run it through either eclipse or <code class="docutils literal"><span class="pre">python</span> <span class="pre">Calipso.py</span></code></div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre>&gt; When I try to run the project I get the error:
+<div class="highlight-python"><div class="highlight"><pre>&gt; when I try to run the project I get the error:
 &gt; ImportError:  cannot import name _imagingtk
 </pre></div>
 </div>
 <blockquote>
 <div><p>First, ensure you do not have PIL installed alongside Pillow. These two packages can not coexist and will likely cause issues if you have both installed.</p>
-<p>If that is not the case, for Linux users try running sudo apt-get install python-imaging-tk . Windows users need to take a couple extra steps</p>
+<p>If that is not the case, for Linux users try running <code class="docutils literal"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">python-imaging-tk</span></code> . Windows users need to take a couple extra steps</p>
 <ul class="simple">
 <li>Remove any related packages on conda, <code class="docutils literal"><span class="pre">conda</span> <span class="pre">remove</span> <span class="pre">PIL</span></code> or <code class="docutils literal"><span class="pre">conda</span> <span class="pre">remove</span> <span class="pre">Pilow</span></code></li>
 <li>Install <code class="docutils literal"><span class="pre">PIL</span></code> from <a class="reference external" href="http://www.pythonware.com/products/pil/">here</a> , <code class="docutils literal"><span class="pre">PIL-1.1.7.win32-py2.7.exe</span></code></li>
@@ -198,7 +210,18 @@
 </div>
 <blockquote>
 <div>This is an error due to the setup.py script not being comprehensive, the solution is covered in the <a class="reference internal" href="../installation.html"><em>Installation</em></a> instructions for Linux. You can also read about why you get this issue on the github bug tracker for ccplot <a class="reference external" href="https://github.com/peterkuma/ccplot/issues/1">here[1]</a></div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre>&gt; While importing PIL on windows, Eclipse tells me Image
+<div class="highlight-python"><div class="highlight"><pre>&gt; running &#39;port selfupdate&#39; gives me error about the connection being refused
+</pre></div>
+</div>
+<blockquote>
+<div>Your firewall is likely blocked, see the <a class="reference internal" href="../installation.html"><em>OS X installations instructions</em></a> for further information</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>&gt; ccplot can&#39;t seem to find the package basemap, but I already installed it
+</pre></div>
+</div>
+<blockquote>
+<div>The problem is that your python path is probably set to the default python supplied by OS X,
+but you want to use the python supplied by macports. To do this see the <a class="reference internal" href="../installation.html"><em>OS X installations instructions</em></a></div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre>&gt; while importing PIL on windows, Eclipse tells me Image
 &gt; and ImageTk are unresolved
 </pre></div>
 </div>
@@ -212,10 +235,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="issuetracker.html" class="btn btn-neutral float-right" title="Submit Bugs or Issues" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="issuetracker.html" class="btn btn-neutral float-right" title="Submit Bugs or Issues">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../doc/tools/treelistbox.html" class="btn btn-neutral" title="TreeListBox" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../doc/tools/treelistbox.html" class="btn btn-neutral" title="TreeListBox"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -227,10 +250,12 @@
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
   </div>
+
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
-</footer>
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+</footer>
         </div>
       </div>
 

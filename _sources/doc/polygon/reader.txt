@@ -1,5 +1,5 @@
 ==========================
-PolygonReader
+ShapeReader
 ==========================
 
 .. inheritance-diagram:: polygon.reader

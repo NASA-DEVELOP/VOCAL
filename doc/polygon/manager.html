@@ -1,0 +1,644 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ShapeManager &mdash; VOCAL 0.15.2 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="VOCAL 0.15.2 documentation" href="../../index.html"/>
+        <link rel="up" title="Polygon" href="polygon.html"/>
+        <link rel="next" title="ShapeReader" href="reader.html"/>
+        <link rel="prev" title="Polygon" href="polygon.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../../index.html" class="icon icon-home"> VOCAL
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../packages.html">Required Packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../packages.html#windows-x86-32-bit">Windows x86 (32 bit)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../packages.html#linux">Linux</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Code Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../general/general.html">General</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../general/attributes.html">Attributes Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../general/calipso.html">Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../general/consts.html">Constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../general/db.html">Database</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../general/import.html">Import Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../general/toolswindow.html">Tools Window</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="polygon.html">Polygon</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">ShapeManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reader.html">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shape.html">Shape</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/tools.html">Tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tools/navigationtoolbar2calipso.html">NavigationToolbar2Calipso</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/toggleablebutton.html">ToggleableButton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/tooltip.html">ToolTip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/treelistbox.html">TreeListBox</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">VOCAL</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../modules.html">Code Documentation</a> &raquo;</li>
+      
+          <li><a href="polygon.html">Polygon</a> &raquo;</li>
+      
+    <li>ShapeManager</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../../_sources/doc/polygon/manager.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="shapemanager">
+<h1>ShapeManager<a class="headerlink" href="#shapemanager" title="Permalink to this headline">¶</a></h1>
+<p class="graphviz">
+<img src="../../_images/inheritance-ae63b91ddece5740bfbd009eeb0132b61c256e09.png" alt="Inheritance diagram of polygon.manager" usemap="#inheritance0f7523782c" class="inheritance"/>
+<map id="inheritance0f7523782c" name="inheritance0f7523782c">
+<area shape="rect" id="node1" href="#polygon.manager.ShapeManager" title="Manages all shapes present on the screen, writes to database on" alt="" coords="5,5,240,30"/>
+</map>
+</p>
+<span class="target" id="module-polygon.manager"></span><dl class="class">
+<dt id="polygon.manager.ShapeManager">
+<em class="property">class </em><code class="descname">ShapeManager</code><span class="sig-paren">(</span><em>figure</em>, <em>canvas</em>, <em>master</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manages all shapes present on the screen, writes to database on
+call and provides other export functionality</p>
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.anchor_rectangle">
+<code class="descname">anchor_rectangle</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.anchor_rectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.anchor_rectangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Informs the correct shape list&#8217;s blank object to plot a corner of a rectangle.
+:param event: A backend passed <code class="docutils literal"><span class="pre">matplotlib.backend_bases.MouseEvent</span></code> object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.clear_refs">
+<code class="descname">clear_refs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.clear_refs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.clear_refs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear all references to the current figure, this is called
+in the <code class="docutils literal"><span class="pre">Calipso</span></code> class when a plot is to be set as to ensure
+no dangling references are left. If we we&#8217;re writing this in
+Rust we wouldn&#8217;t need to worry about this because Rust has better
+ownership semantics ;)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete the specified object from the screen, searches through the
+current list to find the artist that was clicked on</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A passed <code class="docutils literal"><span class="pre">matplotlib.backend_bases.PickEvent</span></code> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.destroy_property_window">
+<code class="descname">destroy_property_window</code><span class="sig-paren">(</span><em>event=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.destroy_property_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.destroy_property_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to destroy the properties window when clicked, sets the
+variable back to a <code class="docutils literal"><span class="pre">none</span></code> state and unbinds <code class="docutils literal"><span class="pre">&lt;Button-1&gt;</span></code> from <em>root</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Ignored event passed by Tkinter</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.fill_rectangle">
+<code class="descname">fill_rectangle</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.fill_rectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.fill_rectangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Informs the correct shape list&#8217;s blank object to draw a rectangle to the screen
+using the provided coordinates</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A backend passed <code class="docutils literal"><span class="pre">matplotlib.backend_bases.MouseEvent</span></code> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.find_shape">
+<code class="descname">find_shape</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.find_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.find_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the handle to the shape found via the user clicking on one</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A passed <code class="docutils literal"><span class="pre">matplotlib.backend_bases.PickEvent</span></code> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="polygon.manager.ShapeManager.generate_tag">
+<em class="property">static </em><code class="descname">generate_tag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.generate_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.generate_tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produces a unique tag for each shape for each session</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.get_count">
+<code class="descname">get_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.get_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.get_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the total amount of objects in existence inside ShapeManager, adds
+all lists up and subtracts the empty objects that are always appended
+to the end of the lists.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">int</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.get_current_list">
+<code class="descname">get_current_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.get_current_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.get_current_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current list</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This function should <strong>never</strong> be used for any write operation. Using
+this function should be for <strong>read only</strong>.</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">list</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.get_filename">
+<code class="descname">get_filename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.get_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.get_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return JSON filename string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.get_hdf">
+<code class="descname">get_hdf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.get_hdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.get_hdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the hdf string that objects are currently drawn to</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.hide">
+<code class="descname">hide</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.hide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.hide" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hide all current shapes on the plot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.highlight">
+<code class="descname">highlight</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.highlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.highlight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Highlight the shape specified by <code class="docutils literal"><span class="pre">tag</span></code>. Also keeps track of
+a the previous highlight in order to unhighlight it before
+highlighting the current tag</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The tag of the object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.is_all_saved">
+<code class="descname">is_all_saved</code><span class="sig-paren">(</span><em>plot=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.is_all_saved"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.is_all_saved" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if all the shapes have been saved. If plot is None, the method
+will check if all shapes in every plot has been saved. If a plot is
+specified, then it will only check the shapes in the specified plot.
+This method will automatically ignore the last blank shapes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plot</strong> &#8211; the plot of the shapes to check</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.outline">
+<code class="descname">outline</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.outline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.outline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Toggle whether current shapes should be outlined or remained filled on
+the screen</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.plot_point">
+<code class="descname">plot_point</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.plot_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.plot_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot a single point to the screen for the current shape object,
+if other points exist, a line is drawn between then until a
+polygon is formed</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A <code class="docutils literal"><span class="pre">matplotlib.backend_bases.MouseEvent</span></code> passed object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.properties">
+<code class="descname">properties</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.properties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.properties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the properties of the shape clicked on by the user and create a small
+tooltip which displays these properties</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A passed <code class="docutils literal"><span class="pre">matplotlib.backend_bases.PickEvent</span></code> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.read_plot">
+<code class="descname">read_plot</code><span class="sig-paren">(</span><em>filename=''</em>, <em>read_from_str=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.read_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.read_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads shapes from either a string or a file in JSON format, and packs the screen
+with the shapes parsed. <strong>note:</strong> if a string is passed as <em>well</em> as a filename,
+the string takes priority</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The filename to read valid JSON shapes from</li>
+<li><strong>read_from_str</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The string to read valid JSON shapes from</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><em>all_=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear the screen of any shapes present from the current_list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.rubberband">
+<code class="descname">rubberband</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.rubberband"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.rubberband" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses a blank shape to draw &#8216;helper rectangles&#8217; that outline the final shape of the
+object. wrapper function for calling <code class="xref py py-class docutils literal"><span class="pre">polygon.Shape</span></code> method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A backend passes <code class="docutils literal"><span class="pre">matplotlib.backend_bases.MouseEvent</span></code> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.save_all_json">
+<code class="descname">save_all_json</code><span class="sig-paren">(</span><em>filename=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.save_all_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.save_all_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as <code class="docutils literal"><span class="pre">save_json</span></code>, but save <strong>all</strong> shapes across <strong>all</strong> plots instead.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; custom filename to save JSON objects to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.save_db">
+<code class="descname">save_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.save_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.save_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Commit all polygons currently in display to the database. Existing database
+objects will simply be updated, while objects not present in the database
+will be assigned a new primary key and have an entry generated for them.
+Returns <code class="docutils literal"><span class="pre">True</span></code> if success, <code class="docutils literal"><span class="pre">False</span></code> otherwise</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.save_json">
+<code class="descname">save_json</code><span class="sig-paren">(</span><em>filename=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.save_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.save_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save all shapes visible on the screen to a previously specified JSON object,
+if no file is passed the internal file variable is used. There should <strong>never</strong>
+arise a case where no file is passed either from the internal or external
+parameters, <code class="docutils literal"><span class="pre">Calipso</span></code> has proper error checking.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; custom filename to save JSON objects to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.set_current">
+<code class="descname">set_current</code><span class="sig-paren">(</span><em>plot</em>, <em>fig</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.set_current"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.set_current" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the current view to <code class="docutils literal"><span class="pre">plot</span></code>, and draw any shapes that exist in the manager for
+this plot. This is called each time a new view is rendered to the screen by
+<code class="docutils literal"><span class="pre">set_plot</span></code> in <em>Calipso</em></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plot</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Acceptable plot constant from <code class="docutils literal"><span class="pre">constants.py</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.set_hdf">
+<code class="descname">set_hdf</code><span class="sig-paren">(</span><em>hdf_filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.set_hdf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.set_hdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the internal HDF filename variable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>hdf_filename</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Name of new HDF filename</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.set_plot">
+<code class="descname">set_plot</code><span class="sig-paren">(</span><em>plot</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.set_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.set_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine which list current_list should alias, also set internal plot
+variable</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plot</strong> (<a class="reference internal" href="../general/consts.html#constants.Plot" title="constants.Plot"><em>constants.Plot</em></a>) &#8211; Acceptable plot constant from <code class="docutils literal"><span class="pre">constants.py</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reader.html" class="btn btn-neutral float-right" title="ShapeReader">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="polygon.html" class="btn btn-neutral" title="Polygon"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.15.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

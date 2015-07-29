@@ -13,6 +13,7 @@ Windows x86 (32 bit)
 * `basemap`__
 * `ccplot`_
 * `eclipse`_ [#f1]_
+* `pycharm`_ [#f2]_
 
 Linux
 --------------------------
@@ -27,6 +28,7 @@ Linux
 * `python-imaging`_
 * `python-matplotlib`_
 * `ttf-bitstream-vera`_
+* `pycharm`_ [#f2]_
 
 .. _anaconda: http://continuum.io/downloads
 
@@ -35,6 +37,7 @@ Linux
 .. __: https://code.google.com/p/pythonxy/wiki/AdditionalPlugins
 .. _ccplot: http://ccplot.org/download/
 .. _eclipse: https://www.eclipse.org/downloads/
+.. _pycharm: https://www.jetbrains.com/pycharm/
 .. _numpy: http://www.numpy.org/
 .. __: http://packages.ubuntu.com/trusty/python-mpltoolkits.basemap
 .. _ccplot: http://ccplot.org/download/
@@ -47,4 +50,5 @@ Linux
 .. _ttf-bitstream-vera: http://packages.ubuntu.com/trusty/ttf-bitstream-vera
 .. rubric:: Footnotes
 
-.. [#f1] recommended, not required
+.. [#f1] compatible, not required but not recommended over *pycharm*
+.. [#f2] recommended, not required

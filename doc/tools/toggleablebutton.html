@@ -75,7 +75,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -89,15 +89,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -118,9 +130,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../polygon/polygon.html">Polygon</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/drawer.html">PolygonDrawer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/list.html">PolygonList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/reader.html">PolygonReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/manager.html">ShapeManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/reader.html">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/shape.html">Shape</a></li>
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="reference internal" href="tools.html">Tools</a><ul class="current">
@@ -183,22 +195,22 @@
 <h1>ToggleableButton<a class="headerlink" href="#toggleablebutton" title="Permalink to this headline">¶</a></h1>
 <p>Classess which wrap the Tkinter Button object and simulates the toggled button you commonly see in draw, magnify, etc. buttons. Keeps a static container of toggleable buttons to only allow one button at any time to be toggled.</p>
 <p class="graphviz">
-<img src="../../_images/inheritance-e6a25daa0f8a307aa303156f0b860b4830633c63.png" alt="Inheritance diagram of tools.toggleablebutton" usemap="#inheritance702a515fad" class="inheritance"/>
+<img src="../../_images/inheritance-4f7a156da50ba5ddab7a2a3bc9facc994e8c8887.png" alt="Inheritance diagram of tools.toggleablebutton" usemap="#inheritance702a515fad" class="inheritance"/>
 <map id="inheritance702a515fad" name="inheritance702a515fad">
-<area shape="rect" id="node1" title="Internal class." alt="" coords="116,118,227,138"/>
-<area shape="rect" id="node4" title="Internal class." alt="" coords="265,61,350,81"/>
-<area shape="rect" id="node2" title="Internal class." alt="" coords="4,118,78,138"/>
-<area shape="rect" id="node3" title="Button widget." alt="" coords="389,61,474,81"/>
-<area shape="rect" id="node8" href="#tools.toggleablebutton.ToggleableButton" title="Button wrapper which simulates the toggled button as you see in the draw, magnify, etc." alt="" coords="530,42,746,61"/>
-<area shape="rect" id="node9" href="#tools.toggleablebutton.ToolbarToggleableButton" title="GUI button used to implement the backend matplotlib plot functions. Instead" alt="" coords="512,80,764,100"/>
-<area shape="rect" id="node5" title="Geometry manager Grid." alt="" coords="135,4,208,23"/>
-<area shape="rect" id="node6" title="Geometry manager Pack." alt="" coords="134,42,209,61"/>
-<area shape="rect" id="node7" title="Geometry manager Place." alt="" coords="132,80,211,100"/>
+<area shape="rect" id="node1" title="Internal class." alt="" coords="86,87,167,102"/>
+<area shape="rect" id="node4" title="Internal class." alt="" coords="195,45,258,60"/>
+<area shape="rect" id="node2" title="Internal class." alt="" coords="3,87,58,102"/>
+<area shape="rect" id="node3" title="Button widget." alt="" coords="286,45,349,60"/>
+<area shape="rect" id="node8" href="#tools.toggleablebutton.ToggleableButton" title="Button wrapper which simulates the toggled button as you see in the draw, magnify, etc." alt="" coords="390,31,550,45"/>
+<area shape="rect" id="node10" href="#tools.toggleablebutton.ToolbarToggleableButton" title="GUI button used to implement the backend matplotlib plot functions. Instead" alt="" coords="377,59,563,73"/>
+<area shape="rect" id="node5" title="Geometry manager Grid." alt="" coords="99,3,153,17"/>
+<area shape="rect" id="node6" title="Geometry manager Pack." alt="" coords="98,31,154,45"/>
+<area shape="rect" id="node7" title="Geometry manager Place." alt="" coords="97,59,156,73"/>
 </map>
 </p>
 <span class="target" id="module-tools.toggleablebutton"></span><dl class="class">
 <dt id="tools.toggleablebutton.ToggleableButton">
-<em class="property">class </em><code class="descname">ToggleableButton</code><span class="sig-paren">(</span><em>root</em>, <em>master=None</em>, <em>cnf={}</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/toggleablebutton.html#ToggleableButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.toggleablebutton.ToggleableButton" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">ToggleableButton</code><span class="sig-paren">(</span><em>root</em>, <em>master</em>, <em>cnf={}</em>, <em>**kw</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/toggleablebutton.html#ToggleableButton"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.toggleablebutton.ToggleableButton" title="Permalink to this definition">¶</a></dt>
 <dd><p>Button wrapper which simulates the toggled button as you see in the draw, magnify, etc.
 buttons. Interally keeps a bind map which on toggle binds the keys in the map, and
 unbinds them on untoggle or forced untoggle.</p>
@@ -208,6 +220,7 @@ unbinds them on untoggle or forced untoggle.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>root</strong> &#8211; Root of the program, which handles the cursor</li>
+<li><strong>canvas</strong> &#8211; The matplotlib Tkinter canvas to connect binds to</li>
 <li><strong>master</strong> &#8211; The location to draw the button to</li>
 <li><strong>cnf</strong> &#8211; Button forwarded args</li>
 <li><strong>**kw</strong> &#8211; Button forwarded args</li>
@@ -218,7 +231,7 @@ unbinds them on untoggle or forced untoggle.</p>
 </table>
 <dl class="method">
 <dt id="tools.toggleablebutton.ToggleableButton.latch">
-<code class="descname">latch</code><span class="sig-paren">(</span><em>key=''</em>, <em>command=None</em>, <em>cursor=''</em>, <em>destructor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/toggleablebutton.html#ToggleableButton.latch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.toggleablebutton.ToggleableButton.latch" title="Permalink to this definition">¶</a></dt>
+<code class="descname">latch</code><span class="sig-paren">(</span><em>target=None</em>, <em>key=''</em>, <em>command=None</em>, <em>cursor=''</em>, <em>destructor=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/toggleablebutton.html#ToggleableButton.latch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.toggleablebutton.ToggleableButton.latch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allows the binding of keys to certain functions. These bindings will become
 active once the button is in a toggled state. latch can be called <strong>multiple</strong>
 times and keeps an internal bindmap.</p>
@@ -241,11 +254,9 @@ times and keeps an internal bindmap.</p>
 <dl class="method">
 <dt id="tools.toggleablebutton.ToggleableButton.toggle">
 <code class="descname">toggle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/toggleablebutton.html#ToggleableButton.toggle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.toggleablebutton.ToggleableButton.toggle" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>The method bound to the button, <em>Toggle</em> will internally bind the inputed keys when toggled,</dt>
-<dd>and unbind them accordingly. Also keeps track of all toggled button via a static container and
-ensures only one button can be toggled at any time</dd>
-</dl>
+<dd><p>The method bound to the button, <em>Toggle</em> will internally bind the inputed keys when toggled,
+and unbind them accordingly. Also keeps track of all toggled button via a static container
+and ensures only one button can be toggled at any time</p>
 </dd></dl>
 
 <dl class="method">
@@ -318,10 +329,10 @@ only one button in the global container is active at any time</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tooltip.html" class="btn btn-neutral float-right" title="ToolTip" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tooltip.html" class="btn btn-neutral float-right" title="ToolTip">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="navigationtoolbar2calipso.html" class="btn btn-neutral" title="NavigationToolbar2Calipso" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="navigationtoolbar2calipso.html" class="btn btn-neutral" title="NavigationToolbar2Calipso"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -333,10 +344,12 @@ only one button in the global container is active at any time</p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
   </div>
+
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
-</footer>
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+</footer>
         </div>
       </div>
 

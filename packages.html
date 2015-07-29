@@ -32,7 +32,7 @@
   
     <link rel="top" title="VOCAL 0.15.2 documentation" href="index.html"/>
         <link rel="up" title="Installation" href="installation.html"/>
-        <link rel="next" title="Getting Started" href="tutorial.html"/>
+        <link rel="next" title="Getting the Data" href="gettingdata.html"/>
         <link rel="prev" title="Installation" href="installation.html"/> 
 
   
@@ -75,7 +75,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#additional-information">Additional Information</a></li>
@@ -89,15 +89,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -118,9 +130,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="doc/polygon/polygon.html">Polygon</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/polygon/drawer.html">PolygonDrawer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/polygon/list.html">PolygonList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/polygon/reader.html">PolygonReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/manager.html">ShapeManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/reader.html">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/shape.html">Shape</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="doc/tools/tools.html">Tools</a><ul>
@@ -189,6 +201,7 @@
 <li><a class="reference external" href="https://code.google.com/p/pythonxy/wiki/AdditionalPlugins">basemap</a></li>
 <li><a class="reference external" href="http://ccplot.org/download/">ccplot</a></li>
 <li><a class="reference external" href="https://www.eclipse.org/downloads/">eclipse</a> <a class="footnote-reference" href="#f1" id="id1">[1]</a></li>
+<li><a class="reference external" href="https://www.jetbrains.com/pycharm/">pycharm</a> <a class="footnote-reference" href="#f2" id="id2">[2]</a></li>
 </ul>
 </div>
 <div class="section" id="linux">
@@ -204,12 +217,19 @@
 <li><a class="reference external" href="http://packages.ubuntu.com/trusty/python-imaging">python-imaging</a></li>
 <li><a class="reference external" href="http://packages.ubuntu.com/trusty/python-matplotlib">python-matplotlib</a></li>
 <li><a class="reference external" href="http://packages.ubuntu.com/trusty/ttf-bitstream-vera">ttf-bitstream-vera</a></li>
+<li><a class="reference external" href="https://www.jetbrains.com/pycharm/">pycharm</a> <a class="footnote-reference" href="#f2" id="id3">[2]</a></li>
 </ul>
 <p class="rubric">Footnotes</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>recommended, not required</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>compatible, not required but not recommended over <em>pycharm</em></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="f2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> recommended, not required</td></tr>
 </tbody>
 </table>
 </div>
@@ -221,10 +241,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="tutorial.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="gettingdata.html" class="btn btn-neutral float-right" title="Getting the Data">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="installation.html" class="btn btn-neutral" title="Installation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="installation.html" class="btn btn-neutral" title="Installation"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -236,10 +256,12 @@
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
   </div>
+
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
-</footer>
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+</footer>
         </div>
       </div>
 

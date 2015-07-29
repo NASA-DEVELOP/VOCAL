@@ -74,7 +74,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#additional-information">Additional Information</a></li>
@@ -88,15 +88,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorial.html#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -117,9 +129,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="doc/polygon/polygon.html">Polygon</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/polygon/drawer.html">PolygonDrawer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/polygon/list.html">PolygonList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/polygon/reader.html">PolygonReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/manager.html">ShapeManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/reader.html">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/shape.html">Shape</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="doc/tools/tools.html">Tools</a><ul>
@@ -177,50 +189,64 @@
   <div class="section" id="program-overview">
 <h1>Program Overview<a class="headerlink" href="#program-overview" title="Permalink to this headline">¶</a></h1>
 <p>The CALIPSO: Global Health &amp; Air Quality project aims at creating a tool with the ability to classify aerosols within CALIPSO Data to help improve future research and decision making. The summer 2015 team consisting of Grant Mercer and Nathan Qian will build on the existing graphical user interface built by the previous team.</p>
-<div class="section" id="abstract">
-<h2>Abstract<a class="headerlink" href="#abstract" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
 <p>The CALISPO satellite (Cloud-Aerosol Lidar and Infrafred Pathfinder Satellite Observation) is a NASA
 earth observation that analyzes aerosol particles suspended in the Earth&#8217;s atmosphere. Researchers use
 CALIPSO data to track the aerosol&#8217;s global distribution, dispersion and source. However, researchers
 have a hard time tracking specific airborne objects as the current visualization tool that reads CALIPSO
 data lacks the feature to highlight unique aerosols and has not method of sharing aerosol data. This tool
-is written in a propriety language, which prevents users from making the necessary adjustments. To
-rectify these issues, a NASA DEVELOP team created a new visualization tool written in Python that is
-open source and displays CALIPSO data. For this summer term, another DEVELOP team implemented
-new features that will help scientists track aerosols and share this data with each other. These additional
-features will allow scientists to more easily identify the source of the aerosol and its impact on the Earth.</p>
-<p class="rubric">Community Concerns</p>
+is written in an obscure, and propriety, language which prevents users from making the necessary adjustments. To
+rectify these issues, we&#8217;ve developed VOCAL. VOCAL is an open source tool written in python 2.7 that supports
+all previous features of past tool and more! We&#8217;ve developed with a heavy influence on open source collaboration,
+we hope VOCAL will continue to improve long past the initial contracted work.</p>
+<p>VOCAL allows users to visualize Hierarchical Data Format (HDF) files from CALIPSO and draw shapes upon the plot.
+These shapes can be assigned attributes and notes than can help characterize aerosols in the atmosphere as well as
+track specific objects moving. Data can be extracted from these shapes and shown on either a subplot or as a raw
+exported data file, allowing users additional tools for tracking the trajectory of aerosols. The biggest benefit
+VOCAL brings is a standardized information sharing medium. Users can export their shapes into a JSON file and personally
+pass data between each other, or share a centralized database which can store and be queried for specific shapes and
+specific files.</p>
+<p class="rubric">Current Concerns</p>
 <ul class="simple">
-<li>The current CALISPO visualization tool is not easily configurable or adaptable</li>
+<li>The current CALISPO visualization tool is not easily configurable or adaptable as it is developed in IDL.</li>
 <li>The CALIPSO science team lacks a method for storing and sharing specific features of CALISPO imagery</li>
 </ul>
 <p class="rubric">Current Management Practices &amp; Policies</p>
 <ul class="simple">
-<li>The tool currently used to visualize CALIPSO data is written in IDL, a proprietary language which lacks many features and hinders open source updates.</li>
+<li>The tool currently used to visualize CALIPSO data is written in IDL, a proprietary language which lacks many
+features and hinders open source updates. It also has very little documentation as to the development process of the
+tool, making it very difficult to build upon.</li>
 </ul>
 </div>
 <div class="section" id="structure">
 <h2>Structure<a class="headerlink" href="#structure" title="Permalink to this headline">¶</a></h2>
 <p>The program has the following file layout:</p>
-<div class="highlight-python"><div class="highlight"><pre>+-- calipso
-│   +-- dat
-│   +-- ico
-│   +-- log
-│   +-- objs
-│   +-- plot
-│   +-- plot_vfm
-│   +-- polygon
-│   \-- tools
-+-- dat
-+-- db
-│   \-- manage_db
-\-- docs
-    +-- source
-        +-- doc
-        │   +-- general
-        │   +-- polygon
-        │   \-- tools
-        \-- _static
+<div class="highlight-python"><div class="highlight"><pre>+---calipso
+|   +---.idea
+|   |   \---dictionaries
+|   +---dat
+|   +---ico
+|   +---log
+|   +---objs
+|   +---plot
+|   +---plot_vfm
+|   +---polygon
+|   \---tools
++---dat
++---db
+|   \---manage_db
+\---docs
+    +---source
+        +---.idea
+        +---analytics
+        +---dev
+        +---doc
+        |   +---general
+        |   +---polygon
+        |   \---tools
+        +---trouble
+        \---_static
 </pre></div>
 </div>
 </div>
@@ -229,38 +255,42 @@ features will allow scientists to more easily identify the source of the aerosol
 <dl class="class">
 <dt>
 <code class="descname">left: blank program, right: shapes form around selected areas of the plot</code></dt>
-<dd><a class="reference internal image-reference" href="_images/program.png"><img alt="_images/program.png" src="_images/program.png" style="width: 476.1px; height: 230.1px;" /></a>
-<a class="reference internal image-reference" href="_images/programShapesActive.png"><img alt="_images/programShapesActive.png" src="_images/programShapesActive.png" style="width: 476.1px; height: 230.1px;" /></a>
+<dd><a class="reference internal image-reference" href="_images/program.png"><img alt="_images/program.png" src="_images/program.png" style="width: 309.0px; height: 144.8px;" /></a>
+<a class="reference internal image-reference" href="_images/programShapesActive.png"><img alt="_images/programShapesActive.png" src="_images/programShapesActive.png" style="width: 310.0px; height: 175.4px;" /></a>
 </dd></dl>
 
 <p>VOCAL is still in a very early development phase</p>
 <p>The Visualization tool currently contains a number of great features:</p>
 <ul class="simple">
-<li>Load standard L1 Calipso data and display a backscattered and depolarized plot</li>
+<li>Load standard Calipso data and display a backscattered and depolarized plot</li>
 <li>Manipulate the image with <code class="docutils literal"><span class="pre">zoom</span></code>, <code class="docutils literal"><span class="pre">move</span></code>, <code class="docutils literal"><span class="pre">reload</span></code> and many more</li>
 <li>Draw object which are overlayed upon the plot , free draw or rect mode</li>
 </ul>
-<p>Data from the <code class="docutils literal"><span class="pre">HDF</span></code> file is loaded and parsed in order to display the plot inside of the application. Object can be drawn on top and manipulated to select key parts of the map, these object will later be able to be saved</p>
-<p><em>(above: a recent snapshot of the CALIPSO Visualization tool)</em></p>
+<p>Data from the <code class="docutils literal"><span class="pre">HDF</span></code> file is loaded and parsed in order to display the plot inside of the application. Objects can be
+drawn on top and manipulated to select key parts of the map, these object will later be able to be saved</p>
 <p>Once a plot is displayed, the user can select from a range of features in the <em>toolbar</em>:</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">Reset</span></code> : reload the original state of the plot</li>
-<li><code class="docutils literal"><span class="pre">Plot</span> <span class="pre">Type</span></code> : select type of plot</li>
+<li><code class="docutils literal"><span class="pre">Backscattered</span></code> : render backscattered</li>
+<li><code class="docutils literal"><span class="pre">Depolarized</span></code>: render depolarized</li>
+<li><code class="docutils literal"><span class="pre">Render</span></code>: visualize the data</li>
+<li><code class="docutils literal"><span class="pre">Step</span></code>: jump to a custom time range in the HDF</li>
 <li><code class="docutils literal"><span class="pre">Drag</span></code> : drag plot</li>
 <li><code class="docutils literal"><span class="pre">Zoom</span></code> : zoom to rectangle</li>
 <li><code class="docutils literal"><span class="pre">Undo</span></code> : undo button</li>
 <li><code class="docutils literal"><span class="pre">Redo</span></code> : redo button</li>
+<li><code class="docutils literal"><span class="pre">Home</span></code> : return to the home view originally rendered</li>
+<li><code class="docutils literal"><span class="pre">Properties</span></code>: view the properties of the shape</li>
+<li><code class="docutils literal"><span class="pre">Attributes</span></code>: assign attributes and notes to the shape</li>
+<li><code class="docutils literal"><span class="pre">Extract</span></code>: extract the shape data to a file</li>
 <li><code class="docutils literal"><span class="pre">Draw</span> <span class="pre">Rect</span></code> : draw a rectangle on the plot</li>
-<li><code class="docutils literal"><span class="pre">Drag</span> <span class="pre">Rect</span></code> : drag shapes around the plot</li>
 <li><code class="docutils literal"><span class="pre">Free</span> <span class="pre">Draw</span></code> : connect vertices on the map to form a shape</li>
 <li><code class="docutils literal"><span class="pre">Erase</span></code> : erase a shape</li>
-<li><code class="docutils literal"><span class="pre">Focus</span></code> : fill or no fill setting for shapes</li>
 <li><code class="docutils literal"><span class="pre">Paint</span></code> : specify the color of a shape</li>
+<li><code class="docutils literal"><span class="pre">Focus</span></code> : fill or no fill setting for shapes</li>
 <li><code class="docutils literal"><span class="pre">Hide</span></code>  : hide shapes</li>
 <li><code class="docutils literal"><span class="pre">Save</span></code>  : save visible objects to a JSON file</li>
 <li><code class="docutils literal"><span class="pre">Load</span></code>  : load a JSON file containing objects</li>
-<li><code class="docutils literal"><span class="pre">View</span></code>  : view notes and attributes of polygon</li>
-<li><code class="docutils literal"><span class="pre">Edit</span></code>  : add notes and attributes for polygons</li>
 </ul>
 <p>Additional features are still to come!</p>
 </div>
@@ -268,20 +298,8 @@ features will allow scientists to more easily identify the source of the aerosol
 <h2>Additional Information<a class="headerlink" href="#additional-information" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><dl class="first docutils">
-<dt><strong>Applied Sciences Natinoal Applications Addressed:</strong></dt>
-<dd><p class="first last">National App1, National App2, etc</p>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
 <dt><strong>Study Area:</strong></dt>
 <dd><p class="first last">Global</p>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt><strong>Study Period:</strong></dt>
-<dd><p class="first last">May 2000 - Nov 2010</p>
 </dd>
 </dl>
 </li>
@@ -301,10 +319,10 @@ features will allow scientists to more easily identify the source of the aerosol
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Welcome to the Visualization of Calipso Tool (VOCAL)!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral" title="Welcome to the Visualization of Calipso Tool (VOCAL)!"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -316,10 +334,12 @@ features will allow scientists to more easily identify the source of the aerosol
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
   </div>
+
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
-</footer>
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+</footer>
         </div>
       </div>
 

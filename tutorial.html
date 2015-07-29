@@ -32,7 +32,7 @@
   
     <link rel="top" title="VOCAL 0.15.2 documentation" href="index.html"/>
         <link rel="next" title="Coding Conventions" href="dev/conventions.html"/>
-        <link rel="prev" title="Required Packages" href="packages.html"/> 
+        <link rel="prev" title="Getting the Data" href="gettingdata.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -74,7 +74,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="overview.html#additional-information">Additional Information</a></li>
@@ -88,15 +88,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -117,9 +129,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="doc/polygon/polygon.html">Polygon</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="doc/polygon/drawer.html">PolygonDrawer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/polygon/list.html">PolygonList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="doc/polygon/reader.html">PolygonReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/manager.html">ShapeManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/reader.html">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="doc/polygon/shape.html">Shape</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="doc/tools/tools.html">Tools</a><ul>
@@ -178,95 +190,193 @@
 <h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <p>This tutorial provides an overview on how to use the CALIPSO Visualization
 Tool program.</p>
-<div class="section" id="main-screen">
-<h2>Main Screen<a class="headerlink" href="#main-screen" title="Permalink to this headline">¶</a></h2>
-<p>The CALIPSO Visualization Tool window is the main screen for displaying
-CALIPSO data and shapes. The menu bar provides access to the shape database
-and loading CAlIPSO hdf files. The Visualization Tool window is accompanied by
-a toolwindow that contains buttons for manipulating the main screen, drawing
-shapes, and saving and loading shapes.</p>
-<a class="reference internal image-reference" href="_images/startup.png"><img alt="_images/startup.png" src="_images/startup.png" style="width: 612.4px; height: 294.8px;" /></a>
+<div class="section" id="interface-layout">
+<h2>Interface Layout<a class="headerlink" href="#interface-layout" title="Permalink to this headline">¶</a></h2>
+<p>Upon first starting VOCAL, you will be greeted with the initial view of the application. The large center most
+window is the main screen for displaying data from <code class="docutils literal"><span class="pre">.HDF</span></code> files, this will be where you <strong>see</strong> the data.</p>
+<a class="reference internal image-reference" href="_images/startup.png"><img alt="_images/startup.png" src="_images/startup.png" style="width: 617.6px; height: 288.8px;" /></a>
+<p>The top most menu bar contains three directories: <code class="docutils literal"><span class="pre">file</span></code> , <code class="docutils literal"><span class="pre">polygon</span></code> and <code class="docutils literal"><span class="pre">help</span></code>. These are self explanatory,</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">file</span></code> allows a user to import an HDF (same as <img alt="browse" src="_images/browse_button.png" />), save all objects from all plots to a JSON file, save
+only <em>visible</em> objects on the screen to a JSON file, or exit the application.</li>
+<li><code class="docutils literal"><span class="pre">polygon</span></code> relates to the database use, see <a class="reference internal" href="#database"><span>Using the Database</span></a> for more information.</li>
+<li><code class="docutils literal"><span class="pre">help</span></code> shows information on the project, and links to this website</li>
+</ul>
+<p>Located near the menu and off to the top right you&#8217;ll find <img alt="sele" src="_images/select_menu.png" /> , this drop down menu is populated with all shapes
+currently drawn to the plot and will highlight the selected shape. If you wish to unselect all shapes, selecting the
+blank field will do so</p>
+<p>Off to the right is the tools window, this window is dedicated to the manipulation of the data displayed to the plot.</p>
+<ul class="simple">
+<li><img alt="rese" src="_images/reset_button.png" /> destroy all shapes existing in the plot and reset the view back to the original view of the initial
+render</li>
+<li><img alt="back" src="_images/backscattered_button.png" /> Selection option used when visualizing, having this option checked will display the data
+as backscattered</li>
+<li><img alt="depo" src="_images/depolarized_button.png" /> Selection option used when visualizing, having this option checked will display the data as
+depolarized.</li>
+<li><img alt="step" src="_images/step_entry.png" /> Specify the range of time to plot to, from <code class="docutils literal"><span class="pre">x</span></code> to <code class="docutils literal"><span class="pre">y</span></code>. Default is <code class="docutils literal"><span class="pre">x</span></code> + 1000 if no <code class="docutils literal"><span class="pre">y</span></code>, and
+0 - 1000 if neither <code class="docutils literal"><span class="pre">x</span></code> nor <code class="docutils literal"><span class="pre">y</span></code></li>
+<li><img alt="fren" src="_images/render_button.png" /> Visualize the data given the conditions entered into <strong>step</strong> and <strong>backscattered/depolarized</strong></li>
+</ul>
 </div>
 <div class="section" id="starting-up">
 <h2>Starting Up<a class="headerlink" href="#starting-up" title="Permalink to this headline">¶</a></h2>
-<p>To load a CALIPSO hdf file from the local file directory, click the &#8220;Browse&#8221;
-button and select the desired hdf file. The file text box will now update and
-display the name of the imported hdf file. The main screen will appear blank
-at first. To display a plot, click the &#8220;Plot Type&#8221; button in the toolwindow.
-A drop down menu will appear with the available plots. Clicking on a selection
-will dipslay the plot on the main screen.</p>
-<a class="reference internal image-reference" href="_images/loadHDF.png"><img alt="_images/loadHDF.png" src="_images/loadHDF.png" style="width: 616.4px; height: 297.2px;" /></a>
+<p>To load a CALIPSO hdf file from the local file directory, click the <img alt="browse" src="_images/browse_button.png" /> button at the
+top of the screen. Navigate to the .HDF file of your choice and select <strong>open</strong> The file text box will now update and
+display the name of the imported hdf file. The main screen will appear blank at first. To display a plot,
+Select the type of plot you would like with either <img alt="back" src="_images/backscattered_button.png" /> or <img alt="depo" src="_images/depolarized_button.png" /> to render and an optional step
+<img alt="step" src="_images/step_entry.png" /> (<em>the default is from 0 to 1000</em>).
+Hit <a class="reference internal" href="_images/render_button.png"><img alt="rend" src="_images/render_button.png" style="width: 47.0px; height: 35.5px;" /></a> to visualize the data to the screen.</p>
+<a class="reference internal image-reference" href="_images/load_hdf.png"><img alt="_images/load_hdf.png" src="_images/load_hdf.png" style="width: 957.0px; height: 434.4px;" /></a>
 </div>
-<div class="section" id="plot-navigation">
-<h2>Plot Navigation<a class="headerlink" href="#plot-navigation" title="Permalink to this headline">¶</a></h2>
-<p>The first row of buttons provide plot navigation. The four pointed arrows are
-the pan button. Pressing this button will allow you to move the plot across
-the screen by clicking and dragging the plot with the left mouse button. The
-next button with the magnifying glass icon is the zoom button. Selecting this
+<div class="section" id="navigating-the-plot">
+<h2>Navigating the Plot<a class="headerlink" href="#navigating-the-plot" title="Permalink to this headline">¶</a></h2>
+<p>The first row of toolbar buttons allows you to manipulate the plot for the purpose of drawing.</p>
+<ul class="simple">
+<li><img alt="move" src="_images/move_button.png" /> Pan: Clicking and dragging will allow you to move the plot across
+the screen by the amount of drag used, either left or right.</li>
+<li><img alt="magn" src="_images/magnify_button.png" /> Magnify: Selecting this
 button will allow you to zoom in and out of the plot. To zoom in, click and
 drag with the left mouse button the area on the plot you wish to zoom in. To
 zoom out, click and drag with the right mouse button and the plot will zoom
-out based upon the scale difference of the area you highlighted. The next two
-buttons are the undo and redo buttons, respectively. Clicking the undo button
-will undo the most recent pan or zoom action. The redo button will redo any
-pan or zoom action. Lastly, the &#8220;Reset&#8221; button will rest all plot navigation
-actions and return the plot window back to its initial state.</p>
+out based upon the scale difference of the area you highlighted.</li>
+<li><img alt="undo" src="_images/undo_button.png" /> Undo: jump to the previous magnification zoom frame</li>
+<li><img alt="redo" src="_images/redo_button.png" /> Redo: jump forward to the next magnification zoom frame</li>
+<li><img alt="home" src="_images/home_button.png" /> Home: reset the view to the original render</li>
+</ul>
 </div>
-<div class="section" id="shape-drawing">
-<h2>Shape Drawing<a class="headerlink" href="#shape-drawing" title="Permalink to this headline">¶</a></h2>
-<p>The next seven buttons are used for shape drawing. The rectangle icon
-represents rectangle drawing. Pressing this button will allow you to draw
-rectangles. After pressing the button, click and drag with the left mouse
-button to draw a rectangle. The hand icon is the shape dragging button. When
-this button is selected, you can drag shapes by clicking and dragging with the
-left mouse button. The pencil icon represents the free draw action. With this
-action, you can draw polygon shapes. To draw a shape, click with the left
-mouse button to plot a point. Click again on a different spot to draw another
-point. After you plot the third point, if a line intersects with any
-previously drawn line, the plot will draw a shape based on the point of
-intersection. The last button in the row is the erase button, which allows
-you to delete shapes drawn on the plot. To delete a shape, simply click with
-the left mouse button the desired shape to be deleted.</p>
-<p>In the third row, the button with overlapping rectangles is the toggle outline
-button. When this button is pressed, all shapes drawn on the plot will only
-display their outlines. Pressing the button again will fill the shapes with
-solid colors. The next button is the paint button. To recolor a drawn shape,
-click with the left mouse button the desired shape. A dialog will prompt you
-to select which color to repaint the shape. The third button in the row is the
-hide shapes button. Pressing this button will hide all shapes drawn on the
-plot. Clicking on the button again will make the shapes visible again.</p>
+<div class="section" id="viewing-properties-of-shapes">
+<h2>Viewing Properties of Shapes<a class="headerlink" href="#viewing-properties-of-shapes" title="Permalink to this headline">¶</a></h2>
+<p>The second row of buttons (minus the home button) is dedicated to the viewing, assigning, and
+extraction of data from shapes</p>
+<ul class="simple">
+<li><img alt="prop" src="_images/properties_button.png" /> Properties: Clicking on a shape while the properties button is active will open a small
+window detailing the range of time and altitude covered by the shape, attributes, and notes.
+click once more to hide the properties window</li>
+<li><img alt="attr" src="_images/attributes_button.png" /> Attributes: Clicking on a shape while the attributes button is active will open a
+dialog window for assigning attributes to shapes. Attributes on the <strong>left</strong> are the <em>available</em>
+attributes, the <strong>right</strong> side is the <em>selected</em> attributes. Add any notes you wish and click
+<code class="docutils literal"><span class="pre">save</span></code> to save the notes and attributes. These can be viewed with <img alt="prop" src="_images/properties_button.png" /></li>
+<li><img alt="extr" src="_images/extract_button.png" /> Extract: Clicking on a shape while the extract button is active will create a subplot
+containing only the data enclosed in the shape. Future features are to come but for now a
+subplot and histogram are generated for the shape.</li>
+</ul>
 </div>
-<div class="section" id="shape-saving-and-loading">
-<h2>Shape Saving and Loading<a class="headerlink" href="#shape-saving-and-loading" title="Permalink to this headline">¶</a></h2>
-<p>To save shapes draw on the plot, click on the button with the floppy disk
-image (third row, fourth button). If the shapes haven&#8217;t been saved previously,
-a file dialog will prompt you to save the shapes on your local file directory.
-The shapes are saved as JavaScript Object Notation (JSON) files with the .json
-file extension. If the shapes have been already saved, saving the shapes again
-will automatically update the JSON file. To load the file, select the file
-with the folder icon (fourth row, first button). A file dialog will prompt you
-to select one JSON file to import from your local file directory. The plot
-will then draw the shapes according from the data saved in the JSON.</p>
+<div class="section" id="drawing-shapes">
+<h2>Drawing Shapes<a class="headerlink" href="#drawing-shapes" title="Permalink to this headline">¶</a></h2>
+<p>The third row of buttons is for creating and manipulating the physical properties of
+shapes drawn to the plot.</p>
+<ul class="simple">
+<li><img alt="rect" src="_images/rect_button.png" /> Rectangle: Dragging the cursor in the plot will create an outline of a rectangle,
+upon release of the cursor the shape will be created in place of the outline.</li>
+<li><img alt="fred" src="_images/freedraw_button.png" /> Free Draw: Clicking on the plot will create a <em>vertex</em>, multiple clicks will
+bind vertices together and create lines. If a new line is found interesting an
+existing line a shape will be formed at the intersection being the enclosing vertex.</li>
+<li><img alt="eras" src="_images/erase_button.png" /> Erase: Selecting this button and clicking a shape will remove it from the plot. <em>note: *
+this will **not*</em> delete the object in a database or JSON file if it is loaded, that is a
+separate deletion itself</li>
+<li><img alt="pain" src="_images/paint_button.png" /> Paint: Give a shape a new color value by selecting either a predefined color or
+some custom value on the color wheel. Changing the color of a shape will not create
+a new shape, simply update the color value of existing shapes you&#8217;ve loaded.</li>
+</ul>
 </div>
-<div class="section" id="importing-and-exporting-form-the-database">
-<h2>Importing and Exporting form the Database<a class="headerlink" href="#importing-and-exporting-form-the-database" title="Permalink to this headline">¶</a></h2>
-<p>The CALIPSO Visualization Tool has access to a database that can save shapes,
-so that other users can share the shapes they have drawn. To save shapes to
-the database, click on &#8220;Polygon&#8221; from the menu bar and select &#8220;Export to
-Database.&#8221; The program will take each individual shape drawn on each plot and
-saves each shape independently in the database. To import shapes from the
-database, click on &#8220;Polygon&#8221; from the menu bar and select &#8220;Import from
-Database.&#8221; A dialog box will appear, displaying all the shapes saved on the
-database. To help find specific shapes, you can sort name, plot, date, file,
-attributes, and notes by clicking on the header bar. To search specifically
-within the attributes, use the search bar at the top of the dialog to filter
-shapes. To select an individual shape, simply click on an entry. For multiple
-entries, hold the Control button on the keyboard while clicking on entries. To
-retrieve successive entries, hold the Shift button on the keyboard while
-selecting a start and end entry. To delete the selected entries click on the
-&#8220;Delete&#8221; button at the top right of the window. If you wish to import these
-shapes, click on the &#8220;Import&#8221; button at the bottom of the window, and the plot
-will automatically draw all the loaded shapes.</p>
+<div class="section" id="hiding-and-sharing-specific-shapes">
+<h2>Hiding and Sharing Specific Shapes<a class="headerlink" href="#hiding-and-sharing-specific-shapes" title="Permalink to this headline">¶</a></h2>
+<p>The last row of buttons deals with global state of shape viewing as well as the exporting
+of shapes to a JSON file.</p>
+<ul class="simple">
+<li><img alt="focs" src="_images/focus_button.png" /> Focus: Press this button to display all shapes <em>and</em> future shapes as unfilled.
+Only the outline of the shapes will be drawn, pressing this one more reverts the change</li>
+<li><img alt="hide" src="_images/hide_button.png" /> Hide: Similar to Focus, but pressing this button will <strong>completely</strong> hide all shapes,
+they still exist; however they simply won&#8217;t be drawn to the screen.</li>
+<li><img alt="save" src="_images/save_button.png" /> Save: Save all existing objects in the <strong>current</strong> plot to a <code class="docutils literal"><span class="pre">JSON</span></code> formatted file.
+These objects can be loaded back into the screen with <img alt="load" src="_images/load_button.png" /> and can be shared
+between researchers that wish to personally hand over shapes to another user for loading. If
+you wish to save all shapes from <strong>every</strong> plot into one fill, these is a <code class="docutils literal"><span class="pre">save</span> <span class="pre">all</span></code> option
+in the file menu for this.</li>
+<li><img alt="load" src="_images/load_button.png" /> Load: Given a valid <code class="docutils literal"><span class="pre">.JSON</span></code> file, load all polygon objects present in the file and
+display them to the plot.</li>
+</ul>
+</div>
+<div class="section" id="using-the-database">
+<span id="database"></span><h2>Using the Database<a class="headerlink" href="#using-the-database" title="Permalink to this headline">¶</a></h2>
+<p>One of the defining features of VOCAL is the ability to import and export shapes to a database, this can
+help researchers share information about aerosols and their trajectory. The database can be accessed under
+the <code class="docutils literal"><span class="pre">polygon</span></code> menu, offering to either <em>import from database</em> or <em>export to database</em> . Let&#8217;s start with exporting.</p>
+<div class="section" id="exporting-shapes">
+<h3>Exporting Shapes<a class="headerlink" href="#exporting-shapes" title="Permalink to this headline">¶</a></h3>
+<p>Say you have a number of shapes you&#8217;ve labeled with attributes and want to share with other researchers</p>
+<a class="reference internal image-reference" href="_images/to_be_exported.png"><img alt="_images/to_be_exported.png" src="_images/to_be_exported.png" style="width: 640.5px; height: 351.5px;" /></a>
+<p>Exporting these shapes is as easy as going to the <code class="docutils literal"><span class="pre">polygon</span></code> menu and hitting <em>export to database</em></p>
+<p><img alt="expo" src="_images/exporting_menu.png" /></p>
+<p>All objects have now been exported to the database! All done!</p>
+</div>
+<div class="section" id="importing-shapes">
+<h3>Importing Shapes<a class="headerlink" href="#importing-shapes" title="Permalink to this headline">¶</a></h3>
+<p>Now lets import some shapes, consider down the road
+your database now has a number of different objects from different files; your coworker tells you &#8220;Hey, check out
+shape 31 by John and it&#8217;s properties&#8221;. There are a couple ways to go about this, first head over to the
+<em>import from database</em> window.</p>
+<p><img alt="impo" src="_images/importing_menu.png" /></p>
+<p>This will open the import dialog</p>
+<a class="reference internal image-reference" href="_images/db_window.png"><img alt="_images/db_window.png" src="_images/db_window.png" style="width: 711.2px; height: 376.6px;" /></a>
+<p><img alt="dbse" src="_images/db_search.png" /> allows the user to dynamically query the database for keys entered into the search bar. It will currently
+search the <code class="docutils literal"><span class="pre">Name</span></code>, <code class="docutils literal"><span class="pre">Attributes</span></code>, and <code class="docutils literal"><span class="pre">Notes</span></code> notes categories for the string entered. <img alt="dbfi" src="_images/db_filter.png" /> will filter
+all entries based on whether the filename matches the current filename loaded, <em>note:</em> this will <strong>not</strong> work
+if your HDF has been renamed in anyway from the standard CALIPSO naming conventions. <img alt="dbde" src="_images/db_delete.png" /> will delete any
+selected entries from the database, and this is <strong>permanent</strong>, there&#8217;s no undo button here.</p>
+<p>So you can go ahead and search either the query <em>John</em> to get all notes that include the name john, or
+<em>shape31</em> to get the specific shape. All names are <strong>unique</strong>, if at any time you see two shapes with the
+same tag this is a bug on our part please report that issue immediately to us for fixing. So searching for <em>shape31</em>
+will leave you with</p>
+<img alt="_images/db_searched.png" src="_images/db_searched.png" />
+<p>Clicking <img alt="dbim" src="_images/db_import.png" /> will now import the selection to your internal shape manager. If you aren&#8217;t on the correct file the
+shape was drawn one you won&#8217;t be able to see it, each file has a unique range of time thus on object can be loaded
+onto multiple files. Scrolling right on the import window would have revealed the column File Name, which read
+<code class="docutils literal"><span class="pre">CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN</span></code>, so upon loading up that file walla! your object should appear.</p>
+<img alt="_images/db_shape_imported.png" src="_images/db_shape_imported.png" />
+<p>you&#8217;re free to view properties of this shape, export it&#8217;s data to JSON or even modify the shape and re-export it
+back to the database.</p>
+</div>
+</div>
+<div class="section" id="sharing-your-database">
+<h2>Sharing Your Database<a class="headerlink" href="#sharing-your-database" title="Permalink to this headline">¶</a></h2>
+<p>Now say you get into contact with another researcher, one who&#8217;s been developing a database on tracking low
+hanging clouds in the atmosphere for example; you&#8217;ve been focusing on tracking other objects but
+would love to take a look at his shapes, well VOCAL has a feature for sharing entire databases with each
+other!</p>
+<div class="section" id="exporting-to-an-archive">
+<h3>Exporting To an Archive<a class="headerlink" href="#exporting-to-an-archive" title="Permalink to this headline">¶</a></h3>
+<p>Let&#8217;s export a database first, you&#8217;ll find the database exportation feature in the <strong>Polygon</strong> menu option,
+pictured here:</p>
+<p><img alt="exar" src="_images/exporting_archive_menu.png" /></p>
+<p>Selecting this option will ask you if you wish to really export your database to an achive, and selecting
+yes will prompt you with a file dialog for choosing the name and location of the archive you&#8217;d like to
+create.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Exporting your database is a <em>copy</em> operation, the contents of your database will remain the same and
+simply be copied to the archive, which can be loaded as shown below</p>
+</div>
+<p>Once exported you&#8217;ll have an archive of your specified name, something like <code class="docutils literal"><span class="pre">my_shapes.zip</span></code>. Feel free
+to take a peek inside the file, it&#8217;s simply a formatted zip containing your shapes exported in a JSON
+format. Now you can share this archive file to whoever you wish and easily share your entire database
+for other researchers!</p>
+</div>
+<div class="section" id="importing-from-an-archive">
+<h3>Importing From an Archive<a class="headerlink" href="#importing-from-an-archive" title="Permalink to this headline">¶</a></h3>
+<p>Now when you receive a database archive yourself, you&#8217;ll want to import that archive and start using the
+shapes right away; the command <code class="docutils literal"><span class="pre">Import</span> <span class="pre">archive</span> <span class="pre">to</span> <span class="pre">database</span></code> will do just that.</p>
+<p><img alt="imar" src="_images/importing_archive_menu.png" /></p>
+<p>Upon clicking this menu option, a prompt will open asking you for a valid <em>.zip</em> file. Navigate to a zip
+file in the valid format that <code class="docutils literal"><span class="pre">Export</span> <span class="pre">database</span> <span class="pre">to</span> <span class="pre">archive</span></code> produced, and open that. VOCAL will
+then extract the data from that file and import all objects located in the archive.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Importing shapes from an archive will <strong>not</strong> preserve their tag, regardless of whether is already
+exists or not, imported shapes are treated as &#8216;new&#8217; creations e.g. they will be assigned a unique tag
+based off of the current database tags.</p>
+</div>
+</div>
 </div>
 </div>
 
@@ -276,10 +386,10 @@ will automatically draw all the loaded shapes.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="dev/conventions.html" class="btn btn-neutral float-right" title="Coding Conventions" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="dev/conventions.html" class="btn btn-neutral float-right" title="Coding Conventions">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="packages.html" class="btn btn-neutral" title="Required Packages" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="gettingdata.html" class="btn btn-neutral" title="Getting the Data"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -291,10 +401,12 @@ will automatically draw all the loaded shapes.</p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
   </div>
+
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
-</footer>
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+</footer>
         </div>
       </div>
 

@@ -75,7 +75,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -89,15 +89,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -118,9 +130,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../polygon/polygon.html">Polygon</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/drawer.html">PolygonDrawer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/list.html">PolygonList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/reader.html">PolygonReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/manager.html">ShapeManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/reader.html">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/shape.html">Shape</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/tools.html">Tools</a><ul>
@@ -236,10 +248,46 @@ creating other GUI windows such as the toolbar or import dialog</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="Calipso.Calipso.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the all the shapes are saved. If a shape is unsaved, the
+program will ask the user whether save or not, and then close the 
+program</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="Calipso.Calipso.create_top_gui">
 <code class="descname">create_top_gui</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.create_top_gui"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.create_top_gui" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initializes and creates the <em>File: label</em>, <em>file dialog</em>, and <em>browse button</em> that appear at the top
-of the screen</p>
+<dd><p>Initializes and creates the <em>File: label</em>, <em>file dialog</em>, and <em>browse button</em> that appear
+at the top of the screen</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.export_db">
+<code class="descname">export_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.export_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.export_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Notify the database that a save is taking place, the
+db will then save all polygons present on the screen</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="Calipso.Calipso.export_json_db">
+<em class="property">static </em><code class="descname">export_json_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.export_json_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.export_json_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export the contents of the database to an archive containing JSON, which can then be
+loaded into other databases and have all shapes imported</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.extract_window">
+<code class="descname">extract_window</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.extract_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.extract_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens a subwindow that displays the data bounded by the shape</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -250,21 +298,49 @@ of the screen</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">Figure</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">SubplotAxes</span></code></td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.get_polygon_list">
-<code class="descname">get_polygon_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.get_polygon_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.get_polygon_list" title="Permalink to this definition">¶</a></dt>
+<dt id="Calipso.Calipso.get_file">
+<code class="descname">get_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.get_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current HDF file being displayed</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.get_root">
+<code class="descname">get_root</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.get_root"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.get_root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the root of the application</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A Tkinter root</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.get_shapemanager">
+<code class="descname">get_shapemanager</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.get_shapemanager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.get_shapemanager" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the internal <code class="xref py py-class docutils literal"><span class="pre">polygonList</span></code> object</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">polygonList</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../polygon/manager.html#polygon.manager.ShapeManager" title="polygon.manager.ShapeManager"><code class="xref py py-class docutils literal"><span class="pre">polygon.manager.ShapeManager</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -278,7 +354,7 @@ of the screen</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal"><span class="pre">NavigationToolbar2CALIPSO</span></code></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="../tools/navigationtoolbar2calipso.html#tools.navigationtoolbar.NavigationToolbar2CALIPSO" title="tools.navigationtoolbar.NavigationToolbar2CALIPSO"><code class="xref py py-class docutils literal"><span class="pre">tools.navigationtoolbar.NavigationToolbar2CALIPSO</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -290,6 +366,30 @@ of the screen</p>
 <dd><p>Load an HDF file for use with displaying backscatter and depolarized images</p>
 </dd></dl>
 
+<dl class="staticmethod">
+<dt id="Calipso.Calipso.import_json_db">
+<em class="property">static </em><code class="descname">import_json_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.import_json_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.import_json_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import the contents of a JSON file to the database, works hand in hand
+with the <code class="docutils literal"><span class="pre">export_json_db</span></code> class method. This will allows users to share
+their database without needing to manually move their db file.
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="Calipso.Calipso.import_window">
+<code class="descname">import_window</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.import_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.import_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open the database import window allowing the user to import and
+delete entries.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; ignored Tkinter event object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="Calipso.Calipso.load">
 <code class="descname">load</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.load" title="Permalink to this definition">¶</a></dt>
@@ -297,10 +397,17 @@ of the screen</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="Calipso.Calipso.notify_save_db">
-<code class="descname">notify_save_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.notify_save_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.notify_save_db" title="Permalink to this definition">¶</a></dt>
-<dd><p>Notify the database that a save is taking place, the
-db will then save all polygons present on the screen</p>
+<dt id="Calipso.Calipso.paint_window">
+<code class="descname">paint_window</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.paint_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.paint_window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens the paint window for specifying the shape&#8217;s color</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A Tkinter passed event object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -354,16 +461,16 @@ saved file. If no file exists prompt for file</p>
 <dl class="method">
 <dt id="Calipso.Calipso.set_plot">
 <code class="descname">set_plot</code><span class="sig-paren">(</span><em>plot_type</em>, <em>xrange_=(0</em>, <em>1000)</em>, <em>yrange=(0</em>, <em>20)</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.set_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.set_plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draws to the canvas according to the <em>plot_type</em> specified in the arguments. Accepts one of the
-attributes below</p>
+<dd><p>Draws to the canvas according to the <em>plot_type</em> specified in the arguments. Accepts one of
+the attributes below</p>
 <dl class="attribute">
 <dt id="Calipso.Calipso.BASE_PLOT">
 <code class="descname">BASE_PLOT</code><a class="headerlink" href="#Calipso.Calipso.BASE_PLOT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="Calipso.Calipso.BACKSCATTERED">
-<code class="descname">BACKSCATTERED</code><a class="headerlink" href="#Calipso.Calipso.BACKSCATTERED" title="Permalink to this definition">¶</a></dt>
+<dt>
+<code class="descname">BACKSCATTE RED</code></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -382,8 +489,8 @@ attributes below</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>plot_type</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; accepts <code class="docutils literal"><span class="pre">BASE_PLOT,</span> <span class="pre">BACKSCATTERED,</span> <span class="pre">DEPOLARIZED,</span> <span class="pre">VFM</span></code></li>
-<li><strong>xrange</strong> (<em>(int,int)</em>) &#8211; accepts a range of time to plot</li>
-<li><strong>yrange</strong> (<em>(int,int)</em>) &#8211; accepts a range of altitude to plot</li>
+<li><strong>xrange_</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; accepts a range of time to plot</li>
+<li><strong>yrange</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; accepts a range of altitude to plot</li>
 </ul>
 </td>
 </tr>
@@ -409,6 +516,22 @@ attributes below</p>
 <dd><p>Sets the title of root and invokes py:meth:<cite>centerWindow</cite></p>
 </dd></dl>
 
+<dl class="method">
+<dt id="Calipso.Calipso.update_shape_optionmenu">
+<code class="descname">update_shape_optionmenu</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.update_shape_optionmenu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.update_shape_optionmenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback function bound to <em>&lt;ButtonPress-1&gt;</em> which displays the current list
+of shapes on the plot to the option menu. All tags are grabbed which can then
+be selected by the user to see which object they are looking for.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; Tkinter passed event object, <strong>ignored</strong></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -419,10 +542,10 @@ attributes below</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="consts.html" class="btn btn-neutral float-right" title="Constants" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="consts.html" class="btn btn-neutral float-right" title="Constants">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="attributes.html" class="btn btn-neutral" title="Attributes Dialog" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="attributes.html" class="btn btn-neutral" title="Attributes Dialog"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -434,10 +557,12 @@ attributes below</p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
   </div>
+
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
-</footer>
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+</footer>
         </div>
       </div>
 

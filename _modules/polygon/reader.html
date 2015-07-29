@@ -73,7 +73,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -87,15 +87,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -116,9 +128,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../doc/polygon/polygon.html">Polygon</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../doc/polygon/drawer.html">PolygonDrawer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../doc/polygon/list.html">PolygonList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../doc/polygon/reader.html">PolygonReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../doc/polygon/manager.html">ShapeManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../doc/polygon/reader.html">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../doc/polygon/shape.html">Shape</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../doc/tools/tools.html">Tools</a><ul>
@@ -178,97 +190,114 @@
 <span class="c">#     Created on Jun 15, 2015</span>
 <span class="c">#</span>
 <span class="c">#     @author: nqian</span>
+<span class="c">#     @author: Grant Mercer</span>
 <span class="c">######################################</span>
 <span class="c"># import antigravity</span>
 <span class="kn">import</span> <span class="nn">ast</span>
 <span class="kn">import</span> <span class="nn">json</span>
-
 <span class="kn">import</span> <span class="nn">constants</span>
-<span class="kn">from</span> <span class="nn">polygon.drawer</span> <span class="kn">import</span> <span class="n">PolygonDrawer</span>
-<span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">byteify</span>
-<span class="kn">from</span> <span class="nn">log</span> <span class="kn">import</span> <span class="n">logger</span>
 
-<div class="viewcode-block" id="PolygonReader"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.PolygonReader">[docs]</a><span class="k">class</span> <span class="nc">PolygonReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">PLOTS</span>
+<span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">polygon.shape</span> <span class="kn">import</span> <span class="n">Shape</span>
+<span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">byteify</span>
+<span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span>
+
+
+<div class="viewcode-block" id="ShapeReader"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.ShapeReader">[docs]</a><span class="k">class</span> <span class="nc">ShapeReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Reads JSON files and transfers the data into PolygonDrawer objects</span>
-<span class="sd">    </span>
-<span class="sd">    :param str fileName: Internal filename to write to</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+
+<span class="sd">    :param str filename: Internal filename to write to</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c"># TODO: add exception handling</span>
     <span class="c"># TODO: go over possible use cases</span>
     <span class="c">#            loading multiple JSONs and then saving them as one</span>
     <span class="c">#            add error for corrupted or bad data</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes attributes</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__fileName</span> <span class="o">=</span> <span class="n">fileName</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="p">{}</span> 
-        
-<div class="viewcode-block" id="PolygonReader.setFileName"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.PolygonReader.setFileName">[docs]</a>    <span class="k">def</span> <span class="nf">setFileName</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fileName</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="ShapeReader.set_filename"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.ShapeReader.set_filename">[docs]</a>    <span class="k">def</span> <span class="nf">set_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sets the file name destination</span>
-<span class="sd">        :param fileName: the name of the file</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__fileName</span> <span class="o">=</span> <span class="n">fileName</span>
+
+<span class="sd">        :param str filename: the name of the file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
         </div>
-<div class="viewcode-block" id="PolygonReader.readFromFileJSON"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.PolygonReader.readFromFileJSON">[docs]</a>    <span class="k">def</span> <span class="nf">readFromFileJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>   
-        <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="ShapeReader.read_from_file_json"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.ShapeReader.read_from_file_json">[docs]</a>    <span class="k">def</span> <span class="nf">read_from_file_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads the data from the JSON file</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__fileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">byteify</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="n">data</span>
         </div>
-<div class="viewcode-block" id="PolygonReader.readFromStrJSON"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.PolygonReader.readFromStrJSON">[docs]</a>    <span class="k">def</span> <span class="nf">readFromStrJSON</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="ShapeReader.read_from_str_json"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.ShapeReader.read_from_str_json">[docs]</a>    <span class="k">def</span> <span class="nf">read_from_str_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reads JSON as a string</span>
-<span class="sd">        :param data: string representation of a JSON</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+
+<span class="sd">        :param str data: string representation of a JSON object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="n">byteify</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">plt</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">constants</span><span class="o">.</span><span class="n">PLOTS</span><span class="p">]:</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Invalid JSON plot keys passed, you WILL get some error after this eventually...&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">plt</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="s">&quot;vertices&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">]:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;vertices&quot;</span><span class="p">]</span> <span class="o">=</span> \
-                        <span class="p">[[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;vertices&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
-                <span class="k">if</span> <span class="s">&quot;coordinates&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">]:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;coordinates&quot;</span><span class="p">]</span> <span class="o">=</span> \
-                        <span class="p">[[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;coordinates&quot;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
-                <span class="k">if</span> <span class="s">&quot;attributes&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">]:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;attributes&quot;</span><span class="p">]</span> <span class="o">=</span> \
-                        <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&quot;attributes&quot;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="s">&#39;coordinates&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;coordinates&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="p">[[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;coordinates&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s">&#39;attributes&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">]</span> <span class="o">=</span> \
+                        <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">])</span>
                         </div>
-<div class="viewcode-block" id="PolygonReader.packPolygonDrawer"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.PolygonReader.packPolygonDrawer">[docs]</a>    <span class="k">def</span> <span class="nf">packPolygonDrawer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polygonList</span><span class="p">,</span> <span class="n">plotType</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">master</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="ShapeReader.pack_shape"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.ShapeReader.pack_shape">[docs]</a>    <span class="k">def</span> <span class="nf">pack_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape_list</span><span class="p">,</span> <span class="n">plot_type</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">read_from_str</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stores the data in the JSON into PolygonDrawers</span>
-<span class="sd">        :param polygonList: a Python list of PolygonDrawers</span>
-<span class="sd">        :param plotType: the current plot being displayed</span>
-<span class="sd">        :param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the polygonList</span>
-<span class="sd">        :param master: an instance of Calipso to initialize the blank PolygonDrawer</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+
+<span class="sd">        :param shape_list: a Python list of PolygonDrawers</span>
+<span class="sd">        :param plot_type: the current plot being displayed</span>
+<span class="sd">        :param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the shape_list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">polygon.manager</span> <span class="kn">import</span> <span class="n">ShapeManager</span>
+        <span class="n">enum_plot_type</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">[</span><span class="n">plot_type</span><span class="p">]</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">]:</span>
-                <span class="c">#print int(self.__data[plot_type][shape][&#39;id&#39;]) not in [x.getID() for x in polygonList]</span>
-                <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">getID</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">polygonList</span><span class="p">]:</span> <span class="k">continue</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Found data, packing polygon with JSON data&quot;</span><span class="p">)</span>
-                <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;color&#39;</span><span class="p">]</span>
-                <span class="n">vertices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;vertices&#39;</span><span class="p">]</span>
-                <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;coordinates&#39;</span><span class="p">]</span>
-                <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">]</span>
-                <span class="n">notes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;notes&#39;</span><span class="p">]</span>
-                <span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plotType</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
-                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setID</span><span class="p">(</span><span class="n">_id</span><span class="p">)</span>
-                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setColor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setVertices</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
-                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_plot</span><span class="p">(</span><span class="n">plotType</span><span class="p">)</span>
-                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setAttributes</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
-                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setCoordinates</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
-                <span class="n">polygonList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">setNotes</span><span class="p">(</span><span class="n">notes</span><span class="p">)</span>
-                <span class="n">polygonList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PolygonDrawer</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">master</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">]:</span>
+                <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">shape_list</span><span class="p">]:</span>
+                    <span class="k">continue</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Found data in </span><span class="si">%s</span><span class="s">, packing polygon with JSON data&#39;</span>
+                            <span class="o">%</span> <span class="n">PLOTS</span><span class="p">[</span><span class="n">enum_plot_type</span><span class="p">])</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;color&#39;</span><span class="p">]</span>
+                <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;coordinates&#39;</span><span class="p">]</span>
+                <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">]</span>
+                <span class="n">notes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;notes&#39;</span><span class="p">]</span>
+                <span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">exists_tag</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">read_from_str</span><span class="p">:</span>
+                    <span class="n">new</span> <span class="o">=</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">generate_tag</span><span class="p">()</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="s">&#39;Shape tag already exists in database, creating new tag </span><span class="si">% s</span><span class="s">&#39;</span>
+                        <span class="o">%</span> <span class="n">new</span><span class="p">)</span>
+                    <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_tag</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_tag</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+                <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_id</span><span class="p">(</span><span class="n">_id</span><span class="p">)</span>
+                <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+                <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_plot</span><span class="p">(</span><span class="n">enum_plot_type</span><span class="p">)</span>
+                <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_attributes</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+                <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_coordinates</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span>
+                <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_notes</span><span class="p">(</span><span class="n">notes</span><span class="p">)</span>
+                <span class="n">shape_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+                <span class="n">shape_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Shape</span><span class="p">(</span><span class="n">canvas</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Bad data in JSON file&quot;</span><span class="p">)</span></div></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Bad data in JSON file&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
@@ -282,10 +311,12 @@
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
   </div>
+
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
-</footer>
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+</footer>
         </div>
       </div>
 

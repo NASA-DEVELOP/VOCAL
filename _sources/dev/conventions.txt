@@ -4,9 +4,16 @@ Coding Conventions
 
 .. note::
 
-   We are now using the ``pep-0008`` style guide as referenced `here`_ . See the link for a full list of conventions
+   We are now using the ``pep-0008`` style guide as referenced `here`_ . See the link for a full
+   list of conventions
 
-Below is list of coding conventions agreed upon by Nathan and I(Grant). Please adhere to these conventions to create a more readable codebase.
+Below is list of coding conventions agreed upon by Nathan and I(Grant). Please adhere to these
+conventions to create a more readable codebase.
+
+.. rubric:: Column Width
+
+Code should be no longer than 100 characters, in the case your statement goes **over**, use a
+new line or split your statement up.
 
 .. rubric:: String Literals
 
@@ -73,7 +80,8 @@ No spaces should be left between conditional statements and loops code blocks.
    for x in y:
       # ...
 
-Simple comments should be placed to the right of the line when possible, or one comment should be placed above a segment shortly explaning it's function
+Simple comments should be placed to the right of the line when possible, or one comment should
+be placed above a segment shortly explaning it's function
 
 .. code-block:: python
 
@@ -89,7 +97,9 @@ Simple comments should be placed to the right of the line when possible, or one 
       err()
 
 
-This documentation website is generated using docstrings from source, so **document** as you code! The docstring markdown is reStructedText Primer and sphinx, when the doc chain is generated it will use these docstrings from the code for the webpage. 
+This documentation website is generated using docstrings from source, so **document** as you
+code! The docstring markdown is reStructedText Primer and sphinx, when the doc chain is
+generated it will use these docstrings from the code for the webpage.
 
 .. code-block:: python
 
@@ -130,6 +140,11 @@ The auto documentation tool chain will generate this as:
       :param int y: parameter y is an integer and does...
       :rtype: returns int
 
-If you are developing in an existing file , the doc chain *should* find your new function/class automatically. In the case you are creating a new module, determine whether it is in the ``general``, ``polygon`` or ``tools`` package, and create a ``.rst`` file in the corresponding doc/ folder specifying your new module. You can refer to the exisiting .rst files for how to populate the docs. You can also refer to the :doc:`Documentation Page </dev/docs>` for writing your own docs. 
+If you are developing in an existing file , the doc chain *should* find your new function/class
+automatically. In the case you are creating a new module, determine whether it is in the
+``general``, ``polygon`` or ``tools`` package, and create a ``.rst`` file in the corresponding
+doc/ folder specifying your new module. You can refer to the exisiting .rst files for how to
+populate the docs. You can also refer to the :doc:`Documentation Page </dev/docs>` for
+writing your own docs.
 
 .. _here: https://www.python.org/dev/peps/pep-0008/

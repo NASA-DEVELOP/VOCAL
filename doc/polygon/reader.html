@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PolygonReader &mdash; VOCAL 0.15.2 documentation</title>
+  <title>ShapeReader &mdash; VOCAL 0.15.2 documentation</title>
   
 
   
@@ -32,8 +32,8 @@
   
     <link rel="top" title="VOCAL 0.15.2 documentation" href="../../index.html"/>
         <link rel="up" title="Polygon" href="polygon.html"/>
-        <link rel="next" title="Tools" href="../tools/tools.html"/>
-        <link rel="prev" title="PolygonList" href="list.html"/> 
+        <link rel="next" title="Shape" href="shape.html"/>
+        <link rel="prev" title="ShapeManager" href="manager.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -75,7 +75,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -89,15 +89,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -118,9 +130,9 @@
 </ul>
 </li>
 <li class="toctree-l2 current"><a class="reference internal" href="polygon.html">Polygon</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="drawer.html">PolygonDrawer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="list.html">PolygonList</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="">PolygonReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="manager.html">ShapeManager</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shape.html">Shape</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/tools.html">Tools</a><ul>
@@ -166,7 +178,7 @@
       
           <li><a href="polygon.html">Polygon</a> &raquo;</li>
       
-    <li>PolygonReader</li>
+    <li>ShapeReader</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -179,54 +191,77 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="polygonreader">
-<h1>PolygonReader<a class="headerlink" href="#polygonreader" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="shapereader">
+<h1>ShapeReader<a class="headerlink" href="#shapereader" title="Permalink to this headline">¶</a></h1>
 <p class="graphviz">
-<img src="../../_images/inheritance-cb9947b276729e0fc45ff572ca98946ea9a5efd4.png" alt="Inheritance diagram of polygon.reader" usemap="#inheritanceacf5954f1c" class="inheritance"/>
+<img src="../../_images/inheritance-284c39ab65aea55240eeb19f0e07c4ada1cdfcd8.png" alt="Inheritance diagram of polygon.reader" usemap="#inheritanceacf5954f1c" class="inheritance"/>
 <map id="inheritanceacf5954f1c" name="inheritanceacf5954f1c">
-<area shape="rect" id="node1" href="#polygon.reader.PolygonReader" title="Reads JSON files and transfers the data into PolygonDrawer objects" alt="" coords="6,5,221,30"/>
+<area shape="rect" id="node1" href="#polygon.reader.ShapeReader" title="Reads JSON files and transfers the data into PolygonDrawer objects" alt="" coords="6,5,213,30"/>
 </map>
 </p>
 <span class="target" id="module-polygon.reader"></span><dl class="class">
-<dt id="polygon.reader.PolygonReader">
-<em class="property">class </em><code class="descname">PolygonReader</code><span class="sig-paren">(</span><em>fileName=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#PolygonReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.PolygonReader" title="Permalink to this definition">¶</a></dt>
+<dt id="polygon.reader.ShapeReader">
+<em class="property">class </em><code class="descname">ShapeReader</code><span class="sig-paren">(</span><em>filename=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#ShapeReader"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.ShapeReader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads JSON files and transfers the data into PolygonDrawer objects</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fileName</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Internal filename to write to</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Internal filename to write to</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="polygon.reader.PolygonReader.packPolygonDrawer">
-<code class="descname">packPolygonDrawer</code><span class="sig-paren">(</span><em>polygonList</em>, <em>plotType</em>, <em>canvas</em>, <em>master</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#PolygonReader.packPolygonDrawer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.PolygonReader.packPolygonDrawer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stores the data in the JSON into PolygonDrawers
-:param polygonList: a Python list of PolygonDrawers
-:param plotType: the current plot being displayed
-:param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the polygonList
-:param master: an instance of Calipso to initialize the blank PolygonDrawer</p>
+<dt id="polygon.reader.ShapeReader.pack_shape">
+<code class="descname">pack_shape</code><span class="sig-paren">(</span><em>shape_list</em>, <em>plot_type</em>, <em>canvas</em>, <em>read_from_str=None</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#ShapeReader.pack_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.ShapeReader.pack_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the data in the JSON into PolygonDrawers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>shape_list</strong> &#8211; a Python list of PolygonDrawers</li>
+<li><strong>plot_type</strong> &#8211; the current plot being displayed</li>
+<li><strong>canvas</strong> &#8211; a Tkinter canvas to initializes the blank PolygonDrawer in the shape_list</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
-<dt id="polygon.reader.PolygonReader.readFromFileJSON">
-<code class="descname">readFromFileJSON</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#PolygonReader.readFromFileJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.PolygonReader.readFromFileJSON" title="Permalink to this definition">¶</a></dt>
+<dt id="polygon.reader.ShapeReader.read_from_file_json">
+<code class="descname">read_from_file_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#ShapeReader.read_from_file_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.ShapeReader.read_from_file_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads the data from the JSON file</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="polygon.reader.PolygonReader.readFromStrJSON">
-<code class="descname">readFromStrJSON</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#PolygonReader.readFromStrJSON"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.PolygonReader.readFromStrJSON" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reads JSON as a string
-:param data: string representation of a JSON</p>
+<dt id="polygon.reader.ShapeReader.read_from_str_json">
+<code class="descname">read_from_str_json</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#ShapeReader.read_from_str_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.ShapeReader.read_from_str_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads JSON as a string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; string representation of a JSON object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
-<dt id="polygon.reader.PolygonReader.setFileName">
-<code class="descname">setFileName</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#PolygonReader.setFileName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.PolygonReader.setFileName" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the file name destination
-:param fileName: the name of the file</p>
+<dt id="polygon.reader.ShapeReader.set_filename">
+<code class="descname">set_filename</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/reader.html#ShapeReader.set_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.reader.ShapeReader.set_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the file name destination</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; the name of the file</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -239,10 +274,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../tools/tools.html" class="btn btn-neutral float-right" title="Tools" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="shape.html" class="btn btn-neutral float-right" title="Shape">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="list.html" class="btn btn-neutral" title="PolygonList" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="manager.html" class="btn btn-neutral" title="ShapeManager"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -254,10 +289,12 @@
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
   </div>
+
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
-</footer>
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+</footer>
         </div>
       </div>
 

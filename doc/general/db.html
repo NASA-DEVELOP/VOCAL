@@ -75,7 +75,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
@@ -89,15 +89,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorial.html#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -118,9 +130,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../polygon/polygon.html">Polygon</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/drawer.html">PolygonDrawer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/list.html">PolygonList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../polygon/reader.html">PolygonReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/manager.html">ShapeManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/reader.html">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../polygon/shape.html">Shape</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../tools/tools.html">Tools</a><ul>
@@ -182,10 +194,10 @@
   <div class="section" id="database">
 <h1>Database<a class="headerlink" href="#database" title="Permalink to this headline">¶</a></h1>
 <p class="graphviz">
-<img src="../../_images/inheritance-29d57cf871b396d10fdc8b96ceab87f12df31c0d.png" alt="Inheritance diagram of db" usemap="#inheritance53bde99ac8" class="inheritance"/>
+<img src="../../_images/inheritance-49898e56a36712fe121ae78a55b948602c7a4d10.png" alt="Inheritance diagram of db" usemap="#inheritance53bde99ac8" class="inheritance"/>
 <map id="inheritance53bde99ac8" name="inheritance53bde99ac8">
 <area shape="rect" id="node1" href="#db.DatabaseManager" title="Internally manages the database engine and any sql related objects." alt="" coords="51,54,211,79"/>
-<area shape="rect" id="node2" href="#db.DatabasePolygon" title="Sqlalchemy class object, contains all data that is stored inside the database. Objects are represented as JSON" alt="" coords="304,5,459,30"/>
+<area shape="rect" id="node2" href="#db.DatabasePolygon" title="Sqlalchemy class object, contains all data that is stored inside the database." alt="" coords="304,5,459,30"/>
 </map>
 </p>
 <span class="target" id="module-db"></span><dl class="class">
@@ -198,25 +210,86 @@ other functionality. The database is INDEPENDENT from the application</p>
 <dt id="db.DatabaseManager.commit_to_db">
 <code class="descname">commit_to_db</code><span class="sig-paren">(</span><em>poly_list</em>, <em>time</em>, <em>f</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.commit_to_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.commit_to_db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a list of polygons and commits them into the database,
-used in polygonList to commit all visible polygons
-:param poly_list: the current polygonList corresponding to the active plot
-:param time: time of the JSON&#8217;s creation
-:param f: file name</p>
+used in polygonList to commit all visible polygons</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>poly_list</strong> &#8211; the current polygonList corresponding to the active plot</li>
+<li><strong>time</strong> &#8211; time of the JSON&#8217;s creation</li>
+<li><strong>f</strong> &#8211; file name</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="db.DatabaseManager.delete_item">
 <code class="descname">delete_item</code><span class="sig-paren">(</span><em>idx</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.delete_item"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.delete_item" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a session and delete the object from the database.
-:param idx: the primary key for the object passed</p>
+<dd><p>Get a session and delete the object from the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>idx</strong> &#8211; the primary key for the object passed</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="db.DatabaseManager.dump_to_json">
+<code class="descname">dump_to_json</code><span class="sig-paren">(</span><em>zip_fname</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.dump_to_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.dump_to_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump the contents of the database into a JSON file with the specific format
+of DatabasePolygon. Creates a directory &#8216;{PROJECT}/tmp&#8217; and exports all db
+objects to it, then zips the directory and deletes tmp. Returns <code class="docutils literal"><span class="pre">True</span></code> on
+success, <code class="docutils literal"><span class="pre">False</span></code> otherwise</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>zip_fname</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; name of the zip file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="db.DatabaseManager.encode">
 <em class="property">static </em><code class="descname">encode</code><span class="sig-paren">(</span><em>filename</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.encode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.encode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Encode and write out a JSON object
-:param filename: name of the file
-:param data: Python dictionary representation of a JSON</p>
+<dd><p>Encode and write out a JSON object</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> &#8211; name of the file</li>
+<li><strong>data</strong> &#8211; Python dictionary representation of a JSON</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="db.DatabaseManager.exists_tag">
+<code class="descname">exists_tag</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.exists_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.exists_tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check the database if a tag currently exists, if so return True, else
+return False</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">bool</span></code></a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -224,6 +297,26 @@ used in polygonList to commit all visible polygons
 <code class="descname">get_session</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.get_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.get_session" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an instance of a session, USERS job to ensure session
 is committed/closed</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="db.DatabaseManager.import_from_json">
+<code class="descname">import_from_json</code><span class="sig-paren">(</span><em>zip_fname</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabaseManager.import_from_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabaseManager.import_from_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import a <em>.zip</em> file selected by the user, the zip file must be
+the same format as how <code class="docutils literal"><span class="pre">dump_to_json</span></code> creates a zip, otherwise
+an error will be raised. Uses functionality similar to <code class="docutils literal"><span class="pre">ShapeReader</span></code>,
+but as db should <strong>never</strong> be dependent on another class we need to
+impl our own import method. The big difference here is that shapes
+are not added to the current shape list, instead are only loaded into
+the local database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://docs.python.org/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -239,7 +332,8 @@ and stored into the database</p>
 <dl class="class">
 <dt id="db.DatabasePolygon">
 <em class="property">class </em><code class="descname">DatabasePolygon</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/db.html#DatabasePolygon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#db.DatabasePolygon" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sqlalchemy class object, contains all data that is stored inside the database. Objects are represented as JSON</p>
+<dd><p>Sqlalchemy class object, contains all data that is stored inside the database.
+Objects are represented as JSON</p>
 <dl class="data">
 <dt id="db.DatabasePolygon.id">
 <code class="descname">id</code><a class="headerlink" href="#db.DatabasePolygon.id" title="Permalink to this definition">¶</a></dt>
@@ -253,11 +347,6 @@ and stored into the database</p>
 <dl class="data">
 <dt id="db.DatabasePolygon.color">
 <code class="descname">color</code><a class="headerlink" href="#db.DatabasePolygon.color" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="data">
-<dt id="db.DatabasePolygon.vertices">
-<code class="descname">vertices</code><a class="headerlink" href="#db.DatabasePolygon.vertices" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
@@ -313,10 +402,10 @@ other functionality. The database is INDEPENDENT from the application</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="import.html" class="btn btn-neutral float-right" title="Import Dialog" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="import.html" class="btn btn-neutral float-right" title="Import Dialog">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="consts.html" class="btn btn-neutral" title="Constants" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="consts.html" class="btn btn-neutral" title="Constants"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -328,10 +417,12 @@ other functionality. The database is INDEPENDENT from the application</p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
   </div>
+
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
-</footer>
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+</footer>
         </div>
       </div>
 

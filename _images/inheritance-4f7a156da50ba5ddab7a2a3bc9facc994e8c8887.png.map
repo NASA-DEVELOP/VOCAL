@@ -1,0 +1,11 @@
+<map id="inheritance702a515fad" name="inheritance702a515fad">
+<area shape="rect" id="node1" title="Internal class." alt="" coords="86,87,167,102"/>
+<area shape="rect" id="node4" title="Internal class." alt="" coords="195,45,258,60"/>
+<area shape="rect" id="node2" title="Internal class." alt="" coords="3,87,58,102"/>
+<area shape="rect" id="node3" title="Button widget." alt="" coords="286,45,349,60"/>
+<area shape="rect" id="node8" href="#tools.toggleablebutton.ToggleableButton" title="Button wrapper which simulates the toggled button as you see in the draw, magnify, etc." alt="" coords="390,31,550,45"/>
+<area shape="rect" id="node10" href="#tools.toggleablebutton.ToolbarToggleableButton" title="GUI button used to implement the backend matplotlib plot functions. Instead" alt="" coords="377,59,563,73"/>
+<area shape="rect" id="node5" title="Geometry manager Grid." alt="" coords="99,3,153,17"/>
+<area shape="rect" id="node6" title="Geometry manager Pack." alt="" coords="98,31,154,45"/>
+<area shape="rect" id="node7" title="Geometry manager Place." alt="" coords="97,59,156,73"/>
+</map>

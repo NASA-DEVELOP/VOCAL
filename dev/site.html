@@ -74,7 +74,7 @@
               <p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../overview.html#abstract">Abstract</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../overview.html#background">Background</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../overview.html#additional-information">Additional Information</a></li>
@@ -88,15 +88,27 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#linux">Linux </a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#main-screen">Main Screen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#plot-navigation">Plot Navigation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#shape-drawing">Shape Drawing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#shape-saving-and-loading">Shape Saving and Loading</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#importing-and-exporting-form-the-database">Importing and Exporting form the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#using-the-database">Using the Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#exporting-shapes">Exporting Shapes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#importing-shapes">Importing Shapes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#sharing-your-database">Sharing Your Database</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#exporting-to-an-archive">Exporting To an Archive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tutorial.html#importing-from-an-archive">Importing From an Archive</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -117,9 +129,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../doc/polygon/polygon.html">Polygon</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/drawer.html">PolygonDrawer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/list.html">PolygonList</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/reader.html">PolygonReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/manager.html">ShapeManager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/reader.html">ShapeReader</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../doc/polygon/shape.html">Shape</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../doc/tools/tools.html">Tools</a><ul>
@@ -178,9 +190,12 @@
 <h1>Updating The Site<a class="headerlink" href="#updating-the-site" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">This site is generated with <code class="docutils literal"><span class="pre">sphinx</span></code> . <strong>do not</strong> attempt to modify the html files of this site, instead refer to the <a class="reference internal" href="docs.html"><em>Building and Writing Docs</em></a> page</p>
+<p class="last">This site is generated with <code class="docutils literal"><span class="pre">sphinx</span></code> . <strong>do not</strong> attempt to modify the html files of this
+site, instead refer to the <a class="reference internal" href="docs.html"><em>Building and Writing Docs</em></a> page</p>
 </div>
-<p>The easiest way to built the site would be keeping two repositories of VOCAL active, and keep one for developing, the other for docs. For this example the development is done on the <em>master</em> branch, and the website will always be on the <em>gh-pages</em> branch.</p>
+<p>The easiest way to built the site would be keeping two repositories of VOCAL active, and keep
+one for developing, the other for docs. For this example the development is done on the <em>master</em>
+branch, and the website will always be on the <em>gh-pages</em> branch.</p>
 <p class="rubric">Cloning the Repositories</p>
 <ol class="arabic">
 <li><p class="first">First, go ahead and clone two repositories into the workplace of your choice.:</p>
@@ -194,13 +209,16 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">Now, we have two folders, your development folder <code class="docutils literal"><span class="pre">vocal</span></code> and your documentation site <code class="docutils literal"><span class="pre">docs</span></code>. You&#8217;ll need to switch the docs repository to <em>gh-pages</em>.:</p>
+<li><p class="first">Now, we have two folders, your development folder <code class="docutils literal"><span class="pre">vocal</span></code> and your documentation site
+<code class="docutils literal"><span class="pre">docs</span></code>. You&#8217;ll need to switch the docs repository to <em>gh-pages</em>.:</p>
 <div class="highlight-python"><div class="highlight"><pre>&gt; cd docs
 &gt; git checkout gh-pages
 </pre></div>
 </div>
 </li>
-<li><p class="first">So you can now go on and write code, develop and create additional docs in your <code class="docutils literal"><span class="pre">vocal</span></code> workspace. When you&#8217;re finally ready to rebuild the site , this will require you to clear your <code class="docutils literal"><span class="pre">docs</span></code> branch and populate it with your new generated docs.</p>
+<li><p class="first">So you can now go on and write code, develop and create additional docs in your
+<code class="docutils literal"><span class="pre">vocal</span></code> workspace. When you&#8217;re finally ready to rebuild the site , this will require you
+to clear your <code class="docutils literal"><span class="pre">docs</span></code> branch and populate it with your new generated docs.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">It is <strong>very</strong> important you specify a directory when using the <code class="docutils literal"><span class="pre">rm</span></code> command. <em>trust me</em></p>
@@ -227,10 +245,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../doc/modules.html" class="btn btn-neutral float-right" title="Code Documentation" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../doc/modules.html" class="btn btn-neutral float-right" title="Code Documentation">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="docs.html" class="btn btn-neutral" title="Building and Writing Docs" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="docs.html" class="btn btn-neutral" title="Building and Writing Docs"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -242,10 +260,12 @@
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.
     </p>
   </div>
+
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 
-</footer>
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+</footer>
         </div>
       </div>
 
