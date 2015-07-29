@@ -74,7 +74,7 @@ class AdvancedSearchDialog(Toplevel):
         self.plots = StringVar()
         self.am_pm = StringVar()
         self.plot_entry = OptionMenu(bottom_window_frame, self.plots, 'backscattered', 'depolarized', 'vfm')
-        self.plot_entry.grid(row=0, column=1, padx=10, pady=5, sticky='w')
+        self.plot_entry.grid(row=0, column=1, padx=10, pady=5, sticky='w', columnspan=3)
 
         self.b_time_entry = Entry(bottom_window_frame, width=10)
         self.b_time_entry.grid(row=1, column=1, padx=5, pady=5, sticky='w')
@@ -101,4 +101,5 @@ class AdvancedSearchDialog(Toplevel):
             pack(side=LEFT, padx=15, pady=10)
 
     def parse_ranges(self):
-        self.shared_data.ranges = {'hi': 22}
+        self.shared_data.ranges = {'plots': self.plots.get(),
+                                   'am_pm': self.am_pm.get()}
