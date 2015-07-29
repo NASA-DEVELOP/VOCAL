@@ -29,7 +29,7 @@ CHILDHEIGHT = 350
 IMPORTWIDTH = 1000
 IMPORTHEIGH = 500
 IMADVWIDTH = 400
-IMADVHEIGHT = 230
+IMADVHEIGHT = 300
 
 # READ ONLY
 TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', 'cloud LC',

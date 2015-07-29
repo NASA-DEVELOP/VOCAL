@@ -32,6 +32,7 @@ class ImportDialog(Toplevel):
     def __init__(self, root, master):
         logger.info('Instantiating ImportDialog')
         Toplevel.__init__(self, root)
+        self.transient(root)
 
         self.protocol('WM_DELETE_WINDOW', self.free)
         self.session = db.get_session()                 # import window holds a session
@@ -293,7 +294,19 @@ class ImportDialog(Toplevel):
         self.tree.update()
 
     def receive(self, observer):
-        print 'Updating ' + str(observer.ranges)
+        """
+        Receiving method called internally by an observer. When AdvancedSearchDialog is
+        opened an observer is attached to this class, and upon the new ranges being updated
+        this method is procd. The new ranges to query by are given by the dict received, so
+        we can display the advanced search items.
+        """
+
+        rng = observer.ranges
+
+        for key in rng:
+            print key, rng[key]
+            if rng[key] == '':
+                continue
 
     def free(self):
         """
