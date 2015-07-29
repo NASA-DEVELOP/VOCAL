@@ -274,7 +274,8 @@ class Calipso(object):
             options['defaultextension'] = '.json'
             options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
             f = tkFileDialog.asksaveasfilename(**options)
-            if f is '':
+            if f == '':
+                logger.info("cancelling save as json")
                 return False
             if save_all:
                 self.__shapemanager.save_all_json(f)

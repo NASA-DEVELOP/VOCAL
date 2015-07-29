@@ -3,6 +3,7 @@
 *.log
 *.iml
 *.db
+.idea
 calipso/.idea
 calipso/hdf
 docs/source/.idea
