@@ -289,7 +289,7 @@ class Calipso(object):
         Notify the database that a save is taking place, the
         db will then save all polygons present on the screen
         """
-        logger.info('Notified database to save')
+        logger.info('Notifying database to save')
         success = self.__shapemanager.save_db()
         if success:
             logger.info('Success, saved to db')
