@@ -4,10 +4,11 @@
 #    @author: Grant Mercer
 #
 ###################################
+from Tkconstants import LEFT
 import collections
 import tkMessageBox
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
-    Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar
+    Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar, OptionMenu, StringVar
 
 import constants
 from sqlalchemy import or_
@@ -16,6 +17,7 @@ from tools.tools import center, get_shape_ranges
 from tools.treelistbox import TreeListBox
 from tools.tooltip import create_tool_tip
 from log.log import logger
+from advancedsearchdialog import AdvancedSearchDialog
 
 
 class ImportDialog(Toplevel):
@@ -30,6 +32,7 @@ class ImportDialog(Toplevel):
     def __init__(self, root, master):
         logger.info('Instantiating ImportDialog')
         Toplevel.__init__(self, root)
+        self.transient(root)
 
         self.protocol('WM_DELETE_WINDOW', self.free)
         self.session = db.get_session()                 # import window holds a session
@@ -37,6 +40,7 @@ class ImportDialog(Toplevel):
         self.__stack = collections.deque(maxlen=15)     # stack for searching
         self.__search_string = ''                       # search string
         self.__master = master                          # CALIPSO class
+        self.__root = root
         self.title('Import from existing database')     # window title
         self.tree = None                                # tree viewing class
         self.e = None                                   # entry box for searching
@@ -45,6 +49,16 @@ class ImportDialog(Toplevel):
         self.bottom_button_frame = None                 # bottom BUTTON Tkinter frame
         self.separator = None                           # separator line
         self.filter_file = IntVar()                     # int_var for filtering by file
+        self.advance_dialog = False
+
+        self.plot_type = StringVar()
+        self.beg_time = None
+        self.end_time = None
+        self.beg_lat = None
+        self.end_lat = None
+        self.beg_alt = None
+        self.end_alt = None
+        self.file = None
 
         center(self, (constants.IMPORTWIDTH, constants.IMPORTHEIGH))
 
@@ -255,7 +269,11 @@ class ImportDialog(Toplevel):
             self.__display_all()
 
     def advanced_prompt(self):
-        pass
+        if not self.advance_dialog:
+            AdvancedSearchDialog(self, self.__root)
+            self.advance_dialog = True
+        else:
+            pass
 
     def __display_all(self):
         """
@@ -274,6 +292,21 @@ class ImportDialog(Toplevel):
 
         self.tree.info = lst
         self.tree.update()
+
+    def receive(self, observer):
+        """
+        Receiving method called internally by an observer. When AdvancedSearchDialog is
+        opened an observer is attached to this class, and upon the new ranges being updated
+        this method is procd. The new ranges to query by are given by the dict received, so
+        we can display the advanced search items.
+        """
+
+        rng = observer.ranges
+
+        for key in rng:
+            print key, rng[key]
+            if rng[key] == '':
+                continue
 
     def free(self):
         """
