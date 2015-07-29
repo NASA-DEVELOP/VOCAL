@@ -48,6 +48,7 @@ class ImportDialog(Toplevel):
         self.bottom_button_frame = None                 # bottom BUTTON Tkinter frame
         self.separator = None                           # separator line
         self.filter_file = IntVar()                     # int_var for filtering by file
+        self.advance_dialog = False
 
         self.plot_type = StringVar()
         self.beg_time = None
@@ -267,7 +268,11 @@ class ImportDialog(Toplevel):
             self.__display_all()
 
     def advanced_prompt(self):
-        AdvancedSearchDialog(self, self.__root)
+        if not self.advance_dialog:
+            AdvancedSearchDialog(self, self.__root)
+            self.advance_dialog = True
+        else:
+            pass
 
     def __display_all(self):
         """
