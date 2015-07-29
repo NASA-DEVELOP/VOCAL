@@ -193,9 +193,32 @@ class AdvancedSearchDialog(Toplevel):
             return
         if end_lat == '0.0':
             end_lat = ''
+        valid_entries['elat'] = end_lat
+
+        beg_alt = self.b_alt_entry.get()
+        # r_lat is actually the same regex so we can just use that
+        if r_lat.match(beg_alt) is None:
+            logger.error('Invalid beginning alt range entered \'%s\'' % beg_alt)
+            tkMessageBox.showerror('Invalid field', 'Invalid beginning altitude range' +
+                                   ' \'%s\', must be a valid number(e.g. -2.3, 4, 0.0'
+                                   % beg_alt)
+            return
+        if beg_alt == '0.0':
+            beg_alt = ''
+        valid_entries['balt'] = beg_alt
+
+        end_alt = self.e_alt_entry.get()
+        if r_lat.match(end_alt) is None:
+            logger.error('Invalid ending alt range entered \'%s\'' % end_alt)
+            tkMessageBox.showerror('Invalid field', 'Invalid beginning altitude range' +
+                                   ' \'%s\', must be a valid number(e.g. -2.3, 4, 0.0'
+                                   % end_alt)
+            return
+        if end_alt == '0.0':
+            end_alt = ''
+        valid_entries['ealt'] = end_alt
 
         file_ = self.file_entry.get()
-        valid_entries['elat'] = end_lat
         valid_entries['plot'] = self.plots.get()
         valid_entries['ampm'] = self.am_pm.get()
         valid_entries['file'] = file_

@@ -328,9 +328,6 @@ class ImportDialog(Toplevel):
                 (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
                  obj.notes, obj.time_, obj.hdf))
 
-        lazy_list = [x for x in lazy_list if in_time_range(x[2]) and
-                                             in_lat_range(x[3])]
-
     def free(self):
         """
         Commit the session, destroy the window and ensure the session is
