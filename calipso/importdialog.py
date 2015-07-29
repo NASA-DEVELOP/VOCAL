@@ -295,7 +295,13 @@ class ImportDialog(Toplevel):
         this method is procd. The new ranges to query by are given by the dict received, so
         we can display the advanced search items.
         """
-        print 'Updating ' + str(observer.ranges)
+
+        rng = observer.ranges
+
+        for key in rng:
+            print key, rng[key]
+            if rng[key] == '':
+                continue
 
     def free(self):
         """
