@@ -19,7 +19,7 @@ from plot.findLatIndex import findLatIndex
 from plot.PCF_genTimeUtils import extractDatetime
 
 
-def drawDepolar(filename, x_range, y_range, fig, pfig):
+def render_depolarized(filename, x_range, y_range, fig, pfig):
     x1 = x_range[0]
     x2 = x_range[1]
     h1 = y_range[0]
@@ -34,6 +34,14 @@ def drawDepolar(filename, x_range, y_range, fig, pfig):
         time = product['Profile_UTC_Time'][x1:x2, 0]
         height = product['metadata']['Lidar_Data_Altitudes']
         alt = product['metadata']['Lidar_Data_Altitudes']
+        minimum = min(product['Profile_UTC_Time'][::])[0]
+        maximum = max(product['Profile_UTC_Time'][::])[0]
+        latitude = product['Latitude'][x1:x2, 0]
+
+        if time[-1] >= maximum and len(time) < 950:
+            raise IndexError
+        if time[0] < minimum:
+            raise IndexError
 
         # Depolarization_Gain_Ratio_532
         # Depolarization_Gain_Ratio_Uncertainty_532
@@ -108,11 +116,21 @@ def drawDepolar(filename, x_range, y_range, fig, pfig):
         fig.get_xaxis().set_major_locator(mpl.dates.AutoDateLocator())
         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
         
-        granule = "%sZ%s" % extractDatetime(filename)
-        title = 'Depolarized Ratio for granule %s' % granule
-        fig.set_title(title)                 
-        fig.set_title("Averaged 532 nm Depolarized Ratio")
+        # granule = "%sZ%s" % extractDatetime(filename)
+        # title = 'Depolarized Ratio for granule %s' % granule
+        # fig.set_title(title)                 
        
         cbar_label = 'Depolarized Ratio 532nm (km$^{-1}$ sr$^{-1}$)'
         cbar = pfig.colorbar(im)
         cbar.set_label(cbar_label)
+
+        ax = fig.twiny()
+        ax.set_xlabel('Latitude')
+        ax.set_xlim(latitude[0], latitude[-1])
+
+        fig.set_zorder(1)
+        ax.set_zorder(0)
+
+        title = fig.set_title("Averaged 532 nm Depolarized Ratio")
+        title_xy = title.get_position()
+        title.set_position([title_xy[0], title_xy[1]*1.07])
