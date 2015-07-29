@@ -288,6 +288,12 @@ class ImportDialog(Toplevel):
         self.tree.update()
 
     def receive(self, observer):
+        """
+        Receiving method called internally by an observer. When AdvancedSearchDialog is
+        opened an observer is attached to this class, and upon the new ranges being updated
+        this method is procd. The new ranges to query by are given by the dict received, so
+        we can display the advanced search items.
+        """
         print 'Updating ' + str(observer.ranges)
 
     def free(self):
