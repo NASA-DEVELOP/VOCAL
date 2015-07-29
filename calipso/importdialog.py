@@ -32,6 +32,7 @@ class ImportDialog(Toplevel):
     def __init__(self, root, master):
         logger.info('Instantiating ImportDialog')
         Toplevel.__init__(self, root)
+        self.transient(root)
 
         self.protocol('WM_DELETE_WINDOW', self.free)
         self.session = db.get_session()                 # import window holds a session

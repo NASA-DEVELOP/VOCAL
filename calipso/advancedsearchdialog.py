@@ -18,6 +18,7 @@ from tools.tools import center, get_shape_ranges, Observer
 from tools.treelistbox import TreeListBox
 from tools.tooltip import create_tool_tip
 from log.log import logger
+import re
 
 class Query(Observer):
     """
@@ -52,6 +53,7 @@ class AdvancedSearchDialog(Toplevel):
         Toplevel.__init__(self, root)
 
         self.title = 'Advanced search'
+        self.transient(root)
         self.shared_data = Query()
         self.shared_data.attach(parent)
 
@@ -62,7 +64,7 @@ class AdvancedSearchDialog(Toplevel):
         top_window_frame = Frame(window_frame)
         top_window_frame.pack(side=TOP, fill=X, expand=False)
         Label(top_window_frame, text='Filter by: ').pack(side=LEFT, padx=15, pady=5)
-        Label(top_window_frame, text='Leave Items blank you do not wish to search by',
+        Label(top_window_frame, text='Leave fields untouched that you do not wish to search by',
               font=('Helvetica', 8)).pack(side=RIGHT, padx=15, pady=5)
         bottom_window_frame = Frame(window_frame)
         bottom_window_frame.pack(side=TOP, fill=BOTH, expand=False, padx=15)
@@ -97,7 +99,7 @@ class AdvancedSearchDialog(Toplevel):
         self.b_lat_entry = Entry(bottom_window_frame, width=10)
         self.b_lat_entry.grid(row=3, column=1, padx=5, pady=5, sticky='w')
         self.b_lat_entry.insert(END, '0.0')
-        Label(bottom_window_frame, text='to').grid(row=32, column=2, pady=5, sticky='w')
+        Label(bottom_window_frame, text='to').grid(row=3, column=2, pady=5, sticky='w')
         self.e_lat_entry = Entry(bottom_window_frame, width=10)
         self.e_lat_entry.grid(row=3, column=3, padx=5, pady=5, sticky='w')
         self.e_lat_entry.insert(END, '0.0')
@@ -112,6 +114,59 @@ class AdvancedSearchDialog(Toplevel):
             pack(side=LEFT, padx=15, pady=10)
 
     def parse_ranges(self):
+        """
+        Command for the search button, upon the user clicking the search button this function
+        will perform a number of regex parsing to ensure all fields contain valid numbers, then
+        sets the observers range dictionary to the valid fields and destroys AdvancedSearchDialog.
+        If any fields are invalid, an error will be displayed and the function will return, keeping
+        the window open and allowing the user to fix their error.
+        """
+        date = self.date_entry.get()
+        r_date = re.compile('[0-9]{4}-[0-9]{2}-[0-9]{2}')
+        valid_entries = dict()
+        if r_date.match(date) is None:
+            logger.error('Invalid date entered \'%s\'' % date)
+            tkMessageBox.showerror('Invalid entry', 'Invalid date \'%s\' entered,' % date +
+                                   ' must match year-mo-day format')
+            return
+        valid_entries['date'] = date
 
-        self.shared_data.ranges = {'plots': self.plots.get(),
-                                   'am_pm': self.am_pm.get()}
+        beg_time = self.b_time_entry.get()
+        r_time = re.compile('[0-9]{2}:[0-9]{2}:[0-9]{2}')
+        if r_time.match(beg_time) is None:
+            logger.error('Invalid beginning time range entered \'%s\'' % beg_time)
+            tkMessageBox.showerror('Invalid entry', 'Invalid beginning time range' +
+                                   ' \'%s\', must match hr:mn:sc format' % beg_time)
+            return
+        valid_entries['btime'] = beg_time
+
+        end_time = self.e_time_entry.get()
+        if r_time.match(end_time) is None:
+            logger.error('Invalid ending time range entered \'%s\'' % end_time)
+            tkMessageBox.showerror('Invalid entry', 'Invalid ending time range' +
+                                   ' \'%s\', must match hr:mn:sc format' % end_time)
+            return
+        valid_entries['etime'] = end_time
+
+        beg_lat = self.b_lat_entry.get()
+        r_lat = re.compile('[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?')
+        if r_lat.match(beg_lat) is None:
+            logger.error('Invalid beginning lat range entered \'%s\'' % beg_lat)
+            tkMessageBox.showerror('Invalid entry', 'Invalid beginning latitude range' +
+                                   ' \'%s\', must be a valid number(e.g. -2.3 , 4, 0.0)'
+                                   % beg_lat)
+            return
+        valid_entries['blat'] = beg_lat
+
+        end_lat = self.e_lat_entry.get()
+        if r_lat.match(end_lat) is None:
+            logger.error('Invalid ending lat range entered \'%s\'' % end_lat)
+            tkMessageBox.showerror('Invalid field', 'Invalid ending latitude range' +
+                                   ' \'%s\', must be valid number(e.g. -2.3, 4, 0.0'
+                                   % end_lat)
+            return
+        valid_entries['elat'] = end_lat
+
+        # update ranges dictionary which will call ImportDialog receive()
+        self.shared_data.ranges = valid_entries
+        self.destroy()
