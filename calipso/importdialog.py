@@ -4,10 +4,11 @@
 #    @author: Grant Mercer
 #
 ###################################
+from Tkconstants import LEFT
 import collections
 import tkMessageBox
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
-    Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar
+    Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar, OptionMenu, StringVar
 
 import constants
 from sqlalchemy import or_
@@ -16,6 +17,7 @@ from tools.tools import center, get_shape_ranges
 from tools.treelistbox import TreeListBox
 from tools.tooltip import create_tool_tip
 from log.log import logger
+from advancedsearchdialog import AdvancedSearchDialog
 
 
 class ImportDialog(Toplevel):
@@ -46,6 +48,15 @@ class ImportDialog(Toplevel):
         self.bottom_button_frame = None                 # bottom BUTTON Tkinter frame
         self.separator = None                           # separator line
         self.filter_file = IntVar()                     # int_var for filtering by file
+
+        self.plot_type = StringVar()
+        self.beg_time = None
+        self.end_time = None
+        self.beg_lat = None
+        self.end_lat = None
+        self.beg_alt = None
+        self.end_alt = None
+        self.file = None
 
         center(self, (constants.IMPORTWIDTH, constants.IMPORTHEIGH))
 
@@ -256,15 +267,7 @@ class ImportDialog(Toplevel):
             self.__display_all()
 
     def advanced_prompt(self):
-        advanced_window = Toplevel(self.__root)
-        advanced_window.transient(self)
-
-        center(advanced_window, (constants.IMADVWIDTH, constants.IMADVHEIGHT))
-
-        window_frame = Frame(advanced_window)
-        window_frame.pack(fill=BOTH, expand=True)
-        Label(window_frame, text='Filter by time range: ').grid(row=0, column=0, padx=5, pady=5, sticky='w')
-        Label(window_frame, text='Filter by latitude range: ').grid(row=1, column=0, padx=5, pady=5, sticky='w')
+        AdvancedSearchDialog(self, self.__root)
 
     def __display_all(self):
         """
@@ -283,6 +286,9 @@ class ImportDialog(Toplevel):
 
         self.tree.info = lst
         self.tree.update()
+
+    def receive(self, observer):
+        print 'Updating ' + str(observer.ranges)
 
     def free(self):
         """
