@@ -27,8 +27,6 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
     nz = 500
     colormap = 'dat/calipso-depolar.cmap'
     AVGING_WIDTH = 15
-    MIN_SCATTER = -0.1
-    EXCESSIVE_SCATTER = 0.1
 
     with HDF(filename) as product:
         time = product['Profile_UTC_Time'][x1:x2, 0]
@@ -38,6 +36,7 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
         maximum = max(product['Profile_UTC_Time'][::])[0]
         latitude = product['Latitude'][x1:x2, 0]
 
+        # length of time determines how far the file can be viewed
         if time[-1] >= maximum and len(time) < 950:
             raise IndexError
         if time[0] < minimum:
@@ -47,22 +46,6 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
         # Depolarization_Gain_Ratio_Uncertainty_532
         #for key in product.keys:
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
-
-        latitude = product['Latitude'][::]
-
-        start_lat = 10.
-        end_lat = -30.
-
-        if latitude[0] > latitude[-1]:
-            # Nighttime granule
-            min_indx = findLatIndex(start_lat, latitude)
-            max_indx = findLatIndex(end_lat, latitude)
-        else:
-            # Daytime granule
-            min_indx = findLatIndex(end_lat, latitude)
-            max_indx = findLatIndex(start_lat, latitude)
-
-        latitude = latitude[min_indx:max_indx]
         tot_532 = product['Total_Attenuated_Backscatter_532'][x1:x2].T
         perp_532 = product['Perpendicular_Attenuated_Backscatter_532'][x1:x2].T
 
@@ -95,12 +78,6 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
         cm.set_over(cmap['over']/255.0)
         cm.set_bad(cmap['bad']/255.0)
         norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
-
-        min_alt = unif_alt[-1]
-        max_alt = unif_alt[0]
-        start_lat = latitude[0][0]
-        end_lat = latitude[-1][0]
-        extents = [start_lat, end_lat, min_alt, max_alt]
 
         im = fig.imshow(
             regrid_depolar_ratio,
