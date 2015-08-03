@@ -29,7 +29,7 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         minimum = min(product['Profile_UTC_Time'][::])[0]
         maximum = max(product['Profile_UTC_Time'][::])[0]
         
-        # lenght of time determines how far the file can be viewed
+        # length of time determines how far the file can be viewed
         if time[-1] >= maximum and len(time) < 950:
             raise IndexError
         if time[0] < minimum:
