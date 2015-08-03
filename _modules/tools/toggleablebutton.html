@@ -78,6 +78,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
@@ -150,6 +151,8 @@
 <span class="c">#    6/24/2015</span>
 <span class="c">######################################</span>
 <span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Button</span>
+<span class="kn">import</span> <span class="nn">ttk</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">platform</span> <span class="k">as</span> <span class="n">_platform</span>
 
 <span class="c"># global button container for managing state</span>
 <span class="n">toggleContainer</span> <span class="o">=</span> <span class="p">[]</span>  
@@ -167,6 +170,8 @@
 <span class="sd">    :param cnf: Button forwarded args</span>
 <span class="sd">    :param \*\*kw: Button forwarded args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+
 
     <span class="c"># noinspection PyDefaultArgument</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">master</span><span class="p">,</span> <span class="n">cnf</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
@@ -242,8 +247,23 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">relief</span><span class="o">=</span><span class="s">&#39;sunken&#39;</span><span class="p">)</span>                <span class="c"># sink the button, e.g. activate</span>
             <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__bindMap</span><span class="p">:</span>                 <span class="c"># bind using the bindmap</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__cid_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">mpl_connect</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">pair</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
-
 </div></div>
+<span class="k">class</span> <span class="nc">ToggleableButtonMac</span><span class="p">(</span><span class="n">ToggleableButton</span><span class="p">):</span>
+
+
+    <span class="n">SINKABLE_BUTTON</span> <span class="o">=</span> <span class="s">&#39;SunkableButton_TButton&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">master</span><span class="p">,</span> <span class="n">cnf</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="n">ToggleableButton</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">master</span><span class="p">,</span> <span class="n">cnf</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stle</span> <span class="o">=</span> <span class="n">ttk</span><span class="o">.</span><span class="n">Style</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">untoggle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">toggle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+
 <div class="viewcode-block" id="ToolbarToggleableButton"><a class="viewcode-back" href="../../doc/tools/toggleablebutton.html#tools.toggleablebutton.ToolbarToggleableButton">[docs]</a><span class="k">class</span> <span class="nc">ToolbarToggleableButton</span><span class="p">(</span><span class="n">Button</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    GUI button used to implement the backend matplotlib plot functions. Instead</span>
@@ -329,7 +349,9 @@
   </div>
 
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
+
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+
 </footer>
         </div>
       </div>

@@ -36,6 +36,7 @@ Off to the right is the tools window, this window is dedicated to the manipulati
   depolarized.
 * |step| Specify the range of time to plot to, from ``x`` to ``y``. Default is ``x`` + 1000 if no ``y``, and
   0 - 1000 if neither ``x`` nor ``y``
+* |salt| Specify the range of altitude to plot to, from ``x`` to ``y``. Default is 0 to 20
 * |fren| Visualize the data given the conditions entered into **step** and **backscattered/depolarized**
        
 -----------
@@ -265,6 +266,7 @@ then extract the data from that file and import all objects located in the archi
    :scale: 50%
 .. |fren| image:: _static/render_button.png
 .. |step| image:: _static/step_entry.png
+.. |salt| image:: _static/alt.png
 
 
 .. |expo| image:: _static/exporting_menu.png

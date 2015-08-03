@@ -1,5 +1,5 @@
 Development Enviroment
-======================================
+======================
 
 VOCAL hosts support for a couple different IDE's, but there is really no *mandatory* development enviroment required. Here are a couple recommendations based on your platform 32-bit is a **must** for now, as much as we wish 64-bit would work out there are some dependencies we just can't get rid of. 
 
@@ -8,11 +8,15 @@ VOCAL hosts support for a couple different IDE's, but there is really no *mandat
 
 * Eclipse
 
-  Eclipse is great IDE that offers some powerful tools, the VOCAL repository comes with a project file that allows for developers to easily load the project. See :doc:`The Installation Page </installation>` for steps on setting up Eclipse with VOCAL.
+  Eclipse is great IDE that offers some powerful tools, the VOCAL repository comes with a project
+  file that allows for developers to easily load the project. See
+  :doc:`The Installation Page </installation>` for steps on setting up Eclipse with VOCAL.
 
 * PyCharm
 
-  PyCharm is also a super powerful IDE for developing, and the plus here is it offers refactoring tools that ensure you follow the correct programming practices as outlined in the Coding Conventions.
+  PyCharm is also a super powerful IDE for developing, and the plus here is it offers
+  tools that ensure you follow the correct programming practices as outlined in the Coding
+  Conventions.
 
 .. rubric:: Linux
 

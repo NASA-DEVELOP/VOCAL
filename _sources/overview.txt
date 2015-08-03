@@ -8,7 +8,7 @@ The CALIPSO: Global Health & Air Quality project aims at creating a tool with th
 Background
 ----------------------------------------
 
-The CALISPO satellite (Cloud-Aerosol Lidar and Infrafred Pathfinder Satellite Observation) is a NASA
+The CALISPO satellite (Cloud-Aerosol Lidar and Infrared Pathfinder Satellite Observation) is a NASA
 earth observation that analyzes aerosol particles suspended in the Earth's atmosphere. Researchers use 
 CALIPSO data to track the aerosol's global distribution, dispersion and source. However, researchers 
 have a hard time tracking specific airborne objects as the current visualization tool that reads CALIPSO 

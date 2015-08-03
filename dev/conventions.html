@@ -79,6 +79,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
@@ -148,11 +149,14 @@
 <h1>Coding Conventions<a class="headerlink" href="#coding-conventions" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">We are now using the <code class="docutils literal"><span class="pre">pep-0008</span></code> style guide as referenced <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">here</a> . See the link for a full list of conventions</p>
+<p class="last">We are now using the <code class="docutils literal"><span class="pre">pep-0008</span></code> style guide as referenced <a class="reference external" href="https://www.python.org/dev/peps/pep-0008/">here</a> . See the link for a full
+list of conventions</p>
 </div>
-<p>Below is list of coding conventions agreed upon by Nathan and I(Grant). Please adhere to these conventions to create a more readable codebase.</p>
+<p>Below is list of coding conventions agreed upon by Nathan and I(Grant). Please adhere to these
+conventions to create a more readable codebase.</p>
 <p class="rubric">Column Width</p>
-<p>Code should be no longer than 100 characters, in the case your statement goes <strong>over</strong>, use a new line or split your statement up.</p>
+<p>Code should be no longer than 100 characters, in the case your statement goes <strong>over</strong>, use a
+new line or split your statement up.</p>
 <p class="rubric">String Literals</p>
 <p>String Literals are denoated with <code class="docutils literal"><span class="pre">''</span></code>, docstring should be double quotes <code class="docutils literal"><span class="pre">&quot;&quot;</span></code></p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">var</span> <span class="o">=</span> <span class="s">&#39;Heres a string&#39;</span>
@@ -201,7 +205,8 @@
    <span class="c"># ...</span>
 </pre></div>
 </div>
-<p>Simple comments should be placed to the right of the line when possible, or one comment should be placed above a segment shortly explaning it&#8217;s function</p>
+<p>Simple comments should be placed to the right of the line when possible, or one comment should
+be placed above a segment shortly explaning it&#8217;s function</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">var</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span> <span class="o">+</span> <span class="n">r</span><span class="o">*</span><span class="mi">2</span>           <span class="c"># calculate ___ and place in var</span>
 <span class="n">doFunc</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>                 <span class="c"># do some func with var param</span>
 <span class="k">if</span> <span class="n">var</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">var</span><span class="p">[:</span><span class="mi">3</span><span class="p">]:</span>
@@ -214,7 +219,9 @@
    <span class="n">err</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>This documentation website is generated using docstrings from source, so <strong>document</strong> as you code! The docstring markdown is reStructedText Primer and sphinx, when the doc chain is generated it will use these docstrings from the code for the webpage.</p>
+<p>This documentation website is generated using docstrings from source, so <strong>document</strong> as you
+code! The docstring markdown is reStructedText Primer and sphinx, when the doc chain is
+generated it will use these docstrings from the code for the webpage.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Class description is placed here</span>
@@ -271,7 +278,12 @@
 
 </dd></dl>
 
-<p>If you are developing in an existing file , the doc chain <em>should</em> find your new function/class automatically. In the case you are creating a new module, determine whether it is in the <code class="docutils literal"><span class="pre">general</span></code>, <code class="docutils literal"><span class="pre">polygon</span></code> or <code class="docutils literal"><span class="pre">tools</span></code> package, and create a <code class="docutils literal"><span class="pre">.rst</span></code> file in the corresponding doc/ folder specifying your new module. You can refer to the exisiting .rst files for how to populate the docs. You can also refer to the <a class="reference internal" href="docs.html"><em>Documentation Page</em></a> for writing your own docs.</p>
+<p>If you are developing in an existing file , the doc chain <em>should</em> find your new function/class
+automatically. In the case you are creating a new module, determine whether it is in the
+<code class="docutils literal"><span class="pre">general</span></code>, <code class="docutils literal"><span class="pre">polygon</span></code> or <code class="docutils literal"><span class="pre">tools</span></code> package, and create a <code class="docutils literal"><span class="pre">.rst</span></code> file in the corresponding
+doc/ folder specifying your new module. You can refer to the exisiting .rst files for how to
+populate the docs. You can also refer to the <a class="reference internal" href="docs.html"><em>Documentation Page</em></a> for
+writing your own docs.</p>
 </div>
 
 
@@ -297,7 +309,9 @@
   </div>
 
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
+
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+
 </footer>
         </div>
       </div>

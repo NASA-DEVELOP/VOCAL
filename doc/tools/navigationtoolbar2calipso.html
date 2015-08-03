@@ -80,6 +80,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
@@ -161,7 +162,7 @@
 </p>
 <span class="target" id="module-navigationtoolbar"></span><span class="target" id="module-tools.navigationtoolbar"></span><dl class="class">
 <dt id="tools.navigationtoolbar.NavigationToolbar2CALIPSO">
-<em class="property">class </em><code class="descname">NavigationToolbar2CALIPSO</code><span class="sig-paren">(</span><em>canvas</em>, <em>master</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descname">NavigationToolbar2CALIPSO</code><span class="sig-paren">(</span><em>master</em>, <em>canvas</em>, <em>frame</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO" title="Permalink to this definition">¶</a></dt>
 <dd><p>Custom toolbar derived from matplotlib.backend, since we won&#8217;t be specifically displaying
 any of their provided TkGUI, we will be creating our own GUI outside of the toolbar and
 simply using the functions provided by NavigationToolbar2. Thus we strip the toolbar of
@@ -194,6 +195,24 @@ anything GUI related</p>
 <li><strong>y1</strong> &#8211; bottom right y coordinate</li>
 </ul>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="tools.navigationtoolbar.NavigationToolbar2CALIPSO.mouse_move">
+<code class="descname">mouse_move</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/navigationtoolbar.html#NavigationToolbar2CALIPSO.mouse_move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.navigationtoolbar.NavigationToolbar2CALIPSO.mouse_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>The event bound to mouse motion once the plot is rendered, this function will simply
+display the coordinates the mouse is currently over. Custom implemented so that the
+coordinate system can also display &#8216;lat&#8217;. This is done by grabbing the axes and finding
+both &#8216;time&#8217; and &#8216;latitude&#8217; axes, then using <code class="docutils literal"><span class="pre">transData</span></code> to translate their coordinates
+to screen coordinates <strong>then</strong> back to the other axis coordinates</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A matplotlib event</td>
 </tr>
 </tbody>
 </table>
@@ -282,7 +301,9 @@ release the plot will zoom to the location of the rectangle</p>
   </div>
 
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
+
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+
 </footer>
         </div>
       </div>

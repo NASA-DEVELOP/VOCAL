@@ -78,6 +78,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
@@ -174,7 +175,6 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
         <span class="n">Toplevel</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
         <span class="c"># Images required by buttons</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">test_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/button.png&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">edit_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/edit.png&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prop_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/cog.png&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">load_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/load.png&#39;</span><span class="p">)</span>
@@ -190,7 +190,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">redo_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/forward.png&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">undo_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/back.png&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">magnify_draw_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/magnify.png&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">extract_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/button.png&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extract_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/extract.png&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">home_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/home.png&#39;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">__parent</span> <span class="o">=</span> <span class="n">parent</span>
@@ -213,7 +213,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">upper_range_frame</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lower_button_frame</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">begin_range_entry</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">begin_alt_range_entry</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_range_entry</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_alt_range_entry</span> <span class="o">=</span> <span class="bp">None</span>
 
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="ToolsWindow.ignore"><a class="viewcode-back" href="../doc/general/toolswindow.html#toolswindow.ToolsWindow.ignore">[docs]</a>    <span class="k">def</span> <span class="nf">ignore</span><span class="p">():</span>
@@ -261,6 +263,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">end_range_entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">upper_range_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_range_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_range_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="s">&#39;1000&#39;</span><span class="p">)</span>
+
+        <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">upper_range_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Alt&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">begin_alt_range_entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">upper_range_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">begin_alt_range_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">begin_alt_range_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="s">&#39;0&#39;</span><span class="p">)</span>
+
+        <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">upper_range_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;to&#39;</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_alt_range_entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">upper_range_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_alt_range_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_alt_range_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="s">&#39;20&#39;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">lower_button_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lower_button_frame</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">highlightthickness</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -396,61 +410,78 @@
         <span class="n">load_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
         <span class="n">create_tool_tip</span><span class="p">(</span><span class="n">load_button</span><span class="p">,</span> <span class="s">&#39;Load JSON&#39;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="ToolsWindow.render"><a class="viewcode-back" href="../doc/general/toolswindow.html#toolswindow.ToolsWindow.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Errors checks all user entered parameters and calls ``set_plot`` from *Calipso*</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Grabbing range and safe checking&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_type</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;No plot type set&#39;</span><span class="p">)</span>
-            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;toolswindow&#39;</span><span class="p">,</span> <span class="s">&#39;No plot type specified&#39;</span><span class="p">)</span>
-            <span class="k">return</span>
-
-        <span class="c"># default beginning and ending range</span>
-        <span class="n">beginning_range</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">ending_range</span> <span class="o">=</span> <span class="mi">1000</span>
-
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__check_range</span><span class="p">(</span><span class="n">beginning_range</span><span class="p">,</span> <span class="n">ending_range</span><span class="p">,</span> <span class="n">min_range</span><span class="p">,</span>
+                      <span class="n">begin_range_entry</span><span class="p">,</span> <span class="n">end_range_entry</span><span class="p">):</span>
         <span class="c"># If entry has text</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">begin_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">begin_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
             <span class="c"># If entry is not ONLY numbers</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;[0-9]+&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">begin_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="ow">or</span> <span class="s">&#39;.&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">begin_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;[0-9]+&#39;</span><span class="p">,</span> <span class="n">begin_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="ow">or</span> <span class="s">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">begin_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Beginning range invalid, not all numeric&#39;</span><span class="p">)</span>
                 <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;toolswindow&#39;</span><span class="p">,</span>
                                        <span class="s">&#39;Invalid beginning range, range must only contain digits&#39;</span><span class="p">)</span>
-                <span class="k">return</span>
+                <span class="k">return</span> <span class="bp">None</span>
             <span class="c"># default ending range is beginning_range + 1000</span>
-            <span class="n">beginning_range</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">begin_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="n">beginning_range</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">begin_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
             <span class="n">ending_range</span> <span class="o">=</span> <span class="n">beginning_range</span> <span class="o">+</span> <span class="mi">1000</span>
         <span class="c"># If entry as text</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">end_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
             <span class="c"># If entry is not ONLY numbers</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;[0-9]+&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="ow">or</span> <span class="s">&#39;.&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">&#39;[0-9]+&#39;</span><span class="p">,</span> <span class="n">end_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span> <span class="ow">or</span> <span class="s">&#39;.&#39;</span> <span class="ow">in</span> <span class="n">end_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Ending range invalid, not all numeric&#39;</span><span class="p">)</span>
                 <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;toolswindow&#39;</span><span class="p">,</span>
                                        <span class="s">&#39;Invalid ending range, range must only contain digits&#39;</span><span class="p">)</span>
-                <span class="k">return</span>
-            <span class="n">ending_range</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+                <span class="k">return</span> <span class="bp">None</span>
+            <span class="n">ending_range</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">end_range_entry</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
         <span class="k">if</span> <span class="n">beginning_range</span> <span class="o">&gt;</span> <span class="n">ending_range</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Beginning range larger than ending range </span><span class="si">%d</span><span class="s"> &gt; </span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">beginning_range</span><span class="p">,</span> <span class="n">ending_range</span><span class="p">))</span>
             <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;toolswindow&#39;</span><span class="p">,</span>
                                    <span class="s">&#39;Beginning range cannot be larger than ending range&#39;</span><span class="p">)</span>
-            <span class="k">return</span>
+            <span class="k">return</span> <span class="bp">None</span>
 
         <span class="c"># If any negative values or the step is too small</span>
-        <span class="k">if</span> <span class="n">beginning_range</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ending_range</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ending_range</span> <span class="o">-</span> <span class="n">beginning_range</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">beginning_range</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ending_range</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">ending_range</span> <span class="o">-</span> <span class="n">beginning_range</span> <span class="o">&lt;</span> <span class="n">min_range</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Error, invalid range specifiers </span><span class="si">%d</span><span class="s"> , </span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">beginning_range</span><span class="p">,</span> <span class="n">ending_range</span><span class="p">))</span>
             <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;toolswindow&#39;</span><span class="p">,</span>
                                    <span class="s">&#39;Range cannot be less than zero or smaller than 100 steps&#39;</span><span class="p">)</span>
-            <span class="k">return</span>
-        
+            <span class="k">return</span> <span class="bp">None</span>
+
         <span class="k">if</span> <span class="n">ending_range</span> <span class="o">-</span> <span class="n">beginning_range</span> <span class="o">&gt;</span> <span class="mi">15000</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Error, specified range </span><span class="si">%d</span><span class="s"> , </span><span class="si">%d</span><span class="s"> is too large&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">beginning_range</span><span class="p">,</span> <span class="n">ending_range</span><span class="p">))</span>
             <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;toolswindow&#39;</span><span class="p">,</span> <span class="s">&#39;Range cannot be greater than 15000 steps&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">None</span>
+
+        <span class="k">return</span> <span class="n">beginning_range</span><span class="p">,</span> <span class="n">ending_range</span>
+
+<div class="viewcode-block" id="ToolsWindow.render"><a class="viewcode-back" href="../doc/general/toolswindow.html#toolswindow.ToolsWindow.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Errors checks all user entered parameters and calls ``set_plot`` from *Calipso*</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_type</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;No plot type set&#39;</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;toolswindow&#39;</span><span class="p">,</span> <span class="s">&#39;No plot type specified&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__parent</span><span class="o">.</span><span class="n">get_file</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;No file entered&#39;</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;toolswindow&#39;</span><span class="p">,</span> <span class="s">&#39;No file loaded&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">time_range</span> <span class="o">=</span> <span class="n">ToolsWindow</span><span class="o">.</span><span class="n">__check_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span>
+                                               <span class="bp">self</span><span class="o">.</span><span class="n">begin_range_entry</span><span class="p">,</span>
+                                               <span class="bp">self</span><span class="o">.</span><span class="n">end_range_entry</span><span class="p">)</span>
+        <span class="n">alt_range</span> <span class="o">=</span> <span class="n">ToolsWindow</span><span class="o">.</span><span class="n">__check_range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span>
+                                              <span class="bp">self</span><span class="o">.</span><span class="n">begin_alt_range_entry</span><span class="p">,</span>
+                                              <span class="bp">self</span><span class="o">.</span><span class="n">end_alt_range_entry</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Grabbing range and safe checking&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">time_range</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">alt_range</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Calling plot&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__parent</span><span class="o">.</span><span class="n">set_plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot_type</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span> <span class="n">xrange_</span><span class="o">=</span><span class="p">(</span><span class="n">beginning_range</span><span class="p">,</span> <span class="n">ending_range</span><span class="p">))</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__parent</span><span class="o">.</span><span class="n">set_plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot_type</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                               <span class="n">xrange_</span><span class="o">=</span><span class="n">time_range</span><span class="p">,</span> <span class="n">yrange</span><span class="o">=</span><span class="n">alt_range</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
@@ -466,7 +497,9 @@
   </div>
 
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
+
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+
 </footer>
         </div>
       </div>

@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Required Packages &mdash; VOCAL 0.15.2 documentation</title>
+  <title>Getting the Data &mdash; VOCAL 0.15.2 documentation</title>
   
 
   
@@ -31,9 +31,8 @@
 
   
     <link rel="top" title="VOCAL 0.15.2 documentation" href="index.html"/>
-        <link rel="up" title="Installation" href="installation.html"/>
-        <link rel="next" title="Getting the Data" href="gettingdata.html"/>
-        <link rel="prev" title="Installation" href="installation.html"/> 
+        <link rel="next" title="Getting Started" href="tutorial.html"/>
+        <link rel="prev" title="Required Packages" href="packages.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -73,14 +72,14 @@
 <li class="toctree-l2"><a class="reference internal" href="overview.html#additional-information">Additional Information</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="installation.html">Installation</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="">Required Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="packages.html">Required Packages</a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#windows">Windows </a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#linux">Linux </a></li>
 <li class="toctree-l2"><a class="reference internal" href="installation.html#os-x">OS X </a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#starting-up">Starting Up</a></li>
@@ -135,12 +134,10 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-          <li><a href="installation.html">Installation</a> &raquo;</li>
-      
-    <li>Required Packages</li>
+    <li>Getting the Data</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/packages.txt" rel="nofollow"> View page source</a>
+          <a href="_sources/gettingdata.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -148,50 +145,20 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="required-packages">
-<h1>Required Packages<a class="headerlink" href="#required-packages" title="Permalink to this headline">¶</a></h1>
-<p>This is simply a dependency list. For installation instructions on how to obtain these packages see the install page</p>
-<div class="section" id="windows-x86-32-bit">
-<h2>Windows x86 (32 bit)<a class="headerlink" href="#windows-x86-32-bit" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="getting-the-data">
+<h1>Getting the Data<a class="headerlink" href="#getting-the-data" title="Permalink to this headline">¶</a></h1>
+<p>Data collected by the CALIPSO satellite is free to the public, all it takes is going through a couple
+of steps to order the data. <strong>eosweb</strong> is the primary distributor for the satellite, you can find their
+webpage <a class="reference external" href="https://eosweb.larc.nasa.gov/">here</a> and order data from <a class="reference external" href="https://eosweb.larc.nasa.gov/order-dataelf.__drawplot_canvas">here</a></p>
+<p>Once at the order page, you can be redirected to the reverb search tool for grabbing data from the specific
+data you want. The most common data you can visualize with vocal would be Standard Level 1 datafile, those
+can be queried by entered &#8220;CAL_LID_L1-Standard&#8221; in the <em>search terms</em> window and selecting a date range of
+your choice. Once ordered processing can take up to a couple days, so be patient!</p>
+<p>Another option is to grab example data from ccplot&#8217;s sourceforge page, which a simple CALIPSO data file you
+can easily download and load into VOCAL right off the bat:</p>
 <ul class="simple">
-<li><a class="reference external" href="http://continuum.io/downloads">anaconda</a></li>
-<li><a class="reference external" href="http://www.numpy.org/">numpy</a> via <code class="docutils literal"><span class="pre">conda</span></code></li>
-<li><a class="reference external" href="http://www.lfd.uci.edu/%7Egohlke/pythonlibs/#pil">PIL</a></li>
-<li><a class="reference external" href="https://code.google.com/p/pythonxy/wiki/AdditionalPlugins">basemap</a></li>
-<li><a class="reference external" href="http://ccplot.org/download/">ccplot</a></li>
-<li><a class="reference external" href="https://www.eclipse.org/downloads/">eclipse</a> <a class="footnote-reference" href="#f1" id="id1">[1]</a></li>
-<li><a class="reference external" href="https://www.jetbrains.com/pycharm/">pycharm</a> <a class="footnote-reference" href="#f2" id="id2">[2]</a></li>
+<li><a class="reference external" href="https://sourceforge.net/projects/ccplot/files/products/CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN.hdf">CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN.hdf</a></li>
 </ul>
-</div>
-<div class="section" id="linux">
-<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li><a class="reference external" href="http://www.numpy.org/">numpy</a></li>
-<li><a class="reference external" href="http://packages.ubuntu.com/trusty/python-mpltoolkits.basemap">basemap</a></li>
-<li><a class="reference external" href="http://ccplot.org/download/">ccplot</a></li>
-<li><a class="reference external" href="http://packages.ubuntu.com/trusty/python-imaging-tk">python-imaging-tk</a></li>
-<li><a class="reference external" href="http://packages.ubuntu.com/trusty/cython">cython</a></li>
-<li><a class="reference external" href="http://packages.ubuntu.com/trusty/libhdf4-dev">libhdf4-dev</a></li>
-<li><a class="reference external" href="http://packages.ubuntu.com/trusty/libhdfeos-dev">libhdfeos</a></li>
-<li><a class="reference external" href="http://packages.ubuntu.com/trusty/python-imaging">python-imaging</a></li>
-<li><a class="reference external" href="http://packages.ubuntu.com/trusty/python-matplotlib">python-matplotlib</a></li>
-<li><a class="reference external" href="http://packages.ubuntu.com/trusty/ttf-bitstream-vera">ttf-bitstream-vera</a></li>
-<li><a class="reference external" href="https://www.jetbrains.com/pycharm/">pycharm</a> <a class="footnote-reference" href="#f2" id="id3">[2]</a></li>
-</ul>
-<p class="rubric">Footnotes</p>
-<table class="docutils footnote" frame="void" id="f1" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>compatible, not required but not recommended over <em>pycharm</em></td></tr>
-</tbody>
-</table>
-<table class="docutils footnote" frame="void" id="f2" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> recommended, not required</td></tr>
-</tbody>
-</table>
-</div>
 </div>
 
 
@@ -200,10 +167,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="gettingdata.html" class="btn btn-neutral float-right" title="Getting the Data">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="tutorial.html" class="btn btn-neutral float-right" title="Getting Started">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="installation.html" class="btn btn-neutral" title="Installation"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="packages.html" class="btn btn-neutral" title="Required Packages"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

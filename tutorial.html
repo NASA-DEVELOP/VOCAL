@@ -32,7 +32,7 @@
   
     <link rel="top" title="VOCAL 0.15.2 documentation" href="index.html"/>
         <link rel="next" title="Coding Conventions" href="dev/conventions.html"/>
-        <link rel="prev" title="Required Packages" href="packages.html"/> 
+        <link rel="prev" title="Getting the Data" href="gettingdata.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -79,6 +79,7 @@
 <li class="toctree-l2"><a class="reference internal" href="installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#starting-up">Starting Up</a></li>
@@ -152,7 +153,7 @@ Tool program.</p>
 <h2>Interface Layout<a class="headerlink" href="#interface-layout" title="Permalink to this headline">¶</a></h2>
 <p>Upon first starting VOCAL, you will be greeted with the initial view of the application. The large center most
 window is the main screen for displaying data from <code class="docutils literal"><span class="pre">.HDF</span></code> files, this will be where you <strong>see</strong> the data.</p>
-<a class="reference internal image-reference" href="_images/startup.png"><img alt="_images/startup.png" src="_images/startup.png" style="width: 617.6px; height: 288.8px;" /></a>
+<a class="reference internal image-reference" href="_images/startup.png"><img alt="_images/startup.png" src="_images/startup.png" style="width: 617.2px; height: 286.8px;" /></a>
 <p>The top most menu bar contains three directories: <code class="docutils literal"><span class="pre">file</span></code> , <code class="docutils literal"><span class="pre">polygon</span></code> and <code class="docutils literal"><span class="pre">help</span></code>. These are self explanatory,</p>
 <ul class="simple">
 <li><code class="docutils literal"><span class="pre">file</span></code> allows a user to import an HDF (same as <img alt="browse" src="_images/browse_button.png" />), save all objects from all plots to a JSON file, save
@@ -173,6 +174,7 @@ as backscattered</li>
 depolarized.</li>
 <li><img alt="step" src="_images/step_entry.png" /> Specify the range of time to plot to, from <code class="docutils literal"><span class="pre">x</span></code> to <code class="docutils literal"><span class="pre">y</span></code>. Default is <code class="docutils literal"><span class="pre">x</span></code> + 1000 if no <code class="docutils literal"><span class="pre">y</span></code>, and
 0 - 1000 if neither <code class="docutils literal"><span class="pre">x</span></code> nor <code class="docutils literal"><span class="pre">y</span></code></li>
+<li><img alt="salt" src="_images/alt.png" /> Specify the range of altitude to plot to, from <code class="docutils literal"><span class="pre">x</span></code> to <code class="docutils literal"><span class="pre">y</span></code>. Default is 0 to 20</li>
 <li><img alt="fren" src="_images/render_button.png" /> Visualize the data given the conditions entered into <strong>step</strong> and <strong>backscattered/depolarized</strong></li>
 </ul>
 </div>
@@ -184,7 +186,7 @@ display the name of the imported hdf file. The main screen will appear blank at 
 Select the type of plot you would like with either <img alt="back" src="_images/backscattered_button.png" /> or <img alt="depo" src="_images/depolarized_button.png" /> to render and an optional step
 <img alt="step" src="_images/step_entry.png" /> (<em>the default is from 0 to 1000</em>).
 Hit <a class="reference internal" href="_images/render_button.png"><img alt="rend" src="_images/render_button.png" style="width: 47.0px; height: 35.5px;" /></a> to visualize the data to the screen.</p>
-<a class="reference internal image-reference" href="_images/load_hdf.png"><img alt="_images/load_hdf.png" src="_images/load_hdf.png" style="width: 957.0px; height: 434.4px;" /></a>
+<a class="reference internal image-reference" href="_images/load_hdf.png"><img alt="_images/load_hdf.png" src="_images/load_hdf.png" style="width: 955.8px; height: 433.2px;" /></a>
 </div>
 <div class="section" id="navigating-the-plot">
 <h2>Navigating the Plot<a class="headerlink" href="#navigating-the-plot" title="Permalink to this headline">¶</a></h2>
@@ -347,7 +349,7 @@ based off of the current database tags.</p>
         <a href="dev/conventions.html" class="btn btn-neutral float-right" title="Coding Conventions">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="packages.html" class="btn btn-neutral" title="Required Packages"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="gettingdata.html" class="btn btn-neutral" title="Getting the Data"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -361,7 +363,9 @@ based off of the current database tags.</p>
   </div>
 
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
+
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+
 </footer>
         </div>
       </div>

@@ -78,6 +78,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../installation.html#os-x">OS X </a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
@@ -150,17 +151,21 @@
 <span class="c">#    @author: Grant Mercer</span>
 <span class="c">#</span>
 <span class="c">###################################</span>
+<span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="kn">import</span> <span class="n">LEFT</span>
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">tkMessageBox</span>
 <span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Entry</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> \
-    <span class="n">Label</span><span class="p">,</span> <span class="n">BOTTOM</span><span class="p">,</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">RIDGE</span><span class="p">,</span> <span class="n">Checkbutton</span><span class="p">,</span> <span class="n">IntVar</span>
+    <span class="n">Label</span><span class="p">,</span> <span class="n">BOTTOM</span><span class="p">,</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">RIDGE</span><span class="p">,</span> <span class="n">Checkbutton</span><span class="p">,</span> <span class="n">IntVar</span><span class="p">,</span> <span class="n">OptionMenu</span><span class="p">,</span> <span class="n">StringVar</span>
 
 <span class="kn">import</span> <span class="nn">constants</span>
 <span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">or_</span>
 <span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">DatabasePolygon</span>
-<span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">center</span><span class="p">,</span> <span class="n">get_shape_ranges</span>
+<span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">center</span><span class="p">,</span> <span class="n">get_shape_ranges</span><span class="p">,</span> <span class="n">in_alt_range</span><span class="p">,</span> \
+    <span class="n">in_lat_range</span><span class="p">,</span> <span class="n">in_time_range</span>
 <span class="kn">from</span> <span class="nn">tools.treelistbox</span> <span class="kn">import</span> <span class="n">TreeListBox</span>
+<span class="kn">from</span> <span class="nn">tools.tooltip</span> <span class="kn">import</span> <span class="n">create_tool_tip</span>
 <span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">advancedsearchdialog</span> <span class="kn">import</span> <span class="n">AdvancedSearchDialog</span>
 
 
 <div class="viewcode-block" id="ImportDialog"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog">[docs]</a><span class="k">class</span> <span class="nc">ImportDialog</span><span class="p">(</span><span class="n">Toplevel</span><span class="p">):</span>
@@ -175,6 +180,7 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">master</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Instantiating ImportDialog&#39;</span><span class="p">)</span>
         <span class="n">Toplevel</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transient</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">(</span><span class="s">&#39;WM_DELETE_WINDOW&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>                 <span class="c"># import window holds a session</span>
@@ -182,6 +188,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>     <span class="c"># stack for searching</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>                       <span class="c"># search string</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__master</span> <span class="o">=</span> <span class="n">master</span>                          <span class="c"># CALIPSO class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span> <span class="o">=</span> <span class="n">root</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Import from existing database&#39;</span><span class="p">)</span>     <span class="c"># window title</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="bp">None</span>                                <span class="c"># tree viewing class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="bp">None</span>                                   <span class="c"># entry box for searching</span>
@@ -190,6 +197,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span> <span class="o">=</span> <span class="bp">None</span>                 <span class="c"># bottom BUTTON Tkinter frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="bp">None</span>                           <span class="c"># separator line</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">filter_file</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">()</span>                     <span class="c"># int_var for filtering by file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">advance_dialog</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_type</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beg_time</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beg_lat</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_lat</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beg_alt</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_alt</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="bp">None</span>
 
         <span class="n">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">IMPORTWIDTH</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">IMPORTHEIGH</span><span class="p">))</span>
 
@@ -212,6 +229,7 @@
 
         <span class="n">label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Search &#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">)</span>
+        <span class="n">create_tool_tip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="s">&#39;Search in Name, Attributes, Notes&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&#39;&lt;KeyRelease&gt;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">refine_search</span><span class="p">)</span>
         <span class="n">label</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -221,13 +239,17 @@
                                    <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_by_current_file</span><span class="p">)</span>
         <span class="n">check_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
+        <span class="n">advanced_filter</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Advanced&#39;</span><span class="p">,</span>
+                                 <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">advanced_prompt</span><span class="p">)</span>
+        <span class="n">advanced_filter</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
         <span class="n">spacer</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-        <span class="n">spacer</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">spacer</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="n">delete_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Delete&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delete_from_db</span><span class="p">,</span>
                                <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-        <span class="n">delete_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">delete_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="ImportDialog.create_bottom_frame"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.create_bottom_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_bottom_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -244,8 +266,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">TreeListBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="p">,</span>
-                                <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;plot&#39;</span><span class="p">,</span> <span class="s">&#39;time range&#39;</span><span class="p">,</span> <span class="s">&#39;altitude range&#39;</span><span class="p">,</span>
-                                 <span class="s">&#39;attributes&#39;</span><span class="p">,</span> <span class="s">&#39;notes&#39;</span><span class="p">,</span> <span class="s">&#39;last edited&#39;</span><span class="p">,</span> <span class="s">&#39;file&#39;</span><span class="p">])</span>
+                                <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;plot&#39;</span><span class="p">,</span> <span class="s">&#39;time range&#39;</span><span class="p">,</span> <span class="s">&#39;latitude range&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;altitude range&#39;</span><span class="p">,</span> <span class="s">&#39;attributes&#39;</span><span class="p">,</span> <span class="s">&#39;notes&#39;</span><span class="p">,</span> <span class="s">&#39;last edited&#39;</span><span class="p">,</span>
+                                 <span class="s">&#39;file&#39;</span><span class="p">])</span>
 
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c"># insert JSON obj representation into internal list</span>
@@ -289,7 +312,7 @@
         <span class="p">):</span>
             <span class="n">time_range</span><span class="p">,</span> <span class="n">altitude_range</span> <span class="o">=</span> <span class="n">get_shape_ranges</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
             <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                  <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lst</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Query returned None, no shapes found&#39;</span><span class="p">)</span>
@@ -330,7 +353,7 @@
                               <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">notes</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()))):</span>
                     <span class="n">time_range</span><span class="p">,</span> <span class="n">altitude_range</span> <span class="o">=</span> <span class="n">get_shape_ranges</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
                     <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>  <span class="c"># append any objects that were returned by the query</span>
-                                 <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                 <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                                   <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
                 <span class="c"># push new query onto the stack and set display to list</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_file</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
@@ -393,6 +416,13 @@
                 <span class="n">db</span><span class="o">.</span><span class="n">delete_item</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__display_all</span><span class="p">()</span>
 </div>
+    <span class="k">def</span> <span class="nf">advanced_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">advance_dialog</span><span class="p">:</span>
+            <span class="n">AdvancedSearchDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">advance_dialog</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+
     <span class="k">def</span> <span class="nf">__display_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper function to simply display all objects in the database</span>
@@ -405,12 +435,47 @@
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="n">time_range</span><span class="p">,</span> <span class="n">altitude_range</span> <span class="o">=</span> <span class="n">get_shape_ranges</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
             <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>  <span class="c"># user see&#39;s this list</span>
-                         <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                         <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                           <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">lst</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
 
+<div class="viewcode-block" id="ImportDialog.receive"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.receive">[docs]</a>    <span class="k">def</span> <span class="nf">receive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observer</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Receiving method called internally by an observer. When AdvancedSearchDialog is</span>
+<span class="sd">        opened an observer is attached to this class, and upon the new ranges being updated</span>
+<span class="sd">        this method is procd. The new ranges to query by are given by the dict received, so</span>
+<span class="sd">        we can display the advanced search items.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">observer</span><span class="o">.</span><span class="n">ranges</span>
+        <span class="n">query_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+        <span class="c"># TODO: Fix this implementation</span>
+
+        <span class="n">query_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;plot&#39;</span><span class="p">]:</span>
+            <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s">&#39;plot&#39;</span><span class="p">])</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]:</span>
+            <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">hdf</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">])</span>
+            <span class="p">)</span>
+
+        <span class="c"># This next part should NOT be considered a permanent solution</span>
+
+        <span class="n">lazy_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">query_result</span><span class="p">:</span>
+            <span class="n">time_range</span><span class="p">,</span> <span class="n">altitude_range</span> <span class="o">=</span> <span class="n">get_shape_ranges</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+            <span class="n">lazy_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                 <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
+</div>
 <div class="viewcode-block" id="ImportDialog.free"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Commit the session, destroy the window and ensure the session is</span>
@@ -435,7 +500,9 @@
   </div>
 
   Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
+
+  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
+
 </footer>
         </div>
       </div>
