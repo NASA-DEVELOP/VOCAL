@@ -84,7 +84,8 @@ class ToolsWindow(Toplevel):
         logger.info('Setting up toolbar')
 
         self.upper_button_frame = Frame(self.container)
-        self.upper_button_frame.pack(side=TOP, fill=X)
+        #self.upper_button_frame.pack(side=TOP, fill=X)
+        self.upper_button_frame.grid(0, 0)
 
         # Reset and render button
         reset_button = Button(self.upper_button_frame, text='Reset', width=12, command=self.__parent.reset)
