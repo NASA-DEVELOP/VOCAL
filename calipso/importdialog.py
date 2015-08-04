@@ -395,11 +395,12 @@ class ImportDialog(Toplevel):
                 logger.info('canceling export column data as csv')
                 return
             logger.info('Writing to .csv')
-            csv_dict = dict(zip(columns_to_extract, dataset))
+            dataset.insert(0, columns_to_extract)
             with open(f, 'w+') as outfile:
-                w = csv.DictWriter(outfile, csv_dict.keys())
-                w.writeheader()
-                w.writerow(csv_dict)
+                for i in range(len(dataset[1)):
+                    for j in range(1, len(dataset)):
+                        outfile.write(str(dataset[j][i]) + ',')
+                    outfile.write('\n')
                 
     def free(self):
         """
