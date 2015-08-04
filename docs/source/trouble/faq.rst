@@ -16,8 +16,8 @@ Troubleshoot
 
   If that is not the case, for Linux users try running ``sudo apt-get install python-imaging-tk`` . Windows users need to take a couple extra steps
 
-  * Remove any related packages on conda, ``conda remove PIL`` or ``conda remove Pilow``
-  * Install ``PIL`` from `here`_ , ``PIL-1.1.7.win32-py2.7.exe``
+  * Remove any related packages on conda, ``conda remove PIL`` or ``conda remove pillow``
+  * Install ``PIL`` from `here`_ , ``PIL-1.1.7.win32-py2.7.exe``. Ensure you install to `Lib/site-packages`
 
 ::
 

@@ -1,6 +1,13 @@
 Submit Bugs or Issues
 ==============================
 
+.. warning::
+
+   Due to NASA software release, the issue tracker is not currently public as it is tied to our codebase.
+   If you are a NASA employee please email either Grant or Nathan and we can give you access to the issue
+   tracker. If you are not a NASA employee we are sorry and any issues / questions must be emailed to us
+   for the time being.
+
 Issues and bugs can of course be emailed to us via the :doc:`contact page </trouble/contact>`, but vocal has a dedicated issue tracker located on `Github`_. If you run into an issue we would prefer if you took the following steps:
 
 .. note::

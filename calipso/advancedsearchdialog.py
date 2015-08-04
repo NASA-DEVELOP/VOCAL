@@ -20,6 +20,7 @@ from tools.tooltip import create_tool_tip
 from log.log import logger
 import re
 
+
 class Query(Observer):
     """
     Observer object that holds a *ranges* dictionary which can be used
@@ -38,6 +39,7 @@ class Query(Observer):
     def ranges(self, n_ranges):
         self._ranges = n_ranges
         self.notify()
+
 
 class AdvancedSearchDialog(Toplevel):
     """
@@ -74,7 +76,8 @@ class AdvancedSearchDialog(Toplevel):
         Label(bottom_window_frame, text='Date ').grid(row=1, column=0, padx=5, pady=5, sticky='w')
         Label(bottom_window_frame, text='Time Range ').grid(row=2, column=0, padx=5, pady=5, sticky='w')
         Label(bottom_window_frame, text='Latitude Range ').grid(row=3, column=0, padx=5, pady=5, sticky='w')
-        Label(bottom_window_frame, text='File ').grid(row=4, column=0, padx=5, pady=5, sticky='w')
+        Label(bottom_window_frame, text='Altitude Range ').grid(row=4, column=0, padx=5, pady=5, sticky='w')
+        Label(bottom_window_frame, text='File ').grid(row=5, column=0, padx=5, pady=5, sticky='w')
 
         self.plots = StringVar()
         self.am_pm = StringVar()
@@ -104,8 +107,16 @@ class AdvancedSearchDialog(Toplevel):
         self.e_lat_entry.grid(row=3, column=3, padx=5, pady=5, sticky='w')
         self.e_lat_entry.insert(END, '0.0')
 
+        self.b_alt_entry = Entry(bottom_window_frame, width=10)
+        self.b_alt_entry.grid(row=4, column=1, padx=5, pady=5, sticky='w')
+        self.b_alt_entry.insert(END, '0.0')
+        Label(bottom_window_frame, text='to').grid(row=4, column=2, pady=5, sticky='w')
+        self.e_alt_entry = Entry(bottom_window_frame, width=10)
+        self.e_alt_entry.grid(row=4, column=3, padx=5, pady=5, sticky='w')
+        self.e_alt_entry.insert(END, '0.0')
+
         self.file_entry = Entry(bottom_window_frame, width=25)
-        self.file_entry.grid(row=4, column=1, padx=5, pady=5, sticky='w', columnspan=4)
+        self.file_entry.grid(row=5, column=1, padx=5, pady=5, sticky='w', columnspan=4)
 
         bottom_button_frame = Frame(window_frame)
         bottom_button_frame.pack(side=TOP, fill=BOTH, expand=False)
@@ -183,8 +194,34 @@ class AdvancedSearchDialog(Toplevel):
         if end_lat == '0.0':
             end_lat = ''
         valid_entries['elat'] = end_lat
+
+        beg_alt = self.b_alt_entry.get()
+        # r_lat is actually the same regex so we can just use that
+        if r_lat.match(beg_alt) is None:
+            logger.error('Invalid beginning alt range entered \'%s\'' % beg_alt)
+            tkMessageBox.showerror('Invalid field', 'Invalid beginning altitude range' +
+                                   ' \'%s\', must be a valid number(e.g. -2.3, 4, 0.0'
+                                   % beg_alt)
+            return
+        if beg_alt == '0.0':
+            beg_alt = ''
+        valid_entries['balt'] = beg_alt
+
+        end_alt = self.e_alt_entry.get()
+        if r_lat.match(end_alt) is None:
+            logger.error('Invalid ending alt range entered \'%s\'' % end_alt)
+            tkMessageBox.showerror('Invalid field', 'Invalid beginning altitude range' +
+                                   ' \'%s\', must be a valid number(e.g. -2.3, 4, 0.0'
+                                   % end_alt)
+            return
+        if end_alt == '0.0':
+            end_alt = ''
+        valid_entries['ealt'] = end_alt
+
+        file_ = self.file_entry.get()
         valid_entries['plot'] = self.plots.get()
         valid_entries['ampm'] = self.am_pm.get()
+        valid_entries['file'] = file_
 
         # update ranges dictionary which will call ImportDialog receive()
         self.shared_data.ranges = valid_entries

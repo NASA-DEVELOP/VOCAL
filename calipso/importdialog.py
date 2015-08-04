@@ -13,7 +13,8 @@ from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
 import constants
 from sqlalchemy import or_
 from db import db, DatabasePolygon
-from tools.tools import center, get_shape_ranges
+from tools.tools import center, get_shape_ranges, in_alt_range, \
+    in_lat_range, in_time_range
 from tools.treelistbox import TreeListBox
 from tools.tooltip import create_tool_tip
 from log.log import logger
@@ -302,11 +303,31 @@ class ImportDialog(Toplevel):
         """
 
         rng = observer.ranges
+        query_result = self.session.query(DatabasePolygon).all()
 
-        for key in rng:
-            print key, rng[key]
-            if rng[key] == '':
-                continue
+        # TODO: Fix this implementation
+
+        query_result = self.session.query(DatabasePolygon)
+
+        if rng['plot']:
+            query_result = query_result.filter(
+                DatabasePolygon.plot.is_(rng['plot'])
+            )
+
+        if rng['file']:
+            query_result = query_result.filter(
+                DatabasePolygon.hdf.is_(rng['file'])
+            )
+
+        # This next part should NOT be considered a permanent solution
+
+        lazy_list = list()
+
+        for obj in query_result:
+            time_range, altitude_range = get_shape_ranges(obj.coordinates)
+            lazy_list.append(
+                (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
+                 obj.notes, obj.time_, obj.hdf))
 
     def free(self):
         """

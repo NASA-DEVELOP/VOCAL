@@ -26,7 +26,7 @@ from importdialog import ImportDialog
 from log.log import logger
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-from plot.plot_depolar_ratio import drawDepolar
+from plot.plot_depolar_ratio import render_depolarized
 from plot.plot_uniform_alt_lidar_dev import render_backscattered
 from polygon.manager import ShapeManager
 from tools.linearalgebra import distance
@@ -161,7 +161,7 @@ class Calipso(object):
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                drawDepolar(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                render_depolarized(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.depolarized, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -274,7 +274,8 @@ class Calipso(object):
             options['defaultextension'] = '.json'
             options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
             f = tkFileDialog.asksaveasfilename(**options)
-            if f is '':
+            if f == '':
+                logger.info("cancelling save as json")
                 return False
             if save_all:
                 self.__shapemanager.save_all_json(f)
@@ -288,7 +289,7 @@ class Calipso(object):
         Notify the database that a save is taking place, the
         db will then save all polygons present on the screen
         """
-        logger.info('Notified database to save')
+        logger.info('Notifying database to save')
         success = self.__shapemanager.save_db()
         if success:
             logger.info('Success, saved to db')

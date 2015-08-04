@@ -76,6 +76,18 @@ def time_to_seconds(t):
     return ret
 
 
+def in_time_range(t1, t2):
+    return True
+
+
+def in_lat_range(l1, l2):
+    return True
+
+
+def in_alt_range(a1, a2):
+    return True
+
+
 def get_shape_ranges(coordinates):
     """
     Given the list of coordinates , return a tuple containing formatted strings for
