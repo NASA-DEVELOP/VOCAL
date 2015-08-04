@@ -4,7 +4,7 @@
 #    @author: Grant Mercer
 #
 ###################################
-from Tkconstants import LEFT
+from Tkconstants import LEFT, CENTER
 import collections
 import tkMessageBox
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
@@ -19,6 +19,7 @@ from tools.treelistbox import TreeListBox
 from tools.tooltip import create_tool_tip
 from log.log import logger
 from advancedsearchdialog import AdvancedSearchDialog
+from extractcolumnsdialog import ExtractColumnsDialog
 
 
 class ImportDialog(Toplevel):
@@ -51,6 +52,10 @@ class ImportDialog(Toplevel):
         self.separator = None                           # separator line
         self.filter_file = IntVar()                     # int_var for filtering by file
         self.advance_dialog = False
+        self.extract_dialog = False
+        self.column_titles = ['name', 'plot', 'time range', 'latitude range',
+                              'altitude range', 'attributes', 'notes', 'last edited',
+                              'file']
 
         self.plot_type = StringVar()
         self.beg_time = None
@@ -118,19 +123,20 @@ class ImportDialog(Toplevel):
         self.bottom_button_frame = Frame(self.bottom_frame)  # bottom frame for import button
         self.bottom_button_frame.pack(side=BOTTOM, fill=X, expand=False)
 
-        self.tree = TreeListBox(self.bottom_frame,
-                                ['name', 'plot', 'time range', 'latitude range',
-                                 'altitude range', 'attributes', 'notes', 'last edited',
-                                 'file'])
+        self.tree = TreeListBox(self.bottom_frame, self.column_titles)
 
         for obj in self.session.query(DatabasePolygon).all():
             self.__internal_list.append(obj)  # insert JSON obj representation into internal list
 
         self.__display_all()
 
-        button = Button(self.bottom_button_frame, text='Import', width=30,
-                        command=self.import_selection)
-        button.pack(side=BOTTOM, pady=10)
+        Label(self.bottom_button_frame, width=35).grid(row=0, column=0)
+
+        Button(self.bottom_button_frame, text='Import', width=30,
+               command=self.import_selection).grid(row=0, column=1, padx=10, pady=10)
+
+        Button(self.bottom_button_frame, text='Extract Column Contents', width=25,
+               command=self.extract_columns_dialog).grid(row=0, column=2, padx=10, pady=10)
 
     def filter_by_current_file(self):
         """
@@ -225,6 +231,13 @@ class ImportDialog(Toplevel):
                 self.__search_string = ''
                 self.__display_all()
         logger.info('Displaying refined search')
+
+    def extract_columns_dialog(self):
+        if not self.extract_dialog:
+            ExtractColumnsDialog(self, self.__root)
+            self.extract_dialog = True
+        else:
+            pass
 
     def import_selection(self):
         """
