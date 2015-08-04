@@ -399,7 +399,10 @@ class ImportDialog(Toplevel):
             with open(f, 'w+') as outfile:
                 for i in range(len(dataset[1)):
                     for j in range(1, len(dataset)):
-                        outfile.write(str(dataset[j][i]) + ',')
+                        if j == len(dataset) - 1:
+                            outfile.write(str(dataset[j][i]))
+                        else:
+                            outfile.write(str(dataset[j][i]) + ',')
                     outfile.write('\n')
                 
     def free(self):
