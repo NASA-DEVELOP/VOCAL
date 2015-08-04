@@ -112,6 +112,18 @@ class ShapeManager(object):
         else:
             logger.error("Point to plot is out or range, skipping")
 
+    def clear_lines(self):
+        """
+        Clear any existing lines or unfilled shapes when the 'Free Draw' button
+        is unpressed. This is fix a bug that is caused by polygons not being
+        finished but corrupting future shapes.
+        """
+        if self.__current_plot == Plot.baseplot:
+            return
+        self.__current_list[-1].clear_unfinished_data()
+        print self.__current_list[-1].get_coordinates()
+        self.__canvas.show()
+
     def rubberband(self, event):
         """
         Uses a blank shape to draw 'helper rectangles' that outline the final shape of the
