@@ -364,6 +364,8 @@ class ImportDialog(Toplevel):
         columns_to_extract = [x for x in observer.data if observer.data[x] == 1 and
                               x in self.column_titles]
         filetype = observer.data['filetype']
+        dataset = [[self.tree.tree.set(child, x) for child in self.tree.tree.get_children('')]
+                   for x in columns_to_extract]
 
         if len(columns_to_extract) == 0:
             logger.error('No columns selected for extraction')
@@ -377,9 +379,15 @@ class ImportDialog(Toplevel):
             if f == '':
                 logger.info('canceling export column data as txt')
                 return
-            print columns_to_extract, filetype
-            print [self.tree.tree.set(child, columns_to_extract[0]) for child
-                   in self.tree.tree.get_children('')]
+            with open(f, 'w+') as outfile:
+                outfile.write(' '.join(columns_to_extract) + '\n')
+                for i in range(0, len(dataset[0])):
+                    for j in range(0, len(dataset)):
+                        outfile.write(str(dataset[j][i]) + ' ')
+                    outfile.write('\n')
+        if filetype == CSV:
+            pass
+            # TODO: finish
 
     def free(self):
         """
