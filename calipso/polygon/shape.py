@@ -98,6 +98,19 @@ class Shape(object):
         self.__prev_x = event.xdata
         self.__prev_y = event.ydata
 
+    def clear_unfinished_data(self):
+        """
+        In the event the user is plotting points and decides to switch
+        buttons without finishing the free draw polygon, the lines must
+        be cleared and data must be reset. this function will ensure
+        any unfinished data is cleared for future shape drawing.
+        """
+        if self.__can_draw() != -1:
+            return
+        for line in self.__lines:
+            line.remove()
+        self.__coordinates = []
+
     def rubberband(self, event):
         """
         Draws a temporary helper rectangle that outlines the final shape of the rectangle for
@@ -401,6 +414,14 @@ class Shape(object):
                 logger.debug("Polygon labeled for draw")
                 return i
         return -1
+
+    def clear_lines(self):
+        """
+        Remove any existing lines and clear the shape data. This is called so the lines don't
+        remain on the screen if the user unclicks the toggleable button.
+        """
+        for line in self.__lines:
+            line.remove()
 
     def remove(self):
         """
