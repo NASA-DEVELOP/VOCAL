@@ -23,10 +23,6 @@ class ShapeReader(object):
     :param str filename: Internal filename to write to
     """
 
-    # TODO: add exception handling
-    # TODO: go over possible use cases
-    #            loading multiple JSONs and then saving them as one
-    #            add error for corrupted or bad data
     def __init__(self, filename=''):
         """
         Initializes attributes
