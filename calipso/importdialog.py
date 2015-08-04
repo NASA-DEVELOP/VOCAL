@@ -21,6 +21,8 @@ from tools.tooltip import create_tool_tip
 from log.log import logger
 from advancedsearchdialog import AdvancedSearchDialog
 from extractcolumnsdialog import ExtractColumnsDialog
+from tkFileDialog import asksaveasfilename
+import csv
 
 
 class ImportDialog(Toplevel):
@@ -386,9 +388,19 @@ class ImportDialog(Toplevel):
                         outfile.write(str(dataset[j][i]) + ' ')
                     outfile.write('\n')
         if filetype == CSV:
-            pass
-            # TODO: finish
-
+            f = tkFileDialog.\
+                asksaveasfilename(defaultextension='.csv',
+                                  filetypes=[('csv files', '*.csv'), ('All files', '*')])
+            if f == '':
+                logger.info('canceling export column data as csv')
+                return
+            logger.info('Writing to .csv')
+            csv_dict = dict(zip(columns_to_extract, dataset))
+            with open(f, 'w+') as outfile:
+                w = csv.DictWriter(outfile, csv_dict.keys())
+                w.writeheader()
+                w.writerow(csv_dict)
+                
     def free(self):
         """
         Commit the session, destroy the window and ensure the session is
