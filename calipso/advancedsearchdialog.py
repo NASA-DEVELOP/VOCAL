@@ -6,17 +6,12 @@
 ###################################
 
 from Tkconstants import LEFT, END, RIGHT
-import collections
 import tkMessageBox
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
-    Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar, OptionMenu, StringVar
+    Label, TOP, X, OptionMenu, StringVar
 
 import constants
-from sqlalchemy import or_
-from db import db, DatabasePolygon
-from tools.tools import center, get_shape_ranges, Observer
-from tools.treelistbox import TreeListBox
-from tools.tooltip import create_tool_tip
+from tools.tools import center, Observer
 from log.log import logger
 import re
 
@@ -40,6 +35,11 @@ class Query(Observer):
         self._ranges = n_ranges
         self.notify()
 
+    def notify(self, modifier=None):
+        for observer in self._observers:
+            if modifier != observer:
+                observer.receive_advanced_search(self)
+
 
 class AdvancedSearchDialog(Toplevel):
     """
@@ -58,6 +58,7 @@ class AdvancedSearchDialog(Toplevel):
         self.transient(root)
         self.shared_data = Query()
         self.shared_data.attach(parent)
+        self.protocol('WM_DELETE_WINDOW', self.free)
 
         center(self, (constants.IMADVWIDTH, constants.IMADVHEIGHT))
 
@@ -225,4 +226,12 @@ class AdvancedSearchDialog(Toplevel):
 
         # update ranges dictionary which will call ImportDialog receive()
         self.shared_data.ranges = valid_entries
+        self.destroy()
+
+    def free(self):
+        """
+        Notify base class window has been destroyed.
+        """
+        logger.info('Closing AdvancedSearchDialog')
+        self.shared_data.ranges = {'free': True}
         self.destroy()

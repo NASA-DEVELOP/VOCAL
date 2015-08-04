@@ -4,11 +4,10 @@
 #    @author: Grant Mercer
 #
 ###################################
-from Tkconstants import LEFT, CENTER
 import collections
 import tkMessageBox
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
-    Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar, OptionMenu, StringVar
+    Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar, StringVar
 
 import constants
 from sqlalchemy import or_
@@ -283,6 +282,7 @@ class ImportDialog(Toplevel):
             self.__display_all()
 
     def advanced_prompt(self):
+        print self.advance_dialog
         if not self.advance_dialog:
             AdvancedSearchDialog(self, self.__root)
             self.advance_dialog = True
@@ -307,13 +307,18 @@ class ImportDialog(Toplevel):
         self.tree.info = lst
         self.tree.update()
 
-    def receive(self, observer):
+    def receive_advanced_search(self, observer):
         """
         Receiving method called internally by an observer. When AdvancedSearchDialog is
         opened an observer is attached to this class, and upon the new ranges being updated
         this method is procd. The new ranges to query by are given by the dict received, so
         we can display the advanced search items.
+
+        :param observer: An ``advancedsearchdialog.Query`` object
         """
+        if 'free' in observer.ranges:
+            self.advance_dialog = False
+            return
 
         rng = observer.ranges
         query_result = self.session.query(DatabasePolygon).all()
@@ -342,12 +347,25 @@ class ImportDialog(Toplevel):
                 (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
                  obj.notes, obj.time_, obj.hdf))
 
+    def receive_extract_columns(self, observer):
+        """
+        Receiving method called internally by an observer bound to an ``ExtractColumnsDialog``
+        instance. Upon the creation of a ``ExtractColumnDialog`` instance an observer is attached
+        to the `ImportDialog`. Once the user finalizes the extraction details this function will
+        be called with a dictionary of value .
+
+        :param observer: An ``extractcolumnsdialog.ExtractionList`` object
+        """
+        if 'free' in observer.data:
+            self.extract_dialog = False
+            return
+
     def free(self):
         """
         Commit the session, destroy the window and ensure the session is
         closed correctly
         """
-        logger.info('Closing import window')
+        logger.info('Closing ImportDialog')
         self.session.commit()
         self.session.close()
         self.destroy()

@@ -156,6 +156,10 @@ def zipdir(path, ziph):
             ziph.write(os.path.join(root, file_), file_)
 
 class Observer(object):
+    """
+    Observer pattern class for notifying remote partners of changes
+    in data
+    """
     def __init__(self):
         self._observers = []
 
@@ -173,6 +177,7 @@ class Observer(object):
         for observer in self._observers:
             if modifier != observer:
                 observer.receive(self)
+
 
 
 class Catcher:

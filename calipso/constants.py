@@ -31,6 +31,9 @@ IMPORTHEIGH = 500
 IMADVWIDTH = 400
 IMADVHEIGHT = 300
 
+TXT = 0
+CSV = 1
+
 # READ ONLY
 TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', 'cloud LC',
         'dust', 'polluted continental', 'polluted continental dust', 'polluted dust',
