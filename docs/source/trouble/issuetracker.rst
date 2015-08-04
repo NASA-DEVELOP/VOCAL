@@ -12,7 +12,7 @@ Issues and bugs can of course be emailed to us via the :doc:`contact page </trou
 
 .. note::
 
-   Please create an account at Github if not already, it can be considered the central hub of the computer science industry and will likely come in hander further down the road regardless.
+   Please create an account at Github if not already, it can be considered the central hub of the computer science industry and will likely come in handy further down the road regardless.
 
 1. Located the log file in reference to when the bug appeared. If you are submitting a bug you previously noticed but ignored for some time, try to recreate the bug so the log file will contain text related to where the bug may have happened. The log file is usually named ``trace.log``
 
