@@ -5,11 +5,13 @@
 #
 ###################################
 import collections
+import tkFileDialog
 import tkMessageBox
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar, StringVar
 
 import constants
+from constants import CSV, TXT
 from sqlalchemy import or_
 from db import db, DatabasePolygon
 from tools.tools import center, get_shape_ranges, in_alt_range, \
@@ -231,13 +233,6 @@ class ImportDialog(Toplevel):
                 self.__display_all()
         logger.info('Displaying refined search')
 
-    def extract_columns_dialog(self):
-        if not self.extract_dialog:
-            ExtractColumnsDialog(self, self.__root)
-            self.extract_dialog = True
-        else:
-            pass
-
     def import_selection(self):
         """
         Import selected objects from internal_list into program
@@ -282,10 +277,16 @@ class ImportDialog(Toplevel):
             self.__display_all()
 
     def advanced_prompt(self):
-        print self.advance_dialog
         if not self.advance_dialog:
             AdvancedSearchDialog(self, self.__root)
             self.advance_dialog = True
+        else:
+            pass
+
+    def extract_columns_dialog(self):
+        if not self.extract_dialog:
+            ExtractColumnsDialog(self, self.__root)
+            self.extract_dialog = True
         else:
             pass
 
@@ -359,6 +360,26 @@ class ImportDialog(Toplevel):
         if 'free' in observer.data:
             self.extract_dialog = False
             return
+
+        columns_to_extract = [x for x in observer.data if observer.data[x] == 1 and
+                              x in self.column_titles]
+        filetype = observer.data['filetype']
+
+        if len(columns_to_extract) == 0:
+            logger.error('No columns selected for extraction')
+            tkMessageBox.showerror('Extract Columns', 'No columns selected for extraction')
+            return
+
+        if filetype == TXT:
+            f = tkFileDialog.\
+                asksaveasfilename(defaultextension='.txt',
+                                  filetypes=[('text files', '*.txt'), ('All files', '*')])
+            if f == '':
+                logger.info('canceling export column data as txt')
+                return
+            print columns_to_extract, filetype
+            print [self.tree.tree.set(child, columns_to_extract[0]) for child
+                   in self.tree.tree.get_children('')]
 
     def free(self):
         """

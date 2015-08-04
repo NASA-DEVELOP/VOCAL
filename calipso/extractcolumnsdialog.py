@@ -78,11 +78,11 @@ class ExtractColumnsDialog(Toplevel):
         bottom_window_frame = Frame(window_frame, highlightthickness=1,
                                     highlightbackground='grey')
         bottom_window_frame.pack(side=TOP, fill=BOTH, expand=False, padx=10)
-        column_map = dict()
+        self.column_map = dict()
         i = j = 0
         for title in parent.column_titles:
-            column_map[title] = IntVar()
-            Checkbutton(bottom_window_frame, text=title, variable=column_map[title]).\
+            self.column_map[title] = IntVar()
+            Checkbutton(bottom_window_frame, text=title, variable=self.column_map[title]).\
                 grid(row=i, column=j, sticky='w')
             j += 1
             if j > 2:
@@ -93,10 +93,10 @@ class ExtractColumnsDialog(Toplevel):
                                       highlightbackground='grey')
         bottom_filetype_frame.pack(side=TOP, expand=False, padx=10, pady=10, anchor='w')
 
-        filetype_var = IntVar()
-        Radiobutton(bottom_filetype_frame, text='*.txt', variable=filetype_var, value=TXT).\
+        self.filetype_var = IntVar()
+        Radiobutton(bottom_filetype_frame, text='*.txt', variable=self.filetype_var, value=TXT).\
             pack(side=LEFT)
-        Radiobutton(bottom_filetype_frame, text='*.csv', variable=filetype_var, value=CSV).\
+        Radiobutton(bottom_filetype_frame, text='*.csv', variable=self.filetype_var, value=CSV).\
             pack(side=LEFT)
 
         bottom_button_frame = Frame(window_frame)
@@ -104,7 +104,12 @@ class ExtractColumnsDialog(Toplevel):
         Button(bottom_button_frame, text='Extract to File', command=self.extract).pack(side=TOP)
 
     def extract(self):
-        pass
+        data = dict()
+        for key in self.column_map:
+            data[key] = self.column_map[key].get()
+        data['filetype'] = self.filetype_var.get()
+        self.shared_data.data = data
+        self.free()
 
     def free(self):
         """
