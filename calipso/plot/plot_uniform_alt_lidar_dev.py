@@ -60,7 +60,8 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         
         im = fig.imshow(
             data.T,
-            extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
+#             extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
+            extent=(latitude[0], latitude[-1], h1, h2),
             cmap=cm,
             aspect='auto',
             norm=norm,
@@ -68,8 +69,9 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         )
        
         fig.set_ylabel('Altitude (km)')
-        fig.set_xlabel('Time')   
-        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+#         fig.set_xlabel('Time')   
+#         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+        fig.set_xlabel('Latitude')
         fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
        
         cbar_label = 'Total Attenuated Backscatter 532nm (km$^{-1}$ sr$^{-1}$)'
@@ -77,11 +79,14 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         cbar.set_label(cbar_label)
 
         ax = fig.twiny()
-        ax.set_xlabel('Latitude')
-        ax.set_xlim(latitude[0], latitude[-1])
-
-        fig.set_zorder(1)
-        ax.set_zorder(0)
+#         ax.set_xlabel('Latitude')
+#         ax.set_xlim(latitude[0], latitude[-1])
+        ax.set_xlabel('Time')
+        ax.set_xlim(time[0], time[-1])
+        ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+ 
+        fig.set_zorder(0)
+        ax.set_zorder(1)
 
         title = fig.set_title('Averaged 532 nm Total Attenuated Backscatter')
         title_xy = title.get_position()
