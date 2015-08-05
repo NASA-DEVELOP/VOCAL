@@ -37,7 +37,6 @@ class Shape(object):
         self.__attributes = []
         self.__note = ''
         self.__id = None
-        self.lastrect = None
         self.__prev_x = 1.0
         self.__prev_y = 1.0
         self.__lines = []
@@ -52,7 +51,7 @@ class Shape(object):
         """
         self.__coordinates.append((event.xdata, event.ydata))
         self.__prev_x = event.x
-        self.__prev_y = event.y
+        self.__prev_y = self.__canvas.figure.bbox.height - event.y
 
     def plot_point(self, event, plot, fig, fill=False):
         """
@@ -111,6 +110,7 @@ class Shape(object):
             line.remove()
         self.__coordinates = []
 
+    # noinspection PyAttributeOutsideInit
     def rubberband(self, event):
         """
         Draws a temporary helper rectangle that outlines the final shape of the rectangle for
@@ -124,10 +124,13 @@ class Shape(object):
             pass
         else:
             self.__canvas._tkcanvas.delete(self.lastrect)
+
+        height = self.__canvas.figure.bbox.height
+        y2 = height-event.y
         self.lastrect = self.__canvas._tkcanvas.create_rectangle(self.__prev_x,
-                                                                 abs(constants.HEIGHT - self.__prev_y - OFFSET),
+                                                                 self.__prev_y,
                                                                  event.x,
-                                                                 abs(constants.HEIGHT - event.y - OFFSET))
+                                                                 y2)
 
     def fill_rectangle(self, event, plot, fig, fill=False):
         """
