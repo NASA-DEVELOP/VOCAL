@@ -2,16 +2,9 @@
 
 http://syntaf.github.io/vocal/
 
-## To-do
+## Contributing:
 
-* [ ] Ensure windows are never cut off from screen (cross-platform)
-* [x] Move polygon implementation to matplotlib
-* [x] Create Attributes Enum
-* [x] Create Plot enum
-* [ ] Being testing on Mac OS
-* [ ] Pull data from selected shapes
-* [x] Create more indepth color wheel for selecting shape colors
-* [x] Format attributes and color properly
+See the issue tracker for a number of on-going tickets that detail needed enhancements and bug fixes vocal could benefit from. Learn more at the website above.
 
 ## Big Ideas:
 
