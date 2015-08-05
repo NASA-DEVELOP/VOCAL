@@ -403,7 +403,7 @@ class ImportDialog(Toplevel):
                     else:
                         outfile.write(str(dataset[0][i]) + ',')
                 outfile.write('\n')
-                for i in range(len(dataset[1)):
+                for i in range(len(dataset[1])):
                     for j in range(1, len(dataset)):
                         if j == len(dataset) - 1:
                             outfile.write(str(dataset[j][i]))
