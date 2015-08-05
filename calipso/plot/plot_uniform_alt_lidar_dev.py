@@ -91,3 +91,5 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         title = fig.set_title('Averaged 532 nm Total Attenuated Backscatter')
         title_xy = title.get_position()
         title.set_position([title_xy[0], title_xy[1]*1.07])
+
+        return ax
