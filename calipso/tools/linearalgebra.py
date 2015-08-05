@@ -21,6 +21,7 @@ def perpendicular(a):
     b[1] = a[0]
     return b
 
+
 def distance(x1, y1, x2, y2):
     """
     Find the distance between two points on an arbitrary scale
@@ -33,6 +34,7 @@ def distance(x1, y1, x2, y2):
     :rtype: float
     """
     return sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
+
 
 def is_in_segment(a, b, c):
     """
@@ -52,6 +54,7 @@ def is_in_segment(a, b, c):
     if dot_product > length2_ba:
         return False
     return True
+
 
 def get_intersection(a1, a2, b1, b2):
     """
@@ -92,6 +95,7 @@ def is_intersecting(a1, a2, b1, b2):
     else:
         return True
 
+
 def tuple_to_nparray(pair):
     """
     Converts a tuple to a numpy array
@@ -112,6 +116,7 @@ def nparray_to_tuple(nparray):
     x = nparray[0]
     y = nparray[1]
     return x, y
+
 
 def ray_cast(coordinates, point):
     """

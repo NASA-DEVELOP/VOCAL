@@ -126,7 +126,7 @@ class ExtractDialog(Toplevel):
         colormap = 'dat/calipso-backscatter.cmap'
 
         # TODO Show correct plot when depolarized starts working
-        plot = self.shape.get_plot()
+        # plot = self.shape.get_plot()
         with HDF(self.filename) as product:
             time = product['Profile_UTC_Time'][x1:x2, 0]
             height = product['metadata']['Lidar_Data_Altitudes']
@@ -185,10 +185,10 @@ class ExtractDialog(Toplevel):
         h1 = min(altitude_cords)
         h2 = max(altitude_cords)
         nz = 500
-        colormap = 'dat/calipso-backscatter.cmap'
+        # colormap = 'dat/calipso-backscatter.cmap'
 
         # TODO Show correct plot when depolarized starts working
-        plot = self.shape.get_plot()
+        # plot = self.shape.get_plot()
         with HDF(self.filename) as product:
             time = product['Profile_UTC_Time'][x1:x2, 0]
             height = product['metadata']['Lidar_Data_Altitudes']
@@ -203,9 +203,9 @@ class ExtractDialog(Toplevel):
             x2 = int(interpolation_search(n_time, max_time, TIME_VARIANCE))
 
             logger.info('Setting bounds for new subplot')
-            time = time[x1:x2]
+            # time = time[x1:x2]
             dataset = dataset[x1:x2]
-            time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
+            # time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
 
             dataset = np.ma.masked_equal(dataset, -9999)
             _x = np.arange(x1, x2, dtype=np.float32)

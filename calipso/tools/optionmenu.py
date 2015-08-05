@@ -16,6 +16,7 @@ class _SetIt:
         if self.__callback:
             self.__callback(self.__value, *args)
 
+
 class ShapeOptionMenu(Menubutton):
     """
     Custom OptionMenu which allows the user to select a value from
@@ -58,4 +59,3 @@ class ShapeOptionMenu(Menubutton):
             self.__menu.add_command(label=op,
                                     command=_SetIt(self.var, op,
                                                    self.callback))
-

@@ -13,6 +13,7 @@ from constants import TXT, CSV, ICO
 from tools.tools import Observer
 from log.log import logger
 
+
 class ExtractionList(Observer):
     """
     Observer object that holds a dictionary of key values that is passed
