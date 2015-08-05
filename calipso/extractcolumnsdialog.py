@@ -5,20 +5,13 @@
 #
 ###################################
 
-from Tkconstants import LEFT, END, RIGHT
-import collections
-import tkMessageBox
-from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
-    Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar, OptionMenu, StringVar, Radiobutton
+from Tkconstants import LEFT
+from Tkinter import Toplevel, Button, BOTH, Frame, \
+    Label, TOP, X, Checkbutton, IntVar, Radiobutton
 
 from constants import TXT, CSV, ICO
-from sqlalchemy import or_
-from db import db, DatabasePolygon
-from tools.tools import center, get_shape_ranges, Observer
-from tools.treelistbox import TreeListBox
-from tools.tooltip import create_tool_tip
+from tools.tools import Observer
 from log.log import logger
-import re
 
 class ExtractionList(Observer):
     """
