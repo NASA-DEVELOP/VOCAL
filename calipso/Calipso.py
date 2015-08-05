@@ -137,7 +137,7 @@ class Calipso(object):
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_backscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_backscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.backscattered, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
