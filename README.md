@@ -4,7 +4,7 @@ http://syntaf.github.io/vocal/
 
 |    |    |
 :---:|:---:
-![img](http://i.imgur.com/4c4nCaW.png) | ![img](http://i.imgur.com/yU1Zikq.png)
+![img](http://i.imgur.com/4c4nCaW.png?1) | ![img](http://i.imgur.com/yU1Zikq.png?1)
 
 ## Contributing:
 
