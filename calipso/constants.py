@@ -8,6 +8,7 @@
 
 import os
 from sys import platform as _platform
+from Tkinter import DISABLED, ACTIVE, NORMAL 
 
 class Plot(object):
     baseplot = 0
@@ -21,6 +22,9 @@ plot_type_enum = {'base_plot': Plot.baseplot,
                   'vfm': Plot.vfm}
 
 PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm']
+
+EFFECT_ON = {'relief': 'sunken'}
+EFFECT_OFF = {'relief': 'raised'}
 
 HEIGHT = 665
 WIDTH = 1265
@@ -53,3 +57,7 @@ ICO = PATH + '/ico/broadcasting.ico'
 if _platform == "linux" or _platform == "linux2":
     ICO = ''
     OFFSET = 41
+
+if os.name == 'posix':
+    EFFECT_ON = {'highlightbackground': 'red'}
+    EFFECT_OFF = {'highlightbackground' : 'white'} 

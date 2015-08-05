@@ -4,6 +4,12 @@
 #    6/24/2015
 ######################################
 from Tkinter import Button
+<<<<<<< HEAD
+=======
+import ttk
+from sys import platform as _platform
+from constants import EFFECT_ON, EFFECT_OFF
+>>>>>>> 712ca57... mac buttons now highlight in red when clicked
 
 # global button container for managing state
 toggleContainer = []  
@@ -62,7 +68,7 @@ class ToggleableButton(Button):
         only one button in the global container is active at any time
         """
         self.isToggled = False
-        self.config(relief='raised')
+        self.config(**EFFECT_OFF)
         self.__root.config(cursor='')
         for pair in self.__bindMap:
             if self.__cid_stack:
@@ -85,7 +91,7 @@ class ToggleableButton(Button):
         # else if next state it false
         if self.isToggled is False:
             self.__root.config(cursor='')
-            self.config(relief='raised')                # raise the button, e.g. deactivated
+            self.config(**EFFECT_OFF)                # raise the button, e.g. deactivated
             for pair in self.__bindMap:                 # unbind using the bindmap
                 if self.__cid_stack:
                     pair[0].mpl_disconnect(self.__cid_stack.pop())
@@ -94,7 +100,7 @@ class ToggleableButton(Button):
         # else if next state is true
         else:
             self.__root.config(cursor=self.__cursor)
-            self.config(relief='sunken')                # sink the button, e.g. activate
+            self.config(**EFFECT_ON)                # sink the button, e.g. activate
             for pair in self.__bindMap:                 # bind using the bindmap
                 self.__cid_stack.append(pair[0].mpl_connect(pair[1], pair[2]))
 
@@ -144,7 +150,7 @@ class ToolbarToggleableButton(Button):
         only one button in the global container is active at any time
         """
         self.isToggled = False
-        self.config(relief='raised')
+        self.config(**EFFECT_OFF)
         if self.__func:
             self.__func()
         
@@ -164,8 +170,8 @@ class ToolbarToggleableButton(Button):
             self.__func()
         # else if next state it false
         if self.isToggled is False:
-            self.config(relief='raised')                # raise the button, e.g. deactivated
+            self.config(**EFFECT_OFF)                # raise the button, e.g. deactivated
         # else if next state is true
         else:
             self.__root.config(cursor=self.__cursor)
-            self.config(relief='sunken')                # sink the button, e.g. activate
+            self.config(**EFFECT_ON)                # sink the button, e.g. activate
