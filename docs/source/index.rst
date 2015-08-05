@@ -18,6 +18,7 @@ Contents
    overview
    installation
    gettingdata
+   supporteddata
    tutorial
  
 .. toctree::

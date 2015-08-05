@@ -175,7 +175,7 @@ selected entries from the database, and this is **permanent**, there's no undo b
 
 So you can go ahead and search either the query *John* to get all notes that include the name john, or
 *shape31* to get the specific shape. All names are **unique**, if at any time you see two shapes with the
-same tag this is a bug on our part please report that issue immediately to us for fixing. So searching for *shape31*
+same tag this is a bug on our part please report that issue immediately to us for fixing. So searching for *shape82*
 will leave you with
 
 .. image:: _static/db_searched.png
@@ -189,6 +189,22 @@ onto multiple files. Scrolling right on the import window would have revealed th
 
 you're free to view properties of this shape, export it's data to JSON or even modify the shape and re-export it
 back to the database.
+
+----------------------------------------
+Extracting Column Data from the Database
+----------------------------------------
+
+Another useful feature of the database is extracting column data in a specified file format. If say you'd like to
+get a list of files that contain the 'smoke' attribute, you can do just that. You can open the column extraction tool
+inside of the import database window by clicking |dbex|. This opens:
+
+.. image:: _static/db_export_window.png
+
+Once here, you can select any columns you'd like to export as well as the file format. The ``.csv`` format is RFC
+4180 compliant and the text file is a simple whitespace and newline separated format. For example if one were to
+select to export the columns |ex1| and |ex2|, in the format |ex3|. You would see something like:
+
+.. image:: _static/csv_example.png
 
 ---------------------
 Sharing Your Database
@@ -280,3 +296,7 @@ then extract the data from that file and import all objects located in the archi
 .. |dbfi| image:: _static/db_filter.png
 .. |dbde| image:: _static/db_delete.png
 .. |dbim| image:: _static/db_import.png
+.. |dbex| image:: _static/db_export.png
+.. |ex1|  image:: _static/db_file_cb.png
+.. |ex2|  image:: _static/db_attr_cb.png
+.. |ex3|  image:: _static/db_csv_rb.png
