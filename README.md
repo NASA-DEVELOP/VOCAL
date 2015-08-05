@@ -2,6 +2,10 @@
 
 http://syntaf.github.io/vocal/
 
+|    |    |
+:---:|:---:
+![img](http://i.imgur.com/4c4nCaW.png) | ![img](http://i.imgur.com/yU1Zikq.png)
+
 ## Contributing:
 
 See the issue tracker for a number of on-going tickets that detail needed enhancements and bug fixes vocal could benefit from. Learn more at the website above.
