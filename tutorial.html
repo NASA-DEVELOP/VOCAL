@@ -32,7 +32,7 @@
   
     <link rel="top" title="VOCAL 0.15.2 documentation" href="index.html"/>
         <link rel="next" title="Coding Conventions" href="dev/conventions.html"/>
-        <link rel="prev" title="Getting the Data" href="gettingdata.html"/> 
+        <link rel="prev" title="Supported Data Types" href="supporteddata.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -80,6 +80,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="supporteddata.html">Supported Data Types</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#starting-up">Starting Up</a></li>
@@ -88,6 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#drawing-shapes">Drawing Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extracting-column-data-from-the-database">Extracting Column Data from the Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
@@ -186,7 +188,7 @@ display the name of the imported hdf file. The main screen will appear blank at 
 Select the type of plot you would like with either <img alt="back" src="_images/backscattered_button.png" /> or <img alt="depo" src="_images/depolarized_button.png" /> to render and an optional step
 <img alt="step" src="_images/step_entry.png" /> (<em>the default is from 0 to 1000</em>).
 Hit <a class="reference internal" href="_images/render_button.png"><img alt="rend" src="_images/render_button.png" style="width: 47.0px; height: 35.5px;" /></a> to visualize the data to the screen.</p>
-<a class="reference internal image-reference" href="_images/load_hdf.png"><img alt="_images/load_hdf.png" src="_images/load_hdf.png" style="width: 955.8px; height: 433.2px;" /></a>
+<a class="reference internal image-reference" href="_images/load_hdf.png"><img alt="_images/load_hdf.png" src="_images/load_hdf.png" style="width: 927.6px; height: 434.4px;" /></a>
 </div>
 <div class="section" id="navigating-the-plot">
 <h2>Navigating the Plot<a class="headerlink" href="#navigating-the-plot" title="Permalink to this headline">¶</a></h2>
@@ -286,7 +288,7 @@ if your HDF has been renamed in anyway from the standard CALIPSO naming conventi
 selected entries from the database, and this is <strong>permanent</strong>, there&#8217;s no undo button here.</p>
 <p>So you can go ahead and search either the query <em>John</em> to get all notes that include the name john, or
 <em>shape31</em> to get the specific shape. All names are <strong>unique</strong>, if at any time you see two shapes with the
-same tag this is a bug on our part please report that issue immediately to us for fixing. So searching for <em>shape31</em>
+same tag this is a bug on our part please report that issue immediately to us for fixing. So searching for <em>shape82</em>
 will leave you with</p>
 <img alt="_images/db_searched.png" src="_images/db_searched.png" />
 <p>Clicking <img alt="dbim" src="_images/db_import.png" /> will now import the selection to your internal shape manager. If you aren&#8217;t on the correct file the
@@ -297,6 +299,17 @@ onto multiple files. Scrolling right on the import window would have revealed th
 <p>you&#8217;re free to view properties of this shape, export it&#8217;s data to JSON or even modify the shape and re-export it
 back to the database.</p>
 </div>
+</div>
+<div class="section" id="extracting-column-data-from-the-database">
+<h2>Extracting Column Data from the Database<a class="headerlink" href="#extracting-column-data-from-the-database" title="Permalink to this headline">¶</a></h2>
+<p>Another useful feature of the database is extracting column data in a specified file format. If say you&#8217;d like to
+get a list of files that contain the &#8216;smoke&#8217; attribute, you can do just that. You can open the column extraction tool
+inside of the import database window by clicking <img alt="dbex" src="_images/db_export.png" />. This opens:</p>
+<img alt="_images/db_export_window.png" src="_images/db_export_window.png" />
+<p>Once here, you can select any columns you&#8217;d like to export as well as the file format. The <code class="docutils literal"><span class="pre">.csv</span></code> format is RFC
+4180 compliant and the text file is a simple whitespace and newline separated format. For example if one were to
+select to export the columns <img alt="ex1" src="_images/db_file_cb.png" /> and <img alt="ex2" src="_images/db_attr_cb.png" />, in the format <img alt="ex3" src="_images/db_csv_rb.png" />. You would see something like:</p>
+<img alt="_images/csv_example.png" src="_images/csv_example.png" />
 </div>
 <div class="section" id="sharing-your-database">
 <h2>Sharing Your Database<a class="headerlink" href="#sharing-your-database" title="Permalink to this headline">¶</a></h2>
@@ -349,7 +362,7 @@ based off of the current database tags.</p>
         <a href="dev/conventions.html" class="btn btn-neutral float-right" title="Coding Conventions">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="gettingdata.html" class="btn btn-neutral" title="Getting the Data"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="supporteddata.html" class="btn btn-neutral" title="Supported Data Types"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

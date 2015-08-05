@@ -79,6 +79,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../supporteddata.html">Supported Data Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
@@ -87,6 +88,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-column-data-from-the-database">Extracting Column Data from the Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
@@ -258,6 +260,18 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Point to plot is out or range, skipping&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.clear_lines"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.clear_lines">[docs]</a>    <span class="k">def</span> <span class="nf">clear_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clear any existing lines or unfilled shapes when the &#39;Free Draw&#39; button</span>
+<span class="sd">        is unpressed. This is fix a bug that is caused by polygons not being</span>
+<span class="sd">        finished but corrupting future shapes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">clear_unfinished_data</span><span class="p">()</span>
+        <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="ShapeManager.rubberband"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.rubberband">[docs]</a>    <span class="k">def</span> <span class="nf">rubberband</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>

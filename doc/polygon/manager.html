@@ -81,6 +81,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../supporteddata.html">Supported Data Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
@@ -89,6 +90,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-column-data-from-the-database">Extracting Column Data from the Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
@@ -168,6 +170,14 @@ call and provides other export functionality</p>
 <code class="descname">anchor_rectangle</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.anchor_rectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.anchor_rectangle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Informs the correct shape list&#8217;s blank object to plot a corner of a rectangle.
 :param event: A backend passed <code class="docutils literal"><span class="pre">matplotlib.backend_bases.MouseEvent</span></code> object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.clear_lines">
+<code class="descname">clear_lines</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.clear_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.clear_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clear any existing lines or unfilled shapes when the &#8216;Free Draw&#8217; button
+is unpressed. This is fix a bug that is caused by polygons not being
+finished but corrupting future shapes.</p>
 </dd></dl>
 
 <dl class="method">

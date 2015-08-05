@@ -79,6 +79,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../supporteddata.html">Supported Data Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
@@ -87,6 +88,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-column-data-from-the-database">Extracting Column Data from the Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
@@ -160,7 +162,7 @@
 <span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Polygon</span>
 
 <span class="kn">import</span> <span class="nn">constants</span>
-<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">Plot</span><span class="p">,</span> <span class="n">TAGS</span><span class="p">,</span> <span class="n">OFFSET</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">Plot</span><span class="p">,</span> <span class="n">TAGS</span>
 <span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span>
 <span class="kn">from</span> <span class="nn">tools.linearalgebra</span> <span class="kn">import</span> <span class="n">tuple_to_nparray</span><span class="p">,</span> <span class="n">is_intersecting</span><span class="p">,</span> \
     <span class="n">get_intersection</span><span class="p">,</span> <span class="n">nparray_to_tuple</span>
@@ -184,7 +186,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__note</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__id</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_x</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__lines</span> <span class="o">=</span> <span class="p">[]</span>
@@ -199,7 +200,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_x</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">x</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">bbox</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span>
 </div>
 <div class="viewcode-block" id="Shape.plot_point"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.plot_point">[docs]</a>    <span class="k">def</span> <span class="nf">plot_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -245,6 +246,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_x</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span>
 </div>
+<div class="viewcode-block" id="Shape.clear_unfinished_data"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.clear_unfinished_data">[docs]</a>    <span class="k">def</span> <span class="nf">clear_unfinished_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In the event the user is plotting points and decides to switch</span>
+<span class="sd">        buttons without finishing the free draw polygon, the lines must</span>
+<span class="sd">        be cleared and data must be reset. this function will ensure</span>
+<span class="sd">        any unfinished data is cleared for future shape drawing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__can_draw</span><span class="p">()</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lines</span><span class="p">:</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c"># noinspection PyAttributeOutsideInit</span></div>
 <div class="viewcode-block" id="Shape.rubberband"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.rubberband">[docs]</a>    <span class="k">def</span> <span class="nf">rubberband</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Draws a temporary helper rectangle that outlines the final shape of the rectangle for</span>
@@ -258,10 +273,13 @@
             <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span><span class="p">)</span>
+
+        <span class="n">height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">bbox</span><span class="o">.</span><span class="n">height</span>
+        <span class="n">y2</span> <span class="o">=</span> <span class="n">height</span><span class="o">-</span><span class="n">event</span><span class="o">.</span><span class="n">y</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">create_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__prev_x</span><span class="p">,</span>
-                                                                 <span class="nb">abs</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">-</span> <span class="n">OFFSET</span><span class="p">),</span>
+                                                                 <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span><span class="p">,</span>
                                                                  <span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
-                                                                 <span class="nb">abs</span><span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">HEIGHT</span> <span class="o">-</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">OFFSET</span><span class="p">))</span>
+                                                                 <span class="n">y2</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Shape.fill_rectangle"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.fill_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">fill_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -549,6 +567,14 @@
                 <span class="k">return</span> <span class="n">i</span>
         <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
 
+<div class="viewcode-block" id="Shape.clear_lines"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.clear_lines">[docs]</a>    <span class="k">def</span> <span class="nf">clear_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove any existing lines and clear the shape data. This is called so the lines don&#39;t</span>
+<span class="sd">        remain on the screen if the user unclicks the toggleable button.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lines</span><span class="p">:</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+</div>
 <div class="viewcode-block" id="Shape.remove"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Wrapper function to internally call matplotlib backend to remove</span>

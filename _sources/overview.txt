@@ -10,10 +10,10 @@ Background
 
 The CALISPO satellite (Cloud-Aerosol Lidar and Infrared Pathfinder Satellite Observation) is a NASA
 earth observation that analyzes aerosol particles suspended in the Earth's atmosphere. Researchers use 
-CALIPSO data to track the aerosol's global distribution, dispersion and source. However, researchers 
-have a hard time tracking specific airborne objects as the current visualization tool that reads CALIPSO 
-data lacks the feature to highlight unique aerosols and has not method of sharing aerosol data. This tool 
-is written in an obscure, and propriety, language which prevents users from making the necessary adjustments. To
+CALIPSO data to track the aerosol's global distribution, dispersion and source using a visualization tool. However,
+researchers have a hard time tracking specific airborne objects as the current visualization tool that reads CALIPSO
+data lacks features such as highlighting and sharing regions of data for tracking purposes. This tool is written in
+IDL, an obscure, and propriety language which prevents users from making the necessary adjustments. To
 rectify these issues, we've developed VOCAL. VOCAL is an open source tool written in python 2.7 that supports
 all previous features of past tool and more! We've developed with a heavy influence on open source collaboration,
 we hope VOCAL will continue to improve long past the initial contracted work.
@@ -26,12 +26,7 @@ VOCAL brings is a standardized information sharing medium. Users can export thei
 pass data between each other, or share a centralized database which can store and be queried for specific shapes and
 specific files.
 
-.. rubric:: Current Concerns
-
-* The current CALISPO visualization tool is not easily configurable or adaptable as it is developed in IDL.
-* The CALIPSO science team lacks a method for storing and sharing specific features of CALISPO imagery
-
-.. rubric:: Current Management Practices & Policies 
+.. rubric:: Key reason for VOCAL:
 
 * The tool currently used to visualize CALIPSO data is written in IDL, a proprietary language which lacks many
   features and hinders open source updates. It also has very little documentation as to the development process of the
@@ -41,12 +36,12 @@ specific files.
 Structure
 ----------------------------------------
 
-The program has the following file layout::
+The program has the following file structure::
 
+   +---.settings
    +---calipso
-   |   +---.idea
-   |   |   \---dictionaries
    |   +---dat
+   |   +---hdf
    |   +---ico
    |   +---log
    |   +---objs
@@ -58,16 +53,16 @@ The program has the following file layout::
    +---db
    |   \---manage_db
    \---docs
-       +---source
-           +---.idea
-           +---analytics
-           +---dev
-           +---doc
-           |   +---general
-           |   +---polygon
-           |   \---tools
-           +---trouble
-           \---_static
+    +---build
+    \---source
+        +---dev
+        +---doc
+        |   +---general
+        |   +---polygon
+        |   \---tools
+        +---trouble
+        +---_static
+        \---_templates
 
 
 ----------------------------------------
@@ -83,7 +78,7 @@ Features
       :scale: 20%
 
 
-VOCAL is still in a very early development phase
+VOCAL is currently in it's early *beta* phase.
 
 The Visualization tool currently contains a number of great features:
 
@@ -108,7 +103,7 @@ Once a plot is displayed, the user can select from a range of features in the *t
 * ``Home`` : return to the home view originally rendered
 * ``Properties``: view the properties of the shape
 * ``Attributes``: assign attributes and notes to the shape
-* ``Extract``: extract the shape data to a file
+* ``Extract``: extract the shape to a separate subplot
 * ``Draw Rect`` : draw a rectangle on the plot
 * ``Free Draw`` : connect vertices on the map to form a shape
 * ``Erase`` : erase a shape

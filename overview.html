@@ -80,6 +80,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="supporteddata.html">Supported Data Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#starting-up">Starting Up</a></li>
@@ -88,6 +89,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#drawing-shapes">Drawing Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#extracting-column-data-from-the-database">Extracting Column Data from the Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
@@ -152,10 +154,10 @@
 <h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
 <p>The CALISPO satellite (Cloud-Aerosol Lidar and Infrared Pathfinder Satellite Observation) is a NASA
 earth observation that analyzes aerosol particles suspended in the Earth&#8217;s atmosphere. Researchers use
-CALIPSO data to track the aerosol&#8217;s global distribution, dispersion and source. However, researchers
-have a hard time tracking specific airborne objects as the current visualization tool that reads CALIPSO
-data lacks the feature to highlight unique aerosols and has not method of sharing aerosol data. This tool
-is written in an obscure, and propriety, language which prevents users from making the necessary adjustments. To
+CALIPSO data to track the aerosol&#8217;s global distribution, dispersion and source using a visualization tool. However,
+researchers have a hard time tracking specific airborne objects as the current visualization tool that reads CALIPSO
+data lacks features such as highlighting and sharing regions of data for tracking purposes. This tool is written in
+IDL, an obscure, and propriety language which prevents users from making the necessary adjustments. To
 rectify these issues, we&#8217;ve developed VOCAL. VOCAL is an open source tool written in python 2.7 that supports
 all previous features of past tool and more! We&#8217;ve developed with a heavy influence on open source collaboration,
 we hope VOCAL will continue to improve long past the initial contracted work.</p>
@@ -166,12 +168,7 @@ exported data file, allowing users additional tools for tracking the trajectory 
 VOCAL brings is a standardized information sharing medium. Users can export their shapes into a JSON file and personally
 pass data between each other, or share a centralized database which can store and be queried for specific shapes and
 specific files.</p>
-<p class="rubric">Current Concerns</p>
-<ul class="simple">
-<li>The current CALISPO visualization tool is not easily configurable or adaptable as it is developed in IDL.</li>
-<li>The CALIPSO science team lacks a method for storing and sharing specific features of CALISPO imagery</li>
-</ul>
-<p class="rubric">Current Management Practices &amp; Policies</p>
+<p class="rubric">Key reason for VOCAL:</p>
 <ul class="simple">
 <li>The tool currently used to visualize CALIPSO data is written in IDL, a proprietary language which lacks many
 features and hinders open source updates. It also has very little documentation as to the development process of the
@@ -180,11 +177,11 @@ tool, making it very difficult to build upon.</li>
 </div>
 <div class="section" id="structure">
 <h2>Structure<a class="headerlink" href="#structure" title="Permalink to this headline">¶</a></h2>
-<p>The program has the following file layout:</p>
-<div class="highlight-python"><div class="highlight"><pre>+---calipso
-|   +---.idea
-|   |   \---dictionaries
+<p>The program has the following file structure:</p>
+<div class="highlight-python"><div class="highlight"><pre>+---.settings
++---calipso
 |   +---dat
+|   +---hdf
 |   +---ico
 |   +---log
 |   +---objs
@@ -196,16 +193,16 @@ tool, making it very difficult to build upon.</li>
 +---db
 |   \---manage_db
 \---docs
-    +---source
-        +---.idea
-        +---analytics
-        +---dev
-        +---doc
-        |   +---general
-        |   +---polygon
-        |   \---tools
-        +---trouble
-        \---_static
+ +---build
+ \---source
+     +---dev
+     +---doc
+     |   +---general
+     |   +---polygon
+     |   \---tools
+     +---trouble
+     +---_static
+     \---_templates
 </pre></div>
 </div>
 </div>
@@ -214,11 +211,11 @@ tool, making it very difficult to build upon.</li>
 <dl class="class">
 <dt>
 <code class="descname">left: blank program, right: shapes form around selected areas of the plot</code></dt>
-<dd><a class="reference internal image-reference" href="_images/program.png"><img alt="_images/program.png" src="_images/program.png" style="width: 309.0px; height: 144.8px;" /></a>
-<a class="reference internal image-reference" href="_images/programShapesActive.png"><img alt="_images/programShapesActive.png" src="_images/programShapesActive.png" style="width: 310.0px; height: 175.4px;" /></a>
+<dd><a class="reference internal image-reference" href="_images/program.png"><img alt="_images/program.png" src="_images/program.png" style="width: 310.8px; height: 146.8px;" /></a>
+<a class="reference internal image-reference" href="_images/programShapesActive.png"><img alt="_images/programShapesActive.png" src="_images/programShapesActive.png" style="width: 314.8px; height: 172.6px;" /></a>
 </dd></dl>
 
-<p>VOCAL is still in a very early development phase</p>
+<p>VOCAL is currently in it&#8217;s early <em>beta</em> phase.</p>
 <p>The Visualization tool currently contains a number of great features:</p>
 <ul class="simple">
 <li>Load standard Calipso data and display a backscattered and depolarized plot</li>
@@ -241,7 +238,7 @@ drawn on top and manipulated to select key parts of the map, these object will l
 <li><code class="docutils literal"><span class="pre">Home</span></code> : return to the home view originally rendered</li>
 <li><code class="docutils literal"><span class="pre">Properties</span></code>: view the properties of the shape</li>
 <li><code class="docutils literal"><span class="pre">Attributes</span></code>: assign attributes and notes to the shape</li>
-<li><code class="docutils literal"><span class="pre">Extract</span></code>: extract the shape data to a file</li>
+<li><code class="docutils literal"><span class="pre">Extract</span></code>: extract the shape to a separate subplot</li>
 <li><code class="docutils literal"><span class="pre">Draw</span> <span class="pre">Rect</span></code> : draw a rectangle on the plot</li>
 <li><code class="docutils literal"><span class="pre">Free</span> <span class="pre">Draw</span></code> : connect vertices on the map to form a shape</li>
 <li><code class="docutils literal"><span class="pre">Erase</span></code> : erase a shape</li>

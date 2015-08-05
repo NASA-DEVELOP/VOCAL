@@ -79,6 +79,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supporteddata.html">Supported Data Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
@@ -87,6 +88,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#extracting-column-data-from-the-database">Extracting Column Data from the Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
@@ -156,6 +158,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">platform</span> <span class="k">as</span> <span class="n">_platform</span>
 
+
 <div class="viewcode-block" id="Plot"><a class="viewcode-back" href="../doc/general/consts.html#constants.Plot">[docs]</a><span class="k">class</span> <span class="nc">Plot</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">baseplot</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">backscattered</span> <span class="o">=</span> <span class="mi">1</span>
@@ -169,6 +172,9 @@
 
 <span class="n">PLOTS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;base_plot&#39;</span><span class="p">,</span> <span class="s">&#39;backscattered&#39;</span><span class="p">,</span> <span class="s">&#39;depolarized&#39;</span><span class="p">,</span> <span class="s">&#39;vfm&#39;</span><span class="p">]</span>
 
+<span class="n">EFFECT_ON</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;relief&#39;</span><span class="p">:</span> <span class="s">&#39;sunken&#39;</span><span class="p">}</span>
+<span class="n">EFFECT_OFF</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;relief&#39;</span><span class="p">:</span> <span class="s">&#39;raised&#39;</span><span class="p">}</span>
+
 <span class="n">HEIGHT</span> <span class="o">=</span> <span class="mi">665</span>
 <span class="n">WIDTH</span> <span class="o">=</span> <span class="mi">1265</span>
 <span class="n">CHILDWIDTH</span> <span class="o">=</span> <span class="mi">200</span>
@@ -178,13 +184,14 @@
 <span class="n">IMADVWIDTH</span> <span class="o">=</span> <span class="mi">400</span>
 <span class="n">IMADVHEIGHT</span> <span class="o">=</span> <span class="mi">300</span>
 
+<span class="n">TXT</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">CSV</span> <span class="o">=</span> <span class="mi">1</span>
+
 <span class="c"># READ ONLY</span>
 <span class="n">TAGS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;aerosol&#39;</span><span class="p">,</span> <span class="s">&#39;aerosol LC&#39;</span><span class="p">,</span> <span class="s">&#39;clean continental&#39;</span><span class="p">,</span> <span class="s">&#39;clean marine&#39;</span><span class="p">,</span> <span class="s">&#39;cloud&#39;</span><span class="p">,</span> <span class="s">&#39;cloud LC&#39;</span><span class="p">,</span>
         <span class="s">&#39;dust&#39;</span><span class="p">,</span> <span class="s">&#39;polluted continental&#39;</span><span class="p">,</span> <span class="s">&#39;polluted continental dust&#39;</span><span class="p">,</span> <span class="s">&#39;polluted dust&#39;</span><span class="p">,</span>
         <span class="s">&#39;polluted marine&#39;</span><span class="p">,</span> <span class="s">&#39;smoke&#39;</span><span class="p">,</span> <span class="s">&#39;stratospheric layer&#39;</span><span class="p">,</span> <span class="s">&#39;volcanic plume&#39;</span><span class="p">,</span>
         <span class="s">&#39;polar stratospheric cloud&#39;</span><span class="p">]</span>
-
-<span class="n">OFFSET</span> <span class="o">=</span> <span class="mi">62</span>
 
 <span class="n">LOG_FILENAME</span> <span class="o">=</span> <span class="s">&#39;log/CALIPSO_debug.log&#39;</span>
 <span class="n">HELP_PAGE</span> <span class="o">=</span> <span class="s">&#39;http://syntaf.github.io/vocal/&#39;</span>
@@ -196,7 +203,10 @@
 <span class="n">ICO</span> <span class="o">=</span> <span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/broadcasting.ico&#39;</span>
 <span class="k">if</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s">&quot;linux&quot;</span> <span class="ow">or</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s">&quot;linux2&quot;</span><span class="p">:</span>
     <span class="n">ICO</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
-    <span class="n">OFFSET</span> <span class="o">=</span> <span class="mi">41</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;posix&#39;</span><span class="p">:</span>
+    <span class="n">EFFECT_ON</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;highlightbackground&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">}</span>
+    <span class="n">EFFECT_OFF</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;highlightbackground&#39;</span><span class="p">:</span> <span class="s">&#39;white&#39;</span><span class="p">}</span>
 </pre></div>
 
           </div>

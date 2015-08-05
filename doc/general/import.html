@@ -81,6 +81,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../supporteddata.html">Supported Data Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#interface-layout">Interface Layout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#starting-up">Starting Up</a></li>
@@ -89,6 +90,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#using-the-database">Using the Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#extracting-column-data-from-the-database">Extracting Column Data from the Database</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
 </ul>
 </li>
@@ -237,12 +239,37 @@ file returned by the rpartitioned <code class="docutils literal"><span class="pr
 </dd></dl>
 
 <dl class="method">
-<dt id="importdialog.ImportDialog.receive">
-<code class="descname">receive</code><span class="sig-paren">(</span><em>observer</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.receive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.receive" title="Permalink to this definition">¶</a></dt>
+<dt id="importdialog.ImportDialog.receive_advanced_search">
+<code class="descname">receive_advanced_search</code><span class="sig-paren">(</span><em>observer</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.receive_advanced_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.receive_advanced_search" title="Permalink to this definition">¶</a></dt>
 <dd><p>Receiving method called internally by an observer. When AdvancedSearchDialog is
 opened an observer is attached to this class, and upon the new ranges being updated
 this method is procd. The new ranges to query by are given by the dict received, so
 we can display the advanced search items.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>observer</strong> &#8211; An <code class="docutils literal"><span class="pre">advancedsearchdialog.Query</span></code> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="importdialog.ImportDialog.receive_extract_columns">
+<code class="descname">receive_extract_columns</code><span class="sig-paren">(</span><em>observer</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/importdialog.html#ImportDialog.receive_extract_columns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#importdialog.ImportDialog.receive_extract_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receiving method called internally by an observer bound to an <code class="docutils literal"><span class="pre">ExtractColumnsDialog</span></code>
+instance. Upon the creation of a <code class="docutils literal"><span class="pre">ExtractColumnDialog</span></code> instance an observer is attached
+to the <cite>ImportDialog</cite>. Once the user finalizes the extraction details this function will
+be called with a dictionary of value .</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>observer</strong> &#8211; An <code class="docutils literal"><span class="pre">extractcolumnsdialog.ExtractionList</span></code> object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
