@@ -13,7 +13,7 @@ import numpy as np
 from matplotlib.patches import Polygon
 
 import constants
-from constants import Plot, TAGS, OFFSET
+from constants import Plot, TAGS
 from log.log import logger
 from tools.linearalgebra import tuple_to_nparray, is_intersecting, \
     get_intersection, nparray_to_tuple

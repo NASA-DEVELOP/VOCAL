@@ -321,7 +321,6 @@ class ImportDialog(Toplevel):
             return
 
         rng = observer.ranges
-        query_result = self.session.query(DatabasePolygon).all()
 
         # TODO: Fix this implementation
 

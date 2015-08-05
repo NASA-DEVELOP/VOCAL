@@ -27,7 +27,7 @@ from log.log import logger
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from plot.plot_depolar_ratio import render_depolarized
-from plot.plot_uniform_alt_lidar_dev import render_backscattered
+from plot.plot_backscattered import render_backscattered
 from polygon.manager import ShapeManager
 from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
@@ -36,6 +36,7 @@ from tools.tools import Catcher
 from toolswindow import ToolsWindow
 from db import db
 import matplotlib.image as mpimg
+
 
 class Calipso(object):
     """
@@ -425,8 +426,6 @@ class Calipso(object):
         """
         Open the database import window allowing the user to import and
         delete entries.
-
-        :param event: ignored Tkinter event object
         """
         logger.info('Opening database import window')
         ImportDialog(self.__root, self).\
@@ -614,6 +613,7 @@ class Calipso(object):
                 return
         else:
             self.__root.destroy()
+
 
 def main():
     # Create Tkinter root and initialize Calipso

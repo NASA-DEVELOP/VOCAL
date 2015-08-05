@@ -11,6 +11,7 @@ from tools import format_coord
 
 import numpy as np
 
+
 # noinspection PyProtectedMember
 class NavigationToolbar2CALIPSO(NavigationToolbar2):
     """

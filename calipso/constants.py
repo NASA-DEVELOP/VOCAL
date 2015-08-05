@@ -8,7 +8,7 @@
 
 import os
 from sys import platform as _platform
-from Tkinter import DISABLED, ACTIVE, NORMAL 
+
 
 class Plot(object):
     baseplot = 0
@@ -57,4 +57,4 @@ if _platform == "linux" or _platform == "linux2":
 
 if os.name == 'posix':
     EFFECT_ON = {'highlightbackground': 'red'}
-    EFFECT_OFF = {'highlightbackground' : 'white'} 
+    EFFECT_OFF = {'highlightbackground': 'white'}

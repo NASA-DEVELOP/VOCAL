@@ -8,9 +8,7 @@ import sys
 import ast
 from datetime import datetime
 import os
-
 import matplotlib as mpl
-
 from log.log import logger
 
 
@@ -27,8 +25,11 @@ def center(toplevel, size):
     y = h / 2 - size[1] / 2
     toplevel.geometry('%dx%d+%d+%d' % (size[0], size[1], x, y))
 
+
 def format_coord(axes, x, y, z):
-    """Return a format string formatting the *x*, *y* coord"""
+    """
+    Return a format string formatting the *x*, *y* coord
+    """
     if x is None:
         xs = '???'
     else:
@@ -155,29 +156,45 @@ def zipdir(path, ziph):
         for file_ in files:
             ziph.write(os.path.join(root, file_), file_)
 
+
 class Observer(object):
     """
     Observer pattern class for notifying remote partners of changes
-    in data
+    in data. This is a **base class*, so this *must* be inherited from
+    as Observer doesn't actually contain any data, just the tools for
+    notifying.
     """
     def __init__(self):
         self._observers = []
 
     def attach(self, observer):
+        """
+        Attach a parent to the observer, this will be notifid upon any changes
+        made in the observer
+
+        :param observer: The class you want to notify
+        """
         if observer not in self._observers:
             self._observers.append(observer)
 
     def detach(self, observer):
+        """
+        Detach a parent from the observer, if you no longer wish to notify anymore
+
+        :param observer: Detach an existing class
+        """
         try:
             self._observers.remove(observer)
         except ValueError:
             pass
 
     def notify(self, modifier=None):
+        """
+        Called when a a field is changed inside of the class inheriting Observer
+        """
         for observer in self._observers:
             if modifier != observer:
                 observer.receive(self)
-
 
 
 class Catcher:
