@@ -11,6 +11,7 @@ from Tkinter import Toplevel, Label, SOLID, TclError, LEFT, Frame, Button
 from datetime import datetime
 from polygon.reader import ShapeReader
 from polygon.shape import Shape
+from propertiesdialog import PropertyDialog
 from constants import Plot
 from db import db
 from log.log import logger
@@ -44,8 +45,7 @@ class ShapeManager(object):
         self.__data = {}                    # data to hold JSON data for exporting
         logger.info("Querying database for unique tag")
         self.__phl = None                   # 'previoushighlightshape', for unsetting highlight
-        self.property_window = None         # creates a property window
-        
+
     def anchor_rectangle(self, event):
         """
         Informs the correct shape list's blank object to plot a corner of a rectangle.
@@ -376,47 +376,11 @@ class ShapeManager(object):
         logger.debug("Creating property window")
         for shape in self.__current_list:
             if shape.get_itemhandler() is target:
-                if self.property_window is not None:
-                    self.destroy_property_window()
-                self.property_window = Toplevel()
-                self.property_window.wm_overrideredirect(1)
-                self.property_window.\
-                    geometry('+%d+%d' %
-                             (self.__master.get_root().winfo_pointerx() - 60,
-                              self.__master.get_root().winfo_pointery()))
-                try:
-                    self.property_window.tk.call('::Tk::unsupported::MacWindowStyle',
-                                                 'style', self.property_window._w,
-                                                 'help', 'noActivates')
-                except TclError:
-                    pass
-                window_frame = Frame(self.property_window)
-                window_frame.pack(side=TOP, fill=BOTH, expand=True)
-                exit_frame = Frame(window_frame, background='#ffffe0')
-                exit_frame.pack(side=TOP, fill=X, expand=True)
-                Button(exit_frame, text='x', width=3, command=self.destroy_property_window,
-                       background='#ffffe0', highlightthickness=0, relief=FLAT).pack(side=RIGHT)
-                text_frame = Frame(window_frame)
-                text_frame.pack(side=TOP, fill=BOTH, expand=True)
-                label = Label(text_frame, text=str(shape), justify=LEFT,
-                              background='#ffffe0',
-                              font=('tahoma', '8', 'normal'))
-                label.pack(ipadx=1)
-                # self.__master.get_root().bind('<Button-1>', self.destroy_property_window)
+                # if self.property_window is not None:
+                #    self.destroy_property_window()
+                PropertyDialog(self.__master.get_root(), shape)
                 return
         logger.warning("Shape not found")
-
-    # noinspection PyUnusedLocal
-    def destroy_property_window(self, event=None):
-        """
-        Helper function to destroy the properties window when clicked, sets the
-        variable back to a ``none`` state and unbinds ``<Button-1>`` from *root*
-
-        :param event: Ignored event passed by Tkinter
-        """
-        self.property_window.destroy()
-        self.property_window = None
-        self.__master.get_root().unbind('<Button-1>')
 
     def find_shape(self, event):
         """
