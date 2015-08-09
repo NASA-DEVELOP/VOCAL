@@ -16,6 +16,7 @@ See the issue tracker for a number of on-going tickets that detail needed enhanc
 * [ ] Move database to MySQL and get away from sqlite
 * [ ] Start integrating testing?
 * [ ] Radial Shapes
+* [ ] Dynamic page loading for a smoother transition with panning data
 
 ## Notes: 
 
