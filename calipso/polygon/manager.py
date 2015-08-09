@@ -1,12 +1,13 @@
-######################################
+﻿######################################
 #    Created on Jul 5, 2015
 #
 #    @author: Nathan Qian
 #    @author: Grant Mercer
 ######################################
+from Tkconstants import TOP, X, BOTH, RIGHT, FLAT
 import constants
 
-from Tkinter import Toplevel, Label, SOLID, TclError, LEFT
+from Tkinter import Toplevel, Label, SOLID, TclError, LEFT, Frame, Button
 from datetime import datetime
 from polygon.reader import ShapeReader
 from polygon.shape import Shape
@@ -389,11 +390,19 @@ class ShapeManager(object):
                                                  'help', 'noActivates')
                 except TclError:
                     pass
-                label = Label(self.property_window, text=str(shape), justify=LEFT,
-                              background='#ffffe0', relief=SOLID, borderwidth=1,
+                window_frame = Frame(self.property_window)
+                window_frame.pack(side=TOP, fill=BOTH, expand=True)
+                exit_frame = Frame(window_frame, background='#ffffe0')
+                exit_frame.pack(side=TOP, fill=X, expand=True)
+                Button(exit_frame, text='x', width=3, command=self.destroy_property_window,
+                       background='#ffffe0', highlightthickness=0, relief=FLAT).pack(side=RIGHT)
+                text_frame = Frame(window_frame)
+                text_frame.pack(side=TOP, fill=BOTH, expand=True)
+                label = Label(text_frame, text=str(shape), justify=LEFT,
+                              background='#ffffe0',
                               font=('tahoma', '8', 'normal'))
                 label.pack(ipadx=1)
-                self.__master.get_root().bind('<Button-1>', self.destroy_property_window)
+                # self.__master.get_root().bind('<Button-1>', self.destroy_property_window)
                 return
         logger.warning("Shape not found")
 
