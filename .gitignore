@@ -4,6 +4,8 @@
 *.iml
 *.db
 .idea
+*.sln
+*.pyproj
 calipso/.idea
 calipso/hdf
 docs/source/.idea
