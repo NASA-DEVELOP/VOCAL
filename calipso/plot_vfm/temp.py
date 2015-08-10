@@ -1,22 +1,13 @@
-###################################
-#    Created on Aug 9, 2015
-#
-#    @author: Grant Mercer
-#
-###################################
-from Tkconstants import FLAT, RIGHT, LEFT
-import collections
-import tkFileDialog
-import tkMessageBox
 from Tkinter import *
 
 class PropertyDialog(Toplevel):
     def __init__(self, root, string):
         Toplevel.__init__(self)
         self.wm_overrideredirect(1)
+        self.root = root
         self.\
              geometry('+%d+%d' %
-                      (root.winfo_pointerx() - 60,
+                      (root.winfo_pointerx(),
                        root.winfo_pointery()))
         try:
             self.tk.call('::Tk::unsupported::MacWindowStyle',
@@ -37,16 +28,28 @@ class PropertyDialog(Toplevel):
                       background='#ffffe0',
                       font=('tahoma', '8', 'normal'))
         label.pack(ipadx=1)
+        self.attributes("-topmost", True)
 
     def free(self):
-        self.destroy()
+        self.destroy() # first we destroy this one
 
-def create():
-    t = PropertyDialog(root, 'this')
-    return
+def bind():
+    """
+    toggle property window creation mode
+    """
+    root.bind('<ButtonPress-1>', create)
+
+
+def create(event):
+    """
+    Create actual window upon mouse click
+    """
+    dialogs.append(PropertyDialog(root, 'help me'))
 
 root = Tk()
+dialogs = []
+root.geometry('%dx%d' % (300,400))
 
-Button(root, text='create', command=create).pack()
+Button(root, text='create', command=bind).pack()
 
 root.mainloop()
