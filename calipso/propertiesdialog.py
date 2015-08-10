@@ -56,6 +56,7 @@ class PropertyDialog(Toplevel):
                       font=('tahoma', '8', 'normal'))
         label.pack(ipadx=1)
         PropertyDialog.dialogs.append(self)
+        self.attributes("-topmost", True)
 
     def free(self):
         self.destroy()
