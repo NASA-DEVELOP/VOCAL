@@ -23,10 +23,13 @@ from advancedsearchdialog import AdvancedSearchDialog
 from extractcolumnsdialog import ExtractColumnsDialog
 
 class PropertyDialog(Toplevel):
+
+    dialogs = []
+
     def __init__(self, root, shape):
         logger.info('Instantiating PropertyDialog')
         Toplevel.__init__(self)
-        print self
+        self.root = root
         self.protocol('WM_DELETE_WINDOW', self.free)
         self.wm_overrideredirect(1)
         self.\
@@ -52,6 +55,15 @@ class PropertyDialog(Toplevel):
                       background='#ffffe0',
                       font=('tahoma', '8', 'normal'))
         label.pack(ipadx=1)
+        PropertyDialog.dialogs.append(self)
 
     def free(self):
         self.destroy()
+        for val, widget in enumerate(PropertyDialog.dialogs):
+            if widget is self:
+                PropertyDialog.dialogs.pop(val)
+                break
+        if PropertyDialog.dialogs:
+            for widget in PropertyDialog.dialogs:
+                widget.lift(aboveThis=self.root)
+
