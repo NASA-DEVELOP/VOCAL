@@ -431,7 +431,10 @@ class Shape(object):
         Wrapper function to internally call matplotlib backend to remove
         the shape from the figure
         """
-        self.__item_handler.remove()
+        if self.__item_handler is None:
+            self.clear_lines()
+        else:
+            self.__item_handler.remove()
 
     def is_empty(self):
         """
