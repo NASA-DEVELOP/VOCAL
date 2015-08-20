@@ -2,31 +2,30 @@
 # 
 # Created on Jul 16, 2015
 # 
-# @author: nqian
+# @author: nqian, Grant Mercer
 # 
 #===============================================================================
+from setuptools import setup, find_packages
 
-import sys
-from cx_Freeze import setup, Executable
-
-base = None
-if sys.platform == 'win32':
-    base = 'Win32GUI'
-    
-options = {
-           'build_exe':{
-                        'packages': ['tkinter',
-                                     'matplotlib',
-                                     'webbrowser',
-                                     
-                                     ]
-                        }
-           }
-    
-executables = [Executable('Calipso.py', base=base)]
-
-setup(name='test',
-      version='0.1',
-      description='a test',
-      executables=executables, requires=['matplotlib', 'PIL', 'bokeh', 'numpy', 'sqlalchemy', 'ccplot']
+setup(name='vocal',
+      version='0.15.2.b',
+      description='A data visualization tool for viewing CALIPSO data and sharing features of data',
+      author='Grant Mercer, Nathan Qian',
+      url='https://github.com/syntaf/vocal',
+      download_url='https://github.com/Syntaf/travis-sphinx/archive/master.zip',
+      keywords=['scientific, visualization, nasa, tool'],
+      packages = find_packages(),
+      entry_points = {
+          'console_scripts' : ['vocal=calipso.Calipso:main']
+      },
+      install_requires=[
+          'matplotlib',
+          'PIL',
+          'bokeh',
+          'numpy',
+          'sqlalchemy',
+          'ccplot'
+      ],
+      classifiers = ['Topic :: Software Development :: Data Visualization',
+                     'Programming Language :: Python']
     )
