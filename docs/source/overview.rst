@@ -33,52 +33,21 @@ specific files.
   tool, making it very difficult to build upon.
 
 ----------------------------------------
-Structure
-----------------------------------------
-
-The program has the following file structure::
-
-   +---.settings
-   +---calipso
-   |   +---dat
-   |   +---hdf
-   |   +---ico
-   |   +---log
-   |   +---objs
-   |   +---plot
-   |   +---plot_vfm
-   |   +---polygon
-   |   \---tools
-   +---dat
-   +---db
-   |   \---manage_db
-   \---docs
-    +---build
-    \---source
-        +---dev
-        +---doc
-        |   +---general
-        |   +---polygon
-        |   \---tools
-        +---trouble
-        +---_static
-        \---_templates
-
-
-----------------------------------------
 Features
 ----------------------------------------
 
 .. class:: left: blank program, right: shapes form around selected areas of the plot
 
    .. image:: _static/program.png
-      :scale: 20%
+      :scale: 22%
 
    .. image:: _static/programShapesActive.png
       :scale: 20%
 
 
-VOCAL is currently in it's early *beta* phase.
+.. note::
+   VOCAL is currently in it's early *beta* phase, and requires additional work
+   till it can be released to the community.
 
 The Visualization tool currently contains a number of great features:
 
