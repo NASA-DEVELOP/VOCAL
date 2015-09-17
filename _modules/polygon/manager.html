@@ -66,7 +66,6 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#background">Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../overview.html#structure">Structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../overview.html#additional-information">Additional Information</a></li>
 </ul>
@@ -153,12 +152,14 @@
 <span class="c">#    @author: Nathan Qian</span>
 <span class="c">#    @author: Grant Mercer</span>
 <span class="c">######################################</span>
+<span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="kn">import</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">,</span> <span class="n">FLAT</span>
 <span class="kn">import</span> <span class="nn">constants</span>
 
-<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">SOLID</span><span class="p">,</span> <span class="n">TclError</span><span class="p">,</span> <span class="n">LEFT</span>
+<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">SOLID</span><span class="p">,</span> <span class="n">TclError</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Button</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">polygon.reader</span> <span class="kn">import</span> <span class="n">ShapeReader</span>
 <span class="kn">from</span> <span class="nn">polygon.shape</span> <span class="kn">import</span> <span class="n">Shape</span>
+<span class="kn">from</span> <span class="nn">propertiesdialog</span> <span class="kn">import</span> <span class="n">PropertyDialog</span>
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">Plot</span>
 <span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span>
 <span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span>
@@ -192,8 +193,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="p">{}</span>                    <span class="c"># data to hold JSON data for exporting</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Querying database for unique tag&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span> <span class="o">=</span> <span class="bp">None</span>                   <span class="c"># &#39;previoushighlightshape&#39;, for unsetting highlight</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span> <span class="o">=</span> <span class="bp">None</span>         <span class="c"># creates a property window</span>
-        
+
 <div class="viewcode-block" id="ShapeManager.anchor_rectangle"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.anchor_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">anchor_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Informs the correct shape list&#39;s blank object to plot a corner of a rectangle.</span>
@@ -524,39 +524,11 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Creating property window&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span> <span class="ow">is</span> <span class="n">target</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">destroy_property_window</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span> <span class="o">=</span> <span class="n">Toplevel</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span><span class="o">.</span><span class="n">wm_overrideredirect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span><span class="o">.</span>\
-                    <span class="n">geometry</span><span class="p">(</span><span class="s">&#39;+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span>
-                             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_root</span><span class="p">()</span><span class="o">.</span><span class="n">winfo_pointerx</span><span class="p">()</span> <span class="o">-</span> <span class="mi">60</span><span class="p">,</span>
-                              <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_root</span><span class="p">()</span><span class="o">.</span><span class="n">winfo_pointery</span><span class="p">()))</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span><span class="o">.</span><span class="n">tk</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s">&#39;::Tk::unsupported::MacWindowStyle&#39;</span><span class="p">,</span>
-                                                 <span class="s">&#39;style&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span><span class="o">.</span><span class="n">_w</span><span class="p">,</span>
-                                                 <span class="s">&#39;help&#39;</span><span class="p">,</span> <span class="s">&#39;noActivates&#39;</span><span class="p">)</span>
-                <span class="k">except</span> <span class="n">TclError</span><span class="p">:</span>
-                    <span class="k">pass</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">property_window</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">shape</span><span class="p">),</span> <span class="n">justify</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span>
-                              <span class="n">background</span><span class="o">=</span><span class="s">&#39;#ffffe0&#39;</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">SOLID</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                              <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;tahoma&#39;</span><span class="p">,</span> <span class="s">&#39;8&#39;</span><span class="p">,</span> <span class="s">&#39;normal&#39;</span><span class="p">))</span>
-                <span class="n">label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">ipadx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_root</span><span class="p">()</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&#39;&lt;Button-1&gt;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">destroy_property_window</span><span class="p">)</span>
+                <span class="c"># if self.property_window is not None:</span>
+                <span class="c">#    self.destroy_property_window()</span>
+                <span class="n">PropertyDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_root</span><span class="p">(),</span> <span class="n">shape</span><span class="p">)</span>
                 <span class="k">return</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Shape not found&quot;</span><span class="p">)</span>
-
-    <span class="c"># noinspection PyUnusedLocal</span></div>
-<div class="viewcode-block" id="ShapeManager.destroy_property_window"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.destroy_property_window">[docs]</a>    <span class="k">def</span> <span class="nf">destroy_property_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Helper function to destroy the properties window when clicked, sets the</span>
-<span class="sd">        variable back to a ``none`` state and unbinds ``&lt;Button-1&gt;`` from *root*</span>
-
-<span class="sd">        :param event: Ignored event passed by Tkinter</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">property_window</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_root</span><span class="p">()</span><span class="o">.</span><span class="n">unbind</span><span class="p">(</span><span class="s">&#39;&lt;Button-1&gt;&#39;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="ShapeManager.find_shape"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.find_shape">[docs]</a>    <span class="k">def</span> <span class="nf">find_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
