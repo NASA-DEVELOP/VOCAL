@@ -17,6 +17,7 @@ See the issue tracker for a number of on-going tickets that detail needed enhanc
 * [ ] Start integrating testing?
 * [ ] Radial Shapes
 * [ ] Dynamic page loading for a smoother transition with panning data
+* [ ] Centralized database support
 
 ## Notes: 
 
