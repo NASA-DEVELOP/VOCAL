@@ -31,7 +31,13 @@ class ImportDialog(Toplevel):
     :param: master: the main window, for access of polygonList
     """
 
+    # This dialog should be a singleton, so the caller will ensure no other
+    # windows are open by checking this variable
+    singleton = False
+
     def __init__(self, root, master):
+        ImportDialog.singleton = True                   # creation of a pseudo singleton
+
         logger.info('Instantiating ImportDialog')
         Toplevel.__init__(self, root)
         self.transient(root)
@@ -412,6 +418,8 @@ class ImportDialog(Toplevel):
         Commit the session, destroy the window and ensure the session is
         closed correctly
         """
+        # Singleton no longer exists, so set it to false
+        ImportDialog.singleton = False
         logger.info('Closing ImportDialog')
         self.session.commit()
         self.session.close()

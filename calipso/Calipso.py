@@ -428,8 +428,11 @@ class Calipso(object):
         delete entries.
         """
         logger.info('Opening database import window')
-        ImportDialog(self.__root, self).\
-            wm_iconbitmap(ICO)
+        if(not ImportDialog.singleton):
+            ImportDialog(self.__root, self).\
+                wm_iconbitmap(ICO)
+        else:
+            logger.warning('Found existing import window, canceling')
 
     def get_root(self):
         """
