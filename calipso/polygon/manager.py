@@ -432,7 +432,7 @@ class ShapeManager(object):
         :rtype: :py:class:`bool`
         """
         if len(self.__current_list) == 1:
-            logger.error('No shapes to export to database')
+            logger.error('No shapes found')
             return False
         today = datetime.utcnow().replace(microsecond=0)
         db.commit_to_db(self.__current_list, str(today), self.__hdf)

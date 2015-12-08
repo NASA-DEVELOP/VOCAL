@@ -6,10 +6,10 @@
 ##########################
 import matplotlib
 matplotlib.use('tkAgg')
-from Tkconstants import RIGHT, END
+from Tkconstants import RIGHT, END, DISABLED
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
-    SUNKEN, StringVar
+    SUNKEN, StringVar, Text
 import logging
 from sys import platform as _platform
 from tkColorChooser import askcolor
@@ -32,7 +32,7 @@ from polygon.manager import ShapeManager
 from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
 from tools.optionmenu import ShapeOptionMenu
-from tools.tools import Catcher
+from tools.tools import Catcher, center
 from toolswindow import ToolsWindow
 from db import db
 import matplotlib.image as mpimg
@@ -283,6 +283,7 @@ class Calipso(object):
             else:
                 self.__shapemanager.save_json(f)
         else:
+            logger.error('No objects found, canceling save')
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
     def export_db(self):
@@ -482,15 +483,20 @@ class Calipso(object):
         """
         logger.info('Opening about window')
         file_window = Toplevel(self.__root)
+        file_window.geometry("300x300")
         file_window.title('About')
-        message = Message(file_window, text='NASA DEVELOP\n \nLaRC Spring 2015 Term \nJordan Vaa '
-                                            '(Team Lead) \nCourtney Duquette \nAshna Aggarwal \
-                                            \n\nLaRC Summer 2015 Term \nGrant Mercer (Team Lead) '
-                                            '\nNathan Qian')
-        message.pack()
+
+        text = Text(file_window)
+        text.insert(END, constants.ABOUT)
+        text.config(state=DISABLED)
+        text.pack(expand=True, fill=BOTH)
+
+
 
         button_close = Button(file_window, text='Close', command=file_window.destroy)
         button_close.pack()
+
+        center(file_window, (300, 300))
 
     def setup_window(self):
         """

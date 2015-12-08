@@ -58,3 +58,9 @@ if _platform == 'linux' or _platform == 'linux2':
 if os.name == 'posix':
     EFFECT_ON = {'highlightbackground': 'red'}
     EFFECT_OFF = {'highlightbackground': 'white'}
+
+ABOUT = \
+     "VOCAL v0.15.2.a\nInternal development build\n\n" \
+     " LaRC Spring 2015 Term\n  Project Lead: Jordan Vaa\n  Courtney Duquette\n" \
+     "  Ashna Aggarwal\n\n LaRC Summer 2015 Term\n  Project Lead: Grant Mercer\n" \
+     "  Nathan Qian\n\n Fall & Spring EPSCOR 2015-2016:\n  Grant Mercer"
