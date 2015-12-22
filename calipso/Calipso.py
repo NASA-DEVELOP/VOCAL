@@ -55,6 +55,11 @@ class Calipso(object):
         self.option_menu = None
         self.shape_var = StringVar()
 
+        self.width = self.__root.winfo_screenwidth()
+        self.height = self.__root.winfo_screenheight()
+
+        logger.info('Screen resolution: ' + str(self.width) + 'x' + str(self.height))
+
         # TODO: Add icon for window an task bar
         # Create three paned windows, two which split the screen vertically upon a single pane
         base_pane = PanedWindow()
