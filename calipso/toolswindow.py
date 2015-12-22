@@ -50,6 +50,8 @@ class ToolsWindow(Toplevel):
         self.__root = root
         self.__canvas = canvas
         self.plot_type = IntVar()
+        self.width = parent.width
+        self.height = parent.height
 
         self.title('Tools')
         self.resizable(width=FALSE, height=FALSE)
@@ -140,9 +142,9 @@ class ToolsWindow(Toplevel):
         # Pan plot left and right
         plot_cursor_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.plot_cursor_img, width=30, height=30)
-        plot_cursor_button.latch(target=self.__canvas, key='button_press_event', 
+        plot_cursor_button.latch(target=self.__canvas, key='button_press_event',
                                  command=self.__parent.pan)
-        plot_cursor_button.latch(target=self.__canvas, key='button_release_event', 
+        plot_cursor_button.latch(target=self.__canvas, key='button_release_event',
                                  command=self.__parent.render_pan)
         plot_cursor_button.latch(cursor='hand1')
         plot_cursor_button.grid(row=0, column=1, padx=2, pady=5)
@@ -264,6 +266,14 @@ class ToolsWindow(Toplevel):
             Button(self.lower_button_frame, image=self.load_img, width=30, height=30, command=self.__parent.load)
         load_button.grid(row=3, column=4, padx=2, pady=5)
         create_tool_tip(load_button, 'Load JSON')
+
+        # Places the toolwindow three quarters from the left
+        # and half way between the top and bottom of the screen
+        size = tuple(int(item) for item in self.geometry().split('+')[0].split('x'))
+        x = 3*self.width/4 - size[0]/2
+        y = self.height/2 - size[1]/2
+        self.geometry("%dx%d+%d+%d" % (size + (x, y)))
+        logger.info("Placed toolswindow at: " + str(self.geometry()))
 
     @staticmethod
     def __check_range(beginning_range, ending_range, min_range,
