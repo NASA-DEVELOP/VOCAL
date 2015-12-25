@@ -107,13 +107,19 @@ class ImportDialog(Toplevel):
                                  command=self.advanced_prompt)
         advanced_filter.grid(row=0, column=3, padx=5, pady=10)
 
+        reset = Button(self.top_frame, text='Reset',
+                       command=self.reset)
+        reset.grid(row=0, column=4, padx=5, pady=10)
+
+
         spacer = Label(self.top_frame, width=30)
-        spacer.grid(row=0, column=4)
-        self.top_frame.columnconfigure(4, weight=1)
+        spacer.grid(row=0, column=5)
+        self.top_frame.columnconfigure(5, weight=1)
+
 
         delete_button = Button(self.top_frame, text='Delete', command=self.delete_from_db,
                                width=10)
-        delete_button.grid(row=0, column=5, padx=15)
+        delete_button.grid(row=0, column=6, padx=15)
 
     def create_bottom_frame(self):
         """
@@ -154,6 +160,8 @@ class ImportDialog(Toplevel):
             fn = self.__master.get_file().rpartition('/')[2]
             lst = self.get_current_file_shapes()
             logger.info('Displaying %d shapes contained in %s' % (len(lst), fn))
+            # Only return list of objects in the current view, otherwise we would
+            # just append lst
             lst = [x for x in lst if x in self.tree.info]
             self.__stack.append(self.tree.info)
             self.tree.info = lst
@@ -313,6 +321,14 @@ class ImportDialog(Toplevel):
         self.tree.info = lst
         self.tree.update()
 
+    def reset(self):
+        """
+        Reset the view of the tree within the import window, clears the stack as well
+        """
+        logger.info('Resetting tree view & stack')
+        self.__display_all()
+        self.__stack.clear()
+
     def receive_advanced_search(self, observer):
         """
         Receiving method called internally by an observer. When AdvancedSearchDialog is
@@ -351,6 +367,9 @@ class ImportDialog(Toplevel):
             lazy_list.append(
                 (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
                  obj.notes, obj.time_, obj.hdf))
+
+        self.tree.info = lazy_list
+        self.tree.update()
 
     def receive_extract_columns(self, observer):
         """

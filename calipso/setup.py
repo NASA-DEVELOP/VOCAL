@@ -1,31 +1,23 @@
-#===============================================================================
-# 
-# Created on Jul 16, 2015
-# 
-# @author: nqian, Grant Mercer
-# 
-#===============================================================================
-from setuptools import setup, find_packages
+from distutils.core import setup
+import numpy
+import py2exe
+import matplotlib
+import zmq.libzmq
+import FileDialog
 
-setup(name='vocal',
-      version='0.15.2.b',
-      description='A data visualization tool for viewing CALIPSO data and sharing features of data',
-      author='Grant Mercer, Nathan Qian',
-      url='https://github.com/syntaf/vocal',
-      download_url='https://github.com/Syntaf/travis-sphinx/archive/master.zip',
-      keywords=['scientific, visualization, nasa, tool'],
-      packages = find_packages(),
-      entry_points = {
-          'console_scripts' : ['vocal=calipso.Calipso:main']
+datafiles = [('lib', (zmq.libzmq.__file__,))]
+datafiles.extend(matplotlib.get_py2exe_datafiles())
+
+setup(
+    console=["Calipso.py"],
+    options={
+      'py2exe': {
+          'packages': ['FileDialog', 'sqlalchemy', 'scipy.linalg',
+                       'scipy.special._ufuncs_cxx'],
+          'includes': ['zmq.backend.cython'],
+          'excludes': ['zmq.libzmq'],
+          'dll_excludes': ['libzmq.pyd'],
       },
-      install_requires=[
-          'matplotlib',
-          'PIL',
-          'bokeh',
-          'numpy',
-          'sqlalchemy',
-          'ccplot'
-      ],
-      classifiers = ['Topic :: Software Development :: Data Visualization',
-                     'Programming Language :: Python']
-    )
+    },
+    data_files=datafiles)
+
