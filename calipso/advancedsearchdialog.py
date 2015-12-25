@@ -51,7 +51,12 @@ class AdvancedSearchDialog(Toplevel):
     :param root: The base widget for ``Toplevel``
     """
 
+    # This dialog should be a singleton, so the caller will ensure
+    # no other windows are open by checking this variable
+    singleton = False
+
     def __init__(self, parent, root):
+        AdvancedSearchDialog.singleton = True           # pseudo singleton now active
         Toplevel.__init__(self, root)
 
         self.title = 'Advanced search'
@@ -233,5 +238,5 @@ class AdvancedSearchDialog(Toplevel):
         Notify base class window has been destroyed.
         """
         logger.info('Closing AdvancedSearchDialog')
-        self.shared_data.ranges = {'free': True}
+        AdvancedSearchDialog.singleton = False
         self.destroy()

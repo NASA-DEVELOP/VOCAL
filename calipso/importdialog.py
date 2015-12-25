@@ -290,11 +290,11 @@ class ImportDialog(Toplevel):
             self.__display_all()
 
     def advanced_prompt(self):
-        if not self.advance_dialog:
+        logger.info('Opening advanced search window')
+        if(not AdvancedSearchDialog.singleton):
             AdvancedSearchDialog(self, self.__root)
-            self.advance_dialog = True
         else:
-            pass
+            logger.warning('Found existing advanced search window, canceling')
 
     def extract_columns_dialog(self):
         if not self.extract_dialog:
