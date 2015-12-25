@@ -387,7 +387,7 @@ class Calipso(object):
             return
         self.__shapemanager.read_plot(f)
 
-    def attribute_window(self, event):
+    def attribute_dialog(self, event):
         """
         Open attribute window for specifying attributes on objects
 
@@ -416,7 +416,7 @@ class Calipso(object):
             shape.get_itemhandler().set_facecolor(color)
             self.__drawplot_canvas.show()
             
-    def extract_window(self, event):
+    def extract_dialog(self, event):
         """
         Opens a subwindow that displays the data bounded by the shape
         
@@ -428,7 +428,7 @@ class Calipso(object):
             wm_iconbitmap(ICO)
 
     # noinspection PyUnusedLocal
-    def import_window(self):
+    def import_dialog(self):
         """
         Open the database import window allowing the user to import and
         delete entries.
@@ -573,7 +573,7 @@ class Calipso(object):
 
         # Polygon Menu
         menu_polygon = Menu(menu_bar, tearoff=0)
-        menu_polygon.add_command(label='Import from Database', command=self.import_window)
+        menu_polygon.add_command(label='Import from Database', command=self.import_dialog)
         menu_polygon.add_command(label='Export to Database', command=self.export_db)
         menu_polygon.add_separator()
         menu_polygon.add_command(label='Import archive to database',
