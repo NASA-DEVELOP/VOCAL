@@ -109,13 +109,13 @@ class Calipso(object):
         self.__drawplot_canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplot_frame.pack()
         self.__root.protocol('WM_DELETE_WINDOW', self.close)
-        
+
     def setup_menu(self):
         """
         Creates a drop down menu bar at the top of the tool
         """
         menu_bar = Menu(self.__root)
-    
+
         # File Menu
         menu_file = Menu(menu_bar, tearoff=0)
         menu_file.add_command(label='Import file', command=self.import_file)
@@ -124,7 +124,7 @@ class Calipso(object):
         menu_file.add_separator()
         menu_file.add_command(label='Exit', command=self.close)
         menu_bar.add_cascade(label='File', menu=menu_file)
-    
+
         # Polygon Menu
         menu_polygon = Menu(menu_bar, tearoff=0)
         menu_polygon.add_command(label='Import from Database', command=self.import_dialog)
@@ -135,14 +135,14 @@ class Calipso(object):
         menu_polygon.add_command(label='Export database to archive',
                                  command=Calipso.export_json_db)
         menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
-    
+
         # Help Menu
         menu_help = Menu(menu_bar, tearoff=0)
         menu_help.add_command(label='Documentation', command=lambda: webbrowser.open_new(
-            constants.HELP_PAGE))
+                constants.HELP_PAGE))
         menu_help.add_command(label='About', command=self.about)
         menu_bar.add_cascade(label='Help', menu=menu_help)
-    
+
         # configure menu to screen
         self.__root.config(menu=menu_bar)
 
@@ -171,9 +171,10 @@ class Calipso(object):
                 y + constants.HEIGHT / 4
             ))
         else:
+            cwspot = (constants.WIDTH if constants.WIDTH + constants.CHILDWIDTH < sw
+                      else 10 * sw / 11 - constants.CHILDWIDTH / 2)
             self.__child.geometry('%dx%d+%d+%d' % (
-                constants.CHILDWIDTH, constants.CHILDHEIGHT, 10 * sw / 11 - constants.CHILDWIDTH / 2,
-                sh / 2 - constants.CHILDHEIGHT / 2))
+                constants.CHILDWIDTH, constants.CHILDHEIGHT, cwspot, sh / 2 - constants.CHILDHEIGHT / 2))
             logger.info("Placed toolswindow at: " + str(self.__child.geometry()))
         self.__root.wm_iconbitmap(ICO)
         self.__child.wm_iconbitmap(ICO)
@@ -287,8 +288,8 @@ class Calipso(object):
         """
         if tkMessageBox.askyesno('Export database',
                                  'Database will be exported to a specified' +
-                                 ' archive (this operation is a copy, not a move)' +
-                                 ' continue?'):
+                                         ' archive (this operation is a copy, not a move)' +
+                                         ' continue?'):
             options = dict()
             options['defaultextension'] = '.zip'
             options['filetypes'] = [('ZIP Files', '*.zip'), ('All files', '*')]
@@ -306,7 +307,7 @@ class Calipso(object):
         else:
             logger.info('Export to database canceled')
 
-    #   End menu bar functions
+    # End menu bar functions
     ############################################################
 
     def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 20)):
@@ -498,8 +499,6 @@ class Calipso(object):
         text.config(state=DISABLED)
         text.pack(expand=True, fill=BOTH)
 
-
-
         button_close = Button(file_window, text='Close', command=file_window.destroy)
         button_close.pack()
 
@@ -527,8 +526,8 @@ class Calipso(object):
         Reset all objects on the screen, move pan to original
         """
         logger.info("Resetting plot")
-        self.__shapemanager.reset()      # reset all shapes
-        self.__toolbar.home()            # proc toolbar function to reset plot to home
+        self.__shapemanager.reset()  # reset all shapes
+        self.__toolbar.home()  # proc toolbar function to reset plot to home
 
     ############################################################
     #   The following functions open dialogs which are defined
@@ -544,9 +543,9 @@ class Calipso(object):
         logger.info('Grabbing shape object')
         shape = self.__shapemanager.find_shape(event)
         logger.info('Opening attributes dialog')
-        AttributesDialog(self.__root, shape).\
+        AttributesDialog(self.__root, shape). \
             wm_iconbitmap(ICO)
-            
+
     def extract_dialog(self, event):
         """
         Opens a subwindow that displays the data bounded by the shape
@@ -564,13 +563,13 @@ class Calipso(object):
         delete entries.
         """
         logger.info('Opening database import window')
-        if(not ImportDialog.singleton):
-            ImportDialog(self.__root, self).\
+        if (not ImportDialog.singleton):
+            ImportDialog(self.__root, self). \
                 wm_iconbitmap(ICO)
         else:
             logger.warning('Found existing import window, canceling')
 
-    #   end dialog functions
+    # end dialog functions
     ############################################################
 
     def get_root(self):
