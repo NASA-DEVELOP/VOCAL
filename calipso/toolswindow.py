@@ -267,14 +267,6 @@ class ToolsWindow(Toplevel):
         load_button.grid(row=3, column=4, padx=2, pady=5)
         create_tool_tip(load_button, 'Load JSON')
 
-        # Places the toolwindow three quarters from the left
-        # and half way between the top and bottom of the screen
-        size = tuple(int(item) for item in self.geometry().split('+')[0].split('x'))
-        x = 3*self.width/4 - size[0]/2
-        y = self.height/2 - size[1]/2
-        self.geometry("%dx%d+%d+%d" % (size + (x, y)))
-        logger.info("Placed toolswindow at: " + str(self.geometry()))
-
     @staticmethod
     def __check_range(beginning_range, ending_range, min_range,
                       begin_range_entry, end_range_entry):

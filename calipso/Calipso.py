@@ -5,6 +5,7 @@
 #   @Author: Nathan Qian
 ##########################
 import matplotlib
+
 matplotlib.use('tkAgg')
 from Tkconstants import RIGHT, END, DISABLED
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
@@ -45,11 +46,11 @@ class Calipso(object):
     """
 
     def __init__(self, r):
-        self.__root = r                         # Root of program
-        self.__file = ''                        # Current file in use
-        self.xrange = self.yrange = (0, 1000)   # X and Y range for scrolling plot
-        self.panx = self.pany = 0               # Pan values for shifting map
-        self.plot = Plot.baseplot               # Current selected plot
+        self.__root = r  # Root of program
+        self.__file = ''  # Current file in use
+        self.xrange = self.yrange = (0, 1000)  # X and Y range for scrolling plot
+        self.panx = self.pany = 0  # Pan values for shifting map
+        self.plot = Plot.baseplot  # Current selected plot
         self.__label_file_dialog = None
         self.new_file_flag = False
         self.option_menu = None
@@ -136,7 +137,7 @@ class Calipso(object):
                 logger.info('Setting plot to backscattered xrange: ' +
                             str(xrange_) + ' yrange: ' + str(yrange))
                 if self.__shapemanager.get_hdf() != '' and \
-                   self.__file != self.__shapemanager.get_hdf():
+                                self.__file != self.__shapemanager.get_hdf():
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
@@ -160,7 +161,7 @@ class Calipso(object):
                 # and render the depolarized plot to it
                 logger.error('Needs to be reimplemented')
                 if self.__shapemanager.get_hdf() != '' and \
-                   self.__file != self.__shapemanager.get_hdf():
+                                self.__file != self.__shapemanager.get_hdf():
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
@@ -184,8 +185,8 @@ class Calipso(object):
         Reset all objects on the screen, move pan to original
         """
         logger.info("Resetting plot")
-        self.__shapemanager.reset()      # reset all shapes
-        self.__toolbar.home()            # proc toolbar function to reset plot to home
+        self.__shapemanager.reset()  # reset all shapes
+        self.__toolbar.home()  # proc toolbar function to reset plot to home
 
     def pan(self, event):
         """
@@ -213,7 +214,7 @@ class Calipso(object):
             # Already at beginning
             if self.xrange[0] == 0:
                 logger.warning(
-                    'Attempting to pan backwards, already at beginning nothing to be done')
+                        'Attempting to pan backwards, already at beginning nothing to be done')
                 return
             # The end position would be negative
             if self.xrange[0] - dst < 0:
@@ -313,8 +314,8 @@ class Calipso(object):
         """
         if tkMessageBox.askyesno('Export database',
                                  'Database will be exported to a specified' +
-                                 ' archive (this operation is a copy, not a move)' +
-                                 ' continue?'):
+                                         ' archive (this operation is a copy, not a move)' +
+                                         ' continue?'):
             options = dict()
             options['defaultextension'] = '.zip'
             options['filetypes'] = [('ZIP Files', '*.zip'), ('All files', '*')]
@@ -355,7 +356,7 @@ class Calipso(object):
             else:
                 logger.error('Invalid JSON file')
                 tkMessageBox.showerror('database', 'Invalid JSON file %s' % log_fname)
-            
+
     def import_file(self):
         """
         Load an HDF file for use with displaying backscatter and depolarized images
@@ -396,9 +397,9 @@ class Calipso(object):
         logger.info('Grabbing shape object')
         shape = self.__shapemanager.find_shape(event)
         logger.info('Opening attributes dialog')
-        AttributesDialog(self.__root, shape).\
+        AttributesDialog(self.__root, shape). \
             wm_iconbitmap(ICO)
-        
+
     def paint_window(self, event):
         """
         Opens the paint window for specifying the shape's color
@@ -415,7 +416,7 @@ class Calipso(object):
             logger.info('Painting %s -> %s' % (shape.get_tag(), color))
             shape.get_itemhandler().set_facecolor(color)
             self.__drawplot_canvas.show()
-            
+
     def extract_window(self, event):
         """
         Opens a subwindow that displays the data bounded by the shape
@@ -424,7 +425,7 @@ class Calipso(object):
         """
         shape = self.__shapemanager.find_shape(event)
         logger.info("Extracting data for %s" % shape.get_tag())
-        ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange).\
+        ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange). \
             wm_iconbitmap(ICO)
 
     # noinspection PyUnusedLocal
@@ -434,8 +435,8 @@ class Calipso(object):
         delete entries.
         """
         logger.info('Opening database import window')
-        if(not ImportDialog.singleton):
-            ImportDialog(self.__root, self).\
+        if (not ImportDialog.singleton):
+            ImportDialog(self.__root, self). \
                 wm_iconbitmap(ICO)
         else:
             logger.warning('Found existing import window, canceling')
@@ -496,8 +497,6 @@ class Calipso(object):
         text.config(state=DISABLED)
         text.pack(expand=True, fill=BOTH)
 
-
-
         button_close = Button(file_window, text='Close', command=file_window.destroy)
         button_close.pack()
 
@@ -516,6 +515,7 @@ class Calipso(object):
         # the child is designed to appear off to the right of the parent window, so the x location
         # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
         # plus a fourth the distance of the window
+        # TODO: set the toolswindow geometry here instead of toolswindow.py
         if _platform == "linux" or _platform == "linux2":
             logger.info("Linux system detected")
             self.__child.geometry('%dx%d+%d+%d' % (
@@ -529,7 +529,9 @@ class Calipso(object):
             ))
         else:
             self.__child.geometry('%dx%d+%d+%d' % (
-                constants.CHILDWIDTH, constants.CHILDHEIGHT, x + constants.WIDTH + 50, y + constants.HEIGHT / 4))
+                constants.CHILDWIDTH, constants.CHILDHEIGHT, 10 * sw / 11 - constants.CHILDWIDTH / 2,
+                sh / 2 - constants.CHILDHEIGHT / 2))
+            logger.info("Placed toolswindow at: " + str(self.__child.geometry()))
         self.__root.wm_iconbitmap(ICO)
         self.__child.wm_iconbitmap(ICO)
 
@@ -585,7 +587,7 @@ class Calipso(object):
         # Help Menu
         menu_help = Menu(menu_bar, tearoff=0)
         menu_help.add_command(label='Documentation', command=lambda: webbrowser.open_new(
-            constants.HELP_PAGE))
+                constants.HELP_PAGE))
         menu_help.add_command(label='About', command=self.about)
         menu_bar.add_cascade(label='Help', menu=menu_help)
 
@@ -601,6 +603,7 @@ class Calipso(object):
         self.__child.setup_toolbar_buttons()
         logger.info('Setting initial plot')
         self.set_plot(Plot.baseplot)
+        self.__root.geometry('+0+0')
 
     def close(self):
         """
@@ -610,7 +613,7 @@ class Calipso(object):
         """
         if not self.__shapemanager.is_all_saved():
             logger.warning('Unsaved shapes found')
-            answer = tkMessageBox.\
+            answer = tkMessageBox. \
                 askyesnocancel('Close Without Saving',
                                'There are unsaved shapes on the plot. Save these shapes?')
             if answer is True:
@@ -648,6 +651,7 @@ def main():
     # Begin program
     rt.mainloop()
     logging.info('Terminated CALIPSO program')
+
 
 if __name__ == '__main__':
     main()
