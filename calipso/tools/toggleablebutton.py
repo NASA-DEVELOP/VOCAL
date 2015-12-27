@@ -4,10 +4,12 @@
 #    6/24/2015
 ######################################
 from Tkinter import Button
+import ttk
+from sys import platform as _platform
 from constants import EFFECT_ON, EFFECT_OFF
 
 # global button container for managing state
-toggleContainer = []  
+toggleContainer = []
 
 class ToggleableButton(Button):
     """
@@ -33,7 +35,7 @@ class ToggleableButton(Button):
         self.__destructor = None    # destructor var called when untoggled
         self.__cid_stack = []
         self.__master = master
-        
+
         Button.__init__(self, master, cnf, **kw)    # call button constructor
         self.configure(command=self.toggle)         # button command is always toggle
         toggleContainer.append(self)         # push button to static container
@@ -82,7 +84,7 @@ class ToggleableButton(Button):
         # if any buttons are currently active, untoggle them
         for s in [x for x in toggleContainer if x.isToggled is True and x is not self]:
             s.untoggle()
-            
+
         # else if next state it false
         if self.isToggled is False:
             self.__root.config(cursor='')
@@ -123,11 +125,11 @@ class ToolbarToggleableButton(Button):
         self.__cursor = ''          # cursor private var
         self.__master = master
         self.__func = func
-        
+
         Button.__init__(self, master, cnf, **kw)    # call button constructor
         self.configure(command=self.toggle)         # button command is always toggle
         toggleContainer.append(self)         # push button to static container
-        
+
     def latch(self, cursor=''):
         """
         Set the internal cursor variable to the cursor to be used when the button
@@ -148,7 +150,7 @@ class ToolbarToggleableButton(Button):
         self.config(**EFFECT_OFF)
         if self.__func:
             self.__func()
-        
+
     # Call the super classes Toggle, and execute our function as well
     def toggle(self):
         """
@@ -159,7 +161,7 @@ class ToolbarToggleableButton(Button):
         # if any buttons are currently active, untoggle them
         for s in [x for x in toggleContainer if x.isToggled is True and x is not self]:
             s.untoggle()
-        
+
         # first flip the toggle switch
         if self.__func:
             self.__func()

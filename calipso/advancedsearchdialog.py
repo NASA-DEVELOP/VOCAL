@@ -51,7 +51,12 @@ class AdvancedSearchDialog(Toplevel):
     :param root: The base widget for ``Toplevel``
     """
 
+    # This dialog should be a singleton, so the caller will ensure
+    # no other windows are open by checking this variable
+    singleton = False
+
     def __init__(self, parent, root):
+        AdvancedSearchDialog.singleton = True           # pseudo singleton now active
         Toplevel.__init__(self, root)
 
         self.title = 'Advanced search'
@@ -74,7 +79,7 @@ class AdvancedSearchDialog(Toplevel):
         bottom_window_frame.config(highlightthickness=1)
         bottom_window_frame.config(highlightbackground='grey')
         Label(bottom_window_frame, text='Plot ').grid(row=0, column=0, padx=5, pady=5, sticky='w')
-        Label(bottom_window_frame, text='Date ').grid(row=1, column=0, padx=5, pady=5, sticky='w')
+        Label(bottom_window_frame, text='Date(YYYY-MM-DD) ').grid(row=1, column=0, padx=5, pady=5, sticky='w')
         Label(bottom_window_frame, text='Time Range ').grid(row=2, column=0, padx=5, pady=5, sticky='w')
         Label(bottom_window_frame, text='Latitude Range ').grid(row=3, column=0, padx=5, pady=5, sticky='w')
         Label(bottom_window_frame, text='Altitude Range ').grid(row=4, column=0, padx=5, pady=5, sticky='w')
@@ -233,5 +238,5 @@ class AdvancedSearchDialog(Toplevel):
         Notify base class window has been destroyed.
         """
         logger.info('Closing AdvancedSearchDialog')
-        self.shared_data.ranges = {'free': True}
+        AdvancedSearchDialog.singleton = False
         self.destroy()

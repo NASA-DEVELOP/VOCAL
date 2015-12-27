@@ -45,6 +45,9 @@ class Calipso(object):
     creating other GUI windows such as the toolbar or import dialog
     """
 
+    ############################################################
+    #   Initialization functions
+
     def __init__(self, r):
         self.__root = r  # Root of program
         self.__file = ''  # Current file in use
@@ -106,6 +109,205 @@ class Calipso(object):
         self.__drawplot_canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
         self.__drawplot_frame.pack()
         self.__root.protocol('WM_DELETE_WINDOW', self.close)
+        
+    def setup_menu(self):
+        """
+        Creates a drop down menu bar at the top of the tool
+        """
+        menu_bar = Menu(self.__root)
+    
+        # File Menu
+        menu_file = Menu(menu_bar, tearoff=0)
+        menu_file.add_command(label='Import file', command=self.import_file)
+        menu_file.add_command(label='Save all shapes', command=lambda: self.save_as_json(save_all=True))
+        menu_file.add_command(label='Save as shapes', command=self.save_as_json)
+        menu_file.add_separator()
+        menu_file.add_command(label='Exit', command=self.close)
+        menu_bar.add_cascade(label='File', menu=menu_file)
+    
+        # Polygon Menu
+        menu_polygon = Menu(menu_bar, tearoff=0)
+        menu_polygon.add_command(label='Import from Database', command=self.import_dialog)
+        menu_polygon.add_command(label='Export to Database', command=self.export_db)
+        menu_polygon.add_separator()
+        menu_polygon.add_command(label='Import archive to database',
+                                 command=Calipso.import_json_db)
+        menu_polygon.add_command(label='Export database to archive',
+                                 command=Calipso.export_json_db)
+        menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
+    
+        # Help Menu
+        menu_help = Menu(menu_bar, tearoff=0)
+        menu_help.add_command(label='Documentation', command=lambda: webbrowser.open_new(
+            constants.HELP_PAGE))
+        menu_help.add_command(label='About', command=self.about)
+        menu_bar.add_cascade(label='Help', menu=menu_help)
+    
+        # configure menu to screen
+        self.__root.config(menu=menu_bar)
+
+    def setup_window(self):
+        """
+        Sets the title of root and places window on screen
+        """
+        self.__root.title("CALIPSO Visualization Tool (VOCAL)")
+        sw = self.__root.winfo_screenwidth()
+        sh = self.__root.winfo_screenheight()
+        x = (sw - constants.WIDTH) / 2
+        y = (sh - constants.HEIGHT) / 2
+        self.__root.geometry('%dx%d+%d+%d' % (constants.WIDTH, constants.HEIGHT, x, y))
+        # the child is designed to appear off to the right of the parent window, so the x location
+        # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
+        # plus a fourth the distance of the window
+        if _platform == "linux" or _platform == "linux2":
+            logger.info("Linux system detected")
+            self.__child.geometry('%dx%d+%d+%d' % (
+                constants.CHILDWIDTH + 50, constants.CHILDHEIGHT, x + constants.WIDTH,
+                y + constants.HEIGHT / 4))
+        elif _platform == 'darwin':
+            logger.info('OSX system detected')
+            self.__child.geometry('%dx%d+%d+%d' % (
+                constants.CHILDWIDTH + 75, constants.CHILDHEIGHT + 50, x + constants.WIDTH,
+                y + constants.HEIGHT / 4
+            ))
+        else:
+            self.__child.geometry('%dx%d+%d+%d' % (
+                constants.CHILDWIDTH, constants.CHILDHEIGHT, 10 * sw / 11 - constants.CHILDWIDTH / 2,
+                sh / 2 - constants.CHILDHEIGHT / 2))
+            logger.info("Placed toolswindow at: " + str(self.__child.geometry()))
+        self.__root.wm_iconbitmap(ICO)
+        self.__child.wm_iconbitmap(ICO)
+
+    def setup_main_screen(self):
+        """
+        Setup the top GUI, initialize toolbar window and set the plot to a blank image
+        """
+        logger.info('Creating upper program GUI')
+        # Create label , entry box and browse button
+        label_file = Label(self.__dialog_frame, text="File:")
+        self.__label_file_dialog = Label(self.__dialog_frame, width=50, justify=LEFT,
+                                         bg=white, relief=SUNKEN)
+        browse_button = Button(self.__dialog_frame, text='Browse', width=10,
+                               command=self.import_file)
+        label_file.grid(row=1, column=0)
+        self.__label_file_dialog.grid(row=1, column=1, padx=10)
+        browse_button.grid(row=1, column=3)
+
+        self.option_menu = ShapeOptionMenu(self.__dialog_shape_frame, self.shape_var, "",
+                                           command=self.highlight_selected_shape)
+        self.option_menu.bind("<ButtonPress-1>", self.update_shape_optionmenu)
+        self.option_menu.pack(side=RIGHT, padx=10)
+        label_shapes = Label(self.__dialog_shape_frame, text="Select")
+        label_shapes.pack(side=RIGHT)
+        self.__child.setup_toolbar_buttons()
+        logger.info('Setting initial plot')
+        self.set_plot(Plot.baseplot)
+        self.__root.geometry('+0+0')
+
+    #   end Initialization functions
+    ############################################################
+
+    ############################################################
+    #   Exclusive menu bar & top gui functions
+
+    def update_shape_optionmenu(self, event):
+        """
+        Callback function bound to *<ButtonPress-1>* which displays the current list
+        of shapes on the plot to the option menu. All tags are grabbed which can then
+        be selected by the user to see which object they are looking for.
+
+        :param event: Tkinter passed event object, **ignored**
+        """
+        ops = [x.get_tag() for x in self.__shapemanager.get_current_list() if x is not None]
+        self.option_menu.set_menu(ops)
+
+    def highlight_selected_shape(self, tag):
+        self.__shapemanager.highlight(tag)
+
+    def import_file(self):
+        """
+        Load an HDF file for use with displaying backscatter and depolarized images
+        """
+        logger.info('Importing HDF file')
+        # function to import HDF file used my open and browse
+        file_types = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
+        dlg = tkFileDialog.Open(filetypes=file_types)
+        fl = dlg.show()
+        if fl != '':
+            if self.__file is not None and fl is not self.__file:
+                self.new_file_flag = True
+            self.__file = fl
+            segments = self.__file.rpartition('/')
+            self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
+                                            text=segments[2])
+
+    def export_db(self):
+        """
+        Notify the database that a save is taking place, the
+        db will then save all polygons present on the screen
+        """
+        logger.info('Notifying database to save')
+        success = self.__shapemanager.save_db()
+        if success:
+            logger.info('Success, saved to db')
+            tkMessageBox.showinfo('database', 'All objects saved to database')
+        else:
+            logger.error('No objects to be saved')
+            tkMessageBox.showerror('database', 'No objects to be saved')
+
+    @staticmethod
+    def import_json_db():
+        """
+        Import the contents of a JSON file to the database, works hand in hand
+        with the ``export_json_db`` class method. This will allows users to share
+        their database without needing to manually move their db file.
+        :return:
+        """
+        options = dict()
+        options['defaultextension'] = '.zip'
+        options['filetypes'] = [('CALIPSO Data Archive', '*.zip'), ('All files', '*')]
+        fl = tkFileDialog.askopenfilename(**options)
+        if fl != '':
+            log_fname = fl.rpartition('/')[2]
+            logger.info('Importing database from \'%s\'' % log_fname)
+            success = db.import_from_json(fl)
+            if success:
+                logger.info('Success, JSON file imported')
+                tkMessageBox.showinfo('database', 'shapes from %s imported ' % log_fname +
+                                      '(note: new tags have been assigned to these shapes!)')
+            else:
+                logger.error('Invalid JSON file')
+                tkMessageBox.showerror('database', 'Invalid JSON file %s' % log_fname)
+
+    @staticmethod
+    def export_json_db():
+        """
+        Export the contents of the database to an archive containing JSON, which can then be
+        loaded into other databases and have all shapes imported
+        """
+        if tkMessageBox.askyesno('Export database',
+                                 'Database will be exported to a specified' +
+                                 ' archive (this operation is a copy, not a move)' +
+                                 ' continue?'):
+            options = dict()
+            options['defaultextension'] = '.zip'
+            options['filetypes'] = [('ZIP Files', '*.zip'), ('All files', '*')]
+            fl = tkFileDialog.asksaveasfilename(**options)
+            if fl != '':
+                log_fname = fl.rpartition('/')[2]
+                logger.info('Dumping database to \'%s\'' % log_fname)
+                success = db.dump_to_json(fl)
+                if success:
+                    logger.info('Success, JSON file created')
+                    tkMessageBox.showinfo('database', 'Database exported to \'%s\'' % log_fname)
+                else:
+                    logger.error('No objects to be saved')
+                    tkMessageBox.showerror('database', 'No objects inside database to export to JSON')
+        else:
+            logger.info('Export to database canceled')
+
+    #   End menu bar functions
+    ############################################################
 
     def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 20)):
         """
@@ -180,14 +382,6 @@ class Calipso(object):
             logger.error('Accessing unimplemented VFM plot')
             tkMessageBox.showerror('TODO', 'Sorry, this plot is currently not implemented')
 
-    def reset(self):
-        """
-        Reset all objects on the screen, move pan to original
-        """
-        logger.info("Resetting plot")
-        self.__shapemanager.reset()  # reset all shapes
-        self.__toolbar.home()  # proc toolbar function to reset plot to home
-
     def pan(self, event):
         """
         Saves initial coordinates of mouse press when the user begins to pan
@@ -198,7 +392,6 @@ class Calipso(object):
         self.panx = event.x
         self.pany = event.y
 
-    # noinspection PyTypeChecker
     def render_pan(self, event):
         """
         Saves ending coordinates of mouse press and proceeds to find the distance
@@ -233,21 +426,6 @@ class Calipso(object):
         self.__child.end_range_entry.delete(0, END)
         self.__child.begin_range_entry.insert(END, str(self.xrange[0]))
         self.__child.end_range_entry.insert(END, str(self.xrange[1]))
-
-    # noinspection PyUnusedLocal
-    def update_shape_optionmenu(self, event):
-        """
-        Callback function bound to *<ButtonPress-1>* which displays the current list
-        of shapes on the plot to the option menu. All tags are grabbed which can then
-        be selected by the user to see which object they are looking for.
-
-        :param event: Tkinter passed event object, **ignored**
-        """
-        ops = [x.get_tag() for x in self.__shapemanager.get_current_list() if x is not None]
-        self.option_menu.set_menu(ops)
-
-    def highlight_selected_shape(self, tag):
-        self.__shapemanager.highlight(tag)
 
     def save_json(self):
         """
@@ -292,88 +470,6 @@ class Calipso(object):
             logger.error('No objects found, canceling save')
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
-    def export_db(self):
-        """
-        Notify the database that a save is taking place, the
-        db will then save all polygons present on the screen
-        """
-        logger.info('Notifying database to save')
-        success = self.__shapemanager.save_db()
-        if success:
-            logger.info('Success, saved to db')
-            tkMessageBox.showinfo('database', 'All objects saved to database')
-        else:
-            logger.error('No objects to be saved')
-            tkMessageBox.showerror('database', 'No objects to be saved')
-
-    @staticmethod
-    def export_json_db():
-        """
-        Export the contents of the database to an archive containing JSON, which can then be
-        loaded into other databases and have all shapes imported
-        """
-        if tkMessageBox.askyesno('Export database',
-                                 'Database will be exported to a specified' +
-                                         ' archive (this operation is a copy, not a move)' +
-                                         ' continue?'):
-            options = dict()
-            options['defaultextension'] = '.zip'
-            options['filetypes'] = [('ZIP Files', '*.zip'), ('All files', '*')]
-            fl = tkFileDialog.asksaveasfilename(**options)
-            if fl != '':
-                log_fname = fl.rpartition('/')[2]
-                logger.info('Dumping database to \'%s\'' % log_fname)
-                success = db.dump_to_json(fl)
-                if success:
-                    logger.info('Success, JSON file created')
-                    tkMessageBox.showinfo('database', 'Database exported to \'%s\'' % log_fname)
-                else:
-                    logger.error('No objects to be saved')
-                    tkMessageBox.showerror('database', 'No objects inside database to export to JSON')
-        else:
-            logger.info('Export to database canceled')
-
-    @staticmethod
-    def import_json_db():
-        """
-        Import the contents of a JSON file to the database, works hand in hand
-        with the ``export_json_db`` class method. This will allows users to share
-        their database without needing to manually move their db file.
-        :return:
-        """
-        options = dict()
-        options['defaultextension'] = '.zip'
-        options['filetypes'] = [('CALIPSO Data Archive', '*.zip'), ('All files', '*')]
-        fl = tkFileDialog.askopenfilename(**options)
-        if fl != '':
-            log_fname = fl.rpartition('/')[2]
-            logger.info('Importing database from \'%s\'' % log_fname)
-            success = db.import_from_json(fl)
-            if success:
-                logger.info('Success, JSON file imported')
-                tkMessageBox.showinfo('database', 'shapes from %s imported ' % log_fname +
-                                      '(note: new tags have been assigned to these shapes!)')
-            else:
-                logger.error('Invalid JSON file')
-                tkMessageBox.showerror('database', 'Invalid JSON file %s' % log_fname)
-
-    def import_file(self):
-        """
-        Load an HDF file for use with displaying backscatter and depolarized images
-        """
-        logger.info('Importing HDF file')
-        # function to import HDF file used my open and browse
-        file_types = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        dlg = tkFileDialog.Open(filetypes=file_types)
-        fl = dlg.show()
-        if fl != '':
-            if self.__file is not None and fl is not self.__file:
-                self.new_file_flag = True
-            self.__file = fl
-            segments = self.__file.rpartition('/')
-            self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
-                                            text=segments[2])
-
     def load(self):
         """
         load JSON objects from file by calling :py:meth:`polygonlist.readPlot(f)`
@@ -388,22 +484,31 @@ class Calipso(object):
             return
         self.__shapemanager.read_plot(f)
 
-    def attribute_window(self, event):
+    def about(self):
         """
-        Open attribute window for specifying attributes on objects
-
-        :param event: A Tkinter passed event object
+        Simple TopLevel window displaying the authors
         """
-        logger.info('Grabbing shape object')
-        shape = self.__shapemanager.find_shape(event)
-        logger.info('Opening attributes dialog')
-        AttributesDialog(self.__root, shape). \
-            wm_iconbitmap(ICO)
+        logger.info('Opening about window')
+        file_window = Toplevel(self.__root)
+        file_window.geometry("300x300")
+        file_window.title('About')
 
-    def paint_window(self, event):
+        text = Text(file_window)
+        text.insert(END, constants.ABOUT)
+        text.config(state=DISABLED)
+        text.pack(expand=True, fill=BOTH)
+
+
+
+        button_close = Button(file_window, text='Close', command=file_window.destroy)
+        button_close.pack()
+
+        center(file_window, (300, 300))
+
+    def paint(self, event):
         """
         Opens the paint window for specifying the shape's color
-        
+
         :param event: A Tkinter passed event object
         """
         shape = self.__shapemanager.find_shape(event)
@@ -417,7 +522,32 @@ class Calipso(object):
             shape.get_itemhandler().set_facecolor(color)
             self.__drawplot_canvas.show()
 
-    def extract_window(self, event):
+    def reset(self):
+        """
+        Reset all objects on the screen, move pan to original
+        """
+        logger.info("Resetting plot")
+        self.__shapemanager.reset()      # reset all shapes
+        self.__toolbar.home()            # proc toolbar function to reset plot to home
+
+    ############################################################
+    #   The following functions open dialogs which are defined
+    #   in separate files. Dialog should always be treated as
+    #   singletons
+
+    def attribute_dialog(self, event):
+        """
+        Open attribute window for specifying attributes on objects
+
+        :param event: A Tkinter passed event object
+        """
+        logger.info('Grabbing shape object')
+        shape = self.__shapemanager.find_shape(event)
+        logger.info('Opening attributes dialog')
+        AttributesDialog(self.__root, shape).\
+            wm_iconbitmap(ICO)
+            
+    def extract_dialog(self, event):
         """
         Opens a subwindow that displays the data bounded by the shape
         
@@ -428,18 +558,20 @@ class Calipso(object):
         ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange). \
             wm_iconbitmap(ICO)
 
-    # noinspection PyUnusedLocal
-    def import_window(self):
+    def import_dialog(self):
         """
         Open the database import window allowing the user to import and
         delete entries.
         """
         logger.info('Opening database import window')
-        if (not ImportDialog.singleton):
-            ImportDialog(self.__root, self). \
+        if(not ImportDialog.singleton):
+            ImportDialog(self.__root, self).\
                 wm_iconbitmap(ICO)
         else:
             logger.warning('Found existing import window, canceling')
+
+    #   end dialog functions
+    ############################################################
 
     def get_root(self):
         """
@@ -482,128 +614,6 @@ class Calipso(object):
         :type: :py:class:`str`
         """
         return self.__file
-
-    def about(self):
-        """
-        Simple TopLevel window displaying the authors
-        """
-        logger.info('Opening about window')
-        file_window = Toplevel(self.__root)
-        file_window.geometry("300x300")
-        file_window.title('About')
-
-        text = Text(file_window)
-        text.insert(END, constants.ABOUT)
-        text.config(state=DISABLED)
-        text.pack(expand=True, fill=BOTH)
-
-        button_close = Button(file_window, text='Close', command=file_window.destroy)
-        button_close.pack()
-
-        center(file_window, (300, 300))
-
-    def setup_window(self):
-        """
-        Sets the title of root and invokes py:meth:`centerWindow`
-        """
-        self.__root.title("CALIPSO Visualization Tool (VOCAL)")
-        sw = self.__root.winfo_screenwidth()
-        sh = self.__root.winfo_screenheight()
-        x = (sw - constants.WIDTH) / 2
-        y = (sh - constants.HEIGHT) / 2
-        self.__root.geometry('%dx%d+%d+%d' % (constants.WIDTH, constants.HEIGHT, x, y))
-        # the child is designed to appear off to the right of the parent window, so the x location
-        # is parentWindow.x + the length of the window + padding, and y is simply the parentWindow.y
-        # plus a fourth the distance of the window
-        # TODO: set the toolswindow geometry here instead of toolswindow.py
-        if _platform == "linux" or _platform == "linux2":
-            logger.info("Linux system detected")
-            self.__child.geometry('%dx%d+%d+%d' % (
-                constants.CHILDWIDTH + 50, constants.CHILDHEIGHT, x + constants.WIDTH,
-                y + constants.HEIGHT / 4))
-        elif _platform == 'darwin':
-            logger.info('OSX system detected')
-            self.__child.geometry('%dx%d+%d+%d' % (
-                constants.CHILDWIDTH + 75, constants.CHILDHEIGHT + 50, x + constants.WIDTH,
-                y + constants.HEIGHT / 4
-            ))
-        else:
-            self.__child.geometry('%dx%d+%d+%d' % (
-                constants.CHILDWIDTH, constants.CHILDHEIGHT, 10 * sw / 11 - constants.CHILDWIDTH / 2,
-                sh / 2 - constants.CHILDHEIGHT / 2))
-            logger.info("Placed toolswindow at: " + str(self.__child.geometry()))
-        self.__root.wm_iconbitmap(ICO)
-        self.__child.wm_iconbitmap(ICO)
-
-    def create_top_gui(self):
-        """
-        Initializes and creates the *File: label*, *file dialog*, and *browse button* that appear
-        at the top of the screen
-        """
-        logger.info('Creating top screen GUI')
-        # Create label , entry box and browse button
-        label_file = Label(self.__dialog_frame, text="File:")
-        self.__label_file_dialog = Label(self.__dialog_frame, width=50, justify=LEFT,
-                                         bg=white, relief=SUNKEN)
-        browse_button = Button(self.__dialog_frame, text='Browse', width=10,
-                               command=self.import_file)
-        label_file.grid(row=1, column=0)
-        self.__label_file_dialog.grid(row=1, column=1, padx=10)
-        browse_button.grid(row=1, column=3)
-
-        self.option_menu = ShapeOptionMenu(self.__dialog_shape_frame, self.shape_var, "",
-                                           command=self.highlight_selected_shape)
-        self.option_menu.bind("<ButtonPress-1>", self.update_shape_optionmenu)
-        self.option_menu.pack(side=RIGHT, padx=10)
-        label_shapes = Label(self.__dialog_shape_frame, text="Select")
-        label_shapes.pack(side=RIGHT)
-
-    def setup_menu(self):
-        """
-        Creates a drop down menu bar
-        """
-        menu_bar = Menu(self.__root)
-
-        # File Menu
-        menu_file = Menu(menu_bar, tearoff=0)
-        menu_file.add_command(label='Import file', command=self.import_file)
-        menu_file.add_command(label='Save all shapes', command=lambda: self.save_as_json(save_all=True))
-        menu_file.add_command(label='Save as shapes', command=self.save_as_json)
-        menu_file.add_separator()
-        menu_file.add_command(label='Exit', command=self.close)
-        menu_bar.add_cascade(label='File', menu=menu_file)
-
-        # Polygon Menu
-        menu_polygon = Menu(menu_bar, tearoff=0)
-        menu_polygon.add_command(label='Import from Database', command=self.import_window)
-        menu_polygon.add_command(label='Export to Database', command=self.export_db)
-        menu_polygon.add_separator()
-        menu_polygon.add_command(label='Import archive to database',
-                                 command=Calipso.import_json_db)
-        menu_polygon.add_command(label='Export database to archive',
-                                 command=Calipso.export_json_db)
-        menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
-
-        # Help Menu
-        menu_help = Menu(menu_bar, tearoff=0)
-        menu_help.add_command(label='Documentation', command=lambda: webbrowser.open_new(
-                constants.HELP_PAGE))
-        menu_help.add_command(label='About', command=self.about)
-        menu_bar.add_cascade(label='Help', menu=menu_help)
-
-        # configure menu to screen
-        self.__root.config(menu=menu_bar)
-
-    def setup_main_screen(self):
-        """
-        Setup the top GUI, initialize toolbar window and set the plot to a blank image
-        """
-        logger.info('Setting up GUI')
-        self.create_top_gui()
-        self.__child.setup_toolbar_buttons()
-        logger.info('Setting initial plot')
-        self.set_plot(Plot.baseplot)
-        self.__root.geometry('+0+0')
 
     def close(self):
         """

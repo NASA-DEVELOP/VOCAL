@@ -189,7 +189,7 @@ class ToolsWindow(Toplevel):
         # Edit shape attributes
         edit_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.edit_img, width=30, height=30)
         edit_button.latch(target=self.__canvas, key='pick_event',
-                          command=self.__parent.attribute_window)
+                          command=self.__parent.attribute_dialog)
         edit_button.grid(row=1, column=3, padx=2, pady=5)
         create_tool_tip(edit_button, 'Edit Attributes')
 
@@ -197,7 +197,7 @@ class ToolsWindow(Toplevel):
         extract_button = ToggleableButton(self.__root, self.lower_button_frame,
                                           image=self.extract_img, width=30, height=30)
         extract_button.latch(target=self.__canvas, key='pick_event',
-                             command=self.__parent.extract_window)
+                             command=self.__parent.extract_dialog)
         extract_button.grid(row=1, column=4, padx=2, pady=5)
         create_tool_tip(extract_button, 'Extract data from shape')
 
@@ -236,7 +236,7 @@ class ToolsWindow(Toplevel):
         # Recolor shapes
         paint_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.paint_img, width=30, height=30)
         paint_button.latch(target=self.__canvas, key='pick_event',
-                           command=self.__parent.paint_window,
+                           command=self.__parent.paint,
                            cursor='')
         paint_button.grid(row=2, column=4, padx=2, pady=5)
         create_tool_tip(paint_button, 'Paint')
