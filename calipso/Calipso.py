@@ -9,7 +9,7 @@ import matplotlib
 matplotlib.use('tkAgg')
 from Tkconstants import RIGHT, END, DISABLED
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
-    Frame, Button, HORIZONTAL, BOTH, VERTICAL, Message, TOP, LEFT, \
+    Frame, Button, HORIZONTAL, BOTH, VERTICAL, TOP, LEFT, \
     SUNKEN, StringVar, Text
 import logging
 from sys import platform as _platform
@@ -556,6 +556,7 @@ class Calipso(object):
         logger.info("Extracting data for %s" % shape.get_tag())
         ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange). \
             wm_iconbitmap(ICO)
+
 
     def import_dialog(self):
         """

@@ -38,6 +38,7 @@ class ExtractDialog(Toplevel):
         Toplevel.__init__(self, root)
         self.wm_withdraw()
         self.geometry('+%d+%d' % (root.winfo_rootx(), root.winfo_rooty()))
+        print(self.geometry())
         self.transient(root)
         logger.info('Opening ExtractDialog')
 
@@ -84,6 +85,7 @@ class ExtractDialog(Toplevel):
         y = self.__root.winfo_rooty()
         self.histogram_window = Toplevel(self)
         self.histogram_window.geometry('+%d+%d' % (x, y))
+        print(self.histogram_window.geometry())
         self.histogram_window.protocol('WM_DELETE_WINDOW', ExtractDialog.ignore)
         self.histogram_window.transient(self.__root)
         self.histogram_window.withdraw()

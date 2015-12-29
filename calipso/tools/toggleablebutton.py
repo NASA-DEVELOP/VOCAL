@@ -4,12 +4,11 @@
 #    6/24/2015
 ######################################
 from Tkinter import Button
-import ttk
-from sys import platform as _platform
 from constants import EFFECT_ON, EFFECT_OFF
 
 # global button container for managing state
 toggleContainer = []
+
 
 class ToggleableButton(Button):
     """
@@ -24,21 +23,19 @@ class ToggleableButton(Button):
     :param \*\*kw: Button forwarded args
     """
 
-
-
     # noinspection PyDefaultArgument
     def __init__(self, root, master, cnf={}, **kw):
-        self.__bindMap = []         # bind map to be bound once toggled
-        self.isToggled = False      # internal var to keep track of toggling
-        self.__root = root          # root variable for setting the cursor
-        self.__cursor = ''          # cursor private var
-        self.__destructor = None    # destructor var called when untoggled
+        self.__bindMap = []  # bind map to be bound once toggled
+        self.isToggled = False  # internal var to keep track of toggling
+        self.__root = root  # root variable for setting the cursor
+        self.__cursor = ''  # cursor private var
+        self.__destructor = None  # destructor var called when untoggled
         self.__cid_stack = []
         self.__master = master
 
-        Button.__init__(self, master, cnf, **kw)    # call button constructor
-        self.configure(command=self.toggle)         # button command is always toggle
-        toggleContainer.append(self)         # push button to static container
+        Button.__init__(self, master, cnf, **kw)  # call button constructor
+        self.configure(command=self.toggle)  # button command is always toggle
+        toggleContainer.append(self)  # push button to static container
 
     def latch(self, target=None, key='', command=None, cursor='', destructor=None):
         """
@@ -88,8 +85,8 @@ class ToggleableButton(Button):
         # else if next state it false
         if self.isToggled is False:
             self.__root.config(cursor='')
-            self.config(**EFFECT_OFF)                # raise the button, e.g. deactivated
-            for pair in self.__bindMap:                 # unbind using the bindmap
+            self.config(**EFFECT_OFF)  # raise the button, e.g. deactivated
+            for pair in self.__bindMap:  # unbind using the bindmap
                 if self.__cid_stack:
                     pair[0].mpl_disconnect(self.__cid_stack.pop())
             if self.__destructor:
@@ -97,8 +94,8 @@ class ToggleableButton(Button):
         # else if next state is true
         else:
             self.__root.config(cursor=self.__cursor)
-            self.config(**EFFECT_ON)                # sink the button, e.g. activate
-            for pair in self.__bindMap:                 # bind using the bindmap
+            self.config(**EFFECT_ON)  # sink the button, e.g. activate
+            for pair in self.__bindMap:  # bind using the bindmap
                 self.__cid_stack.append(pair[0].mpl_connect(pair[1], pair[2]))
 
 
@@ -120,15 +117,15 @@ class ToolbarToggleableButton(Button):
     def __init__(self, root, master=None, func=None, cnf={}, **kw):
         if not cnf:
             cnf = {}
-        self.isToggled = False      # internal var to keep track of toggling
-        self.__root = root          # root variable for setting the cursor
-        self.__cursor = ''          # cursor private var
+        self.isToggled = False  # internal var to keep track of toggling
+        self.__root = root  # root variable for setting the cursor
+        self.__cursor = ''  # cursor private var
         self.__master = master
         self.__func = func
 
-        Button.__init__(self, master, cnf, **kw)    # call button constructor
-        self.configure(command=self.toggle)         # button command is always toggle
-        toggleContainer.append(self)         # push button to static container
+        Button.__init__(self, master, cnf, **kw)  # call button constructor
+        self.configure(command=self.toggle)  # button command is always toggle
+        toggleContainer.append(self)  # push button to static container
 
     def latch(self, cursor=''):
         """
@@ -167,8 +164,8 @@ class ToolbarToggleableButton(Button):
             self.__func()
         # else if next state it false
         if self.isToggled is False:
-            self.config(**EFFECT_OFF)                # raise the button, e.g. deactivated
+            self.config(**EFFECT_OFF)  # raise the button, e.g. deactivated
         # else if next state is true
         else:
             self.__root.config(cursor=self.__cursor)
-            self.config(**EFFECT_ON)                # sink the button, e.g. activate
+            self.config(**EFFECT_ON)  # sink the button, e.g. activate
