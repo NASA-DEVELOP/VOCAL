@@ -4,6 +4,8 @@
 #    6/24/2015
 ######################################
 from Tkinter import Button
+import ttk
+from sys import platform as _platform
 from constants import EFFECT_ON, EFFECT_OFF
 
 # global button container for managing state
@@ -22,6 +24,8 @@ class ToggleableButton(Button):
     :param cnf: Button forwarded args
     :param \*\*kw: Button forwarded args
     """
+
+
 
     # noinspection PyDefaultArgument
     def __init__(self, root, master, cnf={}, **kw):
