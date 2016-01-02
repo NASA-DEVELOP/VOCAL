@@ -6,6 +6,8 @@
 .idea
 *.sln
 *.pyproj
+*.DS_Store
+.settings
 calipso/.idea
 calipso/hdf
 docs/source/.idea
