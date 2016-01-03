@@ -168,13 +168,18 @@ class Calipso(object):
             logger.info('OSX system detected')
             self.__child.geometry('%dx%d+%d+%d' % (
                 constants.CHILDWIDTH + 75, constants.CHILDHEIGHT + 50, x + constants.WIDTH,
-                y + constants.HEIGHT / 4
-            ))
+                y + constants.HEIGHT / 4))
         else:
-            cwspot = (constants.WIDTH if constants.WIDTH + constants.CHILDWIDTH < sw
-                      else 10 * sw / 11 - constants.CHILDWIDTH / 2)
-            self.__child.geometry('%dx%d+%d+%d' % (
-                constants.CHILDWIDTH, constants.CHILDHEIGHT, cwspot, sh / 2 - constants.CHILDHEIGHT / 2))
+            # if the main window and the tools window's width are greater than the screen width
+            if constants.WIDTH + constants.CHILDHEIGHT > sw:
+                # place the tools window 10/11 from the left of the screen
+                self.__child.geometry('%dx%d+%d+%d' % (
+                    constants.CHILDWIDTH, constants.CHILDHEIGHT, 10 * sw / 11 - constants.CHILDWIDTH / 2,
+                    y + constants.HEIGHT / 4))
+            else:
+                # place the tools window 50 units from the the right end of the main window
+                self.__child.geometry('%dx%d+%d+%d' % (
+                    constants.CHILDWIDTH, constants.CHILDHEIGHT, x + constants.WIDTH + 50, y + constants.HEIGHT / 4))
             logger.info("Placed toolswindow at: " + str(self.__child.geometry()))
         self.__root.wm_iconbitmap(ICO)
         self.__child.wm_iconbitmap(ICO)
@@ -203,7 +208,6 @@ class Calipso(object):
         self.__child.setup_toolbar_buttons()
         logger.info('Setting initial plot')
         self.set_plot(Plot.baseplot)
-        self.__root.geometry('+0+0')
 
     #   end Initialization functions
     ############################################################
