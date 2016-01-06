@@ -231,6 +231,7 @@ class AdvancedSearchDialog(Toplevel):
 
         # update ranges dictionary which will call ImportDialog receive()
         self.shared_data.ranges = valid_entries
+        AdvancedSearchDialog.singleton = False
         self.destroy()
 
     def free(self):

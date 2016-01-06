@@ -358,12 +358,17 @@ class ImportDialog(Toplevel):
                 DatabasePolygon.hdf.is_(rng['file'])
             )
 
-        # This next part should NOT be considered a permanent solution
-
         lazy_list = list()
 
         for obj in query_result:
             time_range, altitude_range = get_shape_ranges(obj.coordinates)
+
+            # If we're parsing a date, we can't just filter as we must transform
+            # coordinates into time_range first, so we need to manually check and
+            # skip which is PROBABLY not the best solution.
+            if rng['date'] and rng['date'] not in time_range:
+                continue
+
             lazy_list.append(
                 (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
                  obj.notes, obj.time_, obj.hdf))
