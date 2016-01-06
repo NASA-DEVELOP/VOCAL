@@ -11,6 +11,17 @@ import os
 import matplotlib as mpl
 from log.log import logger
 
+def find_between( s, first, last ):
+    try:
+        start = s.index( first ) + len( first )
+        end = s.index( last, start )
+        return s[start:end]
+    except ValueError:
+        return ""
+
+def get_sec(s):
+    l = s.split(':')
+    return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2])
 
 def center(toplevel, size):
     """

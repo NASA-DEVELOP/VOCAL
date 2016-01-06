@@ -14,7 +14,7 @@ import constants
 from constants import CSV, TXT
 from sqlalchemy import or_
 from db import db, DatabasePolygon
-from tools.tools import center, get_shape_ranges
+from tools.tools import center, get_shape_ranges, find_between, get_sec
 from tools.treelistbox import TreeListBox
 from tools.tooltip import create_tool_tip
 from log.log import logger
@@ -334,7 +334,19 @@ class ImportDialog(Toplevel):
         Receiving method called internally by an observer. When AdvancedSearchDialog is
         opened an observer is attached to this class, and upon the new ranges being updated
         this method is procd. The new ranges to query by are given by the dict received, so
-        we can display the advanced search items.
+        we can display the advanced search items. Below is a list of all items within the
+        dictionary, with the format Key -> Format -> Type -> Desc
+
+        date  -> '0000-00-00' -> y-m-d  -> The outer date of the time range
+        btime -> '00-00-00'   -> hr-m-s -> Beginning time range (*btime* -> *etime*)
+        etime -> '00-00-00'   -> hr-m-s -> Ending time range
+        blat  -> '0.0'        -> float  -> Beginning latitude range (*blat* -> *elat*)
+        elat  -> '0.0'        -> float  -> Ending latitude range
+        balt  -> '0.0'        -> float  -> Beginning altitude range (*balt* -> *ealt*)
+        ealt  -> '0.0'        -> float  -> Ending altitude range
+        plot  -> PLOTS        -> string -> Type of plot ('backscattered' etc..)
+        ampm  -> 'am'/'pm'    -> string -> Whether the time range is AM or PM
+        file  -> '.....hdf'   -> string -> File name
 
         :param observer: An ``advancedsearchdialog.Query`` object
         """
@@ -367,6 +379,14 @@ class ImportDialog(Toplevel):
             # coordinates into time_range first, so we need to manually check and
             # skip which is PROBABLY not the best solution.
             if rng['date'] and rng['date'] not in time_range:
+                continue
+
+            if rng['btime'] and get_sec(rng['btime']) > \
+                get_sec(find_between(time_range, ", ", " ")):
+                continue
+
+            if rng['etime'] and get_sec(rng['etime']) < \
+                get_sec(find_between(time_range, "- ", " ")):
                 continue
 
             lazy_list.append(
