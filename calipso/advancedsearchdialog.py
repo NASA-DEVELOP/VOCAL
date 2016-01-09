@@ -225,6 +225,9 @@ class AdvancedSearchDialog(Toplevel):
         valid_entries['ealt'] = end_alt
 
         file_ = self.file_entry.get()
+        if file_ and file_.find('.hdf') == -1:
+            logger.info('No extension found in file entry, appending .hdf')
+            file_ += '.hdf'
         valid_entries['plot'] = self.plots.get()
         valid_entries['ampm'] = self.am_pm.get()
         valid_entries['file'] = file_

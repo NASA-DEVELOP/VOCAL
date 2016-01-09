@@ -401,6 +401,16 @@ class ImportDialog(Toplevel):
                 if float(rng['elat']) < end:
                     continue
 
+            if rng['balt']:
+                beg = float(altitude_range.split(' k')[0].strip(' '))
+                if float(rng['balt']) > beg:
+                    continue
+
+            if rng['ealt']:
+                end = float(find_between(altitude_range, '- ', ' k'))
+                if float(rng['ealt']) < end:
+                    continue
+
             lazy_list.append(
                 (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
                  obj.notes, obj.time_, obj.hdf))
