@@ -142,6 +142,7 @@ class ExtractDialog(Toplevel):
             x1 = int(interpolation_search(n_time, min_time, TIME_VARIANCE))
             x2 = int(interpolation_search(n_time, max_time, TIME_VARIANCE))
             
+            # throws error when x1 is greater than x2, which shouldn't ever happen
             if abs(x1 - x2) <= 1:
                 raise ZeroDivisionError
 
