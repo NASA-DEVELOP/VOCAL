@@ -389,6 +389,18 @@ class ImportDialog(Toplevel):
                 get_sec(find_between(time_range, "- ", " ")):
                 continue
 
+            if rng['blat']:
+                groups = obj.lat.split('-')
+                beg = float('-'.join(groups[:2]))
+                if float(rng['blat']) > beg:
+                    continue
+
+            if rng['elat']:
+                groups = obj.lat.split('-')
+                end = float('-'.join(groups[2:]))
+                if float(rng['elat']) < end:
+                    continue
+
             lazy_list.append(
                 (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
                  obj.notes, obj.time_, obj.hdf))
