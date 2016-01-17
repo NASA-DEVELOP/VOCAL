@@ -183,10 +183,12 @@ class ImportDialog(Toplevel):
         for obj in self.session.query(DatabasePolygon).filter_by(
             hdf=fn
         ):
-            time_range, altitude_range = get_shape_ranges(obj.coordinates)
+            time_range = '%s - %s' % (obj.begin_time.strftime('%Y-%m-%d %H:%M:%S'), obj.end_time.strftime('%H:%M:%S'))
+            altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
+            lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
             lst.append(
-                (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
-                 obj.notes, obj.time_, obj.hdf))
+                (obj.tag, obj.plot, time_range, lat_range, altitude_range, obj.attributes[1:-1],
+                 obj.notes, obj.time_.strftime('%Y-%m-%d %H:%M:%S'), obj.hdf))
         if not lst:
             logger.warning('Query returned None, no shapes found')
         return lst
@@ -224,10 +226,12 @@ class ImportDialog(Toplevel):
                               DatabasePolygon.tag.contains(self.__search_string.strip()),
                               DatabasePolygon.attributes.contains(self.__search_string.strip()),
                               DatabasePolygon.notes.contains(self.__search_string.strip()))):
-                    time_range, altitude_range = get_shape_ranges(obj.coordinates)
+                    time_range = '%s - %s' % (obj.begin_time.strftime('%Y-%m-%d %H:%M:%S'), obj.end_time.strftime('%H:%M:%S'))
+                    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
+                    lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
                     lst.append(  # append any objects that were returned by the query
-                                 (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
-                                  obj.notes, obj.time_, obj.hdf))
+                                 (obj.tag, obj.plot, time_range, lat_range, altitude_range, obj.attributes[1:-1],
+                                  obj.notes, obj.time_.strftime('%Y-%m-%d %H:%M:%S'), obj.hdf))
                 # push new query onto the stack and set display to list
                 if self.filter_file.get():
                     sub_list = set(self.get_current_file_shapes())
@@ -313,10 +317,12 @@ class ImportDialog(Toplevel):
         if self.tree.info:
             self.__stack.append(self.tree.info)
         for obj in self.session.query(DatabasePolygon).all():
-            time_range, altitude_range = get_shape_ranges(obj.coordinates)
+            time_range = '%s - %s' % (obj.begin_time.strftime('%Y-%m-%d %H:%M:%S'), obj.end_time.strftime('%H:%M:%S'))
+            altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
+            lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
             lst.append(  # user see's this list
-                         (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
-                          obj.notes, obj.time_, obj.hdf))
+                         (obj.tag, obj.plot, time_range, lat_range, altitude_range, obj.attributes[1:-1],
+                          obj.notes, obj.time_.strftime('%Y-%m-%d %H:%M:%S'), obj.hdf))
 
         self.tree.info = lst
         self.tree.update()
