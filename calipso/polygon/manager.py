@@ -435,7 +435,7 @@ class ShapeManager(object):
             logger.error('No shapes found')
             return False
         today = datetime.utcnow().replace(microsecond=0)
-        db.commit_to_db(self.__current_list, str(today), self.__hdf)
+        db.commit_to_db(self.__current_list, today, self.__hdf)
         return True
 
     def save_json(self, filename=''):

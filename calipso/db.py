@@ -11,15 +11,18 @@ import re
 import zipfile
 import shutil
 import ast
+import matplotlib as mpl
 
 import constants
 from tools.tools import zipdir
 from constants import PATH, PLOTS
-from sqlalchemy import create_engine, Column, Integer, String, func, NUMERIC
+from sqlalchemy import create_engine, Column, Integer, String, func, NUMERIC,\
+    DateTime, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from tools.tools import byteify
+from tools.tools import byteify, get_shape_ranges
 from log.log import logger
+from datetime import datetime
 
 
 # Create a declarative_base for dbPolygon to inherit from
@@ -46,13 +49,19 @@ class DatabasePolygon(dbBase):
     id = Column(Integer, primary_key=True)  # primary key
     tag = Column(String)  # shape tag
     color = Column(String)  # color of polygon
-    time_ = Column(String)  # time object was exported
+    time_ = Column(DateTime)  # time object was exported
     hdf = Column(String)  # filename
     plot = Column(String)  # type of plot drawn on
-    attributes = Column(String)  # list of object attributes
+    attributes = Column(String)  # list o f object attributes
     coordinates = Column(String)  # plot coordinates for displaying to user
     notes = Column(String)  # shape notes
-    lat = Column(String)
+
+    begin_time = Column(DateTime) # starting time range of shape
+    end_time = Column(DateTime) # ending time range of shape
+    begin_lat = Column(Float) # beginning lat of shape
+    end_lat = Column(Float) # ending lat of shape
+    begin_alt = Column(Float) # starting altitude range of shape
+    end_alt = Column(Float) # ending altitude range of shape
 
     @staticmethod
     def plot_string(i):
@@ -162,6 +171,17 @@ class DatabaseManager(object):
             if polygon.get_id() is None:
                 logger.debug('committing new shape: %s' % polygon.get_tag())
                 lat = polygon.generate_lat_range()
+                cords = polygon.get_coordinates()
+                time_cords = [mpl.dates.num2date(x[0]) for x in cords]
+                altitude_cords = [x[1] for x in cords]
+
+                blat = float('-'.join(lat.split('-')[:2]))
+                elat = float('-'.join(lat.split('-')[2:]))
+                btime = min(time_cords)
+                etime = max(time_cords)
+                balt = min(altitude_cords)
+                ealt = max(altitude_cords)
+
                 obx = \
                     DatabasePolygon(tag=polygon.get_tag(),
                                     time_=time,
@@ -170,8 +190,13 @@ class DatabaseManager(object):
                                     color=polygon.get_color(),
                                     attributes=str(polygon.get_attributes()),
                                     coordinates=str(polygon.get_coordinates()),
-                                    lat=lat,
-                                    notes=polygon.get_notes())
+                                    notes=polygon.get_notes(),
+                                    begin_lat = blat,
+                                    end_lat = elat,
+                                    begin_time = btime,
+                                    end_time = etime,
+                                    begin_alt = balt,
+                                    end_alt = ealt)
                 session.add(obx)
                 session.commit()
                 polygon.set_id(obx.id)
