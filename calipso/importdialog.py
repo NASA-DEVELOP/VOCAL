@@ -11,8 +11,9 @@ from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar, StringVar
 
 import constants
+from datetime import datetime, time
 from constants import CSV, TXT
-from sqlalchemy import or_
+from sqlalchemy import or_, Time, cast
 from db import db, DatabasePolygon
 from tools.tools import center, get_shape_ranges, find_between, get_sec
 from tools.treelistbox import TreeListBox
@@ -376,25 +377,33 @@ class ImportDialog(Toplevel):
                 DatabasePolygon.hdf.is_(rng['file'])
             )
 
+        if rng['btime']:
+            query_result = query_result.filter(
+                DatabasePolygon.begin_time >= datetime.strptime('%s %s' % ('2006-06-13', rng['btime']),
+                                                                '%Y-%m-%d %H:%M:%S')
+            )
+
+        if rng['etime']:
+            query_result = query_result.filter(
+                DatabasePolygon.end_time <= datetime.strptime('%s %s' % ('2006-06-13', rng['etime']),
+                                                              '%Y-%m-%d %H:%M:%S')
+            )
+
         lazy_list = list()
 
         for obj in query_result:
-            time_range, altitude_range = get_shape_ranges(obj.coordinates)
-
+            time_range = '%s - %s' % (obj.begin_time.strftime('%Y-%m-%d %H:%M:%S'), obj.end_time.strftime('%H:%M:%S'))
+            altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
+            lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
             # If we're parsing a date, we can't just filter as we must transform
             # coordinates into time_range first, so we need to manually check and
             # skip which is PROBABLY not the best solution.
+            print obj.begin_time.time()
+            print datetime.strptime(rng['btime'], '%H:%M:%S').time()
             if rng['date'] and rng['date'] not in time_range:
                 continue
 
-            if rng['btime'] and get_sec(rng['btime']) > \
-                get_sec(find_between(time_range, ", ", " ")):
-                continue
-
-            if rng['etime'] and get_sec(rng['etime']) < \
-                get_sec(find_between(time_range, "- ", " ")):
-                continue
-
+            """
             if rng['blat']:
                 groups = obj.lat.split('-')
                 beg = float('-'.join(groups[:2]))
@@ -416,10 +425,11 @@ class ImportDialog(Toplevel):
                 end = float(find_between(altitude_range, '- ', ' k'))
                 if float(rng['ealt']) < end:
                     continue
+            """
 
             lazy_list.append(
-                (obj.tag, obj.plot, time_range, obj.lat, altitude_range, obj.attributes[1:-1],
-                 obj.notes, obj.time_, obj.hdf))
+                (obj.tag, obj.plot, time_range, lat_range, altitude_range, obj.attributes[1:-1],
+                 obj.notes, obj.time_.strftime('%Y-%m-%d %H:%M:%S'), obj.hdf))
 
         self.tree.info = lazy_list
         self.tree.update()
