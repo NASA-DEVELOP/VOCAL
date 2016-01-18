@@ -377,16 +377,24 @@ class ImportDialog(Toplevel):
                 DatabasePolygon.hdf.is_(rng['file'])
             )
 
-        if rng['btime']:
+        if rng['blat']:
             query_result = query_result.filter(
-                DatabasePolygon.begin_time >= datetime.strptime('%s %s' % ('2006-06-13', rng['btime']),
-                                                                '%Y-%m-%d %H:%M:%S')
+                DatabasePolygon.begin_lat >= rng['blat']
             )
 
-        if rng['etime']:
+        if rng['elat']:
             query_result = query_result.filter(
-                DatabasePolygon.end_time <= datetime.strptime('%s %s' % ('2006-06-13', rng['etime']),
-                                                              '%Y-%m-%d %H:%M:%S')
+                DatabasePolygon.end_lat <= rng['elat']
+            )
+
+        if rng['balt']:
+            query_result = query_result.filter(
+                DatabasePolygon.begin_alt >= rng['balt']
+            )
+
+        if rng['ealt']:
+            query_result = query_result.filter(
+                DatabasePolygon.end_alt <= rng['ealt']
             )
 
         lazy_list = list()
@@ -398,34 +406,14 @@ class ImportDialog(Toplevel):
             # If we're parsing a date, we can't just filter as we must transform
             # coordinates into time_range first, so we need to manually check and
             # skip which is PROBABLY not the best solution.
-            print obj.begin_time.time()
-            print datetime.strptime(rng['btime'], '%H:%M:%S').time()
             if rng['date'] and rng['date'] not in time_range:
                 continue
 
-            """
-            if rng['blat']:
-                groups = obj.lat.split('-')
-                beg = float('-'.join(groups[:2]))
-                if float(rng['blat']) > beg:
-                    continue
+            if rng['btime'] and obj.begin_time.time() < datetime.strptime(rng['btime'], '%H:%M:%S').time():
+                continue
 
-            if rng['elat']:
-                groups = obj.lat.split('-')
-                end = float('-'.join(groups[2:]))
-                if float(rng['elat']) < end:
-                    continue
-
-            if rng['balt']:
-                beg = float(altitude_range.split(' k')[0].strip(' '))
-                if float(rng['balt']) > beg:
-                    continue
-
-            if rng['ealt']:
-                end = float(find_between(altitude_range, '- ', ' k'))
-                if float(rng['ealt']) < end:
-                    continue
-            """
+            if rng['etime'] and obj.end_time.time() > datetime.strptime(rng['etime'], '%H:%M:%S').time():
+                continue
 
             lazy_list.append(
                 (obj.tag, obj.plot, time_range, lat_range, altitude_range, obj.attributes[1:-1],

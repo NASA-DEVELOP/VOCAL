@@ -17,7 +17,7 @@ import constants
 from tools.tools import zipdir
 from constants import PATH, PLOTS
 from sqlalchemy import create_engine, Column, Integer, String, func, NUMERIC,\
-    DateTime, Float
+    DateTime, Float, Index, TIME, cast
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from tools.tools import byteify, get_shape_ranges
@@ -62,6 +62,8 @@ class DatabasePolygon(dbBase):
     end_lat = Column(Float) # ending lat of shape
     begin_alt = Column(Float) # starting altitude range of shape
     end_alt = Column(Float) # ending altitude range of shape
+
+    Index('begin_time_', cast(begin_time, TIME))
 
     @staticmethod
     def plot_string(i):
