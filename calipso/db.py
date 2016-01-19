@@ -15,7 +15,7 @@ import matplotlib as mpl
 
 import constants
 from tools.tools import zipdir
-from constants import PATH, PLOTS
+from constants import PATH, PLOTS, DATEFORMAT
 from sqlalchemy import create_engine, Column, Integer, String, func, NUMERIC,\
     DateTime, Float, Index, TIME, cast
 from sqlalchemy.ext.declarative import declarative_base
@@ -83,14 +83,14 @@ class DatabasePolygon(dbBase):
             'attributes': self.attributes,
             'id': self.id,
             'coordinates': self.coordinates,
-            'btime': self.begin_time.strftime('%Y-%m-%d %H:%M:%S'),
-            'etime': self.end_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'btime': self.begin_time.strftime(DATEFORMAT),
+            'etime': self.end_time.strftime(DATEFORMAT),
             'blat': self.begin_lat,
             'elat': self.end_lat,
             'balt': self.begin_alt,
             'ealt': self.end_alt,
             'notes': self.notes}}
-        data['time'] = self.time_.strftime('%Y-%m-%d %H:%M:%S')
+        data['time'] = self.time_.strftime(DATEFORMAT)
         data['hdfFile'] = self.hdf
         logger.info('Converting unicode to ASCII')
         return byteify(json.dumps(data))
@@ -308,7 +308,7 @@ class DatabaseManager(object):
                     for shape in data[key]:
                         fshape = data[key][shape]
                         tag = 'shape' + str(new)
-                        time = datetime.strptime(data['time'], '%Y-%m-%d %H:%M:%S')
+                        time = datetime.strptime(data['time'], DATEFORMAT)
                         hdf = data['hdfFile']
                         color = fshape['color']
                         coordinates = fshape['coordinates']
@@ -317,8 +317,8 @@ class DatabaseManager(object):
 
                         blat = float(fshape['blat'])
                         elat = float(fshape['elat'])
-                        btime = datetime.strptime(fshape['btime'], '%Y-%m-%d %H:%M:%S')
-                        etime = datetime.strptime(fshape['etime'], '%Y-%m-%d %H:%M:%S')
+                        btime = datetime.strptime(fshape['btime'], DATEFORMAT)
+                        etime = datetime.strptime(fshape['etime'], DATEFORMAT)
                         balt = float(fshape['balt'])
                         ealt = float(fshape['ealt'])
 
