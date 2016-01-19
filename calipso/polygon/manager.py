@@ -8,6 +8,7 @@ from Tkconstants import TOP, X, BOTH, RIGHT, FLAT
 import constants
 import matplotlib as mpl
 
+from constants import DATEFORMAT
 from Tkinter import Toplevel, Label, SOLID, TclError, LEFT, Frame, Button
 from datetime import datetime
 from polygon.reader import ShapeReader
@@ -471,8 +472,8 @@ class ShapeManager(object):
             alt_cords = [x[1] for x in coordinates]
             blat = self.__current_list[j].get_min_lat()
             elat = self.__current_list[j].get_max_lat()
-            btime = min(time_cords).strftime('%Y-%m-%d %H:%M:%S')
-            etime = max(time_cords).strftime('%Y-%m-%d %H:%M:%S')
+            btime = min(time_cords).strftime(DATEFORMAT)
+            etime = max(time_cords).strftime(DATEFORMAT)
             balt = min(alt_cords)
             ealt = max(alt_cords)
 
