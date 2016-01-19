@@ -458,6 +458,24 @@ class Shape(object):
         else:
             return False
 
+    def get_min_lat(self):
+        axes = self.__canvas.figure.get_axes()
+        labels = [x.get_xlabel() for x in axes]
+        lat = axes[labels.index(u'Latitude')]
+        time = axes[labels.index(u'Time')]
+        min_ = lat.transData.inverted().transform(
+            time.transData.transform(np.array(min(self.__coordinates))))[0]
+        return min_
+
+    def get_max_lat(self):
+        axes = self.__canvas.figure.get_axes()
+        labels = [x.get_xlabel() for x in axes]
+        lat = axes[labels.index(u'Latitude')]
+        time = axes[labels.index(u'Time')]
+        max_ = lat.transData.inverted().transform(
+            time.transData.transform(np.array(max(self.__coordinates))))[0]
+        return max_
+
     def generate_lat_range(self):
         axes = self.__canvas.figure.get_axes()
         labels = [x.get_xlabel() for x in axes]
@@ -471,7 +489,7 @@ class Shape(object):
 
     def __str__(self):
         logger.debug('Stringing %s' % self.__tag)
-        time_cords = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S %p') for
+        time_cords = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S') for
                       x in self.__coordinates]
         altitude_cords = [x[1] for x in self.__coordinates]
         string = 'Time Scale:\n\t%s - %s\n' % (min(time_cords), max(time_cords))

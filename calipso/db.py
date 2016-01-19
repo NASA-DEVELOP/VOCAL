@@ -83,9 +83,14 @@ class DatabasePolygon(dbBase):
             'attributes': self.attributes,
             'id': self.id,
             'coordinates': self.coordinates,
-            'lat': self.lat,
+            'btime': self.begin_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'etime': self.end_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'blat': self.begin_lat,
+            'elat': self.end_lat,
+            'balt': self.begin_alt,
+            'ealt': self.end_alt,
             'notes': self.notes}}
-        data['time'] = self.time_
+        data['time'] = self.time_.strftime('%Y-%m-%d %H:%M:%S')
         data['hdfFile'] = self.hdf
         logger.info('Converting unicode to ASCII')
         return byteify(json.dumps(data))
@@ -172,13 +177,12 @@ class DatabaseManager(object):
             # if the ID does not exist we have a new object to commit
             if polygon.get_id() is None:
                 logger.debug('committing new shape: %s' % polygon.get_tag())
-                lat = polygon.generate_lat_range()
                 cords = polygon.get_coordinates()
                 time_cords = [mpl.dates.num2date(x[0]) for x in cords]
                 altitude_cords = [x[1] for x in cords]
 
-                blat = float('-'.join(lat.split('-')[:2]))
-                elat = float('-'.join(lat.split('-')[2:]))
+                blat = polygon.get_min_lat()
+                elat = polygon.get_max_lat()
                 btime = min(time_cords)
                 etime = max(time_cords)
                 balt = min(altitude_cords)
@@ -304,13 +308,19 @@ class DatabaseManager(object):
                     for shape in data[key]:
                         fshape = data[key][shape]
                         tag = 'shape' + str(new)
-                        time = data['time']
+                        time = datetime.strptime(data['time'], '%Y-%m-%d %H:%M:%S')
                         hdf = data['hdfFile']
                         color = fshape['color']
                         coordinates = fshape['coordinates']
                         attributes = fshape['attributes']
                         notes = fshape['notes']
-                        lat = fshape['lat']
+
+                        blat = float(fshape['blat'])
+                        elat = float(fshape['elat'])
+                        btime = datetime.strptime(fshape['btime'], '%Y-%m-%d %H:%M:%S')
+                        etime = datetime.strptime(fshape['etime'], '%Y-%m-%d %H:%M:%S')
+                        balt = float(fshape['balt'])
+                        ealt = float(fshape['ealt'])
 
                         obx = \
                             DatabasePolygon(tag=tag,
@@ -319,9 +329,14 @@ class DatabaseManager(object):
                                             plot=key,
                                             color=color,
                                             coordinates=coordinates,
-                                            lat=lat,
                                             attributes=attributes,
-                                            notes=notes)
+                                            notes=notes,
+                                            begin_lat=blat,
+                                            end_lat=elat,
+                                            begin_time=btime,
+                                            end_time=etime,
+                                            begin_alt=balt,
+                                            end_alt=ealt)
                         session.add(obx)
                         new += 1
         session.commit()
