@@ -6,7 +6,9 @@
 ######################################
 from Tkconstants import TOP, X, BOTH, RIGHT, FLAT
 import constants
+import matplotlib as mpl
 
+from constants import DATEFORMAT
 from Tkinter import Toplevel, Label, SOLID, TclError, LEFT, Frame, Button
 from datetime import datetime
 from polygon.reader import ShapeReader
@@ -435,7 +437,7 @@ class ShapeManager(object):
             logger.error('No shapes found')
             return False
         today = datetime.utcnow().replace(microsecond=0)
-        db.commit_to_db(self.__current_list, str(today), self.__hdf)
+        db.commit_to_db(self.__current_list, today, self.__hdf)
         return True
 
     def save_json(self, filename=''):
@@ -461,13 +463,23 @@ class ShapeManager(object):
                 self.__current_list[j].save()
             tag = self.__current_list[j].get_tag()
             coordinates = self.__current_list[j].get_coordinates()
-            lat = self.__current_list[j].generate_lat_range()
             color = self.__current_list[j].get_color()
-            attributes = self.__shape_list[i][j].get_attributes()
-            note = self.__shape_list[i][j].get_notes()
-            _id = self.__shape_list[i][j].get_id()
-            value = {'coordinates': coordinates, 'lat': lat, 'color': color,
-                     'attributes': attributes, 'notes': note, 'id': _id}
+            attributes = self.__current_list[j].get_attributes()
+            note = self.__current_list[j].get_notes()
+            _id = self.__current_list[j].get_id()
+
+            time_cords = [mpl.dates.num2date(x[0]) for x in coordinates]
+            alt_cords = [x[1] for x in coordinates]
+            blat = self.__current_list[j].get_min_lat()
+            elat = self.__current_list[j].get_max_lat()
+            btime = min(time_cords).strftime(DATEFORMAT)
+            etime = max(time_cords).strftime(DATEFORMAT)
+            balt = min(alt_cords)
+            ealt = max(alt_cords)
+
+            value = {'coordinates': coordinates, 'blat': blat, 'elat': elat,
+                     'btime': btime, 'etime': etime, 'balt': balt, 'ealt': ealt,
+                     'color': color, 'attributes': attributes, 'notes': note, 'id': _id}
             shape_dict[tag] = value
         self.__data[constants.PLOTS[i]] = shape_dict
         logger.info('Encoding to JSON')
