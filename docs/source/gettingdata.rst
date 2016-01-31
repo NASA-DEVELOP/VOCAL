@@ -16,5 +16,5 @@ can easily download and load into VOCAL right off the bat:
 * `CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN.hdf`_
 
 .. __: https://eosweb.larc.nasa.gov/
-.. __: https://eosweb.larc.nasa.gov/order-dataelf.__drawplot_canvas
+.. __: https://eosweb.larc.nasa.gov/order-data
 .. _CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN.hdf: https://sourceforge.net/projects/ccplot/files/products/CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN.hdf

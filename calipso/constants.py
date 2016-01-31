@@ -26,6 +26,8 @@ PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm']
 EFFECT_ON = {'relief': 'sunken'}
 EFFECT_OFF = {'relief': 'raised'}
 
+DATEFORMAT = '%Y-%m-%d %H:%M:%S'
+
 HEIGHT = 665
 WIDTH = 1265
 CHILDWIDTH = 200
