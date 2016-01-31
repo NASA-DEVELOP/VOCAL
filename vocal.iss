@@ -47,6 +47,3 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\core\{#MyAppExeName}"; Ta
 [Registry]
 Root: HKLM; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\AppCompatFlags\Layers\"; ValueType: String; ValueName: "{app}\core\Calipso.exe"; ValueData: "RUNASADMIN";Flags: uninsdeletekeyifempty uninsdeletevalue;
 
-[Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait skipifsilent runascurrentuser
-
