@@ -1,0 +1,12 @@
+Generating releases for VOCAL with cx_freeze:
+---------------------------------------------
+  * cd into vocal/calipso
+  * python setup.py build_exe
+  * copy all numpy libs into folder of generated executable
+    - libifcoremd.dll
+    - libifportmd.dll
+    - libiomp5md.dll
+    - libiompstubs5md.dll
+    - libmmd.dll
+  * cd to location of executable, modify tcl/init & tk/tk
+    - change 'package require -exact Tcl 8.5.15' to 'package require -exact Tcl 8.5.18'

@@ -1,23 +1,29 @@
+import os
+import sys
 from distutils.core import setup
-import numpy
-import py2exe
+import cx_Freeze
 import matplotlib
-import zmq.libzmq
-import FileDialog
+import scipy
+scipy_path = os.path.dirname(scipy.__file__)
 
-datafiles = [('lib', (zmq.libzmq.__file__,))]
-datafiles.extend(matplotlib.get_py2exe_datafiles())
+base = "Console"
 
-setup(
-    console=["Calipso.py"],
-    options={
-      'py2exe': {
-          'packages': ['FileDialog', 'sqlalchemy', 'scipy.linalg',
-                       'scipy.special._ufuncs_cxx'],
-          'includes': ['zmq.backend.cython'],
-          'excludes': ['zmq.libzmq'],
-          'dll_excludes': ['libzmq.pyd'],
-      },
-    },
-    data_files=datafiles)
+executable = [
+    cx_Freeze.Executable("Calipso.py", base = base, icon="ico/broadcasting.ico")
+]
 
+build_exe_options = {"includes":["matplotlib.backends.backend_tkagg", "ccplot.algorithms",
+                                 "ccplot.hdf"],
+                     "packages":["Tkinter", "FileDialog"],
+                     "include_files":[(matplotlib.get_data_path(), "mpl-data"),
+                                      scipy_path],
+                     "excludes": ["collections.abc"],
+                     }
+
+cx_Freeze.setup(
+    name = "VOCAL",
+    options = {"build_exe": build_exe_options},
+    version = "0.0",
+    description = "standalone",
+    executables = executable
+)
