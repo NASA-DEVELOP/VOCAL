@@ -51,7 +51,7 @@ HELP_PAGE = 'http://syntaf.github.io/vocal/'
 
 TIME_VARIANCE = 0.001
 ALTITUDE_VARIANCE = 0.3
-PATH = '.'
+PATH = os.getenv('APPDATA') + '/../local/vocal/fakedir'
 #PATH = os.path.dirname(os.path.realpath(__file__))
 
 ICO = PATH + '/ico/broadcasting.ico'

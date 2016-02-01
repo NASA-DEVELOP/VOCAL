@@ -1,12 +1,35 @@
 Generating releases for VOCAL with cx_freeze:
 ---------------------------------------------
+
+  Create exe
+  -------------
   * cd into vocal/calipso
   * python setup.py build_exe
-  * copy all numpy libs into folder of generated executable
+
+  Configure
+  -----------
+  * copy all numpy libs into folder of generated executable. These include
     - libifcoremd.dll
     - libifportmd.dll
     - libiomp5md.dll
     - libiompstubs5md.dll
     - libmmd.dll
-  * cd to location of executable, modify tcl/init & tk/tk
+    - If some of these already exist, no need to copy/overwrite
+  * cd to location of executable, modify tcl/init.tcl & tk/tk.tcl
     - change 'package require -exact Tcl 8.5.15' to 'package require -exact Tcl 8.5.18'
+    - If you aren't using 8.5.18, change to whatever version you have
+
+  Copy files to be packed
+  --------------------------
+  * copy vocal/dat to build/dat
+  * copy vocal/db to build/db
+  * copy vocal/calipso/ico to build/ico
+  * copy vocal/calipso/dat to build/dat_
+  * copy vocal/calipso/log to build/log
+
+  Create vocal_setup.exe
+  ------------------
+  * rename folder exe.win32-2.7 (within build) to core
+  * rename folder build to vocal
+  * open vocal.iss in Inno Setup 5
+  *
