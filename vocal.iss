@@ -24,9 +24,25 @@ OutputBaseFilename=vocal_setup
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=admin
+SetupLogging=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
+
+[code]
+// Called just before Setup terminates. Note that this function is called even if the user exits Setup before anything is installed.
+procedure DeinitializeSetup();
+var
+  logfilepathname, logfilename, newfilepathname: string;
+
+begin
+  logfilepathname := expandconstant('{log}');
+  logfilename := ExtractFileName(logfilepathname);
+  // Set the new target path as the directory where the installer is being run from
+  newfilepathname := expandconstant('{src}\') +logfilename;
+
+  filecopy(logfilepathname, newfilepathname, false);
+end; 
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
