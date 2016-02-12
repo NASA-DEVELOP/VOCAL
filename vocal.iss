@@ -19,7 +19,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
 ; NOTE: CHANGE PATHS TO OUTPUT LOCATION OF YOUR CHOICE
-OutputDir=C:\Users\Grant\Documents\Inno Setup Examples Output
+OutputDir=C:\Users\kdmoore2\Documents\VOCALexes
 OutputBaseFilename=vocal_setup
 Compression=lzma
 SolidCompression=yes
@@ -49,13 +49,13 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 ; NOTE: CHANGE PATHS TO YOUR LOCATION OF VOCAL BUILD
 [Files]
-Source: "C:\Users\Grant\Documents\vocal\core\Calipso.exe"; DestDir: "{app}\core"; Flags: ignoreversion
-Source: "C:\Users\Grant\Documents\vocal\dat\*"; DestDir: "{localappdata}\vocal\dat"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Grant\Documents\vocal\db\*"; DestDir: "{localappdata}\vocal\db"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Grant\Documents\vocal\log\*"; DestDir: "{localappdata}\vocal\fakedir\log"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Grant\Documents\vocal\ico\*"; DestDir: "{localappdata}\vocal\fakedir\ico"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Grant\Documents\vocal\dat_\*"; DestDir: "{localappdata}\vocal\fakedir\dat"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\Grant\Documents\vocal\core\*"; DestDir: "{app}\core"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\core\Calipso.exe"; DestDir: "{app}\core"; Flags: ignoreversion
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\dat\*"; DestDir: "{app}\vocal\dat"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\db\*"; DestDir: "{app}\vocal\db"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\log\*"; DestDir: "{app}\vocal\log"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\ico\*"; DestDir: "{app}\vocal\ico"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\dat_\*"; DestDir: "{app}\vocal\dat"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\core\*"; DestDir: "{app}\core"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\core\{#MyAppExeName}"
