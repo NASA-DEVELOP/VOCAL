@@ -2,29 +2,9 @@
 Program Overview
 =====================
 
-The CALIPSO: Global Health & Air Quality project aims at creating a tool with the ability to classify aerosols within CALIPSO Data to help improve future research and decision making. The summer 2015 team consisting of Grant Mercer and Nathan Qian will build on the existing graphical user interface built by the previous team.
-
-----------------------------------------
-Background
-----------------------------------------
-
-The CALISPO satellite (Cloud-Aerosol Lidar and Infrared Pathfinder Satellite Observation) is a NASA
-earth observation that analyzes aerosol particles suspended in the Earth's atmosphere. Researchers use 
-CALIPSO data to track the aerosol's global distribution, dispersion and source using a visualization tool. However,
-researchers have a hard time tracking specific airborne objects as the current visualization tool that reads CALIPSO
-data lacks features such as highlighting and sharing regions of data for tracking purposes. This tool is written in
-IDL, an obscure, and propriety language which prevents users from making the necessary adjustments. To
-rectify these issues, we've developed VOCAL. VOCAL is an open source tool written in python 2.7 that supports
-all previous features of past tool and more! We've developed with a heavy influence on open source collaboration,
-we hope VOCAL will continue to improve long past the initial contracted work.
-
-VOCAL allows users to visualize Hierarchical Data Format (HDF) files from CALIPSO and draw shapes upon the plot.
-These shapes can be assigned attributes and notes than can help characterize aerosols in the atmosphere as well as
-track specific objects moving. Data can be extracted from these shapes and shown on either a subplot or as a raw
-exported data file, allowing users additional tools for tracking the trajectory of aerosols. The biggest benefit
-VOCAL brings is a standardized information sharing medium. Users can export their shapes into a JSON file and personally
-pass data between each other, or share a centralized database which can store and be queried for specific shapes and
-specific files.
+The CALIPSO: Global Health & Air Quality project at NASA DEVELOP aims at creating a tool with the ability to classify
+aerosols within CALIPSO Data to help improve future research and decision making. The tool is open source and built
+around community involvement.
 
 .. rubric:: Key reason for VOCAL:
 

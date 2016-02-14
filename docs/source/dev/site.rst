@@ -1,6 +1,12 @@
 Updating The Site
 =================
 
+To build the docs, you'll need a couple of packages:
+
+   * `graphiz`_
+   * sphinx (installed with anaconda)
+   * `sphinx-bootstrap-theme`_
+
 .. note::
 
    This site is generated with ``sphinx`` . **do not** attempt to modify the html files of this
@@ -43,7 +49,13 @@ branch, and the website will always be on the *gh-pages* branch.
 
 4. Simply build the sphinx docs now with your build directory as docs!::
 
-   > cd vocal
-   > sphinx-build -b html docs/source ../docs
+   > cd vocal/calipso
+   > sphinx-build -b html ../docs/source ../../docs
 
-5. Head inside your docs folder, commit the changes and the site should be live. All done
+5. Head inside your docs folder, force commit the changes and the site should be live. All done
+
+   > cd docs
+   > git push --force
+
+.. _graphiz: http://graphviz.org/
+.. _sphinx-bootstrap-theme: https://ryan-roemer.github.io/sphinx-bootstrap-theme/
