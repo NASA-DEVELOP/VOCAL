@@ -37,7 +37,7 @@ from tools.tools import Catcher, center
 from toolswindow import ToolsWindow
 from db import db
 import matplotlib.image as mpimg
-
+import os
 
 class Calipso(object):
     """
