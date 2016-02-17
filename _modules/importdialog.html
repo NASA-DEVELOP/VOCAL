@@ -1,96 +1,78 @@
-
-
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>importdialog &mdash; VOCAL 0.15.2 documentation</title>
-  
 
-  
-  
 
-  
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-
-  
-  
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-
-  
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-
-  
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="../index.html"/>
-        <link rel="up" title="Module code" href="index.html"/> 
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
-
-</head>
-
-<body class="wy-body-for-nav" role="document">
-
-  <div class="wy-grid-for-nav">
-
+    <title>importdialog &mdash; VOCAL 0.15.2 documentation</title>
     
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        
-          <a href="../index.html" class="fa fa-home"> VOCAL</a>
-        
-        
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.15.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="VOCAL 0.15.2 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          VOCAL</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
       </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
-          
-          
-              <p class="caption"><span class="caption-text">User Documentation</span></p>
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Index <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../overview.html">Program Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../overview.html#background">Background</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../overview.html#features">Features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../overview.html#additional-information">Additional Information</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../packages.html">Required Packages</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation.html#windows">Windows </a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation.html#linux">Linux </a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation.html#os-x">OS X </a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Program Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../supporteddata.html">Supported Data Types</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#interface-layout">Interface Layout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#starting-up">Starting Up</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#navigating-the-plot">Navigating the Plot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#viewing-properties-of-shapes">Viewing Properties of Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#drawing-shapes">Drawing Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#using-the-database">Using the Database</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#extracting-column-data-from-the-database">Extracting Column Data from the Database</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial.html#sharing-your-database">Sharing Your Database</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
@@ -98,12 +80,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../dev/enviroment.html">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/docs.html">Building and Writing Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/site.html">Updating The Site</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../doc/modules.html">Code Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../doc/general/general.html">General</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../doc/polygon/polygon.html">Polygon</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../doc/tools/tools.html">Tools</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../doc/modules.html">Code Documentation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Support</span></p>
 <ul>
@@ -111,40 +88,51 @@
 <li class="toctree-l1"><a class="reference internal" href="../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../trouble/contact.html">Contact</a></li>
 </ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
 
           
-        
-      </div>
-      &nbsp;
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">VOCAL</a>
-      </nav>
-
-
-      
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
-  <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
-          <li><a href="index.html">Module code</a> &raquo;</li>
-      
-    <li>importdialog</li>
-      <li class="wy-breadcrumbs-aside">
-        
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document">
             
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
   <h1>Source code for importdialog</h1><div class="highlight"><pre>
 <span class="c">###################################</span>
 <span class="c">#    Created on Jun 15, 2015</span>
@@ -159,10 +147,11 @@
     <span class="n">Label</span><span class="p">,</span> <span class="n">BOTTOM</span><span class="p">,</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">RIDGE</span><span class="p">,</span> <span class="n">Checkbutton</span><span class="p">,</span> <span class="n">IntVar</span><span class="p">,</span> <span class="n">StringVar</span>
 
 <span class="kn">import</span> <span class="nn">constants</span>
-<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">CSV</span><span class="p">,</span> <span class="n">TXT</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">or_</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">CSV</span><span class="p">,</span> <span class="n">TXT</span><span class="p">,</span> <span class="n">DATEFORMAT</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">or_</span><span class="p">,</span> <span class="n">Time</span><span class="p">,</span> <span class="n">cast</span>
 <span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">DatabasePolygon</span>
-<span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">center</span><span class="p">,</span> <span class="n">get_shape_ranges</span>
+<span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">center</span><span class="p">,</span> <span class="n">get_shape_ranges</span><span class="p">,</span> <span class="n">find_between</span><span class="p">,</span> <span class="n">get_sec</span>
 <span class="kn">from</span> <span class="nn">tools.treelistbox</span> <span class="kn">import</span> <span class="n">TreeListBox</span>
 <span class="kn">from</span> <span class="nn">tools.tooltip</span> <span class="kn">import</span> <span class="n">create_tool_tip</span>
 <span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span>
@@ -179,7 +168,13 @@
 <span class="sd">    :param: master: the main window, for access of polygonList</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c"># This dialog should be a singleton, so the caller will ensure no other</span>
+    <span class="c"># windows are open by checking this variable</span>
+    <span class="n">singleton</span> <span class="o">=</span> <span class="bp">False</span>
+
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">master</span><span class="p">):</span>
+        <span class="n">ImportDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="bp">True</span>                   <span class="c"># creation of a pseudo singleton</span>
+
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Instantiating ImportDialog&#39;</span><span class="p">)</span>
         <span class="n">Toplevel</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transient</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
@@ -249,13 +244,19 @@
                                  <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">advanced_prompt</span><span class="p">)</span>
         <span class="n">advanced_filter</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
+        <span class="n">reset</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Reset&#39;</span><span class="p">,</span>
+                       <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">)</span>
+        <span class="n">reset</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
         <span class="n">spacer</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-        <span class="n">spacer</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">spacer</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
 
         <span class="n">delete_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Delete&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delete_from_db</span><span class="p">,</span>
                                <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-        <span class="n">delete_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">delete_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="ImportDialog.create_bottom_frame"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.create_bottom_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_bottom_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -296,6 +297,8 @@
             <span class="n">fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_file</span><span class="p">()</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
             <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_file_shapes</span><span class="p">()</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Displaying </span><span class="si">%d</span><span class="s"> shapes contained in </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">),</span> <span class="n">fn</span><span class="p">))</span>
+            <span class="c"># Only return list of objects in the current view, otherwise we would</span>
+            <span class="c"># just append lst</span>
             <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lst</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">lst</span>
@@ -317,10 +320,12 @@
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span>
             <span class="n">hdf</span><span class="o">=</span><span class="n">fn</span>
         <span class="p">):</span>
-            <span class="n">time_range</span><span class="p">,</span> <span class="n">altitude_range</span> <span class="o">=</span> <span class="n">get_shape_ranges</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+            <span class="n">time_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
+            <span class="n">altitude_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
+            <span class="n">lat_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
             <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                 <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
+                <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">lat_range</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                 <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lst</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Query returned None, no shapes found&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">lst</span>
@@ -358,10 +363,12 @@
                               <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()),</span>
                               <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()),</span>
                               <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">notes</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()))):</span>
-                    <span class="n">time_range</span><span class="p">,</span> <span class="n">altitude_range</span> <span class="o">=</span> <span class="n">get_shape_ranges</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+                    <span class="n">time_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
+                    <span class="n">altitude_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
+                    <span class="n">lat_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
                     <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>  <span class="c"># append any objects that were returned by the query</span>
-                                 <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                                  <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
+                                 <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">lat_range</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                  <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
                 <span class="c"># push new query onto the stack and set display to list</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_file</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
                     <span class="n">sub_list</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_current_file_shapes</span><span class="p">())</span>
@@ -424,11 +431,11 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__display_all</span><span class="p">()</span>
 </div>
     <span class="k">def</span> <span class="nf">advanced_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">advance_dialog</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Opening advanced search window&#39;</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="n">AdvancedSearchDialog</span><span class="o">.</span><span class="n">singleton</span><span class="p">):</span>
             <span class="n">AdvancedSearchDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">advance_dialog</span> <span class="o">=</span> <span class="bp">True</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">pass</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Found existing advanced search window, canceling&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">extract_columns_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_dialog</span><span class="p">:</span>
@@ -447,20 +454,42 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="n">time_range</span><span class="p">,</span> <span class="n">altitude_range</span> <span class="o">=</span> <span class="n">get_shape_ranges</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+            <span class="n">time_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
+            <span class="n">altitude_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
+            <span class="n">lat_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
             <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>  <span class="c"># user see&#39;s this list</span>
-                         <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                          <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
+                         <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">lat_range</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                          <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">lst</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
 
+<div class="viewcode-block" id="ImportDialog.reset"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reset the view of the tree within the import window, clears the stack as well</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Resetting tree view &amp; stack&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__display_all</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</div>
 <div class="viewcode-block" id="ImportDialog.receive_advanced_search"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.receive_advanced_search">[docs]</a>    <span class="k">def</span> <span class="nf">receive_advanced_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observer</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Receiving method called internally by an observer. When AdvancedSearchDialog is</span>
 <span class="sd">        opened an observer is attached to this class, and upon the new ranges being updated</span>
 <span class="sd">        this method is procd. The new ranges to query by are given by the dict received, so</span>
-<span class="sd">        we can display the advanced search items.</span>
+<span class="sd">        we can display the advanced search items. Below is a list of all items within the</span>
+<span class="sd">        dictionary, with the format Key -&gt; Format -&gt; Type -&gt; Desc</span>
+
+<span class="sd">        date  -&gt; &#39;0000-00-00&#39; -&gt; y-m-d  -&gt; The outer date of the time range</span>
+<span class="sd">        btime -&gt; &#39;00-00-00&#39;   -&gt; hr-m-s -&gt; Beginning time range (*btime* -&gt; *etime*)</span>
+<span class="sd">        etime -&gt; &#39;00-00-00&#39;   -&gt; hr-m-s -&gt; Ending time range</span>
+<span class="sd">        blat  -&gt; &#39;0.0&#39;        -&gt; float  -&gt; Beginning latitude range (*blat* -&gt; *elat*)</span>
+<span class="sd">        elat  -&gt; &#39;0.0&#39;        -&gt; float  -&gt; Ending latitude range</span>
+<span class="sd">        balt  -&gt; &#39;0.0&#39;        -&gt; float  -&gt; Beginning altitude range (*balt* -&gt; *ealt*)</span>
+<span class="sd">        ealt  -&gt; &#39;0.0&#39;        -&gt; float  -&gt; Ending altitude range</span>
+<span class="sd">        plot  -&gt; PLOTS        -&gt; string -&gt; Type of plot (&#39;backscattered&#39; etc..)</span>
+<span class="sd">        ampm  -&gt; &#39;am&#39;/&#39;pm&#39;    -&gt; string -&gt; Whether the time range is AM or PM</span>
+<span class="sd">        file  -&gt; &#39;.....hdf&#39;   -&gt; string -&gt; File name</span>
 
 <span class="sd">        :param observer: An ``advancedsearchdialog.Query`` object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -484,15 +513,50 @@
                 <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">hdf</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">])</span>
             <span class="p">)</span>
 
-        <span class="c"># This next part should NOT be considered a permanent solution</span>
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;blat&#39;</span><span class="p">]:</span>
+            <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">begin_lat</span> <span class="o">&gt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;blat&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;elat&#39;</span><span class="p">]:</span>
+            <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">end_lat</span> <span class="o">&lt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;elat&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;balt&#39;</span><span class="p">]:</span>
+            <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">begin_alt</span> <span class="o">&gt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;balt&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;ealt&#39;</span><span class="p">]:</span>
+            <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">end_alt</span> <span class="o">&lt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;ealt&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
 
         <span class="n">lazy_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">query_result</span><span class="p">:</span>
-            <span class="n">time_range</span><span class="p">,</span> <span class="n">altitude_range</span> <span class="o">=</span> <span class="n">get_shape_ranges</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+            <span class="n">time_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
+            <span class="n">altitude_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
+            <span class="n">lat_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
+            <span class="c"># If we&#39;re parsing a date, we can&#39;t just filter as we must transform</span>
+            <span class="c"># coordinates into time_range first, so we need to manually check and</span>
+            <span class="c"># skip which is PROBABLY not the best solution.</span>
+            <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">time_range</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;btime&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s">&#39;btime&#39;</span><span class="p">],</span> <span class="s">&#39;%H:%M:%S&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="p">():</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;etime&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s">&#39;etime&#39;</span><span class="p">],</span> <span class="s">&#39;%H:%M:%S&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="p">():</span>
+                <span class="k">continue</span>
+
             <span class="n">lazy_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">lat</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                 <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
+                <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">lat_range</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                 <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">lazy_list</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="ImportDialog.receive_extract_columns"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.receive_extract_columns">[docs]</a>    <span class="k">def</span> <span class="nf">receive_extract_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observer</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -560,69 +624,29 @@
 <span class="sd">        Commit the session, destroy the window and ensure the session is</span>
 <span class="sd">        closed correctly</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Singleton no longer exists, so set it to false</span>
+        <span class="n">ImportDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="bp">False</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Closing ImportDialog&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div></div>
 </pre></div>
 
-          </div>
-          <footer>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
     <p>
-        &copy; Copyright 2015, Grant Mercer, Nathan Qian.
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
     </p>
   </div>
-
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-
-  <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
-
 </footer>
-        </div>
-      </div>
-
-    </section>
-
-  </div>
-  
-
-
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.15.2',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
-      });
-  </script>
-   
-
-</body>
+  </body>
 </html>
