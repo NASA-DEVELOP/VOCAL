@@ -36,6 +36,8 @@ from tools.optionmenu import ShapeOptionMenu
 from tools.tools import Catcher, center
 from toolswindow import ToolsWindow
 from db import db
+from PIL import ImageTk
+from tools.tooltip import create_tool_tip
 import matplotlib.image as mpimg
 
 
@@ -49,6 +51,8 @@ class Calipso(object):
     #   Initialization functions
 
     def __init__(self, r):
+        self.load_img = ImageTk.PhotoImage(file=PATH + '/ico/load.png')
+        self.save_img = ImageTk.PhotoImage(file=PATH + '/ico/save.png')
         self.__root = r  # Root of program
         self.__file = ''  # Current file in use
         self.xrange = self.yrange = (0, 1000)  # X and Y range for scrolling plot
@@ -198,6 +202,20 @@ class Calipso(object):
         label_file.grid(row=1, column=0)
         self.__label_file_dialog.grid(row=1, column=1, padx=10)
         browse_button.grid(row=1, column=3)
+
+        # Load shapes from JSON
+        load_button = \
+            Button(self.__dialog_shape_frame, image=self.load_img, width=30, height=30, command=self.load)
+        load_button.pack(side=RIGHT, padx=2)
+        create_tool_tip(load_button, 'Load JSON')
+
+        # Save shapes as JSON
+        save_button = \
+            Button(self.__dialog_shape_frame, image=self.save_img, width=30, height=30, command=self.save_json)
+        save_button.pack(side=RIGHT, padx=2)
+        create_tool_tip(save_button, 'Save selected\n objects to\n JSON')
+
+
 
         self.option_menu = ShapeOptionMenu(self.__dialog_shape_frame, self.shape_var, "",
                                            command=self.highlight_selected_shape)

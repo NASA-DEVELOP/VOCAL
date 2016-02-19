@@ -30,8 +30,6 @@ class ToolsWindow(Toplevel):
         # Images required by buttons
         self.edit_img = ImageTk.PhotoImage(file=PATH + '/ico/edit.png')
         self.prop_img = ImageTk.PhotoImage(file=PATH + '/ico/cog.png')
-        self.load_img = ImageTk.PhotoImage(file=PATH + '/ico/load.png')
-        self.save_img = ImageTk.PhotoImage(file=PATH + '/ico/save.png')
         self.plot_img = ImageTk.PhotoImage(file=PATH + '/ico/hide.png')
         self.outline_img = ImageTk.PhotoImage(file=PATH + '/ico/focus.png')
         self.paint_img = ImageTk.PhotoImage(file=PATH + '/ico/paint.png')
@@ -45,6 +43,7 @@ class ToolsWindow(Toplevel):
         self.magnify_draw_img = ImageTk.PhotoImage(file=PATH + '/ico/magnify.png')
         self.extract_img = ImageTk.PhotoImage(file=PATH + '/ico/extract.png')
         self.home_img = ImageTk.PhotoImage(file=PATH + '/ico/home.png')
+        self.select_cursor = ImageTk.PhotoImage(file=PATH +'/ico/cursorhighlight.png')
 
         self.__parent = parent
         self.__root = root
@@ -255,17 +254,14 @@ class ToolsWindow(Toplevel):
         plot_button.grid(row=3, column=2, padx=2, pady=5)
         create_tool_tip(plot_button, 'Hide polygons')
 
-        # Save shapes as JSON
-        save_button = \
-            Button(self.lower_button_frame, image=self.save_img, width=30, height=30, command=self.__parent.save_json)
-        save_button.grid(row=3, column=3, padx=2, pady=5)
-        create_tool_tip(save_button, 'Save visible\n objects\n to JSON')
-        
-        # Load shapes from JSON
-        load_button = \
-            Button(self.lower_button_frame, image=self.load_img, width=30, height=30, command=self.__parent.load)
-        load_button.grid(row=3, column=4, padx=2, pady=5)
-        create_tool_tip(load_button, 'Load JSON')
+        select_button = \
+            ToggleableButton(self.__root, self.lower_button_frame, image=self.select_cursor, width=30, height=30)
+        select_button.latch(target=self.__canvas, key='pick_event',
+                            command=self.__parent.get_shapemanager().select,
+                            cursor='')
+        select_button.grid(row=3, column=3, padx=2, pady=5)
+        create_tool_tip(select_button, 'Select shapes for action')
+
 
     @staticmethod
     def __check_range(beginning_range, ending_range, min_range,

@@ -46,7 +46,7 @@ class ShapeManager(object):
         self.__shapereader = ShapeReader()  # internal reader object for exporting
         self.__data = {}                    # data to hold JSON data for exporting
         logger.info("Querying database for unique tag")
-        self.__phl = None                   # 'previoushighlightshape', for unsetting highlight
+        self.__selected_shapes = []         # shapes that are currently selected
 
     def anchor_rectangle(self, event):
         """
@@ -170,23 +170,25 @@ class ShapeManager(object):
 
     def highlight(self, tag):
         """
-        Highlight the shape specified by ``tag``. Also keeps track of
-        a the previous highlight in order to unhighlight it before
-        highlighting the current tag
+        Highlight the shape specified by ``tag``. Ensures to reset
+        any other objects that may be highlighted. Not to be confused
+        with ``select(self, event)``, which for multiple selections
 
         :param str tag: The tag of the object
         """
-        if tag == "" and self.__phl:
-            logger.info('Disabling highlight')
-            self.__phl.set_highlight(False)
+        if tag == "" and self.__selected_shapes:
+            logger.info('Disabling highlights for all shapes')
+            for x in self.__selected_shapes:
+                # The shape may have been removed, so we should ensure it exists
+                if x: x.set_highlight(False)
             self.__canvas.show()
             return
         for shape in self.__current_list[:-1]:
             if shape.get_tag() == tag:
                 logger.info('Highlighting %s' % tag)
-                if self.__phl:
-                    self.__phl.set_highlight(False)
-                self.__phl = shape
+                for x in self.__selected_shapes:
+                    if x: x.set_highlight(False)
+                self.__selected_shapes.append(shape)
                 shape.set_highlight(True)
                 break
         self.__canvas.show()
@@ -515,3 +517,21 @@ class ShapeManager(object):
         self.__data[constants.PLOTS[i]] = shape_dict
         logger.info('Encoding to JSON')
         db.encode(self.__current_file, self.__data)
+
+    def select(self, event):
+        """
+        Highlight the selected object and add to internal list of highlighted objects
+
+        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
+        """
+        logger.info("called")
+        shape = event.artist
+        for item in self.__current_list:
+            poly = item.get_itemhandler()
+            if poly == shape:
+                logger.info('Highlighting %s' % item.get_tag())
+                item.set_highlight(True)
+                self.__selected_shapes.append(item)
+                break
+        self.__canvas.show()
+
