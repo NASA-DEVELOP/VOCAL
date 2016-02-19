@@ -50,11 +50,11 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 ; NOTE: CHANGE PATHS TO YOUR LOCATION OF VOCAL BUILD
 [Files]
 Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\core\Calipso.exe"; DestDir: "{app}\core"; Flags: ignoreversion
-Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\dat\*"; DestDir: "{app}\vocal\dat"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\db\*"; DestDir: "{app}\vocal\db"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\log\*"; DestDir: "{app}\vocal\log"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\ico\*"; DestDir: "{app}\vocal\ico"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\dat_\*"; DestDir: "{app}\vocal\dat_"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\dat\*"; DestDir: "{app}\dat"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\db\*"; DestDir: "{app}\db"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\log\*"; DestDir: "{app}\log"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\ico\*"; DestDir: "{app}\ico"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\dat_\*"; DestDir: "{app}\dat_"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Users\kdmoore2\Documents\VOCALgit\vocal\calipso\vocal\core\*"; DestDir: "{app}\core"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]

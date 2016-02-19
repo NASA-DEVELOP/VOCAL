@@ -1,10 +1,16 @@
+##########################
+#
+#
+#   @Author: Katie Moore
+##########################
+
 import os
 import shutil
+from os.path import expanduser
 
 # Dump dependencies into appdata path if not already there
 app_data_path = os.getenv('APPDATA')
 vocal_dir = app_data_path + '\\vocal'    #AppData\Roaming
-from os.path import expanduser
 home = expanduser("~")
 if not os.path.exists(vocal_dir):
     root_dir = '.'
