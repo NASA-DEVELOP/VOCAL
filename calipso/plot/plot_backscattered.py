@@ -7,7 +7,7 @@
 # 8/11/2014
 #
 import constants
-import ccplot
+import ccplot.utils
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 
