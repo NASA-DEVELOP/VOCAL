@@ -168,24 +168,26 @@ class ShapeManager(object):
             self.__current_list[-1].set_coordinates([])
             self.__canvas._tkcanvas.delete(self.__current_list[-1].lastrect)
 
-    def highlight(self, tag):
+    def select_from_tag(self, tag):
         """
         Highlight the shape specified by ``tag``. Ensures to reset
         any other objects that may be highlighted. Not to be confused
-        with ``select(self, event)``, which for multiple selections
+        with ``select(self, event)``, which is for multiple selections
+        via event objects
 
         :param str tag: The tag of the object
         """
         if tag == "" and self.__selected_shapes:
-            logger.info('Disabling highlights for all shapes')
+            logger.info('Disabling selection for all shapes')
             for x in self.__selected_shapes:
                 # The shape may have been removed, so we should ensure it exists
                 if x: x.set_highlight(False)
+            self.__selected_shapes = []
             self.__canvas.show()
             return
         for shape in self.__current_list[:-1]:
             if shape.get_tag() == tag:
-                logger.info('Highlighting %s' % tag)
+                logger.info('Selecting %s' % tag)
                 for x in self.__selected_shapes:
                     if x: x.set_highlight(False)
                 self.__selected_shapes.append(shape)
@@ -518,20 +520,24 @@ class ShapeManager(object):
         logger.info('Encoding to JSON')
         db.encode(self.__current_file, self.__data)
 
-    def select(self, event):
+    def select_from_event(self, event):
         """
         Highlight the selected object and add to internal list of highlighted objects
 
         :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
         """
-        logger.info("called")
         shape = event.artist
         for item in self.__current_list:
             poly = item.get_itemhandler()
             if poly == shape:
-                logger.info('Highlighting %s' % item.get_tag())
-                item.set_highlight(True)
-                self.__selected_shapes.append(item)
+                if not item.is_selected():
+                    logger.info('Selecting %s' % item.get_tag())
+                    item.set_highlight(True)
+                    self.__selected_shapes.append(item)
+                else:
+                    logger.info('Deselecting %s' % item.get_tag())
+                    item.set_highlight(False)
+                    self.__selected_shapes.remove(item)
                 break
         self.__canvas.show()
 

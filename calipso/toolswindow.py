@@ -257,7 +257,7 @@ class ToolsWindow(Toplevel):
         select_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.select_cursor, width=30, height=30)
         select_button.latch(target=self.__canvas, key='pick_event',
-                            command=self.__parent.get_shapemanager().select,
+                            command=self.__parent.get_shapemanager().select_from_event,
                             cursor='')
         select_button.grid(row=3, column=3, padx=2, pady=5)
         create_tool_tip(select_button, 'Select shapes for action')

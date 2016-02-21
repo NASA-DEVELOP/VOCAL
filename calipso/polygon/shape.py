@@ -416,6 +416,15 @@ class Shape(object):
                 return True
         return False
 
+    def is_selected(self):
+        """
+        Return a boolean value based on whether the object is currently
+        highlighted in the figure. Uses ``__selected``
+        
+        :rtype: :py:class:`bool`
+        """
+        return self.__selected
+
     def __can_draw(self):
         b1 = tuple_to_nparray(self.__coordinates[-1])
         b2 = tuple_to_nparray(self.__coordinates[-2])

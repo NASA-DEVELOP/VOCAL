@@ -218,7 +218,7 @@ class Calipso(object):
 
 
         self.option_menu = ShapeOptionMenu(self.__dialog_shape_frame, self.shape_var, "",
-                                           command=self.highlight_selected_shape)
+                                           command=self.select_shape)
         self.option_menu.bind("<ButtonPress-1>", self.update_shape_optionmenu)
         self.option_menu.pack(side=RIGHT, padx=10)
         label_shapes = Label(self.__dialog_shape_frame, text="Select")
@@ -244,8 +244,8 @@ class Calipso(object):
         ops = [x.get_tag() for x in self.__shapemanager.get_current_list() if x is not None]
         self.option_menu.set_menu(ops)
 
-    def highlight_selected_shape(self, tag):
-        self.__shapemanager.highlight(tag)
+    def select_shape(self, tag):
+        self.__shapemanager.select_from_tag(tag)
 
     def import_file(self):
         """
