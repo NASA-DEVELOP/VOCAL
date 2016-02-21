@@ -73,6 +73,13 @@ class ShapeManager(object):
         return len(self.__shape_list[0]) + len(self.__shape_list[1]) + \
             len(self.__shape_list[2]) + len(self.__shape_list[3]) - 4
 
+    def get_selected_count(self):
+        """
+        Get the total amount of *selected* objects in existence inside ShapeManager
+        """
+
+        return len(self.__selected_shapes)
+
     def get_filename(self):
         """
         Return JSON filename string
@@ -446,7 +453,7 @@ class ShapeManager(object):
 
     def save_json(self, filename=''):
         """
-        Save all shapes visible on the screen to a previously specified JSON object,
+        Save all shapes selected on the screen to a specified JSON object,
         if no file is passed the internal file variable is used. There should **never**
         arise a case where no file is passed either from the internal or external
         parameters, ``Calipso`` has proper error checking.
@@ -455,6 +462,8 @@ class ShapeManager(object):
         """
         if filename != '':
             self.__current_file = filename
+        if not self.__selected_shapes:
+            logger.warning('No shapes selected, saving empty plot')
         today = datetime.utcnow().replace(microsecond=0)
         self.__data['time'] = str(today)
         self.__data['hdffile'] = self.__hdf
@@ -462,20 +471,20 @@ class ShapeManager(object):
         for i in range(len(self.__shape_list)):
             self.__data[constants.PLOTS[i]] = {}
         i = self.__shape_list.index(self.__current_list)
-        for j in range(len(self.__current_list)-1):
-            if not self.__current_list[j].get_saved():
-                self.__current_list[j].save()
-            tag = self.__current_list[j].get_tag()
-            coordinates = self.__current_list[j].get_coordinates()
-            color = self.__current_list[j].get_color()
-            attributes = self.__current_list[j].get_attributes()
-            note = self.__current_list[j].get_notes()
-            _id = self.__current_list[j].get_id()
+        for j in range(len(self.__selected_shapes)):
+            if not self.__selected_shapes[j].get_saved():
+                self.__selected_shapes[j].save()
+            tag = self.__selected_shapes[j].get_tag()
+            coordinates = self.__selected_shapes[j].get_coordinates()
+            color = self.__selected_shapes[j].get_color()
+            attributes = self.__selected_shapes[j].get_attributes()
+            note = self.__selected_shapes[j].get_notes()
+            _id = self.__selected_shapes[j].get_id()
 
             time_cords = [mpl.dates.num2date(x[0]) for x in coordinates]
             alt_cords = [x[1] for x in coordinates]
-            blat = self.__current_list[j].get_min_lat()
-            elat = self.__current_list[j].get_max_lat()
+            blat = self.__selected_shapes[j].get_min_lat()
+            elat = self.__selected_shapes[j].get_max_lat()
             btime = min(time_cords).strftime(DATEFORMAT)
             etime = max(time_cords).strftime(DATEFORMAT)
             balt = min(alt_cords)

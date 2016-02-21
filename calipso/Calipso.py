@@ -124,7 +124,6 @@ class Calipso(object):
         menu_file = Menu(menu_bar, tearoff=0)
         menu_file.add_command(label='Import file', command=self.import_file)
         menu_file.add_command(label='Save all shapes', command=lambda: self.save_as_json(save_all=True))
-        menu_file.add_command(label='Save as shapes', command=self.save_as_json)
         menu_file.add_separator()
         menu_file.add_command(label='Exit', command=self.close)
         menu_bar.add_cascade(label='File', menu=menu_file)
@@ -211,11 +210,9 @@ class Calipso(object):
 
         # Save shapes as JSON
         save_button = \
-            Button(self.__dialog_shape_frame, image=self.save_img, width=30, height=30, command=self.save_json)
+            Button(self.__dialog_shape_frame, image=self.save_img, width=30, height=30, command=self.save_as_json)
         save_button.pack(side=RIGHT, padx=2)
         create_tool_tip(save_button, 'Save selected\n objects to\n JSON')
-
-
 
         self.option_menu = ShapeOptionMenu(self.__dialog_shape_frame, self.shape_var, "",
                                            command=self.select_shape)
@@ -452,10 +449,12 @@ class Calipso(object):
 
     def save_json(self):
         """
+        **DEPRECATED**
+
         Save all shapes on the map inside a JSON object given a previously
         saved file. If no file exists prompt for file
         """
-        logger.info('Notify JSON to save')
+        logger.info('Notifying JSON to save')
         # Save to last saved file, if no file exists prompt to a new file
         if self.__shapemanager.get_count() > 0:
             saved = True
@@ -472,12 +471,15 @@ class Calipso(object):
 
     def save_as_json(self, save_all=False):
         """
-        Save all shapes on the map given a file specified by the user
+        Save all selected objects on the plot, asking for a filename first
+
+        if ``save_all`` is specified and set to ``True``, the function will save **all**
+        shapes across **all** plots in the program.
         """
-        logger.info('Notify JSON to save as')
+        logger.info('Notifying JSON to save as')
         # Save to a file entered by user, saveAll saves ALL objects across canvas
         # and cannot be called as a normal save(must always be save as)
-        if self.__shapemanager.get_count() > 0:
+        if self.__shapemanager.get_selected_count() > 0:
             options = dict()
             options['defaultextension'] = '.json'
             options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
@@ -490,7 +492,7 @@ class Calipso(object):
             else:
                 self.__shapemanager.save_json(f)
         else:
-            logger.error('No objects found, canceling save')
+            logger.error('No selected objects found, canceling save')
             tkMessageBox.showerror('save as JSON', 'No objects to be saved')
 
     def load(self):
@@ -578,7 +580,6 @@ class Calipso(object):
         logger.info("Extracting data for %s" % shape.get_tag())
         ExtractDialog(self.__root, shape, self.__file, self.xrange, self.yrange). \
             wm_iconbitmap(ICO)
-
 
     def import_dialog(self):
         """
