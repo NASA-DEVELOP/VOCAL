@@ -62,66 +62,6 @@ class ShapeManager(object):
         else:
             logger.error('Anchor selected is out of range, skipping')
 
-    def get_count(self):
-        """
-        Get the total amount of objects in existence inside ShapeManager, adds
-        all lists up and subtracts the empty objects that are always appended
-        to the end of the lists.
-
-        :rtype: :py:class:`int`
-        """
-        return len(self.__shape_list[0]) + len(self.__shape_list[1]) + \
-            len(self.__shape_list[2]) + len(self.__shape_list[3]) - 4
-
-    def get_selected_count(self):
-        """
-        Get the total amount of *selected* objects in existence inside ShapeManager
-        """
-
-        return len(self.__selected_shapes)
-
-    def get_filename(self):
-        """
-        Return JSON filename string
-
-        :rtype: :py:class:`str`
-        """
-        return self.__current_file
-
-    def get_current_list(self):
-        """
-        Return the current list
-
-        .. warning::
-           This function should **never** be used for any write operation. Using
-           this function should be for **read only**.
-
-        :rtype: :py:class:`list`
-        """
-        return self.__current_list
-
-    def plot_point(self, event):
-        """
-        Plot a single point to the screen for the current shape object,
-        if other points exist, a line is drawn between then until a
-        polygon is formed
-
-        :param event: A ``matplotlib.backend_bases.MouseEvent`` passed object
-        """
-        if self.__current_plot == Plot.baseplot:
-            logger.warning('Cannot draw to the base plot')
-            return
-        if event.xdata and event.ydata:
-            logger.info('Plotting point at %.5f, %.5f' % (event.xdata, event.ydata))
-            check = self.__current_list[-1].plot_point(event, self.__current_plot,
-                                                       self.__figure, ShapeManager.outline_toggle)
-            if check:
-                self.__current_list[-1].set_tag(self.generate_tag())
-                self.__current_list.append(Shape(self.__canvas))
-                self.__canvas.show()
-        else:
-            logger.error("Point to plot is out or range, skipping")
-
     def clear_lines(self):
         """
         Clear any existing lines or unfilled shapes when the 'Free Draw' button
@@ -134,20 +74,35 @@ class ShapeManager(object):
         print self.__current_list[-1].get_coordinates()
         self.__canvas.show()
 
-    def rubberband(self, event):
+    def clear_refs(self):
         """
-        Uses a blank shape to draw 'helper rectangles' that outline the final shape of the
-        object. wrapper function for calling :py:class:`polygon.Shape` method.
+        Clear all references to the current figure, this is called
+        in the ``Calipso`` class when a plot is to be set as to ensure
+        no dangling references are left. If we we're writing this in
+        Rust we wouldn't need to worry about this because Rust has better
+        ownership semantics ;)
+        """
+        for shape in self.__current_list[:-1]:
+            ih = shape.get_itemhandler()
+            if ih is not None:
+                ih.remove()
 
-        :param event: A backend passes ``matplotlib.backend_bases.MouseEvent`` object
+    def delete(self, event):
         """
-        if event.button == 1:
-            if self.__current_plot == Plot.baseplot:
-                logger.warning("Cannot draw to BASE_PLOT")
-                return
-            if len(self.__current_list[-1].get_coordinates()) is 0:
-                return
-            self.__current_list[-1].rubberband(event)
+        Delete the specified object from the screen, searches through the
+        current list to find the artist that was clicked on
+
+        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
+        """
+        shape = event.artist
+        for item in self.__current_list:
+            poly = item.get_itemhandler()
+            if poly == shape:
+                logger.info('Deleting %s' % item.get_tag())
+                self.__current_list.remove(item)
+                break
+        shape.remove()
+        self.__canvas.show()
 
     # noinspection PyProtectedMember
     def fill_rectangle(self, event):
@@ -175,100 +130,17 @@ class ShapeManager(object):
             self.__current_list[-1].set_coordinates([])
             self.__canvas._tkcanvas.delete(self.__current_list[-1].lastrect)
 
-    def select_from_tag(self, tag):
+    def find_shape(self, event):
         """
-        Highlight the shape specified by ``tag``. Ensures to reset
-        any other objects that may be highlighted. Not to be confused
-        with ``select(self, event)``, which is for multiple selections
-        via event objects
+        Return the handle to the shape found via the user clicking on one
 
-        :param str tag: The tag of the object
+        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
         """
-        if tag == "" and self.__selected_shapes:
-            logger.info('Disabling selection for all shapes')
-            for x in self.__selected_shapes:
-                # The shape may have been removed, so we should ensure it exists
-                if x: x.set_highlight(False)
-            self.__selected_shapes = []
-            self.__canvas.show()
-            return
-        for shape in self.__current_list[:-1]:
-            if shape.get_tag() == tag:
-                logger.info('Selecting %s' % tag)
-                for x in self.__selected_shapes:
-                    if x: x.set_highlight(False)
-                self.__selected_shapes.append(shape)
-                shape.set_highlight(True)
-                break
-        self.__canvas.show()
+        target = event.artist
+        for shape in self.__current_list:
+            if shape.get_itemhandler() is target:
+                return shape
 
-    def set_hdf(self, hdf_filename):
-        """
-        Set the internal HDF filename variable
-
-        :param str hdf_filename: Name of new HDF filename
-        """
-        self.__hdf = hdf_filename
-
-    def get_hdf(self):
-        """
-        Return the hdf string that objects are currently drawn to
-
-        :rtype: :py:class:`str`
-        """
-        return self.__hdf
-
-    def clear_refs(self):
-        """
-        Clear all references to the current figure, this is called
-        in the ``Calipso`` class when a plot is to be set as to ensure
-        no dangling references are left. If we we're writing this in
-        Rust we wouldn't need to worry about this because Rust has better
-        ownership semantics ;)
-        """
-        for shape in self.__current_list[:-1]:
-            ih = shape.get_itemhandler()
-            if ih is not None:
-                ih.remove()
-
-    def set_current(self, plot, fig):
-        """
-        Set the current view to ``plot``, and draw any shapes that exist in the manager for
-        this plot. This is called each time a new view is rendered to the screen by
-        ``set_plot`` in *Calipso*
-
-        :param int plot: Acceptable plot constant from ``constants.py``
-        """
-        logger.debug('Settings plot to %s' % plot)
-        self.__figure = fig
-        self.set_plot(plot)
-        if len(self.__current_list) > 1:
-            logger.info('Redrawing shapes')
-            for shape in self.__current_list[:-1]:
-                if not shape.is_empty():
-                    shape.loaded_draw(self.__figure, ShapeManager.outline_toggle)
-            self.__canvas.show()
-
-    def set_plot(self, plot):
-        """
-        Determine which list current_list should alias, also set internal plot
-        variable
-
-        :param constants.Plot plot: Acceptable plot constant from ``constants.py``
-        """
-        if plot == Plot.baseplot:
-            logger.warning('set_plot called for BASE_PLOT')
-            self.__current_list = self.__shape_list[Plot.baseplot]
-            self.__current_plot = Plot.baseplot
-        elif plot == Plot.backscattered:
-            logger.info('set_plot to BACKSCATTERED')
-            self.__current_list = self.__shape_list[Plot.backscattered]
-            self.__current_plot = Plot.backscattered
-        elif plot == Plot.depolarized:
-            logger.info('set_plot to DEPOLARIZED')
-            self.__current_list = self.__shape_list[Plot.depolarized]
-            self.__current_plot = Plot.depolarized
-            
     @staticmethod
     def generate_tag():
         """
@@ -280,59 +152,50 @@ class ShapeManager(object):
         ShapeManager.shape_count += 1
         return string
 
-    def reset(self, all_=False):
+    def get_count(self):
         """
-        Clear the screen of any shapes present from the current_list
-        """
-        if all_:
-            logger.info('clearing all shapes')
-            self.__shape_list = [[Shape(self.__canvas)],           # baseplot
-                                 [Shape(self.__canvas)],           # backscattered
-                                 [Shape(self.__canvas)],           # depolarized
-                                 [Shape(self.__canvas)]]           # vfm
-        else:
-            logger.info('Resetting ShapeManager')
-            for shape in self.__current_list:
-                if not shape.is_empty():
-                    shape.remove()
-            self.__canvas.show()
-            idx = self.__shape_list.index(self.__current_list)
-            self.__shape_list[idx] = [Shape(self.__canvas)]
-            self.__current_list = self.__shape_list[idx]
+        Get the total amount of objects in existence inside ShapeManager, adds
+        all lists up and subtracts the empty objects that are always appended
+        to the end of the lists.
 
-    def delete(self, event):
+        :rtype: :py:class:`int`
         """
-        Delete the specified object from the screen, searches through the
-        current list to find the artist that was clicked on
+        return len(self.__shape_list[0]) + len(self.__shape_list[1]) + \
+            len(self.__shape_list[2]) + len(self.__shape_list[3]) - 4
 
-        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
+    def get_current_list(self):
         """
-        shape = event.artist
-        for item in self.__current_list:
-            poly = item.get_itemhandler()
-            if poly == shape:
-                logger.info('Deleting %s' % item.get_tag())
-                self.__current_list.remove(item)
-                break
-        shape.remove()
-        self.__canvas.show()
+        Return the current list
 
-    def outline(self):
+        .. warning::
+           This function should **never** be used for any write operation. Using
+           this function should be for **read only**.
+
+        :rtype: :py:class:`list`
         """
-        Toggle whether current shapes should be outlined or remained filled on
-        the screen
+        return self.__current_list
+
+    def get_hdf(self):
         """
-        logger.info('setting all shape fill to %s' % str(ShapeManager.outline_toggle))
-        ShapeManager.outline_toggle = not ShapeManager.outline_toggle
-        for shape in self.__current_list:
-            poly = shape.get_itemhandler()
-            if poly is not None and ShapeManager.outline_toggle:
-                poly.set_fill(True)
-                poly.set_linewidth(1.0)
-            elif poly is not None and not ShapeManager.outline_toggle:
-                poly.set_fill(False)
-                poly.set_linewidth(2.0)
-        self.__canvas.show()
+        Return the hdf string that objects are currently drawn to
+
+        :rtype: :py:class:`str`
+        """
+        return self.__hdf
+
+    def get_filename(self):
+        """
+        Return JSON filename string
+
+        :rtype: :py:class:`str`
+        """
+        return self.__current_file
+
+    def get_selected_count(self):
+        """
+        Get the total amount of *selected* objects in existence inside ShapeManager
+        """
+        return len(self.__selected_shapes)
 
     def hide(self):
         """
@@ -353,14 +216,14 @@ class ShapeManager(object):
                 poly.set_facecolor('none')
                 poly.set_edgecolor('none')
         self.__canvas.show()
-        
+
     def is_all_saved(self, plot=None):
         """
         Checks if all the shapes have been saved. If plot is None, the method
         will check if all shapes in every plot has been saved. If a plot is
         specified, then it will only check the shapes in the specified plot.
         This method will automatically ignore the last blank shapes.
-        
+
         :param plot: the plot of the shapes to check
         """
         if plot is None:
@@ -373,9 +236,46 @@ class ShapeManager(object):
             for i in range(len(self.__shape_list[plot.value])-1):
                 if not self.__shape_list[plot.value][i].get_saved():
                     return False
-            return True                     
+            return True
 
-    # noinspection PyProtectedMember
+    def outline(self):
+        """
+        Toggle whether current shapes should be outlined or remained filled on
+        the screen
+        """
+        logger.info('setting all shape fill to %s' % str(ShapeManager.outline_toggle))
+        ShapeManager.outline_toggle = not ShapeManager.outline_toggle
+        for shape in self.__current_list:
+            poly = shape.get_itemhandler()
+            if poly is not None and ShapeManager.outline_toggle:
+                poly.set_fill(True)
+                poly.set_linewidth(1.0)
+            elif poly is not None and not ShapeManager.outline_toggle:
+                poly.set_fill(False)
+                poly.set_linewidth(2.0)
+        self.__canvas.show()
+
+    def plot_point(self, event):
+        """
+        Plot a single point to the screen for the current shape object,
+        if other points exist, a line is drawn between then until a
+        polygon is formed
+
+        :param event: A ``matplotlib.backend_bases.MouseEvent`` passed object
+        """
+        if self.__current_plot == Plot.baseplot:
+            logger.warning('Cannot draw to the base plot')
+            return
+        if event.xdata and event.ydata:
+            logger.info('Plotting point at %.5f, %.5f' % (event.xdata, event.ydata))
+            check = self.__current_list[-1].plot_point(event, self.__current_plot,
+                                                       self.__figure, ShapeManager.outline_toggle)
+            if check:
+                self.__current_list[-1].set_tag(self.generate_tag())
+                self.__current_list.append(Shape(self.__canvas))
+                self.__canvas.show()
+        else:
+            logger.error("Point to plot is out or range, skipping")
 
     # noinspection PyProtectedMember
     def properties(self, event):
@@ -395,17 +295,6 @@ class ShapeManager(object):
                 return
         logger.warning("Shape not found")
 
-    def find_shape(self, event):
-        """
-        Return the handle to the shape found via the user clicking on one
-
-        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
-        """
-        target = event.artist
-        for shape in self.__current_list:
-            if shape.get_itemhandler() is target:
-                return shape
-        
     def read_plot(self, filename='', read_from_str=''):
         """
         Reads shapes from either a string or a file in JSON format, and packs the screen
@@ -434,6 +323,41 @@ class ShapeManager(object):
                         shape.redraw(self.__figure, ShapeManager.outline_toggle)
 
         self.__canvas.show()
+
+    def reset(self, all_=False):
+        """
+        Clear the screen of any shapes present from the current_list
+        """
+        if all_:
+            logger.info('clearing all shapes')
+            self.__shape_list = [[Shape(self.__canvas)],           # baseplot
+                                 [Shape(self.__canvas)],           # backscattered
+                                 [Shape(self.__canvas)],           # depolarized
+                                 [Shape(self.__canvas)]]           # vfm
+        else:
+            logger.info('Resetting ShapeManager')
+            for shape in self.__current_list:
+                if not shape.is_empty():
+                    shape.remove()
+            self.__canvas.show()
+            idx = self.__shape_list.index(self.__current_list)
+            self.__shape_list[idx] = [Shape(self.__canvas)]
+            self.__current_list = self.__shape_list[idx]
+
+    def rubberband(self, event):
+        """
+        Uses a blank shape to draw 'helper rectangles' that outline the final shape of the
+        object. wrapper function for calling :py:class:`polygon.Shape` method.
+
+        :param event: A backend passes ``matplotlib.backend_bases.MouseEvent`` object
+        """
+        if event.button == 1:
+            if self.__current_plot == Plot.baseplot:
+                logger.warning("Cannot draw to BASE_PLOT")
+                return
+            if len(self.__current_list[-1].get_coordinates()) is 0:
+                return
+            self.__current_list[-1].rubberband(event)
 
     def save_db(self):
         """
@@ -529,6 +453,33 @@ class ShapeManager(object):
         logger.info('Encoding to JSON')
         db.encode(self.__current_file, self.__data)
 
+    def select_from_tag(self, tag):
+        """
+        Highlight the shape specified by ``tag``. Ensures to reset
+        any other objects that may be highlighted. Not to be confused
+        with ``select(self, event)``, which is for multiple selections
+        via event objects
+
+        :param str tag: The tag of the object
+        """
+        if tag == "" and self.__selected_shapes:
+            logger.info('Disabling selection for all shapes')
+            for x in self.__selected_shapes:
+                # The shape may have been removed, so we should ensure it exists
+                if x: x.set_highlight(False)
+            self.__selected_shapes = []
+            self.__canvas.show()
+            return
+        for shape in self.__current_list[:-1]:
+            if shape.get_tag() == tag:
+                logger.info('Selecting %s' % tag)
+                for x in self.__selected_shapes:
+                    if x: x.set_highlight(False)
+                self.__selected_shapes.append(shape)
+                shape.set_highlight(True)
+                break
+        self.__canvas.show()
+
     def select_from_event(self, event):
         """
         Highlight the selected object and add to internal list of highlighted objects
@@ -549,4 +500,57 @@ class ShapeManager(object):
                     self.__selected_shapes.remove(item)
                 break
         self.__canvas.show()
+
+    def set_current(self, plot, fig):
+        """
+        Set the current view to ``plot``, and draw any shapes that exist in the manager for
+        this plot. This is called each time a new view is rendered to the screen by
+        ``set_plot`` in *Calipso*
+
+        :param int plot: Acceptable plot constant from ``constants.py``
+        """
+        logger.debug('Settings plot to %s' % plot)
+        self.__figure = fig
+        self.set_plot(plot)
+        if len(self.__current_list) > 1:
+            logger.info('Redrawing shapes')
+            for shape in self.__current_list[:-1]:
+                if not shape.is_empty():
+                    shape.loaded_draw(self.__figure, ShapeManager.outline_toggle)
+            self.__canvas.show()
+
+    def set_hdf(self, hdf_filename):
+        """
+        Set the internal HDF filename variable
+
+        :param str hdf_filename: Name of new HDF filename
+        """
+        self.__hdf = hdf_filename
+
+    def set_plot(self, plot):
+        """
+        Determine which list current_list should alias, also set internal plot
+        variable
+
+        :param constants.Plot plot: Acceptable plot constant from ``constants.py``
+        """
+        if plot == Plot.baseplot:
+            logger.warning('set_plot called for BASE_PLOT')
+            self.__current_list = self.__shape_list[Plot.baseplot]
+            self.__current_plot = Plot.baseplot
+        elif plot == Plot.backscattered:
+            logger.info('set_plot to BACKSCATTERED')
+            self.__current_list = self.__shape_list[Plot.backscattered]
+            self.__current_plot = Plot.backscattered
+        elif plot == Plot.depolarized:
+            logger.info('set_plot to DEPOLARIZED')
+            self.__current_list = self.__shape_list[Plot.depolarized]
+            self.__current_plot = Plot.depolarized
+
+        
+
+
+
+
+
 
