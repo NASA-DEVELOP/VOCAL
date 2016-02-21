@@ -128,6 +128,12 @@ class Calipso(object):
         menu_file.add_command(label='Exit', command=self.close)
         menu_bar.add_cascade(label='File', menu=menu_file)
 
+        # Edit Menu
+        menu_edit = Menu(menu_bar, tearoff=0)
+        menu_edit.add_command(label='Select all shapes', command=self.__shapemanager.select_all)
+        menu_edit.add_command(label='Deselect all shapes', command=self.__shapemanager.deselect_all)
+        menu_bar.add_cascade(label='Edit', menu=menu_edit)
+
         # Polygon Menu
         menu_polygon = Menu(menu_bar, tearoff=0)
         menu_polygon.add_command(label='Import from Database', command=self.import_dialog)

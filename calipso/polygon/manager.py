@@ -453,6 +453,30 @@ class ShapeManager(object):
         logger.info('Encoding to JSON')
         db.encode(self.__current_file, self.__data)
 
+    def select_all(self):
+        """
+        Set all objects within the current list as selected. Loops through all
+        shapes in the plot and sets their highlight as well as adding them to
+        the internal selected list
+        """
+        logger.info('Selecting %d shapes', len(self.__current_list)-1)
+        for i in self.__current_list[:-1]:
+            i.set_highlight(True)
+        self.__selected_shapes = self.__current_list
+        self.__canvas.show()
+
+    def deselect_all(self):
+        """
+        Remove selection from all objects on screen. Loops through all shapes
+        in the plot and sets their highlight to default and resets the internal
+        selected list
+        """
+        logger.info('Deselecting %d shapes', len(self.__current_list)-1)
+        for i in self.__current_list[:-1]:
+            i.set_highlight(False)
+        self.__selected_shapes = []
+        self.__canvas.show()
+
     def select_from_tag(self, tag):
         """
         Highlight the shape specified by ``tag``. Ensures to reset
