@@ -41,6 +41,7 @@ class Shape(object):
         self.__prev_y = 1.0
         self.__lines = []
         self.__saved = False
+        self.__selected = False
 
     def anchor_rectangle(self, event):
         """
@@ -178,6 +179,8 @@ class Shape(object):
         self.__plot = plot
         self.__item_handler = \
             Polygon(self.__coordinates, facecolor=clr, fill=fill, picker=5)
+        if self.__selected:
+            self.set_highlight(True)
         fig.add_patch(self.__item_handler)
 
     def redraw(self, fig, fill):
@@ -192,6 +195,8 @@ class Shape(object):
             self.__item_handler.remove()
         self.__item_handler = \
             Polygon(self.__coordinates, facecolor=self.__color, fill=fill, picker=5)
+        if self.__selected:
+            self.set_highlight(True)
         fig.add_patch(self.__item_handler)
 
     def loaded_draw(self, fig, fill):
@@ -205,6 +210,8 @@ class Shape(object):
         """
         self.__item_handler = \
             Polygon(self.__coordinates, facecolor=self.__color, fill=fill, picker=5)
+        if self.__selected:
+            self.set_highlight(True)
         fig.add_patch(self.__item_handler)
         
     def paint(self, color):
@@ -261,9 +268,11 @@ class Shape(object):
         :param bool highlight:
         """
         if highlight:
+            self.__selected = True
             self.__item_handler.set_linewidth(3.0)
             self.__item_handler.set_linestyle('dashed')
         else:
+            self.__selected = False
             self.__item_handler.set_linewidth(1.0)
             self.__item_handler.set_linestyle('solid')
 
