@@ -4,9 +4,11 @@
 # Brian Magill
 # 8/11/2014
 #
+
+import constants
+import ccplot.utils
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
-import ccplot.utils
 
 
 from PCF_genTimeUtils import extractDatetime
@@ -25,7 +27,7 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
     h1 = y_range[0]
     h2 = y_range[1]
     nz = 500
-    colormap = 'dat/calipso-depolar.cmap'
+    colormap = constants.PATH + '/dat/calipso-depolar.cmap'
     AVGING_WIDTH = 15
 
     with HDF(filename) as product:

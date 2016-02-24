@@ -4,6 +4,7 @@
 #   @Author: Grant Mercer
 #   @Author: Nathan Qian
 ##########################
+import runtime
 import matplotlib
 
 matplotlib.use('tkAgg')
@@ -37,7 +38,7 @@ from tools.tools import Catcher, center
 from toolswindow import ToolsWindow
 from db import db
 import matplotlib.image as mpimg
-
+import os
 
 class Calipso(object):
     """
@@ -647,6 +648,7 @@ class Calipso(object):
 
 
 def main():
+
     # Create Tkinter root and initialize Calipso
     logging.info('Starting CALIPSO program')
     Tk.CallWrapper = Catcher
