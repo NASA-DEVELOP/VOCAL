@@ -66,43 +66,47 @@ class ShapeReader(object):
                     self.__data[plt][shape]['attributes'] = \
                         ast.literal_eval(self.__data[plt][shape]['attributes'])
                         
-    def pack_shape(self, shape_list, plot_type, canvas, read_from_str=None):
+    def pack_shape(self, shape_list, plot_type, canvas, json_hdf, curr_hdf, read_from_str=None):
         """
         Stores the data in the JSON into PolygonDrawers
 
         :param shape_list: a Python list of PolygonDrawers
         :param plot_type: the current plot being displayed
-        :param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the shape_list
+        :param canvas: a Tkinter canvas to initialize the blank PolygonDrawer in the shape_list
         """
         from polygon.manager import ShapeManager
         enum_plot_type = constants.plot_type_enum[plot_type]
-        try:
-            for shape in self.__data[plot_type]:
-                entry = self.__data[plot_type][shape]['id']
-                if entry is not None and int(entry) in [x.get_id() for x in shape_list]:
-                    continue
-                logger.info('Found data in %s, packing polygon with JSON data'
+       
+        if json_hdf == curr_hdf :  
+	    try:
+                for shape in self.__data[plot_type]:
+                    entry = self.__data[plot_type][shape]['id']
+                    if entry is not None and int(entry) in [x.get_id() for x in shape_list]:
+                        continue
+                    logger.info('Found data in %s, packing polygon with JSON data'
                             % PLOTS[enum_plot_type])
-                color = self.__data[plot_type][shape]['color']
-                coordinates = self.__data[plot_type][shape]['coordinates']
-                attributes = self.__data[plot_type][shape]['attributes']
-                notes = self.__data[plot_type][shape]['notes']
-                _id = self.__data[plot_type][shape]['id']
-                if db.exists_tag(shape) and not read_from_str:
-                    new = ShapeManager.generate_tag()
-                    logger.warning(
-                        'Shape tag already exists in database, creating new tag % s'
-                        % new)
-                    shape_list[-1].set_tag(new)
-                else:
-                    shape_list[-1].set_tag(shape)
-                shape_list[-1].set_id(_id)
-                shape_list[-1].set_color(color)
-                shape_list[-1].set_plot(enum_plot_type)
-                shape_list[-1].set_attributes(attributes)
-                shape_list[-1].set_coordinates(coordinates)
-                shape_list[-1].set_notes(notes)
-                shape_list[-1].save()
-                shape_list.append(Shape(canvas))
-        except KeyError:
-            logger.error('Bad data in JSON file')
+                    color = self.__data[plot_type][shape]['color']
+                    coordinates = self.__data[plot_type][shape]['coordinates']
+                    attributes = self.__data[plot_type][shape]['attributes']
+                    notes = self.__data[plot_type][shape]['notes']
+                    _id = self.__data[plot_type][shape]['id']
+                    if db.exists_tag(shape) and not read_from_str:
+                        new = ShapeManager.generate_tag()
+                        logger.warning(
+                            'Shape tag already exists in database, creating new tag % s'
+                            % new)
+                        shape_list[-1].set_tag(new)
+                    else:
+                        shape_list[-1].set_tag(shape)
+                    shape_list[-1].set_id(_id)
+                    shape_list[-1].set_color(color)
+                    shape_list[-1].set_plot(enum_plot_type)
+                    shape_list[-1].set_attributes(attributes)
+                    shape_list[-1].set_coordinates(coordinates)
+                    shape_list[-1].set_notes(notes)
+                    shape_list[-1].save()
+                    shape_list.append(Shape(canvas))
+            except KeyError:
+                logger.error('Bad data in JSON file')
+	else:
+	    logger.error('Associated HDF files do not match')

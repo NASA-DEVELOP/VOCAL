@@ -183,6 +183,7 @@ class ShapeManager(object):
         """
         return self.__hdf
 
+
     def get_filename(self):
         """
         Return JSON filename string
@@ -314,7 +315,8 @@ class ShapeManager(object):
 
         for key in constants.plot_type_enum:
             lst = self.__shape_list[constants.plot_type_enum[key]]
-            self.__shapereader.pack_shape(lst, key, self.__canvas, read_from_str)
+            #self.__shapereader.pack_shape(lst, key, self.__canvas, read_from_str) # Testing below statement...
+            self.__shapereader.pack_shape(lst, key, self.__canvas, self.__hdf, self.__master.get_file(), read_from_str,)
             if self.__current_plot == constants.plot_type_enum[key]:
                 for shape in lst:
                     if not shape.is_empty():
@@ -462,7 +464,7 @@ class ShapeManager(object):
         logger.info('Selecting %d shapes', len(self.__current_list)-1)
         for i in self.__current_list[:-1]:
             i.set_highlight(True)
-        self.__selected_shapes = self.__current_list
+        self.__selected_shapes = (self.__current_list[:-1])
         self.__canvas.show()
 
     def deselect_all(self):
