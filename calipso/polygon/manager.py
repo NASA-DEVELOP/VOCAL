@@ -373,9 +373,10 @@ class ShapeManager(object):
             return False
         today = datetime.utcnow().replace(microsecond=0)
         if(only_selected):
-            db.commit_to_db(self.__selected_list, today, self.__hdf)
+            db.commit_to_db( self.__selected_shapes, today, self.__hdf)
         else:
-            db.commit_to_db(self.__current_list, today, self.__hdf)
+            # Must account for dummy object at end of current list
+            db.commit_to_db(self.__current_list[:-1], today, self.__hdf)
         return True
 
     def save_json(self, filename=''):

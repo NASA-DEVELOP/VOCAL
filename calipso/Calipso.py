@@ -277,7 +277,7 @@ class Calipso(object):
         success = self.__shapemanager.save_db(only_selected)
         if success:
             logger.info('Success, saved to db')
-            tkMessageBox.showinfo('database', 'All objects saved to database')
+            tkMessageBox.showinfo('database', 'Objects saved to database')
         else:
             logger.error('No objects to be saved')
             tkMessageBox.showerror('database', 'No objects to be saved')
