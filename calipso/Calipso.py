@@ -137,7 +137,8 @@ class Calipso(object):
         # Polygon Menu
         menu_polygon = Menu(menu_bar, tearoff=0)
         menu_polygon.add_command(label='Import from Database', command=self.import_dialog)
-        menu_polygon.add_command(label='Export to Database', command=self.export_db)
+        menu_polygon.add_command(label='Export all to Database', command=self.export_db)
+        menu_polygon.add_command(label='Export selected to Database', command=lambda: self.export_db(only_selected=True))
         menu_polygon.add_separator()
         menu_polygon.add_command(label='Import archive to database',
                                  command=Calipso.import_json_db)
@@ -267,13 +268,13 @@ class Calipso(object):
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
                                             text=segments[2])
 
-    def export_db(self):
+    def export_db(self, only_selected=False):
         """
         Notify the database that a save is taking place, the
         db will then save all polygons present on the screen
         """
-        logger.info('Notifying database to save')
-        success = self.__shapemanager.save_db()
+        logger.info('Notifying database to save with select flag %s' % (str(only_selected)))
+        success = self.__shapemanager.save_db(only_selected)
         if success:
             logger.info('Success, saved to db')
             tkMessageBox.showinfo('database', 'All objects saved to database')
