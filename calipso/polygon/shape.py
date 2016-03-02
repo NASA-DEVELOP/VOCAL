@@ -10,11 +10,9 @@ import random
 import matplotlib as mpl
 import matplotlib.lines as mlines
 import numpy as np
-from matplotlib.patches import Polygon
-
-import constants
 from constants import Plot, TAGS
 from log.log import logger
+from matplotlib.patches import Polygon
 from tools.linearalgebra import tuple_to_nparray, is_intersecting, \
     get_intersection, nparray_to_tuple
 
@@ -510,7 +508,8 @@ class Shape(object):
         time_cords = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S') for
                       x in self.__coordinates]
         altitude_cords = [x[1] for x in self.__coordinates]
-        string = 'Time Scale:\n\t%s - %s\n' % (min(time_cords), max(time_cords))
+        string = 'Name:\n\t%s\n' % self.__tag
+        string += 'Time Scale:\n\t%s - %s\n' % (min(time_cords), max(time_cords))
         string += 'Latitude Scale:\n\t%s\n' % self.generate_lat_range()
         string += 'Altitude Scale:\n\t%.4f km - %.4f km\n' % (min(altitude_cords), max(altitude_cords))
         string += 'Color:\n\t%s\n' % self.__color
