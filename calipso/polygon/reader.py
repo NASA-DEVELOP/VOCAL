@@ -66,7 +66,7 @@ class ShapeReader(object):
                     self.__data[plt][shape]['attributes'] = \
                         ast.literal_eval(self.__data[plt][shape]['attributes'])
                         
-    def pack_shape(self, shape_list, plot_type, canvas, json_hdf, curr_hdf, read_from_str=None):
+    def pack_shape(self, shape_list, plot_type, canvas, curr_hdf, read_from_str=None):
         """
         Stores the data in the JSON into PolygonDrawers
 
@@ -76,8 +76,8 @@ class ShapeReader(object):
         """
         from polygon.manager import ShapeManager
         enum_plot_type = constants.plot_type_enum[plot_type]
-       
-        if json_hdf == curr_hdf :  
+    
+        if curr_hdf == self.__data['hdffile']:    # Do HDF files match? 
 	    try:
                 for shape in self.__data[plot_type]:
                     entry = self.__data[plot_type][shape]['id']
@@ -109,4 +109,4 @@ class ShapeReader(object):
             except KeyError:
                 logger.error('Bad data in JSON file')
 	else:
-	    logger.error('Associated HDF files do not match')
+	    logger.error('Shape-associated HDF file and current HDF do not match')

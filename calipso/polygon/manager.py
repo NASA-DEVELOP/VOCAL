@@ -315,8 +315,7 @@ class ShapeManager(object):
 
         for key in constants.plot_type_enum:
             lst = self.__shape_list[constants.plot_type_enum[key]]
-            #self.__shapereader.pack_shape(lst, key, self.__canvas, read_from_str) # Testing below statement...
-            self.__shapereader.pack_shape(lst, key, self.__canvas, self.__hdf, self.__master.get_file(), read_from_str,)
+            self.__shapereader.pack_shape(lst, key, self.__canvas, self.__master.get_file(), read_from_str,)
             if self.__current_plot == constants.plot_type_enum[key]:
                 for shape in lst:
                     if not shape.is_empty():
@@ -560,7 +559,8 @@ class ShapeManager(object):
 
         :param constants.Plot plot: Acceptable plot constant from ``constants.py``
         """
-        if plot == Plot.baseplot:
+	
+	if plot == Plot.baseplot:
             logger.warning('set_plot called for BASE_PLOT')
             self.__current_list = self.__shape_list[Plot.baseplot]
             self.__current_plot = Plot.baseplot
