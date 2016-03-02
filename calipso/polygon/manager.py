@@ -359,7 +359,7 @@ class ShapeManager(object):
                 return
             self.__current_list[-1].rubberband(event)
 
-    def save_db(self):
+    def save_db(self, only_selected=False):
         """
         Commit all polygons currently in display to the database. Existing database
         objects will simply be updated, while objects not present in the database
@@ -372,7 +372,11 @@ class ShapeManager(object):
             logger.error('No shapes found')
             return False
         today = datetime.utcnow().replace(microsecond=0)
-        db.commit_to_db(self.__current_list, today, self.__hdf)
+        if(only_selected):
+            db.commit_to_db( self.__selected_shapes, today, self.__hdf)
+        else:
+            # Must account for dummy object at end of current list
+            db.commit_to_db(self.__current_list[:-1], today, self.__hdf)
         return True
 
     def save_json(self, filename=''):

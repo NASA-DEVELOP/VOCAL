@@ -173,7 +173,7 @@ class DatabaseManager(object):
         logger.info('Committing to database')
         session = self.__Session()
         # for every polygon object in the list except the end
-        for polygon in poly_list[:-1]:
+        for polygon in poly_list:
             # if the ID does not exist we have a new object to commit
             if polygon.get_id() is None:
                 logger.debug('committing new shape: %s' % polygon.get_tag())
