@@ -76,7 +76,6 @@ class ShapeReader(object):
         :param shape_list: a Python list of PolygonDrawers
         :param plot_type: the current plot being displayed
         :param canvas: a Tkinter canvas to initialize the blank PolygonDrawer in the shape_list
-	:param curr_hdf a string of the full path to the current HDF file loaded. Can be null.
         """
         from polygon.manager import ShapeManager
         enum_plot_type = constants.plot_type_enum[plot_type]
