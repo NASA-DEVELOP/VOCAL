@@ -7,6 +7,7 @@
 from Tkconstants import TOP, X, BOTH, RIGHT, FLAT
 import constants
 import matplotlib as mpl
+import tkMessageBox
 
 from constants import DATEFORMAT
 from Tkinter import Toplevel, Label, SOLID, TclError, LEFT, Frame, Button
@@ -305,16 +306,24 @@ class ShapeManager(object):
         :param str filename: The filename to read valid JSON shapes from
         :param str read_from_str: The string to read valid JSON shapes from
         """
+	found = False
         if read_from_str != '':
             logger.info('Reading JSON from string')
-            self.__shapereader.read_from_str_json(read_from_str)
+            read_data = self.__shapereader.read_from_str_json(read_from_str)
         else:
             logger.info('Reading JSON from file')
             self.__shapereader.set_filename(filename)
-            self.__shapereader.read_from_file_json()
+            read_data = self.__shapereader.read_from_file_json()
+
+	if self.__hdf != read_data['hdffile']:    # Do HDF files match? 
+            tkMessageBox.showerror('file', 
+	    'Shape-associated HDF file \n and current HDF do not match')
+            logger.error('Shape-associated HDF file and current HDF do not match')
+	    return;
+
         for key in constants.plot_type_enum:
             lst = self.__shape_list[constants.plot_type_enum[key]]
-            self.__shapereader.pack_shape(lst, key, self.__canvas, self.__hdf, read_from_str,)
+            self.__shapereader.pack_shape(lst, key, self.__canvas, read_from_str,)
             if self.__current_plot == constants.plot_type_enum[key]:
                 for shape in lst:
                     if not shape.is_empty():
