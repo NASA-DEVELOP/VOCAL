@@ -312,10 +312,9 @@ class ShapeManager(object):
             logger.info('Reading JSON from file')
             self.__shapereader.set_filename(filename)
             self.__shapereader.read_from_file_json()
-
         for key in constants.plot_type_enum:
             lst = self.__shape_list[constants.plot_type_enum[key]]
-            self.__shapereader.pack_shape(lst, key, self.__canvas, self.__master.get_file(), read_from_str,)
+            self.__shapereader.pack_shape(lst, key, self.__canvas, self.__hdf, read_from_str,)
             if self.__current_plot == constants.plot_type_enum[key]:
                 for shape in lst:
                     if not shape.is_empty():

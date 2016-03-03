@@ -8,6 +8,7 @@
 import ast
 import json
 import constants
+import tkMessageBox
 
 from constants import PLOTS
 from log.log import logger
@@ -73,6 +74,7 @@ class ShapeReader(object):
         :param shape_list: a Python list of PolygonDrawers
         :param plot_type: the current plot being displayed
         :param canvas: a Tkinter canvas to initialize the blank PolygonDrawer in the shape_list
+	:param curr_hdf a string of the full path to the current HDF file loaded. Can be null.
         """
         from polygon.manager import ShapeManager
         enum_plot_type = constants.plot_type_enum[plot_type]
@@ -109,4 +111,6 @@ class ShapeReader(object):
             except KeyError:
                 logger.error('Bad data in JSON file')
 	else:
+            tkMessageBox.showerror('file', 
+	    'Shape-associated HDF file \n and current HDF do not match')
 	    logger.error('Shape-associated HDF file and current HDF do not match')
