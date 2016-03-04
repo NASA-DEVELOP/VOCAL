@@ -8,7 +8,6 @@
 import ast
 import json
 import constants
-import tkMessageBox
 
 from constants import PLOTS
 from log.log import logger
