@@ -8,6 +8,7 @@
 import ast
 import json
 import constants
+import tkMessageBox
 
 from constants import PLOTS
 from log.log import logger
@@ -44,7 +45,8 @@ class ShapeReader(object):
         """
         with open(self.filename, 'r') as infile:
             data = byteify(json.load(infile))
-        self.__data = data
+        self.__data = data	
+	return self.__data
         
     def read_from_str_json(self, data):
         """
@@ -65,24 +67,26 @@ class ShapeReader(object):
                 if 'attributes' in self.__data[plt][shape]:
                     self.__data[plt][shape]['attributes'] = \
                         ast.literal_eval(self.__data[plt][shape]['attributes'])
-                        
+	return self.__data
+
     def pack_shape(self, shape_list, plot_type, canvas, read_from_str=None):
         """
         Stores the data in the JSON into PolygonDrawers
 
         :param shape_list: a Python list of PolygonDrawers
         :param plot_type: the current plot being displayed
-        :param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the shape_list
+        :param canvas: a Tkinter canvas to initialize the blank PolygonDrawer in the shape_list
         """
         from polygon.manager import ShapeManager
         enum_plot_type = constants.plot_type_enum[plot_type]
-        try:
+
+	try:
             for shape in self.__data[plot_type]:
                 entry = self.__data[plot_type][shape]['id']
                 if entry is not None and int(entry) in [x.get_id() for x in shape_list]:
                     continue
                 logger.info('Found data in %s, packing polygon with JSON data'
-                            % PLOTS[enum_plot_type])
+                        % PLOTS[enum_plot_type])
                 color = self.__data[plot_type][shape]['color']
                 coordinates = self.__data[plot_type][shape]['coordinates']
                 attributes = self.__data[plot_type][shape]['attributes']
