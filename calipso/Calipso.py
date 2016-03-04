@@ -282,6 +282,7 @@ class Calipso(object):
             logger.error('No objects to be saved')
             tkMessageBox.showerror('database', 'No objects to be saved')
 
+
     @staticmethod
     def import_json_db():
         """
