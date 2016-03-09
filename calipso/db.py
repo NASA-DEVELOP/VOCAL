@@ -91,7 +91,7 @@ class DatabasePolygon(dbBase):
             'ealt': self.end_alt,
             'notes': self.notes}}
         data['time'] = self.time_.strftime(DATEFORMAT)
-        data['hdfFile'] = self.hdf
+        data['hdffile'] = self.hdf
         logger.info('Converting unicode to ASCII')
         return byteify(json.dumps(data))
 
