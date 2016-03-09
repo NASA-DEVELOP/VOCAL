@@ -307,7 +307,9 @@ class ShapeManager(object):
         :param str read_from_str: The string to read valid JSON shapes from
         """
 	found = False
-        if read_from_str != '':
+
+
+	if read_from_str != '':
             logger.info('Reading JSON from string')
             read_data = self.__shapereader.read_from_str_json(read_from_str)
         else:
@@ -315,7 +317,7 @@ class ShapeManager(object):
             self.__shapereader.set_filename(filename)
             read_data = self.__shapereader.read_from_file_json()
 
-	if self.__hdf != read_data['hdffile']:    # Do HDF files match? 
+	if self.__hdf.rpartition('/')[2] != read_data['hdffile']:    # Do HDF files match? 
             tkMessageBox.showerror('file', 
 	    'Shape-associated HDF file \n and current HDF do not match')
             logger.error('Shape-associated HDF file and current HDF do not match')
@@ -403,8 +405,8 @@ class ShapeManager(object):
             logger.warning('No shapes selected, saving empty plot')
         today = datetime.utcnow().replace(microsecond=0)
         self.__data['time'] = str(today)
-        self.__data['hdffile'] = self.__hdf
-        shape_dict = {}
+	self.__data['hdffile'] = self.__hdf.rpartition('/')[2]
+	shape_dict = {}
         for i in range(len(self.__shape_list)):
             self.__data[constants.PLOTS[i]] = {}
         i = self.__shape_list.index(self.__current_list)
@@ -446,7 +448,7 @@ class ShapeManager(object):
             self.__current_file = filename
         today = datetime.utcnow().replace(microsecond=0)
         self.__data['time'] = str(today)
-        self.__data['hdffile'] = self.__hdf
+	self.__data['hdffile'] = self.__hdf.rpartition('/')[2]
         for i in range(len(self.__shape_list)):
             shape_dict = {}
             for j in range(len(self.__shape_list[i])-1):
