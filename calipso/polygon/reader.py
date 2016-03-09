@@ -45,7 +45,7 @@ class ShapeReader(object):
         with open(self.filename, 'r') as infile:
             data = byteify(json.load(infile))
         self.__data = data	
-	return self.__data
+        return self.__data
         
     def read_from_str_json(self, data):
         """
@@ -66,7 +66,7 @@ class ShapeReader(object):
                 if 'attributes' in self.__data[plt][shape]:
                     self.__data[plt][shape]['attributes'] = \
                         ast.literal_eval(self.__data[plt][shape]['attributes'])
-	return self.__data
+        return self.__data
 
     def pack_shape(self, shape_list, plot_type, canvas, read_from_str=None):
         """
@@ -79,7 +79,7 @@ class ShapeReader(object):
         from polygon.manager import ShapeManager
         enum_plot_type = constants.plot_type_enum[plot_type]
 
-	try:
+        try:
             for shape in self.__data[plot_type]:
                 entry = self.__data[plot_type][shape]['id']
                 if entry is not None and int(entry) in [x.get_id() for x in shape_list]:
