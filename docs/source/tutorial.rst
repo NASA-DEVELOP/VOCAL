@@ -9,22 +9,37 @@ Tool program.
 Interface Layout
 ----------------
 
-Upon first starting VOCAL, you will be greeted with the initial view of the application. The large center most
+Upon first starting VOCAL, you'll be greeted with the initial view of the application. The large center most
 window is the main screen for displaying data from ``.HDF`` files, this will be where you **see** the data.
 
 .. image:: _static/startup.png
    :scale: 40%
 
-The top most menu bar contains three directories: ``file`` , ``polygon`` and ``help``. These are self explanatory,
+The top most menu bar contains four directories: *file* , *edit*, *polygon* and *help*.
 
-* ``file`` allows a user to import an HDF (same as |browse|), save all objects from all plots to a JSON file, save
+* *file* allows a user to import an HDF (same as |browse|), save all objects from all plots to a JSON file, save
   only *visible* objects on the screen to a JSON file, or exit the application.
-* ``polygon`` relates to the database use, see :ref:`database` for more information.
-* ``help`` shows information on the project, and links to this website
+* *edit* offers tools for shape or plot manipulation
+* *polygon* relates to the database use, see :ref:`database` for more information.
+* *help* shows information on the project, and links to this website
 
-Located near the menu and off to the top right you'll find |sele| , this drop down menu is populated with all shapes
-currently drawn to the plot and will highlight the selected shape. If you wish to unselect all shapes, selecting the
-blank field will do so
+Located near the menu and off to the top right you'll find three buttons. |load| will load a JSON file previously
+created by the application, and draw it to the plot.
+
+.. note::
+
+   When loading JSON objects using this feature: the file the shape was created in **must** match the file you
+   currently have loaded, otherwise you'll get an error! We do not allow users to load shapes from JSON files
+   which are from other files than what the user is currently on.
+
+|save| will prompt you for a filename and then save all *selected* objects to that file. There are a number of
+ways to select objects, via the **edit** menu, using |sele| for single objects, or manually selecting objects
+using |csel|.
+
+|sele| is a drop down menu feature for single shape selection. The list is populated with all shapes
+currently drawn to the plot and selecting one from the menu will highlight that single shape. To unselect any
+shapes, you can either select the blank field in the drop down list or use the *deselect all* option in the
+*edit* menu.
 
 Off to the right is the tools window, this window is dedicated to the manipulation of the data displayed to the plot.
 
@@ -175,7 +190,7 @@ selected entries from the database, and this is **permanent**, there's no undo b
 
 So you can go ahead and search either the query *John* to get all notes that include the name john, or
 *shape31* to get the specific shape. All names are **unique**, if at any time you see two shapes with the
-same tag this is a bug on our part please report that issue immediately to us for fixing. So searching for *shape82*
+same tag this is a bug on our part please report that issue immediately to us for fixing. So searching for *shape40*
 will leave you with
 
 .. image:: _static/db_searched.png
@@ -274,6 +289,7 @@ then extract the data from that file and import all objects located in the archi
 .. |hide| image:: _static/hide_button.png
 .. |save| image:: _static/save_button.png
 .. |load| image:: _static/load_button.png
+.. |csel| image:: _static/selection_button.png
 
 .. |rese| image:: _static/reset_button.png
 .. |back| image:: _static/backscattered_button.png
