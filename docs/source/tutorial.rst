@@ -10,7 +10,7 @@ Interface Layout
 ----------------
 
 Upon first starting VOCAL, you'll be greeted with the initial view of the application. The large center most
-window is the main screen for displaying data from ``.HDF`` files, this will be where you **see** the data.
+window is the main screen for displaying data from *.HDF* files, this will be where you **see** the data.
 
 .. image:: _static/startup.png
    :scale: 40%
@@ -49,9 +49,9 @@ Off to the right is the tools window, this window is dedicated to the manipulati
   as backscattered
 * |depo| Selection option used when visualizing, having this option checked will display the data as
   depolarized.
-* |step| Specify the range of time to plot to, from ``x`` to ``y``. Default is ``x`` + 1000 if no ``y``, and
-  0 - 1000 if neither ``x`` nor ``y``
-* |salt| Specify the range of altitude to plot to, from ``x`` to ``y``. Default is 0 to 20
+* |step| Specify the range of time to plot to, from *x* to *y*. Default is *x* + 1000 if no *y*, and
+  0 - 1000 if neither *x* nor *y*
+* |salt| Specify the range of altitude to plot to, from *x* to *y*. Default is 0 to 20
 * |fren| Visualize the data given the conditions entered into **step** and **backscattered/depolarized**
        
 -----------
@@ -98,7 +98,7 @@ extraction of data from shapes
 * |attr| Attributes: Clicking on a shape while the attributes button is active will open a
   dialog window for assigning attributes to shapes. Attributes on the **left** are the *available*
   attributes, the **right** side is the *selected* attributes. Add any notes you wish and click
-  ``save`` to save the notes and attributes. These can be viewed with |prop|
+  *save* to save the notes and attributes. These can be viewed with |prop|
 * |extr| Extract: Clicking on a shape while the extract button is active will create a subplot
   containing only the data enclosed in the shape. Future features are to come but for now a
   subplot and histogram are generated for the shape.
@@ -133,12 +133,12 @@ of shapes to a JSON file.
   Only the outline of the shapes will be drawn, pressing this one more reverts the change
 * |hide| Hide: Similar to Focus, but pressing this button will **completely** hide all shapes,
   they still exist; however they simply won't be drawn to the screen.
-* |save| Save: Save all existing objects in the **current** plot to a ``JSON`` formatted file.
+* |save| Save: Save all existing objects in the **current** plot to a JSON formatted file.
   These objects can be loaded back into the screen with |load| and can be shared
   between researchers that wish to personally hand over shapes to another user for loading. If
-  you wish to save all shapes from **every** plot into one fill, these is a ``save all`` option
+  you wish to save all shapes from **every** plot into one fill, these is a *save_all* option
   in the file menu for this.
-* |load| Load: Given a valid ``.JSON`` file, load all polygon objects present in the file and
+* |load| Load: Given a valid *.JSON* file, load all polygon objects present in the file and
   display them to the plot.
 
 
@@ -150,7 +150,7 @@ Using the Database
 
 One of the defining features of VOCAL is the ability to import and export shapes to a database, this can
 help researchers share information about aerosols and their trajectory. The database can be accessed under
-the ``polygon`` menu, offering to either *import from database* or *export to database* . Let's start with exporting.
+the *polygon* menu, offering to either *import from database* or *export to database* . Let's start with exporting.
 
 Exporting Shapes
 ################
@@ -160,7 +160,7 @@ Say you have a number of shapes you've labeled with attributes and want to share
 .. image:: _static/to_be_exported.png
    :scale: 50%
 
-Exporting these shapes is as easy as going to the ``polygon`` menu and hitting *export to database*
+Exporting these shapes is as easy as going to the *polygon* menu and hitting *export to database*
 
 |expo|
 
@@ -182,7 +182,7 @@ This will open the import dialog
    :scale: 70%
 
 |dbse| allows the user to dynamically query the database for keys entered into the search bar. It will currently
-search the ``Name``, ``Attributes``, and ``Notes`` notes categories for the string entered. |dbfi| will filter
+search the *Name*, *Attributes*, and *Notes* notes categories for the string entered. |dbfi| will filter
 all entries based on whether the filename matches the current filename loaded, *note:* this will **not** work
 if your HDF has been renamed in anyway from the standard CALIPSO naming conventions. |dbde| will delete any
 selected entries from the database, and this is **permanent**, there's no undo button here.
@@ -198,7 +198,7 @@ will leave you with
 Clicking |dbim| will now import the selection to your internal shape manager. If you aren't on the correct file the
 shape was drawn one you won't be able to see it, each file has a unique range of time thus on object can be loaded
 onto multiple files. Scrolling right on the import window would have revealed the column File Name, which read
-``CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN``, so upon loading up that file walla! your object should appear.
+*CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN*, so upon loading up that file walla! your object should appear.
 
 .. image:: _static/db_shape_imported.png
 
@@ -215,7 +215,7 @@ inside of the import database window by clicking |dbex|. This opens:
 
 .. image:: _static/db_export_window.png
 
-Once here, you can select any columns you'd like to export as well as the file format. The ``.csv`` format is RFC
+Once here, you can select any columns you'd like to export as well as the file format. The *.csv* format is RFC
 4180 compliant and the text file is a simple whitespace and newline separated format. For example if one were to
 select to export the columns |ex1| and |ex2|, in the format |ex3|. You would see something like:
 
@@ -247,7 +247,7 @@ create.
    Exporting your database is a *copy* operation, the contents of your database will remain the same and
    simply be copied to the archive, which can be loaded as shown below
 
-Once exported you'll have an archive of your specified name, something like ``my_shapes.zip``. Feel free
+Once exported you'll have an archive of your specified name, something like *my_shapes.zip*. Feel free
 to take a peek inside the file, it's simply a formatted zip containing your shapes exported in a JSON
 format. Now you can share this archive file to whoever you wish and easily share your entire database
 for other researchers!
@@ -256,12 +256,12 @@ Importing From an Archive
 #########################
 
 Now when you receive a database archive yourself, you'll want to import that archive and start using the
-shapes right away; the command ``Import archive to database`` will do just that.
+shapes right away; the command *Import archive to database* will do just that.
 
 |imar|
 
 Upon clicking this menu option, a prompt will open asking you for a valid *.zip* file. Navigate to a zip
-file in the valid format that ``Export database to archive`` produced, and open that. VOCAL will
+file in the valid format that *Export database to archive* produced, and open that. VOCAL will
 then extract the data from that file and import all objects located in the archive.
 
 .. warning::
@@ -270,6 +270,36 @@ then extract the data from that file and import all objects located in the archi
    exists or not, imported shapes are treated as 'new' creations e.g. they will be assigned a unique tag
    based off of the current database tags.
 
+-----------------
+Advanced Querying
+-----------------
+
+VOCAL's database comes with a robust querying ability, allowing you to search over a wide range of parameters. To open
+the advanced search dialog, head over to the *polygon* -> *Import from Database* menu to open up the database window,
+and then click on |dbav|. Once open you will see
+
+.. image:: _static/db_advanced_window.png
+
+Any fields not entered or filled out will simply be ignored upon searching, so don't worry about filling fields out
+with empty values.
+
+.. note::
+
+   You must fill out the entries in the exact format as they appear in the dialog. Additionally, deleting a default
+   value and leaving the entry empty will cause undefined behavior
+
+So lets say you have a bunch of items in your database, but you only really want to see shapes from the file
+*CAL_LID_L1-Standard-V4-00.2006-06-13T00-44-41ZD.hdf* with a latitude of *-60* to *-50*, and maybe you also don't
+want anything higher than *13km*. Here's what it would look like within the advanced search dialog:
+
+.. image:: _static/db_advanced_search.png
+
+And here's what we get!
+
+.. image:: _static/db_advanced_results.png
+
+That's all there is to it. Notice we left everything blank that we didn't care about, if you don't touch it that
+field won't be checked!
 
 
 .. |browse| image:: _static/browse_button.png
@@ -316,3 +346,4 @@ then extract the data from that file and import all objects located in the archi
 .. |ex1|  image:: _static/db_file_cb.png
 .. |ex2|  image:: _static/db_attr_cb.png
 .. |ex3|  image:: _static/db_csv_rb.png
+.. |dbav| image:: _static/db_advanced_button.png
