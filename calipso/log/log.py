@@ -6,6 +6,7 @@
 import logging.config
 import sys
 import os
+import traceback
 from constants import PATH
 
 config = {
@@ -40,9 +41,12 @@ config = {
           }
 
 def uncaught_exception(exctype, value, tb):
-    logger.exception("Uncaught exception: {0}".format(str(value)))
-    sys.__excepthook__(exctype, value, tb)
-    
+    logging.exception('{0}: {1}'.format(exctype, value))    #kdm
+    #logger.exception("Uncaught exception: {0}".format(str(value)))
+    #sys.__excepthook__(exctype, value, tb)
+    logging.exception(''.join(traceback.format_tb(tb)))    #kdm
+
+
 sys.excepthook = uncaught_exception
 # logging.config.fileConfig(r'/home/gdev/Github/vocal/calipso/log/logging.ini',
 # disable_existing_loggers=False)
