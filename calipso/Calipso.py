@@ -24,7 +24,7 @@ from constants import Plot, PATH, ICO
 import constants
 from exctractdialog import ExtractDialog
 from importdialog import ImportDialog
-from log.log import logger
+from log.log import logger, error_check
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from plot.plot_depolar_ratio import render_depolarized
@@ -660,15 +660,18 @@ class Calipso(object):
                 logger.info('Saving shapes')
                 saved = self.save_json()
                 if saved:
+                    error_check()
                     self.__root.destroy()
                 else:
                     return
             elif answer is False:
                 logger.info('Dumping unsaved shapes')
+                error_check()
                 self.__root.destroy()
             elif answer is None:
                 return
         else:
+            error_check()
             self.__root.destroy()
 
 
