@@ -7,8 +7,13 @@ import logging.config
 import re
 import shutil
 import sys
+<<<<<<< HEAD
+import os
+import traceback
+=======
 from time import strftime as time
 
+>>>>>>> master
 from constants import PATH
 
 config = {
@@ -45,8 +50,8 @@ config = {
 
 
 def uncaught_exception(exctype, value, tb):
-    logger.exception("Uncaught exception: {0}".format(str(value)))
-    sys.__excepthook__(exctype, value, tb)
+    logging.exception('{0}: {1}'.format(exctype, value))
+    logging.exception(''.join(traceback.format_tb(tb)))
 
 def error_check():
     log = PATH + '/log/trace.log'
