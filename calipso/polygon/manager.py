@@ -72,7 +72,6 @@ class ShapeManager(object):
         if self.__current_plot == Plot.baseplot:
             return
         self.__current_list[-1].clear_unfinished_data()
-        print self.__current_list[-1].get_coordinates()
         self.__canvas.show()
 
     def clear_refs(self):
