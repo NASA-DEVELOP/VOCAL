@@ -12,7 +12,7 @@ from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
 
 import constants
 from datetime import datetime, time
-from constants import CSV, TXT, DATEFORMAT
+from constants import CSV, TXT, DATEFORMAT, ICO
 from sqlalchemy import or_, Time, cast
 from db import db, DatabasePolygon
 from tools.tools import center, get_shape_ranges, find_between, get_sec
@@ -297,7 +297,8 @@ class ImportDialog(Toplevel):
     def advanced_prompt(self):
         logger.info('Opening advanced search window')
         if(not AdvancedSearchDialog.singleton):
-            AdvancedSearchDialog(self, self.__root)
+            AdvancedSearchDialog(self, self.__root). \
+                wm_iconbitmap(ICO)
         else:
             logger.warning('Found existing advanced search window, canceling')
 
