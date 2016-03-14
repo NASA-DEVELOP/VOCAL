@@ -119,7 +119,8 @@ html_theme = 'bootstrap'
 html_theme_options = {
     'navbar_title': "VOCAL",
     'navbar_site_name': "Index",
-    'navbar_class': "navbar navbar-inverse"
+    #'navbar_class': "navbar navbar-inverse",
+    'bootswatch_theme': "readable"
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
