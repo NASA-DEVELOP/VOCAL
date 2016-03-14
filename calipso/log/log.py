@@ -41,10 +41,8 @@ config = {
           }
 
 def uncaught_exception(exctype, value, tb):
-    logging.exception('{0}: {1}'.format(exctype, value))    #kdm
-    #logger.exception("Uncaught exception: {0}".format(str(value)))
-    #sys.__excepthook__(exctype, value, tb)
-    logging.exception(''.join(traceback.format_tb(tb)))    #kdm
+    logging.exception('{0}: {1}'.format(exctype, value))
+    logging.exception(''.join(traceback.format_tb(tb)))
 
 
 sys.excepthook = uncaught_exception
