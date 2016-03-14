@@ -355,7 +355,7 @@ class Calipso(object):
         if plot_type == Plot.baseplot:
             # Hide the axis and print an image
             self.__shapemanager.set_plot(Plot.baseplot)
-            im = mpimg.imread(PATH + '/dat/CALIPSO.jpg')
+            im = mpimg.imread(PATH + '/dat/grey.jpg')
             self.__fig.get_yaxis().set_visible(False)
             self.__fig.get_xaxis().set_visible(False)
             self.__fig.imshow(im)
