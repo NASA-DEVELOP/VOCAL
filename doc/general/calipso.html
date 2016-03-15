@@ -9,8 +9,7 @@
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -42,7 +41,7 @@
   </head>
   <body role="document">
 
-  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -216,7 +215,7 @@ program</p>
 
 <dl class="method">
 <dt id="Calipso.Calipso.export_db">
-<code class="descname">export_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.export_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.export_db" title="Permalink to this definition">¶</a></dt>
+<code class="descname">export_db</code><span class="sig-paren">(</span><em>only_selected=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.export_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.export_db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Notify the database that a save is taking place, the
 db will then save all polygons present on the screen</p>
 </dd></dl>
@@ -392,13 +391,16 @@ between the two points, scrolls the map accordingly</p>
 <dl class="method">
 <dt id="Calipso.Calipso.save_as_json">
 <code class="descname">save_as_json</code><span class="sig-paren">(</span><em>save_all=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.save_as_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.save_as_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save all shapes on the map given a file specified by the user</p>
+<dd><p>Save all selected objects on the plot, asking for a filename first</p>
+<p>if <code class="docutils literal"><span class="pre">save_all</span></code> is specified and set to <code class="docutils literal"><span class="pre">True</span></code>, the function will save <strong>all</strong>
+shapes across <strong>all</strong> plots in the program.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="Calipso.Calipso.save_json">
 <code class="descname">save_json</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/Calipso.html#Calipso.save_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Calipso.Calipso.save_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save all shapes on the map inside a JSON object given a previously
+<dd><p><strong>DEPRECATED</strong></p>
+<p>Save all shapes on the map inside a JSON object given a previously
 saved file. If no file exists prompt for file</p>
 </dd></dl>
 

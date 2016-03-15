@@ -9,8 +9,7 @@
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -40,7 +39,7 @@
   </head>
   <body role="document">
 
-  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -143,6 +142,7 @@
 <span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="kn">import</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">,</span> <span class="n">FLAT</span>
 <span class="kn">import</span> <span class="nn">constants</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="kn">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">tkMessageBox</span>
 
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">DATEFORMAT</span>
 <span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">SOLID</span><span class="p">,</span> <span class="n">TclError</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Button</span>
@@ -182,7 +182,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span> <span class="o">=</span> <span class="n">ShapeReader</span><span class="p">()</span>  <span class="c"># internal reader object for exporting</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="p">{}</span>                    <span class="c"># data to hold JSON data for exporting</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Querying database for unique tag&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span> <span class="o">=</span> <span class="bp">None</span>                   <span class="c"># &#39;previoushighlightshape&#39;, for unsetting highlight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span> <span class="o">=</span> <span class="p">[]</span>         <span class="c"># shapes that are currently selected</span>
 
 <div class="viewcode-block" id="ShapeManager.anchor_rectangle"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.anchor_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">anchor_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -198,59 +198,6 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Anchor selected is out of range, skipping&#39;</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="ShapeManager.get_count"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.get_count">[docs]</a>    <span class="k">def</span> <span class="nf">get_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the total amount of objects in existence inside ShapeManager, adds</span>
-<span class="sd">        all lists up and subtracts the empty objects that are always appended</span>
-<span class="sd">        to the end of the lists.</span>
-
-<span class="sd">        :rtype: :py:class:`int`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> \
-            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">-</span> <span class="mi">4</span>
-</div>
-<div class="viewcode-block" id="ShapeManager.get_filename"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.get_filename">[docs]</a>    <span class="k">def</span> <span class="nf">get_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return JSON filename string</span>
-
-<span class="sd">        :rtype: :py:class:`str`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span>
-</div>
-<div class="viewcode-block" id="ShapeManager.get_current_list"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.get_current_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the current list</span>
-
-<span class="sd">        .. warning::</span>
-<span class="sd">           This function should **never** be used for any write operation. Using</span>
-<span class="sd">           this function should be for **read only**.</span>
-
-<span class="sd">        :rtype: :py:class:`list`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span>
-</div>
-<div class="viewcode-block" id="ShapeManager.plot_point"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.plot_point">[docs]</a>    <span class="k">def</span> <span class="nf">plot_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Plot a single point to the screen for the current shape object,</span>
-<span class="sd">        if other points exist, a line is drawn between then until a</span>
-<span class="sd">        polygon is formed</span>
-
-<span class="sd">        :param event: A ``matplotlib.backend_bases.MouseEvent`` passed object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Cannot draw to the base plot&#39;</span><span class="p">)</span>
-            <span class="k">return</span>
-        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Plotting point at </span><span class="si">%.5f</span><span class="s">, </span><span class="si">%.5f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">))</span>
-            <span class="n">check</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot_point</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span><span class="p">,</span>
-                                                       <span class="bp">self</span><span class="o">.</span><span class="n">__figure</span><span class="p">,</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">check</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_tag</span><span class="p">())</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">))</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Point to plot is out or range, skipping&quot;</span><span class="p">)</span>
-</div>
 <div class="viewcode-block" id="ShapeManager.clear_lines"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.clear_lines">[docs]</a>    <span class="k">def</span> <span class="nf">clear_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clear any existing lines or unfilled shapes when the &#39;Free Draw&#39; button</span>
@@ -263,20 +210,35 @@
         <span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="ShapeManager.rubberband"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.rubberband">[docs]</a>    <span class="k">def</span> <span class="nf">rubberband</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+<div class="viewcode-block" id="ShapeManager.clear_refs"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.clear_refs">[docs]</a>    <span class="k">def</span> <span class="nf">clear_refs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Uses a blank shape to draw &#39;helper rectangles&#39; that outline the final shape of the</span>
-<span class="sd">        object. wrapper function for calling :py:class:`polygon.Shape` method.</span>
-
-<span class="sd">        :param event: A backend passes ``matplotlib.backend_bases.MouseEvent`` object</span>
+<span class="sd">        Clear all references to the current figure, this is called</span>
+<span class="sd">        in the ``Calipso`` class when a plot is to be set as to ensure</span>
+<span class="sd">        no dangling references are left. If we we&#39;re writing this in</span>
+<span class="sd">        Rust we wouldn&#39;t need to worry about this because Rust has better</span>
+<span class="sd">        ownership semantics ;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">button</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Cannot draw to BASE_PLOT&quot;</span><span class="p">)</span>
-                <span class="k">return</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">())</span> <span class="ow">is</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">return</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rubberband</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">ih</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">ih</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">ih</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.delete"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete the specified object from the screen, searches through the</span>
+<span class="sd">        current list to find the artist that was clicked on</span>
+
+<span class="sd">        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">artist</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
+            <span class="n">poly</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">poly</span> <span class="o">==</span> <span class="n">shape</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Deleting </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">item</span><span class="o">.</span><span class="n">get_tag</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
     <span class="c"># noinspection PyProtectedMember</span></div>
 <div class="viewcode-block" id="ShapeManager.fill_rectangle"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.fill_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">fill_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
@@ -304,96 +266,17 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_coordinates</span><span class="p">([])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lastrect</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="ShapeManager.highlight"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.highlight">[docs]</a>    <span class="k">def</span> <span class="nf">highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+<div class="viewcode-block" id="ShapeManager.find_shape"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.find_shape">[docs]</a>    <span class="k">def</span> <span class="nf">find_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Highlight the shape specified by ``tag``. Also keeps track of</span>
-<span class="sd">        a the previous highlight in order to unhighlight it before</span>
-<span class="sd">        highlighting the current tag</span>
+<span class="sd">        Return the handle to the shape found via the user clicking on one</span>
 
-<span class="sd">        :param str tag: The tag of the object</span>
+<span class="sd">        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Disabling highlight&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-            <span class="k">return</span>
-        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_tag</span><span class="p">()</span> <span class="o">==</span> <span class="n">tag</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Highlighting </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">)</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__phl</span> <span class="o">=</span> <span class="n">shape</span>
-                <span class="n">shape</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-                <span class="k">break</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">artist</span>
+        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span> <span class="ow">is</span> <span class="n">target</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">shape</span>
 </div>
-<div class="viewcode-block" id="ShapeManager.set_hdf"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.set_hdf">[docs]</a>    <span class="k">def</span> <span class="nf">set_hdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hdf_filename</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the internal HDF filename variable</span>
-
-<span class="sd">        :param str hdf_filename: Name of new HDF filename</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span> <span class="o">=</span> <span class="n">hdf_filename</span>
-</div>
-<div class="viewcode-block" id="ShapeManager.get_hdf"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.get_hdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_hdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the hdf string that objects are currently drawn to</span>
-
-<span class="sd">        :rtype: :py:class:`str`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span>
-</div>
-<div class="viewcode-block" id="ShapeManager.clear_refs"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.clear_refs">[docs]</a>    <span class="k">def</span> <span class="nf">clear_refs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Clear all references to the current figure, this is called</span>
-<span class="sd">        in the ``Calipso`` class when a plot is to be set as to ensure</span>
-<span class="sd">        no dangling references are left. If we we&#39;re writing this in</span>
-<span class="sd">        Rust we wouldn&#39;t need to worry about this because Rust has better</span>
-<span class="sd">        ownership semantics ;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">ih</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">ih</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">ih</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="ShapeManager.set_current"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.set_current">[docs]</a>    <span class="k">def</span> <span class="nf">set_current</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">fig</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the current view to ``plot``, and draw any shapes that exist in the manager for</span>
-<span class="sd">        this plot. This is called each time a new view is rendered to the screen by</span>
-<span class="sd">        ``set_plot`` in *Calipso*</span>
-
-<span class="sd">        :param int plot: Acceptable plot constant from ``constants.py``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Settings plot to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">plot</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__figure</span> <span class="o">=</span> <span class="n">fig</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Redrawing shapes&#39;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">shape</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
-                    <span class="n">shape</span><span class="o">.</span><span class="n">loaded_draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__figure</span><span class="p">,</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="ShapeManager.set_plot"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.set_plot">[docs]</a>    <span class="k">def</span> <span class="nf">set_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Determine which list current_list should alias, also set internal plot</span>
-<span class="sd">        variable</span>
-
-<span class="sd">        :param constants.Plot plot: Acceptable plot constant from ``constants.py``</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;set_plot called for BASE_PLOT&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span>
-        <span class="k">elif</span> <span class="n">plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;set_plot to BACKSCATTERED&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span>
-        <span class="k">elif</span> <span class="n">plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;set_plot to DEPOLARIZED&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span>
-            </div>
     <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="ShapeManager.generate_tag"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.generate_tag">[docs]</a>    <span class="k">def</span> <span class="nf">generate_tag</span><span class="p">():</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -404,6 +287,185 @@
         <span class="n">string</span> <span class="o">=</span> <span class="s">&quot;shape&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ShapeManager</span><span class="o">.</span><span class="n">shape_count</span><span class="p">)</span>
         <span class="n">ShapeManager</span><span class="o">.</span><span class="n">shape_count</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">string</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.get_count"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.get_count">[docs]</a>    <span class="k">def</span> <span class="nf">get_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the total amount of objects in existence inside ShapeManager, adds</span>
+<span class="sd">        all lists up and subtracts the empty objects that are always appended</span>
+<span class="sd">        to the end of the lists.</span>
+
+<span class="sd">        :rtype: :py:class:`int`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> \
+            <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span> <span class="o">-</span> <span class="mi">4</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.get_current_list"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.get_current_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the current list</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">           This function should **never** be used for any write operation. Using</span>
+<span class="sd">           this function should be for **read only**.</span>
+
+<span class="sd">        :rtype: :py:class:`list`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.get_hdf"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.get_hdf">[docs]</a>    <span class="k">def</span> <span class="nf">get_hdf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the hdf string that objects are currently drawn to</span>
+
+<span class="sd">        :rtype: :py:class:`str`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span>
+
+</div>
+<div class="viewcode-block" id="ShapeManager.get_filename"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.get_filename">[docs]</a>    <span class="k">def</span> <span class="nf">get_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return JSON filename string</span>
+
+<span class="sd">        :rtype: :py:class:`str`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.get_selected_count"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.get_selected_count">[docs]</a>    <span class="k">def</span> <span class="nf">get_selected_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the total amount of *selected* objects in existence inside ShapeManager</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.hide"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.hide">[docs]</a>    <span class="k">def</span> <span class="nf">hide</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Hide all current shapes on the plot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Settings hide option for all shapes to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span><span class="p">))</span>
+        <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span>
+        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
+            <span class="n">poly</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">poly</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span><span class="p">:</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_color</span><span class="p">()</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">set_fill</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s">&#39;#000000&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">poly</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span><span class="p">:</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">set_fill</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.is_all_saved"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.is_all_saved">[docs]</a>    <span class="k">def</span> <span class="nf">is_all_saved</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if all the shapes have been saved. If plot is None, the method</span>
+<span class="sd">        will check if all shapes in every plot has been saved. If a plot is</span>
+<span class="sd">        specified, then it will only check the shapes in the specified plot.</span>
+<span class="sd">        This method will automatically ignore the last blank shapes.</span>
+
+<span class="sd">        :param plot: the plot of the shapes to check</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">plot</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">)):</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_saved</span><span class="p">():</span>
+                        <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">plot</span><span class="o">.</span><span class="n">value</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">plot</span><span class="o">.</span><span class="n">value</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get_saved</span><span class="p">():</span>
+                    <span class="k">return</span> <span class="bp">False</span>
+            <span class="k">return</span> <span class="bp">True</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.outline"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.outline">[docs]</a>    <span class="k">def</span> <span class="nf">outline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Toggle whether current shapes should be outlined or remained filled on</span>
+<span class="sd">        the screen</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;setting all shape fill to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">))</span>
+        <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span>
+        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
+            <span class="n">poly</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">poly</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">:</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">set_fill</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">poly</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">:</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">set_fill</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+                <span class="n">poly</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.plot_point"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.plot_point">[docs]</a>    <span class="k">def</span> <span class="nf">plot_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot a single point to the screen for the current shape object,</span>
+<span class="sd">        if other points exist, a line is drawn between then until a</span>
+<span class="sd">        polygon is formed</span>
+
+<span class="sd">        :param event: A ``matplotlib.backend_bases.MouseEvent`` passed object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Cannot draw to the base plot&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Plotting point at </span><span class="si">%.5f</span><span class="s">, </span><span class="si">%.5f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">))</span>
+            <span class="n">check</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot_point</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">__figure</span><span class="p">,</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">check</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_tag</span><span class="p">())</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&quot;Point to plot is out or range, skipping&quot;</span><span class="p">)</span>
+
+    <span class="c"># noinspection PyProtectedMember</span></div>
+<div class="viewcode-block" id="ShapeManager.properties"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the properties of the shape clicked on by the user and create a small</span>
+<span class="sd">        tooltip which displays these properties</span>
+
+<span class="sd">        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">artist</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Creating property window&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span> <span class="ow">is</span> <span class="n">target</span><span class="p">:</span>
+                <span class="c"># if self.property_window is not None:</span>
+                <span class="c">#    self.destroy_property_window()</span>
+                <span class="n">PropertyDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_root</span><span class="p">(),</span> <span class="n">shape</span><span class="p">)</span>
+                <span class="k">return</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Shape not found&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.read_plot"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.read_plot">[docs]</a>    <span class="k">def</span> <span class="nf">read_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">read_from_str</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reads shapes from either a string or a file in JSON format, and packs the screen</span>
+<span class="sd">        with the shapes parsed. **note:** if a string is passed as *well* as a filename,</span>
+<span class="sd">        the string takes priority</span>
+
+<span class="sd">        :param str filename: The filename to read valid JSON shapes from</span>
+<span class="sd">        :param str read_from_str: The string to read valid JSON shapes from</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">read_from_str</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Reading JSON from string&#39;</span><span class="p">)</span>
+            <span class="n">read_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">read_from_str_json</span><span class="p">(</span><span class="n">read_from_str</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Reading JSON from file&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">set_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="n">read_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">read_from_file_json</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="n">read_data</span><span class="p">[</span><span class="s">&#39;hdffile&#39;</span><span class="p">]:</span>    <span class="c"># Do HDF files match?</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;file&#39;</span><span class="p">,</span>
+            <span class="s">&#39;Shape-associated HDF file </span><span class="se">\n</span><span class="s"> and current HDF do not match&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Shape-associated HDF file and current HDF do not match&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">:</span>
+            <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">pack_shape</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">,</span> <span class="n">read_from_str</span><span class="p">,)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">==</span> <span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">shape</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Shape found in </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">, drawing&#39;</span> <span class="o">%</span>
+                                    <span class="n">key</span><span class="p">)</span>
+                        <span class="n">shape</span><span class="o">.</span><span class="n">redraw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__figure</span><span class="p">,</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="ShapeManager.reset"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -425,142 +487,22 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">)]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="ShapeManager.delete"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.delete">[docs]</a>    <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+<div class="viewcode-block" id="ShapeManager.rubberband"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.rubberband">[docs]</a>    <span class="k">def</span> <span class="nf">rubberband</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Delete the specified object from the screen, searches through the</span>
-<span class="sd">        current list to find the artist that was clicked on</span>
+<span class="sd">        Uses a blank shape to draw &#39;helper rectangles&#39; that outline the final shape of the</span>
+<span class="sd">        object. wrapper function for calling :py:class:`polygon.Shape` method.</span>
 
-<span class="sd">        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object</span>
+<span class="sd">        :param event: A backend passes ``matplotlib.backend_bases.MouseEvent`` object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">artist</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
-            <span class="n">poly</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">poly</span> <span class="o">==</span> <span class="n">shape</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Deleting </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">item</span><span class="o">.</span><span class="n">get_tag</span><span class="p">())</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-                <span class="k">break</span>
-        <span class="n">shape</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="ShapeManager.outline"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.outline">[docs]</a>    <span class="k">def</span> <span class="nf">outline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Toggle whether current shapes should be outlined or remained filled on</span>
-<span class="sd">        the screen</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;setting all shape fill to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">))</span>
-        <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span>
-        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
-            <span class="n">poly</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">poly</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">:</span>
-                <span class="n">poly</span><span class="o">.</span><span class="n">set_fill</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-                <span class="n">poly</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">poly</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">:</span>
-                <span class="n">poly</span><span class="o">.</span><span class="n">set_fill</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-                <span class="n">poly</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="ShapeManager.hide"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.hide">[docs]</a>    <span class="k">def</span> <span class="nf">hide</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Hide all current shapes on the plot</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Settings hide option for all shapes to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span><span class="p">))</span>
-        <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span>
-        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
-            <span class="n">poly</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">poly</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span><span class="p">:</span>
-                <span class="n">color</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_color</span><span class="p">()</span>
-                <span class="n">poly</span><span class="o">.</span><span class="n">set_fill</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-                <span class="n">poly</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-                <span class="n">poly</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s">&#39;#000000&#39;</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">poly</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">hide_toggle</span><span class="p">:</span>
-                <span class="n">poly</span><span class="o">.</span><span class="n">set_fill</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-                <span class="n">poly</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
-                <span class="n">poly</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="s">&#39;none&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-        </div>
-<div class="viewcode-block" id="ShapeManager.is_all_saved"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.is_all_saved">[docs]</a>    <span class="k">def</span> <span class="nf">is_all_saved</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Checks if all the shapes have been saved. If plot is None, the method</span>
-<span class="sd">        will check if all shapes in every plot has been saved. If a plot is</span>
-<span class="sd">        specified, then it will only check the shapes in the specified plot.</span>
-<span class="sd">        This method will automatically ignore the last blank shapes.</span>
-<span class="sd">        </span>
-<span class="sd">        :param plot: the plot of the shapes to check</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">plot</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">)):</span>
-                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_saved</span><span class="p">():</span>
-                        <span class="k">return</span> <span class="bp">False</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">plot</span><span class="o">.</span><span class="n">value</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">plot</span><span class="o">.</span><span class="n">value</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get_saved</span><span class="p">():</span>
-                    <span class="k">return</span> <span class="bp">False</span>
-            <span class="k">return</span> <span class="bp">True</span>                     
-
-    <span class="c"># noinspection PyProtectedMember</span>
-
-    <span class="c"># noinspection PyProtectedMember</span></div>
-<div class="viewcode-block" id="ShapeManager.properties"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the properties of the shape clicked on by the user and create a small</span>
-<span class="sd">        tooltip which displays these properties</span>
-
-<span class="sd">        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">target</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">artist</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Creating property window&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span> <span class="ow">is</span> <span class="n">target</span><span class="p">:</span>
-                <span class="c"># if self.property_window is not None:</span>
-                <span class="c">#    self.destroy_property_window()</span>
-                <span class="n">PropertyDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_root</span><span class="p">(),</span> <span class="n">shape</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">button</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Cannot draw to BASE_PLOT&quot;</span><span class="p">)</span>
                 <span class="k">return</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&quot;Shape not found&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">())</span> <span class="ow">is</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rubberband</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="ShapeManager.find_shape"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.find_shape">[docs]</a>    <span class="k">def</span> <span class="nf">find_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the handle to the shape found via the user clicking on one</span>
-
-<span class="sd">        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">target</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">artist</span>
-        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span> <span class="ow">is</span> <span class="n">target</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">shape</span>
-        </div>
-<div class="viewcode-block" id="ShapeManager.read_plot"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.read_plot">[docs]</a>    <span class="k">def</span> <span class="nf">read_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">read_from_str</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Reads shapes from either a string or a file in JSON format, and packs the screen</span>
-<span class="sd">        with the shapes parsed. **note:** if a string is passed as *well* as a filename,</span>
-<span class="sd">        the string takes priority</span>
-
-<span class="sd">        :param str filename: The filename to read valid JSON shapes from</span>
-<span class="sd">        :param str read_from_str: The string to read valid JSON shapes from</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">read_from_str</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Reading JSON from string&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">read_from_str_json</span><span class="p">(</span><span class="n">read_from_str</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Reading JSON from file&#39;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">set_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">read_from_file_json</span><span class="p">()</span>
-
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">:</span>
-            <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__shapereader</span><span class="o">.</span><span class="n">pack_shape</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">,</span> <span class="n">read_from_str</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">==</span> <span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
-                <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="ow">not</span> <span class="n">shape</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Shape found in </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">, drawing&#39;</span> <span class="o">%</span>
-                                    <span class="n">key</span><span class="p">)</span>
-                        <span class="n">shape</span><span class="o">.</span><span class="n">redraw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__figure</span><span class="p">,</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="ShapeManager.save_db"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.save_db">[docs]</a>    <span class="k">def</span> <span class="nf">save_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="ShapeManager.save_db"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.save_db">[docs]</a>    <span class="k">def</span> <span class="nf">save_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">only_selected</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Commit all polygons currently in display to the database. Existing database</span>
 <span class="sd">        objects will simply be updated, while objects not present in the database</span>
@@ -573,12 +515,16 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;No shapes found&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">False</span>
         <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">commit_to_db</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">only_selected</span><span class="p">):</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">commit_to_db</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">,</span> <span class="n">today</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c"># Must account for dummy object at end of current list</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">commit_to_db</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">today</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="ShapeManager.save_json"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.save_json">[docs]</a>    <span class="k">def</span> <span class="nf">save_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Save all shapes visible on the screen to a previously specified JSON object,</span>
+<span class="sd">        Save all shapes selected on the screen to a specified JSON object,</span>
 <span class="sd">        if no file is passed the internal file variable is used. There should **never**</span>
 <span class="sd">        arise a case where no file is passed either from the internal or external</span>
 <span class="sd">        parameters, ``Calipso`` has proper error checking.</span>
@@ -587,27 +533,29 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">filename</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span> <span class="o">=</span> <span class="n">filename</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;No shapes selected, saving empty plot&#39;</span><span class="p">)</span>
         <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">today</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="s">&#39;hdffile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="s">&#39;hdffile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">shape_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">constants</span><span class="o">.</span><span class="n">PLOTS</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_saved</span><span class="p">():</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-            <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_tag</span><span class="p">()</span>
-            <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">()</span>
-            <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">()</span>
-            <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_attributes</span><span class="p">()</span>
-            <span class="n">note</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_notes</span><span class="p">()</span>
-            <span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_saved</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_tag</span><span class="p">()</span>
+            <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">()</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">()</span>
+            <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_attributes</span><span class="p">()</span>
+            <span class="n">note</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_notes</span><span class="p">()</span>
+            <span class="n">_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span>
 
             <span class="n">time_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">mpl</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">num2date</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">coordinates</span><span class="p">]</span>
             <span class="n">alt_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">coordinates</span><span class="p">]</span>
-            <span class="n">blat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_min_lat</span><span class="p">()</span>
-            <span class="n">elat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_max_lat</span><span class="p">()</span>
+            <span class="n">blat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_min_lat</span><span class="p">()</span>
+            <span class="n">elat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_max_lat</span><span class="p">()</span>
             <span class="n">btime</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">time_cords</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">)</span>
             <span class="n">etime</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">time_cords</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">)</span>
             <span class="n">balt</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">alt_cords</span><span class="p">)</span>
@@ -632,7 +580,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span> <span class="o">=</span> <span class="n">filename</span>
         <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">microsecond</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">today</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="s">&#39;hdffile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="s">&#39;hdffile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">)):</span>
             <span class="n">shape_dict</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
@@ -650,8 +598,128 @@
             <span class="n">shape_dict</span><span class="p">[</span><span class="n">tag</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">constants</span><span class="o">.</span><span class="n">PLOTS</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">=</span> <span class="n">shape_dict</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Encoding to JSON&#39;</span><span class="p">)</span>
-        <span class="n">db</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">)</span></div></div>
-</pre></div>
+        <span class="n">db</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.select_all"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.select_all">[docs]</a>    <span class="k">def</span> <span class="nf">select_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set all objects within the current list as selected. Loops through all</span>
+<span class="sd">        shapes in the plot and sets their highlight as well as adding them to</span>
+<span class="sd">        the internal selected list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Selecting </span><span class="si">%d</span><span class="s"> shapes&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.deselect_all"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.deselect_all">[docs]</a>    <span class="k">def</span> <span class="nf">deselect_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove selection from all objects on screen. Loops through all shapes</span>
+<span class="sd">        in the plot and sets their highlight to default and resets the internal</span>
+<span class="sd">        selected list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Deselecting </span><span class="si">%d</span><span class="s"> shapes&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.select_from_tag"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.select_from_tag">[docs]</a>    <span class="k">def</span> <span class="nf">select_from_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Highlight the shape specified by ``tag``. Ensures to reset</span>
+<span class="sd">        any other objects that may be highlighted. Not to be confused</span>
+<span class="sd">        with ``select(self, event)``, which is for multiple selections</span>
+<span class="sd">        via event objects</span>
+
+<span class="sd">        :param str tag: The tag of the object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">tag</span> <span class="o">==</span> <span class="s">&quot;&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Disabling selection for all shapes&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">:</span>
+                <span class="c"># The shape may have been removed, so we should ensure it exists</span>
+                <span class="k">if</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_tag</span><span class="p">()</span> <span class="o">==</span> <span class="n">tag</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Selecting </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+                <span class="n">shape</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.select_from_event"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.select_from_event">[docs]</a>    <span class="k">def</span> <span class="nf">select_from_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Highlight the selected object and add to internal list of highlighted objects</span>
+
+<span class="sd">        :param event: A passed ``matplotlib.backend_bases.PickEvent`` object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">artist</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">:</span>
+            <span class="n">poly</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_itemhandler</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">poly</span> <span class="o">==</span> <span class="n">shape</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">is_selected</span><span class="p">():</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Selecting </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">item</span><span class="o">.</span><span class="n">get_tag</span><span class="p">())</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Deselecting </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">item</span><span class="o">.</span><span class="n">get_tag</span><span class="p">())</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.set_current"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.set_current">[docs]</a>    <span class="k">def</span> <span class="nf">set_current</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">fig</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the current view to ``plot``, and draw any shapes that exist in the manager for</span>
+<span class="sd">        this plot. This is called each time a new view is rendered to the screen by</span>
+<span class="sd">        ``set_plot`` in *Calipso*</span>
+
+<span class="sd">        :param int plot: Acceptable plot constant from ``constants.py``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Settings plot to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">plot</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__figure</span> <span class="o">=</span> <span class="n">fig</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_plot</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Redrawing shapes&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">shape</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+                    <span class="n">shape</span><span class="o">.</span><span class="n">loaded_draw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__figure</span><span class="p">,</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.set_hdf"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.set_hdf">[docs]</a>    <span class="k">def</span> <span class="nf">set_hdf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hdf_filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the internal HDF filename variable</span>
+
+<span class="sd">        :param str hdf_filename: Name of new HDF filename</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span> <span class="o">=</span> <span class="n">hdf_filename</span>
+</div>
+<div class="viewcode-block" id="ShapeManager.set_plot"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.set_plot">[docs]</a>    <span class="k">def</span> <span class="nf">set_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine which list current_list should alias, also set internal plot</span>
+<span class="sd">        variable</span>
+
+<span class="sd">        :param constants.Plot plot: Acceptable plot constant from ``constants.py``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;set_plot called for BASE_PLOT&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span>
+        <span class="k">elif</span> <span class="n">plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;set_plot to BACKSCATTERED&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span>
+        <span class="k">elif</span> <span class="n">plot</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;set_plot to DEPOLARIZED&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shape_list</span><span class="p">[</span><span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span> <span class="o">=</span> <span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span>
+
+        
+</pre></div></div></div>
 
     </div>
       

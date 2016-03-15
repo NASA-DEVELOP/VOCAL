@@ -9,8 +9,7 @@
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -40,7 +39,7 @@
   </head>
   <body role="document">
 
-  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -180,7 +179,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">infile</span><span class="p">:</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">byteify</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">infile</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="n">data</span>	
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span>
         </div>
 <div class="viewcode-block" id="ShapeReader.read_from_str_json"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.ShapeReader.read_from_str_json">[docs]</a>    <span class="k">def</span> <span class="nf">read_from_str_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -201,24 +201,26 @@
                 <span class="k">if</span> <span class="s">&#39;attributes&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">]:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">]</span> <span class="o">=</span> \
                         <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plt</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">])</span>
-                        </div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span>
+</div>
 <div class="viewcode-block" id="ShapeReader.pack_shape"><a class="viewcode-back" href="../../doc/polygon/reader.html#polygon.reader.ShapeReader.pack_shape">[docs]</a>    <span class="k">def</span> <span class="nf">pack_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape_list</span><span class="p">,</span> <span class="n">plot_type</span><span class="p">,</span> <span class="n">canvas</span><span class="p">,</span> <span class="n">read_from_str</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stores the data in the JSON into PolygonDrawers</span>
 
 <span class="sd">        :param shape_list: a Python list of PolygonDrawers</span>
 <span class="sd">        :param plot_type: the current plot being displayed</span>
-<span class="sd">        :param canvas: a Tkinter canvas to initializes the blank PolygonDrawer in the shape_list</span>
+<span class="sd">        :param canvas: a Tkinter canvas to initialize the blank PolygonDrawer in the shape_list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">polygon.manager</span> <span class="kn">import</span> <span class="n">ShapeManager</span>
         <span class="n">enum_plot_type</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">plot_type_enum</span><span class="p">[</span><span class="n">plot_type</span><span class="p">]</span>
+
         <span class="k">try</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">]:</span>
                 <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">entry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">shape_list</span><span class="p">]:</span>
                     <span class="k">continue</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Found data in </span><span class="si">%s</span><span class="s">, packing polygon with JSON data&#39;</span>
-                            <span class="o">%</span> <span class="n">PLOTS</span><span class="p">[</span><span class="n">enum_plot_type</span><span class="p">])</span>
+                        <span class="o">%</span> <span class="n">PLOTS</span><span class="p">[</span><span class="n">enum_plot_type</span><span class="p">])</span>
                 <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;color&#39;</span><span class="p">]</span>
                 <span class="n">coordinates</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;coordinates&#39;</span><span class="p">]</span>
                 <span class="n">attributes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">plot_type</span><span class="p">][</span><span class="n">shape</span><span class="p">][</span><span class="s">&#39;attributes&#39;</span><span class="p">]</span>

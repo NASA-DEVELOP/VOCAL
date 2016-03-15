@@ -9,8 +9,7 @@
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -40,7 +39,7 @@
   </head>
   <body role="document">
 
-  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -227,7 +226,7 @@
             <span class="s">&#39;ealt&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_alt</span><span class="p">,</span>
             <span class="s">&#39;notes&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">notes</span><span class="p">}}</span>
         <span class="n">data</span><span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">)</span>
-        <span class="n">data</span><span class="p">[</span><span class="s">&#39;hdfFile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdf</span>
+        <span class="n">data</span><span class="p">[</span><span class="s">&#39;hdffile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hdf</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Converting unicode to ASCII&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">byteify</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
 
@@ -309,7 +308,7 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Committing to database&#39;</span><span class="p">)</span>
         <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Session</span><span class="p">()</span>
         <span class="c"># for every polygon object in the list except the end</span>
-        <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">poly_list</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">polygon</span> <span class="ow">in</span> <span class="n">poly_list</span><span class="p">:</span>
             <span class="c"># if the ID does not exist we have a new object to commit</span>
             <span class="k">if</span> <span class="n">polygon</span><span class="o">.</span><span class="n">get_id</span><span class="p">()</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;committing new shape: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">polygon</span><span class="o">.</span><span class="n">get_tag</span><span class="p">())</span>

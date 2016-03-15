@@ -9,8 +9,7 @@
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -42,7 +41,7 @@
   </head>
   <body role="document">
 
-  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -204,6 +203,14 @@ current list to find the artist that was clicked on</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="polygon.manager.ShapeManager.deselect_all">
+<code class="descname">deselect_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.deselect_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.deselect_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove selection from all objects on screen. Loops through all shapes
+in the plot and sets their highlight to default and resets the internal
+selected list</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="polygon.manager.ShapeManager.fill_rectangle">
 <code class="descname">fill_rectangle</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.fill_rectangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.fill_rectangle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Informs the correct shape list&#8217;s blank object to draw a rectangle to the screen
@@ -310,25 +317,15 @@ this function should be for <strong>read only</strong>.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="polygon.manager.ShapeManager.hide">
-<code class="descname">hide</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.hide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.hide" title="Permalink to this definition">¶</a></dt>
-<dd><p>Hide all current shapes on the plot</p>
+<dt id="polygon.manager.ShapeManager.get_selected_count">
+<code class="descname">get_selected_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.get_selected_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.get_selected_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the total amount of <em>selected</em> objects in existence inside ShapeManager</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="polygon.manager.ShapeManager.highlight">
-<code class="descname">highlight</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.highlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.highlight" title="Permalink to this definition">¶</a></dt>
-<dd><p>Highlight the shape specified by <code class="docutils literal"><span class="pre">tag</span></code>. Also keeps track of
-a the previous highlight in order to unhighlight it before
-highlighting the current tag</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The tag of the object</td>
-</tr>
-</tbody>
-</table>
+<dt id="polygon.manager.ShapeManager.hide">
+<code class="descname">hide</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.hide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.hide" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hide all current shapes on the plot</p>
 </dd></dl>
 
 <dl class="method">
@@ -443,7 +440,7 @@ object. wrapper function for calling <code class="xref py py-class docutils lite
 
 <dl class="method">
 <dt id="polygon.manager.ShapeManager.save_db">
-<code class="descname">save_db</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.save_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.save_db" title="Permalink to this definition">¶</a></dt>
+<code class="descname">save_db</code><span class="sig-paren">(</span><em>only_selected=False</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.save_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.save_db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Commit all polygons currently in display to the database. Existing database
 objects will simply be updated, while objects not present in the database
 will be assigned a new primary key and have an entry generated for them.
@@ -461,7 +458,7 @@ Returns <code class="docutils literal"><span class="pre">True</span></code> if s
 <dl class="method">
 <dt id="polygon.manager.ShapeManager.save_json">
 <code class="descname">save_json</code><span class="sig-paren">(</span><em>filename=''</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.save_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.save_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save all shapes visible on the screen to a previously specified JSON object,
+<dd><p>Save all shapes selected on the screen to a specified JSON object,
 if no file is passed the internal file variable is used. There should <strong>never</strong>
 arise a case where no file is passed either from the internal or external
 parameters, <code class="docutils literal"><span class="pre">Calipso</span></code> has proper error checking.</p>
@@ -470,6 +467,45 @@ parameters, <code class="docutils literal"><span class="pre">Calipso</span></cod
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; custom filename to save JSON objects to</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.select_all">
+<code class="descname">select_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.select_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.select_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set all objects within the current list as selected. Loops through all
+shapes in the plot and sets their highlight as well as adding them to
+the internal selected list</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.select_from_event">
+<code class="descname">select_from_event</code><span class="sig-paren">(</span><em>event</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.select_from_event"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.select_from_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Highlight the selected object and add to internal list of highlighted objects</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>event</strong> &#8211; A passed <code class="docutils literal"><span class="pre">matplotlib.backend_bases.PickEvent</span></code> object</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="polygon.manager.ShapeManager.select_from_tag">
+<code class="descname">select_from_tag</code><span class="sig-paren">(</span><em>tag</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/polygon/manager.html#ShapeManager.select_from_tag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#polygon.manager.ShapeManager.select_from_tag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Highlight the shape specified by <code class="docutils literal"><span class="pre">tag</span></code>. Ensures to reset
+any other objects that may be highlighted. Not to be confused
+with <code class="docutils literal"><span class="pre">select(self,</span> <span class="pre">event)</span></code>, which is for multiple selections
+via event objects</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tag</strong> (<a class="reference external" href="http://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The tag of the object</td>
 </tr>
 </tbody>
 </table>

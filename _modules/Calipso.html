@@ -9,8 +9,7 @@
     
     <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -40,7 +39,7 @@
   </head>
   <body role="document">
 
-  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -160,7 +159,7 @@
 <span class="kn">import</span> <span class="nn">constants</span>
 <span class="kn">from</span> <span class="nn">exctractdialog</span> <span class="kn">import</span> <span class="n">ExtractDialog</span>
 <span class="kn">from</span> <span class="nn">importdialog</span> <span class="kn">import</span> <span class="n">ImportDialog</span>
-<span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span><span class="p">,</span> <span class="n">error_check</span>
 <span class="kn">from</span> <span class="nn">matplotlib.backends.backend_tkagg</span> <span class="kn">import</span> <span class="n">FigureCanvasTkAgg</span>
 <span class="kn">from</span> <span class="nn">matplotlib.figure</span> <span class="kn">import</span> <span class="n">Figure</span>
 <span class="kn">from</span> <span class="nn">plot.plot_depolar_ratio</span> <span class="kn">import</span> <span class="n">render_depolarized</span>
@@ -172,6 +171,8 @@
 <span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">Catcher</span><span class="p">,</span> <span class="n">center</span>
 <span class="kn">from</span> <span class="nn">toolswindow</span> <span class="kn">import</span> <span class="n">ToolsWindow</span>
 <span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">ImageTk</span>
+<span class="kn">from</span> <span class="nn">tools.tooltip</span> <span class="kn">import</span> <span class="n">create_tool_tip</span>
 <span class="kn">import</span> <span class="nn">matplotlib.image</span> <span class="kn">as</span> <span class="nn">mpimg</span>
 
 
@@ -185,6 +186,8 @@
     <span class="c">#   Initialization functions</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/load.png&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_img</span> <span class="o">=</span> <span class="n">ImageTk</span><span class="o">.</span><span class="n">PhotoImage</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/save.png&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__root</span> <span class="o">=</span> <span class="n">r</span>  <span class="c"># Root of program</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__file</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>  <span class="c"># Current file in use</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xrange</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">yrange</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>  <span class="c"># X and Y range for scrolling plot</span>
@@ -256,15 +259,21 @@
         <span class="n">menu_file</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="n">menu_bar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Import file&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">import_file</span><span class="p">)</span>
         <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Save all shapes&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_as_json</span><span class="p">(</span><span class="n">save_all</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
-        <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Save as shapes&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">save_as_json</span><span class="p">)</span>
         <span class="n">menu_file</span><span class="o">.</span><span class="n">add_separator</span><span class="p">()</span>
         <span class="n">menu_file</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Exit&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">)</span>
         <span class="n">menu_bar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;File&#39;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu_file</span><span class="p">)</span>
 
+        <span class="c"># Edit Menu</span>
+        <span class="n">menu_edit</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="n">menu_bar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">menu_edit</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Select all shapes&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">select_all</span><span class="p">)</span>
+        <span class="n">menu_edit</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Deselect all shapes&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">deselect_all</span><span class="p">)</span>
+        <span class="n">menu_bar</span><span class="o">.</span><span class="n">add_cascade</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Edit&#39;</span><span class="p">,</span> <span class="n">menu</span><span class="o">=</span><span class="n">menu_edit</span><span class="p">)</span>
+
         <span class="c"># Polygon Menu</span>
         <span class="n">menu_polygon</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="n">menu_bar</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Import from Database&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">import_dialog</span><span class="p">)</span>
-        <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Export to Database&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">export_db</span><span class="p">)</span>
+        <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Export all to Database&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">export_db</span><span class="p">)</span>
+        <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Export selected to Database&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">export_db</span><span class="p">(</span><span class="n">only_selected</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
         <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_separator</span><span class="p">()</span>
         <span class="n">menu_polygon</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="s">&#39;Import archive to database&#39;</span><span class="p">,</span>
                                  <span class="n">command</span><span class="o">=</span><span class="n">Calipso</span><span class="o">.</span><span class="n">import_json_db</span><span class="p">)</span>
@@ -335,8 +344,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__label_file_dialog</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         <span class="n">browse_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
+        <span class="c"># Load shapes from JSON</span>
+        <span class="n">load_button</span> <span class="o">=</span> \
+            <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">load_img</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">)</span>
+        <span class="n">load_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">create_tool_tip</span><span class="p">(</span><span class="n">load_button</span><span class="p">,</span> <span class="s">&#39;Load JSON&#39;</span><span class="p">)</span>
+
+        <span class="c"># Save shapes as JSON</span>
+        <span class="n">save_button</span> <span class="o">=</span> \
+            <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">save_img</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">save_as_json</span><span class="p">)</span>
+        <span class="n">save_button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">create_tool_tip</span><span class="p">(</span><span class="n">save_button</span><span class="p">,</span> <span class="s">&#39;Save selected</span><span class="se">\n</span><span class="s"> objects to</span><span class="se">\n</span><span class="s"> JSON&#39;</span><span class="p">)</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span> <span class="o">=</span> <span class="n">ShapeOptionMenu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shape_var</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
-                                           <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">highlight_selected_shape</span><span class="p">)</span>
+                                           <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">select_shape</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&quot;&lt;ButtonPress-1&gt;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_shape_optionmenu</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         <span class="n">label_shapes</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__dialog_shape_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&quot;Select&quot;</span><span class="p">)</span>
@@ -362,8 +383,8 @@
         <span class="n">ops</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_tag</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">get_current_list</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">option_menu</span><span class="o">.</span><span class="n">set_menu</span><span class="p">(</span><span class="n">ops</span><span class="p">)</span>
 </div>
-    <span class="k">def</span> <span class="nf">highlight_selected_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">highlight</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">select_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">select_from_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Calipso.import_file"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.import_file">[docs]</a>    <span class="k">def</span> <span class="nf">import_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -382,16 +403,16 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__label_file_dialog</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="n">white</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">SUNKEN</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span>
                                             <span class="n">text</span><span class="o">=</span><span class="n">segments</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="Calipso.export_db"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.export_db">[docs]</a>    <span class="k">def</span> <span class="nf">export_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Calipso.export_db"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.export_db">[docs]</a>    <span class="k">def</span> <span class="nf">export_db</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">only_selected</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Notify the database that a save is taking place, the</span>
 <span class="sd">        db will then save all polygons present on the screen</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Notifying database to save&#39;</span><span class="p">)</span>
-        <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">save_db</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Notifying database to save with select flag </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">only_selected</span><span class="p">)))</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">save_db</span><span class="p">(</span><span class="n">only_selected</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Success, saved to db&#39;</span><span class="p">)</span>
-            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s">&#39;database&#39;</span><span class="p">,</span> <span class="s">&#39;All objects saved to database&#39;</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s">&#39;database&#39;</span><span class="p">,</span> <span class="s">&#39;Objects saved to database&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;No objects to be saved&#39;</span><span class="p">)</span>
             <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;database&#39;</span><span class="p">,</span> <span class="s">&#39;No objects to be saved&#39;</span><span class="p">)</span>
@@ -469,7 +490,7 @@
         <span class="k">if</span> <span class="n">plot_type</span> <span class="o">==</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">:</span>
             <span class="c"># Hide the axis and print an image</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">set_plot</span><span class="p">(</span><span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">)</span>
-            <span class="n">im</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/dat/CALIPSO.jpg&#39;</span><span class="p">)</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">mpimg</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/dat/grey.jpg&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__fig</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__fig</span><span class="o">.</span><span class="n">get_xaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__fig</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
@@ -570,10 +591,12 @@
 </div>
 <div class="viewcode-block" id="Calipso.save_json"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.save_json">[docs]</a>    <span class="k">def</span> <span class="nf">save_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        **DEPRECATED**</span>
+
 <span class="sd">        Save all shapes on the map inside a JSON object given a previously</span>
 <span class="sd">        saved file. If no file exists prompt for file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Notify JSON to save&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Notifying JSON to save&#39;</span><span class="p">)</span>
         <span class="c"># Save to last saved file, if no file exists prompt to a new file</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">get_count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">saved</span> <span class="o">=</span> <span class="bp">True</span>
@@ -590,12 +613,15 @@
 </div>
 <div class="viewcode-block" id="Calipso.save_as_json"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.save_as_json">[docs]</a>    <span class="k">def</span> <span class="nf">save_as_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">save_all</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Save all shapes on the map given a file specified by the user</span>
+<span class="sd">        Save all selected objects on the plot, asking for a filename first</span>
+
+<span class="sd">        if ``save_all`` is specified and set to ``True``, the function will save **all**</span>
+<span class="sd">        shapes across **all** plots in the program.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Notify JSON to save as&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Notifying JSON to save as&#39;</span><span class="p">)</span>
         <span class="c"># Save to a file entered by user, saveAll saves ALL objects across canvas</span>
         <span class="c"># and cannot be called as a normal save(must always be save as)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">get_count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">get_selected_count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
             <span class="n">options</span><span class="p">[</span><span class="s">&#39;defaultextension&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;.json&#39;</span>
             <span class="n">options</span><span class="p">[</span><span class="s">&#39;filetypes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="s">&#39;CALIPSO Data files&#39;</span><span class="p">,</span> <span class="s">&#39;*.json&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;All files&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">)]</span>
@@ -608,7 +634,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__shapemanager</span><span class="o">.</span><span class="n">save_json</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;No objects found, canceling save&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;No selected objects found, canceling save&#39;</span><span class="p">)</span>
             <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;save as JSON&#39;</span><span class="p">,</span> <span class="s">&#39;No objects to be saved&#39;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Calipso.load"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -696,7 +722,6 @@
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Extracting data for </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">shape</span><span class="o">.</span><span class="n">get_tag</span><span class="p">())</span>
         <span class="n">ExtractDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">xrange</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">yrange</span><span class="p">)</span><span class="o">.</span> \
             <span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">ICO</span><span class="p">)</span>
-
 </div>
 <div class="viewcode-block" id="Calipso.import_dialog"><a class="viewcode-back" href="../doc/general/calipso.html#Calipso.Calipso.import_dialog">[docs]</a>    <span class="k">def</span> <span class="nf">import_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -770,15 +795,18 @@
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Saving shapes&#39;</span><span class="p">)</span>
                 <span class="n">saved</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_json</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">saved</span><span class="p">:</span>
+                    <span class="n">error_check</span><span class="p">()</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">return</span>
             <span class="k">elif</span> <span class="n">answer</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Dumping unsaved shapes&#39;</span><span class="p">)</span>
+                <span class="n">error_check</span><span class="p">()</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
             <span class="k">elif</span> <span class="n">answer</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="k">return</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="n">error_check</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
 
 </div></div>

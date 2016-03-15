@@ -34,4 +34,5 @@ Contact
   - gmercer015@gmail.com
   - `github.com/Syntaf`_
 
-.. _github.com/Syntaf: https://github.com/Syntaf 
+.. _github.com/Syntaf: https://github.com/Syntaf
+.. _github.com/stapleCamel: https://github.com/stapleCamel

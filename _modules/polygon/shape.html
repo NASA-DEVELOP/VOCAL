@@ -9,8 +9,7 @@
     
     <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -40,7 +39,7 @@
   </head>
   <body role="document">
 
-  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -146,11 +145,9 @@
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="kn">as</span> <span class="nn">mpl</span>
 <span class="kn">import</span> <span class="nn">matplotlib.lines</span> <span class="kn">as</span> <span class="nn">mlines</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Polygon</span>
-
-<span class="kn">import</span> <span class="nn">constants</span>
 <span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">Plot</span><span class="p">,</span> <span class="n">TAGS</span>
 <span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Polygon</span>
 <span class="kn">from</span> <span class="nn">tools.linearalgebra</span> <span class="kn">import</span> <span class="n">tuple_to_nparray</span><span class="p">,</span> <span class="n">is_intersecting</span><span class="p">,</span> \
     <span class="n">get_intersection</span><span class="p">,</span> <span class="n">nparray_to_tuple</span>
 
@@ -177,7 +174,20 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">=</span> <span class="mf">1.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__lines</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__selected</span> <span class="o">=</span> <span class="bp">False</span>
 
+<div class="viewcode-block" id="Shape.add_attribute"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.add_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">add_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append a passed attribute onto the internal attribute list</span>
+
+<span class="sd">        :param str attr: An attribute enum</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">TAGS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Caught invalid attribute for adding </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">attr</span><span class="p">)</span>
+</div>
 <div class="viewcode-block" id="Shape.anchor_rectangle"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.anchor_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">anchor_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Establishes a corner of a rectangle as an anchor for when the user drags the cursor to</span>
@@ -188,6 +198,245 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_x</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">bbox</span><span class="o">.</span><span class="n">height</span> <span class="o">-</span> <span class="n">event</span><span class="o">.</span><span class="n">y</span>
+</div>
+<div class="viewcode-block" id="Shape.clear_lines"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.clear_lines">[docs]</a>    <span class="k">def</span> <span class="nf">clear_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove any existing lines and clear the shape data. This is called so the lines don&#39;t</span>
+<span class="sd">        remain on the screen if the user unclicks the toggleable button.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lines</span><span class="p">:</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Shape.clear_unfinished_data"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.clear_unfinished_data">[docs]</a>    <span class="k">def</span> <span class="nf">clear_unfinished_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        In the event the user is plotting points and decides to switch</span>
+<span class="sd">        buttons without finishing the free draw polygon, the lines must</span>
+<span class="sd">        be cleared and data must be reset. this function will ensure</span>
+<span class="sd">        any unfinished data is cleared for future shape drawing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__can_draw</span><span class="p">()</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lines</span><span class="p">:</span>
+            <span class="n">line</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span> <span class="o">=</span> <span class="p">[]</span>
+</div>
+<div class="viewcode-block" id="Shape.draw"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draw the shape to the canvas, onto the passed figure. Only fill the</span>
+<span class="sd">        object if the *fill* parameter is set to ``True``</span>
+
+<span class="sd">        :param fig: A ``SubplotAxes`` object from the matplotlib backend</span>
+<span class="sd">        :param plot: ``constants.Plot`` enum specifying which plot the object belongs to</span>
+<span class="sd">        :param bool fill: ``False`` for fill, ``True`` for outline</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Drawing polygon&quot;</span><span class="p">)</span>
+
+        <span class="c"># Generates a gnarly random color brah</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+        <span class="n">clr</span> <span class="o">=</span> <span class="s">&#39;#</span><span class="si">%02X%02X%02X</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">(),</span> <span class="n">r</span><span class="p">(),</span> <span class="n">r</span><span class="p">())</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__color</span> <span class="o">=</span> <span class="n">clr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">=</span> <span class="n">plot</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="o">=</span> \
+            <span class="n">Polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">clr</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="n">picker</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Shape.fill_rectangle"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.fill_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">fill_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draws the rectangle and stores the coordinates of the rectangle internally. Used</span>
+<span class="sd">        in &#39;Draw Rect&#39; button. Forwards argument parameters to ``draw``</span>
+
+<span class="sd">        :param fig: Figure to draw canvas to</span>
+<span class="sd">        :param bool fill: Whether to fill or no fill the shape</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span><span class="p">)</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
+
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Generating rectangular points&#39;</span><span class="p">)</span>
+            <span class="n">beg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">beg</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">beg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">fill</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span> <span class="o">=</span> <span class="p">[]</span>
+</div>
+    <span class="k">def</span> <span class="nf">generate_lat_range</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_axes</span><span class="p">()</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_xlabel</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">]</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Latitude&#39;</span><span class="p">)]</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Time&#39;</span><span class="p">)]</span>
+        <span class="n">min_</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">))))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">max_</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">))))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%.4f</span><span class="s"> - </span><span class="si">%.4f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">min_</span><span class="p">,</span> <span class="n">max_</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Shape.get_attributes"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">get_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return attributes list maintained by shape</span>
+
+<span class="sd">        :rtype: :py:class:`list`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span>
+</div>
+<div class="viewcode-block" id="Shape.get_color"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_color">[docs]</a>    <span class="k">def</span> <span class="nf">get_color</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the hexdecimal color value</span>
+
+<span class="sd">        :rtype: :py:class:`str`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__color</span>
+</div>
+<div class="viewcode-block" id="Shape.get_coordinates"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">get_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the list of coordinates internally maintained by shape</span>
+
+<span class="sd">        :rtype: :py:class:`list`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span>
+</div>
+<div class="viewcode-block" id="Shape.get_id"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the database ID of shape</span>
+
+<span class="sd">        :rtype: :py:class:`int`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__id</span>
+</div>
+<div class="viewcode-block" id="Shape.get_itemhandler"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_itemhandler">[docs]</a>    <span class="k">def</span> <span class="nf">get_itemhandler</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the item handler object to the actual backend base</span>
+
+<span class="sd">        :rtype: :py:class:`matplotlib.patches.polygon`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span>
+</div>
+    <span class="k">def</span> <span class="nf">get_max_lat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_axes</span><span class="p">()</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_xlabel</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">]</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Latitude&#39;</span><span class="p">)]</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Time&#39;</span><span class="p">)]</span>
+        <span class="n">max_</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">))))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">max_</span>
+
+    <span class="k">def</span> <span class="nf">get_min_lat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_axes</span><span class="p">()</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_xlabel</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">]</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Latitude&#39;</span><span class="p">)]</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Time&#39;</span><span class="p">)]</span>
+        <span class="n">min_</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">))))[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">min_</span>
+
+<div class="viewcode-block" id="Shape.get_notes"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_notes">[docs]</a>    <span class="k">def</span> <span class="nf">get_notes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the notes string internally maintained by shape</span>
+
+<span class="sd">        :rtype: :py:class:`str`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__note</span>
+</div>
+<div class="viewcode-block" id="Shape.get_plot"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_plot">[docs]</a>    <span class="k">def</span> <span class="nf">get_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the plot type</span>
+
+<span class="sd">        :rtype: :py:class:`int`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span>
+</div>
+<div class="viewcode-block" id="Shape.get_saved"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_saved">[docs]</a>    <span class="k">def</span> <span class="nf">get_saved</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns if the shape has been saved or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span>
+</div>
+<div class="viewcode-block" id="Shape.get_tag"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_tag">[docs]</a>    <span class="k">def</span> <span class="nf">get_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the program Tag of shape</span>
+
+<span class="sd">        :rtype: :py:class:`str`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span>
+</div>
+    <span class="k">def</span> <span class="nf">in_x_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">time_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">time_cords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="nb">max</span><span class="p">(</span><span class="n">time_cords</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">in_y_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">altitude_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">altitude_cords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="nb">max</span><span class="p">(</span><span class="n">altitude_cords</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+
+<div class="viewcode-block" id="Shape.is_attribute"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.is_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">is_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return ``True`` if *attr* is inside the attributes list, ``False``</span>
+<span class="sd">        otherwise.</span>
+
+<span class="sd">        :param str attr:</span>
+<span class="sd">        :rtype: :py:class:`bool`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Found attribute&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="Shape.is_empty"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.is_empty">[docs]</a>    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return ``True`` if empty, ``False`` otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">return</span> <span class="bp">False</span>
+</div>
+<div class="viewcode-block" id="Shape.is_selected"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.is_selected">[docs]</a>    <span class="k">def</span> <span class="nf">is_selected</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return a boolean value based on whether the object is currently</span>
+<span class="sd">        highlighted in the figure. Uses ``__selected``</span>
+
+<span class="sd">        :rtype: :py:class:`bool`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected</span>
+</div>
+<div class="viewcode-block" id="Shape.loaded_draw"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.loaded_draw">[docs]</a>    <span class="k">def</span> <span class="nf">loaded_draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">fill</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called in the case of panning the plot, since panning the plot invalidates</span>
+<span class="sd">        the previous figure, the figures must first be cleared and the shapes are removed.</span>
+<span class="sd">        Loaded draw draws the shapes back into view using a new figure.</span>
+
+<span class="sd">        :param fig: A ``SubplotAxes`` object to add the patch to</span>
+<span class="sd">        :param bool fill: Boolean value whether to have the shape filled in when drawn to or not</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="o">=</span> \
+            <span class="n">Polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__color</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="n">picker</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Shape.paint"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.paint">[docs]</a>    <span class="k">def</span> <span class="nf">paint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Changes the color of the shape and saves it internally</span>
+
+<span class="sd">        :param color: the new color of the shape</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">False</span>
 </div>
 <div class="viewcode-block" id="Shape.plot_point"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.plot_point">[docs]</a>    <span class="k">def</span> <span class="nf">plot_point</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -221,7 +470,7 @@
                 <span class="n">x</span> <span class="o">=</span> <span class="n">get_intersection</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
                 <span class="n">pair</span> <span class="o">=</span> <span class="n">nparray_to_tuple</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">pair</span>
-                
+
                 <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[:</span><span class="n">index</span><span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lines</span><span class="p">:</span>
@@ -233,18 +482,43 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_x</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__prev_y</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span>
 </div>
-<div class="viewcode-block" id="Shape.clear_unfinished_data"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.clear_unfinished_data">[docs]</a>    <span class="k">def</span> <span class="nf">clear_unfinished_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Shape.redraw"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.redraw">[docs]</a>    <span class="k">def</span> <span class="nf">redraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">fill</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        In the event the user is plotting points and decides to switch</span>
-<span class="sd">        buttons without finishing the free draw polygon, the lines must</span>
-<span class="sd">        be cleared and data must be reset. this function will ensure</span>
-<span class="sd">        any unfinished data is cleared for future shape drawing.</span>
+<span class="sd">        Function to draw the shape in the event the shape *may* or *may not* already</span>
+<span class="sd">        be drawn. Checks if the image already exists, if not draws the image</span>
+
+<span class="sd">        :param fig: A ``SubplotAxes`` object to add the patch to</span>
+<span class="sd">        :param bool fill: Boolean value whether to have the shape filled in when drawn or not</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__can_draw</span><span class="p">()</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lines</span><span class="p">:</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">is_figure_set</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="o">=</span> \
+            <span class="n">Polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__color</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="n">picker</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_highlight</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Shape.remove"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Wrapper function to internally call matplotlib backend to remove</span>
+<span class="sd">        the shape from the figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clear_lines</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Shape.remove_attribute"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.remove_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">remove_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove an attribute as specified in ``constants.py`` from the internal attributes variable</span>
+
+<span class="sd">        :param str attr:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">TAGS</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Caught invalid attribute for removal </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">attr</span><span class="p">)</span>
 
     <span class="c"># noinspection PyAttributeOutsideInit</span></div>
 <div class="viewcode-block" id="Shape.rubberband"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.rubberband">[docs]</a>    <span class="k">def</span> <span class="nf">rubberband</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
@@ -268,113 +542,11 @@
                                                                  <span class="n">event</span><span class="o">.</span><span class="n">x</span><span class="p">,</span>
                                                                  <span class="n">y2</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Shape.fill_rectangle"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.fill_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">fill_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Shape.save"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Draws the rectangle and stores the coordinates of the rectangle internally. Used</span>
-<span class="sd">        in &#39;Draw Rect&#39; button. Forwards argument parameters to ``draw``</span>
-
-<span class="sd">        :param fig: Figure to draw canvas to</span>
-<span class="sd">        :param bool fill: Whether to fill or no fill the shape</span>
+<span class="sd">        Marks the shape as saved</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">_tkcanvas</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span><span class="p">)</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastrect</span>
-
-        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">xdata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Generating rectangular points&#39;</span><span class="p">)</span>
-            <span class="n">beg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">beg</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">beg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">))</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">plot</span><span class="p">,</span> <span class="n">fill</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span> <span class="o">=</span> <span class="p">[]</span>
-</div>
-<div class="viewcode-block" id="Shape.draw"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Draw the shape to the canvas, onto the passed figure. Only fill the</span>
-<span class="sd">        object if the *fill* parameter is set to ``True``</span>
-
-<span class="sd">        :param fig: A ``SubplotAxes`` object from the matplotlib backend</span>
-<span class="sd">        :param plot: ``constants.Plot`` enum specifying which plot the object belongs to</span>
-<span class="sd">        :param bool fill: ``False`` for fill, ``True`` for outline</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;Drawing polygon&quot;</span><span class="p">)</span>
-
-        <span class="c"># Generates a gnarly random color brah</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
-        <span class="n">clr</span> <span class="o">=</span> <span class="s">&#39;#</span><span class="si">%02X%02X%02X</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">(),</span> <span class="n">r</span><span class="p">(),</span> <span class="n">r</span><span class="p">())</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">__color</span> <span class="o">=</span> <span class="n">clr</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">=</span> <span class="n">plot</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="o">=</span> \
-            <span class="n">Polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">clr</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="n">picker</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Shape.redraw"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.redraw">[docs]</a>    <span class="k">def</span> <span class="nf">redraw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">fill</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Function to draw the shape in the event the shape *may* or *may not* already</span>
-<span class="sd">        be drawn. Checks if the image already exists, if not draws the image</span>
-
-<span class="sd">        :param fig: A ``SubplotAxes`` object to add the patch to</span>
-<span class="sd">        :param bool fill: Boolean value whether to have the shape filled in when drawn or not</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">is_figure_set</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="o">=</span> \
-            <span class="n">Polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__color</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="n">picker</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Shape.loaded_draw"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.loaded_draw">[docs]</a>    <span class="k">def</span> <span class="nf">loaded_draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">fill</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Called in the case of panning the plot, since panning the plot invalidates</span>
-<span class="sd">        the previous figure, the figures must first be cleared and the shapes are removed.</span>
-<span class="sd">        Loaded draw draws the shapes back into view using a new figure.</span>
-
-<span class="sd">        :param fig: A ``SubplotAxes`` object to add the patch to</span>
-<span class="sd">        :param bool fill: Boolean value whether to have the shape filled in when drawn to or not</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="o">=</span> \
-            <span class="n">Polygon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__color</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">fill</span><span class="p">,</span> <span class="n">picker</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-        <span class="n">fig</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="p">)</span>
-        </div>
-<div class="viewcode-block" id="Shape.paint"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.paint">[docs]</a>    <span class="k">def</span> <span class="nf">paint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Changes the color of the shape and saves it internally</span>
-<span class="sd">        </span>
-<span class="sd">        :param color: the new color of the shape</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">False</span>
-</div>
-<div class="viewcode-block" id="Shape.add_attribute"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.add_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">add_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Append a passed attribute onto the internal attribute list</span>
-
-<span class="sd">        :param str attr: An attribute enum</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">TAGS</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Caught invalid attribute for adding </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">attr</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Shape.remove_attribute"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.remove_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">remove_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Remove an attribute as specified in ``constants.py`` from the internal attributes variable</span>
-
-<span class="sd">        :param str attr:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">TAGS</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;Caught invalid attribute for removal </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">True</span>
 </div>
 <div class="viewcode-block" id="Shape.set_attributes"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">set_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes_list</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -388,35 +560,6 @@
                 <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span> <span class="o">=</span> <span class="n">attributes_list</span>
 </div>
-<div class="viewcode-block" id="Shape.set_highlight"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_highlight">[docs]</a>    <span class="k">def</span> <span class="nf">set_highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">highlight</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the ``linewidth`` and ``linestyle`` attributes of a the internal item</span>
-<span class="sd">        handler. Highlights if *highlight* is ``True``, otherwise sets to normal</span>
-<span class="sd">        outline.</span>
-
-<span class="sd">        :param bool highlight:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">highlight</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s">&#39;dashed&#39;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s">&#39;solid&#39;</span><span class="p">)</span>
-</div>
-<div class="viewcode-block" id="Shape.save"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Marks the shape as saved</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span> <span class="o">=</span> <span class="bp">True</span>
-</div>
-<div class="viewcode-block" id="Shape.set_tag"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_tag">[docs]</a>    <span class="k">def</span> <span class="nf">set_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set internal tag variable</span>
-
-<span class="sd">        :param str tag:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span> <span class="o">=</span> <span class="n">tag</span>
-</div>
 <div class="viewcode-block" id="Shape.set_color"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_color">[docs]</a>    <span class="k">def</span> <span class="nf">set_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set internal color variable</span>
@@ -424,14 +567,6 @@
 <span class="sd">        :param str color: Valid hexadecimal color value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__color</span> <span class="o">=</span> <span class="n">color</span>
-</div>
-<div class="viewcode-block" id="Shape.set_plot"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_plot">[docs]</a>    <span class="k">def</span> <span class="nf">set_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Manually set the new value of the internal plot variable. **unsafe**</span>
-
-<span class="sd">        :param constants.Plot plot: Plot value</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">=</span> <span class="n">plot</span>
 </div>
 <div class="viewcode-block" id="Shape.set_coordinates"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">set_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coordinates</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -441,6 +576,23 @@
 <span class="sd">        :param list coordinates:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span> <span class="o">=</span> <span class="n">coordinates</span>
+</div>
+<div class="viewcode-block" id="Shape.set_highlight"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_highlight">[docs]</a>    <span class="k">def</span> <span class="nf">set_highlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">highlight</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the ``linewidth`` and ``linestyle`` attributes of a the internal item</span>
+<span class="sd">        handler. Highlights if *highlight* is ``True``, otherwise sets to normal</span>
+<span class="sd">        outline.</span>
+
+<span class="sd">        :param bool highlight:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">highlight</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__selected</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s">&#39;dashed&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__selected</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linewidth</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">set_linestyle</span><span class="p">(</span><span class="s">&#39;solid&#39;</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Shape.set_id"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_id">[docs]</a>    <span class="k">def</span> <span class="nf">set_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_id</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -458,90 +610,22 @@
 <span class="sd">        :param str note: New note string</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__note</span> <span class="o">=</span> <span class="n">note</span>
-        </div>
-<div class="viewcode-block" id="Shape.get_saved"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_saved">[docs]</a>    <span class="k">def</span> <span class="nf">get_saved</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns if the shape has been saved or not</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__saved</span>
 </div>
-<div class="viewcode-block" id="Shape.get_coordinates"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_coordinates">[docs]</a>    <span class="k">def</span> <span class="nf">get_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Shape.set_plot"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_plot">[docs]</a>    <span class="k">def</span> <span class="nf">set_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the list of coordinates internally maintained by shape</span>
+<span class="sd">        Manually set the new value of the internal plot variable. **unsafe**</span>
 
-<span class="sd">        :rtype: :py:class:`list`</span>
+<span class="sd">        :param constants.Plot plot: Plot value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span> <span class="o">=</span> <span class="n">plot</span>
 </div>
-<div class="viewcode-block" id="Shape.get_notes"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_notes">[docs]</a>    <span class="k">def</span> <span class="nf">get_notes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Shape.set_tag"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.set_tag">[docs]</a>    <span class="k">def</span> <span class="nf">set_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the notes string internally maintained by shape</span>
+<span class="sd">        Set internal tag variable</span>
 
-<span class="sd">        :rtype: :py:class:`str`</span>
+<span class="sd">        :param str tag:</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__note</span>
-</div>
-<div class="viewcode-block" id="Shape.get_attributes"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">get_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return attributes list maintained by shape</span>
-
-<span class="sd">        :rtype: :py:class:`list`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span>
-</div>
-<div class="viewcode-block" id="Shape.get_plot"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_plot">[docs]</a>    <span class="k">def</span> <span class="nf">get_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the plot type</span>
-
-<span class="sd">        :rtype: :py:class:`int`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plot</span>
-</div>
-<div class="viewcode-block" id="Shape.get_color"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_color">[docs]</a>    <span class="k">def</span> <span class="nf">get_color</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the hexdecimal color value</span>
-
-<span class="sd">        :rtype: :py:class:`str`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__color</span>
-</div>
-<div class="viewcode-block" id="Shape.get_id"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_id">[docs]</a>    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the database ID of shape</span>
-
-<span class="sd">        :rtype: :py:class:`int`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__id</span>
-</div>
-<div class="viewcode-block" id="Shape.get_tag"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_tag">[docs]</a>    <span class="k">def</span> <span class="nf">get_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the program Tag of shape</span>
-
-<span class="sd">        :rtype: :py:class:`str`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span>
-</div>
-<div class="viewcode-block" id="Shape.get_itemhandler"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.get_itemhandler">[docs]</a>    <span class="k">def</span> <span class="nf">get_itemhandler</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return the item handler object to the actual backend base</span>
-
-<span class="sd">        :rtype: :py:class:`matplotlib.patches.polygon`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span>
-</div>
-<div class="viewcode-block" id="Shape.is_attribute"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.is_attribute">[docs]</a>    <span class="k">def</span> <span class="nf">is_attribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return ``True`` if *attr* is inside the attributes list, ``False``</span>
-<span class="sd">        otherwise.</span>
-
-<span class="sd">        :param str attr:</span>
-<span class="sd">        :rtype: :py:class:`bool`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__attributes</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">attr</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Found attribute&#39;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">return</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span> <span class="o">=</span> <span class="n">tag</span>
 </div>
     <span class="k">def</span> <span class="nf">__can_draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">b1</span> <span class="o">=</span> <span class="n">tuple_to_nparray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
@@ -554,81 +638,13 @@
                 <span class="k">return</span> <span class="n">i</span>
         <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
 
-<div class="viewcode-block" id="Shape.clear_lines"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.clear_lines">[docs]</a>    <span class="k">def</span> <span class="nf">clear_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Remove any existing lines and clear the shape data. This is called so the lines don&#39;t</span>
-<span class="sd">        remain on the screen if the user unclicks the toggleable button.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__lines</span><span class="p">:</span>
-            <span class="n">line</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="Shape.remove"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Wrapper function to internally call matplotlib backend to remove</span>
-<span class="sd">        the shape from the figure</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">clear_lines</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__item_handler</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="Shape.is_empty"><a class="viewcode-back" href="../../doc/polygon/shape.html#polygon.shape.Shape.is_empty">[docs]</a>    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return ``True`` if empty, ``False`` otherwise</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">return</span> <span class="bp">False</span>
-    </div>
-    <span class="k">def</span> <span class="nf">in_x_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">time_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">time_cords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="nb">max</span><span class="p">(</span><span class="n">time_cords</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
-        
-    <span class="k">def</span> <span class="nf">in_y_extent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="n">altitude_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">altitude_cords</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="nb">max</span><span class="p">(</span><span class="n">altitude_cords</span><span class="p">):</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
-
-    <span class="k">def</span> <span class="nf">get_min_lat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_axes</span><span class="p">()</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_xlabel</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">]</span>
-        <span class="n">lat</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Latitude&#39;</span><span class="p">)]</span>
-        <span class="n">time</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Time&#39;</span><span class="p">)]</span>
-        <span class="n">min_</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">))))[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">min_</span>
-
-    <span class="k">def</span> <span class="nf">get_max_lat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_axes</span><span class="p">()</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_xlabel</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">]</span>
-        <span class="n">lat</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Latitude&#39;</span><span class="p">)]</span>
-        <span class="n">time</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Time&#39;</span><span class="p">)]</span>
-        <span class="n">max_</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">))))[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">max_</span>
-
-    <span class="k">def</span> <span class="nf">generate_lat_range</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">axes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">get_axes</span><span class="p">()</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">get_xlabel</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">]</span>
-        <span class="n">lat</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Latitude&#39;</span><span class="p">)]</span>
-        <span class="n">time</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s">u&#39;Time&#39;</span><span class="p">)]</span>
-        <span class="n">min_</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">))))[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">max_</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
-            <span class="n">time</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">))))[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="s">&#39;</span><span class="si">%.4f</span><span class="s"> - </span><span class="si">%.4f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">min_</span><span class="p">,</span> <span class="n">max_</span><span class="p">)</span>
-
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Stringing </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span><span class="p">)</span>
         <span class="n">time_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">mpl</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">num2date</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S&#39;</span><span class="p">)</span> <span class="k">for</span>
                       <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">]</span>
         <span class="n">altitude_cords</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__coordinates</span><span class="p">]</span>
-        <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;Time Scale:</span><span class="se">\n\t</span><span class="si">%s</span><span class="s"> - </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">time_cords</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">time_cords</span><span class="p">))</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="s">&#39;Name:</span><span class="se">\n\t</span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tag</span>
+        <span class="n">string</span> <span class="o">+=</span> <span class="s">&#39;Time Scale:</span><span class="se">\n\t</span><span class="si">%s</span><span class="s"> - </span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">time_cords</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">time_cords</span><span class="p">))</span>
         <span class="n">string</span> <span class="o">+=</span> <span class="s">&#39;Latitude Scale:</span><span class="se">\n\t</span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_lat_range</span><span class="p">()</span>
         <span class="n">string</span> <span class="o">+=</span> <span class="s">&#39;Altitude Scale:</span><span class="se">\n\t</span><span class="si">%.4f</span><span class="s"> km - </span><span class="si">%.4f</span><span class="s"> km</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">altitude_cords</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">altitude_cords</span><span class="p">))</span>
         <span class="n">string</span> <span class="o">+=</span> <span class="s">&#39;Color:</span><span class="se">\n\t</span><span class="si">%s</span><span class="se">\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__color</span>

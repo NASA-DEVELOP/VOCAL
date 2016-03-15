@@ -9,8 +9,7 @@
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootstrap-3.3.4/css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     
     <script type="text/javascript">
@@ -41,7 +40,7 @@
   </head>
   <body role="document">
 
-  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -119,6 +118,7 @@
 <li><a class="reference internal" href="#importing-from-an-archive">Importing From an Archive</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#advanced-querying">Advanced Querying</a></li>
 </ul>
 </li>
 </ul>
@@ -174,19 +174,32 @@
 Tool program.</p>
 <div class="section" id="interface-layout">
 <h2>Interface Layout<a class="headerlink" href="#interface-layout" title="Permalink to this headline">¶</a></h2>
-<p>Upon first starting VOCAL, you will be greeted with the initial view of the application. The large center most
-window is the main screen for displaying data from <code class="docutils literal"><span class="pre">.HDF</span></code> files, this will be where you <strong>see</strong> the data.</p>
-<a class="reference internal image-reference" href="_images/startup.png"><img alt="_images/startup.png" src="_images/startup.png" style="width: 617.2px; height: 286.8px;" /></a>
-<p>The top most menu bar contains three directories: <code class="docutils literal"><span class="pre">file</span></code> , <code class="docutils literal"><span class="pre">polygon</span></code> and <code class="docutils literal"><span class="pre">help</span></code>. These are self explanatory,</p>
+<p>Upon first starting VOCAL, you&#8217;ll be greeted with the initial view of the application. The large center most
+window is the main screen for displaying data from <em>.HDF</em> files, this will be where you <strong>see</strong> the data.</p>
+<a class="reference internal image-reference" href="_images/startup.png"><img alt="_images/startup.png" src="_images/startup.png" style="width: 613.2px; height: 290.8px;" /></a>
+<p>The top most menu bar contains four directories: <em>file</em> , <em>edit</em>, <em>polygon</em> and <em>help</em>.</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">file</span></code> allows a user to import an HDF (same as <img alt="browse" src="_images/browse_button.png" />), save all objects from all plots to a JSON file, save
+<li><em>file</em> allows a user to import an HDF (same as <img alt="browse" src="_images/browse_button.png" />), save all objects from all plots to a JSON file, save
 only <em>visible</em> objects on the screen to a JSON file, or exit the application.</li>
-<li><code class="docutils literal"><span class="pre">polygon</span></code> relates to the database use, see <a class="reference internal" href="#database"><span>Using the Database</span></a> for more information.</li>
-<li><code class="docutils literal"><span class="pre">help</span></code> shows information on the project, and links to this website</li>
+<li><em>edit</em> offers tools for shape or plot manipulation</li>
+<li><em>polygon</em> relates to the database use, see <a class="reference internal" href="#database"><span>Using the Database</span></a> for more information.</li>
+<li><em>help</em> shows information on the project, and links to this website</li>
 </ul>
-<p>Located near the menu and off to the top right you&#8217;ll find <img alt="sele" src="_images/select_menu.png" /> , this drop down menu is populated with all shapes
-currently drawn to the plot and will highlight the selected shape. If you wish to unselect all shapes, selecting the
-blank field will do so</p>
+<p>Located near the menu and off to the top right you&#8217;ll find three buttons. <img alt="load" src="_images/load_button.png" /> will load a JSON file previously
+created by the application, and draw it to the plot.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When loading JSON objects using this feature: the file the shape was created in <strong>must</strong> match the file you
+currently have loaded, otherwise you&#8217;ll get an error! We do not allow users to load shapes from JSON files
+which are from other files than what the user is currently on.</p>
+</div>
+<p><img alt="save" src="_images/save_button.png" /> will prompt you for a filename and then save all <em>selected</em> objects to that file. There are a number of
+ways to select objects, via the <strong>edit</strong> menu, using <img alt="sele" src="_images/select_menu.png" /> for single objects, or manually selecting objects
+using <img alt="csel" src="_images/selection_button.png" />.</p>
+<p><img alt="sele" src="_images/select_menu.png" /> is a drop down menu feature for single shape selection. The list is populated with all shapes
+currently drawn to the plot and selecting one from the menu will highlight that single shape. To unselect any
+shapes, you can either select the blank field in the drop down list or use the <em>deselect all</em> option in the
+<em>edit</em> menu.</p>
 <p>Off to the right is the tools window, this window is dedicated to the manipulation of the data displayed to the plot.</p>
 <ul class="simple">
 <li><img alt="rese" src="_images/reset_button.png" /> destroy all shapes existing in the plot and reset the view back to the original view of the initial
@@ -195,9 +208,9 @@ render</li>
 as backscattered</li>
 <li><img alt="depo" src="_images/depolarized_button.png" /> Selection option used when visualizing, having this option checked will display the data as
 depolarized.</li>
-<li><img alt="step" src="_images/step_entry.png" /> Specify the range of time to plot to, from <code class="docutils literal"><span class="pre">x</span></code> to <code class="docutils literal"><span class="pre">y</span></code>. Default is <code class="docutils literal"><span class="pre">x</span></code> + 1000 if no <code class="docutils literal"><span class="pre">y</span></code>, and
-0 - 1000 if neither <code class="docutils literal"><span class="pre">x</span></code> nor <code class="docutils literal"><span class="pre">y</span></code></li>
-<li><img alt="salt" src="_images/alt.png" /> Specify the range of altitude to plot to, from <code class="docutils literal"><span class="pre">x</span></code> to <code class="docutils literal"><span class="pre">y</span></code>. Default is 0 to 20</li>
+<li><img alt="step" src="_images/step_entry.png" /> Specify the range of time to plot to, from <em>x</em> to <em>y</em>. Default is <em>x</em> + 1000 if no <em>y</em>, and
+0 - 1000 if neither <em>x</em> nor <em>y</em></li>
+<li><img alt="salt" src="_images/alt.png" /> Specify the range of altitude to plot to, from <em>x</em> to <em>y</em>. Default is 0 to 20</li>
 <li><img alt="fren" src="_images/render_button.png" /> Visualize the data given the conditions entered into <strong>step</strong> and <strong>backscattered/depolarized</strong></li>
 </ul>
 </div>
@@ -209,7 +222,7 @@ display the name of the imported hdf file. The main screen will appear blank at 
 Select the type of plot you would like with either <img alt="back" src="_images/backscattered_button.png" /> or <img alt="depo" src="_images/depolarized_button.png" /> to render and an optional step
 <img alt="step" src="_images/step_entry.png" /> (<em>the default is from 0 to 1000</em>).
 Hit <a class="reference internal" href="_images/render_button.png"><img alt="rend" src="_images/render_button.png" style="width: 47.0px; height: 35.5px;" /></a> to visualize the data to the screen.</p>
-<a class="reference internal image-reference" href="_images/load_hdf.png"><img alt="_images/load_hdf.png" src="_images/load_hdf.png" style="width: 927.6px; height: 434.4px;" /></a>
+<a class="reference internal image-reference" href="_images/load_hdf.png"><img alt="_images/load_hdf.png" src="_images/load_hdf.png" style="width: 921.0px; height: 429.6px;" /></a>
 </div>
 <div class="section" id="navigating-the-plot">
 <h2>Navigating the Plot<a class="headerlink" href="#navigating-the-plot" title="Permalink to this headline">¶</a></h2>
@@ -238,7 +251,7 @@ click once more to hide the properties window</li>
 <li><img alt="attr" src="_images/attributes_button.png" /> Attributes: Clicking on a shape while the attributes button is active will open a
 dialog window for assigning attributes to shapes. Attributes on the <strong>left</strong> are the <em>available</em>
 attributes, the <strong>right</strong> side is the <em>selected</em> attributes. Add any notes you wish and click
-<code class="docutils literal"><span class="pre">save</span></code> to save the notes and attributes. These can be viewed with <img alt="prop" src="_images/properties_button.png" /></li>
+<em>save</em> to save the notes and attributes. These can be viewed with <img alt="prop" src="_images/properties_button.png" /></li>
 <li><img alt="extr" src="_images/extract_button.png" /> Extract: Clicking on a shape while the extract button is active will create a subplot
 containing only the data enclosed in the shape. Future features are to come but for now a
 subplot and histogram are generated for the shape.</li>
@@ -271,12 +284,12 @@ of shapes to a JSON file.</p>
 Only the outline of the shapes will be drawn, pressing this one more reverts the change</li>
 <li><img alt="hide" src="_images/hide_button.png" /> Hide: Similar to Focus, but pressing this button will <strong>completely</strong> hide all shapes,
 they still exist; however they simply won&#8217;t be drawn to the screen.</li>
-<li><img alt="save" src="_images/save_button.png" /> Save: Save all existing objects in the <strong>current</strong> plot to a <code class="docutils literal"><span class="pre">JSON</span></code> formatted file.
+<li><img alt="save" src="_images/save_button.png" /> Save: Save all existing objects in the <strong>current</strong> plot to a JSON formatted file.
 These objects can be loaded back into the screen with <img alt="load" src="_images/load_button.png" /> and can be shared
 between researchers that wish to personally hand over shapes to another user for loading. If
-you wish to save all shapes from <strong>every</strong> plot into one fill, these is a <code class="docutils literal"><span class="pre">save</span> <span class="pre">all</span></code> option
+you wish to save all shapes from <strong>every</strong> plot into one fill, these is a <em>save_all</em> option
 in the file menu for this.</li>
-<li><img alt="load" src="_images/load_button.png" /> Load: Given a valid <code class="docutils literal"><span class="pre">.JSON</span></code> file, load all polygon objects present in the file and
+<li><img alt="load" src="_images/load_button.png" /> Load: Given a valid <em>.JSON</em> file, load all polygon objects present in the file and
 display them to the plot.</li>
 </ul>
 </div>
@@ -284,12 +297,12 @@ display them to the plot.</li>
 <span id="database"></span><h2>Using the Database<a class="headerlink" href="#using-the-database" title="Permalink to this headline">¶</a></h2>
 <p>One of the defining features of VOCAL is the ability to import and export shapes to a database, this can
 help researchers share information about aerosols and their trajectory. The database can be accessed under
-the <code class="docutils literal"><span class="pre">polygon</span></code> menu, offering to either <em>import from database</em> or <em>export to database</em> . Let&#8217;s start with exporting.</p>
+the <em>polygon</em> menu, offering to either <em>import from database</em> or <em>export to database</em> . Let&#8217;s start with exporting.</p>
 <div class="section" id="exporting-shapes">
 <h3>Exporting Shapes<a class="headerlink" href="#exporting-shapes" title="Permalink to this headline">¶</a></h3>
 <p>Say you have a number of shapes you&#8217;ve labeled with attributes and want to share with other researchers</p>
-<a class="reference internal image-reference" href="_images/to_be_exported.png"><img alt="_images/to_be_exported.png" src="_images/to_be_exported.png" style="width: 640.5px; height: 351.5px;" /></a>
-<p>Exporting these shapes is as easy as going to the <code class="docutils literal"><span class="pre">polygon</span></code> menu and hitting <em>export to database</em></p>
+<a class="reference internal image-reference" href="_images/to_be_exported.png"><img alt="_images/to_be_exported.png" src="_images/to_be_exported.png" style="width: 633.5px; height: 348.5px;" /></a>
+<p>Exporting these shapes is as easy as going to the <em>polygon</em> menu and hitting <em>export to database</em></p>
 <p><img alt="expo" src="_images/exporting_menu.png" /></p>
 <p>All objects have now been exported to the database! All done!</p>
 </div>
@@ -301,21 +314,21 @@ shape 31 by John and it&#8217;s properties&#8221;. There are a couple ways to go
 <em>import from database</em> window.</p>
 <p><img alt="impo" src="_images/importing_menu.png" /></p>
 <p>This will open the import dialog</p>
-<a class="reference internal image-reference" href="_images/db_window.png"><img alt="_images/db_window.png" src="_images/db_window.png" style="width: 711.2px; height: 376.6px;" /></a>
+<a class="reference internal image-reference" href="_images/db_window.png"><img alt="_images/db_window.png" src="_images/db_window.png" style="width: 701.4px; height: 372.4px;" /></a>
 <p><img alt="dbse" src="_images/db_search.png" /> allows the user to dynamically query the database for keys entered into the search bar. It will currently
-search the <code class="docutils literal"><span class="pre">Name</span></code>, <code class="docutils literal"><span class="pre">Attributes</span></code>, and <code class="docutils literal"><span class="pre">Notes</span></code> notes categories for the string entered. <img alt="dbfi" src="_images/db_filter.png" /> will filter
+search the <em>Name</em>, <em>Attributes</em>, and <em>Notes</em> notes categories for the string entered. <img alt="dbfi" src="_images/db_filter.png" /> will filter
 all entries based on whether the filename matches the current filename loaded, <em>note:</em> this will <strong>not</strong> work
 if your HDF has been renamed in anyway from the standard CALIPSO naming conventions. <img alt="dbde" src="_images/db_delete.png" /> will delete any
 selected entries from the database, and this is <strong>permanent</strong>, there&#8217;s no undo button here.</p>
 <p>So you can go ahead and search either the query <em>John</em> to get all notes that include the name john, or
 <em>shape31</em> to get the specific shape. All names are <strong>unique</strong>, if at any time you see two shapes with the
-same tag this is a bug on our part please report that issue immediately to us for fixing. So searching for <em>shape82</em>
+same tag this is a bug on our part please report that issue immediately to us for fixing. So searching for <em>shape40</em>
 will leave you with</p>
 <img alt="_images/db_searched.png" src="_images/db_searched.png" />
 <p>Clicking <img alt="dbim" src="_images/db_import.png" /> will now import the selection to your internal shape manager. If you aren&#8217;t on the correct file the
 shape was drawn one you won&#8217;t be able to see it, each file has a unique range of time thus on object can be loaded
 onto multiple files. Scrolling right on the import window would have revealed the column File Name, which read
-<code class="docutils literal"><span class="pre">CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN</span></code>, so upon loading up that file walla! your object should appear.</p>
+<em>CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN</em>, so upon loading up that file walla! your object should appear.</p>
 <img alt="_images/db_shape_imported.png" src="_images/db_shape_imported.png" />
 <p>you&#8217;re free to view properties of this shape, export it&#8217;s data to JSON or even modify the shape and re-export it
 back to the database.</p>
@@ -327,7 +340,7 @@ back to the database.</p>
 get a list of files that contain the &#8216;smoke&#8217; attribute, you can do just that. You can open the column extraction tool
 inside of the import database window by clicking <img alt="dbex" src="_images/db_export.png" />. This opens:</p>
 <img alt="_images/db_export_window.png" src="_images/db_export_window.png" />
-<p>Once here, you can select any columns you&#8217;d like to export as well as the file format. The <code class="docutils literal"><span class="pre">.csv</span></code> format is RFC
+<p>Once here, you can select any columns you&#8217;d like to export as well as the file format. The <em>.csv</em> format is RFC
 4180 compliant and the text file is a simple whitespace and newline separated format. For example if one were to
 select to export the columns <img alt="ex1" src="_images/db_file_cb.png" /> and <img alt="ex2" src="_images/db_attr_cb.png" />, in the format <img alt="ex3" src="_images/db_csv_rb.png" />. You would see something like:</p>
 <img alt="_images/csv_example.png" src="_images/csv_example.png" />
@@ -351,7 +364,7 @@ create.</p>
 <p class="last">Exporting your database is a <em>copy</em> operation, the contents of your database will remain the same and
 simply be copied to the archive, which can be loaded as shown below</p>
 </div>
-<p>Once exported you&#8217;ll have an archive of your specified name, something like <code class="docutils literal"><span class="pre">my_shapes.zip</span></code>. Feel free
+<p>Once exported you&#8217;ll have an archive of your specified name, something like <em>my_shapes.zip</em>. Feel free
 to take a peek inside the file, it&#8217;s simply a formatted zip containing your shapes exported in a JSON
 format. Now you can share this archive file to whoever you wish and easily share your entire database
 for other researchers!</p>
@@ -359,10 +372,10 @@ for other researchers!</p>
 <div class="section" id="importing-from-an-archive">
 <h3>Importing From an Archive<a class="headerlink" href="#importing-from-an-archive" title="Permalink to this headline">¶</a></h3>
 <p>Now when you receive a database archive yourself, you&#8217;ll want to import that archive and start using the
-shapes right away; the command <code class="docutils literal"><span class="pre">Import</span> <span class="pre">archive</span> <span class="pre">to</span> <span class="pre">database</span></code> will do just that.</p>
+shapes right away; the command <em>Import archive to database</em> will do just that.</p>
 <p><img alt="imar" src="_images/importing_archive_menu.png" /></p>
 <p>Upon clicking this menu option, a prompt will open asking you for a valid <em>.zip</em> file. Navigate to a zip
-file in the valid format that <code class="docutils literal"><span class="pre">Export</span> <span class="pre">database</span> <span class="pre">to</span> <span class="pre">archive</span></code> produced, and open that. VOCAL will
+file in the valid format that <em>Export database to archive</em> produced, and open that. VOCAL will
 then extract the data from that file and import all objects located in the archive.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
@@ -371,6 +384,28 @@ exists or not, imported shapes are treated as &#8216;new&#8217; creations e.g. t
 based off of the current database tags.</p>
 </div>
 </div>
+</div>
+<div class="section" id="advanced-querying">
+<h2>Advanced Querying<a class="headerlink" href="#advanced-querying" title="Permalink to this headline">¶</a></h2>
+<p>VOCAL&#8217;s database comes with a robust querying ability, allowing you to search over a wide range of parameters. To open
+the advanced search dialog, head over to the <em>polygon</em> -&gt; <em>Import from Database</em> menu to open up the database window,
+and then click on <img alt="dbav" src="_images/db_advanced_button.png" />. Once open you will see</p>
+<img alt="_images/db_advanced_window.png" src="_images/db_advanced_window.png" />
+<p>Any fields not entered or filled out will simply be ignored upon searching, so don&#8217;t worry about filling fields out
+with empty values.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You must fill out the entries in the exact format as they appear in the dialog. Additionally, deleting a default
+value and leaving the entry empty will cause undefined behavior</p>
+</div>
+<p>So lets say you have a bunch of items in your database, but you only really want to see shapes from the file
+<em>CAL_LID_L1-Standard-V4-00.2006-06-13T00-44-41ZD.hdf</em> with a latitude of <em>-60</em> to <em>-50</em>, and maybe you also don&#8217;t
+want anything higher than <em>13km</em>. Here&#8217;s what it would look like within the advanced search dialog:</p>
+<img alt="_images/db_advanced_search.png" src="_images/db_advanced_search.png" />
+<p>And here&#8217;s what we get!</p>
+<img alt="_images/db_advanced_results.png" src="_images/db_advanced_results.png" />
+<p>That&#8217;s all there is to it. Notice we left everything blank that we didn&#8217;t care about, if you don&#8217;t touch it that
+field won&#8217;t be checked!</p>
 </div>
 </div>
 
