@@ -3,6 +3,7 @@ Generating releases for VOCAL with cx_freeze:
 
   Create exe
   -------------
+  * as with #102 , remove the docs folder so it is no longer within the repository
   * cd into vocal/calipso
   * python setup.py build_exe
 
