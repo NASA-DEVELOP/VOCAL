@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,100" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="_static/style.css">
+    <link rel="stylesheet" href="_static/introjs.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script>
+    $(function() {
+      $('a[href*="#"]:not([href="#"])').click(function() {
+        if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+          var target = $(this.hash);
+          target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+          if (target.length) {
+            $('html, body').animate({
+              scrollTop: target.offset().top
+            }, 1000);
+            return false;
+          }
+        }
+      });
+    });
+	</script>
+  </head>
+  <body>
+    <div class="header">
+      <div class="container">
+        <h1>VOCAL</h1>
+        <p>Share and Visualize CALIPSO Data Easier</p>
+        <a href="javascript:void(0);" onclick="startIntro();">Learn More</a>
+      </div>
+    </div>
+
+    <div class="nav">
+      <div class="container">
+        <ul>
+          <li>Download</li>
+          <li><a href="#getting_started" id="step3">Getting Started</a></li>
+          <li><a href="developer_index.html" id="step4">Developer Documentation</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="container">    
+          <img src="_static/cloud_graphic.svg", width=200, height=200, align="left", hspace="20">
+        <h2 id="step2">Data Collaboration</h2>
+        <p>
+          Select important regions of visualized data; Build databases composed of those regions and share your findings
+          with other scientists around the globe. VOCAL aims to do it all, from visualization to sharing.
+        </p>
+        <p>Open Source, for the community and by the community</p>
+        <p>
+          Get started using our in-depth guide, or read the docs and help contribute today. VOCAL is an ever evolving
+          tool aimed to meet the communities needs.</p>
+      </div>
+    </div>
+
+    <div class="tutorial_jumbotron" id="getting_started">
+      <div class="container">
+        <h1>Get Started With Our Tutorial</h1>
+        <a href="tutorial.html">Go</a>
+      </div>
+    </div>
+
+    <div class="main" id="about">
+      <div class="container">
+           <img src="_static/earth.svg", width="200", height="200", align="right", hspace="20">
+        <h2 id="step1">The Team</h2>
+        <p>
+         The Visualization of CALIPSO (VOCAL) is a community project funded under NASA DEVELOP and the CALIPSO science team. Researchers
+         need better methods for visualizing CALIPSO satellite data and identifying objects of interest as well as sharing those regions
+         they find important with other people.
+        </p>
+        <p>
+          VOCAL is designed to do just <i>that</i>. We bring package visualization of CALIPSO data, feature selected, and feature database management
+          all into one application. We hope to bring the scientific community together on a tool that can standardize methods of sharing data as
+          well as begin building a global database of regions of interest within CALIPSO satellite data. In the distant future, if a researcher
+          needs CALIPSO data from a plume of smoke that happened at xx.xx.xxxx date and appeared near y, he/she could easily perform a query in
+          his application that gave him all regions of data within that parameter frame.
+        </p>
+
+      </div>
+    </div>
+    
+    <div class="jumbotron">
+      <div class="container">
+        <h1>See What's In The Works</h1>
+        <p>Check out our Github and get involved.</p>
+        <a id="step5" href="">Github</a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p id="contact">Website by Grant Mercer (gmercer015@gmail.com)</p>
+      <p>For questions, please use Github or via information <a href="trouble/contact.html">here</a></p>
+    </div>
+    <script type="text/javascript" src="_static/intro.js"></script>
+    <script type="text/javascript">
+      function startIntro(){
+        var intro = introJs();
+          intro.setOptions({
+            steps: [
+              {
+                intro: "Welcome to VOCAL! Click next for a short introduction"
+              },
+              {
+                element: document.querySelector('#step1'),
+                intro: "VOCAL is built by the community and for the community, we're focused on giving researchers the best tools for atmospheric data"
+              },
+              {
+                element: document.querySelector('#step2'),
+                intro: "Select regions of interest and share your data with other researchers. It's easy to use and simple to install!"
+              },
+              {
+                element: document.querySelector('#step3'),
+                intro: "Start off with our in-depth tutorial to get the hang of things."
+              },
+              {
+                element: document.querySelector('#step4'),
+                intro: "Want to know more? Check out our docs for detailed information about the software"
+              },
+              {
+                element: document.querySelector('#step5'),
+                intro: "We're on Github! Suggestion or issues? Let us know here"
+              },
+              {
+                intro: "Enjoy!"
+              }
+            ]
+          });
+
+          intro.start();
+      }
+    </script>
+  </body>
+</html>

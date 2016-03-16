@@ -12,7 +12,7 @@ from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
 
 import constants
 from datetime import datetime, time
-from constants import CSV, TXT, DATEFORMAT
+from constants import CSV, TXT, DATEFORMAT, ICO
 from sqlalchemy import or_, Time, cast
 from db import db, DatabasePolygon
 from tools.tools import center, get_shape_ranges, find_between, get_sec
@@ -205,51 +205,51 @@ class ImportDialog(Toplevel):
         :param event: search box events
         """
         # append to search string
-        if event.char:
+        if event.char.isalnum():
             self.__search_string += event.char
-        # if the entry box is NOT empty
-        if self.e.get() != '':
-            # but If a backspace is entered that means we want to pop the stack
-            if event.char == '':
-                # remove one letter from search string and pop stack
-                self.__search_string = self.__search_string[:-1]
-                if self.__stack:
-                    self.tree.info = self.__stack.pop()
+            # if the entry box is NOT empty
+            if self.e.get() != '':
+                # but If a backspace is entered that means we want to pop the stack
+                if event.char == '':
+                    # remove one letter from search string and pop stack
+                    self.__search_string = self.__search_string[:-1]
+                    if self.__stack:
+                        self.tree.info = self.__stack.pop()
+                        self.tree.update()
+                # else if the character is alphanumeric
+                elif event.char.isalnum():
+                    # temporary variable to create new list
+                    lst = list()
+                    # for all objects in the database
+                    for obj in self.session.query(DatabasePolygon).filter(
+                            or_(  # query the database for if search_string is contained in
+                                  # self.__search_string.strip() to remove leading and ending spaces
+                                  DatabasePolygon.tag.contains(self.__search_string.strip()),
+                                  DatabasePolygon.attributes.contains(self.__search_string.strip()),
+                                  DatabasePolygon.notes.contains(self.__search_string.strip()))):
+                        time_range = '%s - %s' % (obj.begin_time.strftime(DATEFORMAT), obj.end_time.strftime('%H:%M:%S'))
+                        altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
+                        lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
+                        lst.append(  # append any objects that were returned by the query
+                                     (obj.tag, obj.plot, time_range, lat_range, altitude_range, obj.attributes[1:-1],
+                                      obj.notes, obj.time_.strftime(DATEFORMAT), obj.hdf))
+                    # push new query onto the stack and set display to list
+                    if self.filter_file.get():
+                        sub_list = set(self.get_current_file_shapes())
+                        lst = [x for x in lst if x in sub_list]
+                    self.__stack.append(self.tree.info)
+                    self.tree.info = lst
                     self.tree.update()
-            # else if the character is alphanumeric
-            elif event.char.isalnum():
-                # temporary variable to create new list
-                lst = list()
-                # for all objects in the database
-                for obj in self.session.query(DatabasePolygon).filter(
-                        or_(  # query the database for if search_string is contained in
-                              # self.__search_string.strip() to remove leading and ending spaces
-                              DatabasePolygon.tag.contains(self.__search_string.strip()),
-                              DatabasePolygon.attributes.contains(self.__search_string.strip()),
-                              DatabasePolygon.notes.contains(self.__search_string.strip()))):
-                    time_range = '%s - %s' % (obj.begin_time.strftime(DATEFORMAT), obj.end_time.strftime('%H:%M:%S'))
-                    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
-                    lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
-                    lst.append(  # append any objects that were returned by the query
-                                 (obj.tag, obj.plot, time_range, lat_range, altitude_range, obj.attributes[1:-1],
-                                  obj.notes, obj.time_.strftime(DATEFORMAT), obj.hdf))
-                # push new query onto the stack and set display to list
+            else:
                 if self.filter_file.get():
                     sub_list = set(self.get_current_file_shapes())
-                    lst = [x for x in lst if x in sub_list]
-                self.__stack.append(self.tree.info)
-                self.tree.info = lst
-                self.tree.update()
-        else:
-            if self.filter_file.get():
-                sub_list = set(self.get_current_file_shapes())
-                self.__search_string = ''
-                self.tree.info = sub_list
-                self.tree.update()
-            else:
-                self.__search_string = ''
-                self.__display_all()
-        logger.info('Displaying refined search')
+                    self.__search_string = ''
+                    self.tree.info = sub_list
+                    self.tree.update()
+                else:
+                    self.__search_string = ''
+                    self.__display_all()
+            logger.info('Displaying refined search')
 
     def import_selection(self):
         """
@@ -297,7 +297,8 @@ class ImportDialog(Toplevel):
     def advanced_prompt(self):
         logger.info('Opening advanced search window')
         if(not AdvancedSearchDialog.singleton):
-            AdvancedSearchDialog(self, self.__root)
+            AdvancedSearchDialog(self, self.__root). \
+                wm_iconbitmap(ICO)
         else:
             logger.warning('Found existing advanced search window, canceling')
 

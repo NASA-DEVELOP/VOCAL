@@ -1,0 +1,184 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 940px; 
+    padding: 0 10px; 
+}
+
+
+/* Header */
+.header {
+  height: 800px;
+  text-align: center; 
+  background-image: url(jumbotron.jpg);
+  background-size: cover;
+}
+
+.header .container {
+    position: relative;
+    top: 200px;
+}
+
+.header a {
+    border: solid;
+  color: white;
+  border-color: black;
+  background-color: black;
+  text-decoration: none;
+  padding: 8px 28px;
+}
+
+.header h1 {
+    font-size: 80px;
+    line-height: 100px; 
+    margin-top: 0;
+    margin-bottom: 80px;
+  color: white;
+}
+
+@media (min-width:850px) {
+    .header h1 {
+        font-size: 120px;
+    }
+}
+
+.header p {
+    font-weight: 500;
+    letter-spacing: 8px;
+    margin-bottom: 40px;
+    margin-top: 0;
+  color: white;
+}
+
+.btn:hover {
+    background: #117bff;
+    cursor: pointer; 
+    transition: background .5s;  
+}
+
+/* Nav */
+.nav {
+    background-color: black; 
+}
+
+.nav ul {
+    list-style: none;
+    margin: 0 auto; 
+    padding: 30px 0;
+    text-align: left; 
+}
+
+.nav li {
+  color: white;
+  display: inline;
+  padding: 20px;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+}
+
+/* Main */
+.main .container {
+    margin: 80px auto;
+}
+
+/* Jumbotron for tutorial section*/
+.tutorial_jumbotron {
+    height: 350px;
+    text-align: center;
+    background-image: url(ocean.jpg);
+    background-size: cover;
+    background-position: center;
+    color: black;
+}
+
+.tutorial_jumbotron .container {
+    text-align: center;
+    position: relative;
+    top: 100px;
+}
+
+.tutorial_jumbotron h1 {
+    font-size: 30px;
+}
+
+.tutorial_jumbotron a {
+    text-decoration: none;
+    border: solid;
+    border-color: black;
+    background-color: black;
+    color: white;
+    padding: 6px 28px;
+}
+
+/* Jumbotron */
+.jumbotron {
+    height: 600px; 
+    text-align: left;
+  background-image: url(clouds.jpg);
+  background-size: cover;
+  color: white;
+}
+
+.jumbotron .container {
+    text-align: right;
+    position: relative;
+    top: 220px;
+}
+
+.jumbotron h1 {
+    font-size: 30px;
+}
+
+.jumbotron a {
+    text-decoration: none;
+    border: solid;
+    border-color: black;
+    background-color: black;
+    color: white;
+    padding: 6px 28px;
+}
+
+/* Footer */
+.footer { 
+    font-size: 14px;
+    background-color: black;
+    color: white;
+    display: flex;
+}
+
+.footer p {
+    padding: 0px 20px;
+}
+
+.footer a {
+    text-decoration: none;
+    color: blue;
+}
+
+/* Media Queries */
+@media (max-width: 500px) {
+  .header h1 {
+    font-size: 50px;
+    line-height: 64px;
+  }
+
+  .main, .jumbotron {
+    padding: 0 30px;
+  }
+
+  .main img {
+    width: 100%;
+  }
+}

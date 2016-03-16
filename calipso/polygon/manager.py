@@ -72,7 +72,6 @@ class ShapeManager(object):
         if self.__current_plot == Plot.baseplot:
             return
         self.__current_list[-1].clear_unfinished_data()
-        print self.__current_list[-1].get_coordinates()
         self.__canvas.show()
 
     def clear_refs(self):
@@ -306,7 +305,6 @@ class ShapeManager(object):
         :param str filename: The filename to read valid JSON shapes from
         :param str read_from_str: The string to read valid JSON shapes from
         """
-	found = False
         if read_from_str != '':
             logger.info('Reading JSON from string')
             read_data = self.__shapereader.read_from_str_json(read_from_str)
@@ -315,11 +313,11 @@ class ShapeManager(object):
             self.__shapereader.set_filename(filename)
             read_data = self.__shapereader.read_from_file_json()
 
-	if self.__hdf != read_data['hdffile']:    # Do HDF files match? 
-            tkMessageBox.showerror('file', 
-	    'Shape-associated HDF file \n and current HDF do not match')
+        if self.__hdf.rpartition('/')[2] != read_data['hdffile']:    # Do HDF files match?
+            tkMessageBox.showerror('file',
+            'Shape-associated HDF file \n and current HDF do not match')
             logger.error('Shape-associated HDF file and current HDF do not match')
-	    return;
+            return
 
         for key in constants.plot_type_enum:
             lst = self.__shape_list[constants.plot_type_enum[key]]
@@ -331,7 +329,7 @@ class ShapeManager(object):
                                     key)
                         shape.redraw(self.__figure, ShapeManager.outline_toggle)
 
-        self.__canvas.show()
+            self.__canvas.show()
 
     def reset(self, all_=False):
         """
@@ -403,7 +401,7 @@ class ShapeManager(object):
             logger.warning('No shapes selected, saving empty plot')
         today = datetime.utcnow().replace(microsecond=0)
         self.__data['time'] = str(today)
-        self.__data['hdffile'] = self.__hdf
+        self.__data['hdffile'] = self.__hdf.rpartition('/')[2]
         shape_dict = {}
         for i in range(len(self.__shape_list)):
             self.__data[constants.PLOTS[i]] = {}
@@ -446,7 +444,7 @@ class ShapeManager(object):
             self.__current_file = filename
         today = datetime.utcnow().replace(microsecond=0)
         self.__data['time'] = str(today)
-        self.__data['hdffile'] = self.__hdf
+        self.__data['hdffile'] = self.__hdf.rpartition('/')[2]
         for i in range(len(self.__shape_list)):
             shape_dict = {}
             for j in range(len(self.__shape_list[i])-1):
@@ -571,8 +569,7 @@ class ShapeManager(object):
 
         :param constants.Plot plot: Acceptable plot constant from ``constants.py``
         """
-	
-	if plot == Plot.baseplot:
+        if plot == Plot.baseplot:
             logger.warning('set_plot called for BASE_PLOT')
             self.__current_list = self.__shape_list[Plot.baseplot]
             self.__current_plot = Plot.baseplot

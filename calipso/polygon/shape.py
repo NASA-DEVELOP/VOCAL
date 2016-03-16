@@ -125,7 +125,6 @@ class Shape(object):
             del self.lastrect
 
         if event.xdata is not None and event.ydata is not None:
-            logger.debug('Generating rectangular points')
             beg = self.__coordinates[0]
             self.__coordinates.append((event.xdata, beg[1]))
             self.__coordinates.append((event.xdata, event.ydata))
@@ -493,6 +492,10 @@ class Shape(object):
         self.__tag = tag
 
     def __can_draw(self):
+        if not self.__coordinates:
+            logger.warning('Attempting to ask to draw empty shape, probably just ' + \
+                           'toggling a button after using free draw? See ticket #92')
+            return -1
         b1 = tuple_to_nparray(self.__coordinates[-1])
         b2 = tuple_to_nparray(self.__coordinates[-2])
         for i in range(len(self.__coordinates)-3):
