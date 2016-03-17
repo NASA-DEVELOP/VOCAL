@@ -28,6 +28,7 @@ Generating releases for VOCAL with cx_freeze:
   * copy vocal/calipso/ico to build/ico
   * copy vocal/calipso/dat to build/dat_      *note the name change to 'dat_'
   * copy vocal/calipso/log to build/log
+  * copy README.txt to build
 
   Creating vocal_setup.exe
   ------------------
