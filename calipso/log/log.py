@@ -7,13 +7,10 @@ import logging.config
 import re
 import shutil
 import sys
-<<<<<<< HEAD
 import os
 import traceback
-=======
 from time import strftime as time
 
->>>>>>> master
 from constants import PATH
 
 config = {
