@@ -63,8 +63,6 @@ class DatabasePolygon(dbBase):
     begin_alt = Column(Float) # starting altitude range of shape
     end_alt = Column(Float) # ending altitude range of shape
 
-    Index('begin_time_', cast(begin_time, TIME))
-
     @staticmethod
     def plot_string(i):
         return constants.PLOTS[i]
