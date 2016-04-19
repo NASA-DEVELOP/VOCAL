@@ -232,6 +232,9 @@ class Calipso(object):
         logger.info('Setting initial plot')
         self.set_plot(Plot.baseplot)
 
+        # if runtime.py detected a mismatched version between our runtime files in %appdata% and the current program,
+        # ask the user to upgrade the runtime files. This happens if the user installs a new version of VOCAL, which
+        # does not update the runtime files. The actual copying will not happen until the program is opened again
         if constants.MISMATCHED_VERSION:
             answer = tkMessageBox. \
                 askyesnocancel('Out of date files', 'The software has detected you have upgraded your version, however '

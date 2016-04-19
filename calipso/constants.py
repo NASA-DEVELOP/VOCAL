@@ -9,11 +9,11 @@
 import os
 from sys import platform as _platform
 
-VERSION = "0.15.2b"
-MISMATCHED_VERSION = False
-COPY_ALL = "c"
-COPY_NO_DB = "n"
-COPY_PASS = "p"
+VERSION = "0.15.2b"         # this constant is matched up against the version within VERSION.txt in appdata
+MISMATCHED_VERSION = False  # if the above constant does not match, set this to true
+COPY_ALL = "c"              # flag to copy all files again for TRIGGER.txt
+COPY_NO_DB = "n"            # flag to copy all files but database for TRIGGER.txt
+COPY_PASS = "p"             # flag to do nothing for TRIGGER.txt
 
 class Plot(object):
     baseplot = 0
