@@ -54,7 +54,7 @@ else:
     with open(vocal_dir + r'\db\VERSION.txt', 'r') as f:
         version = f.readline()
     if version != VERSION:
-        with open(r'.\..\db\TRIGGERS.txt', 'r+') as g:
+        with open(r'.\TRIGGERS.txt', 'r+') as g:
             flag = g.readline()
             if flag == constants.COPY_ALL:
                 copy_runtime(vocal_dir, True, True)
