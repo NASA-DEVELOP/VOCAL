@@ -9,6 +9,11 @@
 import os
 from sys import platform as _platform
 
+VERSION = "0.15.2b"
+MISMATCHED_VERSION = False
+COPY_ALL = "c"
+COPY_NO_DB = "n"
+COPY_PASS = "p"
 
 class Plot(object):
     baseplot = 0
