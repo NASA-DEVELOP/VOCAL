@@ -234,20 +234,20 @@ class Calipso(object):
 
         if constants.MISMATCHED_VERSION:
             answer = tkMessageBox. \
-                askyesnocancel('Out of date files', 'The software has detected you have upgraded your version, however'
-                                'certain files are currently out of date. The program will now upgrade'
-                                'these files and close. Would you like to retain your current database'
+                askyesnocancel('Out of date files', 'The software has detected you have upgraded your version, however '
+                                'certain files are currently out of date. The program will now upgrade '
+                                'these files and close. Would you like to retain your current database '
                                 'during the upgrade? WARNING: database rollover is not always supported,'
                                 'see the version release notes to find out whether your database can be '
                                 'moved over. Press cancel to ignore and not update (not recommended).')
-            if answer is True:
+            if answer is False:
                 logger.info('Copying over all files')
-                with open(r'.\TRIGGERS.txt', 'w') as f:
+                with open(r'.\..\TRIGGERS.txt', 'w') as f:
                     f.write(constants.COPY_ALL)
                 self.__root.destroy()
-            if answer is False:
+            if answer is True:
                 logger.info('Preserving database in update')
-                with open(r'.\TRIGGERS.txt', 'w') as f:
+                with open(r'.\..\TRIGGERS.txt', 'w') as f:
                     f.write(constants.COPY_NO_DB)
                 self.__root.destroy()
             if answer is None:
