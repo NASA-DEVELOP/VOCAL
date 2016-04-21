@@ -54,13 +54,16 @@ else:
     with open(vocal_dir + r'\db\VERSION.txt', 'r') as f:
         version = f.readline()
     if version != VERSION:
-        with open(r'.\..\TRIGGERS.txt', 'r+') as g:
-            flag = g.readline()
+        try:
+            with open(PATH + r'\TRIGGERS.txt', 'r+') as g:
+                flag = g.readline()
             if flag == constants.COPY_ALL:
                 copy_runtime(vocal_dir, True, True)
             elif flag == constants.COPY_NO_DB:
                 copy_runtime(vocal_dir, False, True)
             elif flag == constants.COPY_PASS:
                 constants.MISMATCHED_VERSION = True
-            g.seek(0)
-            g.write(constants.COPY_PASS)
+                g.seek(0)
+                g.write(constants.COPY_PASS)
+            except:
+                constants.MISMATCHED_VERSION = True # if no file exists , we assume version is bad

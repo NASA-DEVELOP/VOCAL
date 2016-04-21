@@ -245,12 +245,12 @@ class Calipso(object):
                                 'moved over. Press cancel to ignore and not update (not recommended).')
             if answer is False:
                 logger.info('Copying over all files')
-                with open(r'.\..\TRIGGERS.txt', 'w') as f:
+                with open(PATH + r'\TRIGGERS.txt', 'w') as f:
                     f.write(constants.COPY_ALL)
                 self.__root.destroy()
             if answer is True:
                 logger.info('Preserving database in update')
-                with open(r'.\..\TRIGGERS.txt', 'w') as f:
+                with open(PATH + r'\TRIGGERS.txt', 'w') as f:
                     f.write(constants.COPY_NO_DB)
                 self.__root.destroy()
             if answer is None:
