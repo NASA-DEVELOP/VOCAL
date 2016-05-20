@@ -9,6 +9,7 @@ import shutil
 from os.path import expanduser
 import constants
 from constants import VERSION
+from constants import PATH
 import tkMessageBox
 
 def copy_runtime(vocal_dir, copy_db, delete_existing):
@@ -50,17 +51,32 @@ vocal_dir = get_appdata_vocal_dir()
 if not os.path.exists(vocal_dir):
     copy_runtime(vocal_dir, True, False)
 else:
-    # the folder may already exist, but may be an older version
-    with open(vocal_dir + r'\db\VERSION.txt', 'r') as f:
-        version = f.readline()
+    # If the folder does exist, we must determine whether the VERSION.txt file is old or current
+    try:
+        with open(vocal_dir + r'\dat\VERSION.txt', 'r') as f:
+            version = f.readline()  # read the version from the file within the appdata folder
+    except:
+        # if the program can't even open VERSION.txt, it must be a REALLY old version
+        version = "NULL"
     if version != VERSION:
-        with open(r'.\..\TRIGGERS.txt', 'r+') as g:
-            flag = g.readline()
-            if flag == constants.COPY_ALL:
-                copy_runtime(vocal_dir, True, True)
-            elif flag == constants.COPY_NO_DB:
-                copy_runtime(vocal_dir, False, True)
-            elif flag == constants.COPY_PASS:
-                constants.MISMATCHED_VERSION = True
-            g.seek(0)
-            g.write(constants.COPY_PASS)
+        # if the version does not match the program constants VERSION, we must ask the user whether
+        # they wish to replace the old files with the new files found in the current versions runtime folder
+        try:
+            # check if the user has already made this decision within TRIGGERS.txt, if no decision has been made
+            # e.g. the user opened it for the first time, the program will prompt him to make a decision. That
+            # decision will be recorded within TRIGGERS.txt so the next time this program opens, it will read
+            # the decision from TRIGGERS.txt
+            with open(vocal_dir + r'\TRIGGERS.txt', 'r+') as g:
+                flag = g.readline()
+                if flag == constants.COPY_ALL:
+                    copy_runtime(vocal_dir, True, True)
+                elif flag == constants.COPY_NO_DB:
+                    copy_runtime(vocal_dir, False, True)
+                elif flag == constants.COPY_PASS:
+                    constants.MISMATCHED_VERSION = True
+                g.seek(0)
+                g.write(constants.COPY_PASS)
+        except:
+            # no decision was made, so set the mismatched version constant to true, now calipso will prompt the
+            # user for a decision
+            constants.MISMATCHED_VERSION = True # failing to open means TRIGGER.txt does not yet exist
