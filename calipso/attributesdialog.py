@@ -5,7 +5,7 @@
 #
 ######################################
 from Tkconstants import TOP, X, BOTH, BOTTOM, END, EXTENDED, LEFT
-from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox
+from Tkinter import Toplevel, Frame, StringVar, Label, Text, Button, Listbox, Entry
 
 from constants import TAGS
 from log.log import logger
@@ -39,6 +39,7 @@ class AttributesDialog(Toplevel):
         self.note_text = None
         self.attributes_list = None
         self.selected_list = None
+        self.name_entry = None
             
         self.transient(root)
         logger.info('Creating top frame')
@@ -52,22 +53,30 @@ class AttributesDialog(Toplevel):
         """
         self.top_frame = Frame(self.container)
         self.top_frame.pack(side=TOP, fill=X, expand=False)
-        
+
+        name_string = StringVar()
+        name_string.set('Shape name:')
+        name_label = Label(self.top_frame, textvariable=name_string)
+        name_label.grid(row=0, column=0)
+
+        self.name_entry = Entry(self.top_frame, width=30)
+        self.name_entry.grid(row=1, column=0, padx=6)
+
         attributes_string = StringVar()
         attributes_string.set('Attributes:')
         attributes_label = Label(self.top_frame, textvariable=attributes_string)
-        attributes_label.grid(row=0, column=0)
+        attributes_label.grid(row=2, column=0)
         
         selected_string = StringVar()
         selected_string.set('Selected:')
         selected_label = Label(self.top_frame, textvariable=selected_string)
-        selected_label.grid(row=0, column=3)
+        selected_label.grid(row=2, column=3)
         
         self.attributes_list = Listbox(self.top_frame, width=30, height=15, selectmode=EXTENDED)
-        self.attributes_list.grid(row=1, column=0, padx=6)
+        self.attributes_list.grid(row=3, column=0, padx=6)
         
         self.selected_list = Listbox(self.top_frame, width=30, height=15, selectmode=EXTENDED)
-        self.selected_list.grid(row=1, column=3, padx=6)
+        self.selected_list.grid(row=3, column=3, padx=6)
         
         logger.info('Loading attributes')
         for tag in self.__available_attributes:
@@ -78,11 +87,11 @@ class AttributesDialog(Toplevel):
         
         remove_button = Button(self.top_frame, width=3, height=2, text='<--',
                                command=self.remove_attribute)
-        remove_button.grid(row=1, column=1)
+        remove_button.grid(row=3, column=1)
         
         move_button = Button(self.top_frame, width=3, height=2, text='-->',
                              command=self.move_attribute)
-        move_button.grid(row=1, column=2)
+        move_button.grid(row=3, column=2)
         
     def create_bottom_frame(self):
         """
