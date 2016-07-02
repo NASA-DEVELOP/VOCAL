@@ -91,6 +91,8 @@ class ShapeReader(object):
                 attributes = self.__data[plot_type][shape]['attributes']
                 notes = self.__data[plot_type][shape]['notes']
                 _id = self.__data[plot_type][shape]['id']
+                _uuid = self.__data[plot_type][shape]['uuid']
+                name = self.__data[plot_type][shape]['name']
                 if db.exists_tag(shape) and not read_from_str:
                     new = ShapeManager.generate_tag()
                     logger.warning(
@@ -100,6 +102,8 @@ class ShapeReader(object):
                 else:
                     shape_list[-1].set_tag(shape)
                 shape_list[-1].set_id(_id)
+                shape_list[-1].set_uuid(_uuid)
+                shape_list[-1].set_name(name)
                 shape_list[-1].set_color(color)
                 shape_list[-1].set_plot(enum_plot_type)
                 shape_list[-1].set_attributes(attributes)

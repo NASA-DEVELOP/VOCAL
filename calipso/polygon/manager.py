@@ -458,7 +458,9 @@ class ShapeManager(object):
                 attributes = self.__shape_list[i][j].get_attributes()
                 note = self.__shape_list[i][j].get_notes()
                 _id = self.__shape_list[i][j].get_id()
-                value = {'coordinates': coordinates, 'lat': lat, 'color': color,
+                _uuid = self.__shape_list[i][j].get_uuid()
+                name = self.__shape_list[i][j].get_name()
+                value = {'uuid': _uuid, 'name': name, 'coordinates': coordinates, 'lat': lat, 'color': color,
                          'attributes': attributes, 'notes': note, 'id': _id}
             shape_dict[tag] = value
         self.__data[constants.PLOTS[i]] = shape_dict

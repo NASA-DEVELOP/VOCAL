@@ -26,7 +26,7 @@ class Shape(object):
     backend
     """
 
-    def __init__(self, canvas=None, tag='', color=''):
+    def __init__(self, canvas=None, tag='', color='', unique_id=''):
         self.__canvas = canvas
         self.__coordinates = []
         self.__tag = tag
@@ -36,8 +36,10 @@ class Shape(object):
         self.__attributes = []
         self.__note = ''
         self.__id = None
-        self.__name = ''                    # will become the front-facing id in the db, replaces tag
-        self.__uuid = str(uuid.uuid4())          # will become the rear-facing id in the db, replaces id, readonly
+        # will become the front-facing id in the db, replaces tag
+        self.__name = ''
+        # will become the rear-facing id in the db, replaces id, readonly
+        self.__uuid = unique_id if unique_id != '' else str(uuid.uuid4())
         self.__prev_x = 1.0
         self.__prev_y = 1.0
         self.__lines = []
@@ -493,6 +495,14 @@ class Shape(object):
         :param name: User generated name
         """
         self.__name = name
+
+    def set_uuid(self, unique_id):
+        """
+        Set the uuid of the shape. Should only be used when loading from db or JSON
+
+        :param str unique_id: Shape's uuid
+        """
+        self.__uuid = unique_id
 
     def set_notes(self, note):
         """
