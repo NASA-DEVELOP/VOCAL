@@ -61,6 +61,7 @@ class AttributesDialog(Toplevel):
 
         self.name_entry = Entry(self.top_frame, width=30)
         self.name_entry.grid(row=1, column=0, padx=6)
+        self.name_entry.insert(0, self.__shape.get_name());
 
         attributes_string = StringVar()
         attributes_string.set('Attributes:')
@@ -157,7 +158,10 @@ class AttributesDialog(Toplevel):
         """
         logger.info('Saving note')
         note = self.note_text.get('1.0', 'end-1c')
+        name = self.name_entry.get()
         self.__shape.set_notes(note)
+        logger.info('Saving name')
+        self.__shape.set_name(name)
         self.close()
     
     def clear(self):

@@ -35,6 +35,7 @@ class Shape(object):
         self.__attributes = []
         self.__note = ''
         self.__id = None
+        self.__name = ''
         self.__prev_x = 1.0
         self.__prev_y = 1.0
         self.__lines = []
@@ -176,6 +177,14 @@ class Shape(object):
         :rtype: :py:class:`int`
         """
         return self.__id
+
+    def get_name(self):
+        """
+        Return the user generated name of the shape
+
+        :rtype: :py:class:`str`
+        """
+        return self.__name
 
     def get_itemhandler(self):
         """
@@ -466,6 +475,14 @@ class Shape(object):
         :param int _id: Database primary key
         """
         self.__id = _id
+
+    def set_name(self, name):
+        """
+        Set the name of the shape.
+
+        :param name: User generated name
+        """
+        self.__name = name
 
     def set_notes(self, note):
         """
