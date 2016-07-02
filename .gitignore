@@ -8,6 +8,8 @@
 *.pyproj
 *.DS_Store
 .settings
+.project
+.pydveproject
 calipso/.idea
 calipso/hdf
 docs/source/.idea
