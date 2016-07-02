@@ -6,6 +6,7 @@
 ######################################
 
 import random
+import uuid
 
 import matplotlib as mpl
 import matplotlib.lines as mlines
@@ -35,7 +36,8 @@ class Shape(object):
         self.__attributes = []
         self.__note = ''
         self.__id = None
-        self.__name = ''
+        self.__name = ''                    # will become the front-facing id in the db, replaces tag
+        self.__uuid = str(uuid.uuid4())          # will become the rear-facing id in the db, replaces id, readonly
         self.__prev_x = 1.0
         self.__prev_y = 1.0
         self.__lines = []
@@ -185,6 +187,14 @@ class Shape(object):
         :rtype: :py:class:`str`
         """
         return self.__name
+
+    def get_uuid(self):
+        """
+        Return the shape's uuid
+
+        :rtype: :py:class:`str`
+        """
+        return self.__uuid
 
     def get_itemhandler(self):
         """
@@ -524,15 +534,18 @@ class Shape(object):
         return -1
 
     def __str__(self):
-        logger.debug('Stringing %s' % self.__tag)
+        logger.debug('Stringing %s' % self.__name)
         time_cords = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S') for
                       x in self.__coordinates]
         altitude_cords = [x[1] for x in self.__coordinates]
-        string = 'Name:\n\t%s\n' % self.__tag
+        string = 'Name:\n\t%s\n' % self.__name
+        string += 'Tag:\n\t%s\n' % self.__tag
         string += 'Time Scale:\n\t%s - %s\n' % (min(time_cords), max(time_cords))
         string += 'Latitude Scale:\n\t%s\n' % self.generate_lat_range()
         string += 'Altitude Scale:\n\t%.4f km - %.4f km\n' % (min(altitude_cords), max(altitude_cords))
         string += 'Color:\n\t%s\n' % self.__color
+        # for development purposes only
+        string += 'UUID:\n\t%s\n' % self.__uuid
         if len(self.__attributes) > 0:
             string += 'Attributes:\n'
             for item in self.__attributes:

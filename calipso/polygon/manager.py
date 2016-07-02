@@ -183,7 +183,6 @@ class ShapeManager(object):
         """
         return self.__hdf
 
-
     def get_filename(self):
         """
         Return JSON filename string
@@ -415,6 +414,8 @@ class ShapeManager(object):
             attributes = self.__selected_shapes[j].get_attributes()
             note = self.__selected_shapes[j].get_notes()
             _id = self.__selected_shapes[j].get_id()
+            _uuid = self.__selected_shapes[j].get_uuid()
+            name = self.__selected_shapes[j].get_name()
 
             time_cords = [mpl.dates.num2date(x[0]) for x in coordinates]
             alt_cords = [x[1] for x in coordinates]
@@ -425,7 +426,7 @@ class ShapeManager(object):
             balt = min(alt_cords)
             ealt = max(alt_cords)
 
-            value = {'coordinates': coordinates, 'blat': blat, 'elat': elat,
+            value = {'uuid': _uuid, 'name': name, 'coordinates': coordinates, 'blat': blat, 'elat': elat,
                      'btime': btime, 'etime': etime, 'balt': balt, 'ealt': ealt,
                      'color': color, 'attributes': attributes, 'notes': note, 'id': _id}
             shape_dict[tag] = value

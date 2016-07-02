@@ -109,7 +109,8 @@ class AttributesDialog(Toplevel):
         self.note_text = Text(self.bottom_frame, width=55, height=10)
         self.note_text.grid(row=1, column=1, padx=6)
         self.note_text.insert(END, self.__shape.get_notes())
-        
+
+        # TODO: reposition the button frame to something more sensible
         button_frame = Frame(self.container)
         button_frame.pack(side=BOTTOM, fill=X, expand=False)
         
