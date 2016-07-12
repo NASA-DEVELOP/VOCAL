@@ -18,7 +18,7 @@ from datetime import datetime, time
 from constants import CSV, TXT, DATEFORMAT, ICO
 from sqlalchemy import or_, Time, cast
 from db import db, DatabasePolygon
-from tools.tools import center, get_shape_ranges, find_between, get_sec
+from tools.tools import center, get_shape_ranges, find_between, get_sec, coord_tuple_list
 from tools.treelistbox import TreeListBox
 from tools.tooltip import create_tool_tip
 from log.log import logger
@@ -332,35 +332,14 @@ class ImportDialog(Toplevel):
             self.__stack.append(self.tree.info)
         for obj in self.session.query(DatabasePolygon).all():
             time_range = '%s - %s' % (obj.begin_time.strftime(DATEFORMAT), obj.end_time.strftime('%H:%M:%S'))
-            #KDM added the following lines:
-	    coord_list = obj.coordinates
-	    coords = obj.coordinates.strip("[")
-	    coords = coords.strip("]")
-            coords = coords.split(",")
-            newlist = list()
-	    for a in coords:
-	        a = a.strip("(")
-	        a = a.strip(")")
-	        newlist.append(a)
-            newerlist = [b.replace("(",'') for b in newlist]
-            newestlist = list()
-	    for c in newerlist:
-	        c = np.float64(c)
-                newestlist.append(c)
-            tempIter = iter(newestlist)
-            tupCoords = zip(tempIter, tempIter)
 	    
-	    time_list = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S') for x in tupCoords]
-            for i, (a, b) in enumerate(tupCoords):
-                tupCoords[i] = (time_list[i], b)
-	
-            final_coord_list = ['(%s, %.3f)' % (a, b) for a, b in tupCoords]
-	    final_coord_list = str(final_coord_list)
+	    coord_list = obj.coordinates
+	    final_coord_list = coord_tuple_list(coord_list)
 
 	    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
             lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
-            lst.append(  # user sees this list
-                         (obj.tag, obj.plot, time_range, final_coord_list, lat_range, altitude_range, obj.attributes[1:-1],
+            lst.append(# user sees this list
+                         (obj.tag, obj.plot, time_range, str(final_coord_list), lat_range, altitude_range, obj.attributes[1:-1],
                           obj.notes, obj.time_.strftime(DATEFORMAT), obj.hdf))
 
         self.tree.info = lst
