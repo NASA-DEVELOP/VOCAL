@@ -80,7 +80,6 @@ def coord_tuple_list(uni_str):
     for i, (a, b) in enumerate(tup_coords):
         tup_coords[i] = (time_list[i], b)
     final_coord_list = ['(%s, %.3f)' % (a, b) for a, b in tup_coords]
-    #final_coord_list = str(final_coord_list)
     return final_coord_list
 
 

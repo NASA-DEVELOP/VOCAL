@@ -9,9 +9,6 @@ import tkFileDialog
 import tkMessageBox
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, \
     Label, BOTTOM, TOP, X, RIDGE, Checkbutton, IntVar, StringVar
-import matplotlib as mpl #KDM
-import numpy as np #KDM
-import ast #KDM
 
 import constants
 from datetime import datetime, time
@@ -189,14 +186,14 @@ class ImportDialog(Toplevel):
             hdf=fn
         ):
             time_range = '%s - %s' % (obj.begin_time.strftime(DATEFORMAT), obj.end_time.strftime('%H:%M:%S'))
-            #KDM added the following line:
+	    
 	    coord_list = obj.coordinates
-	    #coords = obj.coordinates
-	    #coord_list = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S') for x in coords]
+	    final_coord_list = coord_tuple_list(coord_list)
+	    
 	    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
             lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
             lst.append(
-                (obj.tag, obj.plot, time_range, coord_list, lat_range, altitude_range, obj.attributes[1:-1],
+                (obj.tag, obj.plot, time_range, str(final_coord_list), lat_range, altitude_range, obj.attributes[1:-1],
                  obj.notes, obj.time_.strftime(DATEFORMAT), obj.hdf))
         if not lst:
             logger.warning('Query returned None, no shapes found')
@@ -236,14 +233,13 @@ class ImportDialog(Toplevel):
                                 DatabasePolygon.attributes.contains(self.__search_string.strip()),
                                 DatabasePolygon.notes.contains(self.__search_string.strip()))):
                     time_range = '%s - %s' % (obj.begin_time.strftime(DATEFORMAT), obj.end_time.strftime('%H:%M:%S'))
-                    #KDM added the following line:
 	            coord_list = obj.coordinates
-		    #coords = obj.coordinates
-		    #coord_list = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S') for x in coords]
-		    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
+                    final_coord_list = coord_tuple_list(coord_list)
+                    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
                     lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
                     lst.append(  # append any objects that were returned by the query
-                                    (obj.tag, obj.plot, time_range, coord_list, lat_range, altitude_range, obj.attributes[1:-1],
+                                    (obj.tag, obj.plot, time_range, str(final_coord_list), 
+				    lat_range, altitude_range, obj.attributes[1:-1],
                                     obj.notes, obj.time_.strftime(DATEFORMAT), obj.hdf))
                 # push new query onto the stack and set display to list
                 if self.filter_file.get():
@@ -418,10 +414,10 @@ class ImportDialog(Toplevel):
 
         for obj in query_result:
             time_range = '%s - %s' % (obj.begin_time.strftime(DATEFORMAT), obj.end_time.strftime('%H:%M:%S'))
-            #KDM added the following line:
+	    
 	    coord_list = obj.coordinates
-	    #coords = obj.coordinates
-	    #coord_list = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S') for x in coords] 
+	    final_coord_list = coord_tuple_list(coord_list)
+	    
 	    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
             lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
             # If we're parsing a date, we can't just filter as we must transform
@@ -437,7 +433,7 @@ class ImportDialog(Toplevel):
                 continue
 
             lazy_list.append(
-                (obj.tag, obj.plot, time_range, coord_list, lat_range, altitude_range, obj.attributes[1:-1],
+                (obj.tag, obj.plot, time_range, str(final_coord_list), lat_range, altitude_range, obj.attributes[1:-1],
                  obj.notes, obj.time_.strftime(DATEFORMAT), obj.hdf))
 
         self.tree.info = lazy_list
