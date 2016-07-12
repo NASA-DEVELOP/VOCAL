@@ -9,6 +9,7 @@ import ast
 from datetime import datetime
 import os
 import matplotlib as mpl
+import numpy as np
 from log.log import logger
 
 def find_between( s, first, last ):
@@ -54,6 +55,34 @@ def format_coord(axes, x, y, z):
     else:
         zs = z
     return 'x=%s y=%s lat=%s' % (xs, ys, zs)
+
+def coord_tuple_list(uni_str):
+    """
+    Takes as input Unicode string that ought to be list of tuples
+    and returns an actual list of tuples (used in coordinate formatting)
+
+    :param str inp: Unicode string to be converted
+    """
+    coords = uni_str.strip("[")
+    coords = coords.strip("]")
+    coords = coords.split(",")
+    temp_list = [b.replace("(",'') for b in coords]
+    temp_list2 = [b.replace(")",'') for b in temp_list]
+    
+    convert_list = list()
+    for c in temp_list2:
+        c = np.float64(c)
+	convert_list.append(c)
+    temp_iter = iter(convert_list)
+    tup_coords = zip(temp_iter, temp_iter)
+
+    time_list = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S') for x in tup_coords]
+    for i, (a, b) in enumerate(tup_coords):
+        tup_coords[i] = (time_list[i], b)
+    final_coord_list = ['(%s, %.3f)' % (a, b) for a, b in tup_coords]
+    #final_coord_list = str(final_coord_list)
+    return final_coord_list
+
 
 
 def byteify(inp):
