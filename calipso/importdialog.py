@@ -189,7 +189,9 @@ class ImportDialog(Toplevel):
 	    
 	    coord_list = obj.coordinates
 	    final_coord_list = coord_tuple_list(coord_list)
-	    
+            final_coord_list = [b.replace(",", ' ') for b in final_coord_list]
+   
+
 	    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
             lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
             lst.append(
@@ -235,7 +237,8 @@ class ImportDialog(Toplevel):
                     time_range = '%s - %s' % (obj.begin_time.strftime(DATEFORMAT), obj.end_time.strftime('%H:%M:%S'))
 	            coord_list = obj.coordinates
                     final_coord_list = coord_tuple_list(coord_list)
-                    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
+                    final_coord_list = [b.replace(",", ' ') for b in final_coord_list]
+		    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
                     lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
                     lst.append(  # append any objects that were returned by the query
                                     (obj.tag, obj.plot, time_range, str(final_coord_list), 
@@ -331,6 +334,7 @@ class ImportDialog(Toplevel):
 	    
 	    coord_list = obj.coordinates
 	    final_coord_list = coord_tuple_list(coord_list)
+            final_coord_list = [b.replace(",", ' ') for b in final_coord_list]
 
 	    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
             lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
@@ -417,7 +421,8 @@ class ImportDialog(Toplevel):
 	    
 	    coord_list = obj.coordinates
 	    final_coord_list = coord_tuple_list(coord_list)
-	    
+	    final_coord_list = [b.replace(",", ' ') for b in final_coord_list]
+
 	    altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
             lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
             # If we're parsing a date, we can't just filter as we must transform
