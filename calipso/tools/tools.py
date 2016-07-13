@@ -82,7 +82,21 @@ def coord_tuple_list(uni_str):
     final_coord_list = ['(%s, %.3f)' % (a, b) for a, b in tup_coords]
     return final_coord_list
 
+def coord_string(coord_list):
+    """
+    Takes as input a list of coordinates, converts to string, 
+    removes extraneous remaining list notation, and finally 
+    encapsulates the string with extra "" for output to CSV 
+    so that programs such as Excel will ignore the list's commas.
 
+    :param str inp: List of coordinate tuples
+    """
+    final_coord_list = str(coord_list)
+    final_coord_list = final_coord_list.replace('\'', '')
+    final_coord_list = final_coord_list.replace('[', '')
+    final_coord_list = final_coord_list.replace(']', '')
+    final_coord_list = "\"" + final_coord_list + "\""
+    return final_coord_list
 
 def byteify(inp):
     """
