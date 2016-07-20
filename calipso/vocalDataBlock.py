@@ -10,11 +10,11 @@ from matplotlib.figure import Figure
 
 class dataSet():
 
-    def __init__(self, in_type, in_data_set, in_xrange_time, in_xrange_coordinates, in_yrange, in_wavelength = 532):
+    def __init__(self, in_type, in_dataset, in_xrange, in_yrange, in_wavelength = 532):
         self._type = in_type
         self._wavelength = in_wavelength
-        self._data_set = in_data_set
-        self._xrange_time = in_xrange
+        self._dataset = in_dataset
+        self._xrange = in_xrange
         self._yrange = in_yrange
         self._fig = Figure
 
@@ -28,7 +28,7 @@ class vocalDataBlock():
     def __init__(self, filename):
 
         self.__filename = filename
-        self.__data_sets = list()
+        self.__datasets = list()
 
         with HDF(filename) as product:
             self.__x_time = np.array([ccplot.utils.calipso_time2dt(t) for t in product['Profile_UTC_Time'][::]])
@@ -52,7 +52,7 @@ class vocalDataBlock():
         else:
             self.__data_level = "2"
 
-            self.__data_sets = []
+            self.__datasets = []
 
 
 """Following is simple setters/getters associated with vocalDataBlock Class"""
@@ -146,21 +146,21 @@ class vocalDataBlock():
     #   return codes ('empty' == empty, "False" == does not exist in dataset, positive integer is a positive match and returns the iterator needed to access the dataset
     #   and negative interger is an iterator pointing to a dataset that the working dataset exists within
     def find_iterator_in_dataset(self):
-        if len(self.__data_sets) == 0
+        if len(self.__datasets) == 0
             return "Empty"
         else:
-            for i in self.__data_sets:
-                if          self.__data_sets[i]._type           == self.__working_type \
-                        and self.__data_sets[i]._wavelength     == self.__working_wavelength \
-                        and self.__data_sets[i]._xrange_time    == self.__working_time \
-                        and self.__data_sets[i]._yrange         == self.__working_altitude:
+            for i in self.__datasets:
+                if          self.__datasets[i]._type           == self.__working_type \
+                        and self.__datasets[i]._wavelength     == self.__working_wavelength \
+                        and self.__datasets[i]._xrange_time    == self.__working_time \
+                        and self.__datasets[i]._yrange         == self.__working_altitude:
                     return i
                 '''NOT IMPLEMENTED YET  Not sure if I can use the iterators to determine if a set is within a set
                 elif
-                    if (        self.__data_sets[i]._type == self.__working_type \
-                            and self.__data_sets[i]._wavelength == self.__working_wavelength) \
-                                and (   self.__working_altitude in self.__data_sets[i]._yrange \
-                                and     self.__working_time in self.__data_sets[i]._xrange_time):
+                    if (        self.__datasets[i]._type == self.__working_type \
+                            and self.__datasets[i]._wavelength == self.__working_wavelength) \
+                                and (   self.__working_altitude in self.__datasets[i]._yrange \
+                                and     self.__working_time in self.__datasets[i]._xrange_time):
                         return (-1 * i)'''
 
         return "False"
@@ -204,11 +204,12 @@ class vocalDataBlock():
         dataset_iterator = self.find_iterator_in_dataset()
         if dataset_iterator == "False" or dataset_iterator == "Empty":
             with HDF(self.__filename) as product:
-                return product[in_dataset_to_get][self.__working_time[0], self.__working_time[1]]
+                temp_data =  product[in_dataset_to_get][self.__working_time[0], self.__working_time[1]]
 
+            return self.__dataset.append_DataSet(self, temp_data)
         else:
-            return self.__datasets[dataset_iterator]._data_set[self.__working_time[0], self.__working_time[1]]
-
+            return self.__datasetss.update_DataSet(self, self.__datasetss[dataset_iterator]._dataset[self.__working_time[0], self.__working_time[1]], dataset_iterator)
+            
 
      def backscatter(self):
         if self.__working_wavelength == "1064":
@@ -216,23 +217,62 @@ class vocalDataBlock():
         else:
             dataset_to_get = 'Total_Attenuated_Backscatter_532'
 
+        temp_iterator = load_dataset(self, dataset_to_get)
+        self.__datasets[temp_iterator]._dataset = np.ma.masked_equal(self.__datasets[temp_iterator]._dataset, -9999)
+        
+        temp_x = np.arange(self.__x_time[self.__working_time[0]], self.__working_time[1], dtype=np.float32)
+        temp_y, null = np.meshgrid(self.__y_altitude, _x)
+        
+        interp2d_12(
+            self.__datasets[temp_iterator]._dataset[::],
+            temp_x.astype(np.float32),
+            temp_y.astype(np.float32),
+            self.__x_time[self.__working_time[0]], self.__working_time[1],
+            self.__x_time[self.__working_time[1]] - self.__working_time[0],
+            self.__y_altitude[self.__working_altitude[1]],
+            self.__y_altitude[self.__working_altitude[0]], 500,
+        )
 
-         data = np.ma.masked_equal(load_dataset(self,dataset_to_get), -9999)
+        cm, norm = self.load_color_map(self, self.__datasets[temp_iterator]._type)
 
-        _x = np.arange(x1, x2, dtype=np.float32)
-        _y, null = np.meshgrid(height, _x)
-        data = interp2d_12(
-            data[::],
-            _x.astype(np.float32),
-            _y.astype(np.float32),
-            x1, x2, x2 - x1,
-            h2, h1, nz,
-)
+        im = self.__datasets[temp_iterator].fig.imshow(
+            self.__datasets[temp_iterator].dataset.T,
+            extent=(self.__datasets[temp_iterator]._xrange[0], self.__datasets[temp_iterator]._xrange[-1], self.__datasets[temp_iterator]._yrange[0], self.__datasets[temp_iterator]._yrange[-1]),
+            cmap=cm,
+            aspect='auto',
+            norm=norm,
+            interpolation='nearest',
+        )
+
+        self.__datasets[temp_iterator]._fig.set_ylabel('Altitude (km)')
+        self.__datasets[temp_iterator]._fig.set_xlabel('Latitude')
+        self.__datasets[temp_iterator]._fig.set_title("Averaged " + self.__datasets[temp_iterator]._wavelength + "nm Total Attenuated Backscatter")
+
+        cbar_label = 'Total Attenuated Backscatter ' + self.__datasets[temp_iterator]._wavelength + 'nm (km$^{-1}$ sr$^{-1}$)'
+        cbar = self.__datasets[temp_iterator]._fig.colorbar(im)
+        cbar.set_label(cbar_label)
+
+        ax = self.__datasets[temp_iterator]._fig.twiny()
+        ax.set_xlabel('Time')
+        ax.set_xlim(self.__datasets[temp_iterator]._xrange[0], self.__datasets[temp_iterator]._xrange[-1])
+        ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+
+        fig.set_zorder(0)
+        ax.set_zorder(1)
+
+        title = self.__datasets[temp_iterator]._fig.set_title('Averaged ' + self.__datasets[temp_iterator]._wavelength + 'nm Total Attenuated Backscatter')
+        title_xy = title.get_position()
+        title.set_position([title_xy[0], title_xy[1] * 1.07])
+
+
+        
+        
+        
 
 '''TODO List
-def append_Data_Sets(self, in_type, in_data_set, in_wavelength="532"):
-def remove_Data_Sets(self, in_type, in_data_set, in_wavelength="532"):
-def update_Data_Sets(self, in_type, in_data_set, in_wavelength="532"):
+def append_datasets(self, in_dataset):
+def remove_datasets(self, in_type, in_dataset, in_dataset_iterator):
+def update_datasets(self, in_type, in_dataset, in_dataset_iterator):
 def depolarization(self):
 def vfm(self):
 '''
