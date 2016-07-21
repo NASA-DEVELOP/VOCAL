@@ -69,9 +69,7 @@ class ImportDialog(Toplevel):
         self.end_time = None
         self.beg_lat = None
         self.end_lat = None
-        #self.beg_long = None
-	#self.end_long = None
-	self.beg_alt = None
+        self.beg_alt = None
         self.end_alt = None
         self.file = None
 
@@ -189,8 +187,7 @@ class ImportDialog(Toplevel):
             time_range = '%s - %s' % (obj.begin_time.strftime(DATEFORMAT), obj.end_time.strftime('%H:%M:%S'))
             altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
             lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
-            #long_range = '(%.3f) - (%.3f)' % (obj.begin_long, obj.end_long)
-	    lst.append(
+            lst.append(
                 (obj.tag, obj.plot, time_range, lat_range, altitude_range, obj.attributes[1:-1],
                  obj.notes, obj.time_.strftime(DATEFORMAT), obj.hdf))
         if not lst:
@@ -233,7 +230,6 @@ class ImportDialog(Toplevel):
                     time_range = '%s - %s' % (obj.begin_time.strftime(DATEFORMAT), obj.end_time.strftime('%H:%M:%S'))
                     altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
                     lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
-                    #long_range = '(%.3f) - (%.3f)' % (obj.begin_long, obj.end_long)
                     lst.append(  # append any objects that were returned by the query
                                     (obj.tag, obj.plot, time_range, lat_range, altitude_range, obj.attributes[1:-1],
                                     obj.notes, obj.time_.strftime(DATEFORMAT), obj.hdf))
@@ -326,7 +322,6 @@ class ImportDialog(Toplevel):
             time_range = '%s - %s' % (obj.begin_time.strftime(DATEFORMAT), obj.end_time.strftime('%H:%M:%S'))
             altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
             lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
-            #long_range = '(%.3f) - (%.3f)' % (obj.begin_long, obj.end_long)
             lst.append(  # user see's this list
                          (obj.tag, obj.plot, time_range, lat_range, altitude_range, obj.attributes[1:-1],
                           obj.notes, obj.time_.strftime(DATEFORMAT), obj.hdf))
@@ -355,8 +350,6 @@ class ImportDialog(Toplevel):
         etime -> '00-00-00'   -> hr-m-s -> Ending time range
         blat  -> '0.0'        -> float  -> Beginning latitude range (*blat* -> *elat*)
         elat  -> '0.0'        -> float  -> Ending latitude range
-	blong -> '0.0'        -> float  -> Beginning longitude range (*blong* -> *elat*)
-	elong -> '0.0'        -> float  -> Ending longitude range
         balt  -> '0.0'        -> float  -> Beginning altitude range (*balt* -> *ealt*)
         ealt  -> '0.0'        -> float  -> Ending altitude range
         plot  -> PLOTS        -> string -> Type of plot ('backscattered' etc..)
@@ -395,17 +388,7 @@ class ImportDialog(Toplevel):
                 DatabasePolygon.end_lat <= rng['elat']
             )
 
-        #if rng['blong']:
-        #    query_result = query_result.filter(
-        #        DatabasePolygon.begin_long >= rng['blong']
-        #    )
-
-        #if rng['elong']:
-        #    query_result = query_result.filter(
-        #        DatabasePolygon.end_long >= rng['elong']
-        #    )
-
-	if rng['balt']:
+        if rng['balt']:
             query_result = query_result.filter(
                 DatabasePolygon.begin_alt >= rng['balt']
             )
@@ -421,7 +404,6 @@ class ImportDialog(Toplevel):
             time_range = '%s - %s' % (obj.begin_time.strftime(DATEFORMAT), obj.end_time.strftime('%H:%M:%S'))
             altitude_range = '%.3f - %.3f' % (obj.begin_alt, obj.end_alt)
             lat_range = '%.3f - %.3f' % (obj.begin_lat, obj.end_lat)
-            #long_range = '(%.3f) - (%.3f)' % (obj.begin_long, obj.end_long)
             # If we're parsing a date, we can't just filter as we must transform
             # coordinates into time_range first, so we need to manually check and
             # skip which is PROBABLY not the best solution.
