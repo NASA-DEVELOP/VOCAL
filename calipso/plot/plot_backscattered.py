@@ -11,6 +11,7 @@ from ccplot.hdf import HDF
 import ccplot.utils
 
 import matplotlib as mpl
+#import matplotlib.pyplot as plt    #KDM
 import numpy as np
 
 
@@ -37,6 +38,7 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         height = product['metadata']['Lidar_Data_Altitudes']
         dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
         latitude = product['Latitude'][x1:x2, 0]
+        longitude = product['Longitude'][x1:x2, 0]
 
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
         dataset = np.ma.masked_equal(dataset, -9999)
@@ -84,7 +86,16 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         ax.set_xlabel('Time')
         ax.set_xlim(time[0], time[-1])
         ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
- 
+
+	# KDM - added longitude axis below
+	long_ax = fig.twiny()
+        long_ax.xaxis.set_ticks_position('bottom')
+	long_ax.xaxis.set_label_position('bottom')
+	long_ax.spines['bottom'].set_position(('outward', 40))
+	long_ax.set_xlim(longitude[0], longitude[-1])
+        long_ax.set_xlabel('Longitude')
+
+
         fig.set_zorder(0)
         ax.set_zorder(1)
 
