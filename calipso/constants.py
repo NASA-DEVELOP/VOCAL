@@ -17,16 +17,19 @@ class Plot(object):
     vfm = 3
     iwp = 4
     blend = 5
+    parallel = 6
 
-debug_switch = 10
+debug_switch = 0
 
 plot_type_enum = {'base_plot': Plot.baseplot,
                   'backscattered': Plot.backscattered,
                   'depolarized': Plot.depolarized,
                   'vfm': Plot.vfm,
-                  'iwp': Plot.iwp}
+                  'iwp': Plot.iwp,
+                  'blend': Plot.blend,
+                  'parallel': Plot.parallel}
 
-PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm','iwp']
+PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm','iwp','blend','parrallel]']
 
 EFFECT_ON = {'relief': 'sunken'}
 EFFECT_OFF = {'relief': 'raised'}

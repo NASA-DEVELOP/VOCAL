@@ -36,6 +36,8 @@ from matplotlib.figure import Figure
 import matplotlib as mpl
 from plot.plot_depolar_ratio import render_depolarized
 from plot.plot_backscattered import render_backscattered
+from plot.plot_vfm import render_vfm
+from plot.plot_iwp import render_iwp
 from polygon.manager import ShapeManager
 from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
@@ -70,6 +72,7 @@ class Calipso(object):
         self.option_menu = None
         self.shape_var = StringVar()
         self.__data_block = VocalDataBlock('Empty')
+        self.__my_meta_data = MetaData()
 
         self.width = self.__root.winfo_screenwidth()
         self.height = self.__root.winfo_screenheight()
@@ -361,6 +364,7 @@ class Calipso(object):
         """
         self.xrange = xrange_
         self.yrange = yrange
+        self.__my_meta_data = MetaData(0, xrange_[0], xrange_[1], yrange[0], yrange[1], wavelength)
 
         if plot_type == Plot.baseplot:
             # Hide the axis and print an image
@@ -381,20 +385,19 @@ class Calipso(object):
             self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
 
         if plot_type == Plot.backscattered:
-            my_meta_data = MetaData(1, xrange_[0], xrange_[1], yrange[0], yrange[1], wavelength)
+            self.__my_meta_data._type = 1
             try:
+                logger.info('Setting plot to backscattered xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
                 if constants.debug_switch > 0:
-                    # Clear any references to the current figure, construct a new figure
-                    # and render the backscattered plot to it
-                    logger.info('Setting plot to backscattered xrange: ' +
-                                str(xrange_) + ' yrange: ' + str(yrange))
-                    data_block_iterator = self.__data_block.get_figure(my_meta_data)
+                    logger.info('Using VocalDataBlock')
+                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
                     if data_block_iterator != -99:
                         self.load_figure_attributes(data_block_iterator)
                 else:
-                    logger.info('Setting plot to backscattered xrange: ' +
-                                str(xrange_) + ' yrange: ' + str(yrange))
+                    logger.info('Using Original functions')
                     self.__fig = render_backscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+
                 self.__shapemanager.set_current(Plot.backscattered, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -406,7 +409,7 @@ class Calipso(object):
                 tkMessageBox.showerror('Backscattered Plot', 'Index out of bounds')
 
         elif plot_type == Plot.depolarized:
-            my_meta_data = MetaData(2, xrange_[0], xrange_[1], yrange[0], yrange[1], wavelength)
+            self.__my_meta_data._type = 2
             try:
 
                 # Clear any references to the current figure, construct a new figure
@@ -415,11 +418,13 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
 
                 if constants.debug_switch > 1:
-                    self.__data_block.set_working_meta(my_meta_data)
-                    data_block_iterator = self.__data_block.get_figure(my_meta_data)
+                    logger.info('Using VocalDataBlock')
+                    self.__data_block.set_working_meta(self.__my_meta_data)
+                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
                     self.load_figure_attributes(data_block_iterator)
                 else:
                     render_depolarized(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                    logger.info('Using Original functions')
 
                 self.__shapemanager.set_current(Plot.depolarized, self.__fig)
                 self.__drawplot_canvas.show()
@@ -428,8 +433,9 @@ class Calipso(object):
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
+
         elif plot_type == Plot.vfm:
-            my_meta_data = MetaData(3, xrange_[0], xrange_[1], yrange[0], yrange[1], wavelength)
+            self.__my_meta_data._type = 3
             try:
 
                 # Clear any references to the current figure, construct a new figure
@@ -437,17 +443,99 @@ class Calipso(object):
                 logger.info('Setting plot to vfm xrange: ' +
                             str(xrange_) + ' yrange: ' + str(yrange))
 
-                if constants.debug_switch > 1:
-                    self.__data_block.set_working_meta(my_meta_data)
-                    data_block_iterator = self.__data_block.get_figure(my_meta_data)
+                if constants.debug_switch > 0:
+                    logger.info('Using VocalDataBlock')
+                    self.__data_block.set_working_meta(self.__my_meta_data)
+                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
                     self.load_figure_attributes(data_block_iterator)
                 else:
+                    logger.info('Using Original functions')
                     render_vfm(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
 
-                self.__shapemanager.set_current(Plot.depolarized, self.__fig)
+                self.__shapemanager.set_current(Plot.vfm, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
-                self.plot = Plot.depolarized
+                self.plot = Plot.vfm
+            except IOError:
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', "No File Exists")
+
+        elif plot_type == Plot.iwp:
+            self.__my_meta_data._type = 4
+            try:
+
+                # Clear any references to the current figure, construct a new figure
+                # and render the depolarized plot to it
+                logger.info('Setting plot to iwp xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+
+                if constants.debug_switch > 0:
+                    logger.info('Using VocalDataBlock')
+                    self.__data_block.set_working_meta(self.__my_meta_data)
+                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
+                    self.load_figure_attributes(data_block_iterator)
+                else:
+                    render_iwp(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                    logger.info('Using Original functions')
+
+                self.__shapemanager.set_current(Plot.iwp, self.__fig)
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
+                self.plot = Plot.iwp
+            except IOError:
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', "No File Exists")
+
+        elif plot_type == Plot.blend:
+            self.__my_meta_data._type = 5
+            try:
+
+                # Clear any references to the current figure, construct a new figure
+                # and render the depolarized plot to it
+                logger.info('Setting plot to blend xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+
+                if constants.debug_switch > 10:
+                    logger.info('Using VocalDataBlock')
+                    self.__data_block.set_working_meta(self.__my_meta_data)
+                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
+                    self.load_figure_attributes(data_block_iterator)
+                else:
+                    logger.info('Using Original functions')
+                    logger.error('Blend not implemented...yet')
+                    tkMessageBox.showerror('Blend plot type not yet implemented')
+
+                self.__shapemanager.set_current(Plot.blend, self.__fig)
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
+                self.plot = Plot.blend
+            except IOError:
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', "No File Exists")
+
+        elif plot_type == Plot.blend:
+            self.__my_meta_data._type = 6
+            try:
+
+                # Clear any references to the current figure, construct a new figure
+                # and render the depolarized plot to it
+                logger.info('Setting plot to parallel xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+
+                if constants.debug_switch > 10:
+                    logger.info('Using VocalDataBlock')
+                    self.__data_block.set_working_meta(self.__my_meta_data)
+                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
+                    self.load_figure_attributes(data_block_iterator)
+                else:
+                    logger.info('Using Original functions')
+                    logger.error('Blend not implemented...yet')
+                    tkMessageBox.showerror('Blend plot type not yet implemented')
+
+                self.__shapemanager.set_current(Plot.parallel, self.__fig)
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
+                self.plot = Plot.parallel
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
@@ -729,7 +817,7 @@ class Calipso(object):
         elif in_type == 3:
             colormap = 'dat/calipso-vfm.cmap'
         elif in_type == 4:
-            colormap = 'dat/calipso-undefined.cmap'
+            colormap = 'dat/calipso-icewaterphase.cmap'
         elif in_type == 5:
             colormap = 'dat/calipso-undefined.cmap'
         elif in_type == 6:
@@ -800,26 +888,23 @@ class Calipso(object):
         self.__fig = ax
 
     def stress_test(self):
-        fname = "C:\Users\jjdrisco\Documents\Test Data\CAL_LID_L1-Test0011-Mod001-V4-XX.2007-10-17T17-38-43ZN.hdf"
-        #start_time = datetime.datetime.now()
-        my_block = VocalDataBlock(fname)
+        fname_V4_L1 = "C:\Users\jjdrisco\Documents\Test Data\CAL_LID_L1-Test0011-Mod001-V4-XX.2007-10-17T17-38-43ZN.hdf"
+        fname_V4_L2 = "C:\Users\jjdrisco\Documents\Test Data\CAL_LID_L2_01kmCLay-Test0011-Mod001-V4-XX.2007-10-17T17-38-43ZN.hdf"
+        fname_V3_L1 = "C:\Users\jjdrisco\Documents\Test Data\CAL_LID_L1-ValStage1-V3-01.2007-10-17T17-38-43ZN.hdf"
+        fname_V3_L2 = "C:\Users\jjdrisco\Documents\Test Data\CAL_LID_L2_01kmCLay-ValStage1-V3-01.2007-10-17T17-38-43ZN.hdf"
 
-        i = my_block.get_figure(MetaData(1, 0, 15000, 0, 30, 532))
+        #start_time = datetime.datetime.now()
+        my_block = VocalDataBlock(fname_V4_L1)
+        #my_block = VocalDataBlock(fname_V4_L2)
+        #my_block = VocalDataBlock(fname_V3_L1)
+        #my_block = VocalDataBlock(fname_V3_L1)
+
+        '''i = my_block.get_figure(MetaData(1, 0, 15000, 0, 30, 532))
         i = my_block.get_figure(MetaData(1, 0, 15000, 0, 30, 1064))
         i = my_block.get_figure(MetaData(2, 0, 15000, 0, 30, 532))
-        i = my_block.get_figure(MetaData(2, 0, 15000, 0, 30, 1064))
-        i = my_block.get_figure(MetaData(3, 0, 15000, 0, 0, 20))
-        #stop_time = datetime.now
-
-        my_block.get_data_set_x_min()
-
-        #start_time.isoformat()
-        #stop_time.isoformat()
-        #split = stop_time - start_time
-
-        #logging.info('Start time: %s' % start_time)
-        #logging.info('Stop time: %s' % stop_time)
-        #logging.info('Total Time = %s' % split)
+        i = my_block.get_figure(MetaData(2, 0, 15000, 0, 30, 1064))'''
+        i = my_block.get_figure(MetaData(3, 0, 1000, 0, 20))
+        my_block.print_data_set_info(i)
 
 def main():
     logger.info("Debug Level = %s" % str(constants.debug_switch))
