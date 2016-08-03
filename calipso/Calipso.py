@@ -4,6 +4,9 @@
 #   @Author: Grant Mercer
 #   @Author: Nathan Qian
 ##########################
+import sys
+from tools.vocalDataBlock import VocalDataBlock, MetaData
+
 import matplotlib
 
 matplotlib.use('tkAgg')
@@ -17,6 +20,9 @@ from tkColorChooser import askcolor
 import tkFileDialog
 import tkMessageBox
 import webbrowser
+import ccplot.utils
+import numpy as np
+import datetime
 
 from attributesdialog import AttributesDialog
 from bokeh.colors import white
@@ -27,6 +33,7 @@ from importdialog import ImportDialog
 from log.log import logger, error_check
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+import matplotlib as mpl
 from plot.plot_depolar_ratio import render_depolarized
 from plot.plot_backscattered import render_backscattered
 from polygon.manager import ShapeManager
@@ -62,6 +69,7 @@ class Calipso(object):
         self.new_file_flag = False
         self.option_menu = None
         self.shape_var = StringVar()
+        self.__data_block = VocalDataBlock('Empty')
 
         self.width = self.__root.winfo_screenwidth()
         self.height = self.__root.winfo_screenheight()
@@ -264,6 +272,7 @@ class Calipso(object):
             if self.__file is not None and fl is not self.__file:
                 self.new_file_flag = True
             self.__file = fl
+            self.__data_block = VocalDataBlock(fl)
             segments = self.__file.rpartition('/')
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
                                             text=segments[2])
@@ -336,7 +345,7 @@ class Calipso(object):
     # End menu bar functions
     ############################################################
 
-    def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 20)):
+    def set_plot(self, plot_type, xrange_=[0, 1000], yrange=[0, 20], wavelength=532):
         """
         Draws to the canvas according to the *plot_type* specified in the arguments. Accepts one of
         the attributes below
@@ -352,6 +361,7 @@ class Calipso(object):
         """
         self.xrange = xrange_
         self.yrange = yrange
+
         if plot_type == Plot.baseplot:
             # Hide the axis and print an image
             self.__shapemanager.set_plot(Plot.baseplot)
@@ -359,21 +369,32 @@ class Calipso(object):
             self.__fig.get_yaxis().set_visible(False)
             self.__fig.get_xaxis().set_visible(False)
             self.__fig.imshow(im)
-        elif plot_type == Plot.backscattered:
+        else:
+            if self.__shapemanager.get_hdf() != '' and \
+                            self.__file != self.__shapemanager.get_hdf():
+                self.__shapemanager.reset(all_=True)
+            else:
+                self.__shapemanager.clear_refs()
+
+            self.__shapemanager.set_hdf(self.__file)
+            self.__parent_fig.clear()
+            self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+
+        if plot_type == Plot.backscattered:
+            my_meta_data = MetaData(1, xrange_[0], xrange_[1], yrange[0], yrange[1], wavelength)
             try:
-                # Clear any references to the current figure, construct a new figure
-                # and render the backscattered plot to it
-                logger.info('Setting plot to backscattered xrange: ' +
-                            str(xrange_) + ' yrange: ' + str(yrange))
-                if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
-                    self.__shapemanager.reset(all_=True)
+                if constants.debug_switch > 0:
+                    # Clear any references to the current figure, construct a new figure
+                    # and render the backscattered plot to it
+                    logger.info('Setting plot to backscattered xrange: ' +
+                                str(xrange_) + ' yrange: ' + str(yrange))
+                    data_block_iterator = self.__data_block.get_figure(my_meta_data)
+                    if data_block_iterator != -99:
+                        self.load_figure_attributes(data_block_iterator)
                 else:
-                    self.__shapemanager.clear_refs()
-                self.__shapemanager.set_hdf(self.__file)
-                self.__parent_fig.clear()
-                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                self.__fig = render_backscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                    logger.info('Setting plot to backscattered xrange: ' +
+                                str(xrange_) + ' yrange: ' + str(yrange))
+                    self.__fig = render_backscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.backscattered, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -383,21 +404,23 @@ class Calipso(object):
                 tkMessageBox.showerror('File Not Found', 'No File Exists')
             except IndexError:
                 tkMessageBox.showerror('Backscattered Plot', 'Index out of bounds')
-        # TODO: Reimplement with new plotting technique (like backscatter)
+
         elif plot_type == Plot.depolarized:
+            my_meta_data = MetaData(2, xrange_[0], xrange_[1], yrange[0], yrange[1], wavelength)
             try:
+
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
-                logger.error('Needs to be reimplemented')
-                if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
-                    self.__shapemanager.reset(all_=True)
+                logger.info('Setting plot to Depolarization xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+
+                if constants.debug_switch > 1:
+                    self.__data_block.set_working_meta(my_meta_data)
+                    data_block_iterator = self.__data_block.get_figure(my_meta_data)
+                    self.load_figure_attributes(data_block_iterator)
                 else:
-                    self.__shapemanager.clear_refs()
-                self.__shapemanager.set_hdf(self.__file)
-                self.__parent_fig.clear()
-                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_depolarized(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                    render_depolarized(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+
                 self.__shapemanager.set_current(Plot.depolarized, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -406,8 +429,28 @@ class Calipso(object):
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
         elif plot_type == Plot.vfm:
-            logger.error('Accessing unimplemented VFM plot')
-            tkMessageBox.showerror('TODO', 'Sorry, this plot is currently not implemented')
+            my_meta_data = MetaData(3, xrange_[0], xrange_[1], yrange[0], yrange[1], wavelength)
+            try:
+
+                # Clear any references to the current figure, construct a new figure
+                # and render the depolarized plot to it
+                logger.info('Setting plot to vfm xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+
+                if constants.debug_switch > 1:
+                    self.__data_block.set_working_meta(my_meta_data)
+                    data_block_iterator = self.__data_block.get_figure(my_meta_data)
+                    self.load_figure_attributes(data_block_iterator)
+                else:
+                    render_vfm(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+
+                self.__shapemanager.set_current(Plot.depolarized, self.__fig)
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
+                self.plot = Plot.depolarized
+            except IOError:
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', "No File Exists")
 
     def pan(self, event):
         """
@@ -580,7 +623,7 @@ class Calipso(object):
     def extract_dialog(self, event):
         """
         Opens a subwindow that displays the data bounded by the shape
-        
+
         :param event: A Tkinter passed event object
         """
         shape = self.__shapemanager.find_shape(event)
@@ -648,7 +691,7 @@ class Calipso(object):
     def close(self):
         """
         Checks if the all the shapes are saved. If a shape is unsaved, the
-        program will ask the user whether save or not, and then close the 
+        program will ask the user whether save or not, and then close the
         program
         """
         if not self.__shapemanager.is_all_saved():
@@ -674,8 +717,113 @@ class Calipso(object):
             error_check()
             self.__root.destroy()
 
+    def load_figure_attributes(self, in_iterator):
+
+        colormap = ""
+
+        in_type = self.__data_block.get_data_set_type(in_iterator)
+        if in_type == 1:
+            colormap = 'dat/calipso-backscatter.cmap'
+        elif in_type == 2:
+            colormap = 'dat/calipso-depolar.cmap'
+        elif in_type == 3:
+            colormap = 'dat/calipso-vfm.cmap'
+        elif in_type == 4:
+            colormap = 'dat/calipso-undefined.cmap'
+        elif in_type == 5:
+            colormap = 'dat/calipso-undefined.cmap'
+        elif in_type == 6:
+            colormap = 'dat/calipso-undefined.cmap'
+        elif in_type == 7:
+            colormap = 'dat/calipso-undefined.cmap'
+        elif in_type == 8:
+            colormap = 'dat/calipso-undefined.cmap'
+        elif in_type == 9:
+            colormap = 'dat/calipso-undefined.cmap'
+        elif in_type == 10:
+            colormap = 'dat/calipso-undefined.cmap'
+        else:
+            colormap = 'dat/calipso-undefined.cmap'
+            # index error unknown colormap###
+
+        cmap = ccplot.utils.cmap(colormap)
+        cm = mpl.colors.ListedColormap(cmap['colors'] / 255.0)
+        cm.set_under(cmap['under'] / 255.0)
+        cm.set_over(cmap['over'] / 255.0)
+        cm.set_bad(cmap['bad'] / 255.0)
+        norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
+
+        if in_type == 1:
+            data = self.__data_block.get_data_set(in_iterator, 'transpose')
+        else:
+            data = self.__data_block.get_data_set(in_iterator)
+
+        if constants.debug_switch > 1:
+            logger.info("***** Preparing 'fig_imshow' *****")
+            self.__data_block.print_data_set_info(in_iterator)
+            logger.info("***** Launching 'fig_imshow' *****")
+
+        im = self.__fig.imshow(
+            data,
+            extent=
+            (
+                self.__data_block.get_data_set_x_min(in_iterator, 'latitude'),
+                self.__data_block.get_data_set_x_max(in_iterator, 'latitude'),
+                self.__data_block.get_data_set_y_min(in_iterator),
+                self.__data_block.get_data_set_y_max(in_iterator)
+            ),
+            cmap=cm,
+            aspect='auto',
+            norm=norm,
+            interpolation='nearest',
+        )
+
+        self.__fig.set_ylabel(self.__data_block.get_data_set_y_label(in_iterator))
+        self.__fig.set_xlabel(self.__data_block.get_data_set_x_label(in_iterator))
+        title = self.__fig.set_title(self.__data_block.get_data_set_title(in_iterator))
+
+        cbar = self.__parent_fig.colorbar(im)
+        cbar.set_label(self.__data_block.get_data_set_cbar_label(in_iterator))
+
+        ax = self.__fig.twiny()
+        ax.set_xlabel(self.__data_block.get_data_set_x_label2(in_iterator))
+        ax.set_xlim(self.__data_block.get_data_set_x_min(in_iterator), self.__data_block.get_data_set_x_max(in_iterator))
+        ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+        ax.xaxis_date()
+
+        self.__fig.set_zorder(0)
+        ax.set_zorder(1)
+
+        title_xy = title.get_position()
+        title.set_position([title_xy[0], title_xy[1] * 1.07])
+
+        self.__fig = ax
+
+    def stress_test(self):
+        fname = "C:\Users\jjdrisco\Documents\Test Data\CAL_LID_L1-Test0011-Mod001-V4-XX.2007-10-17T17-38-43ZN.hdf"
+        #start_time = datetime.datetime.now()
+        my_block = VocalDataBlock(fname)
+
+        i = my_block.get_figure(MetaData(1, 0, 15000, 0, 30, 532))
+        i = my_block.get_figure(MetaData(1, 0, 15000, 0, 30, 1064))
+        i = my_block.get_figure(MetaData(2, 0, 15000, 0, 30, 532))
+        i = my_block.get_figure(MetaData(2, 0, 15000, 0, 30, 1064))
+        i = my_block.get_figure(MetaData(3, 0, 15000, 0, 0, 20))
+        #stop_time = datetime.now
+
+        my_block.get_data_set_x_min()
+
+        #start_time.isoformat()
+        #stop_time.isoformat()
+        #split = stop_time - start_time
+
+        #logging.info('Start time: %s' % start_time)
+        #logging.info('Stop time: %s' % stop_time)
+        #logging.info('Total Time = %s' % split)
 
 def main():
+    logger.info("Debug Level = %s" % str(constants.debug_switch))
+
     # Create Tkinter root and initialize Calipso
     logging.info('Starting CALIPSO program')
     Tk.CallWrapper = Catcher
@@ -683,18 +831,20 @@ def main():
     logging.info('Instantiate CALIPSO program')
     program = Calipso(rt)
 
-    # Setup Calipso window
-    logger.info('Setting up window')
-    program.setup_window()
-    logger.info('Setting up menu')
-    program.setup_menu()
-    logger.info('Setting up main screen')
-    program.setup_main_screen()
+    if constants.debug_switch == 10:
+        program.stress_test()
+    else:
+        # Setup Calipso window
+        logger.info('Setting up window')
+        program.setup_window()
+        logger.info('Setting up menu')
+        program.setup_menu()
+        logger.info('Setting up main screen')
+        program.setup_main_screen()
 
-    # Begin program
-    rt.mainloop()
-    logging.info('Terminated CALIPSO program')
-
+        # Begin program
+        rt.mainloop()
+        logging.info('Terminated CALIPSO program')
 
 if __name__ == '__main__':
     main()
