@@ -102,6 +102,12 @@ class ToolsWindow(Toplevel):
         Radiobutton(self.upper_button_frame, text='Depolarized',
                     variable=self.plot_type, value=Plot.depolarized).\
             grid(row=2, column=0, sticky='w')
+        Radiobutton(self.upper_button_frame, text='Vertical Feature Mask',
+                    variable=self.plot_type, value=Plot.vfm) \
+            .grid(row=3, column=0, sticky='w')
+        Radiobutton(self.upper_button_frame, text='Ice Water Phase',
+                    variable=self.plot_type, value=Plot.iwp). \
+            grid(row=4, column=0, sticky='w')
 
         self.upper_range_frame = Frame(self.container)
         self.upper_range_frame.pack(side=TOP, fill=X)
@@ -335,4 +341,3 @@ class ToolsWindow(Toplevel):
         logger.info('Calling plot')
         self.__parent.set_plot(self.plot_type.get(),
                                xrange_=time_range, yrange=alt_range)
-        self.__parent.loadTabs()

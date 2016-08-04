@@ -15,13 +15,31 @@ class Plot(object):
     backscattered = 1
     depolarized = 2
     vfm = 3
+    iwp = 4
+    blend = 5
+    parallel = 6
+
+# DEBUG Switch Values
+# Debug will eventually control the verboseness of the logger.info:
+#   however, during integration testing it is very verbose
+# 0 = Old versions of everything but adds printing of metadata 1064 converted to 532
+# 1 = New versions of Backscatter and Depolarization +Backscatter1064
+# 2 = uses non-datablock version of vfm & iwp
+# 3 = Adds datablock version of vfm
+# 4 = Adds datablock version of iwp
+# 5 = Adds backscatter 1064
+#10 = Runs the stress_test() functino as opposed to UI
+debug_switch = 0
 
 plot_type_enum = {'base_plot': Plot.baseplot,
                   'backscattered': Plot.backscattered,
                   'depolarized': Plot.depolarized,
-                  'vfm': Plot.vfm}
+                  'vfm': Plot.vfm,
+                  'iwp': Plot.iwp,
+                  'blend': Plot.blend,
+                  'parallel': Plot.parallel}
 
-PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm']
+PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm','iwp','blend','parrallel]']
 
 EFFECT_ON = {'relief': 'sunken'}
 EFFECT_OFF = {'relief': 'raised'}
