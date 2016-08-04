@@ -1,7 +1,7 @@
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 import ccplot.utils
-from plot.interpret_vfm_type import extract_type
+from plot.interpret_vfm_type import extract_type, extract_water_phase
 from plot.vfm_row2block import vfm_row2block
 from plot.findLatIndex import findLatIndex
 import constants
@@ -108,10 +108,16 @@ class VocalDataBlock:
             if "L1" in filename:
                 self.__data_level = "1"
                 self.__filenameL2 = ""
-            else:
+            elif "VFM" in filename:
                 self.__data_level = "2"
                 self.__filenameL2 = filename
                 self.__filenameL1 = ""
+            else:
+                self.find_my_file(filename)
+                if self.__filenameL2 != "":
+                    self.__data_level = "2"
+                else:
+                    self.__data_level = "1"
 
             self.find_my_file()
 
@@ -325,7 +331,7 @@ class VocalDataBlock:
 
             with HDF(fname) as product:
                 if constants.debug_switch > 0:
-                    logger.info("Loading data set: " + in_data_set_to_get)
+                    logger.info("Loading data set: " + str(in_data_set_to_get))
                     logger.info("From: " + str(fname))
                 temp_data = product[in_data_set_to_get][self._working_meta._x[0]:self._working_meta._x[1]]
 
@@ -396,12 +402,17 @@ class VocalDataBlock:
             i = -99
 
         if i == -99:
-            logger.error('Type not implemented...yet: ' + self._working_meta._type)
-            tkMessageBox.showerror('Blend plot type not yet implemented')
+            logger.error('Data Set Failed to load: ' + str(self._working_meta._type))
+            tkMessageBox.showerror('Data Set Failed to load')
             return -99
             # For types not yet implemented#
         else:
             return i
+
+    def get_alt_latitude(self, in_i):
+        latitude1 = self.__Latitude[self.__data_sets[in_i].ds_xrange[0]:self.__data_sets[in_i].ds_xrange[1]]
+        latitude2 = latitude1[::15]
+        return [latitude2[0],latitude2[-1]]
 
     def get_iterator(self, in_type, in_range):
         if in_type == 'altitude':
@@ -429,12 +440,22 @@ class VocalDataBlock:
             logger.error('Out of range, Suppports Level 1 and 2 data files.')
             return ""
 
-    def find_my_file(self):
+    def find_my_file(self, in_filename=""):
 
-        if self.__filenameL1 == "" and self.__filenameL2 == "":
-            logger.error("Need to load at least one file...")
-            return 0
-        elif self.__filenameL1 != "" and self.__filenameL2 != "":
+
+        if in_filename != "":
+            logger.warning('We do not have a useful file, looking for both types')
+            logger.warning("This is what we got: " + str(in_filename))
+            self.__filenameL1 = in_filename
+            self.__filenameL2 = ""
+            x = self.find_my_file()
+            if x != 2:
+                self.__filenameL2 = in_filename
+                self.__filenameL1 = ""
+            else:
+                self.__filenameL1 = ""
+
+        if self.__filenameL1 != "" and self.__filenameL2 != "":
             logger.error("Both files are loaded...")
             return 0
 
@@ -454,6 +475,7 @@ class VocalDataBlock:
             slash = "\\"
 
         search_path = ""
+        vfm = "VFM"
 
         for i in range(0, len(my_str)-1):
             search_path = search_path + str(my_str[i]) + str(slash)
@@ -468,7 +490,8 @@ class VocalDataBlock:
             for file_name in files_list:
                 if (file_name.find(search_sub_name) != -1 and  # Must have same name as the file we know
                             file_name.find(search_extension) != -1 and  # must be an hdf file
-                            file_name.find(search_for) != -1):  # Must be the level of file
+                            file_name.find(search_for) != -1): # Must be the level of file
+                    logger.info('This file looks promising: ' + str(file_name))
                     if search_for == 'L1':
                         self.__filenameL1 = str(search_path + file_name)
                         logger.info('Found missing L1 file %s' % str(file_name))
@@ -477,7 +500,7 @@ class VocalDataBlock:
                             logger.info('File = %s' % file_name)
                             logger.info('fileNameV1 = %s' % str(self.get_file_name(1)))
                         return 1
-                    elif search_for == 'L2':
+                    elif search_for == 'L2' and file_name.find(vfm) != -1:
                         self.__filenameL2 = str(search_path + file_name)
                         logger.info('Found missing L2 file %s' % str(file_name))
                         if constants.debug_switch > 0:
@@ -489,7 +512,6 @@ class VocalDataBlock:
                         return 2
                     else:
                         logger.warning('What were we looking for?')
-                        return 0
 
         logger.warning('Could not find matching %s in same dir...All features may not be available' % good_file)
         return 0
@@ -678,7 +700,7 @@ class VocalDataBlock:
 
         return self.update_data_sets(regrid_lidar(height, vfm, unif_alt), my_iterator)
 
-    def render_iwp(self):
+    def iwp(self):
         # constant variables
         alt_len = 545
         first_alt = self._working_meta._y[0]
@@ -695,7 +717,7 @@ class VocalDataBlock:
         prof_per_row = 15
 
 
-        time = self.__x_time[first_lat:last_lat, 0]
+        time = self.__x_time[first_lat:last_lat]
         minimum = self.get_x_time_min()
         maximum = self.get_x_time_max()
 
@@ -709,12 +731,12 @@ class VocalDataBlock:
         my_iterator = self.load_data_set('Feature_Classification_Flags')
 
         if my_iterator != -99:
-            dataset = self.load_data_set(my_iterator)
+            dataset = self.get_data_set(my_iterator)
         else:
             logger.error("Did not load iwp dataset correctly...")
             return -99
 
-        latitude1 = self.__Latitude[first_lat:last_lat, 0]
+        latitude1 = self.__Latitude[first_lat:last_lat]
         latitude2 = latitude1[::prof_per_row]
         latitude3 = self.__Latitude
         #time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])

@@ -333,6 +333,5 @@ class ToolsWindow(Toplevel):
             return
 
         logger.info('Calling plot')
-        self.__parent.set_plot(self.plot_type.get(),
-                               xrange_=time_range, yrange=alt_range)
-        self.__parent.loadTabs()
+        #self.__parent.set_plot(self.plot_type.get(), xrange_=time_range, yrange=alt_range)
+        self.__parent.loadTabs(self.plot_type.get(), time_range, alt_range)

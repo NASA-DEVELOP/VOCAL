@@ -18,6 +18,9 @@ class Plot(object):
     iwp = 4
     blend = 5
     parallel = 6
+    colorratio = 8
+    aerosol = 9
+    not_available = 10
 
 # DEBUG Switch Values
 # Debug will eventually control the verboseness of the logger.info:
@@ -29,7 +32,7 @@ class Plot(object):
 # 4 = Adds datablock version of iwp
 # 5 = Adds backscatter 1064
 #10 = Runs the stress_test() functino as opposed to UI
-debug_switch = 0
+debug_switch = 2
 
 plot_type_enum = {'base_plot': Plot.baseplot,
                   'backscattered': Plot.backscattered,
