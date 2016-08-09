@@ -581,6 +581,30 @@ class ShapeManager(object):
             logger.info('set_plot to DEPOLARIZED')
             self.__current_list = self.__shape_list[Plot.depolarized]
             self.__current_plot = Plot.depolarized
+        elif plot == Plot.vfm:
+            logger.info('set_plot to vfm')
+            self.__current_list = self.__shape_list[Plot.depolarized]
+            self.__current_plot = Plot.depolarized
+        elif plot == Plot.iwp:
+            logger.info('set_plot to iwp')
+            self.__current_list = self.__shape_list[Plot.depolarized]
+            self.__current_plot = Plot.depolarized
+        elif plot == Plot.blend:
+            logger.info('set_plot to blend')
+            self.__current_list = self.__shape_list[Plot.depolarized]
+            self.__current_plot = Plot.depolarized
+        elif plot == Plot.parallel:
+            logger.info('set_plot to parallel')
+            self.__current_list = self.__shape_list[Plot.depolarized]
+            self.__current_plot = Plot.depolarized
+        elif plot == Plot.colorratio:
+            logger.info('set_plot to colorratio')
+            self.__current_list = self.__shape_list[Plot.depolarized]
+            self.__current_plot = Plot.depolarized
+        elif plot == Plot.aerosol:
+            logger.info('set_plot to aerosol')
+            self.__current_list = self.__shape_list[Plot.depolarized]
+            self.__current_plot = Plot.depolarized
 
         
 

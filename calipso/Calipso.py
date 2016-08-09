@@ -196,46 +196,36 @@ class Calipso(object):
         # Tabs Menu
 
         menu_tabs = Menu(menu_bar,tearoff=0)
-        #self.__tab_buttons[0].set(True)
+        self.__tab_buttons[0].set(True)
         menu_tabs.add_checkbutton(label='Meta Data', variable=self.__tab_buttons[0],
-                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[0],
-                                                                             self.__baseplot_frame))
-        #self.__tab_buttons[1].set(True)
+                                  command=lambda: self.toggle_tabs_menu_item(0, self.__baseplot_frame))
+        self.__tab_buttons[1].set(True)
         menu_tabs.add_checkbutton(label='Backscatter 532', variable=self.__tab_buttons[1],
-                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[1],
-                                                                             self.__backscattered532_frame))
-        #self.__tab_buttons[2].set(True)
+                                  command=lambda: self.toggle_tabs_menu_item(1, self.__backscattered532_frame))
+        self.__tab_buttons[2].set(True)
         menu_tabs.add_checkbutton(label='Depolarization', variable=self.__tab_buttons[2],
-                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[2],
-                                                                             self.__vfm_frame))
-        #self.__tab_buttons[3].set(True)
+                                  command=lambda: self.toggle_tabs_menu_item(2, self.__vfm_frame))
+        self.__tab_buttons[3].set(True)
         menu_tabs.add_checkbutton(label='Vertical Feature Mask', variable=self.__tab_buttons[3],
-                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[3],
-                                                                             self.__vfm_frame))
-        #self.__tab_buttons[4].set(True)
+                                  command=lambda: self.toggle_tabs_menu_item(3, self.__vfm_frame))
+        self.__tab_buttons[4].set(True)
         menu_tabs.add_checkbutton(label='Ice Water Phase', variable=self.__tab_buttons[4],
-                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[4],
-                                                                             self.__ice_water_frame))
-        #self.__tab_buttons[5].set(False)
+                                  command=lambda: self.toggle_tabs_menu_item(4, self.__ice_water_frame))
+        self.__tab_buttons[5].set(False)
         menu_tabs.add_checkbutton(label='Blend', variable= self.__tab_buttons[5],
-                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[5],
-                                                                             self.__blend_frame))
-        #self.__tab_buttons[6].set(False)
+                                  command=lambda: self.toggle_tabs_menu_item(5, self.__blend_frame))
+        self.__tab_buttons[6].set(False)
         menu_tabs.add_checkbutton(label='Parallel', variable= self.__tab_buttons[6],
-                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[6],
-                                                                             self.__parallel_frame))
-        #self.__tab_buttons[7].set(False)
+                                  command=lambda: self.toggle_tabs_menu_item(6, self.__parallel_frame))
+        self.__tab_buttons[7].set(False)
         menu_tabs.add_checkbutton(label='Backscatter 1064', variable= self.__tab_buttons[7],
-                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[7],
-                                                                             self.__backscattered532_frame))
-        #self.__tab_buttons[8].set(False)
+                                  command=lambda: self.toggle_tabs_menu_item(7, self.__backscattered1064_frame))
+        self.__tab_buttons[8].set(False)
         menu_tabs.add_checkbutton(label='Color Ratio', variable=self.__tab_buttons[8],
-                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[8],
-                                                                             self.__color_ratio_frame))
-        #self.__tab_buttons[9].set(False)
+                                  command=lambda: self.toggle_tabs_menu_item(8, self.__color_ratio_frame))
+        self.__tab_buttons[9].set(False)
         menu_tabs.add_checkbutton(label='Aerosol Subtypes', variable=self.__tab_buttons[9],
-                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[9],
-                                                                             self.__aerosol_subtype_frame))
+                                  command=lambda: self.toggle_tabs_menu_item(9, self.__aerosol_subtype_frame))
 
         menu_bar.add_cascade(label='Tabs', menu=menu_tabs)
 
@@ -476,8 +466,9 @@ class Calipso(object):
 
         elif plot_type == Plot.backscattered:
             try:
-                logger.info('Setting plot to backscattered xrange: ' +
-                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
+                logger.info('Setting plot to Backscattered 532 (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
+                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
+                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
                 if constants.debug_switch != 99:
                     logger.info('Using VocalDataBlock')
                     data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
@@ -487,8 +478,17 @@ class Calipso(object):
                         self.load_figure_attributes(data_block_iterator, in_i)
                 else:
                     logger.info('Using Original functions')
-                    self.__figs[in_i] = render_backscattered(self.__data_block.get_file_name(1), self.__my_meta_data.get_meta_x(2),
-                                                             self.__my_meta_data.get_meta_y(2), self.__figs[in_i],
+                    self.__figs[in_i] = render_backscattered(self.__data_block.get_file_name(1),
+                                                             [
+                                                                self.__data_block.get_percent_to_iterator(
+                                                                    self.__my_meta_data.get_meta_x(0),
+                                                                    self.__my_meta_data.get_meta_type()),
+                                                                self.__data_block.get_percent_to_iterator(
+                                                                    self.__my_meta_data.get_meta_x(1),
+                                                                    self.__my_meta_data.get_meta_type())
+                                                             ],
+                                                             self.__my_meta_data.get_meta_y(2),
+                                                             self.__figs[in_i],
                                                              self.__p_figs[in_i])
 
                 self.__shapemanagers[in_i].set_current(Plot.backscattered, self.__figs[in_i])
@@ -506,8 +506,9 @@ class Calipso(object):
 
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
-                logger.info('Setting plot to Depolarization xrange: ' +
-                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
+                logger.info('Setting plot to Depolarization (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
+                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
+                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
 
                 if constants.debug_switch != 99:
                     logger.info('Using VocalDataBlock')
@@ -517,7 +518,15 @@ class Calipso(object):
                     else:
                         self.load_figure_attributes(data_block_iterator, in_i)
                 else:
-                    render_depolarized(self.__data_block.get_file_name(1), self.__my_meta_data.get_meta_x(2),
+                    render_depolarized(self.__data_block.get_file_name(1),
+                                       [
+                                           self.__data_block.get_percent_to_iterator(
+                                               self.__my_meta_data.get_meta_x(0),
+                                               self.__my_meta_data.get_meta_type()),
+                                           self.__data_block.get_percent_to_iterator(
+                                               self.__my_meta_data.get_meta_x(1),
+                                               self.__my_meta_data.get_meta_type())
+                                       ],
                                        self.__my_meta_data.get_meta_y(2), self.__figs[in_i],
                                                              self.__p_figs[in_i])
                     logger.info('Using Original functions')
@@ -535,8 +544,9 @@ class Calipso(object):
 
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
-                logger.info('Setting plot to vfm xrange: ' +
-                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
+                logger.info('Setting plot to vfm (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
+                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
+                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
 
                 if constants.debug_switch != 99:
                     logger.info('Using VocalDataBlock')
@@ -547,7 +557,15 @@ class Calipso(object):
                         self.load_figure_attributes(data_block_iterator,in_i)
                 else:
                     logger.info('Using Original functions')
-                    render_vfm(self.__data_block.get_file_name(2), self.__my_meta_data.get_meta_x(2),
+                    render_vfm(self.__data_block.get_file_name(2),
+                               [
+                                    self.__data_block.get_percent_to_iterator(
+                                        self.__my_meta_data.get_meta_x(0),
+                                        self.__my_meta_data.get_meta_type()),
+                                    self.__data_block.get_percent_to_iterator(
+                                        self.__my_meta_data.get_meta_x(1),
+                                        self.__my_meta_data.get_meta_type())
+                                ],
                                 self.__my_meta_data.get_meta_y(2), self.__figs[in_i],
                                 self.__p_figs[in_i])
 
@@ -564,8 +582,9 @@ class Calipso(object):
             try:
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
-                logger.info('Setting plot to iwp xrange: ' +
-                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
+                logger.info('Setting plot to iwp (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
+                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
+                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
 
                 if constants.debug_switch != 99:
                     logger.info('Using VocalDataBlock')
@@ -575,7 +594,15 @@ class Calipso(object):
                     else:
                         self.load_figure_attributes(data_block_iterator, in_i)
                 else:
-                    render_iwp(self.__data_block.get_file_name(2), self.__my_meta_data.get_meta_x(2),
+                    render_iwp(self.__data_block.get_file_name(2),
+                        [
+                            self.__data_block.get_percent_to_iterator(
+                                self.__my_meta_data.get_meta_x(0),
+                                self.__my_meta_data.get_meta_type()),
+                            self.__data_block.get_percent_to_iterator(
+                                self.__my_meta_data.get_meta_x(1),
+                                self.__my_meta_data.get_meta_type())
+                        ],
                                 self.__my_meta_data.get_meta_y(2), self.__figs[in_i],
                                 self.__p_figs[in_i])
                     logger.info('Using Original functions')
@@ -593,8 +620,9 @@ class Calipso(object):
 
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
-                logger.info('Setting plot to blend xrange: ' +
-                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
+                logger.info('Setting plot to Blend (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
+                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
+                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
 
                 if constants.debug_switch != 99:
                     logger.info('Using VocalDataBlock')
@@ -620,8 +648,9 @@ class Calipso(object):
 
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
-                logger.info('Setting plot to parallel xrange: ' +
-                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
+                logger.info('Setting plot to Parallel (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
+                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
+                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
 
                 if constants.debug_switch != 99:
                     logger.info('Using VocalDataBlock')
@@ -928,43 +957,43 @@ class Calipso(object):
             self.__p_figs[i].clear()
             self.__figs[i] = self.__p_figs[i].add_subplot(1, 1, 1)
 
-        if self.__tab_buttons[0]:
+        if self.__tab_buttons[0].get():
             self.set_plot(Plot.baseplot, 0)
-        if self.__tab_buttons[1]:
+        if self.__tab_buttons[1].get():
             self.__my_meta_data._type = 1
             self.set_plot(Plot.backscattered, 1)
-        if self.__tab_buttons[2]:
+        if self.__tab_buttons[2].get():
             self.__my_meta_data._type = 2
             self.set_plot(Plot.depolarized, 2)
-        if self.__tab_buttons[3]:
+        if self.__tab_buttons[3].get():
             self.__my_meta_data._type = 3
             self.set_plot(Plot.vfm, 3)
-        if self.__tab_buttons[4]:
+        if self.__tab_buttons[4].get():
             self.__my_meta_data._type = 4
             self.set_plot(Plot.iwp, 4)
-        if self.__tab_buttons[5]:
+        if self.__tab_buttons[5].get():
             self.__my_meta_data._type = 5
             self.set_plot(Plot.blend, 5)
-        if self.__tab_buttons[6]:
+        if self.__tab_buttons[6].get():
             self.__my_meta_data._type = 6
             self.set_plot(Plot.parallel, 6)
-        if self.__tab_buttons[7]:
+        if self.__tab_buttons[7].get():
             self.__my_meta_data._type = 1
             self.__my_meta_data._wavelength = '1024'
             self.set_plot(Plot.backscattered, 7)
-        if self.__tab_buttons[8]:
+        if self.__tab_buttons[8].get():
             self.__my_meta_data._type = 8
             self.set_plot(Plot.colorratio, 8)
-        if self.__tab_buttons[9]:
+        if self.__tab_buttons[9].get():
             self.__my_meta_data._type = 9
             self.set_plot(Plot.aerosol, 9)
 
-    def toggle_tabs_menu_item(self, btn, frame):
+    def toggle_tabs_menu_item(self, btn_iterator, frame):
 
-        if btn.get() == False:
-            self.__drawplot_notebook.hide(frame)
-        else:
+        if self.__tab_buttons[btn_iterator].get():
             self.__drawplot_notebook.add(frame)
+        else:
+            self.__drawplot_notebook.hide(frame)
 
     def create_tab_frames(self):
 
@@ -1019,25 +1048,25 @@ class Calipso(object):
                                          width=constants.WIDTH,
                                          height=constants.HEIGHT)
 
-        if self.__tab_buttons[0]:
+        if self.__tab_buttons[0].get():
             self.__drawplot_notebook.add(self.__baseplot_frame, text='Meta Data')
-        if self.__tab_buttons[1]:
+        if self.__tab_buttons[1].get():
             self.__drawplot_notebook.add(self.__backscattered532_frame, text='Backscattered 532')
-        if self.__tab_buttons[2]:
+        if self.__tab_buttons[2].get():
             self.__drawplot_notebook.add(self.__depolarized_frame, text='Depolarized')
-        if self.__tab_buttons[3]:
+        if self.__tab_buttons[3].get():
             self.__drawplot_notebook.add(self.__vfm_frame, text='Vertical Feature Mask')
-        if self.__tab_buttons[4]:
+        if self.__tab_buttons[4].get():
             self.__drawplot_notebook.add(self.__ice_water_frame, text='Ice/Water Phase')
-        if self.__tab_buttons[5]:
+        if self.__tab_buttons[5].get():
             self.__drawplot_notebook.add(self.__blend_frame, text='Blend')
-        if self.__tab_buttons[6]:
+        if self.__tab_buttons[6].get():
             self.__drawplot_notebook.add(self.__parallel_frame, text='Parallel')
-        if self.__tab_buttons[7]:
+        if self.__tab_buttons[7].get():
             self.__drawplot_notebook.add(self.__backscattered1064_frame, text='Backscattered 1064')
-        if self.__tab_buttons[8]:
+        if self.__tab_buttons[8].get():
             self.__drawplot_notebook.add(self.__color_ratio_frame, text='Color Ratio')
-        if self.__tab_buttons[9]:
+        if self.__tab_buttons[9].get():
             self.__drawplot_notebook.add(self.__aerosol_subtype_frame, text='Aerosol Subtypes')
 
     def initiate_figures_and_canvases(self):

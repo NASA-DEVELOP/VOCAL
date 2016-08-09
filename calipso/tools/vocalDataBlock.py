@@ -235,7 +235,6 @@ class VocalDataBlock:
             '''Index Error'''
 
     def get_percent_to_iterator(self, in_percent, in_type):
-        ds_it = self.find_iterator_in_data_set(in_type)
         if 0 < in_percent < 100:
             out_it = int(in_percent * 150)
         elif in_percent == int(100):
@@ -320,10 +319,10 @@ class VocalDataBlock:
     def get_data_set(self, in_iterator, transpose='none'):
         if transpose == 'transpose':
             return self.__data_sets[in_iterator].ds_data_set[self.__data_sets[in_iterator].ds_get_x(0):
-                self.__data_sets[in_iterator].ds_get_x(1)].T
+                                                             self.__data_sets[in_iterator].ds_get_x(1)].T
         else:
             return self.__data_sets[in_iterator].ds_data_set[self.__data_sets[in_iterator].ds_get_x(0):
-                self.__data_sets[in_iterator].ds_get_x(1)]
+                                                             self.__data_sets[in_iterator].ds_get_x(1)]
 
     def get_data_set_x_label(self, in_iterator):
         return self.__data_sets[in_iterator].ds_x_label
@@ -554,24 +553,29 @@ class VocalDataBlock:
     # This will find the iterator for the working data_set within the data_set.  It can also be used to check to see if the working data_set has already been created or if the list is empty
     #   return codes ('empty' == empty, "False" == does not exist in data_set, positive integer is a positive match and returns the iterator needed to access the data_set
     #   and negative interger is an iterator pointing to a data_set that the working data_set exists within
-    def find_data_set_iterator(self,in_type=-1,in_wavelength=532):
+    def find_data_set_iterator(self,in_type=-1, in_wavelength=532):
         if in_type == -1:
             in_type = self._working_meta.get_meta_type()
         if in_wavelength != 1064:
             in_wavelength = 532
         if len(self.__data_sets) == 0:
-            logger.warning('DATA SET NOT FOUND')
+            logger.warning('DATA SET IS EMPTY')
             return "Empty"
         else:
             for i in range(0, len(self.__data_sets)):
                 if self.__data_sets[i].ds_type == in_type and self.__data_sets[i].ds_wavelength == in_wavelength:
+                    logger.info('DATA SET FOUND: ' + str(i))
                     return i
-        logger.warning('DATA SET IS EMPTY')
+        logger.warning('DATA SET NOT FOUND')
         return "False"
 
 
-    def load_data_set(self, in_data_set_to_get):
-        data_set_iterator = self.find_data_set_iterator(self._working_meta.get_meta_type())
+    def load_data_set(self, in_data_set_to_get, in_return_type='none'):
+        if in_return_type == 'none':
+            data_set_iterator = self.find_data_set_iterator(self._working_meta.get_meta_type())
+        else:
+            data_set_iterator = "False"
+
         filename = ""
         if data_set_iterator == "False" or data_set_iterator == "Empty":
             if self._working_meta.get_meta_type() == 3 or self._working_meta.get_meta_type() == 4:
@@ -593,9 +597,15 @@ class VocalDataBlock:
                         logger.info("From: " + str(filename))
                     temp_data = product[in_data_set_to_get][::]
 
-            return self.append_data_sets(temp_data)
+            if in_return_type == 'data only':
+                return temp_data
+            else:
+                return self.append_data_sets(temp_data)
         else:
-            return data_set_iterator
+            if in_return_type == 'data only':
+                return self.get_data_set(data_set_iterator)
+            else:
+                return data_set_iterator
 
     def append_data_sets(self, in_data_set):
         self.__data_sets.append(DataSet(
@@ -648,14 +658,6 @@ class VocalDataBlock:
         else:
             return i
 
-    '''
-    def check_iterators(self, in_type, in_range):
-        if in_range[0] is not float:
-            in_range[0] = self.get_iterator(in_type, in_range[0])
-        if in_range[1] is not float:
-            in_range[1] = self.get_iterator(in_type, in_range[1])
-        return [in_range]
-    '''
     def back_scatter(self):
         if self._working_meta.get_meta_wavelength() == "1064":
             data_set_to_get = 'Total_Attenuated_Backscatter_1064'
@@ -698,15 +700,12 @@ class VocalDataBlock:
         else:
             data_set_to_get_total = 'Total_Attenuated_Backscatter_532'
             data_set_to_get_perp = 'Perpendicular_Attenuated_Backscatter_532'
-        i_tot = self.load_data_set(data_set_to_get_total)
-        total = self.get_data_set(i_tot, 'transpose')
-        i_perp = self.load_data_set(data_set_to_get_perp)
-        perpendicular = self.get_data_set(i_perp, 'transpose')
+        total = self.load_data_set(data_set_to_get_total, 'data only')
+        total = total.T
+        perpendicular = self.load_data_set(data_set_to_get_perp, 'data only')
+        perpendicular = perpendicular.T
 
-        self.remove_data_sets(i_tot)
-        self.remove_data_sets(i_perp)
-
-        latitude = self.__Latitude[self._working_meta.get_meta_x(0):self._working_meta.get_meta_x(1)]
+        latitude = self.__Latitude[self.get_x_min(0, 'latitude'):self.get_x_max(1)]
         total = avg_horz_data(total, AVGING_WIDTH)
         perpendicular = avg_horz_data(perpendicular, AVGING_WIDTH)
         latitude = latitude[::AVGING_WIDTH]
