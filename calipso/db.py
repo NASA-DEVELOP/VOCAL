@@ -307,7 +307,7 @@ class DatabaseManager(object):
                         fshape = data[key][shape]
                         tag = 'shape' + str(new)
                         time = datetime.strptime(data['time'], DATEFORMAT)
-                        hdf = data['hdfFile']
+                        hdf = data['hdffile']
                         color = fshape['color']
                         coordinates = fshape['coordinates']
                         attributes = fshape['attributes']
