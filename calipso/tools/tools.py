@@ -71,8 +71,10 @@ def coord_tuple_list(uni_str):
     
     convert_list = list()
     for c in temp_list2:
-        c = np.float64(c)
-	convert_list.append(c)
+        temp = c.replace("[","")
+	temp = temp.replace("]","")
+        temp2 = np.float64(temp)
+	convert_list.append(temp2)
     temp_iter = iter(convert_list)
     tup_coords = zip(temp_iter, temp_iter)
 
