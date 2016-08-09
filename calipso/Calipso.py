@@ -64,7 +64,7 @@ class Calipso(object):
         #self.dot_shp_img = ImageTk.PhotoImage(file=PATH + '/ico/dot_shp.png')
         self.__root = r  # Root of program
         self.__file = ''  # Current file in use
-        self.xrange = self.yrange = (0, 1000)  # X and Y range for scrolling plot
+        self.xrange = self.yrange = (0, 100)  # X and Y range for scrolling plot
         self.panx = self.pany = 0  # Pan values for shifting map
         self.plot = Plot.baseplot  # Current selected plot
         #self.plot2 = Plot.baseplot  # Current selected plot
@@ -78,6 +78,9 @@ class Calipso(object):
         self.__figs = [None]*10
         self.__shapemanagers = [None]*10
         self.__drawplot_canvases = [None]*10
+        self.__tab_buttons = [BooleanVar()]*10
+        #for i in [0,10]:
+            #self.__tab_buttons.append(BooleanVar())
         self.__plots = [None]*10
         self.data_block_iterator = [-99]*10
 
@@ -110,15 +113,15 @@ class Calipso(object):
                                                 width=constants.WIDTH,
                                                 height=constants.HEIGHT)
 
-        # The frames on which we will set out canvases for drawing
-        self.create_tab_frames()
-
         # Matplotlib backend objects
         for i in range(0, 10):
             self.__p_figs[i] = Figure(figsize=(11, 16))
             self.__figs[i] = self.__p_figs[i].add_subplot(1, 1, 1)
             self.__p_figs[i].set_tight_layout(True)
             self.__plots[i] = Plot.baseplot
+
+        # The frames on which we will set out canvases for drawing
+        self.create_tab_frames()
 
         #self.__drawplot_canvases[0] = FigureCanvasTkAgg(self.__p_figs[0], master=self.__baseplot_frame)
         self.__drawplot_canvases[1] = FigureCanvasTkAgg(self.__p_figs[1], master=self.__backscattered532_frame)
@@ -191,37 +194,48 @@ class Calipso(object):
         menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
 
         # Tabs Menu
+
         menu_tabs = Menu(menu_bar,tearoff=0)
-        self._baseplot_cBtn = BooleanVar()
-        self._baseplot_cBtn.set(True)
-        menu_tabs.add_checkbutton(label='Meta Data',variable= self._baseplot_cBtn ,command= lambda: self.toggle_tabs_menu_item(self._baseplot_cBtn, self.__baseplot_frame))
-        self._backS532_cBtn = BooleanVar()
-        self._backS532_cBtn.set(True)
-        menu_tabs.add_checkbutton(label='Backscatter 532', variable= self._backS532_cBtn ,command= lambda: self.toggle_tabs_menu_item(self._backS532_cBtn,self.__backscattered532_frame))
-        self._depolarized_cBtn = BooleanVar()
-        self._depolarized_cBtn.set(True)
-        menu_tabs.add_checkbutton(label='Depolarization', variable= self._depolarized_cBtn ,command= lambda: self.toggle_tabs_menu_item(self._depolarized_cBtn,self.__vfm_frame))
-        self._vfm_cBtn = BooleanVar()
-        self._vfm_cBtn.set(True)
-        menu_tabs.add_checkbutton(label='Vertical Feature Mask', variable= self._vfm_cBtn ,command= lambda: self.toggle_tabs_menu_item(self._vfm_cBtn,self.__vfm_frame))
-        self._ice_water_cBtn = BooleanVar()
-        self._ice_water_cBtn.set(True)
-        menu_tabs.add_checkbutton(label='Ice Water Phase', variable= self._ice_water_cBtn ,command= lambda: self.toggle_tabs_menu_item(self._ice_water_cBtn,self.__ice_water_frame))
-        self._blend_cBtn = BooleanVar()
-        self._blend_cBtn.set(True)
-        menu_tabs.add_checkbutton(label='Blend', variable= self._blend_cBtn ,command= lambda: self.toggle_tabs_menu_item(self._blend_cBtn,self.__blend_frame))
-        self._parallel_cBtn = BooleanVar()
-        self._parallel_cBtn.set(True)
-        menu_tabs.add_checkbutton(label='Parallel', variable= self._parallel_cBtn ,command= lambda: self.toggle_tabs_menu_item(self._parallel_cBtn,self.__parallel_frame))
-        self._back1064_cBtn = BooleanVar()
-        self._back1064_cBtn.set(True)
-        menu_tabs.add_checkbutton(label='Backscatter 1064', variable= self._back1064_cBtn ,command= lambda: self.toggle_tabs_menu_item(self._back1064_cBtn,self.__backscattered532_frame))
-        self._color_ratio_cBtn = BooleanVar()
-        self._color_ratio_cBtn.set(True)
-        menu_tabs.add_checkbutton(label='Color Ratio', variable=self._color_ratio_cBtn, command=lambda: self.toggle_tabs_menu_item(self._color_ratio_cBtn, self.__color_ratio_frame))
-        self._aerosol_subtypes_cBtn = BooleanVar()
-        self._aerosol_subtypes_cBtn.set(True)
-        menu_tabs.add_checkbutton(label='Aerosol Subtypes', variable= self._aerosol_subtypes_cBtn ,command= lambda: self.toggle_tabs_menu_item(self._aerosol_subtypes_cBtn,self.__aerosol_subtype_frame))
+        #self.__tab_buttons[0].set(True)
+        menu_tabs.add_checkbutton(label='Meta Data', variable=self.__tab_buttons[0],
+                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[0],
+                                                                             self.__baseplot_frame))
+        #self.__tab_buttons[1].set(True)
+        menu_tabs.add_checkbutton(label='Backscatter 532', variable=self.__tab_buttons[1],
+                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[1],
+                                                                             self.__backscattered532_frame))
+        #self.__tab_buttons[2].set(True)
+        menu_tabs.add_checkbutton(label='Depolarization', variable=self.__tab_buttons[2],
+                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[2],
+                                                                             self.__vfm_frame))
+        #self.__tab_buttons[3].set(True)
+        menu_tabs.add_checkbutton(label='Vertical Feature Mask', variable=self.__tab_buttons[3],
+                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[3],
+                                                                             self.__vfm_frame))
+        #self.__tab_buttons[4].set(True)
+        menu_tabs.add_checkbutton(label='Ice Water Phase', variable=self.__tab_buttons[4],
+                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[4],
+                                                                             self.__ice_water_frame))
+        #self.__tab_buttons[5].set(False)
+        menu_tabs.add_checkbutton(label='Blend', variable= self.__tab_buttons[5],
+                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[5],
+                                                                             self.__blend_frame))
+        #self.__tab_buttons[6].set(False)
+        menu_tabs.add_checkbutton(label='Parallel', variable= self.__tab_buttons[6],
+                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[6],
+                                                                             self.__parallel_frame))
+        #self.__tab_buttons[7].set(False)
+        menu_tabs.add_checkbutton(label='Backscatter 1064', variable= self.__tab_buttons[7],
+                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[7],
+                                                                             self.__backscattered532_frame))
+        #self.__tab_buttons[8].set(False)
+        menu_tabs.add_checkbutton(label='Color Ratio', variable=self.__tab_buttons[8],
+                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[8],
+                                                                             self.__color_ratio_frame))
+        #self.__tab_buttons[9].set(False)
+        menu_tabs.add_checkbutton(label='Aerosol Subtypes', variable=self.__tab_buttons[9],
+                                  command=lambda: self.toggle_tabs_menu_item(self.__tab_buttons[9],
+                                                                             self.__aerosol_subtype_frame))
 
         menu_bar.add_cascade(label='Tabs', menu=menu_tabs)
 
@@ -428,11 +442,6 @@ class Calipso(object):
                                       width=constants.WIDTH, height=constants.HEIGHT,
                                       bg='LightYellow')
         self.__metadata_label.pack()
-        #self.__shapemanagers[in_i].set_plot(Plot.baseplot)
-        #im = mpimg.imread(PATH + '/dat/grey.jpg')
-        #self.__figs[in_i].get_yaxis().set_visible(False)
-        #self.__figs[in_i].get_xaxis().set_visible(False)
-        #self.__figs[in_i].imshow(im)
 
     def plot_not_available(self, in_i, in_type):
         self.__shapemanagers[in_i].set_plot(Plot.not_available)
@@ -456,8 +465,8 @@ class Calipso(object):
         :param list xrange\_: accepts a range of time to plot
         :param list yrange: accepts a range of altitude to plot
         """
-        #xrange_ = self.__my_meta_data._x
-        #yrange = self.__my_meta_data._y
+        #xrange_ = self.__my_meta_data.get_meta_x(2)
+        #yrange = self.__my_meta_data.get_meta_y(2)
 
         self.__data_block.set_working_meta(self.__my_meta_data)
 
@@ -468,8 +477,8 @@ class Calipso(object):
         elif plot_type == Plot.backscattered:
             try:
                 logger.info('Setting plot to backscattered xrange: ' +
-                            str(self.__my_meta_data._x) + ' yrange: ' + str(self.__my_meta_data._y))
-                if constants.debug_switch > 0:
+                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
+                if constants.debug_switch != 99:
                     logger.info('Using VocalDataBlock')
                     data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
                     if data_block_iterator == -99:
@@ -478,8 +487,8 @@ class Calipso(object):
                         self.load_figure_attributes(data_block_iterator, in_i)
                 else:
                     logger.info('Using Original functions')
-                    self.__figs[in_i] = render_backscattered(self.__data_block.get_file_name(1), self.__my_meta_data._x,
-                                                      self.__my_meta_data._y, self.__figs[in_i],
+                    self.__figs[in_i] = render_backscattered(self.__data_block.get_file_name(1), self.__my_meta_data.get_meta_x(2),
+                                                             self.__my_meta_data.get_meta_y(2), self.__figs[in_i],
                                                              self.__p_figs[in_i])
 
                 self.__shapemanagers[in_i].set_current(Plot.backscattered, self.__figs[in_i])
@@ -498,9 +507,9 @@ class Calipso(object):
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
                 logger.info('Setting plot to Depolarization xrange: ' +
-                            str(self.__my_meta_data._x) + ' yrange: ' + str(self.__my_meta_data._y))
+                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
 
-                if constants.debug_switch > 0:
+                if constants.debug_switch != 99:
                     logger.info('Using VocalDataBlock')
                     data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
                     if data_block_iterator == -99:
@@ -508,8 +517,8 @@ class Calipso(object):
                     else:
                         self.load_figure_attributes(data_block_iterator, in_i)
                 else:
-                    render_depolarized(self.__data_block.get_file_name(1), self.__my_meta_data._x,
-                                                      self.__my_meta_data._y, self.__figs[in_i],
+                    render_depolarized(self.__data_block.get_file_name(1), self.__my_meta_data.get_meta_x(2),
+                                       self.__my_meta_data.get_meta_y(2), self.__figs[in_i],
                                                              self.__p_figs[in_i])
                     logger.info('Using Original functions')
 
@@ -527,24 +536,20 @@ class Calipso(object):
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
                 logger.info('Setting plot to vfm xrange: ' +
-                            str(self.__my_meta_data._x) + ' yrange: ' + str(self.__my_meta_data._y))
+                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
 
-                if constants.debug_switch <= 1:
-                    logger.warning('iwp not implemented in this mode...yet')
-                    self.plot_not_available(in_i, plot_type)
+                if constants.debug_switch != 99:
+                    logger.info('Using VocalDataBlock')
+                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
+                    if data_block_iterator == -99:
+                        self.plot_not_available(in_i, plot_type)
+                    else:
+                        self.load_figure_attributes(data_block_iterator,in_i)
                 else:
-                    if constants.debug_switch > 2:
-                        logger.info('Using VocalDataBlock')
-                        data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
-                        if data_block_iterator == -99:
-                            self.plot_not_available(in_i, plot_type)
-                        else:
-                            self.load_figure_attributes(data_block_iterator,in_i)
-                    elif constants.debug_switch == 2:
-                        logger.info('Using Original functions')
-                        render_vfm(self.__data_block.get_file_name(2), self.__my_meta_data._x,
-                                    self.__my_meta_data._y, self.__figs[in_i],
-                                    self.__p_figs[in_i])
+                    logger.info('Using Original functions')
+                    render_vfm(self.__data_block.get_file_name(2), self.__my_meta_data.get_meta_x(2),
+                                self.__my_meta_data.get_meta_y(2), self.__figs[in_i],
+                                self.__p_figs[in_i])
 
                     self.__shapemanagers[in_i].set_current(Plot.vfm, self.__figs[in_i])
                     self.__drawplot_canvases[in_i].show()
@@ -557,28 +562,23 @@ class Calipso(object):
 
         elif plot_type == Plot.iwp:
             try:
-
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
                 logger.info('Setting plot to iwp xrange: ' +
-                            str(self.__my_meta_data._x) + ' yrange: ' + str(self.__my_meta_data._y))
+                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
 
-                if constants.debug_switch <= 1:
-                    logger.warning('iwp not implemented in this mode...yet')
-                    self.plot_not_available(in_i, plot_type)
+                if constants.debug_switch != 99:
+                    logger.info('Using VocalDataBlock')
+                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
+                    if data_block_iterator == -99:
+                        self.plot_not_available(in_i, plot_type)
+                    else:
+                        self.load_figure_attributes(data_block_iterator, in_i)
                 else:
-                    if constants.debug_switch > 3:
-                        logger.info('Using VocalDataBlock')
-                        data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
-                        if data_block_iterator == -99:
-                            self.plot_not_available(in_i, plot_type)
-                        else:
-                            self.load_figure_attributes(data_block_iterator, in_i)
-                    elif constants.debug_switch <=3:
-                        render_iwp(self.__data_block.get_file_name(2), self.__my_meta_data._x,
-                                    self.__my_meta_data._y, self.__figs[in_i],
-                                    self.__p_figs[in_i])
-                        logger.info('Using Original functions')
+                    render_iwp(self.__data_block.get_file_name(2), self.__my_meta_data.get_meta_x(2),
+                                self.__my_meta_data.get_meta_y(2), self.__figs[in_i],
+                                self.__p_figs[in_i])
+                    logger.info('Using Original functions')
 
                     self.__shapemanagers[in_i].set_current(Plot.iwp, self.__fig)
                     self.__drawplot_canvases[in_i].show()
@@ -594,26 +594,22 @@ class Calipso(object):
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
                 logger.info('Setting plot to blend xrange: ' +
-                            str(self.__my_meta_data._x) + ' yrange: ' + str(self.__my_meta_data._y))
+                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
 
-                #if constants.debug_switch < 10:
-                if 0 == 0:
-                    logger.warning('blend not implemented in this mode...yet')
+                if constants.debug_switch != 99:
+                    logger.info('Using VocalDataBlock')
+                    logger.warning('Blend not implemented in original version of vocal')
                     self.plot_not_available(in_i, plot_type)
+
+                    '''
+                    self.__data_block.set_working_meta(self.__my_meta_data)
+                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
+                    self.load_figure_attributes(data_block_iterator, in_i)
+                    '''
                 else:
-                    if constants.debug_switch > 100:
-                        logger.info('Using VocalDataBlock')
-                        self.__data_block.set_working_meta(self.__my_meta_data)
-                        data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
-                        self.load_figure_attributes(data_block_iterator, in_i)
-                        self.__shapemanagers[in_i].set_current(Plot.blend, self.__figs[in_i])
-                        self.__drawplot_canvases[in_i].show()
-                        self.__toolbar.update()
-                        self.__plots[in_i] = Plot.blend
-                    else:
-                        logger.info('Using Original functions')
-                        logger.warning('Blend not implemented in original version of vocal')
-                        self.plot_not_available(in_i, plot_type)
+                    logger.info('Using Original functions')
+                    logger.warning('Blend not implemented in original version of vocal')
+                    self.plot_not_available(in_i, plot_type)
 
             except IOError:
                 logger.error('IOError, no file exists')
@@ -625,27 +621,26 @@ class Calipso(object):
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
                 logger.info('Setting plot to parallel xrange: ' +
-                            str(self.__my_meta_data._x) + ' yrange: ' + str(self.__my_meta_data._y))
+                            str(self.__my_meta_data.get_meta_x(2)) + ' yrange: ' + str(self.__my_meta_data.get_meta_y(2)))
 
-                # if constants.debug_switch > 6:
-                if 0 == 0:
-                    logger.warning('parallel not implemented in this mode...yet')
+                if constants.debug_switch != 99:
+                    logger.info('Using VocalDataBlock')
                     self.plot_not_available(in_i, plot_type)
+                    logger.warning('Parallel not implemented...yet')
+                    '''
+                    self.__data_block.set_working_meta(self.__my_meta_data)
+                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
+                    self.load_figure_attributes(data_block_iterator, in_i)
+                    '''
                 else:
-                    if constants.debug_switch > 100:
-                        logger.info('Using VocalDataBlock')
-                        self.__data_block.set_working_meta(self.__my_meta_data)
-                        data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
-                        self.load_figure_attributes(data_block_iterator, in_i)
-                    else:
-                        logger.info('Using Original functions')
-                        self.plot_not_available(in_i, plot_type)
-                        logger.warning('Parallel not implemented...yet')
+                    logger.info('Using Original functions')
+                    self.plot_not_available(in_i, plot_type)
+                    logger.warning('Parallel not implemented...yet')
 
-                    self.__shapemanagers[in_i].set_current(Plot.parallel, self.__fig[in_i])
-                    self.__drawplot_canvases[in_i].show()
-                    self.__toolbar.update()
-                    self.__plot[in_i] = Plot.parallel
+                self.__shapemanagers[in_i].set_current(Plot.parallel, self.__fig[in_i])
+                self.__drawplot_canvases[in_i].show()
+                self.__toolbar.update()
+                self.__plots[in_i] = Plot.parallel
 
             except IOError:
                 logger.error('IOError, no file exists')
@@ -925,7 +920,7 @@ class Calipso(object):
     def goToMain(self):
         self.__drawplot_notebook.select(self.__backscattered532_frame)
 
-    def loadTabs(self, in_type=0, in_xrange=[0,15000], in_yrange=[0,15000]):
+    def loadTabs(self, in_type=0, in_xrange=[0,100], in_yrange=[0,30]):
         self.__my_meta_data = MetaData(1, in_xrange[0], in_xrange[1],
                                        in_yrange[0], in_yrange[1], "512")
         for i in range(1,10):
@@ -933,34 +928,36 @@ class Calipso(object):
             self.__p_figs[i].clear()
             self.__figs[i] = self.__p_figs[i].add_subplot(1, 1, 1)
 
-        self.set_plot(Plot.baseplot, 0)
-
-        self.set_plot(Plot.backscattered, 1)
-
-        self.__my_meta_data._type = 2
-        self.set_plot(Plot.depolarized, 2)
-
-        self.__my_meta_data._type = 3
-        self.set_plot(Plot.vfm, 3)
-
-        self.__my_meta_data._type = 4
-        self.set_plot(Plot.iwp, 4)
-
-        self.__my_meta_data._type = 5
-        self.set_plot(Plot.blend, 5)
-
-        self.__my_meta_data._type = 6
-        self.set_plot(Plot.parallel, 6)
-
-        self.__my_meta_data._type = 1
-        self.__my_meta_data._wavelength = '1024'
-        self.set_plot(Plot.backscattered, 7)
-
-        self.__my_meta_data._type = 8
-        self.set_plot(Plot.colorratio, 8)
-
-        self.__my_meta_data._type = 9
-        self.set_plot(Plot.aerosol, 9)
+        if self.__tab_buttons[0]:
+            self.set_plot(Plot.baseplot, 0)
+        if self.__tab_buttons[1]:
+            self.__my_meta_data._type = 1
+            self.set_plot(Plot.backscattered, 1)
+        if self.__tab_buttons[2]:
+            self.__my_meta_data._type = 2
+            self.set_plot(Plot.depolarized, 2)
+        if self.__tab_buttons[3]:
+            self.__my_meta_data._type = 3
+            self.set_plot(Plot.vfm, 3)
+        if self.__tab_buttons[4]:
+            self.__my_meta_data._type = 4
+            self.set_plot(Plot.iwp, 4)
+        if self.__tab_buttons[5]:
+            self.__my_meta_data._type = 5
+            self.set_plot(Plot.blend, 5)
+        if self.__tab_buttons[6]:
+            self.__my_meta_data._type = 6
+            self.set_plot(Plot.parallel, 6)
+        if self.__tab_buttons[7]:
+            self.__my_meta_data._type = 1
+            self.__my_meta_data._wavelength = '1024'
+            self.set_plot(Plot.backscattered, 7)
+        if self.__tab_buttons[8]:
+            self.__my_meta_data._type = 8
+            self.set_plot(Plot.colorratio, 8)
+        if self.__tab_buttons[9]:
+            self.__my_meta_data._type = 9
+            self.set_plot(Plot.aerosol, 9)
 
     def toggle_tabs_menu_item(self, btn, frame):
 
@@ -970,6 +967,18 @@ class Calipso(object):
             self.__drawplot_notebook.add(frame)
 
     def create_tab_frames(self):
+
+        self.__tab_buttons[0].set(True) #Meta Tab
+        self.__tab_buttons[1].set(True) #Backscatter532
+        self.__tab_buttons[2].set(True) #Depolarization
+        self.__tab_buttons[3].set(True) # vfm
+        self.__tab_buttons[4].set(True) # iwp
+        self.__tab_buttons[5].set(False) #placeholder
+        self.__tab_buttons[6].set(False) #placeholder
+        self.__tab_buttons[7].set(False) #placeholder
+        self.__tab_buttons[8].set(False) #placeholder
+        self.__tab_buttons[9].set(False) #placeholder
+
         self.__baseplot_frame = Frame(self.__drawplot_notebook,
                                               width=constants.WIDTH,
                                               height=constants.HEIGHT)
@@ -1010,16 +1019,26 @@ class Calipso(object):
                                          width=constants.WIDTH,
                                          height=constants.HEIGHT)
 
-        self.__drawplot_notebook.add(self.__baseplot_frame, text='Meta Data')
-        self.__drawplot_notebook.add(self.__backscattered532_frame, text='Backscattered 532')
-        self.__drawplot_notebook.add(self.__depolarized_frame, text='Depolarized')
-        self.__drawplot_notebook.add(self.__vfm_frame, text='Vertical Feature Mask')
-        self.__drawplot_notebook.add(self.__ice_water_frame, text='Ice/Water Phase')
-        self.__drawplot_notebook.add(self.__blend_frame, text='Blend')
-        self.__drawplot_notebook.add(self.__parallel_frame, text='Parallel')
-        self.__drawplot_notebook.add(self.__backscattered1064_frame, text='Backscattered 1064')
-        self.__drawplot_notebook.add(self.__color_ratio_frame, text='Color Ratio')
-        self.__drawplot_notebook.add(self.__aerosol_subtype_frame, text='Aerosol Subtypes')
+        if self.__tab_buttons[0]:
+            self.__drawplot_notebook.add(self.__baseplot_frame, text='Meta Data')
+        if self.__tab_buttons[1]:
+            self.__drawplot_notebook.add(self.__backscattered532_frame, text='Backscattered 532')
+        if self.__tab_buttons[2]:
+            self.__drawplot_notebook.add(self.__depolarized_frame, text='Depolarized')
+        if self.__tab_buttons[3]:
+            self.__drawplot_notebook.add(self.__vfm_frame, text='Vertical Feature Mask')
+        if self.__tab_buttons[4]:
+            self.__drawplot_notebook.add(self.__ice_water_frame, text='Ice/Water Phase')
+        if self.__tab_buttons[5]:
+            self.__drawplot_notebook.add(self.__blend_frame, text='Blend')
+        if self.__tab_buttons[6]:
+            self.__drawplot_notebook.add(self.__parallel_frame, text='Parallel')
+        if self.__tab_buttons[7]:
+            self.__drawplot_notebook.add(self.__backscattered1064_frame, text='Backscattered 1064')
+        if self.__tab_buttons[8]:
+            self.__drawplot_notebook.add(self.__color_ratio_frame, text='Color Ratio')
+        if self.__tab_buttons[9]:
+            self.__drawplot_notebook.add(self.__aerosol_subtype_frame, text='Aerosol Subtypes')
 
     def initiate_figures_and_canvases(self):
 
@@ -1034,17 +1053,17 @@ class Calipso(object):
         self.__drawplot_canvases[2] = FigureCanvasTkAgg(self.__p_figs[2], master=self.__depolarized_frame)
         self.__drawplot_canvases[3] = FigureCanvasTkAgg(self.__p_figs[3], master=self.__vfm_frame)
         self.__drawplot_canvases[4] = FigureCanvasTkAgg(self.__p_figs[4], master=self.__ice_water_frame)
-        self.__drawplot_canvases[5] = FigureCanvasTkAgg(self.__p_figs[5], master=self.__blend_avg_frame)
+        self.__drawplot_canvases[5] = FigureCanvasTkAgg(self.__p_figs[5], master=self.__blend_frame)
         self.__drawplot_canvases[6] = FigureCanvasTkAgg(self.__p_figs[6], master=self.__parallel_frame)
         self.__drawplot_canvases[7] = FigureCanvasTkAgg(self.__p_figs[7], master=self.__backscattered1064_frame)
         self.__drawplot_canvases[8] = FigureCanvasTkAgg(self.__p_figs[8], master=self.__color_ratio_frame)
         self.__drawplot_canvases[9] = FigureCanvasTkAgg(self.__p_figs[9], master=self.__aerosol_subtype_frame)
 
-    def load_figure_attributes(self, in_iterator, in_i):
+    def load_figure_attributes(self, ds_iterator, shape_iterator):
 
         colormap = ""
 
-        in_type = self.__data_block.get_data_set_type(in_iterator)
+        in_type = self.__data_block.get_data_set_type(ds_iterator)
         if in_type == 1:
             colormap = 'dat/calipso-backscatter.cmap'
         elif in_type == 2:
@@ -1077,29 +1096,30 @@ class Calipso(object):
         norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
 
         if in_type == 1 or in_type == 7:
-            data = self.__data_block.get_data_set(in_iterator, 'transpose')
+            data = self.__data_block.get_data_set(ds_iterator, 'transpose')
         else:
-            data = self.__data_block.get_data_set(in_iterator)
+            data = self.__data_block.get_data_set(ds_iterator)
 
         if in_type == 3 or in_type == 4:
-            alt_lat = self.__data_block.get_alt_latitude(in_i)
+            alternate_latitude = self.__data_block.get_alt_latitude(ds_iterator)
         else:
-            alt_lat = [self.__data_block.get_data_set_x_min(in_iterator, 'latitude'),
-                       self.__data_block.get_data_set_x_max(in_iterator, 'latitude')]
+            alternate_latitude = [self.__data_block.get_x_min(ds_iterator, 'latitude'),
+                       self.__data_block.get_x_max(ds_iterator, 'latitude')]
 
-        if constants.debug_switch > 1:
+        if constants.debug_switch > 0:
             logger.info("***** Preparing 'fig_imshow' *****")
-            self.__data_block.print_data_set_info(in_iterator)
-            logger.info("***** Launching 'fig_imshow' *****")
+            self.__data_block.print_data_set_info(ds_iterator)
 
-        im = self.__figs[in_i].imshow(
+        logger.info("***** Launching 'fig_imshow' *****")
+
+        im = self.__figs[shape_iterator].imshow(
             data,
             extent=
             (
-                alt_lat[0],
-                alt_lat[1],
-                self.__data_block.get_data_set_y_min(in_iterator),
-                self.__data_block.get_data_set_y_max(in_iterator)
+                alternate_latitude[0],
+                alternate_latitude[1],
+                self.__data_block.get_y_min(ds_iterator),
+                self.__data_block.get_y_max(ds_iterator)
             ),
             cmap=cm,
             aspect='auto',
@@ -1107,26 +1127,26 @@ class Calipso(object):
             interpolation='nearest',
         )
 
-        self.__figs[in_i].set_ylabel(self.__data_block.get_data_set_y_label(in_iterator))
-        self.__figs[in_i].set_xlabel(self.__data_block.get_data_set_x_label(in_iterator))
-        title = self.__figs[in_i].set_title(self.__data_block.get_data_set_title(in_iterator))
+        self.__figs[shape_iterator].set_ylabel(self.__data_block.get_data_set_y_label(ds_iterator))
+        self.__figs[shape_iterator].set_xlabel(self.__data_block.get_data_set_x_label(ds_iterator))
+        title = self.__figs[shape_iterator].set_title(self.__data_block.get_data_set_title(ds_iterator))
 
-        cbar = self.__p_figs[in_i].colorbar(im)
-        cbar.set_label(self.__data_block.get_data_set_cbar_label(in_iterator))
+        cbar = self.__p_figs[shape_iterator].colorbar(im)
+        cbar.set_label(self.__data_block.get_data_set_cbar_label(ds_iterator))
 
-        ax = self.__figs[in_i].twiny()
-        ax.set_xlabel(self.__data_block.get_data_set_x_label2(in_iterator))
-        ax.set_xlim(alt_lat[0], alt_lat[1])
+        ax = self.__figs[shape_iterator].twiny()
+        ax.set_xlabel(self.__data_block.get_data_set_x_label2(ds_iterator))
+        ax.set_xlim(self.__data_block.get_x_min(ds_iterator, 'time'), self.__data_block.get_x_max(ds_iterator, 'time'))
         ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
         ax.xaxis_date()
 
-        self.__figs[in_i].set_zorder(0)
+        self.__figs[shape_iterator].set_zorder(0)
         ax.set_zorder(1)
 
         title_xy = title.get_position()
         title.set_position([title_xy[0], title_xy[1] * 1.07])
 
-        self.__figs[in_i] = ax
+        self.__figs[shape_iterator] = ax
 
     def stress_test(self):
         fname_V4_L1 = "C:\Users\jjdrisco\Documents\Test Data\Testcase1\CAL_LID_L1-Test0011-Mod001-V4-XX.2007-10-17T17-38-43ZN.hdf"
@@ -1140,11 +1160,11 @@ class Calipso(object):
         #my_block = VocalDataBlock(fname_V3_L1)
         my_block = VocalDataBlock(fname_V3_L1)
 
-        '''i = my_block.get_figure(MetaData(1, 0, 15000, 0, 30, 532))
-        i = my_block.get_figure(MetaData(1, 0, 15000, 0, 30, 1064))
-        i = my_block.get_figure(MetaData(2, 0, 15000, 0, 30, 532))
-        i = my_block.get_figure(MetaData(2, 0, 15000, 0, 30, 1064))'''
-        #i = my_block.get_figure(MetaData(3, 0, 1000, 0, 20))
+        '''i = my_block.get_figure(MetaData(1, 0, 100, 0, 30, 532))
+        i = my_block.get_figure(MetaData(1, 0, 100, 0, 30, 1064))
+        i = my_block.get_figure(MetaData(2, 0, 100, 0, 30, 532))
+        i = my_block.get_figure(MetaData(2, 0, 100, 0, 30, 1064))'''
+        #i = my_block.get_figure(MetaData(3, 0, 1000, 0, 30))
         #my_block.print_data_set_info(i)
 
 def main():

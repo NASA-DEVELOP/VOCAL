@@ -25,14 +25,11 @@ class Plot(object):
 # DEBUG Switch Values
 # Debug will eventually control the verboseness of the logger.info:
 #   however, during integration testing it is very verbose
-# 0 = Old versions of everything but adds printing of metadata 1064 converted to 532
-# 1 = New versions of Backscatter and Depolarization +Backscatter1064
-# 2 = uses non-datablock version of vfm & iwp
-# 3 = Adds datablock version of vfm
-# 4 = Adds datablock version of iwp
-# 5 = Adds backscatter 1064
+# 99 = Old versions of everything + vfm and iwp
+# 0 = New datablock
+# 1 = verbose logging
 #10 = Runs the stress_test() functino as opposed to UI
-debug_switch = 2
+debug_switch = 1
 
 plot_type_enum = {'base_plot': Plot.baseplot,
                   'backscattered': Plot.backscattered,

@@ -95,6 +95,7 @@ class ToolsWindow(Toplevel):
         render_button.grid(row=0, column=1, rowspan=4, sticky='e')
         create_tool_tip(render_button, 'Render the loaded file\nto the screen')
 
+        '''
         # Plot selection type
         Radiobutton(self.upper_button_frame, text='Backscattered',
                     variable=self.plot_type, value=Plot.backscattered)\
@@ -102,11 +103,12 @@ class ToolsWindow(Toplevel):
         Radiobutton(self.upper_button_frame, text='Depolarized',
                     variable=self.plot_type, value=Plot.depolarized).\
             grid(row=2, column=0, sticky='w')
+        '''
 
         self.upper_range_frame = Frame(self.container)
         self.upper_range_frame.pack(side=TOP, fill=X)
 
-        Label(self.upper_range_frame, text='Step').\
+        Label(self.upper_range_frame, text='Percent').\
             grid(row=3, column=0, pady=5, sticky='w')
         self.begin_range_entry = Entry(self.upper_range_frame, width=12)
         self.begin_range_entry.grid(row=3, column=1, pady=5, sticky='w')
@@ -116,7 +118,7 @@ class ToolsWindow(Toplevel):
             grid(row=3, column=2, pady=5, sticky='w')
         self.end_range_entry = Entry(self.upper_range_frame, width=11)
         self.end_range_entry.grid(row=3, column=3, pady=5, sticky='w')
-        self.end_range_entry.insert(END, '1000')
+        self.end_range_entry.insert(END, '100')
 
         Label(self.upper_range_frame, text='Alt').\
             grid(row=4, column=0, pady=5, sticky='w')
@@ -274,9 +276,14 @@ class ToolsWindow(Toplevel):
                 tkMessageBox.showerror('toolswindow',
                                        'Invalid beginning range, range must only contain digits')
                 return None
+            if float(begin_range_entry.get()) % 5 != 0:
+                logger.error('Beginning range invalid, must be multiple of 5')
+                tkMessageBox.showerror('toolswindow',
+                                       'Invalid beginning range, must be multiple of 5')
+                return None
             # default ending range is beginning_range + 1000
             beginning_range = int(begin_range_entry.get())
-            ending_range = beginning_range + 1000
+            #ending_range = beginning_range + 1000
         # If entry as text
         if end_range_entry.get():
             # If entry is not ONLY numbers
@@ -285,7 +292,13 @@ class ToolsWindow(Toplevel):
                 tkMessageBox.showerror('toolswindow',
                                        'Invalid ending range, range must only contain digits')
                 return None
-            ending_range = int(end_range_entry.get())
+
+        if float(end_range_entry.get()) % 5 != 0:
+            logger.error('Ending range invalid, must be multiple of 5')
+            tkMessageBox.showerror('toolswindow',
+                                   'Ending range invalid, must be multiple of 5')
+            return None
+        ending_range = int(end_range_entry.get())
 
         if beginning_range > ending_range:
             logger.error('Beginning range larger than ending range %d > %d' % (beginning_range, ending_range))
@@ -300,7 +313,7 @@ class ToolsWindow(Toplevel):
                                    'Range cannot be less than zero or smaller than 100 steps')
             return None
 
-        if ending_range - beginning_range > 15000:
+        if ending_range - beginning_range > 100:
             logger.error('Error, specified range %d , %d is too large' % (beginning_range, ending_range))
             tkMessageBox.showerror('toolswindow', 'Range cannot be greater than 15000 steps')
             return None
@@ -311,17 +324,19 @@ class ToolsWindow(Toplevel):
         """
         Errors checks all user entered parameters and calls ``set_plot`` from *Calipso*
         """
+        '''
         if self.plot_type.get() == 0:
             logger.error('No plot type set')
             tkMessageBox.showerror('toolswindow', 'No plot type specified')
             return
+        '''
 
         if not self.__parent.get_file():
             logger.error('No file entered')
             tkMessageBox.showerror('toolswindow', 'No file loaded')
             return
 
-        time_range = ToolsWindow.__check_range(0, 1000, 100,
+        time_range = ToolsWindow.__check_range(0, 100, 5,
                                                self.begin_range_entry,
                                                self.end_range_entry)
         alt_range = ToolsWindow.__check_range(0, 20, 5,
