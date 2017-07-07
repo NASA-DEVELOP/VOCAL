@@ -35,6 +35,7 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
         minimum = min(product['Profile_UTC_Time'][::])[0]
         maximum = max(product['Profile_UTC_Time'][::])[0]
         latitude = product['Latitude'][x1:x2, 0]
+        longitude = product['Longitude'][x1:x2, 0]
 
         # length of time determines how far the file can be viewed
         if time[-1] >= maximum and len(time) < 950:
@@ -81,7 +82,7 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
 
         im = fig.imshow(
             regrid_depolar_ratio,
-            extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
+            extent=(latitude[0], latitude[-1], h1, h2),
             cmap=cm,
             norm=norm,
             aspect='auto',
@@ -89,21 +90,22 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
         )
        
         fig.set_ylabel('Altitute (km)')    
-        fig.set_xlabel('Time')   
-        fig.get_xaxis().set_major_locator(mpl.dates.AutoDateLocator())
-        fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
-        
-        # granule = "%sZ%s" % extractDatetime(filename)
-        # title = 'Depolarized Ratio for granule %s' % granule
-        # fig.set_title(title)                 
-       
+        fig.set_xlabel('Latitude')
         cbar_label = 'Depolarized Ratio 532nm (km$^{-1}$ sr$^{-1}$)'
         cbar = pfig.colorbar(im)
         cbar.set_label(cbar_label)
 
         ax = fig.twiny()
-        ax.set_xlabel('Latitude')
-        ax.set_xlim(latitude[0], latitude[-1])
+        ax.set_xlabel('Time')   
+        ax.set_xlim(time[0], time[-1])
+        ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+
+       	long_ax = fig.twiny()
+        long_ax.xaxis.set_ticks_position('bottom')
+	long_ax.xaxis.set_label_position('bottom')
+	long_ax.spines['bottom'].set_position(('outward', 40))
+	long_ax.set_xlim(longitude[0], longitude[-1])
+        long_ax.set_xlabel('Longitude')
 
         fig.set_zorder(1)
         ax.set_zorder(0)
