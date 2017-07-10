@@ -39,7 +39,9 @@ class ShapeManager(object):
         self.__shape_list = [[Shape(canvas)],           # baseplot
                              [Shape(canvas)],           # backscattered
                              [Shape(canvas)],           # depolarized
-                             [Shape(canvas)]]           # vfm
+                             [Shape(canvas)],			# vfm
+                             [Shape(canvas)]]			# iwp
+
         logger.info("Instantiating Exporting Reader")
         self.__current_list = None          # aliases shape_list's current plot
         self.__current_file = ''            # current JSON file, NOT .hdf file!
@@ -161,7 +163,7 @@ class ShapeManager(object):
         :rtype: :py:class:`int`
         """
         return len(self.__shape_list[0]) + len(self.__shape_list[1]) + \
-            len(self.__shape_list[2]) + len(self.__shape_list[3]) - 4
+            len(self.__shape_list[2]) + len(self.__shape_list[3]) + len(self.__shape_list[4]) - 5
 
     def get_current_list(self):
         """
@@ -340,7 +342,8 @@ class ShapeManager(object):
             self.__shape_list = [[Shape(self.__canvas)],           # baseplot
                                  [Shape(self.__canvas)],           # backscattered
                                  [Shape(self.__canvas)],           # depolarized
-                                 [Shape(self.__canvas)]]           # vfm
+                                 [Shape(self.__canvas)],           # vfm
+                                 [Shape(self.__canvas)]]           # iwp
         else:
             logger.info('Resetting ShapeManager')
             for shape in self.__current_list:
@@ -582,21 +585,21 @@ class ShapeManager(object):
             self.__current_list = self.__shape_list[Plot.depolarized]
             self.__current_plot = Plot.depolarized
         elif plot == Plot.vfm:
-            logger.info('set_plot to vfm')
-            self.__current_list = self.__shape_list[Plot.depolarized]
-            self.__current_plot = Plot.depolarized
+            logger.info('set_plot to VFM')
+            self.__current_list = self.__shape_list[Plot.vfm]
+            self.__current_plot = Plot.vfm
         elif plot == Plot.iwp:
-            logger.info('set_plot to iwp')
-            self.__current_list = self.__shape_list[Plot.depolarized]
-            self.__current_plot = Plot.depolarized
+            logger.info('set_plot to IWP')
+            self.__current_list = self.__shape_list[Plot.iwp]
+            self.__current_plot = Plot.iwp
         elif plot == Plot.blend:
             logger.info('set_plot to blend')
-            self.__current_list = self.__shape_list[Plot.depolarized]
-            self.__current_plot = Plot.depolarized
+            self.__current_list = self.__shape_list[Plot.blend]
+            self.__current_plot = Plot.blend
         elif plot == Plot.parallel:
             logger.info('set_plot to parallel')
-            self.__current_list = self.__shape_list[Plot.depolarized]
-            self.__current_plot = Plot.depolarized
+            self.__current_list = self.__shape_list[Plot.horz_avg]
+            self.__current_plot = Plot.horz_avg
         elif plot == Plot.colorratio:
             logger.info('set_plot to colorratio')
             self.__current_list = self.__shape_list[Plot.depolarized]
@@ -605,11 +608,3 @@ class ShapeManager(object):
             logger.info('set_plot to aerosol')
             self.__current_list = self.__shape_list[Plot.depolarized]
             self.__current_plot = Plot.depolarized
-
-        
-
-
-
-
-
-

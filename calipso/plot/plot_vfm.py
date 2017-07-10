@@ -24,6 +24,9 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
     last_lat = x_range [1]
     colormap = 'dat/calipso-vfm.cmap'
 
+    print('xrange: ' + str(x_range) + ', yrange: ' + str(y_range))
+
+
     # 15 profiles are in 1 record of VFM data
     # At the highest altitudes 5 profiles are averaged
     # together.  In the mid altitudes 3 are averaged and
@@ -72,17 +75,28 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         #Determining if day or nighttime
         if latitude3[0] > latitude3[-1]:
             #Nighttime
-            min_indx = findLatIndex(start_lat, latitude3)
-            max_indx = findLatIndex(end_lat, latitude3)
+            #min_indx = findLatIndex(start_lat, latitude3)
+            #max_indx = findLatIndex(end_lat, latitude3)
+            min_indx = 0
+            max_indx = 1000
+
         else:
             #Daytime
-            min_indx = findLatIndex(end_lat, latitude3)
-            max_indx = findLatIndex(start_lat, latitude3)
+            #min_indx = findLatIndex(end_lat, latitude3)
+            #max_indx = findLatIndex(start_lat, latitude3)
+            min_indx = 1000
+            max_indx = 0
+
 
         vfm = unpacked_vfm[:, min_indx*prof_per_row:max_indx*prof_per_row]
 
         max_alt = 20
         unif_alt = uniform_alt_2(max_alt, height)
+        print(np.shape(height))
+        print(np.shape(vfm))
+        print(np.shape(unif_alt))
+        print(latitude2)
+
         regrid_vfm = regrid_lidar(height, vfm, unif_alt)
 
         #taken from backscatter plot
@@ -95,7 +109,6 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
 
         im = fig.imshow(
             regrid_vfm,
-            #             extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
             extent=(latitude2[0], latitude2[-1], first_alt, last_alt),
             cmap=cm,
             aspect='auto',
@@ -103,6 +116,29 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
             interpolation='nearest',
         )
 
+        fig.set_ylabel('Altitude (km)')
+        fig.set_xlabel('Latitude')
+        fig.set_title("Vertical Feature Mask")
+       
+        cbar_label = 'Vertical Feature Mask Flags'
+        cbar = pfig.colorbar(im)
+        cbar.set_label(cbar_label)
+
+        ax = fig.twiny()
+        ax.set_xlabel('Time')
+        ax.set_xlim(time[0], time[-1])
+        ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+ 
+        fig.set_zorder(0)
+        ax.set_zorder(1)
+
+        title = fig.set_title('Vertical Feature Mask')
+        title_xy = title.get_position()
+        title.set_position([title_xy[0], title_xy[1]*1.07])
+
+        return ax
+
+        """
         fig.set_ylabel('Altitude (km)')
         #         fig.set_xlabel('Time')
         #         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
@@ -126,3 +162,4 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         title = fig.set_title('Vertical Feature Mask')
         title_xy = title.get_position()
         title.set_position([title_xy[0], title_xy[1] * 1.07])
+        """

@@ -65,7 +65,7 @@ TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', '
         'polar stratospheric cloud']
 
 LOG_FILENAME = 'log/CALIPSO_debug.log'
-HELP_PAGE = 'http://syntaf.github.io/vocal/'
+HELP_PAGE = 'http://nasa-develop.github.io/VOCAL/developer_index.html'
 
 TIME_VARIANCE = 0.001
 ALTITUDE_VARIANCE = 0.3
@@ -82,6 +82,4 @@ if os.name == 'posix':
 
 ABOUT = \
      "VOCAL v0.15.2.a\nInternal development build\n\n" \
-     " LaRC Spring 2015 Term\n  Project Lead: Jordan Vaa\n  Courtney Duquette\n" \
-     "  Ashna Aggarwal\n\n LaRC Summer 2015 Term\n  Project Lead: Grant Mercer\n" \
-     "  Nathan Qian\n\n Fall & Spring EPSCOR 2015-2016:\n  Grant Mercer"
+     " LaRC Summer 2016 Term\n  Project Lead: Collin Pampalone"

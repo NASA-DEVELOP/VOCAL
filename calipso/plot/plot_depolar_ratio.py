@@ -28,6 +28,9 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
     colormap = 'dat/calipso-depolar.cmap'
     AVGING_WIDTH = 15
 
+    print('xrange: ' + str(x_range) + ', yrange: ' + str(y_range))
+
+
     with HDF(filename) as product:
         time = product['Profile_UTC_Time'][x1:x2, 0]
         height = product['metadata']['Lidar_Data_Altitudes']
@@ -81,13 +84,35 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
 
         im = fig.imshow(
             regrid_depolar_ratio,
-            extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
+            extent=(latitude[0], latitude[-1], h1, h2),
             cmap=cm,
             norm=norm,
             aspect='auto',
             interpolation='nearest',
         )
+
+        fig.set_ylabel('Altitude (km)')
+        fig.set_xlabel('Latitude')
+        fig.set_title("532 nm Depolarization Ratio")
        
+        cbar_label = 'Depolarization Ratio'
+        cbar = pfig.colorbar(im)
+        cbar.set_label(cbar_label)
+
+        ax = fig.twiny()
+        ax.set_xlabel('Time')
+        ax.set_xlim(time[0], time[-1])
+        ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
+ 
+        fig.set_zorder(0)
+        ax.set_zorder(1)
+
+        title = fig.set_title('532 nm Depolarized Ratio')
+        title_xy = title.get_position()
+        title.set_position([title_xy[0], title_xy[1]*1.07])
+
+        return ax
+        """       
         fig.set_ylabel('Altitute (km)')    
         fig.set_xlabel('Time')   
         fig.get_xaxis().set_major_locator(mpl.dates.AutoDateLocator())
@@ -111,3 +136,4 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
         title = fig.set_title("Averaged 532 nm Depolarized Ratio")
         title_xy = title.get_position()
         title.set_position([title_xy[0], title_xy[1]*1.07])
+        """

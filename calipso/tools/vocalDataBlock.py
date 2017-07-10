@@ -1,3 +1,10 @@
+###################################
+#   Created Summer 2016
+#	
+#
+#   @author: Joseph Driscol
+###################################
+
 from ccplot.algorithms import interp2d_12
 from ccplot.hdf import HDF
 import ccplot.utils
@@ -15,15 +22,20 @@ from log.log import logger, error_check
 
 
 class MetaData:
+    """
+    MetaData objects allow the transfer of rendering range and type info to and from Calipso and
+    VocalDataBlock. The functions allow the code to call or set the current variables
+    """
     def __init__(self, in_type=0, in_x_min=0, in_x_max=0, in_y_min=0, in_y_max=0, in_wavelength=532):
-        self.__type = in_type
-        self.__x = [in_x_min, in_x_max]
-        self.__y = [in_y_min, in_y_max]
-        self.__wavelength = in_wavelength
+        self.__type = in_type                 # Type of plot (0 = backscatter, 1 = depolarization...)
+        self.__x = [in_x_min, in_x_max]        # The x axis range (nominal units)
+        self.__y = [in_y_min, in_y_max]        # The y axis range (in altitude)
+        self.__wavelength = in_wavelength    # The wavelength the user wants (532 or 1064)
 
     def set_meta_type(self,in_type):
         if 0 <= in_type < 10:
             self.__type = in_type
+            logger.info("Setting data type to " + str(in_type))
 
     def get_meta_type(self):
         return self.__type
@@ -37,7 +49,7 @@ class MetaData:
     def get_meta_wavelength(self):
         return self.__wavelength
 
-    def set_meta_x(self,in_x=[0,100]):
+    def set_meta_x(self,in_x=[0,15000]):
         if in_x[0] < in_x[1] and in_x[1]-in_x[0] >= 5:
             if in_x[0] % 5 == 0:
                 self.__x[0] = in_x[0]
@@ -49,25 +61,14 @@ class MetaData:
                 self.__x[0] = in_x[0] + 5 - (in_x[0] % 5)
         else:
             logger.error('meta x is out of range')
-            '''Index Error'''
+            logger.info('Index Error')
 
     def set_meta_y(self, in_y=[0, 20]):
-        ''' ***If PERCENTS ARE USED***
-        if in_y[0] < in_y[1] and in_y[1] - in_y[0] >= 5:
-            if in_y[0] % 5 == 0:
-                self.__y[0] = in_y[0]
-            else:
-                self.__y[0] = in_y[0] - (in_y[0] % 5)
-            if in_y[1] % 5 == 0:
-                self.__y[1] = in_y[1]
-            else:
-                self.__y[1] = in_y[1] + 5 - (in_y[0] % 5)
-        '''
         if in_y[0] < in_y[1] and in_y[1] - in_y[0] >= 5 and in_y[1] <= 30:
             self.__y = in_y
         else:
             logger.error('meta y is out of range')
-            '''Index Error'''
+            logger.info('Index Error')
 
     def get_meta_x(self, it):
         if it == 0 or it == 1:
@@ -75,7 +76,7 @@ class MetaData:
         elif it == 2:
             return self.__x
         else:
-            '''Index Error'''
+            logger.info('Index Error')
 
     def get_meta_y(self, it):
         if it == 0 or it == 1:
@@ -83,18 +84,20 @@ class MetaData:
         elif it == 2:
             return self.__y
         else:
-            '''Index Error'''
+            logger.info('Index Error')
 
 class DataSet:
-    #def __init__(self, in_type, in_data_set, in_xrange, in_yrange, in_time, in_alt, in_lat, in_wavelength=532):
-    def __init__(self, in_type, in_data_set, in_x_range, in_y_range, in_wavelength=532):
-        self.ds_type = int(in_type)
-        self.ds_wavelength = in_wavelength
-        self.ds_data_set = in_data_set
-        self.__ds_xrange = [0,100]
-        self.ds_set_x(in_x_range)
-        self.ds_yrange = in_y_range
-        self.ds_x_label = 'Latitude'
+    """
+    Class of objects that contain data loaded from HDF files
+    """
+
+    def __init__(self, in_type, in_data_set, in_x_range=[0,5000], in_y_range=[0,20], in_wavelength=532):
+        self.ds_type = int(in_type)            # Type of data (1 = backscatter, 2 = depolarization, etc.)
+        self.ds_wavelength = in_wavelength    # Wavelength of the data (532 or 1064)
+        self.ds_data_set = in_data_set         # The 2d block of data, i.e. the collection of profiles
+        self.__ds_xrange = in_x_range        # The horizontal range we load in profiles, or vertical columns            
+        self.ds_yrange = in_y_range            # The vertical range we load in altitude
+        self.ds_x_label = 'Latitude'        # Lables for the plots
         self.ds_x_label2 = 'Time'
         self.ds_y_label = 'Altitude (km)'
 
@@ -103,26 +106,25 @@ class DataSet:
         self.set_title()
 
     def ds_set_x(self, in_xrange):
-        logger.warning(str(self.ds_data_set.shape[0] - 1))
-        logger.warning(str((self.ds_data_set.shape[0] - 1) / 100))
-        logger.warning(str(self.ds_data_set.shape[0] - 1 // 100))
-
-        if 0 <= in_xrange[0] < in_xrange[1] <= 100 and in_xrange[0]+5 <= in_xrange[1]:
-            if in_xrange[0] % 5 == 0:
-                self.__ds_xrange[0] = int(in_xrange[0] * 150)
-            else:
-                self.__ds_xrange[0] = int(in_xrange[0] - (in_xrange[0] % 5) * 150)
-            if in_xrange[1] % 5 == 0:
-                self.__ds_xrange[1] = int(in_xrange[1] * 150)
-            else:
-                self.__ds_xrange[1] = int((in_xrange[1] - (in_xrange[1] % 5)) * 150)
+        """
+        Verify that a correct x rangee was put in, and prepare it for use later
+        Not sure why it has to be a multiple of 5
+        """
+        if 0 <= in_xrange[0] < in_xrange[1] <= 15000 and in_xrange[0]+5 <= in_xrange[1]:
+            if in_xrange[0] % 5 != 0:
+                self.__ds_xrange[0] = int(in_xrange[0] - (in_xrange[0] % 5))
+            if in_xrange[1] % 5 != 0:
+                self.__ds_xrange[1] = int((in_xrange[1] - (in_xrange[1] % 5)))
         else:
-            logger.warning('xrange is not in the correct format for dataset, setting to 0-100%')
+            logger.warning('xrange is not in the correct format for dataset, setting to 0-5000')
             self.__ds_xrange = [0, self.ds_data_set.shape[0]-1]
         if constants.debug_switch > 0:
-            logger.info('Data Set x range Translated from ' + str(in_xrange) + '% to ' + str(self.__ds_xrange))
+            logger.info('Data Set x range Translated from ' + str(in_xrange) + ' to ' + str(self.__ds_xrange))
 
     def ds_get_x(self,in_it):
+        """
+        Return either the start, end, or full x range 
+        """
         if in_it == 0:
             return self.__ds_xrange[0]
         elif in_it == 1:
@@ -133,56 +135,75 @@ class DataSet:
             logger.error("Incorrect iterator received by in_it")
 
     def set_title(self):
+        """
+        Sets the title and colorbar lables
+        """
         if self.ds_type == 1:
-            self._title = "Averaged ", self.ds_wavelength, "nm Total Attenuated Backscatter"
-            self._cbar_label = 'Total Attenuated Backscatter ', self.ds_wavelength, 'nm (km$^{-1}$ sr$^{-1}$)'
+            self.ds_title = 'Averaged ' + str(self.ds_wavelength) + 'nm Total Attenuated Backscatter'
+            self.ds_cbar_label = 'Total Attenuated Backscatter ' \
+                                  + str(self.ds_wavelength) + ' nm (km$^{-1}$ sr$^{-1}$)'
         elif self.ds_type == 2:
-            self._title = "Averaged ", self.ds_wavelength, "nm Depolarized Ratio"
-            self._cbar_label = 'Depolarized Ratio  ', self.ds_wavelength , 'nm (km$^{-1}$ sr$^{-1}$)'
+            self.ds_title = 'Averaged ' + str(self.ds_wavelength) + 'nm Depolarized Ratio'
+            self.ds_cbar_label = 'Depolarized Ratio  ' \
+                                  + str(self.ds_wavelength) + ' nm (km$^{-1}$ sr$^{-1}$)'
         elif self.ds_type == 3:
-            self._title = 'Vertical Feature Mask'
-            self._cbar_label = 'Vertical Feature Mask'
+            self.ds_title = 'Vertical Feature Mask'
+            self.ds_cbar_label = 'Vertical Feature Mask Flags'
         elif self.ds_type == 4:
-            self._title = 'Ice Water Phase'
-            self._cbar_label = 'Ice Water Phase'
+            self.ds_title = 'Ice Water Phase'
+            self.ds_cbar_label = 'Ice Water Phase Flags'
         elif self.ds_type == 5:
-            self._title = ''
-            self._cbar_label = ''
+            self.ds_title = 'Horizontal Averaging'
+            self.ds_cbar_label = 'Horizontal Averaging Flags'
         elif self.ds_type == 6:
-            self._title = ''
-            self._cbar_label = ''
+            self.ds_title = ''
+            self.ds_cbar_label = ''
         elif self.ds_type == 7:
-            self._title = ''
-            self._cbar_label = ''
+            self.ds_title = ''
+            self.ds_cbar_label = ''
         elif self.ds_type == 8:
-            self._title = ''
-            self._cbar_label = ''
+            self.ds_title = ''
+            self.ds_cbar_label = ''
         elif self.ds_type == 9:
-            self._title = ''
-            self._cbar_label = ''
+            self.ds_title = ''
+            self.ds_cbar_label = ''
         elif self.ds_type == 10:
-            self._title = ''
-            self._cbar_label = ''
+            self.ds_title = ''
+            self.ds_cbar_label = ''
 
     def get_ds_type(self):
+        """
+        Returns the type of data
+        """
         return self.ds_type
 
 class VocalDataBlock:
+    """
+    Loads the HDF files and replaces old functions for plotting each data type. 
+    """
     def __init__(self, filename):
         logger.info("Intializing File: " + str(filename))
-        self._working_meta = MetaData()
+        self.__working_meta = MetaData()
+        
+        # Create an empty list to hold DataSet objects corresponding to indices
+        # (0 = Backscatter,  1 = Depolarization, 2 = VFM, 3 = IWP, 4 = blend, 5 = Horz Avging). See 
+        # DataSet Class for more information
         self.__data_sets = []
+        
         if filename == 'Empty' or filename == '':
             logger.error('File not found or not useful...')
             return
 
+        # Check version
         if "V4" in filename:
             self.__version = "4"
         else:
             self.__version = "3"
 
+        # Find L1 and L2 data files? come back and edit comment. This command might be redundent
+        # Also the logger is reporting that no files are found when both are
+        # Ensure the file is useful 
         self.find_my_file(filename)
-
         if self.__filenameL1 != "" and self.__filenameL2 != "":
             self.__data_level = "2"
         elif self.__filenameL2 != "":
@@ -192,21 +213,35 @@ class VocalDataBlock:
         else:
             logger.error('File not found or not useful...')
 
+        # Loads some necessary parts of the data held in the L1 HDF 
         with HDF(self.__filenameL1) as product:
-            time = product['Profile_UTC_Time'][::, 0]
-            self.__x_time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
+            # 1D array of tmes for each profile in yymmdd.ffffffff
+            self.__x_time = product['Profile_UTC_Time'][::, 0]
+            self.__x_time = np.array([ccplot.utils.calipso_time2dt(t) for t in self.__x_time])
+
+            # Number of profiles
             self.__record_count = len(self.__x_time)
+
+            # 1D array of sample altitudes
             self.__y_altitude = np.array(product['metadata']['Lidar_Data_Altitudes'][::])
+
+            # 1D array of profile longitudes
             self.__Longitude = np.array([product['Longitude'][::, 0]])
             self.__Longitude = np.array(self.__Longitude[0][::])
+
+            # 1D array of profile latitudes
             self.__Latitude = np.array([product['Latitude'][::, 0]])
             self.__Latitude = np.array(self.__Latitude[0][::])
+
+            # A 2D, 2 row array that lists longitude on top of the corresponding latitude
             self.__x_coordinates = np.array([self.__Longitude, self.__Latitude])
+
+            # 1D array that lists either day or night
             self.__day_night_flag = np.array(product['Day_Night_Flag'][::])
 
 
 
-    """Following is simple setters/getters associated with vocalDataBlock Class"""
+    """Following is simple setters/getters associated with VocalDataBlock Class"""
     """Returns Shapes of time Array"""
     def get_time_shape(self):
         return np.shape(self.__x_time)
@@ -226,24 +261,13 @@ class VocalDataBlock:
             return self.__y_altitude[in_y]
         else:
             return 0
-            '''Index Error'''
+            logger.info('Index Error')
 
     def get_time(self, in_x):
         if -1 <= in_x <= self.__record_count-1:
             return self.__x_time[in_x]
         else:
-            '''Index Error'''
-
-    def get_percent_to_iterator(self, in_percent, in_type):
-        if 0 < in_percent < 100:
-            out_it = int(in_percent * 150)
-        elif in_percent == int(100):
-            out_it = int(15000)
-        else:
-            out_it = 0
-        if constants.debug_switch > 0:
-            logger.info('Translated ' + str(in_percent) + '% to ' + str(out_it))
-        return out_it
+            logger.info('Index Error')
 
     # return the value at the iterator (in_x) from the coordinates list -- returns Coordinate pair [long, lat]
     def get_coordinates(self, in_x):
@@ -251,7 +275,7 @@ class VocalDataBlock:
             return [self.get_longitude(in_x),self.get_latitude(in_x)]
         else:
             return [0,0]
-            '''Index Error'''
+            logger.info('Index Error')
 
     # return the value at the iterator (in_x) from the coordinates list -- returns Coordinate pair [long, lat]
     def get_latitude(self, in_x):
@@ -259,7 +283,7 @@ class VocalDataBlock:
             return self.__Latitude[in_x]
         else:
             return 0
-            '''Index Error'''
+            logger.info('Index Error')
 
     # return the value at the iterator (in_x) from the coordinates list -- returns Coordinate pair [long, lat]
     def get_longitude(self, in_x):
@@ -267,10 +291,10 @@ class VocalDataBlock:
             return self.__Longitude[in_x]
         else:
             return 0
-            '''Index Error'''
+            logger.info('Index Error')
 
     def get_y_min(self, in_iterator, in_type='iterator'):
-        if in_type == 'iterator' or in_type == 'percent':
+        if in_type == 'iterator':
             return self.__data_sets[in_iterator].ds_yrange[0]
         elif in_type == 'altitude':
             return self.__y_altitude[self.__data_sets[in_iterator].ds_yrange[0]]
@@ -278,7 +302,7 @@ class VocalDataBlock:
             return 0
 
     def get_y_max(self, in_iterator, in_type='iterator'):
-        if in_type == 'iterator' or in_type == 'percent':
+        if in_type == 'iterator':
             return self.__data_sets[in_iterator].ds_yrange[1]
         elif in_type == 'altitude':
             return self.__y_altitude[self.__data_sets[in_iterator].ds_yrange[1]]
@@ -286,6 +310,10 @@ class VocalDataBlock:
             return 0
 
     def get_x_min(self, in_iterator, in_type='iterator'):
+        """
+        Returns the minimum x value for a given data type (iter, lat, lon, time, %)
+        for a given iterator in __data_sets
+        """
         if in_type == 'iterator':
             return self.__data_sets[in_iterator].ds_get_x(0)
         elif in_type == 'latitude':
@@ -294,8 +322,6 @@ class VocalDataBlock:
             return self.__Longitude[self.__data_sets[in_iterator].ds_get_x(0)]
         elif in_type == 'time':
             return self.__x_time[self.__data_sets[in_iterator].ds_get_x(0)]
-        elif in_type == 'percent':
-            return self._working_meta.get_meta_x(0)
         else:
             return 0
 
@@ -308,8 +334,6 @@ class VocalDataBlock:
             return self.__Longitude[self.__data_sets[in_iterator].ds_get_x(1)]
         elif it_type == 'time':
             return self.__x_time[self.__data_sets[in_iterator].ds_get_x(1)]
-        elif it_type == 'percent':
-            return self._working_meta.get_meta_x(1)
         else:
             return 0
 
@@ -318,11 +342,9 @@ class VocalDataBlock:
 
     def get_data_set(self, in_iterator, transpose='none'):
         if transpose == 'transpose':
-            return self.__data_sets[in_iterator].ds_data_set[self.__data_sets[in_iterator].ds_get_x(0):
-                                                             self.__data_sets[in_iterator].ds_get_x(1)].T
+            return self.__data_sets[in_iterator].ds_data_set.T
         else:
-            return self.__data_sets[in_iterator].ds_data_set[self.__data_sets[in_iterator].ds_get_x(0):
-                                                             self.__data_sets[in_iterator].ds_get_x(1)]
+            return self.__data_sets[in_iterator].ds_data_set
 
     def get_data_set_x_label(self, in_iterator):
         return self.__data_sets[in_iterator].ds_x_label
@@ -344,18 +366,6 @@ class VocalDataBlock:
         latitude2 = latitude1[::15]
         return [latitude2[0],latitude2[-1]]
 
-    '''
-    def get_iterator(self, in_type, in_range=[0,100]):
-        if in_type == 'altitude':
-            return self.__y_altitude.searchsorted(self, in_range)
-        elif in_type == 'time':
-            return self.__x_time.searchsorted(self, in_range)
-        elif in_type == 'latitude':
-            return self.__x_coordinates[1].searchsorted(self, in_range)
-        elif in_type == 'longitude':
-            return self.__x_coordinates[0].searchsorted(self, in_range)
-    '''
-
     def get_file_name(self, levelToGet=1):
         if levelToGet == 1:
             return self.__filenameL1
@@ -368,34 +378,31 @@ class VocalDataBlock:
     # sets the working type as an integer - refer to constants.py for dictionary
     def set_working_type(self, in_type):
         if in_type >= 0 or in_type < 11:
-            self._working_meta.set_meta_type(in_type)
+            self.__working_meta.set_meta_type(in_type)
         else:
-            '''Index Error'''
+            logger.info('Index Error')
 
-    # accepts a 2-element list of integers - This is the x range for a new data_set based off the working data_set
-    # since x can be represented by either coordinates (long,lat) or time, and setting of either working_time or
-    #   working_coordinates updates both xtime and xcoordinates.  This could be consolidated into one, but I believe
-    #   it is best to seperate them for readability
-    def set_working_x(self, in_xtime):
-        if 0 <= in_xtime[0] < in_xtime[1] <= 100:
-            self._working_meta.set_meta_x(in_xtime)
+    # Accepts a 2-element list of integers for the x range of profiles
+    def set_working_x(self, in_x):
+        if 0 <= in_x[0] < in_x[1]  and in_x[1] - in_x[0] <= 15000:
+            self.__working_meta.set_meta_x(in_x)
         else:
-            '''Index Error'''
+            logger.info('Index Error')
 
     # This allows the setting of the wavelength as some data_sets have 532 and 1064 wavelengths.
     #   The default is always 532
     def set_working_wavelength(self, in_wavelength):
         if in_wavelength == '1064':
-            self._working_meta.set_meta_wavelength(1064)
+            self.__working_meta.set_meta_wavelength(1064)
         else:
-            self._working_meta.set_meta_wavelength(532)
+            self.__working_meta.set_meta_wavelength(532)
 
     # accepts a 2-element list of integers - This is the y range (altitude) for a new data_set based off the working data_set
     def set_working_altitude(self, in_altitude):
-        if 0 <= in_altitude[0] < in_altitude[1] <= len(self.__y_altitude):
-            self._working_meta.set_meta_y(in_altitude)
+        if 0 <= in_altitude[0] < in_altitude[1] and in_altitude[1] - in_altitude[0] <= len(self.__y_altitude):
+            self.__working_meta.set_meta_y(in_altitude)
         else:
-            '''Index Error'''
+            logger.info('Index Error')
 
     def set_working_meta(self, in_meta_data):
         self.set_working_type(in_meta_data.get_meta_type())
@@ -500,11 +507,11 @@ class VocalDataBlock:
         logger.info("X Longitude Shape: %s" % str(np.shape(self.__Latitude)))
         logger.info("Y Shape: %s" % str(self.__y_altitude.shape))
         logger.info("*********WORKING META DATA***********")
-        logger.info("Type = %s" % str(self._working_meta.get_meta_type()))
-        logger.info("X-Working Min/Max in %: " + str(self._working_meta.get_meta_x(0)) + ", " +
-                    str(self._working_meta.get_meta_x(1)))
-        logger.info("Y-Working Min/Max in km: " + str(self._working_meta.get_meta_y(0)) + ", " +
-                    str(self._working_meta.get_meta_y(1)))
+        logger.info("Type = %s" % str(self.__working_meta.get_meta_type()))
+        logger.info("X-Working Min/Max in %: " + str(self.__working_meta.get_meta_x(0)) + ", " +
+                    str(self.__working_meta.get_meta_x(1)))
+        logger.info("Y-Working Min/Max in km: " + str(self.__working_meta.get_meta_y(0)) + ", " +
+                    str(self.__working_meta.get_meta_y(1)))
         logger.info("*********MIN/MAX VALUES of DATA SET***********")
         logger.info("X-range Time will be, Min: " + str(self.get_time(0)) + " Max: " +str(self.get_time(-1)))
         logger.info("X-range Coords will be, Min: " + str(self.get_coordinates(0)) + " Max: " +
@@ -522,10 +529,10 @@ class VocalDataBlock:
         logger.info("Data Shape: %s" % str(np.shape(self.__data_sets[in_iterator].ds_data_set)))
         logger.info("********************")
         logger.info("Real Iterators for x1, x2, y1, y2: (" +
-            str(self.get_x_min(in_iterator, 'percent')) + ", " +
-            str(self.get_x_max(in_iterator, 'percent')) + ", " +
-            str(self.get_y_min(in_iterator, 'percent')) + ", " +
-            str(self.get_y_max(in_iterator, 'percent')) +
+            str(self.get_x_min(in_iterator, 'profile')) + ", " +
+            str(self.get_x_max(in_iterator, 'profile')) + ", " +
+            str(self.get_y_min(in_iterator, 'profile')) + ", " +
+            str(self.get_y_max(in_iterator, 'profile')) +
         ")")
         logger.info("********************")
         logger.info("Data Set Iterators for x1, x2, y1, y2: (" +
@@ -550,12 +557,16 @@ class VocalDataBlock:
         logger.info("***************END DATA SET******************")
         logger.info("*********************************************")
 
-    # This will find the iterator for the working data_set within the data_set.  It can also be used to check to see if the working data_set has already been created or if the list is empty
-    #   return codes ('empty' == empty, "False" == does not exist in data_set, positive integer is a positive match and returns the iterator needed to access the data_set
-    #   and negative interger is an iterator pointing to a data_set that the working data_set exists within
+    """
+    This will find the iterator for the working data_set within the data_set.  It can also be used 
+    to check to see if the working data_set has already been created or if the list is empty return
+    codes ('empty' == empty, "False" == does not exist in data_set, positive integer is a positive
+    match and returns the iterator needed to access the data_set and negative interger is an 
+    iterator pointing to a data_set that the working data_set exists within
+    """
     def find_data_set_iterator(self,in_type=-1, in_wavelength=532):
         if in_type == -1:
-            in_type = self._working_meta.get_meta_type()
+            in_type = self.__working_meta.get_meta_type()
         if in_wavelength != 1064:
             in_wavelength = 532
         if len(self.__data_sets) == 0:
@@ -572,13 +583,13 @@ class VocalDataBlock:
 
     def load_data_set(self, in_data_set_to_get, in_return_type='none'):
         if in_return_type == 'none':
-            data_set_iterator = self.find_data_set_iterator(self._working_meta.get_meta_type())
+            data_set_iterator = self.find_data_set_iterator(self.__working_meta.get_meta_type())
         else:
             data_set_iterator = "False"
 
         filename = ""
         if data_set_iterator == "False" or data_set_iterator == "Empty":
-            if self._working_meta.get_meta_type() == 3 or self._working_meta.get_meta_type() == 4:
+            if self.__working_meta.get_meta_type() == 3 or self.__working_meta.get_meta_type() == 4:
                 filename = self.__filenameL2
             else:
                 filename = self.__filenameL1
@@ -608,11 +619,14 @@ class VocalDataBlock:
                 return data_set_iterator
 
     def append_data_sets(self, in_data_set):
+        """
+        Appends a DataSet to the end of __data_sets
+        """
         self.__data_sets.append(DataSet(
-            self._working_meta.get_meta_type(), in_data_set,
-            self._working_meta.get_meta_x(2),
-            self._working_meta.get_meta_y(2),
-            self._working_meta.get_meta_wavelength()
+            self.__working_meta.get_meta_type(), in_data_set,
+            self.__working_meta.get_meta_x(2),
+            self.__working_meta.get_meta_y(2),
+            self.__working_meta.get_meta_wavelength()
         ))
         if constants.debug_switch > 0:
             logger.info('*****************Loaded data set****************')
@@ -628,47 +642,53 @@ class VocalDataBlock:
 
     def get_figure(self, in_meta_data):
         self.set_working_meta(in_meta_data)
-        if self._working_meta.get_meta_type() == 1:
+        if self.__working_meta.get_meta_type() == 1:
             i = self.back_scatter()
-        elif self._working_meta.get_meta_type == 2:
+        elif self.__working_meta.get_meta_type() == 2:
             i = self.depolarization()
-        elif self._working_meta.get_meta_type == 3:
+        elif self.__working_meta.get_meta_type() == 3:
             i = self.vfm()
-        elif self._working_meta.get_meta_type == 4:
+        elif self.__working_meta.get_meta_type() == 4:
             i = self.iwp()
-        elif self._working_meta.get_meta_type == 5:
+        elif self.__working_meta.get_meta_type() == 5:
             i = -99
-        elif self._working_meta.get_meta_type == 6:
+        elif self.__working_meta.get_meta_type() == 6:
             i = -99
-        elif self._working_meta.get_meta_type == 7:
+        elif self.__working_meta.get_meta_type() == 7:
             i = -99
-        elif self._working_meta.get_meta_type == 8:
+        elif self.__working_meta.get_meta_type() == 8:
             i = -99
-        elif self._working_meta.get_meta_type == 9:
+        elif self.__working_meta.get_meta_type() == 9:
             i = -99
-        elif self._working_meta.get_meta_type == 10:
+        elif self.__working_meta.get_meta_type() == 10:
             i = -99
         else:
             i = -99
 
         if i == -99:
-            logger.error('Data Set Failed to load: ' + str(self._working_meta.get_meta_type))
+            logger.error('Data Set Failed to load: ' + str(self.__working_meta.get_meta_type))
             return -99
             # For types not yet implemented#
         else:
             return i
 
+    
     def back_scatter(self):
-        if self._working_meta.get_meta_wavelength() == "1064":
+        if self.__working_meta.get_meta_wavelength() == "1064":
             data_set_to_get = 'Total_Attenuated_Backscatter_1064'
         else:
             data_set_to_get = 'Total_Attenuated_Backscatter_532'
 
         temp_iterator = self.load_data_set(data_set_to_get)
-        self.__data_sets[temp_iterator].ds_data_set = \
-            np.ma.masked_equal(self.__data_sets[temp_iterator].ds_data_set, -9999)
 
-        temp_x = np.arange(self.get_x_min(temp_iterator),self.get_x_max(temp_iterator), dtype=np.float32)
+        x0 = self.__working_meta.get_meta_x(0)
+        x1 = self.__working_meta.get_meta_x(1)
+        h0 = self.__working_meta.get_meta_y(0)
+        h1 = self.__working_meta.get_meta_y(1)
+
+        data = np.ma.masked_equal(self.__data_sets[temp_iterator].ds_data_set, -9999)
+
+        temp_x = np.arange(x0, x1, dtype=np.float32)
         temp_y, null = np.meshgrid(self.__y_altitude[::], temp_x)
 
         if constants.debug_switch > 0:
@@ -678,15 +698,11 @@ class VocalDataBlock:
         logger.info("***** Launching 'interp2d_12' on Backscatter data*****")
 
         self.__data_sets[temp_iterator].ds_data_set = interp2d_12(
-            self.__data_sets[temp_iterator].ds_data_set
-            [
-                self.get_x_min(temp_iterator, 'iterator'):self.get_x_max(temp_iterator, 'iterator')
-            ],
+            data[x0:x1],
             temp_x.astype(np.float32),
             temp_y.astype(np.float32),
-            self.get_x_min(temp_iterator, 'iterator'), self.get_x_max(temp_iterator, 'iterator'),
-            self.get_x_max(temp_iterator, 'iterator') - self.get_x_min(temp_iterator),
-            self.get_y_max(temp_iterator, 'iterator'), self.get_y_min(temp_iterator, 'iterator'), 500
+            x0, x1, x1 - x0,
+            h1, h0, 500
         )
 
         return temp_iterator
@@ -694,187 +710,192 @@ class VocalDataBlock:
     def depolarization(self):
         AVGING_WIDTH = 15
 
-        if self._working_meta.get_meta_wavelength() == "1064":
+        if self.__working_meta.get_meta_wavelength() == "1064":
             data_set_to_get_total = 'Total_Attenuated_Backscatter_1064'
             data_set_to_get_perp = 'Perpendicular_Attenuated_Backscatter_1064'
         else:
             data_set_to_get_total = 'Total_Attenuated_Backscatter_532'
             data_set_to_get_perp = 'Perpendicular_Attenuated_Backscatter_532'
-        total = self.load_data_set(data_set_to_get_total, 'data only')
-        total = total.T
-        perpendicular = self.load_data_set(data_set_to_get_perp, 'data only')
-        perpendicular = perpendicular.T
 
-        latitude = self.__Latitude[self.get_x_min(0, 'latitude'):self.get_x_max(1)]
+        x0 = self.__working_meta.get_meta_x(0)
+        x1 = self.__working_meta.get_meta_x(1)
+        h0 = self.__working_meta.get_meta_y(0)
+        h1 = self.__working_meta.get_meta_y(1)
+
+        temp_iterator = self.load_data_set(data_set_to_get_total)
+
+        total = self.load_data_set(data_set_to_get_total, 'data only')[x0:x1].T
         total = avg_horz_data(total, AVGING_WIDTH)
+        
+        perpendicular = self.load_data_set(data_set_to_get_perp, 'data only')[x0:x1].T
         perpendicular = avg_horz_data(perpendicular, AVGING_WIDTH)
-        latitude = latitude[::AVGING_WIDTH]
+
         parallel = total - perpendicular
+
+        latitude = self.__Latitude[x0:x1]
+        latitude = latitude[::AVGING_WIDTH]
 
         depolar_ratio = perpendicular / parallel
 
         # Put altitudes above 8.2 km on same spacing as lower ones
-        MAX_ALT = 30
+        MAX_ALT = 20
         unif_alt = uniform_alt_2(MAX_ALT, self.__y_altitude)
         depolar_ratio = regrid_lidar(self.__y_altitude, depolar_ratio, unif_alt)
 
-        return self.append_data_sets(depolar_ratio)
+        self.__data_sets[temp_iterator].ds_data_set = depolar_ratio
+
+        return temp_iterator
 
     def vfm(self):
-        #constant variables
+        # Constant variables
         alt_len = 545
-        data_set_to_get = 'Feature_Classification_Flags'
 
-        # 15 profiles are in 1 record of VFM data
-        # At the highest altitudes 5 profiles are averaged
-        # together.  In the mid altitudes 3 are averaged and
-        # at roughly 8 km or less, there are separate profiles.
+        # 15 profiles are in 1 record of VFM data. At the highest altitudes 5 profiles are averaged
+        # together.  In the mid altitudes 3 are averaged and at roughly 8 km or less, there are 
+        # separate profiles.
         prof_per_row = 15
+        temp_iterator = self.load_data_set('Feature_Classification_Flags')
 
-        t_time = self.__x_time[self._working_meta.get_meta_x(0):self._working_meta.get_meta_x(1)]
-        minimum = self.get_x_time_min()
-        maximum = self.get_x_time_max()
+        x0 = self.__working_meta.get_meta_x(0)
+        x1 = self.__working_meta.get_meta_x(1)
+        h0 = self.__working_meta.get_meta_y(0)
+        h1 = self.__working_meta.get_meta_y(1)
+
+        t_time = self.__x_time[::]
+        minimum = self.get_x_min(temp_iterator, 'time')
+        maximum = self.get_x_max(temp_iterator, 'time')
 
         #determines how far the file can be viewed
-        if t_time [-1] >= maximum and len(t_time) < 950:
-            raise IndexError
-        if t_time[0] < minimum:
-            raise IndexError
+        #if t_time [-1] >= maximum and len(t_time) < 950:
+        #    raise IndexError
+        #if t_time[0] < minimum:
+        #    raise IndexError
 
         height = self.__y_altitude[33:-5:]
-        #height = self.__y_altitude[self._working_meta._y[0]:self._working_meta._y[1]]
+
         if constants.debug_switch > 0:
             self.print_working_metadata()
 
-        my_iterator = self.load_data_set(data_set_to_get)
-
-        print my_iterator
-        print type(my_iterator)
-
-        if my_iterator > -1:
-            data_set = self.get_data_set(my_iterator)
-        else:
+        if temp_iterator <= -1:
             logger.error("Did not load vfm dataset correctly...")
             return -99
 
-        latitude1 = self.__Latitude[self._working_meta.get_meta_x(0):self._working_meta.get_meta_x(1)]
+        latitude1 = self.__Latitude[::15] # L2 data has 15x less lat points
         latitude2 = latitude1[::prof_per_row]
 
-        # mask all unknown values
-        data_set = np.ma.masked_equal(data_set, -999)
+        # Mask all unknown values
+        data_set = np.ma.masked_equal(self.__data_sets[temp_iterator].ds_data_set, -999)
 
-        #giving the number of rows in the dataset
+        # Give the number of rows in the dataset
         num_rows = data_set.shape[0]
 
-        #not sure why they are doing prof_per_row here, and the purpose of this
-        unpacked_vfm = np.zeros((alt_len, prof_per_row*num_rows),np.uint8)
+        # Create an empty array that corresponds to the size of L1 data
+        unpacked_vfm = np.zeros((alt_len, prof_per_row * num_rows),np.uint8)
 
 
-        #assigning the values from 0-7 to subtype
+        # Assigning the values from 0-7 to subtype (see CALIPSO data catalog)
         vfm = extract_type(data_set)
 
-        #chaning the number of rows so that it can be plotted
+        # chaning the number of rows so that it can be plotted
         for i in range(num_rows):
             unpacked_vfm[:,prof_per_row*i:prof_per_row*(i+1)] = vfm_row2block(vfm[i,:])
 
-        start_lat =-30
-        end_lat = -80
 
-        #Determining if day or nighttime
+        # Determining if day or nighttime
+        # Doesn't do anything yet... reversing max and min breaks indices in unpacked_vfm       
         if self.__Latitude[0] > self.__Latitude[-1]:
             # Nighttime
-            min_indx = findLatIndex(start_lat, self.__Latitude[::])
-            max_indx = findLatIndex(end_lat, self.__Latitude[::])
+            min_indx = x0
+            max_indx = x1
+
         else:
             #Daytime
-            min_indx = findLatIndex(end_lat, self.__Latitude[::])
-            max_indx = findLatIndex(start_lat, self.__Latitude[::])
+            min_indx = x0
+            max_indx = x1
 
-        vfm = unpacked_vfm[:, min_indx*prof_per_row:max_indx*prof_per_row]
 
-        max_alt = 30
+        vfm = unpacked_vfm[:, min_indx:max_indx]
+
+        # Put altitudes above 8.2 km on same spacing as lower ones
+        max_alt = 20
         unif_alt = uniform_alt_2(max_alt, height)
-        regrid_lidar(height, vfm, unif_alt)
+        
+        self.__data_sets[temp_iterator].ds_data_set = regrid_lidar(height, vfm, unif_alt)
 
-        self.__data_sets[my_iterator]._data_set = regrid_lidar(height, vfm, unif_alt), my_iterator
-        return my_iterator
+        return temp_iterator
 
     def iwp(self):
         # constant variables
         alt_len = 545
-        first_alt = self._working_meta.get_meta_y(0)
-        last_alt = self._working_meta.get_meta_y(1)
-        first_lat = self._working_meta.get_meta_x(0)
-        last_lat = self._working_meta.get_meta_x(1)
-        colormap = 'dat/calipso-icewaterphase.cmap'
-        data_set_to_get = "Feature_Classification_Flags"
-
+        
         # 15 profiles are in 1 record of VFM data
         # At the highest altitudes 5 profiles are averaged
         # together.  In the mid altitudes 3 are averaged and
         # at roughly 8 km or less, there are separate profiles.
         prof_per_row = 15
+        temp_iterator = self.load_data_set('Feature_Classification_Flags')
+
+        x0 = self.__working_meta.get_meta_x(0)
+        x1 = self.__working_meta.get_meta_x(1)
+        h0 = self.__working_meta.get_meta_y(0)
+        h1 = self.__working_meta.get_meta_y(1)
 
 
-        time = self.__x_time[first_lat:last_lat]
-        minimum = self.get_x_time_min()
-        maximum = self.get_x_time_max()
+        t_time = self.__x_time[::]
+        minimum = self.get_x_min(temp_iterator, 'time')
+        maximum = self.get_x_max(temp_iterator, 'time')
 
         # determines how far the file can be viewed
-        if time[-1] >= maximum and len(time) < 950:
-            raise IndexError
-        if time[0] < minimum:
-            raise IndexError
+        #if t_time[-1] >= maximum and len(t_time) < 950:
+        #    raise IndexError
+        #if t_time[0] < minimum:
+        #    raise IndexError
 
         height = self.__y_altitude[33:-5:]
-        my_iterator = self.load_data_set('Feature_Classification_Flags')
-
-        if my_iterator != -99:
-            dataset = self.get_data_set(my_iterator)
+        
+        if temp_iterator != -99:
+            data_set = self.get_data_set(temp_iterator)
         else:
             logger.error("Did not load iwp dataset correctly...")
             return -99
-
-        latitude1 = self.__Latitude[first_lat:last_lat]
+        
+        latitude1 = self.__Latitude[::15] # L2 data has 15x less lat points
         latitude2 = latitude1[::prof_per_row]
-        latitude3 = self.__Latitude
-        #time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
 
         # mask all unknown values
-        dataset = np.ma.masked_equal(dataset, -999)
+        data_set = np.ma.masked_equal(self.__data_sets[temp_iterator].ds_data_set, -999)
 
         # giving the number of rows in the dataset
-        num_rows = dataset.shape[0]
+        num_rows = data_set.shape[0]
 
         # not sure why they are doing prof_per_row here, and the purpose of this
         unpacked_iwp = np.zeros((alt_len, prof_per_row * num_rows), np.uint8)
 
         # assigning the values from 0-7 to subtype
-        iwp = extract_water_phase(dataset)
+        iwp = extract_water_phase(data_set)
 
         # chaning the number of rows so that it can be plotted
         for i in range(num_rows):
             unpacked_iwp[:, prof_per_row * i:prof_per_row * (i + 1)] = vfm_row2block(iwp[i, :])
 
-        start_lat = -30
-        end_lat = -80
-
         # Determining if day or nighttime
-        if latitude3[0] > latitude3[-1]:
+        # Doesn't do anything yet... reversing max and min breaks indices in unpacked_vfm       
+        if self.__Latitude[0] > self.__Latitude[-1]:
             # Nighttime
-            min_indx = findLatIndex(start_lat, latitude3)
-            max_indx = findLatIndex(end_lat, latitude3)
+            min_indx = x0
+            max_indx = x1
+
         else:
-            # Daytime
-            min_indx = findLatIndex(end_lat, latitude3)
-            max_indx = findLatIndex(start_lat, latitude3)
+            #Daytime
+            min_indx = x0
+            max_indx = x1
 
-        iwp = unpacked_iwp[:, min_indx * prof_per_row:max_indx * prof_per_row]
+        iwp = unpacked_iwp[:, min_indx:max_indx]
 
-        max_alt = 30
+        # Put altitudes above 8.2 km on same spacing as lower ones
+        max_alt = 20
         unif_alt = uniform_alt_2(max_alt, height)
 
-        self.__data_sets[my_iterator]._data_set = regrid_lidar(height, iwp, unif_alt), my_iterator
-        return my_iterator
+        self.__data_sets[temp_iterator].ds_data_set = regrid_lidar(height, iwp, unif_alt)
 
-
+        return temp_iterator

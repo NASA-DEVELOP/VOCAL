@@ -95,20 +95,10 @@ class ToolsWindow(Toplevel):
         render_button.grid(row=0, column=1, rowspan=4, sticky='e')
         create_tool_tip(render_button, 'Render the loaded file\nto the screen')
 
-        '''
-        # Plot selection type
-        Radiobutton(self.upper_button_frame, text='Backscattered',
-                    variable=self.plot_type, value=Plot.backscattered)\
-            .grid(row=1, column=0, sticky='w')
-        Radiobutton(self.upper_button_frame, text='Depolarized',
-                    variable=self.plot_type, value=Plot.depolarized).\
-            grid(row=2, column=0, sticky='w')
-        '''
-
         self.upper_range_frame = Frame(self.container)
         self.upper_range_frame.pack(side=TOP, fill=X)
 
-        Label(self.upper_range_frame, text='Percent').\
+        Label(self.upper_range_frame, text='Profiles').\
             grid(row=3, column=0, pady=5, sticky='w')
         self.begin_range_entry = Entry(self.upper_range_frame, width=12)
         self.begin_range_entry.grid(row=3, column=1, pady=5, sticky='w')
@@ -118,7 +108,7 @@ class ToolsWindow(Toplevel):
             grid(row=3, column=2, pady=5, sticky='w')
         self.end_range_entry = Entry(self.upper_range_frame, width=11)
         self.end_range_entry.grid(row=3, column=3, pady=5, sticky='w')
-        self.end_range_entry.insert(END, '100')
+        self.end_range_entry.insert(END, '5000')
 
         Label(self.upper_range_frame, text='Alt').\
             grid(row=4, column=0, pady=5, sticky='w')
@@ -208,6 +198,7 @@ class ToolsWindow(Toplevel):
         polygon_button.latch(target=self.__canvas,
                              key='button_press_event',
                              command=self.__parent.get_shapemanager().anchor_rectangle, cursor='tcross')
+        logger.info('Button pressed - ploygon')
         polygon_button.latch(target=self.__canvas,
                              key='motion_notify_event',
                              command=self.__parent.get_shapemanager().rubberband)
@@ -220,20 +211,20 @@ class ToolsWindow(Toplevel):
         # Free form shape creation
         free_draw_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.free_draw_img, width=30, height=30)
-        free_draw_button.latch(target=self.__canvas, key='button_press_event', 
+        free_draw_button.latch(target=self.__canvas, key='button_press_event',
                                command=self.__parent.get_shapemanager().plot_point, cursor='tcross',
                                destructor=self.__parent.get_shapemanager().clear_lines)
         free_draw_button.grid(row=2, column=2, padx=2, pady=5)
         create_tool_tip(free_draw_button, 'Free Draw')
-        
+
         # Erase polygon drawings
         erase_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.erase_img, width=30, height=30)
         erase_button.latch(target=self.__canvas, key='pick_event',
-                           command=self.__parent.get_shapemanager().delete, 
+                           command=self.__parent.get_shapemanager().delete,
                            cursor='X_cursor')
         erase_button.grid(row=2, column=3, padx=2, pady=5)
         create_tool_tip(erase_button, 'Erase polygon')
-        
+
         # Recolor shapes
         paint_button = ToggleableButton(self.__root, self.lower_button_frame, image=self.paint_img, width=30, height=30)
         paint_button.latch(target=self.__canvas, key='pick_event',
@@ -241,7 +232,7 @@ class ToolsWindow(Toplevel):
                            cursor='')
         paint_button.grid(row=2, column=4, padx=2, pady=5)
         create_tool_tip(paint_button, 'Paint')
-        
+
         # Outline shapes
         outline_button = \
             Button(self.lower_button_frame, image=self.outline_img, width=30, height=30,
@@ -283,8 +274,8 @@ class ToolsWindow(Toplevel):
                 return None
             # default ending range is beginning_range + 1000
             beginning_range = int(begin_range_entry.get())
-            #ending_range = beginning_range + 1000
-        # If entry as text
+            ending_range = beginning_range + 1000
+        # If entry has text
         if end_range_entry.get():
             # If entry is not ONLY numbers
             if not re.match('[0-9]+', end_range_entry.get()) or '.' in end_range_entry.get():
@@ -313,12 +304,17 @@ class ToolsWindow(Toplevel):
                                    'Range cannot be less than zero or smaller than 100 steps')
             return None
 
-        if ending_range - beginning_range > 100:
+        if ending_range - beginning_range > 15000:
             logger.error('Error, specified range %d , %d is too large' % (beginning_range, ending_range))
             tkMessageBox.showerror('toolswindow', 'Range cannot be greater than 15000 steps')
             return None
 
         return beginning_range, ending_range
+
+    def rebind_tools_to_canvas(self, new_canvas):
+        logger.debug('Changing from ' + str(self.__canvas) + ' to ' + str(new_canvas))
+        self.__canvas = new_canvas
+        self.setup_toolbar_buttons()
 
     def render(self):
         """
@@ -336,7 +332,7 @@ class ToolsWindow(Toplevel):
             tkMessageBox.showerror('toolswindow', 'No file loaded')
             return
 
-        time_range = ToolsWindow.__check_range(0, 100, 5,
+        time_range = ToolsWindow.__check_range(0, 1000, 5,
                                                self.begin_range_entry,
                                                self.end_range_entry)
         alt_range = ToolsWindow.__check_range(0, 20, 5,
@@ -349,4 +345,5 @@ class ToolsWindow(Toplevel):
 
         logger.info('Calling plot')
         #self.__parent.set_plot(self.plot_type.get(), xrange_=time_range, yrange=alt_range)
-        self.__parent.loadTabs(self.plot_type.get(), time_range, alt_range)
+        self.__parent.loadTabs(time_range, alt_range)
+

@@ -24,6 +24,8 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
     nz = 500
     colormap = 'dat/calipso-backscatter.cmap'
 
+    print('xrange: ' + str(x_range) + ', yrange: ' + str(y_range))
+
     with HDF(filename) as product:
         time = product['Profile_UTC_Time'][x1:x2, 0]
         minimum = min(product['Profile_UTC_Time'][::])[0]
@@ -44,6 +46,7 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         _x = np.arange(x1, x2, dtype=np.float32)
         _y, null = np.meshgrid(height, _x)
 
+        """
         print "Working X range: ", x1, ",", len(time)-1
         print "Working X Values: ", time[x1], ", ", time[-1]
 
@@ -54,6 +57,7 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         print "********************"
         print "Iterators for x1, x2, x2 - x1, y2, y1, nz: (", \
             x1, ", ",x2, ", ",x2 - x1, ", ",h2, ", ",h1, ", ",nz, ")"
+        """
 
         data = interp2d_12(
             dataset[::],
@@ -72,7 +76,7 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         
         im = fig.imshow(
             data.T,
-#             extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
+            #extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
             extent=(latitude[0], latitude[-1], h1, h2),
             cmap=cm,
             aspect='auto',
@@ -82,8 +86,6 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
 
         print "***im***", im, "*************"
         fig.set_ylabel('Altitude (km)')
-#         fig.set_xlabel('Time')   
-#         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
         fig.set_xlabel('Latitude')
         fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
        
@@ -92,8 +94,6 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         cbar.set_label(cbar_label)
 
         ax = fig.twiny()
-#         ax.set_xlabel('Latitude')
-#         ax.set_xlim(latitude[0], latitude[-1])
         ax.set_xlabel('Time')
         ax.set_xlim(time[0], time[-1])
         ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
@@ -105,6 +105,7 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         title_xy = title.get_position()
         title.set_position([title_xy[0], title_xy[1]*1.07])
 
+        """
         print "Data Shape: ", np.shape(data.T)
         print "Time Shape: ", np.shape(time)
         print "Latitude Shape: ", np.shape(latitude)
@@ -115,5 +116,6 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         print "********************"
         print "Values for x1, x2, h1, h2: (", time[0], ", ", time[-1], ", ", height[0], ", ", height[-1], ")"
         print "********************"
-
+		"""
+		
         return ax
