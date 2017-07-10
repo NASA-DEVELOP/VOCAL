@@ -60,21 +60,21 @@ def render_iwp(filename, x_range, y_range, fig, pfig):
         for i in range(num_rows):
             unpacked_iwp[:, prof_per_row * i:prof_per_row * (i + 1)] = vfm_row2block(iwp[i, :])
 
-        # Determining if day or nighttime
-        # Doesn't do anything yet... reversing max and min breaks indices in unpacked_vfm
-        if latitude[0] > latitude[-1]:
-            # Nighttime
-            min_indx = first_lat
-            max_indx = last_lat
+            # Determining if day or nighttime
+            # Doesn't do anything yet... reversing max and min breaks indices in unpacked_vfm
+            if latitude[0] >latitude[-1]:
+                # Nighttime
+                min_indx = first_lat
+                max_indx = last_lat
 
-        else:
-            # Daytime
-            min_indx = first_lat
-            max_indx = last_lat
+            else:
+                # Daytime
+                min_indx = first_lat
+                max_indx = last_lat
 
         iwp = unpacked_iwp[:, min_indx:max_indx]
 
-        max_alt = 20
+        max_alt = 30
         unif_alt = uniform_alt_2(max_alt, height)
         regrid_iwp = regrid_lidar(height, iwp, unif_alt)
 
@@ -103,10 +103,9 @@ def render_iwp(filename, x_range, y_range, fig, pfig):
         cbar_label = 'Ice Water Phase'
         cbar = pfig.colorbar(im)
         cbar.set_label(cbar_label)
+        cbar.ax.set_yticklabels(['N/a', 'Unknown', 'Ice', 'Water', 'Oriented Ice'])
 
         ax = fig.twiny()
-        ax.set_xlabel('Latitude')
-        ax.set_xlim(latitude[0], latitude[-1])
         ax.set_xlabel('Time')
         ax.set_xlim(time[0], time[-1])
         ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
@@ -114,7 +113,7 @@ def render_iwp(filename, x_range, y_range, fig, pfig):
         fig.set_zorder(0)
         ax.set_zorder(1)
 
-        title = fig.set_title('Ice Water Phase Shorter Name')
+        title = fig.set_title('Ice Water Phase')
         title_xy = title.get_position()
         title.set_position([title_xy[0], title_xy[1] * 1.07])
 

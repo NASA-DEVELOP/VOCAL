@@ -7,9 +7,9 @@ GENERAL
 There's a divide by 0 error that should be resolved in VocalDataBlock.depolarization
 	- Depolarization displays low resolution, noticeable when viewing < 15000 profiles (DOES IT?)
 
-Need to add legend to VFM and IWP
-
 Latitude labels on L2 (L1?) plots seem to not show the correct range
+
+Labels on IWP looks mismatched
 
 Shapes on L2 plots seem to be created but not displayed
 ---------------------------------------------------------------------------------------------------

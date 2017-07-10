@@ -5,11 +5,7 @@
 import ccplot.utils
 import numpy as np
 import matplotlib as mpl
-import matplotlib.pyplot as plt
-from ccplot.algorithms import interp2d_12
-from findLatIndex import findLatIndex
 from ccplot.hdf import HDF
-from ConfigParser import SafeConfigParser
 from vfm_row2block import vfm_row2block
 from uniform_alt_2 import uniform_alt_2
 from regrid_lidar import regrid_lidar
@@ -47,6 +43,7 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         dataset = product['Feature_Classification_Flags'][first_lat:last_lat]
         latitude = product['Latitude'][first_lat:last_lat, 0]
         latitude = latitude[::prof_per_row]
+        print(np.shape(time))
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
 
         # mask all unknown values
@@ -79,13 +76,8 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
 
         vfm = unpacked_vfm[:, min_indx:max_indx]
 
-        max_alt = 20
+        max_alt = 30
         unif_alt = uniform_alt_2(max_alt, height)
-        print(np.shape(height))
-        print(np.shape(vfm))
-        print(np.shape(unif_alt))
-        print(latitude)
-
         regrid_vfm = regrid_lidar(height, vfm, unif_alt)
 
         # taken from backscatter plot
@@ -105,7 +97,6 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
             interpolation='nearest',
         )
 
-        #TODO add legend
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Latitude')
         fig.set_title("Vertical Feature Mask")
@@ -113,6 +104,8 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         cbar_label = 'Vertical Feature Mask Flags'
         cbar = pfig.colorbar(im)
         cbar.set_label(cbar_label)
+        cbar.ax.set_yticklabels(['Clear air', 'Cloud', 'Tropospheric\naerosol', 'Stratospheric\naerosol', 'Surface',
+                                 'Subsurface', 'Totally\nattenuated'])
 
         ax = fig.twiny()
         ax.set_xlabel('Time')
@@ -127,29 +120,3 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         title.set_position([title_xy[0], title_xy[1] * 1.07])
 
         return ax
-
-        """
-        fig.set_ylabel('Altitude (km)')
-        #         fig.set_xlabel('Time')
-        #         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
-        fig.set_xlabel('Latitude')
-        fig.set_title("Vertical Feature Mask")
-
-        cbar_label = 'Vertical Feature Mask'
-        cbar = pfig.colorbar(im)
-        cbar.set_label(cbar_label)
-
-        ax = fig.twiny()
-        ax.set_xlabel('Latitude')
-        ax.set_xlim(latitude2[0], latitude2[-1])
-        ax.set_xlabel('Time')
-        ax.set_xlim(time[0], time[-1])
-        ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
-
-        fig.set_zorder(0)
-        ax.set_zorder(1)
-
-        title = fig.set_title('Vertical Feature Mask')
-        title_xy = title.get_position()
-        title.set_position([title_xy[0], title_xy[1] * 1.07])
-        """

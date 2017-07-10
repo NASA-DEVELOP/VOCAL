@@ -60,17 +60,17 @@ def render_horiz_avg(filename, x_range, y_range, fig, pfig):
         for i in range(num_rows):
             unpacked_horiz_avg[:, prof_per_row * i:prof_per_row * (i + 1)] = vfm_row2block(horiz_avg[i, :])
 
-        # Determining if day or nighttime
-        # Doesn't do anything yet... reversing max and min breaks indices in unpacked_vfm
-        if latitude[0] > latitude[-1]:
-            # Nighttime
-            min_indx = first_lat
-            max_indx = last_lat
+            # Determining if day or nighttime
+            # Doesn't do anything yet... reversing max and min breaks indices in unpacked_vfm
+            if latitude[0] > latitude[-1]:
+                # Nighttime
+                min_indx = first_lat
+                max_indx = last_lat
 
-        else:
-            # Daytime
-            min_indx = first_lat
-            max_indx = last_lat
+            else:
+                # Daytime
+                min_indx = first_lat
+                max_indx = last_lat
 
         horiz_avg = unpacked_horiz_avg[:, min_indx:max_indx]
 
@@ -95,7 +95,6 @@ def render_horiz_avg(filename, x_range, y_range, fig, pfig):
             interpolation='nearest',
         )
 
-        #TODO add legend
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Latitude')
         fig.set_title("Horizontal Averaging")
@@ -103,10 +102,9 @@ def render_horiz_avg(filename, x_range, y_range, fig, pfig):
         cbar_label = 'Horizontal Averaging Flags'
         cbar = pfig.colorbar(im)
         cbar.set_label(cbar_label)
+        cbar.ax.set_yticklabels(['N/a', '1/3 km', '1 km', '5 km', '20 km', '80 km'])
 
         ax = fig.twiny()
-        ax.set_xlabel('Latitude')
-        ax.set_xlim(latitude[0], latitude[-1])
         ax.set_xlabel('Time')
         ax.set_xlim(time[0], time[-1])
         ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))

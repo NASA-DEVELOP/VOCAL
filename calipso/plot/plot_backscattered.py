@@ -36,9 +36,12 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
             raise IndexError
         if time[0] < minimum:
             raise IndexError
+
         height = product['metadata']['Lidar_Data_Altitudes']
         dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
         latitude = product['Latitude'][x1:x2, 0]
+
+        print(np.shape(time))
 
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
         dataset = np.ma.masked_equal(dataset, -9999)
@@ -76,7 +79,6 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         
         im = fig.imshow(
             data.T,
-            #extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
             extent=(latitude[0], latitude[-1], h1, h2),
             cmap=cm,
             aspect='auto',
@@ -84,7 +86,6 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
             interpolation='nearest',
         )
 
-        print "***im***", im, "*************"
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Latitude')
         fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
