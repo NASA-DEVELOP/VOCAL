@@ -16,7 +16,7 @@ class Plot(object):
     depolarized = 2
     vfm = 3
     iwp = 4
-    blend = 5
+    horiz_avg = 5
     parallel = 6
     colorratio = 8
     aerosol = 9
@@ -36,10 +36,10 @@ plot_type_enum = {'base_plot': Plot.baseplot,
                   'depolarized': Plot.depolarized,
                   'vfm': Plot.vfm,
                   'iwp': Plot.iwp,
-                  'blend': Plot.blend,
+                  'horiz_avg': Plot.horiz_avg,
                   'parallel': Plot.parallel}
 
-PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm','iwp','blend','parrallel]']
+PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm','iwp','horiz_avg','parrallel]']
 
 EFFECT_ON = {'relief': 'sunken'}
 EFFECT_OFF = {'relief': 'raised'}

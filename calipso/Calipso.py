@@ -36,6 +36,7 @@ from plot.plot_depolar_ratio import render_depolarized
 from plot.plot_backscattered import render_backscattered
 from plot.plot_vfm import render_vfm
 from plot.plot_iwp import render_iwp
+from plot.plot_horiz_avg import render_horiz_avg
 from polygon.manager import ShapeManager
 from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
@@ -75,17 +76,8 @@ class Calipso(object):
         self.shape_var = StringVar()
         self.__data_block = VocalDataBlock('Empty')
         self.__my_meta_data = MetaData()
-        self.__p_figs = [None]*10
-        self.__figs = [None]*10
-        self.__shapemanagers = [None]*10
-        self.__drawplot_canvases = [None]*10
+        self.plot_type = IntVar()
 
-        # Create a list to fill for the tab button menu
-        self.__tab_buttons = [None]*10
-        for i in range(len(self.__tab_buttons)):
-            self.__tab_buttons[i] = BooleanVar()
-
-        self.__plots = [None]*10
 
         self.width = self.__root.winfo_screenwidth()
         self.height = self.__root.winfo_screenheight()
@@ -109,58 +101,31 @@ class Calipso(object):
         bottom_paned_window = PanedWindow(sectioned_pane)
         sectioned_pane.add(bottom_paned_window)
 
-        # Create the ttk notebook object to hold the tabs.
-        self.__drawplot_notebook = ttk.Notebook(bottom_paned_window,
-                                                width=constants.WIDTH,
-                                                height=constants.HEIGHT)
-        self.__drawplot_notebook.bind('<<NotebookTabChanged>>', self.tab_change)
+        # The frame on which we will set out canvas for drawing etc.
+        self.__drawplot_frame = Frame(bottom_paned_window,
+                                      width=constants.WIDTH,
+                                      height=constants.HEIGHT)
 
         # Matplotlib backend objects
-        for i in range(0, 10):
-            self.__p_figs[i] = Figure(figsize=(11, 16))
-            self.__figs[i] = self.__p_figs[i].add_subplot(1, 1, 1)
-            self.__p_figs[i].set_tight_layout(True)
-            self.__plots[i] = Plot.baseplot
-
-        # The frames on which we will set out canvases for drawing
-        self.create_tab_frames()
-
-        #self.__drawplot_canvases[0] = FigureCanvasTkAgg(self.__p_figs[0], master=self.__baseplot_frame)
-        self.__drawplot_canvases[1] = FigureCanvasTkAgg(self.__p_figs[1], master=self.__backscattered532_frame)
-        self.__drawplot_canvases[2] = FigureCanvasTkAgg(self.__p_figs[2], master=self.__depolarized_frame)
-        self.__drawplot_canvases[3] = FigureCanvasTkAgg(self.__p_figs[3], master=self.__vfm_frame)
-        self.__drawplot_canvases[4] = FigureCanvasTkAgg(self.__p_figs[4], master=self.__ice_water_frame)
-        self.__drawplot_canvases[5] = FigureCanvasTkAgg(self.__p_figs[5], master=self.__blend_frame)
-        self.__drawplot_canvases[6] = FigureCanvasTkAgg(self.__p_figs[6], master=self.__horz_avg_frame)
-        self.__drawplot_canvases[7] = FigureCanvasTkAgg(self.__p_figs[7], master=self.__backscattered1064_frame)
-        self.__drawplot_canvases[8] = FigureCanvasTkAgg(self.__p_figs[8], master=self.__color_ratio_frame)
-        self.__drawplot_canvases[9] = FigureCanvasTkAgg(self.__p_figs[9], master=self.__aerosol_subtype_frame)
-
         self.__parent_fig = Figure(figsize=(16, 11))
         self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
         self.__parent_fig.set_tight_layout(True)
         self.__drawplot_canvas = FigureCanvasTkAgg(self.__parent_fig,
-                                                   master=self.__drawplot_notebook)
-
+                                                   master=self.__drawplot_frame)
         # Create ToolsWindow class and pass itself + the root
         logger.info('Creating ToolsWindow')
         self.__child = ToolsWindow(self.__drawplot_canvas, self, r)
         logger.info('Creating ShapeManager')
         self.__shapemanager = ShapeManager(self.__fig, self.__drawplot_canvas,
                                            self)
-        for i in range(1, 10):
-            self.__shapemanagers[i] = ShapeManager(self.__figs[i], self.__drawplot_canvases[i], self)
-
         logger.info('Binding matplotlib backend to canvas and frame')
         self.__toolbar = NavigationToolbar2CALIPSO(self,
                                                    self.__drawplot_canvas,
                                                    self.__child.coordinate_frame)
 
         # pack and display canvas
-        for i in range(1, 10):
-            self.__drawplot_canvases[i].get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
-
-        self.__drawplot_notebook.pack()
+        self.__drawplot_canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+        self.__drawplot_frame.pack()
         self.__root.protocol('WM_DELETE_WINDOW', self.close)
 
     def setup_menu(self):
@@ -195,41 +160,19 @@ class Calipso(object):
                                  command=Calipso.export_json_db)
         menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
 
-        # Tabs Menu
-
-        menu_tabs = Menu(menu_bar,tearoff=0)
-        self.__tab_buttons[0].set(True)
-        menu_tabs.add_checkbutton(label='Meta Data', variable=self.__tab_buttons[0],
-                                  command=lambda: self.toggle_tabs_menu_item(0, self.__baseplot_frame))
-        self.__tab_buttons[1].set(True)
-        menu_tabs.add_checkbutton(label='Backscatter 532', variable=self.__tab_buttons[1],
-                                  command=lambda: self.toggle_tabs_menu_item(1, self.__backscattered532_frame))
-        self.__tab_buttons[2].set(True)
-        menu_tabs.add_checkbutton(label='Depolarization', variable=self.__tab_buttons[2],
-                                  command=lambda: self.toggle_tabs_menu_item(2, self.__depolarized_frame))
-        self.__tab_buttons[3].set(True)
-        menu_tabs.add_checkbutton(label='Vertical Feature Mask', variable=self.__tab_buttons[3],
-                                  command=lambda: self.toggle_tabs_menu_item(3, self.__vfm_frame))
-        self.__tab_buttons[4].set(True)
-        menu_tabs.add_checkbutton(label='Ice Water Phase', variable=self.__tab_buttons[4],
-                                  command=lambda: self.toggle_tabs_menu_item(4, self.__ice_water_frame))
-        self.__tab_buttons[5].set(False)
-        menu_tabs.add_checkbutton(label='Blend', variable= self.__tab_buttons[5],
-                                  command=lambda: self.toggle_tabs_menu_item(5, self.__blend_frame))
-        self.__tab_buttons[6].set(False)
-        menu_tabs.add_checkbutton(label='Horizontal Averaging', variable= self.__tab_buttons[6],
-                                  command=lambda: self.toggle_tabs_menu_item(6, self.__horz_avg_frame))
-        self.__tab_buttons[7].set(False)
-        menu_tabs.add_checkbutton(label='Backscatter 1064', variable= self.__tab_buttons[7],
-                                  command=lambda: self.toggle_tabs_menu_item(7, self.__backscattered1064_frame))
-        self.__tab_buttons[8].set(False)
-        menu_tabs.add_checkbutton(label='Color Ratio', variable=self.__tab_buttons[8],
-                                  command=lambda: self.toggle_tabs_menu_item(8, self.__color_ratio_frame))
-        self.__tab_buttons[9].set(False)
-        menu_tabs.add_checkbutton(label='Aerosol Subtypes', variable=self.__tab_buttons[9],
-                                  command=lambda: self.toggle_tabs_menu_item(9, self.__aerosol_subtype_frame))
-
-        menu_bar.add_cascade(label='Tabs', menu=menu_tabs)
+        # View Menu
+        menu_views = Menu(menu_bar,tearoff=0)
+        menu_views.add_radiobutton(label='Backscatter 532', variable=self.plot_type,
+                                  value=Plot.backscattered)
+        menu_views.add_radiobutton(label='Depolarization', variable=self.plot_type,
+                                  value=Plot.depolarized)
+        menu_views.add_radiobutton(label='Vertical Feature Mask', variable=self.plot_type,
+                                  value=Plot.vfm)
+        menu_views.add_radiobutton(label='Ice Water Phase', variable=self.plot_type,
+                                  value=Plot.iwp)
+        menu_views.add_radiobutton(label='Horizontal Averaging', variable=self.plot_type,
+                                  value=Plot.horiz_avg)
+        menu_bar.add_cascade(label='Views', menu=menu_views)
 
         # Help Menu
         menu_help = Menu(menu_bar, tearoff=0)
@@ -443,52 +386,53 @@ class Calipso(object):
         self.__figs[in_i].get_xaxis().set_visible(False)
         self.__figs[in_i].imshow(im)
 
-    def set_plot(self, plot_type, in_i):
+    def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 20)):
         """
         Draws to the canvas according to the *plot_type* specified in the arguments. Accepts one of
         the attributes below
 
         .. py:attribute:: BASE_PLOT
-        .. py:attribute:: BACKSCATTE RED
+        .. py:attribute:: BACKSCATTERED
         .. py:attribute:: DEPOLARIZED
         .. py:attribute:: VFM
+        .. py:attribute:: IWP
+        .. py:attribute:: HORIZ_AVG
 
-        :param int plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
+        :param int plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM, IWP, HORIZ_AVG
         :param list xrange\_: accepts a range of time to plot
         :param list yrange: accepts a range of altitude to plot
         """
-
-        self.__data_block.set_working_meta(self.__my_meta_data)
-
+        self.xrange = xrange_
+        self.yrange = yrange
         if plot_type == Plot.baseplot:
             # Hide the axis and print an image
-            self.plot_baseplot(in_i)
+            self.__shapemanager.set_plot(Plot.baseplot)
 
+            im = mpimg.imread(PATH + '/dat/CALIPSO.jpg')
+            self.__fig.get_yaxis().set_visible(False)
+            self.__fig.get_xaxis().set_visible(False)
+            self.__fig.imshow(im)
         elif plot_type == Plot.backscattered:
             try:
-                logger.info('Setting plot to Backscattered 532 (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
-                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
-                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
-                if False: #constants.debug_switch = 99:
-                    logger.info('Using Original functions')
-                    self.__figs[in_i] = render_backscattered(self.__data_block.get_file_name(1),
-                                                             self.__my_meta_data.get_meta_x(2),
-                                                             self.__my_meta_data.get_meta_y(2),
-                                                             self.__figs[in_i],
-                                                             self.__p_figs[in_i])
-
+                # Clear any references to the current figure, construct a new figure
+                # and render the backscattered plot to it
+                logger.info('Setting plot to backscattered xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(1)
+                logger.info('Using file ' + self.__file)
+                if self.__shapemanager.get_hdf() != '' and \
+                                self.__file != self.__shapemanager.get_hdf():
+                    self.__shapemanager.reset(all_=True)
                 else:
-                    logger.info('Using VocalDataBlock')
-                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
-                    if data_block_iterator == -99:
-                        self.plot_not_available(in_i, plot_type)
-                    else:
-                        self.load_figure_attributes(data_block_iterator, in_i)
-
-                self.__shapemanagers[in_i].set_current(Plot.backscattered, self.__figs[in_i])
-                self.__drawplot_canvases[in_i].show()
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                self.__fig = render_backscattered(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.backscattered, self.__fig)
+                self.__drawplot_canvas.show()
                 self.__toolbar.update()
-                self.__plots[in_i] = Plot.backscattered
+                self.plot = Plot.backscattered
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', 'No File Exists')
@@ -499,64 +443,48 @@ class Calipso(object):
             try:
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
-                logger.info('Setting plot to Depolarization (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
-                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
-                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
-
-                if False: #constants.debug_switch = 99:
-                    logger.info('Using Original functions')
-                    render_depolarized(self.__data_block.get_file_name(1),
-                                       self.__my_meta_data.get_meta_x(2),
-                                       self.__my_meta_data.get_meta_y(2),
-                                       self.__figs[in_i],
-                                       self.__p_figs[in_i])
-
+                logger.info('Setting plot to depolarized xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(1)
+                logger.info('Using file ' + self.__file)
+                if self.__shapemanager.get_hdf() != '' and \
+                                self.__file != self.__shapemanager.get_hdf():
+                    self.__shapemanager.reset(all_=True)
                 else:
-                    logger.info('Using VocalDataBlock')
-                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
-                    if data_block_iterator == -99:
-                        self.plot_not_available(in_i, plot_type)
-                    else:
-                        self.load_figure_attributes(data_block_iterator, in_i)
-
-                self.__shapemanagers[in_i].set_current(Plot.depolarized, self.__figs[in_i])
-                self.__drawplot_canvases[in_i].show()
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                render_depolarized(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.depolarized, self.__fig)
+                self.__drawplot_canvas.show()
                 self.__toolbar.update()
-                self.__plots[in_i] = Plot.depolarized
+                self.plot = Plot.depolarized
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
 
         elif plot_type == Plot.vfm:
             try:
-
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
-                logger.info('Setting plot to vfm (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
-                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
-                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
-
-                if False:#constants.debug_switch = 99:
-                    logger.info('Using Original functions')
-                    render_vfm(self.__data_block.get_file_name(2),
-                               self.__my_meta_data.get_meta_x(2),
-                               self.__my_meta_data.get_meta_y(2),
-                               self.__figs[in_i],
-                               self.__p_figs[in_i])
-
-
+                logger.info('Setting plot to vfm xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(2)
+                logger.info('Using file ' + self.__file)
+                if self.__shapemanager.get_hdf() != '' and \
+                                self.__file != self.__shapemanager.get_hdf():
+                    self.__shapemanager.reset(all_=True)
                 else:
-                    logger.info('Using VocalDataBlock')
-                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
-                    if data_block_iterator == -99:
-                        self.plot_not_available(in_i, plot_type)
-                    else:
-                        self.load_figure_attributes(data_block_iterator,in_i)
-
-                self.__shapemanagers[in_i].set_current(Plot.vfm, self.__figs[in_i])
-                self.__drawplot_canvases[in_i].show()
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                render_vfm(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.vfm, self.__fig)
+                self.__drawplot_canvas.show()
                 self.__toolbar.update()
-                self.__plots[in_i] = Plot.vfm
+                self.plot = Plot.vfm
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
@@ -565,97 +493,54 @@ class Calipso(object):
             try:
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
-                logger.info('Setting plot to iwp (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
-                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
-                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
-
-                if False:#constants.debug_switch != 99:
-                    logger.info('Using Original functions')
-                    render_iwp(self.__data_block.get_file_name(2),
-                               self.__my_meta_data.get_meta_x(1),
-                               self.__my_meta_data.get_meta_y(2), self.__figs[in_i],
-                               self.__p_figs[in_i])
-
+                logger.info('Setting plot to iwp xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(2)
+                logger.info('Using file ' + self.__file)
+                if self.__shapemanager.get_hdf() != '' and \
+                                self.__file != self.__shapemanager.get_hdf():
+                    self.__shapemanager.reset(all_=True)
                 else:
-                    logger.info('Using VocalDataBlock')
-                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
-                    if data_block_iterator == -99:
-                        self.plot_not_available(in_i, plot_type)
-                    else:
-                        self.load_figure_attributes(data_block_iterator, in_i)
-
-                self.__shapemanagers[in_i].set_current(Plot.iwp, self.__fig)
-                self.__drawplot_canvases[in_i].show()
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                render_iwp(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.iwp, self.__fig)
+                self.__drawplot_canvas.show()
                 self.__toolbar.update()
-                self.__plots[in_i] = Plot.iwp
+                self.plot = Plot.iwp
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
-            """
-        elif plot_type == Plot.blend:
-            try:
 
+        elif plot_type == Plot.horiz_avg:
+            try:
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
-                logger.info('Setting plot to Blend (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
-                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
-                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
-
-                if constants.debug_switch != 99:
-                    logger.info('Using VocalDataBlock')
-                    logger.warning('Blend not implemented in original version of vocal')
-                    self.plot_not_available(in_i, plot_type)
-
-                    '''
-                    self.__data_block.set_working_meta(self.__my_meta_data)
-                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
-                    self.load_figure_attributes(data_block_iterator, in_i)
-                    '''
+                logger.info('Setting plot to horiz_avg xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(2)
+                logger.info('Using file ' + self.__file)
+                if self.__shapemanager.get_hdf() != '' and \
+                                self.__file != self.__shapemanager.get_hdf():
+                    self.__shapemanager.reset(all_=True)
                 else:
-                    logger.info('Using Original functions')
-                    logger.warning('Blend not implemented in original version of vocal')
-                    self.plot_not_available(in_i, plot_type)
-
-            except IOError:
-                logger.error('IOError, no file exists')
-                tkMessageBox.showerror('File Not Found', "No File Exists")
-
-        elif plot_type == Plot.__horz_avg:
-            try:
-
-                # Clear any references to the current figure, construct a new figure
-                # and render the depolarized plot to it
-                logger.info('Setting plot to Horizontal Averaging (' + str(self.__my_meta_data.get_meta_type()) + ') ' +
-                            'x range: ' + str(self.__my_meta_data.get_meta_x(2)) +
-                            ' y range: ' + str(self.__my_meta_data.get_meta_y(2)))
-
-                if constants.debug_switch != 99:
-                    logger.info('Using VocalDataBlock')
-                    self.plot_not_available(in_i, plot_type)
-                    logger.warning('Horizontal Averaging not implemented...yet')
-                    '''
-                    self.__data_block.set_working_meta(self.__my_meta_data)
-                    data_block_iterator = self.__data_block.get_figure(self.__my_meta_data)
-                    self.load_figure_attributes(data_block_iterator, in_i)
-                    '''
-                else:
-                    logger.info('Using Original functions')
-                    self.plot_not_available(in_i, plot_type)
-                    logger.warning('Horizontal Averaging not implemented...yet')
-
-                self.__shapemanagers[in_i].set_current(Plot.horz_avg, self.__fig[in_i])
-                self.__drawplot_canvases[in_i].show()
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                render_horiz_avg(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.horiz_avg, self.__fig)
+                self.__drawplot_canvas.show()
                 self.__toolbar.update()
-                self.__plots[in_i] = Plot.horz_avg
-
+                self.plot = Plot.horiz_avg
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
-            """
+
         else:
             logger.warning('Plot Type not yet supported')
-            self.plot_not_available(in_i, plot_type)
-
 
     def pan(self, event):
         """
@@ -927,268 +812,6 @@ class Calipso(object):
     ############################################################
     def goToMain(self):
         self.__drawplot_notebook.select(self.__backscattered532_frame)
-
-    def tab_change(self, event):
-        """
-        Detects when a tab changes and performs some actions to move the active canvas
-        """
-        new_tab = self.__drawplot_notebook.index(self.__drawplot_notebook.select())
-        new_canvas = self.__drawplot_canvases[new_tab]
-        logger.info('Tab changed to ' + str(new_tab))
-        if new_tab != 0:
-            #self.__drawplot_canvas = new_canvas
-            self.__child.rebind_tools_to_canvas(new_canvas)
-            self.__shapemanager = ShapeManager(self.__fig, new_canvas, self)
-            self.__toolbar = NavigationToolbar2CALIPSO(self, new_canvas,
-                                                       self.__child.coordinate_frame)
-        else:
-            logger.info('Can not rebind to 0th tab')
-
-
-    def loadTabs(self, in_xrange=[0,15000], in_yrange=[0,20]):
-        print('xrange = ' + str(in_xrange) + ' yrange = ' + str(in_yrange))
-        self.__my_meta_data.set_meta_x(in_xrange)
-        self.__my_meta_data.set_meta_y(in_yrange)
-
-        for i in range(1,10):
-            self.__shapemanagers[i].set_hdf(self.__file)
-            self.__p_figs[i].clear()
-            self.__figs[i] = self.__p_figs[i].add_subplot(1, 1, 1)
-
-        if self.__tab_buttons[0].get():
-            self.set_plot(Plot.baseplot, 0)
-
-        if self.__tab_buttons[1].get():
-            self.__my_meta_data.set_meta_type(1)
-            self.set_plot(Plot.backscattered, 1)
-
-        if self.__tab_buttons[2].get():
-            self.__my_meta_data.set_meta_type(2)
-            self.set_plot(Plot.depolarized, 2)
-
-        if self.__tab_buttons[3].get():
-            self.__my_meta_data.set_meta_type(3)
-            self.set_plot(Plot.vfm, 3)
-
-        if self.__tab_buttons[4].get():
-            self.__my_meta_data.set_meta_type(4)
-            self.set_plot(Plot.iwp, 4)
-
-        if self.__tab_buttons[5].get():
-            self.__my_meta_data._type = 5
-            self.set_plot(Plot.blend, 5)
-
-        if self.__tab_buttons[6].get():
-            self.__my_meta_data.set_meta_type(6)
-            self.set_plot(Plot.__horz_avg, 6)
-
-        if self.__tab_buttons[7].get():
-            self.__my_meta_data._type = 1
-            self.__my_meta_data._wavelength = '1024'
-            self.set_plot(Plot.backscattered, 7)
-
-        if self.__tab_buttons[8].get():
-            self.__my_meta_data._type = 8
-            self.set_plot(Plot.colorratio, 8)
-
-        if self.__tab_buttons[9].get():
-            self.__my_meta_data._type = 9
-            self.set_plot(Plot.aerosol, 9)
-
-    def toggle_tabs_menu_item(self, btn_iterator, frame):
-
-        if self.__tab_buttons[btn_iterator].get():
-            self.__drawplot_notebook.add(frame)
-        else:
-            self.__drawplot_notebook.hide(frame)
-
-    def create_tab_frames(self):
-
-        self.__tab_buttons[0].set(True) # Meta Tab
-        self.__tab_buttons[1].set(True) # Backscatter532
-        self.__tab_buttons[2].set(True) # Depolarization
-        self.__tab_buttons[3].set(True) # vfm
-        self.__tab_buttons[4].set(True) # iwp
-        self.__tab_buttons[5].set(False) # placeholder
-        self.__tab_buttons[6].set(False) # placeholder
-        self.__tab_buttons[7].set(False) # placeholder
-        self.__tab_buttons[8].set(False) # placeholder
-        self.__tab_buttons[9].set(False) # placeholder
-
-        self.__baseplot_frame = Frame(self.__drawplot_notebook,
-                                              width=constants.WIDTH,
-                                              height=constants.HEIGHT)
-
-        self.__backscattered532_frame = Frame(self.__drawplot_notebook,
-                                              width=constants.WIDTH,
-                                              height=constants.HEIGHT)
-
-        self.__depolarized_frame = Frame(self.__drawplot_notebook,
-                                         width=constants.WIDTH,
-                                         height=constants.HEIGHT)
-
-        self.__vfm_frame = Frame(self.__drawplot_notebook,
-                                 width=constants.WIDTH,
-                                 height=constants.HEIGHT)
-
-        self.__ice_water_frame = Frame(self.__drawplot_notebook,
-                                       width=constants.WIDTH,
-                                       height=constants.HEIGHT)
-
-        self.__blend_frame = Frame(self.__drawplot_notebook,
-                                   width=constants.WIDTH,
-                                   height=constants.HEIGHT)
-
-        self.__horz_avg_frame = Frame(self.__drawplot_notebook,
-                                      width=constants.WIDTH,
-                                      height=constants.HEIGHT)
-
-        self.__backscattered1064_frame = Frame(self.__drawplot_notebook,
-                                           width=constants.WIDTH,
-                                           height=constants.HEIGHT)
-
-        self.__color_ratio_frame = Frame(self.__drawplot_notebook,
-                                     width=constants.WIDTH,
-                                     height=constants.HEIGHT)
-
-        self.__aerosol_subtype_frame = Frame(self.__drawplot_notebook,
-                                         width=constants.WIDTH,
-                                         height=constants.HEIGHT)
-
-        if self.__tab_buttons[0].get():
-            self.__drawplot_notebook.add(self.__baseplot_frame, text='Meta Data')
-        if self.__tab_buttons[1].get():
-            self.__drawplot_notebook.add(self.__backscattered532_frame, text='Backscattered 532')
-        if self.__tab_buttons[2].get():
-            self.__drawplot_notebook.add(self.__depolarized_frame, text='Depolarized')
-        if self.__tab_buttons[3].get():
-            self.__drawplot_notebook.add(self.__vfm_frame, text='Vertical Feature Mask')
-        if self.__tab_buttons[4].get():
-            self.__drawplot_notebook.add(self.__ice_water_frame, text='Ice/Water Phase')
-        if self.__tab_buttons[5].get():
-            self.__drawplot_notebook.add(self.__blend_frame, text='Blend')
-        if self.__tab_buttons[6].get():
-            self.__drawplot_notebook.add(self.__horz_avg_frame, text='Horizontal Averaging')
-        if self.__tab_buttons[7].get():
-            self.__drawplot_notebook.add(self.__backscattered1064_frame, text='Backscattered 1064')
-        if self.__tab_buttons[8].get():
-            self.__drawplot_notebook.add(self.__color_ratio_frame, text='Color Ratio')
-        if self.__tab_buttons[9].get():
-            self.__drawplot_notebook.add(self.__aerosol_subtype_frame, text='Aerosol Subtypes')
-
-    def initiate_figures_and_canvases(self):
-
-        for i in range(1,10):
-            self.__p_figs[i] =  Figure(figsize=(11, 16))
-            self.__figs[i] = self.__parent_fig.add_subplot(1, 1, 1)
-            self.__p_figs[i].set_tight_layout(True)
-
-
-        #self.__drawplot_canvases[0] = FigureCanvasTkAgg(self.__p_figs[0], master=self.__baseplot_frame)
-        self.__drawplot_canvases[1] = FigureCanvasTkAgg(self.__p_figs[1], master=self.__backscattered532_frame)
-        self.__drawplot_canvases[2] = FigureCanvasTkAgg(self.__p_figs[2], master=self.__depolarized_frame)
-        self.__drawplot_canvases[3] = FigureCanvasTkAgg(self.__p_figs[3], master=self.__vfm_frame)
-        self.__drawplot_canvases[4] = FigureCanvasTkAgg(self.__p_figs[4], master=self.__ice_water_frame)
-        self.__drawplot_canvases[5] = FigureCanvasTkAgg(self.__p_figs[5], master=self.__blend_frame)
-        self.__drawplot_canvases[6] = FigureCanvasTkAgg(self.__p_figs[6], master=self.__horz_avg_frame)
-        self.__drawplot_canvases[7] = FigureCanvasTkAgg(self.__p_figs[7], master=self.__backscattered1064_frame)
-        self.__drawplot_canvases[8] = FigureCanvasTkAgg(self.__p_figs[8], master=self.__color_ratio_frame)
-        self.__drawplot_canvases[9] = FigureCanvasTkAgg(self.__p_figs[9], master=self.__aerosol_subtype_frame)
-
-    def load_figure_attributes(self, ds_iterator, shape_iterator):
-
-        colormap = ""
-
-        x0 = self.__my_meta_data.get_meta_x(0)
-        x1 = self.__my_meta_data.get_meta_x(1)
-        h0 = self.__my_meta_data.get_meta_y(0)
-        h1 = self.__my_meta_data.get_meta_y(1)
-
-        in_type = self.__data_block.get_data_set_type(ds_iterator)
-        if in_type == 1:
-            colormap = 'dat/calipso-backscatter.cmap'
-        elif in_type == 2:
-            colormap = 'dat/calipso-depolar.cmap'
-        elif in_type == 3:
-            colormap = 'dat/calipso-vfm.cmap'
-        elif in_type == 4:
-            colormap = 'dat/calipso-icewaterphase.cmap'
-        elif in_type == 5:
-            colormap = 'dat/calipso-undefined.cmap'
-        elif in_type == 6:
-            colormap = 'dat/calipso-undefined.cmap'
-        elif in_type == 7:
-            colormap = 'dat/calipso-undefined.cmap'
-        elif in_type == 8:
-            colormap = 'dat/calipso-undefined.cmap'
-        elif in_type == 9:
-            colormap = 'dat/calipso-undefined.cmap'
-        elif in_type == 10:
-            colormap = 'dat/calipso-undefined.cmap'
-        else:
-            colormap = 'dat/calipso-undefined.cmap'
-            # index error unknown colormap###
-
-        cmap = ccplot.utils.cmap(colormap)
-        cm = mpl.colors.ListedColormap(cmap['colors'] / 255.0)
-        cm.set_under(cmap['under'] / 255.0)
-        cm.set_over(cmap['over'] / 255.0)
-        cm.set_bad(cmap['bad'] / 255.0)
-        norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
-
-        if in_type == 1 or in_type == 7:
-            data = self.__data_block.get_data_set(ds_iterator, 'transpose')
-        else:
-            data = self.__data_block.get_data_set(ds_iterator)
-
-        if in_type == 3 or in_type == 4:
-            #alternate_latitude = self.__data_block.get_alt_latitude(ds_iterator)
-            alternate_latitude = [self.__data_block.get_latitude(x0),
-                                  self.__data_block.get_latitude(x1)]
-        else:
-            alternate_latitude = [self.__data_block.get_latitude(x0),
-                                  self.__data_block.get_latitude(x1)]
-            print('latitudes: ' + str(alternate_latitude))
-
-        if constants.debug_switch > 0:
-            logger.info("***** Preparing 'fig_imshow' *****")
-            self.__data_block.print_data_set_info(ds_iterator)
-
-        logger.info("***** Launching 'fig_imshow' *****")
-
-        im = self.__figs[shape_iterator].imshow(
-            data,
-            extent=(alternate_latitude[0], alternate_latitude[1], h0, h1),
-            cmap=cm,
-            aspect='auto',
-            norm=norm,
-            interpolation='nearest',
-        )
-
-        print(self.__data_block.get_data_set_title(ds_iterator))
-        print(self.__data_block.get_data_set_cbar_label(ds_iterator))
-
-        self.__figs[shape_iterator].set_ylabel(self.__data_block.get_data_set_y_label(ds_iterator))
-        self.__figs[shape_iterator].set_xlabel(self.__data_block.get_data_set_x_label(ds_iterator))
-        title = self.__figs[shape_iterator].set_title(self.__data_block.get_data_set_title(ds_iterator))
-
-        cbar = self.__p_figs[shape_iterator].colorbar(im)
-        cbar.set_label(self.__data_block.get_data_set_cbar_label(ds_iterator))
-
-        ax = self.__figs[shape_iterator].twiny()
-        ax.set_xlabel(self.__data_block.get_data_set_x_label2(ds_iterator))
-        ax.set_xlim(self.__data_block.get_time(x0), \
-            self.__data_block.get_time(x1))
-        ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
-        ax.xaxis_date()
-
-        self.__figs[shape_iterator].set_zorder(0)
-        ax.set_zorder(1)
-
-        title_xy = title.get_position()
-        title.set_position([title_xy[0], title_xy[1] * 1.07])
-
-        self.__figs[shape_iterator] = ax
 
 def main():
     logger.info("Debug Level = %s" % str(constants.debug_switch))

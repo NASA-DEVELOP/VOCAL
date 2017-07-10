@@ -1,29 +1,24 @@
-# Andrea Martinez
+# Collin Pampalone
 # Brian Magill
-# 8/11/2014
+# 7/10/2017
 #
 import ccplot.utils
 import numpy as np
 import matplotlib as mpl
-import matplotlib.pyplot as plt
-from ccplot.algorithms import interp2d_12
-from findLatIndex import findLatIndex
 from ccplot.hdf import HDF
-from ConfigParser import SafeConfigParser
 from vfm_row2block import vfm_row2block
 from uniform_alt_2 import uniform_alt_2
 from regrid_lidar import regrid_lidar
-from interpret_vfm_type import extract_type
+from interpret_vfm_type import extract_horiz_avg
 
-
-def render_vfm(filename, x_range, y_range, fig, pfig):
+def render_horiz_avg(filename, x_range, y_range, fig, pfig):
     # constant variables
     alt_len = 545
     first_alt = y_range[0]
     last_alt = y_range[1]
     first_lat = x_range[0]
     last_lat = x_range[1]
-    colormap = 'dat/calipso-vfm.cmap'
+    colormap = 'dat/calipso-horizontalaveraging.cmap'
 
     # 15 profiles are in 1 record of VFM data
     # At the highest altitudes 5 profiles are averaged
@@ -56,37 +51,32 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         num_rows = dataset.shape[0]
 
         # not sure why they are doing prof_per_row here, and the purpose of this
-        unpacked_vfm = np.zeros((alt_len, prof_per_row * num_rows), np.uint8)
+        unpacked_horiz_avg = np.zeros((alt_len, prof_per_row * num_rows), np.uint8)
 
         # assigning the values from 0-7 to subtype
-        vfm = extract_type(dataset)
+        horiz_avg = extract_horiz_avg(dataset)
 
         # changing the number of rows so that it can be plotted
         for i in range(num_rows):
-            unpacked_vfm[:, prof_per_row * i:prof_per_row * (i + 1)] = vfm_row2block(vfm[i, :])
+            unpacked_horiz_avg[:, prof_per_row * i:prof_per_row * (i + 1)] = vfm_row2block(horiz_avg[i, :])
 
-            # Determining if day or nighttime
-            # Doesn't do anything yet... reversing max and min breaks indices in unpacked_vfm
-            if latitude[0] >latitude[-1]:
-                # Nighttime
-                min_indx = first_lat
-                max_indx = last_lat
+        # Determining if day or nighttime
+        # Doesn't do anything yet... reversing max and min breaks indices in unpacked_vfm
+        if latitude[0] > latitude[-1]:
+            # Nighttime
+            min_indx = first_lat
+            max_indx = last_lat
 
-            else:
-                # Daytime
-                min_indx = first_lat
-                max_indx = last_lat
+        else:
+            # Daytime
+            min_indx = first_lat
+            max_indx = last_lat
 
-        vfm = unpacked_vfm[:, min_indx:max_indx]
+        horiz_avg = unpacked_horiz_avg[:, min_indx:max_indx]
 
         max_alt = 20
         unif_alt = uniform_alt_2(max_alt, height)
-        print(np.shape(height))
-        print(np.shape(vfm))
-        print(np.shape(unif_alt))
-        print(latitude)
-
-        regrid_vfm = regrid_lidar(height, vfm, unif_alt)
+        regrid_horiz_avg = regrid_lidar(height, horiz_avg, unif_alt)
 
         # taken from backscatter plot
         cmap = ccplot.utils.cmap(colormap)
@@ -97,7 +87,7 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
 
         im = fig.imshow(
-            regrid_vfm,
+            regrid_horiz_avg,
             extent=(latitude[0], latitude[-1], first_alt, last_alt),
             cmap=cm,
             aspect='auto',
@@ -108,40 +98,15 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         #TODO add legend
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Latitude')
-        fig.set_title("Vertical Feature Mask")
+        fig.set_title("Horizontal Averaging")
 
-        cbar_label = 'Vertical Feature Mask Flags'
-        cbar = pfig.colorbar(im)
-        cbar.set_label(cbar_label)
-
-        ax = fig.twiny()
-        ax.set_xlabel('Time')
-        ax.set_xlim(time[0], time[-1])
-        ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
-
-        fig.set_zorder(0)
-        ax.set_zorder(1)
-
-        title = fig.set_title('Vertical Feature Mask')
-        title_xy = title.get_position()
-        title.set_position([title_xy[0], title_xy[1] * 1.07])
-
-        return ax
-
-        """
-        fig.set_ylabel('Altitude (km)')
-        #         fig.set_xlabel('Time')
-        #         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
-        fig.set_xlabel('Latitude')
-        fig.set_title("Vertical Feature Mask")
-
-        cbar_label = 'Vertical Feature Mask'
+        cbar_label = 'Horizontal Averaging Flags'
         cbar = pfig.colorbar(im)
         cbar.set_label(cbar_label)
 
         ax = fig.twiny()
         ax.set_xlabel('Latitude')
-        ax.set_xlim(latitude2[0], latitude2[-1])
+        ax.set_xlim(latitude[0], latitude[-1])
         ax.set_xlabel('Time')
         ax.set_xlim(time[0], time[-1])
         ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
@@ -149,7 +114,8 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         fig.set_zorder(0)
         ax.set_zorder(1)
 
-        title = fig.set_title('Vertical Feature Mask')
+        title = fig.set_title('Horizontal Averaging')
         title_xy = title.get_position()
         title.set_position([title_xy[0], title_xy[1] * 1.07])
-        """
+
+        return ax

@@ -5,11 +5,7 @@
 import ccplot.utils
 import numpy as np
 import matplotlib as mpl
-import matplotlib.pyplot as plt
-from ccplot.algorithms import interp2d_12
-from findLatIndex import findLatIndex
 from ccplot.hdf import HDF
-from ConfigParser import SafeConfigParser
 from vfm_row2block import vfm_row2block
 from uniform_alt_2 import uniform_alt_2
 from regrid_lidar import regrid_lidar
@@ -44,9 +40,8 @@ def render_iwp(filename, x_range, y_range, fig, pfig):
 
         height = product['metadata']['Lidar_Data_Altitudes'][33:-5:]
         dataset = product['Feature_Classification_Flags'][first_lat:last_lat]
-        latitude1 = product['Latitude'][first_lat:last_lat, 0]
-        latitude2 = latitude1[::prof_per_row]
-        latitude3 = product['Latitude'][::]
+        latitude = product['Latitude'][first_lat:last_lat, 0]
+        latitude = latitude[::prof_per_row]
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
 
         # mask all unknown values
@@ -56,33 +51,32 @@ def render_iwp(filename, x_range, y_range, fig, pfig):
         num_rows = dataset.shape[0]
 
         # not sure why they are doing prof_per_row here, and the purpose of this
-        unpacked_vfm = np.zeros((alt_len, prof_per_row * num_rows), np.uint8)
+        unpacked_iwp = np.zeros((alt_len, prof_per_row * num_rows), np.uint8)
 
         # assigning the values from 0-7 to subtype
-        vfm = extract_water_phase(dataset)
+        iwp = extract_water_phase(dataset)
 
-        # chaning the number of rows so that it can be plotted
+        # changing the number of rows so that it can be plotted
         for i in range(num_rows):
-            unpacked_vfm[:, prof_per_row * i:prof_per_row * (i + 1)] = vfm_row2block(vfm[i, :])
-
-        start_lat = -30
-        end_lat = -80
+            unpacked_iwp[:, prof_per_row * i:prof_per_row * (i + 1)] = vfm_row2block(iwp[i, :])
 
         # Determining if day or nighttime
-        if latitude3[0] > latitude3[-1]:
+        # Doesn't do anything yet... reversing max and min breaks indices in unpacked_vfm
+        if latitude[0] > latitude[-1]:
             # Nighttime
-            min_indx = findLatIndex(start_lat, latitude3)
-            max_indx = findLatIndex(end_lat, latitude3)
+            min_indx = first_lat
+            max_indx = last_lat
+
         else:
             # Daytime
-            min_indx = findLatIndex(end_lat, latitude3)
-            max_indx = findLatIndex(start_lat, latitude3)
+            min_indx = first_lat
+            max_indx = last_lat
 
-        vfm = unpacked_vfm[:, min_indx * prof_per_row:max_indx * prof_per_row]
+        iwp = unpacked_iwp[:, min_indx:max_indx]
 
         max_alt = 20
         unif_alt = uniform_alt_2(max_alt, height)
-        regrid_vfm = regrid_lidar(height, vfm, unif_alt)
+        regrid_iwp = regrid_lidar(height, iwp, unif_alt)
 
         # taken from backscatter plot
         cmap = ccplot.utils.cmap(colormap)
@@ -93,18 +87,16 @@ def render_iwp(filename, x_range, y_range, fig, pfig):
         norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
 
         im = fig.imshow(
-            regrid_vfm,
-            #             extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
-            extent=(latitude2[0], latitude2[-1], first_alt, last_alt),
+            regrid_iwp,
+            extent=(latitude[0], latitude[-1], first_alt, last_alt),
             cmap=cm,
             aspect='auto',
             norm=norm,
             interpolation='nearest',
         )
 
+        #TODO add legend
         fig.set_ylabel('Altitude (km)')
-        #         fig.set_xlabel('Time')
-        #         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
         fig.set_xlabel('Latitude')
         fig.set_title("Ice Water Phase")
 
@@ -114,7 +106,7 @@ def render_iwp(filename, x_range, y_range, fig, pfig):
 
         ax = fig.twiny()
         ax.set_xlabel('Latitude')
-        ax.set_xlim(latitude2[0], latitude2[-1])
+        ax.set_xlim(latitude[0], latitude[-1])
         ax.set_xlabel('Time')
         ax.set_xlim(time[0], time[-1])
         ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
@@ -125,3 +117,5 @@ def render_iwp(filename, x_range, y_range, fig, pfig):
         title = fig.set_title('Ice Water Phase Shorter Name')
         title_xy = title.get_position()
         title.set_position([title_xy[0], title_xy[1] * 1.07])
+
+        return ax

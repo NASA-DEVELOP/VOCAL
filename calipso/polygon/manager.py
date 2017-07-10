@@ -40,7 +40,8 @@ class ShapeManager(object):
                              [Shape(canvas)],           # backscattered
                              [Shape(canvas)],           # depolarized
                              [Shape(canvas)],			# vfm
-                             [Shape(canvas)]]			# iwp
+                             [Shape(canvas)],			# iwp
+                             [Shape(canvas)]]           # horiz_avg
 
         logger.info("Instantiating Exporting Reader")
         self.__current_list = None          # aliases shape_list's current plot
@@ -343,7 +344,8 @@ class ShapeManager(object):
                                  [Shape(self.__canvas)],           # backscattered
                                  [Shape(self.__canvas)],           # depolarized
                                  [Shape(self.__canvas)],           # vfm
-                                 [Shape(self.__canvas)]]           # iwp
+                                 [Shape(self.__canvas)],           # iwp
+                                 [Shape(self.__canvas)]]           # horiz_avg
         else:
             logger.info('Resetting ShapeManager')
             for shape in self.__current_list:
@@ -592,19 +594,7 @@ class ShapeManager(object):
             logger.info('set_plot to IWP')
             self.__current_list = self.__shape_list[Plot.iwp]
             self.__current_plot = Plot.iwp
-        elif plot == Plot.blend:
-            logger.info('set_plot to blend')
-            self.__current_list = self.__shape_list[Plot.blend]
-            self.__current_plot = Plot.blend
-        elif plot == Plot.parallel:
-            logger.info('set_plot to parallel')
-            self.__current_list = self.__shape_list[Plot.horz_avg]
-            self.__current_plot = Plot.horz_avg
-        elif plot == Plot.colorratio:
-            logger.info('set_plot to colorratio')
-            self.__current_list = self.__shape_list[Plot.depolarized]
-            self.__current_plot = Plot.depolarized
-        elif plot == Plot.aerosol:
-            logger.info('set_plot to aerosol')
-            self.__current_list = self.__shape_list[Plot.depolarized]
-            self.__current_plot = Plot.depolarized
+        elif plot == Plot.horiz_avg:
+            logger.info('set_plot to HORIZ_AVG')
+            self.__current_list = self.__shape_list[Plot.horiz_avg]
+            self.__current_plot = Plot.horiz_avg

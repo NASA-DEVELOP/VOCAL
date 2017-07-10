@@ -1,0 +1,26 @@
+CRITICAL
+
+None
+---------------------------------------------------------------------------------------------------
+GENERAL
+
+There's a divide by 0 error that should be resolved in VocalDataBlock.depolarization
+	- Depolarization displays low resolution, noticeable when viewing < 15000 profiles (DOES IT?)
+
+Need to add legend to VFM and IWP
+
+Latitude labels on L2 (L1?) plots seem to not show the correct range
+
+Shapes on L2 plots seem to be created but not displayed
+---------------------------------------------------------------------------------------------------
+ENHANCEMENTS
+
+Load more than 15000 profiles at once
+
+Could simplify the data clock by creating an abstract class Plots and create a few classes
+	PlotBackscatter(Plots), PlotVfm(Plots), etc. with all the plotting methods and displaying 
+	methods inside of them
+
+Make the plot selection menu more intuitive
+
+Clear out Vocal data block unnecessary code

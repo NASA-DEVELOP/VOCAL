@@ -1,0 +1,14 @@
+Render Flow:
+
+ToolsWindow
+	render(self)
+		
+Calipso
+	LoadTabs
+
+Calipso
+	set_plot(Plot.baseplot, Plot.backscattered, Plot.depolarized, Plot. vfm, Plot.iwp)
+
+VocalDataBlock
+	get_figure(Plot.baseplot, Plot.backscattered, Plot.depolarized, Plot. vfm, Plot.iwp)
+
