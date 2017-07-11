@@ -31,7 +31,6 @@ from importdialog import ImportDialog
 from log.log import logger, error_check
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-import matplotlib as mpl
 from plot.plot_depolar_ratio import render_depolarized
 from plot.plot_backscattered import render_backscattered
 from plot.plot_vfm import render_vfm
@@ -48,8 +47,6 @@ from PIL import ImageTk
 from tools.tooltip import create_tool_tip
 import matplotlib.image as mpimg
 
-import numpy as np
-
 class Calipso(object):
     """
     Main class of the application, handles all GUI related events as well as
@@ -63,19 +60,16 @@ class Calipso(object):
         self.load_img = ImageTk.PhotoImage(file=PATH + '/ico/load.png')
         self.save_img = ImageTk.PhotoImage(file=PATH + '/ico/save.png')
         self.dot_shp_img = ImageTk.PhotoImage(file=PATH + '/ico/save.png')
-        #self.dot_shp_img = ImageTk.PhotoImage(file=PATH + '/ico/dot_shp.png')
         self.__root = r  # Root of program
         self.__file = ''  # Current file in use
         self.xrange = self.yrange = (0, 100)  # X and Y range for scrolling plot
         self.panx = self.pany = 0  # Pan values for shifting map
         self.plot = Plot.baseplot  # Current selected plot
-        #self.plot2 = Plot.baseplot  # Current selected plot
         self.__label_file_dialog = None
         self.new_file_flag = False
         self.option_menu = None
         self.shape_var = StringVar()
         self.__data_block = VocalDataBlock('Empty')
-        self.__my_meta_data = MetaData()
         self.plot_type = IntVar()
 
 

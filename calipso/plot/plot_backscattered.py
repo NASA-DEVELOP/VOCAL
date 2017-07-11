@@ -49,19 +49,6 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         _x = np.arange(x1, x2, dtype=np.float32)
         _y, null = np.meshgrid(height, _x)
 
-        """
-        print "Working X range: ", x1, ",", len(time)-1
-        print "Working X Values: ", time[x1], ", ", time[-1]
-
-        print "*****interp2d_12*****"
-        print "Data Shape: ", np.shape(dataset[::])
-        print "X Shape: ", np.shape(_x.astype(np.float32))
-        print "Y Shape: ", np.shape(_y.astype(np.float32))
-        print "********************"
-        print "Iterators for x1, x2, x2 - x1, y2, y1, nz: (", \
-            x1, ", ",x2, ", ",x2 - x1, ", ",h2, ", ",h1, ", ",nz, ")"
-        """
-
         data = interp2d_12(
             dataset[::],
             _x.astype(np.float32),
@@ -106,17 +93,4 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         title_xy = title.get_position()
         title.set_position([title_xy[0], title_xy[1]*1.07])
 
-        """
-        print "Data Shape: ", np.shape(data.T)
-        print "Time Shape: ", np.shape(time)
-        print "Latitude Shape: ", np.shape(latitude)
-        print "Altitude Shape: ", np.shape(height)
-        print "********************"
-        print "Iterators for x1, x2, y1, y2: (", x1, ", ", x2, ", ",h1 , ", ",h2 , ")"
-        print ""
-        print "********************"
-        print "Values for x1, x2, h1, h2: (", time[0], ", ", time[-1], ", ", height[0], ", ", height[-1], ")"
-        print "********************"
-		"""
-		
         return ax

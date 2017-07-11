@@ -81,9 +81,7 @@ class ShapeManager(object):
         """
         Clear all references to the current figure, this is called
         in the ``Calipso`` class when a plot is to be set as to ensure
-        no dangling references are left. If we we're writing this in
-        Rust we wouldn't need to worry about this because Rust has better
-        ownership semantics ;)
+        no dangling references are left
         """
         for shape in self.__current_list[:-1]:
             ih = shape.get_itemhandler()

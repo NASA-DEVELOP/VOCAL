@@ -12,19 +12,30 @@ from regrid_lidar import regrid_lidar
 from interpret_vfm_type import extract_horiz_avg
 
 def render_horiz_avg(filename, x_range, y_range, fig, pfig):
+    """
+    Renders the Vertical Feature Mask on the current plot. Note that L2 data is organized
+    differently than L1. See comments below and the CALIPSO data product catalogue for more
+    information before editing
+
+    :param filename: L2 HDF file
+    :param x_range: Tuple of first and last profile index to load from ToolsWindow
+    :param y_range: Tuple of first and last altitude index to load from ToolsWindow
+    :param fig: Matplotlib backend object
+    :param pfig: Matplotlib backend object
+    """
+
+    # 15 profiles are in 1 record of VFM data. At the highest altitudes 5 profiles are averaged
+    # together. In the mid altitudes 3 are averaged and at roughly 8 km or less, there are
+    # separate profiles.
+    prof_per_row = 15
+
     # constant variables
     alt_len = 545
     first_alt = y_range[0]
     last_alt = y_range[1]
-    first_lat = x_range[0]
-    last_lat = x_range[1]
+    first_lat = int(x_range[0]/prof_per_row)
+    last_lat = int(x_range[1]/prof_per_row)
     colormap = 'dat/calipso-horizontalaveraging.cmap'
-
-    # 15 profiles are in 1 record of VFM data
-    # At the highest altitudes 5 profiles are averaged
-    # together.  In the mid altitudes 3 are averaged and
-    # at roughly 8 km or less, there are separate profiles.
-    prof_per_row = 15
 
     # naming products within the HDF file
     with HDF(filename) as product:
@@ -32,7 +43,7 @@ def render_horiz_avg(filename, x_range, y_range, fig, pfig):
         minimum = min(product['Profile_UTC_Time'][::])[0]
         maximum = max(product['Profile_UTC_Time'][::])[0]
 
-        # determines how far the file can be viewed
+        # Determine how far the file can be viewed
         if time[-1] >= maximum and len(time) < 950:
             raise IndexError
         if time[0] < minimum:
@@ -44,41 +55,38 @@ def render_horiz_avg(filename, x_range, y_range, fig, pfig):
         latitude = latitude[::prof_per_row]
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
 
-        # mask all unknown values
+        # Mask all unknown values
         dataset = np.ma.masked_equal(dataset, -999)
 
-        # giving the number of rows in the dataset
+        # Give the number of rows in the dataset
         num_rows = dataset.shape[0]
 
-        # not sure why they are doing prof_per_row here, and the purpose of this
+        # Create an empty array the size of of L1 array so they match on the plot
         unpacked_horiz_avg = np.zeros((alt_len, prof_per_row * num_rows), np.uint8)
 
-        # assigning the values from 0-7 to subtype
+        # Assign the values from 0-7 to subtype
         horiz_avg = extract_horiz_avg(dataset)
 
-        # changing the number of rows so that it can be plotted
+        # Place 15-wide, alt_len-tall blocks of data into the
         for i in range(num_rows):
-            unpacked_horiz_avg[:, prof_per_row * i:prof_per_row * (i + 1)] = vfm_row2block(horiz_avg[i, :])
+            unpacked_horiz_avg[:, prof_per_row * i:prof_per_row * (i + 1)] = \
+                vfm_row2block(horiz_avg[i, :])
 
-            # Determining if day or nighttime
-            # Doesn't do anything yet... reversing max and min breaks indices in unpacked_vfm
-            if latitude[0] > latitude[-1]:
-                # Nighttime
-                min_indx = first_lat
-                max_indx = last_lat
+        # Determine if day or nighttime
+        if latitude[0] >latitude[-1]:
+            print('Nighttime')
+            horiz_avg = np.flip(unpacked_horiz_avg[:,
+                                (first_lat * prof_per_row):(last_lat * prof_per_row)], 1)
 
-            else:
-                # Daytime
-                min_indx = first_lat
-                max_indx = last_lat
-
-        horiz_avg = unpacked_horiz_avg[:, min_indx:max_indx]
+        else:
+            print('Daytime')
+            horiz_avg = unpacked_horiz_avg[:, (first_lat*prof_per_row):(last_lat*prof_per_row)]
 
         max_alt = 20
         unif_alt = uniform_alt_2(max_alt, height)
         regrid_horiz_avg = regrid_lidar(height, horiz_avg, unif_alt)
 
-        # taken from backscatter plot
+        # Format color map
         cmap = ccplot.utils.cmap(colormap)
         cm = mpl.colors.ListedColormap(cmap['colors'] / 255.0)
         cm.set_under(cmap['under'] / 255.0)
