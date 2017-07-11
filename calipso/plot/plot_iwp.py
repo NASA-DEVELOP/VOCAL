@@ -84,6 +84,8 @@ def render_iwp(filename, x_range, y_range, fig, pfig):
         cm.set_bad(cmap['bad'] / 255.0)
         norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
 
+        print(np.unique(regrid_iwp))
+
         im = fig.imshow(
             regrid_iwp,
             extent=(latitude[0], latitude[-1], first_alt, last_alt),
