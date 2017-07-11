@@ -13,7 +13,7 @@ from interpret_vfm_type import extract_water_phase
 
 def render_iwp(filename, x_range, y_range, fig, pfig):
     """
-    Renders the Vertical Feature Mask on the current plot. Note that L2 data is organized
+    Renders the Ice Water Phase on the current plot. Note that L2 data is organized
     differently than L1. See comments below and the CALIPSO data product catalogue for more
     information before editing
 

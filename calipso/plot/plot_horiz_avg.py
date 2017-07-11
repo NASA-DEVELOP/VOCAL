@@ -13,7 +13,7 @@ from interpret_vfm_type import extract_horiz_avg
 
 def render_horiz_avg(filename, x_range, y_range, fig, pfig):
     """
-    Renders the Vertical Feature Mask on the current plot. Note that L2 data is organized
+    Renders the Horizontal Averaging on the current plot. Note that L2 data is organized
     differently than L1. See comments below and the CALIPSO data product catalogue for more
     information before editing
 

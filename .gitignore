@@ -10,8 +10,9 @@
 .settings
 .project
 .pydveproject
+.coverage
 calipso/.idea
-calipso/hdf
+calipso/htmlcov
 docs/source/.idea
 docs/source/analytics
 docs/build/

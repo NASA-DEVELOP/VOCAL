@@ -4,14 +4,19 @@ None
 ---------------------------------------------------------------------------------------------------
 GENERAL
 
-There's a divide by 0 error that should be resolved in VocalDataBlock.depolarization
-	- Depolarization displays low resolution, noticeable when viewing < 15000 profiles (DOES IT?)
+Rendering L2 past ~30,000 doesn't work
 
-Latitude and time labels on L2 (L1?) plots seem to not show the correct range
+There's a divide by 0 error that should be resolved in plot_depolarization
 
 Labels on IWP looks mismatched
 
+Colors on depolarization look off
+
 Shapes on L2 plots seem to be created but not displayed
+
+Zoom tool is broken
+
+should make the program force steps of 15
 ---------------------------------------------------------------------------------------------------
 ENHANCEMENTS
 

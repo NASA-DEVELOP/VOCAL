@@ -74,11 +74,13 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         # Determine if day or nighttime
         if latitude[0] >latitude[-1]:
             print('Nighttime')
-            vfm = np.flip(unpacked_vfm[:, (first_lat * prof_per_row):(last_lat * prof_per_row)], 1)
+            #vfm = np.flip(unpacked_vfm[::], 1)
+            vfm = unpacked_vfm
+
 
         else:
             print('Daytime')
-            vfm = unpacked_vfm[:, (first_lat*prof_per_row):(last_lat*prof_per_row)]
+            vfm = unpacked_vfm
 
         max_alt = 20
         unif_alt = uniform_alt_2(max_alt, height)
@@ -108,8 +110,9 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         cbar_label = 'Vertical Feature Mask Flags'
         cbar = pfig.colorbar(im)
         cbar.set_label(cbar_label)
-        cbar.ax.set_yticklabels(['Clear air', 'Cloud', 'Tropospheric\naerosol', 'Stratospheric\naerosol', 'Surface',
-                                 'Subsurface', 'Totally\nattenuated'])
+        cbar.ax.set_yticklabels(['Clear air', 'Cloud', 'Tropospheric\naerosol',
+                                 'Stratospheric\naerosol', 'Surface', 'Subsurface',
+                                 'Totally\nattenuated'])
 
         ax = fig.twiny()
         ax.set_xlabel('Time')
