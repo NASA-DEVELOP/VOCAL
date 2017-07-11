@@ -70,17 +70,7 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         # Place 15-wide, alt_len-tall blocks of data into the
         for i in range(num_rows):
             unpacked_vfm[:, prof_per_row * i:prof_per_row * (i + 1)] = vfm_row2block(vfm[i, :])
-
-        # Determine if day or nighttime
-        if latitude[0] >latitude[-1]:
-            print('Nighttime')
-            #vfm = np.flip(unpacked_vfm[::], 1)
-            vfm = unpacked_vfm
-
-
-        else:
-            print('Daytime')
-            vfm = unpacked_vfm
+        vfm = unpacked_vfm
 
         max_alt = 20
         unif_alt = uniform_alt_2(max_alt, height)

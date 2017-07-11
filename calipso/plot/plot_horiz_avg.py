@@ -71,16 +71,7 @@ def render_horiz_avg(filename, x_range, y_range, fig, pfig):
         for i in range(num_rows):
             unpacked_horiz_avg[:, prof_per_row * i:prof_per_row * (i + 1)] = \
                 vfm_row2block(horiz_avg[i, :])
-
-        # Determine if day or nighttime
-        if latitude[0] >latitude[-1]:
-            print('Nighttime')
-            horiz_avg = np.flip(unpacked_horiz_avg[:,
-                                (first_lat * prof_per_row):(last_lat * prof_per_row)], 1)
-
-        else:
-            print('Daytime')
-            horiz_avg = unpacked_horiz_avg[:, (first_lat*prof_per_row):(last_lat*prof_per_row)]
+        horiz_avg = unpacked_horiz_avg
 
         max_alt = 20
         unif_alt = uniform_alt_2(max_alt, height)

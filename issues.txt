@@ -4,19 +4,17 @@ None
 ---------------------------------------------------------------------------------------------------
 GENERAL
 
-Rendering L2 past ~30,000 doesn't work
-
-There's a divide by 0 error that should be resolved in plot_depolarization
+Shapes on L2 plots seem to be created but not displayed
 
 Labels on IWP looks mismatched
 
-Colors on depolarization look off
+There's a divide by 0 error that should be resolved in plot_depolarization
 
-Shapes on L2 plots seem to be created but not displayed
+Colors on depolarization look off
 
 Zoom tool is broken
 
-should make the program force steps of 15
+Should make the program force steps of 15
 ---------------------------------------------------------------------------------------------------
 ENHANCEMENTS
 
@@ -28,4 +26,4 @@ Could simplify the data clock by creating an abstract class Plots and create a f
 
 Make the plot selection menu more intuitive
 
-Clear out Vocal data block unnecessary code
+Clear out Vocal data block unnecessary code, other unused code

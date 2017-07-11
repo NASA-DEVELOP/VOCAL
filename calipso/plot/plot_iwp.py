@@ -70,15 +70,7 @@ def render_iwp(filename, x_range, y_range, fig, pfig):
         # Place 15-wide, alt_len-tall blocks of data into the
         for i in range(num_rows):
             unpacked_iwp[:, prof_per_row * i:prof_per_row * (i + 1)] = vfm_row2block(iwp[i, :])
-
-        # Determine if day or nighttime
-        if latitude[0] >latitude[-1]:
-            print('Nighttime')
-            iwp = np.flip(unpacked_iwp[:, (first_lat * prof_per_row):(last_lat * prof_per_row)], 1)
-
-        else:
-            print('Daytime')
-            iwp = unpacked_iwp[:, (first_lat*prof_per_row):(last_lat*prof_per_row)]
+        iwp = unpacked_iwp
 
         max_alt = 20
         unif_alt = uniform_alt_2(max_alt, height)
