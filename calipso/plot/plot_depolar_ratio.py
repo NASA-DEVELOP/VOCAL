@@ -20,7 +20,7 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
     h1 = y_range[0]
     h2 = y_range[1]
     colormap = 'dat/calipso-depolar.cmap'
-    averaging_width = 15
+    averaging_width = 5
 
     print('xrange: ' + str(x_range) + ', yrange: ' + str(y_range))
 
@@ -38,27 +38,21 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
         if time[0] < minimum:
             raise IndexError
 
-        # Depolarization_Gain_Ratio_532
-        # Depolarization_Gain_Ratio_Uncertainty_532
-        #for key in product.keys:
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
+        latitude = latitude[::averaging_width]
+
         tot_532 = product['Total_Attenuated_Backscatter_532'][x1:x2].T
         perp_532 = product['Perpendicular_Attenuated_Backscatter_532'][x1:x2].T
-
         avg_tot_532 = avg_horz_data(tot_532, averaging_width)
         avg_perp_532 = avg_horz_data(perp_532, averaging_width)
-        latitude = latitude[::averaging_width]
-        # avg_parallel_AB = avg_tot_532 - avg_perp_532
-        # depolar_ratio = avg_perp_532/avg_parallel_AB
 
-        depolar_ratio = avg_perp_532 / avg_tot_532
-
+        avg_parallel_AB = avg_tot_532 - avg_perp_532
+        depolar_ratio = avg_perp_532/avg_parallel_AB
 
         # Put altitudes above 8.2 km on same spacing as lower ones
         MAX_ALT = 20
         unif_alt = uniform_alt_2(MAX_ALT, alt)
         regrid_depolar_ratio = regrid_lidar(alt, depolar_ratio, unif_alt)
-
 
         cmap = ccplot.utils.cmap(colormap)
         cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
