@@ -267,14 +267,16 @@ class ToolsWindow(Toplevel):
                 tkMessageBox.showerror('toolswindow',
                                        'Invalid beginning range, range must only contain digits')
                 return None
-            if float(begin_range_entry.get()) % 5 != 0:
-                logger.error('Beginning range invalid, must be multiple of 5')
+            """
+            if float(begin_range_entry.get()) % 5 != 0:                                             
                 tkMessageBox.showerror('toolswindow',
                                        'Invalid beginning range, must be multiple of 5')
                 return None
-            # default ending range is beginning_range + 1000
-            beginning_range = int(begin_range_entry.get())
-            ending_range = beginning_range + 1000
+            """
+            # Force range to multiple of 5
+            # Not sure why it's necessary though - CPampalone
+            beginning_range = int(5 * round(int(begin_range_entry.get()) / 5))
+
         # If entry has text
         if end_range_entry.get():
             # If entry is not ONLY numbers
@@ -283,13 +285,18 @@ class ToolsWindow(Toplevel):
                 tkMessageBox.showerror('toolswindow',
                                        'Invalid ending range, range must only contain digits')
                 return None
-
-        if float(end_range_entry.get()) % 5 != 0:
+        """
+        if float(end_range_entry.get()) % 5 != 0:                                                   
             logger.error('Ending range invalid, must be multiple of 5')
             tkMessageBox.showerror('toolswindow',
                                    'Ending range invalid, must be multiple of 5')
             return None
         ending_range = int(end_range_entry.get())
+        """
+        # Force range to multiple of 5
+        # Not sure why it's necessary though - CPampalone
+        ending_range = int(5 * round(int(end_range_entry.get()) / 5))
+
 
         if beginning_range > ending_range:
             logger.error('Beginning range larger than ending range %d > %d' % (beginning_range, ending_range))

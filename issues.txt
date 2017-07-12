@@ -6,11 +6,10 @@ GENERAL
 
 Shapes on L2 plots seem to be created but not displayed
 
-Labels on IWP looks mismatched
-
 There's a divide by 0 error that should be resolved in plot_depolarization
+    Colors on depolarization look off
 
-Colors on depolarization look off
+There is a horizontal division in the backscatter render
 
 Zoom tool is broken
 

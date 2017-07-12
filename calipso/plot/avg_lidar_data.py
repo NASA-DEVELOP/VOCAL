@@ -24,7 +24,7 @@ def avg_horz_data(data, N):
         out - the averaged data array.
 
     """
-    nAlts     = data.shape[0]
+    nAlts = data.shape[0]
     nProfiles = data.shape[1]                                                  
 
 
