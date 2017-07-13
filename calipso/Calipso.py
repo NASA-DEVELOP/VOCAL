@@ -36,6 +36,7 @@ from plot.plot_backscattered import render_backscattered
 from plot.plot_vfm import render_vfm
 from plot.plot_iwp import render_iwp
 from plot.plot_horiz_avg import render_horiz_avg
+from plot.plot_aerosol_subtype import render_aerosol_subtype
 from polygon.manager import ShapeManager
 from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
@@ -166,6 +167,8 @@ class Calipso(object):
                                   value=Plot.iwp)
         menu_views.add_radiobutton(label='Horizontal Averaging', variable=self.plot_type,
                                   value=Plot.horiz_avg)
+        menu_views.add_radiobutton(label='Aerosol Subtype', variable=self.plot_type,
+                                   value=Plot.aerosol_subtype)
         menu_bar.add_cascade(label='Views', menu=menu_views)
 
         # Help Menu
@@ -529,6 +532,31 @@ class Calipso(object):
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
                 self.plot = Plot.horiz_avg
+            except IOError:
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', "No File Exists")
+
+        elif plot_type == Plot.aerosol_subtype:
+            try:
+                # Clear any references to the current figure, construct a new figure
+                # and render the depolarized plot to it
+                logger.info('Setting plot to aerosol_subtype xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(2)
+                logger.info('Using file ' + self.__file)
+                if self.__shapemanager.get_hdf() != '' and \
+                                self.__file != self.__shapemanager.get_hdf():
+                    self.__shapemanager.reset(all_=True)
+                else:
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                render_aerosol_subtype(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.aerosol_subtype, self.__fig)
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
+                self.plot = Plot.aerosol_subtype
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")

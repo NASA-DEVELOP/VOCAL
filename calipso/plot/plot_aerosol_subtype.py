@@ -9,9 +9,9 @@ from ccplot.hdf import HDF
 from vfm_row2block import vfm_row2block
 from uniform_alt_2 import uniform_alt_2
 from regrid_lidar import regrid_lidar
-from interpret_vfm_type import extract_type, Feature_Type
+from interpret_vfm_type import extract_aerosol_subtype
 
-def render_vfm(filename, x_range, y_range, fig, pfig):
+def render_aerosol_subtype(filename, x_range, y_range, fig, pfig):
     """
     Renders the Vertical Feature Mask on the current plot. Note that L2 data is organized
     differently than L1. See comments below and the CALIPSO data product catalogue for more
@@ -35,7 +35,7 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
     last_alt = y_range[1]
     first_lat = int(x_range[0]/prof_per_row)
     last_lat = int(x_range[1]/prof_per_row)
-    colormap = 'dat/calipso-vfm.cmap'
+    colormap = 'dat/calipso-aerosol_subtype.cmap'
 
     # naming products within the HDF file
     with HDF(filename) as product:
@@ -62,19 +62,20 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         num_rows = dataset.shape[0]
 
         # Create an empty array the size of of L1 array so they match on the plot
-        unpacked_vfm = np.zeros((alt_len, prof_per_row * num_rows), np.uint8)
+        unpacked_aerosol_subtype = np.zeros((alt_len, prof_per_row * num_rows), np.uint8)
 
         # Assign the values from 0-7 to subtype
-        vfm = extract_type(dataset)
+        aerosol_subtype = extract_aerosol_subtype(dataset)
 
         # Place 15-wide, alt_len-tall blocks of data into the
         for i in range(num_rows):
-            unpacked_vfm[:, prof_per_row * i:prof_per_row * (i + 1)] = vfm_row2block(vfm[i, :])
-        vfm = unpacked_vfm
+            unpacked_aerosol_subtype[:, prof_per_row * i:prof_per_row * (i + 1)] = \
+                vfm_row2block(aerosol_subtype[i, :])
+        aerosol_subtype = unpacked_aerosol_subtype
 
         max_alt = 20
         unif_alt = uniform_alt_2(max_alt, height)
-        regrid_vfm = regrid_lidar(height, vfm, unif_alt)
+        regrid_aerosol_subtype = regrid_lidar(height, aerosol_subtype, unif_alt)
 
         # Format color map
         cmap = ccplot.utils.cmap(colormap)
@@ -85,7 +86,7 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
 
         im = fig.imshow(
-            regrid_vfm,
+            regrid_aerosol_subtype,
             extent=(latitude[0], latitude[-1], first_alt, last_alt),
             cmap=cm,
             aspect='auto',
@@ -95,14 +96,13 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
 
         fig.set_ylabel('Altitude (km)')
         fig.set_xlabel('Latitude')
-        fig.set_title("Vertical Feature Mask")
+        fig.set_title('Aerosol Subtype')
 
-        cbar_label = 'Vertical Feature Mask Flags'
+        cbar_label = 'Aerosol Subtype Flags'
         cbar = pfig.colorbar(im)
         cbar.set_label(cbar_label)
-        # Set labels using dict in interpret_vfm_type
-        cbar.ax.set_yticklabels(['Clear\nAir','Cloud','Aerosol','Stratospheric\nAerosol',
-                        'Surface','Subsurface','Totally\nAttenuated'])
+        cbar.ax.set_yticklabels(['N/a','Clean Marine','Dust','Polluted\nContinental','Clean\nContinental',
+                             'Polluted\nDust','Smoke','Other'])
 
         ax = fig.twiny()
         ax.set_xlabel('Time')
@@ -112,7 +112,7 @@ def render_vfm(filename, x_range, y_range, fig, pfig):
         fig.set_zorder(0)
         ax.set_zorder(1)
 
-        title = fig.set_title('Vertical Feature Mask')
+        title = fig.set_title('Aerosol Subtype')
         title_xy = title.get_position()
         title.set_position([title_xy[0], title_xy[1] * 1.07])
 

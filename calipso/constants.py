@@ -19,7 +19,7 @@ class Plot(object):
     horiz_avg = 5
     parallel = 6
     colorratio = 8
-    aerosol = 9
+    aerosol_subtype = 9
     not_available = 10
 
 # DEBUG Switch Values
@@ -37,7 +37,8 @@ plot_type_enum = {'base_plot': Plot.baseplot,
                   'vfm': Plot.vfm,
                   'iwp': Plot.iwp,
                   'horiz_avg': Plot.horiz_avg,
-                  'parallel': Plot.parallel}
+                  'parallel': Plot.parallel,
+                  'aerosol_subtype':Plot.aerosol_subtype}
 
 PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm','iwp','horiz_avg','parrallel]']
 
