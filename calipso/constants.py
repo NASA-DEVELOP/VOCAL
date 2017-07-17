@@ -10,7 +10,6 @@ import os
 from sys import platform as _platform
 from os.path import expanduser
 
-
 class Plot(object):
     baseplot = 0
     backscattered = 1
@@ -83,5 +82,5 @@ if os.name == 'posix':
     EFFECT_OFF = {'highlightbackground': 'white'}
 
 ABOUT = \
-     "VOCAL v0.15.2.a\nInternal development build\n\n" \
-     " LaRC Summer 2016 Term\n  Project Lead: Collin Pampalone"
+     "VOCAL v1.17.7.a\nAlpha build\n\n" \
+     " LaRC Summer 2017 Term\n  Project Lead: Collin Pampalone"

@@ -142,13 +142,14 @@ class Calipso(object):
 
         # Polygon Menu
         menu_polygon = Menu(menu_bar, tearoff=0)
-        menu_polygon.add_command(label='Import from Database', command=self.import_dialog)
+        menu_polygon.add_command(label='Import/Manage Database', command=self.import_dialog)
         menu_polygon.add_command(label='Export all to Database', command=self.export_db)
         menu_polygon.add_command(label='Export selected to Database',
                                  command=lambda: self.export_db(only_selected=True))
         menu_polygon.add_separator()
         menu_polygon.add_command(label='Create New Database', command=lambda: Calipso.create_db())
-        menu_polygon.add_command(label='Select Database', command=lambda: Calipso.select_db())
+        menu_polygon.add_command(label='Select Database',
+                                 command=lambda: Calipso.select_db(iscommand=True))
         menu_polygon.add_separator()
         menu_polygon.add_command(label='Import archive to database',
                                  command=Calipso.import_json_db)
@@ -303,7 +304,7 @@ class Calipso(object):
         db will then save all polygons present on the screen
         """
         # Check if a db has been selected. If not, select one
-        if Calipso.select_db() == None:
+        if Calipso.select_db() == 0:
             return
 
         logger.info('Notifying database to save with select flag %s' % (str(only_selected)))
@@ -332,12 +333,14 @@ class Calipso(object):
             db.set_path(f)
 
     @staticmethod
-    def select_db():
+    def select_db(iscommand=False):
         """
         Opens a file browser to select a database if one is not already chosen
+
+        :param iscommand: Make true if we are executing from the menu command
         :return:
         """
-        if db.db_selected == False:
+        if db.db_selected == False or iscommand == True:
             options = dict()
             options['defaultextension'] = '.db'
             options['filetypes'] = [('CALIPSO Databases', '*.db'), ('All files', '*')]
@@ -352,7 +355,7 @@ class Calipso(object):
                 if tkMessageBox.askretrycancel('Warning', 'No database selected, retry?'):
                     Calipso.select_db()
                 else:
-                    return None
+                    return 0
 
     @staticmethod
     def import_json_db():
@@ -363,7 +366,7 @@ class Calipso(object):
         :return:
         """
         # Check if a db has been selected. If not, select one
-        if Calipso.select_db() == None:
+        if Calipso.select_db() == 0:
             return
 
         options = dict()
@@ -389,7 +392,7 @@ class Calipso(object):
         loaded into other databases and have all shapes imported
         """
         # Check if a db has been selected. If not, select one
-        if Calipso.select_db() == None:
+        if Calipso.select_db() == 0:
             return
 
         if tkMessageBox.askyesno('Export database',
@@ -797,7 +800,7 @@ class Calipso(object):
         delete entries.
         """
         # Check if a db has been selected. If not, select one
-        if Calipso.select_db() == None:
+        if Calipso.select_db() == 0:
             return
 
         logger.info('Opening database import window')
