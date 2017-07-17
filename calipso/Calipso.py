@@ -4,7 +4,7 @@
 #   @Author: Grant Mercer
 #   @Author: Nathan Qian
 ##########################
-from tools.vocalDataBlock import VocalDataBlock, MetaData
+from tools.vocalDataBlock import VocalDataBlock
 
 import matplotlib
 
@@ -12,19 +12,17 @@ matplotlib.use('tkAgg')
 from Tkconstants import RIGHT, END, DISABLED
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, TOP, LEFT, \
-    SUNKEN, StringVar, Text, IntVar, BooleanVar
-import ttk
+    SUNKEN, StringVar, Text, IntVar
 import logging
 from sys import platform as _platform
 from tkColorChooser import askcolor
 import tkFileDialog
 import tkMessageBox
 import webbrowser
-import ccplot.utils
 
 from attributesdialog import AttributesDialog
 from bokeh.colors import white
-from constants import Plot, PATH, ICO
+from constants import Plot, PATH, HOMEPATH, ICO
 import constants
 from exctractdialog import ExtractDialog
 from importdialog import ImportDialog
@@ -60,10 +58,9 @@ class Calipso(object):
     def __init__(self, r):
         self.load_img = ImageTk.PhotoImage(file=PATH + '/ico/load.png')
         self.save_img = ImageTk.PhotoImage(file=PATH + '/ico/save.png')
-        self.dot_shp_img = ImageTk.PhotoImage(file=PATH + '/ico/save.png')
         self.__root = r  # Root of program
         self.__file = ''  # Current file in use
-        self.xrange = self.yrange = (0, 100)  # X and Y range for scrolling plot
+        self.xrange = self.yrange = (0, 1000)  # X and Y range for scrolling plot
         self.panx = self.pany = 0  # Pan values for shifting map
         self.plot = Plot.baseplot  # Current selected plot
         self.__label_file_dialog = None
@@ -147,7 +144,11 @@ class Calipso(object):
         menu_polygon = Menu(menu_bar, tearoff=0)
         menu_polygon.add_command(label='Import from Database', command=self.import_dialog)
         menu_polygon.add_command(label='Export all to Database', command=self.export_db)
-        menu_polygon.add_command(label='Export selected to Database', command=lambda: self.export_db(only_selected=True))
+        menu_polygon.add_command(label='Export selected to Database',
+                                 command=lambda: self.export_db(only_selected=True))
+        menu_polygon.add_separator()
+        menu_polygon.add_command(label='Create New Database', command=lambda: Calipso.create_db())
+        menu_polygon.add_command(label='Select Database', command=lambda: Calipso.select_db())
         menu_polygon.add_separator()
         menu_polygon.add_command(label='Import archive to database',
                                  command=Calipso.import_json_db)
@@ -170,6 +171,8 @@ class Calipso(object):
         menu_views.add_radiobutton(label='Aerosol Subtype', variable=self.plot_type,
                                    value=Plot.aerosol_subtype)
         menu_bar.add_cascade(label='Views', menu=menu_views)
+        self.plot_type.set(1)       # Set initial value to backscatter
+
 
         # Help Menu
         menu_help = Menu(menu_bar, tearoff=0)
@@ -246,12 +249,6 @@ class Calipso(object):
         save_button.pack(side=RIGHT, padx=2)
         create_tool_tip(save_button, 'Save selected\n objects to\n JSON')
 
-        # Save shapes as JSON
-        dot_shp_button = \
-            Button(self.__dialog_shape_frame, image=self.dot_shp_img, width=30, height=30)
-        dot_shp_button.pack(side=RIGHT, padx=2)
-        create_tool_tip(dot_shp_button, 'Export to\n shapefile')
-
         self.option_menu = ShapeOptionMenu(self.__dialog_shape_frame, self.shape_var, "",
                                            command=self.select_shape)
         self.option_menu.bind("<ButtonPress-1>", self.update_shape_optionmenu)
@@ -305,6 +302,10 @@ class Calipso(object):
         Notify the database that a save is taking place, the
         db will then save all polygons present on the screen
         """
+        # Check if a db has been selected. If not, select one
+        if Calipso.select_db() == None:
+            return
+
         logger.info('Notifying database to save with select flag %s' % (str(only_selected)))
         success = self.__shapemanager.save_db(only_selected)
         if success:
@@ -315,6 +316,45 @@ class Calipso(object):
             tkMessageBox.showerror('database', 'No objects to be saved')
 
     @staticmethod
+    def create_db():
+        """
+        Opens a file browser to create a database file for polygons
+        :return:
+        """
+        options = dict()
+        options['defaultextension'] = '.db'
+        options['filetypes'] = [('CALIPSO Databases', '*.db'), ('All files', '*')]
+        options['initialdir'] = HOMEPATH
+        options['title'] = 'Select Database to Use'
+        options['initialfile'] = 'CALIPSOdb.db'
+        f = tkFileDialog.asksaveasfilename(**options)
+        if f != '':
+            db.set_path(f)
+
+    @staticmethod
+    def select_db():
+        """
+        Opens a file browser to select a database if one is not already chosen
+        :return:
+        """
+        if db.db_selected == False:
+            options = dict()
+            options['defaultextension'] = '.db'
+            options['filetypes'] = [('CALIPSO Databases', '*.db'), ('All files', '*')]
+            options['initialdir'] = HOMEPATH
+            options['title'] = 'Select Database to Use'
+            f = tkFileDialog.Open(**options)
+            f = f.show()
+            print(f)
+            if f != '':
+                db.set_path(f)
+            else:
+                if tkMessageBox.askretrycancel('Warning', 'No database selected, retry?'):
+                    Calipso.select_db()
+                else:
+                    return None
+
+    @staticmethod
     def import_json_db():
         """
         Import the contents of a JSON file to the database, works hand in hand
@@ -322,6 +362,10 @@ class Calipso(object):
         their database without needing to manually move their db file.
         :return:
         """
+        # Check if a db has been selected. If not, select one
+        if Calipso.select_db() == None:
+            return
+
         options = dict()
         options['defaultextension'] = '.zip'
         options['filetypes'] = [('CALIPSO Data Archive', '*.zip'), ('All files', '*')]
@@ -344,6 +388,10 @@ class Calipso(object):
         Export the contents of the database to an archive containing JSON, which can then be
         loaded into other databases and have all shapes imported
         """
+        # Check if a db has been selected. If not, select one
+        if Calipso.select_db() == None:
+            return
+
         if tkMessageBox.askyesno('Export database',
                                  'Database will be exported to a specified' +
                                          ' archive (this operation is a copy, not a move)' +
@@ -748,6 +796,10 @@ class Calipso(object):
         Open the database import window allowing the user to import and
         delete entries.
         """
+        # Check if a db has been selected. If not, select one
+        if Calipso.select_db() == None:
+            return
+
         logger.info('Opening database import window')
         if (not ImportDialog.singleton):
             ImportDialog(self.__root, self). \

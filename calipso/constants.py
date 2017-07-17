@@ -8,6 +8,7 @@
 
 import os
 from sys import platform as _platform
+from os.path import expanduser
 
 
 class Plot(object):
@@ -17,9 +18,9 @@ class Plot(object):
     vfm = 3
     iwp = 4
     horiz_avg = 5
-    parallel = 6
+    aerosol_subtype = 6
     colorratio = 8
-    aerosol_subtype = 9
+    parallel = 9
     not_available = 10
 
 # DEBUG Switch Values
@@ -37,7 +38,6 @@ plot_type_enum = {'base_plot': Plot.baseplot,
                   'vfm': Plot.vfm,
                   'iwp': Plot.iwp,
                   'horiz_avg': Plot.horiz_avg,
-                  'parallel': Plot.parallel,
                   'aerosol_subtype':Plot.aerosol_subtype}
 
 PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm','iwp','horiz_avg','parrallel]']
@@ -71,6 +71,7 @@ HELP_PAGE = 'http://nasa-develop.github.io/VOCAL/developer_index.html'
 TIME_VARIANCE = 0.001
 ALTITUDE_VARIANCE = 0.3
 PATH = '.'
+HOMEPATH = expanduser("~")
 #PATH = os.path.dirname(os.path.realpath(__file__))
 
 ICO = PATH + '/ico/broadcasting.ico'

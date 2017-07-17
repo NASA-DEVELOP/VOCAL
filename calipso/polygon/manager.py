@@ -41,7 +41,8 @@ class ShapeManager(object):
                              [Shape(canvas)],           # depolarized
                              [Shape(canvas)],			# vfm
                              [Shape(canvas)],			# iwp
-                             [Shape(canvas)]]           # horiz_avg
+                             [Shape(canvas)],           # horiz_avg
+                             [Shape(canvas)]]           # aerosol_subtype
 
         logger.info("Instantiating Exporting Reader")
         self.__current_list = None          # aliases shape_list's current plot
@@ -162,7 +163,8 @@ class ShapeManager(object):
         :rtype: :py:class:`int`
         """
         return len(self.__shape_list[0]) + len(self.__shape_list[1]) + \
-            len(self.__shape_list[2]) + len(self.__shape_list[3]) + len(self.__shape_list[4]) - 5
+               len(self.__shape_list[2]) + len(self.__shape_list[3]) + len(self.__shape_list[4]) + \
+               len(self.__shape_list[5]) + len(self.__shape_list[6]) - 7
 
     def get_current_list(self):
         """
@@ -326,8 +328,7 @@ class ShapeManager(object):
             if self.__current_plot == constants.plot_type_enum[key]:
                 for shape in lst:
                     if not shape.is_empty():
-                        logger.info('Shape found in \'%s\', drawing' %
-                                    key)
+                        logger.info('Shape found in \'%s\', drawing' % key)
                         shape.redraw(self.__figure, ShapeManager.outline_toggle)
 
             self.__canvas.show()
@@ -343,7 +344,8 @@ class ShapeManager(object):
                                  [Shape(self.__canvas)],           # depolarized
                                  [Shape(self.__canvas)],           # vfm
                                  [Shape(self.__canvas)],           # iwp
-                                 [Shape(self.__canvas)]]           # horiz_avg
+                                 [Shape(self.__canvas)],           # horiz_avg
+                                 [Shape(self.__canvas)]]           # aerosol_subtype
         else:
             logger.info('Resetting ShapeManager')
             for shape in self.__current_list:
@@ -596,3 +598,7 @@ class ShapeManager(object):
             logger.info('set_plot to HORIZ_AVG')
             self.__current_list = self.__shape_list[Plot.horiz_avg]
             self.__current_plot = Plot.horiz_avg
+        elif plot == Plot.horiz_avg:
+            logger.info('set_plot to AEROSOL SUBTYPE')
+            self.__current_list = self.__shape_list[Plot.aerosol_subtype]
+            self.__current_plot = Plot.aerosol_subtype

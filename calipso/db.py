@@ -4,7 +4,6 @@
 #   @author: Grant Mercer
 ###################################
 
-# import antigravity
 import json
 import os
 import re
@@ -111,6 +110,9 @@ class DatabaseManager(object):
         self.__dbEngine = create_engine('sqlite:///' + path, echo=False)
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)
+
+        # This will become true when the user selects a db to use
+        self.db_selected = False
 
     def query_unique_tag(self):
         """
@@ -340,6 +342,13 @@ class DatabaseManager(object):
         session.commit()
         shutil.rmtree(PATH + '/../tmp')
         return True
+
+    def set_path(self, new_path):
+        logger.info('Setting new path')
+        self.__dbEngine = create_engine('sqlite:///' + new_path, echo=False)
+        self.__Session = sessionmaker(bind=self.__dbEngine)
+        dbBase.metadata.create_all(self.__dbEngine)
+        self.db_selected = True
 
     @staticmethod
     def encode(filename, data):
