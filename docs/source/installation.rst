@@ -16,50 +16,62 @@ from the :doc:`support page <trouble/contact>` and describe your issue to us.
 
 .. note:: 
 
-   Please read our :doc:`coding conventions <dev/conventions>` before developing yourself!
+   Please read our :doc:`developer documentation <dev/startdev>` before developing yourself!
 
 ****************
 Windows [#f1]_
 ****************
 
-1. download Python Anaconda 2.7
+1. Download Python Anaconda 2.7
 
-2. open a terminal, navigate to the Anaconda installation directory and type
+2. Open a terminal, navigate to the Anaconda installation directory and type
    ``conda install numpy`` , ``y``
 
-3. grab the *basemap* package ``conda install basemap``, ``y``
+3. Grab the *basemap* package ``conda install basemap``, ``y``
 
-4. install PIL ``conda install pil``, ``y``
+4. Install PIL ``conda install pillow``, ``y``
 
    * PIL is an old library and can often cause some errors, if when running
      VOCAL you receive the error ``Import Error: cannot import name _imagingtk``,
      see the :doc:`FAQ <trouble/faq>` on fixing this error
 
-5. to install CCPLOT:
+5. To install CCPLOT:
 
    * get `ccplot-1.5-rc7.win32-py2.7.exe`_
    * run ``ccplot-1.5-rc7.win32-py2.7.exe``
    * browse to the Anaconda install directory and install in ``\Anaconda\Lib\site-packages\``
    * more information is at http://ccplot.org/
 
-6. if using Eclipse [#f2]_ :, then once Eclipse is installed and running
+6. Optional:
 
-   * within Eclipse, go to *help* --> *Install New Software*
+   * If using Eclipse [#f2]_ :, then once Eclipse is installed and running
 
-     * input PyDev Website (http://pydev.org/updates)
+      * within Eclipse, go to *help* --> *Install New Software*
 
-   * under *Windows* --> *Preferences* --> *PyDev* --> *Interpreters* --> *Python*
+        * input PyDev Website (http://pydev.org/updates)
 
-     * "Advanced Auto Config" or manually find Anaconda
+      * under *Windows* --> *Preferences* --> *PyDev* --> *Interpreters* --> *Python*
 
-   * import the existing "CALIPSO_Visualizer" package under the ``file`` menu
+        * "Advanced Auto Config" or manually find Anaconda
 
-7. if using PyCharm : Simply set the python interpreter to the one supplied by anaconda.
+      * import the existing "CALIPSO_Visualizer" package under the ``file`` menu
+
+   * If using PyCharm : Simply set the python interpreter to the one supplied by anaconda.
+
+7. Download the zip from the GitHub or use Git (see `cloning the repository <dev/startdev#Clone-the-Repository>`)
+
+8. Using command prompt or bash, :bash:`cd` into the *VOCAL/calipso* folder and use :bash:`python Calipso.py`
+
+   * If using Eclipse or Pycharm, use their built-in tools to clone the repository from GitHub
 
 
 ************
 Linux [#f3]_
 ************
+
+.. note::
+   At this time, Linux and OS X have not been tested with the current version of VOCAL. Installation
+   may not work
 
 1. start off by grabbing the SciPy Stack
   

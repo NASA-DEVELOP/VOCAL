@@ -1,6 +1,6 @@
 ## Docs:
 
-http://syntaf.github.io/vocal/
+http://nasa-develop.github.io/VOCAL/developer_index.html
 
 |    |    |
 :---:|:---:

@@ -1,4 +1,3 @@
-===============
 Getting Started
 ===============
 
@@ -15,12 +14,13 @@ window is the main screen for displaying data from *.HDF* files, this will be wh
 .. image:: _static/startup.png
    :scale: 40%
 
-The top most menu bar contains four directories: *file* , *edit*, *polygon* and *help*.
+The top most menu bar contains four directories: *file* , *edit*, *polygon*, *views*, and *help*.
 
 * *file* allows a user to import an HDF (same as |browse|), save all objects from all plots to a JSON file, save
   only *visible* objects on the screen to a JSON file, or exit the application.
 * *edit* offers tools for shape or plot manipulation
 * *polygon* relates to the database use, see :ref:`database` for more information.
+* *views* allows a user to select the data product to be rendered
 * *help* shows information on the project, and links to this website
 
 Located near the menu and off to the top right you'll find three buttons. |load| will load a JSON file previously
@@ -28,6 +28,7 @@ created by the application, and draw it to the plot.
 
 .. note::
 
+   It is recommended that you use the tools provided in the polygon folder for saving drawn shapes.
    When loading JSON objects using this feature: the file the shape was created in **must** match the file you
    currently have loaded, otherwise you'll get an error! We do not allow users to load shapes from JSON files
    which are from other files than what the user is currently on.
@@ -61,8 +62,8 @@ Starting Up
 To load a CALIPSO hdf file from the local file directory, click the |browse| button at the
 top of the screen. Navigate to the .HDF file of your choice and select **open** The file text box will now update and
 display the name of the imported hdf file. The main screen will appear blank at first. To display a plot,
-Select the type of plot you would like with either |back| or |depo| to render and an optional step
-|step| (*the default is from 0 to 1000*).
+Select the type of plot you would like from the *views* menu to render and an optional step
+|step| (*the default is from 0 to 5000*).
 Hit |rend| to visualize the data to the screen.
  
 .. image:: _static/load_hdf.png
@@ -84,6 +85,10 @@ The first row of toolbar buttons allows you to manipulate the plot for the purpo
 * |undo| Undo: jump to the previous magnification zoom frame
 * |redo| Redo: jump forward to the next magnification zoom frame
 * |home| Home: reset the view to the original render
+
+.. note::
+
+   Magnification currently does not work
 
 ----------------------------
 Viewing Properties of Shapes
@@ -113,7 +118,7 @@ shapes drawn to the plot.
 * |rect| Rectangle: Dragging the cursor in the plot will create an outline of a rectangle,
   upon release of the cursor the shape will be created in place of the outline.
 * |fred| Free Draw: Clicking on the plot will create a *vertex*, multiple clicks will
-  bind vertices together and create lines. If a new line is found interesting an
+  bind vertices together and create lines. If a new line intersects an
   existing line a shape will be formed at the intersection being the enclosing vertex.
 * |eras| Erase: Selecting this button and clicking a shape will remove it from the plot. *note: *
   this will **not** delete the object in a database or JSON file if it is loaded, that is a
@@ -133,7 +138,7 @@ of shapes to a JSON file.
   Only the outline of the shapes will be drawn, pressing this one more reverts the change
 * |hide| Hide: Similar to Focus, but pressing this button will **completely** hide all shapes,
   they still exist; however they simply won't be drawn to the screen.
-* |save| Save: Save all existing objects in the **current** plot to a JSON formatted file.
+* |save| Save: Save selected objects in the **current** plot to a JSON formatted file.
   These objects can be loaded back into the screen with |load| and can be shared
   between researchers that wish to personally hand over shapes to another user for loading. If
   you wish to save all shapes from **every** plot into one fill, these is a *save_all* option
@@ -148,9 +153,27 @@ of shapes to a JSON file.
 Using the Database
 ------------------
 
-One of the defining features of VOCAL is the ability to import and export shapes to a database, this can
-help researchers share information about aerosols and their trajectory. The database can be accessed under
-the *polygon* menu, offering to either *import from database* or *export to database* . Let's start with exporting.
+One of the defining features of VOCAL is the ability to import and export shapes to a database, this
+can help researchers share information about aerosols and their trajectory. The database can be
+accessed under the *polygon* menu, offering to either *import from database* or *export to
+database*. Let's start with creating and selecting a database.
+
+Creating a Database
+###################
+
+By default, VOCAL uses the database file *CALIPSOdb.db* located in the *VOCAL/db* folder. However,
+you are free to create your own database elsewhere. Simply go to the *polygon* menu and select *create
+database*. You may name it whatever you like, and VOCAL will create it. When you create a new
+database, VOCAL will automatically switch to it. However, if you already have a CALIPSO database you
+would like to use, then you can simply select it.
+
+Selecting a Database
+####################
+
+To select a database created by VOCAL, simply go to the *polygon* menu and select *select database*.
+The tool will then prompt you to select your desired CALIPSO database. Once selected, all operations
+in the *polygon* menu will utilize this database. This can be useful if you would like to use a
+database on a shared folder.
 
 Exporting Shapes
 ################

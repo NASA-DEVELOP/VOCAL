@@ -6,17 +6,17 @@ VOCAL hosts support for a couple different IDE's, but there is really no *mandat
 
 .. rubric:: Window
 
-* Eclipse
-
-  Eclipse is great IDE that offers some powerful tools, the VOCAL repository comes with a project
-  file that allows for developers to easily load the project. See
-  :doc:`The Installation Page </installation>` for steps on setting up Eclipse with VOCAL.
-
 * PyCharm
 
   PyCharm is also a super powerful IDE for developing, and the plus here is it offers
   tools that ensure you follow the correct programming practices as outlined in the Coding
   Conventions.
+
+* Eclipse
+
+  Eclipse is great IDE that offers some powerful tools, the VOCAL repository comes with a project
+  file that allows for developers to easily load the project. See
+  :doc:`The Installation Page </installation>` for steps on setting up Eclipse with VOCAL.
 
 .. rubric:: Linux
 

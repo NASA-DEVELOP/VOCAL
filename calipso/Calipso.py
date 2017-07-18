@@ -304,8 +304,8 @@ class Calipso(object):
         db will then save all polygons present on the screen
         """
         # Check if a db has been selected. If not, select one
-        if Calipso.select_db() == 0:
-            return
+        #if Calipso.select_db() == 0:
+        #    return
 
         logger.info('Notifying database to save with select flag %s' % (str(only_selected)))
         success = self.__shapemanager.save_db(only_selected)
@@ -366,8 +366,8 @@ class Calipso(object):
         :return:
         """
         # Check if a db has been selected. If not, select one
-        if Calipso.select_db() == 0:
-            return
+        #if Calipso.select_db() == 0:
+        #    return
 
         options = dict()
         options['defaultextension'] = '.zip'
@@ -392,8 +392,8 @@ class Calipso(object):
         loaded into other databases and have all shapes imported
         """
         # Check if a db has been selected. If not, select one
-        if Calipso.select_db() == 0:
-            return
+        #if Calipso.select_db() == 0:
+        #    return
 
         if tkMessageBox.askyesno('Export database',
                                  'Database will be exported to a specified' +
@@ -800,8 +800,8 @@ class Calipso(object):
         delete entries.
         """
         # Check if a db has been selected. If not, select one
-        if Calipso.select_db() == 0:
-            return
+        #if Calipso.select_db() == 0:
+        #    return
 
         logger.info('Opening database import window')
         if (not ImportDialog.singleton):
