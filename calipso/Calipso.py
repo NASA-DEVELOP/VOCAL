@@ -20,9 +20,10 @@ import tkFileDialog
 import tkMessageBox
 import webbrowser
 
+from os.path import dirname
 from attributesdialog import AttributesDialog
 from bokeh.colors import white
-from constants import Plot, PATH, HOMEPATH, ICO
+from constants import Plot, PATH, HOMEPATH, ICO, CONF
 import constants
 from exctractdialog import ExtractDialog
 from importdialog import ImportDialog
@@ -143,13 +144,13 @@ class Calipso(object):
         # Polygon Menu
         menu_polygon = Menu(menu_bar, tearoff=0)
         menu_polygon.add_command(label='Import/Manage Database', command=self.import_dialog)
-        menu_polygon.add_command(label='Export all to Database', command=self.export_db)
-        menu_polygon.add_command(label='Export selected to Database',
+        menu_polygon.add_command(label='Export All to Database', command=self.export_db)
+        menu_polygon.add_command(label='Export Selected to Database',
                                  command=lambda: self.export_db(only_selected=True))
         menu_polygon.add_separator()
         menu_polygon.add_command(label='Create New Database', command=lambda: Calipso.create_db())
         menu_polygon.add_command(label='Select Database',
-                                 command=lambda: Calipso.select_db(iscommand=True))
+                                 command=lambda: Calipso.select_db())
         menu_polygon.add_separator()
         menu_polygon.add_command(label='Import Archive to Database',
                                  command=Calipso.import_json_db)
@@ -287,7 +288,7 @@ class Calipso(object):
         logger.info('Importing HDF file')
         # function to import HDF file used my open and browse
         file_types = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        dlg = tkFileDialog.Open(filetypes=file_types)
+        dlg = tkFileDialog.Open(filetypes=file_types, initialdir = CONF.session_hdf_dir)
         fl = dlg.show()
         if fl != '':
             if self.__file is not None and fl is not self.__file:
@@ -297,15 +298,14 @@ class Calipso(object):
             segments = self.__file.rpartition('/')
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
                                             text=segments[2])
+            CONF.session_hdf = fl
+            CONF.session_hdf_dir = dirname(fl)
 
     def export_db(self, only_selected=False):
         """
         Notify the database that a save is taking place, the
         db will then save all polygons present on the screen
         """
-        # Check if a db has been selected. If not, select one
-        #if Calipso.select_db() == 0:
-        #    return
 
         logger.info('Notifying database to save with select flag %s' % (str(only_selected)))
         success = self.__shapemanager.save_db(only_selected)
@@ -325,37 +325,36 @@ class Calipso(object):
         options = dict()
         options['defaultextension'] = '.db'
         options['filetypes'] = [('CALIPSO Databases', '*.db'), ('All files', '*')]
-        options['initialdir'] = HOMEPATH
+        options['initialdir'] = CONF.session_db_dir
         options['title'] = 'Select Database to Use'
         options['initialfile'] = 'CALIPSOdb.db'
-        f = tkFileDialog.asksaveasfilename(**options)
-        if f != '':
-            db.set_path(f)
+        fl = tkFileDialog.asksaveasfilename(**options)
+        if fl != '':
+            db.set_path(fl)
+            CONF.session_db = fl
+            CONF.session_db_dir = dirname(fl)
 
     @staticmethod
-    def select_db(iscommand=False):
+    def select_db():
         """
         Opens a file browser to select a database if one is not already chosen
 
-        :param iscommand: Make true if we are executing from the menu command
-        :return:
+        :param iscommand: Make True if we are executing from the menu command
+        :return: Return 0 if no file was selected
         """
-        if db.db_selected == False or iscommand == True:
-            options = dict()
-            options['defaultextension'] = '.db'
-            options['filetypes'] = [('CALIPSO Databases', '*.db'), ('All files', '*')]
-            options['initialdir'] = HOMEPATH
-            options['title'] = 'Select Database to Use'
-            f = tkFileDialog.Open(**options)
-            f = f.show()
-            print(f)
-            if f != '':
-                db.set_path(f)
-            else:
-                if tkMessageBox.askretrycancel('Warning', 'No database selected, retry?'):
-                    Calipso.select_db()
-                else:
-                    return 0
+
+        options = dict()
+        options['defaultextension'] = '.db'
+        options['filetypes'] = [('CALIPSO Databases', '*.db'), ('All files', '*')]
+        options['initialdir'] = CONF.session_db_dir
+        options['title'] = 'Select Database to Use'
+        fl = tkFileDialog.Open(**options)
+        fl = fl.show()
+        print(fl)
+        if fl != '':
+            db.set_path(fl)
+            CONF.session_db = fl
+            CONF.session_db_dir = dirname(fl)
 
     @staticmethod
     def import_json_db():
@@ -365,9 +364,6 @@ class Calipso(object):
         their database without needing to manually move their db file.
         :return:
         """
-        # Check if a db has been selected. If not, select one
-        #if Calipso.select_db() == 0:
-        #    return
 
         options = dict()
         options['defaultextension'] = '.zip'
@@ -391,9 +387,6 @@ class Calipso(object):
         Export the contents of the database to an archive containing JSON, which can then be
         loaded into other databases and have all shapes imported
         """
-        # Check if a db has been selected. If not, select one
-        #if Calipso.select_db() == 0:
-        #    return
 
         if tkMessageBox.askyesno('Export database',
                                  'Database will be exported to a specified' +
@@ -799,9 +792,6 @@ class Calipso(object):
         Open the database import window allowing the user to import and
         delete entries.
         """
-        # Check if a db has been selected. If not, select one
-        #if Calipso.select_db() == 0:
-        #    return
 
         logger.info('Opening database import window')
         if (not ImportDialog.singleton):
@@ -859,8 +849,10 @@ class Calipso(object):
         """
         Checks if the all the shapes are saved. If a shape is unsaved, the
         program will ask the user whether save or not, and then close the
-        program
+        program. Also saves the session settings to the config.json file
         """
+        logger.info('Writing session settings')
+        CONF.write_config()
         if not self.__shapemanager.is_all_saved():
             logger.warning('Unsaved shapes found')
             answer = tkMessageBox. \

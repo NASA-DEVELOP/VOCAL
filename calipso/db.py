@@ -111,9 +111,6 @@ class DatabaseManager(object):
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)
 
-        # This will become true when the user selects a db to use
-        self.db_selected = False
-
     def query_unique_tag(self):
         """
         Grabs a session and queries the database to find the starting tag for the application.
@@ -349,7 +346,6 @@ class DatabaseManager(object):
         self.__dbEngine = create_engine('sqlite:///' + new_path, echo=False)
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)
-        self.db_selected = True
 
     @staticmethod
     def encode(filename, data):

@@ -155,8 +155,8 @@ Using the Database
 
 One of the defining features of VOCAL is the ability to import and export shapes to a database, this
 can help researchers share information about aerosols and their trajectory. The database can be
-accessed under the *polygon* menu, offering to either *import from database* or *export to
-database*. Let's start with creating and selecting a database.
+accessed under the *polygon* menu, offering to either *import from database*, *export to
+database*, *create database* and *select database*. Let's start with creating and selecting a database.
 
 Creating a Database
 ###################
@@ -174,6 +174,10 @@ To select a database created by VOCAL, simply go to the *polygon* menu and selec
 The tool will then prompt you to select your desired CALIPSO database. Once selected, all operations
 in the *polygon* menu will utilize this database. This can be useful if you would like to use a
 database on a shared folder.
+
+.. note::
+   If you would like to work out of the non-default database, you must select it every time you open VOCAL.
+   If you do not select your new database every time, VOCAL will save your polygons to the default.
 
 Exporting Shapes
 ################

@@ -24,7 +24,6 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
 
     print('xrange: ' + str(x_range) + ', yrange: ' + str(y_range))
 
-
     with HDF(filename) as product:
         time = product['Profile_UTC_Time'][x1:x2, 0]
         alt = product['metadata']['Lidar_Data_Altitudes']

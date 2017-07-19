@@ -24,7 +24,13 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
     x2 = x_range[1]
     h1 = y_range[0]
     h2 = y_range[1]
-    averaging_width = 15
+    # averaging_width = 15
+    # Adjust the averaging with so its uniform per range
+    averaging_width = int((x2-x1)/1000)
+    if averaging_width < 5:
+        averaging_width = 5
+    if averaging_width > 15:
+        averaging_width = 15
 
     colormap = 'dat/calipso-backscatter.cmap'
 

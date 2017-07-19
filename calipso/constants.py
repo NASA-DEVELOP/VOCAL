@@ -8,7 +8,53 @@
 
 import os
 from sys import platform as _platform
-from os.path import expanduser
+from os.path import expanduser, dirname
+import json
+
+
+class Config(object):
+    """
+    Class holds constants from config.json. These variables are set and held from one vocal session
+    to another to make the ux a little smoother
+    """
+    def __init__(self, fl):
+        self.__data = None
+        self.__file = fl
+
+        self.default_db = None
+        self.default_db_dir = None
+        self.session_db = None
+        self.session_db_dir = None
+        self.session_hdf = None
+        self.session_hdf_dir = None
+        self.opened = None
+
+        self.get_config()
+        self.get_variables()
+
+    # __init__ command
+    def get_config(self):
+        with open(self.__file) as json_data_file:
+            data = json.load(json_data_file)
+            self.__data = dict(data)
+
+    # __init__ command
+    def get_variables(self):
+        self.default_db = self.__data['default_database']
+        self.default_db_dir = dirname(self.default_db)
+        self.session_db = self.__data['last_used_database']
+        self.session_db_dir = dirname(self.session_db)
+        self.session_hdf = self.__data['last_used_hdf']
+        self.session_hdf_dir = dirname(self.session_hdf)
+        self.opened = self.__data['has_opened_before']
+
+    def write_config(self):
+        self.__data['default_database'] = self.default_db
+        self.__data['last_used_database'] = self.session_db
+        self.__data['last_used_hdf'] = self.session_hdf
+        self.__data['has_opened_before'] = 'True'
+        with open(self.__file, 'w') as outfile:
+            json.dump(self.__data, outfile)
 
 class Plot(object):
     baseplot = 0
@@ -70,8 +116,10 @@ HELP_PAGE = 'http://nasa-develop.github.io/VOCAL/developer_index.html'
 TIME_VARIANCE = 0.001
 ALTITUDE_VARIANCE = 0.3
 PATH = '.'
-HOMEPATH = expanduser("~")
+HOMEPATH = expanduser('~')
 #PATH = os.path.dirname(os.path.realpath(__file__))
+
+CONF = Config(PATH + '/dat/config.json')
 
 ICO = PATH + '/ico/broadcasting.ico'
 if _platform == 'linux' or _platform == 'linux2':
@@ -82,5 +130,5 @@ if os.name == 'posix':
     EFFECT_OFF = {'highlightbackground': 'white'}
 
 ABOUT = \
-     "VOCAL v1.17.7.a\nAlpha build\n\n" \
+     "VOCAL v1.17.7\nBeta build\n\n" \
      " LaRC Summer 2017 Term\n  Project Lead: Collin Pampalone"

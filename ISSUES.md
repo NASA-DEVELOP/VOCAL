@@ -7,8 +7,8 @@ These make functionality frustrating
 * JSON saving/loading is kind of wonky, maybe it should be tucked away in the gui and emphasise using the database more
 * Shapes on L2 plots seem to be created but not displayed
 * There's a divide by 0 error that should be resolved in plot_depolarization
-* There is a horizontal division in the backscatter render
 * Zoom tool is broken
+* Persistent shapes
 
 ### Enhancements
 Add eventually, these make the program more organized and easier to use
@@ -18,7 +18,5 @@ Add eventually, these make the program more organized and easier to use
 * Clear out Vocal data block unnecessary code, other unused code
 
 ### To Update in Docs
-* Installation
-* Tutorial
 * Look for references to old repositories (syntaf)
 
