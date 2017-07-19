@@ -4,7 +4,6 @@
 #   @author: Grant Mercer
 ###################################
 
-# import antigravity
 import json
 import os
 import re
@@ -257,6 +256,7 @@ class DatabaseManager(object):
         session = self.__Session()
         # tmp should not previously exist because we don't want files we didn't
         # add ourselves
+        print(PATH)
         if os.path.exists(PATH + '/../tmp'):
             logger.error('Tmp directory should not exist, will not zip')
             return False
@@ -307,7 +307,7 @@ class DatabaseManager(object):
                         fshape = data[key][shape]
                         tag = 'shape' + str(new)
                         time = datetime.strptime(data['time'], DATEFORMAT)
-                        hdf = data['hdfFile']
+                        hdf = data['hdffile']
                         color = fshape['color']
                         coordinates = fshape['coordinates']
                         attributes = fshape['attributes']
@@ -340,6 +340,12 @@ class DatabaseManager(object):
         session.commit()
         shutil.rmtree(PATH + '/../tmp')
         return True
+
+    def set_path(self, new_path):
+        logger.info('Setting new path')
+        self.__dbEngine = create_engine('sqlite:///' + new_path, echo=False)
+        self.__Session = sessionmaker(bind=self.__dbEngine)
+        dbBase.metadata.create_all(self.__dbEngine)
 
     @staticmethod
     def encode(filename, data):

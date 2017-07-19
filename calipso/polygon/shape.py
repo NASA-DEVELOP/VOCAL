@@ -96,7 +96,7 @@ class Shape(object):
         """
         logger.info("Drawing polygon")
 
-        # Generates a gnarly random color brah
+        # Generates a random color
         r = lambda: random.randint(0, 255)
         clr = '#%02X%02X%02X' % (r(), r(), r())
 

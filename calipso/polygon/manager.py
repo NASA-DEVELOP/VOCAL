@@ -39,7 +39,11 @@ class ShapeManager(object):
         self.__shape_list = [[Shape(canvas)],           # baseplot
                              [Shape(canvas)],           # backscattered
                              [Shape(canvas)],           # depolarized
-                             [Shape(canvas)]]           # vfm
+                             [Shape(canvas)],			# vfm
+                             [Shape(canvas)],			# iwp
+                             [Shape(canvas)],           # horiz_avg
+                             [Shape(canvas)]]           # aerosol_subtype
+
         logger.info("Instantiating Exporting Reader")
         self.__current_list = None          # aliases shape_list's current plot
         self.__current_file = ''            # current JSON file, NOT .hdf file!
@@ -78,9 +82,7 @@ class ShapeManager(object):
         """
         Clear all references to the current figure, this is called
         in the ``Calipso`` class when a plot is to be set as to ensure
-        no dangling references are left. If we we're writing this in
-        Rust we wouldn't need to worry about this because Rust has better
-        ownership semantics ;)
+        no dangling references are left
         """
         for shape in self.__current_list[:-1]:
             ih = shape.get_itemhandler()
@@ -161,7 +163,8 @@ class ShapeManager(object):
         :rtype: :py:class:`int`
         """
         return len(self.__shape_list[0]) + len(self.__shape_list[1]) + \
-            len(self.__shape_list[2]) + len(self.__shape_list[3]) - 4
+               len(self.__shape_list[2]) + len(self.__shape_list[3]) + len(self.__shape_list[4]) + \
+               len(self.__shape_list[5]) + len(self.__shape_list[6]) - 7
 
     def get_current_list(self):
         """
@@ -325,8 +328,7 @@ class ShapeManager(object):
             if self.__current_plot == constants.plot_type_enum[key]:
                 for shape in lst:
                     if not shape.is_empty():
-                        logger.info('Shape found in \'%s\', drawing' %
-                                    key)
+                        logger.info('Shape found in \'%s\', drawing' % key)
                         shape.redraw(self.__figure, ShapeManager.outline_toggle)
 
             self.__canvas.show()
@@ -340,7 +342,10 @@ class ShapeManager(object):
             self.__shape_list = [[Shape(self.__canvas)],           # baseplot
                                  [Shape(self.__canvas)],           # backscattered
                                  [Shape(self.__canvas)],           # depolarized
-                                 [Shape(self.__canvas)]]           # vfm
+                                 [Shape(self.__canvas)],           # vfm
+                                 [Shape(self.__canvas)],           # iwp
+                                 [Shape(self.__canvas)],           # horiz_avg
+                                 [Shape(self.__canvas)]]           # aerosol_subtype
         else:
             logger.info('Resetting ShapeManager')
             for shape in self.__current_list:
@@ -581,11 +586,19 @@ class ShapeManager(object):
             logger.info('set_plot to DEPOLARIZED')
             self.__current_list = self.__shape_list[Plot.depolarized]
             self.__current_plot = Plot.depolarized
-
-        
-
-
-
-
-
-
+        elif plot == Plot.vfm:
+            logger.info('set_plot to VFM')
+            self.__current_list = self.__shape_list[Plot.vfm]
+            self.__current_plot = Plot.vfm
+        elif plot == Plot.iwp:
+            logger.info('set_plot to IWP')
+            self.__current_list = self.__shape_list[Plot.iwp]
+            self.__current_plot = Plot.iwp
+        elif plot == Plot.horiz_avg:
+            logger.info('set_plot to HORIZ_AVG')
+            self.__current_list = self.__shape_list[Plot.horiz_avg]
+            self.__current_plot = Plot.horiz_avg
+        elif plot == Plot.horiz_avg:
+            logger.info('set_plot to AEROSOL SUBTYPE')
+            self.__current_list = self.__shape_list[Plot.aerosol_subtype]
+            self.__current_plot = Plot.aerosol_subtype
