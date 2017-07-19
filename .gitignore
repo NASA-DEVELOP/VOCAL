@@ -4,6 +4,7 @@
 *.iml
 *.db
 .idea
+*.json
 *.sln
 *.pyproj
 *.DS_Store
