@@ -1,6 +1,6 @@
 ## Docs:
 
-http://nasa-develop.github.io/VOCAL/developer_index.html
+http://nasa-develop.github.io/VOCAL/
 
 |    |    |
 :---:|:---:

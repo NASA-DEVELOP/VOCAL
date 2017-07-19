@@ -163,7 +163,7 @@ class ExtractDialog(Toplevel):
 
             cmap = ccplot.utils.cmap(colormap)
             cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
-            cm.set_under(cmap['under']/255.0)
+            cm.set_under(cmap['under']//255.0)
             cm.set_over(cmap['over']/255.0)
             cm.set_bad(cmap['bad']/255.0)
             norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)

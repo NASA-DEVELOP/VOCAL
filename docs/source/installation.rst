@@ -29,11 +29,10 @@ Windows [#f1]_
 
 3. Grab the *basemap* package ``conda install basemap``, ``y``
 
-4. Install PIL ``conda install pillow``, ``y``
+4. install pillow ``conda install pillow``, ``y``
 
-   * PIL is an old library and can often cause some errors, if when running
-     VOCAL you receive the error ``Import Error: cannot import name _imagingtk``,
-     see the :doc:`FAQ <trouble/faq>` on fixing this error
+   * Ensure you have pillow, rather than PIL. Pillow is a newer and updated
+     version of PIL
 
 5. To install CCPLOT:
 

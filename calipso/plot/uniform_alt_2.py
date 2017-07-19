@@ -32,10 +32,10 @@ def uniform_alt_2(max_altitude, old_altitude_array):
 
     new_length = int(new_num_bins + len(alt2))
 
-    new_alt = np.zeros(new_length)
-    new_alt[new_num_bins:new_length] = alt2
+    new_alt = np.zeros(int(new_length))
+    new_alt[int(new_num_bins):int(new_length)] = alt2
 
     upper_altitudes =  (np.arange(new_num_bins) + 1.)*D_ALT
-    new_alt[:new_num_bins] = new_alt[new_num_bins] + upper_altitudes[::-1]
+    new_alt[:int(new_num_bins)] = new_alt[int(new_num_bins)] + upper_altitudes[::-1]
 
     return new_alt
