@@ -151,9 +151,9 @@ class Calipso(object):
         menu_polygon.add_command(label='Select Database',
                                  command=lambda: Calipso.select_db(iscommand=True))
         menu_polygon.add_separator()
-        menu_polygon.add_command(label='Import archive to database',
+        menu_polygon.add_command(label='Import Archive to Database',
                                  command=Calipso.import_json_db)
-        menu_polygon.add_command(label='Export database to archive',
+        menu_polygon.add_command(label='Export Database to Archive',
                                  command=Calipso.export_json_db)
         menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
 
