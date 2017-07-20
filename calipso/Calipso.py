@@ -376,6 +376,7 @@ class Calipso(object):
         options = dict()
         options['defaultextension'] = '.zip'
         options['filetypes'] = [('CALIPSO Data Archive', '*.zip'), ('All files', '*')]
+        options['initialdir'] = CONF.session_db_dir
         fl = tkFileDialog.askopenfilename(**options)
         if fl != '':
             log_fname = fl.rpartition('/')[2]
@@ -403,6 +404,7 @@ class Calipso(object):
             options = dict()
             options['defaultextension'] = '.zip'
             options['filetypes'] = [('ZIP Files', '*.zip'), ('All files', '*')]
+            options['initialdir'] = CONF.session_db_dir
             fl = tkFileDialog.asksaveasfilename(**options)
             if fl != '':
                 log_fname = fl.rpartition('/')[2]
@@ -446,6 +448,7 @@ class Calipso(object):
         .. py:attribute:: VFM
         .. py:attribute:: IWP
         .. py:attribute:: HORIZ_AVG
+        .. py.attribute:: AEROSOL_SUBTYPE
 
         :param int plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM, IWP, HORIZ_AVG
         :param list xrange\_: accepts a range of time to plot

@@ -15,10 +15,10 @@ import json
 class Config(object):
     """
     Class holds constants from config.json. These variables are set and held from one vocal session
-    to another to make the ux a little smoother
+    to another to make the ux a little smoother. Use CONF below to access the class
     """
     def __init__(self, fl):
-        self.__data = None
+        self.__data = dict()
         self.__file = fl
 
         self.default_db = None
@@ -32,14 +32,24 @@ class Config(object):
         self.get_config()
         self.get_variables()
 
-    # __init__ command
+    #####
+    #  __init__ commands
+    ####
     def get_config(self):
-        with open(self.__file) as json_data_file:
-            data = json.load(json_data_file)
-            self.__data = dict(data)
+        """ Loads the config file and sets it as a dictionary """
+        if self.__file != '':
+            with open(self.__file) as json_data_file:
+                data = json.load(json_data_file)
+                self.__data = dict(data)
+        else:
+            # Create the config with defaults if there isn't one
+            self.default_db = './../db/CALIPSOdb.db'
+            self.session_db = './../db/CALIPSOdb.db'
+            self.session_hdf = '.'
+            self.write_config()
 
-    # __init__ command
     def get_variables(self):
+        """ Turn all of the entries in the dictionary into variables """
         self.default_db = self.__data['default_database']
         self.default_db_dir = dirname(self.default_db)
         self.session_db = self.__data['last_used_database']
@@ -48,7 +58,15 @@ class Config(object):
         self.session_hdf_dir = dirname(self.session_hdf)
         self.opened = self.__data['has_opened_before']
 
+    #####
+    # External Commands
+    #####
     def write_config(self):
+        """
+        Write all of the changes to variables to the dictionary, save the dictionary as a json
+        :return: 
+        """
+
         self.__data['default_database'] = self.default_db
         self.__data['last_used_database'] = self.session_db
         self.__data['last_used_hdf'] = self.session_hdf
@@ -117,8 +135,8 @@ TIME_VARIANCE = 0.001
 ALTITUDE_VARIANCE = 0.3
 PATH = '.'
 HOMEPATH = expanduser('~')
-#PATH = os.path.dirname(os.path.realpath(__file__))
 
+# Makes a single persistent instance of the config for VOCAL to grab
 CONF = Config(PATH + '/dat/config.json')
 
 ICO = PATH + '/ico/broadcasting.ico'
@@ -129,6 +147,7 @@ if os.name == 'posix':
     EFFECT_ON = {'highlightbackground': 'red'}
     EFFECT_OFF = {'highlightbackground': 'white'}
 
+# Update every term
 ABOUT = \
      "VOCAL v1.17.7\nBeta build\n\n" \
      " LaRC Summer 2017 Term\n  Project Lead: Collin Pampalone"
