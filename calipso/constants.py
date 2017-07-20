@@ -21,31 +21,29 @@ class Config(object):
         self.__data = dict()
         self.__file = fl
 
-        self.default_db = None
+        self.default_db = './../db/CALIPSOdb.db'
         self.default_db_dir = None
-        self.session_db = None
+        self.session_db = './../db/CALIPSOdb.db'
         self.session_db_dir = None
-        self.session_hdf = None
+        self.session_hdf = '.'
         self.session_hdf_dir = None
-        self.opened = None
+        self.opened = False
+        self.persistent_shapes = True
 
         self.get_config()
         self.get_variables()
 
-    #####
+    ####################
     #  __init__ commands
-    ####
+    ####################
     def get_config(self):
         """ Loads the config file and sets it as a dictionary """
-        if self.__file != '':
+        try:
             with open(self.__file) as json_data_file:
                 data = json.load(json_data_file)
                 self.__data = dict(data)
-        else:
+        except IOError:
             # Create the config with defaults if there isn't one
-            self.default_db = './../db/CALIPSOdb.db'
-            self.session_db = './../db/CALIPSOdb.db'
-            self.session_hdf = '.'
             self.write_config()
 
     def get_variables(self):
@@ -57,6 +55,7 @@ class Config(object):
         self.session_hdf = self.__data['last_used_hdf']
         self.session_hdf_dir = dirname(self.session_hdf)
         self.opened = self.__data['has_opened_before']
+        self.persistent_shapes = self.__data['use_persistent_shapes']
 
     #####
     # External Commands
@@ -70,7 +69,10 @@ class Config(object):
         self.__data['default_database'] = self.default_db
         self.__data['last_used_database'] = self.session_db
         self.__data['last_used_hdf'] = self.session_hdf
-        self.__data['has_opened_before'] = 'True'
+        self.__data['has_opened_before'] = self.opened
+        self.__data['use_persistent_shapes'] = self.persistent_shapes
+
+
         with open(self.__file, 'w') as outfile:
             json.dump(self.__data, outfile)
 

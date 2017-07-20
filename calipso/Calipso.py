@@ -31,7 +31,7 @@ import webbrowser
 from os.path import dirname
 from attributesdialog import AttributesDialog
 from bokeh.colors import white
-from constants import Plot, PATH, HOMEPATH, ICO, CONF
+from constants import Plot, PATH, ICO, CONF
 import constants
 from exctractdialog import ExtractDialog
 from importdialog import ImportDialog
@@ -507,7 +507,7 @@ class Calipso(object):
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_depolarized(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_depolarized(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.depolarized, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -532,7 +532,7 @@ class Calipso(object):
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_vfm(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_vfm(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.vfm, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -557,7 +557,7 @@ class Calipso(object):
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_iwp(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_iwp(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.iwp, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -582,7 +582,7 @@ class Calipso(object):
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_horiz_avg(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_horiz_avg(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.horiz_avg, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -607,7 +607,7 @@ class Calipso(object):
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_aerosol_subtype(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_aerosol_subtype(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.aerosol_subtype, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -863,6 +863,7 @@ class Calipso(object):
         program. Also saves the session settings to the config.json file
         """
         logger.info('Writing session settings')
+        CONF.opened = 'True'
         CONF.write_config()
         if not self.__shapemanager.is_all_saved():
             logger.warning('Unsaved shapes found')
