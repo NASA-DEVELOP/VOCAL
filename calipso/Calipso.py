@@ -31,7 +31,7 @@ import webbrowser
 from os.path import dirname
 from attributesdialog import AttributesDialog
 from bokeh.colors import white
-from constants import Plot, PATH, HOMEPATH, ICO, CONF
+from constants import Plot, PATH, ICO, CONF
 import constants
 from exctractdialog import ExtractDialog
 from importdialog import ImportDialog
@@ -376,6 +376,7 @@ class Calipso(object):
         options = dict()
         options['defaultextension'] = '.zip'
         options['filetypes'] = [('CALIPSO Data Archive', '*.zip'), ('All files', '*')]
+        options['initialdir'] = CONF.session_db_dir
         fl = tkFileDialog.askopenfilename(**options)
         if fl != '':
             log_fname = fl.rpartition('/')[2]
@@ -403,6 +404,7 @@ class Calipso(object):
             options = dict()
             options['defaultextension'] = '.zip'
             options['filetypes'] = [('ZIP Files', '*.zip'), ('All files', '*')]
+            options['initialdir'] = CONF.session_db_dir
             fl = tkFileDialog.asksaveasfilename(**options)
             if fl != '':
                 log_fname = fl.rpartition('/')[2]
@@ -446,6 +448,7 @@ class Calipso(object):
         .. py:attribute:: VFM
         .. py:attribute:: IWP
         .. py:attribute:: HORIZ_AVG
+        .. py.attribute:: AEROSOL_SUBTYPE
 
         :param int plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM, IWP, HORIZ_AVG
         :param list xrange\_: accepts a range of time to plot
@@ -469,8 +472,9 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(1)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
@@ -496,15 +500,16 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(1)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_depolarized(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_depolarized(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.depolarized, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -521,15 +526,16 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(2)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_vfm(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_vfm(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.vfm, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -546,15 +552,16 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(2)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_iwp(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_iwp(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.iwp, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -571,15 +578,16 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(2)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_horiz_avg(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_horiz_avg(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.horiz_avg, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -596,15 +604,16 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(2)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_aerosol_subtype(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_aerosol_subtype(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.aerosol_subtype, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -860,6 +869,7 @@ class Calipso(object):
         program. Also saves the session settings to the config.json file
         """
         logger.info('Writing session settings')
+        CONF.opened = True
         CONF.write_config()
         if not self.__shapemanager.is_all_saved():
             logger.warning('Unsaved shapes found')

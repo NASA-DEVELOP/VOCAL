@@ -4,7 +4,6 @@
 *.iml
 *.db
 .idea
-*.json
 *.sln
 *.pyproj
 *.DS_Store
@@ -17,3 +16,4 @@ calipso/htmlcov
 docs/source/.idea
 docs/source/analytics
 docs/build/
+/calipso/dat/config.json

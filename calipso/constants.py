@@ -15,31 +15,44 @@ import json
 class Config(object):
     """
     Class holds constants from config.json. These variables are set and held from one vocal session
-    to another to make the ux a little smoother
+    to another to make the ux a little smoother. Use CONF below to access the class.
     """
     def __init__(self, fl):
-        self.__data = None
+        self.__data = dict()
         self.__file = fl
 
-        self.default_db = None
+        # The databse that vocal opens with. This won't change unless its changed in this script
+        self.default_db = './../db/CALIPSOdb.db'
         self.default_db_dir = None
-        self.session_db = None
+        # Changes whenever the user selects or creates a new database
+        self.session_db = './../db/CALIPSOdb.db'
         self.session_db_dir = None
-        self.session_hdf = None
+        # Changes whenever a user opens a new hdf
+        self.session_hdf = '.'
         self.session_hdf_dir = None
-        self.opened = None
+        # Changes to true after opening VOCAL 1st time
+        self.opened = False
+        # True: shapes persist from one plot to the next, false: shapes appear on respective plots
+        self.persistent_shapes = True
 
         self.get_config()
         self.get_variables()
 
-    # __init__ command
+    ####################
+    #  __init__ commands
+    ####################
     def get_config(self):
-        with open(self.__file) as json_data_file:
-            data = json.load(json_data_file)
-            self.__data = dict(data)
+        """ Loads the config file and sets it as a dictionary """
+        try:
+            with open(self.__file) as json_data_file:
+                data = json.load(json_data_file)
+                self.__data = dict(data)
+        except IOError:
+            # Create the config with defaults if there isn't one
+            self.write_config()
 
-    # __init__ command
     def get_variables(self):
+        """ Turn all of the entries in the dictionary into variables """
         self.default_db = self.__data['default_database']
         self.default_db_dir = dirname(self.default_db)
         self.session_db = self.__data['last_used_database']
@@ -47,12 +60,24 @@ class Config(object):
         self.session_hdf = self.__data['last_used_hdf']
         self.session_hdf_dir = dirname(self.session_hdf)
         self.opened = self.__data['has_opened_before']
+        self.persistent_shapes = self.__data['use_persistent_shapes']
 
+    #####
+    # External Commands
+    #####
     def write_config(self):
+        """
+        Write all of the changes to variables to the dictionary, save the dictionary as a json
+        :return: 
+        """
+
         self.__data['default_database'] = self.default_db
         self.__data['last_used_database'] = self.session_db
         self.__data['last_used_hdf'] = self.session_hdf
-        self.__data['has_opened_before'] = 'True'
+        self.__data['has_opened_before'] = self.opened
+        self.__data['use_persistent_shapes'] = self.persistent_shapes
+
+
         with open(self.__file, 'w') as outfile:
             json.dump(self.__data, outfile)
 
@@ -117,8 +142,8 @@ TIME_VARIANCE = 0.001
 ALTITUDE_VARIANCE = 0.3
 PATH = '.'
 HOMEPATH = expanduser('~')
-#PATH = os.path.dirname(os.path.realpath(__file__))
 
+# Makes a single persistent instance of the config for VOCAL to grab
 CONF = Config(PATH + '/dat/config.json')
 
 ICO = PATH + '/ico/broadcasting.ico'
@@ -129,6 +154,7 @@ if os.name == 'posix':
     EFFECT_ON = {'highlightbackground': 'red'}
     EFFECT_OFF = {'highlightbackground': 'white'}
 
+# Update every term
 ABOUT = \
      "VOCAL v1.17.7\nBeta build\n\n" \
      " LaRC Summer 2017 Term\n  Project Lead: Collin Pampalone"

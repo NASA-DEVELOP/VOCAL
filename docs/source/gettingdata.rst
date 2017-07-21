@@ -18,6 +18,10 @@ on both the "CAL_LID_L1-Standard-V4-10" and "CAL_LID_VFM-Standard-V4-10" options
 **EarthData Search** provides a visual tool for selecting data. See the tour on their `website`__
 for more details on its use. You will still want to download both L1 and L2 data.
 
+.. note::
+
+   Even it you only wish to view L2 data, you must have the corresponding L1 file
+
 Another option is to grab example data from ccplot's sourceforge page, which a simple CALIPSO data
 file you can easily download and load into VOCAL right off the bat:
 

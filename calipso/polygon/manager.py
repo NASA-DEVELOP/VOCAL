@@ -15,7 +15,7 @@ from datetime import datetime
 from polygon.reader import ShapeReader
 from polygon.shape import Shape
 from propertiesdialog import PropertyDialog
-from constants import Plot
+from constants import Plot, CONF
 from db import db
 from log.log import logger
 
@@ -552,6 +552,9 @@ class ShapeManager(object):
         logger.debug('Settings plot to %s' % plot)
         self.__figure = fig
         self.set_plot(plot)
+        # Check if persistent shapes, use backscatter as the shapes list if so
+        if CONF.persistent_shapes:
+            self.__current_list = self.__shape_list[Plot.backscattered]
         if len(self.__current_list) > 1:
             logger.info('Redrawing shapes')
             for shape in self.__current_list[:-1]:
