@@ -15,19 +15,24 @@ import json
 class Config(object):
     """
     Class holds constants from config.json. These variables are set and held from one vocal session
-    to another to make the ux a little smoother. Use CONF below to access the class
+    to another to make the ux a little smoother. Use CONF below to access the class.
     """
     def __init__(self, fl):
         self.__data = dict()
         self.__file = fl
 
+        # The databse that vocal opens with. This won't change unless its changed in this script
         self.default_db = './../db/CALIPSOdb.db'
         self.default_db_dir = None
+        # Changes whenever the user selects or creates a new database
         self.session_db = './../db/CALIPSOdb.db'
         self.session_db_dir = None
+        # Changes whenever a user opens a new hdf
         self.session_hdf = '.'
         self.session_hdf_dir = None
+        # Changes to true after opening VOCAL 1st time
         self.opened = False
+        # True: shapes persist from one plot to the next, false: shapes appear on respective plots
         self.persistent_shapes = True
 
         self.get_config()

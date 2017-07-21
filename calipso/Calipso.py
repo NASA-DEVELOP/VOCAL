@@ -472,8 +472,9 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(1)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
@@ -499,8 +500,9 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(1)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
@@ -524,8 +526,9 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(2)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
@@ -549,8 +552,9 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(2)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
@@ -574,8 +578,9 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(2)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
@@ -599,8 +604,9 @@ class Calipso(object):
                             str(xrange_) + ' yrange: ' + str(yrange))
                 self.__file = self.__data_block.get_file_name(2)
                 logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
@@ -863,7 +869,7 @@ class Calipso(object):
         program. Also saves the session settings to the config.json file
         """
         logger.info('Writing session settings')
-        CONF.opened = 'True'
+        CONF.opened = True
         CONF.write_config()
         if not self.__shapemanager.is_all_saved():
             logger.warning('Unsaved shapes found')
