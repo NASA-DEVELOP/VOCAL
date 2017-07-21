@@ -37,6 +37,8 @@ from log.log import logger, error_check
 
 class MetaData:
     """
+    DECREPIT - See comments in source
+
     MetaData objects allow the transfer of rendering range and type info to and from Calipso and
     VocalDataBlock. The functions allow the code to call or set the current variables
     """

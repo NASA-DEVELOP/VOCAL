@@ -22,11 +22,11 @@ branch, and the website will always be on the *gh-pages* branch.
    
    > mkdir vocal
    > cd vocal
-   > git clone https://Github.com/Syntaf/vocal .
+   > git clone https://github.com/NASA-DEVELOP/VOCAL.git .
    > cd ..
    > mkdir docs
    > cd docs
-   > git clone https://Github.com/Syntaf/vocal .
+   > git clone https://github.com/NASA-DEVELOP/VOCAL.git .
 
 2. Now, we have two folders, your development folder ``vocal`` and your documentation site
    ``docs``. You'll need to switch the docs repository to *gh-pages*.::
