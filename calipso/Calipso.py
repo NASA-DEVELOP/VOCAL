@@ -35,6 +35,7 @@ from constants import Plot, PATH, ICO, CONF
 import constants
 from exctractdialog import ExtractDialog
 from importdialog import ImportDialog
+from settingsdialog import SettingsDialog
 from log.log import logger, error_check
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
@@ -139,6 +140,7 @@ class Calipso(object):
         menu_file = Menu(menu_bar, tearoff=0)
         menu_file.add_command(label='Import file', command=self.import_file)
         menu_file.add_command(label='Save all shapes', command=lambda: self.save_as_json(save_all=True))
+        menu_file.add_command(label='Settings...', command=self.settings_dialog)
         menu_file.add_separator()
         menu_file.add_command(label='Exit', command=self.close)
         menu_bar.add_cascade(label='File', menu=menu_file)
@@ -296,7 +298,7 @@ class Calipso(object):
         logger.info('Importing HDF file')
         # function to import HDF file used my open and browse
         file_types = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        dlg = tkFileDialog.Open(filetypes=file_types, initialdir = CONF.session_hdf_dir)
+        dlg = tkFileDialog.Open(filetypes=file_types, initialdir=CONF.session_hdf.dir())
         fl = dlg.show()
         if fl != '':
             if self.__file is not None and fl is not self.__file:
@@ -306,8 +308,7 @@ class Calipso(object):
             segments = self.__file.rpartition('/')
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
                                             text=segments[2])
-            CONF.session_hdf = fl
-            CONF.session_hdf_dir = dirname(fl)
+            CONF.session_hdf.change(fl)
 
     def export_db(self, only_selected=False):
         """
@@ -333,14 +334,13 @@ class Calipso(object):
         options = dict()
         options['defaultextension'] = '.db'
         options['filetypes'] = [('CALIPSO Databases', '*.db'), ('All files', '*')]
-        options['initialdir'] = CONF.session_db_dir
+        options['initialdir'] = CONF.session_db.dir()
         options['title'] = 'Select Database to Use'
         options['initialfile'] = 'CALIPSOdb.db'
         fl = tkFileDialog.asksaveasfilename(**options)
         if fl != '':
             db.set_path(fl)
-            CONF.session_db = fl
-            CONF.session_db_dir = dirname(fl)
+            CONF.session_db.change(fl)
 
     @staticmethod
     def select_db():
@@ -354,15 +354,14 @@ class Calipso(object):
         options = dict()
         options['defaultextension'] = '.db'
         options['filetypes'] = [('CALIPSO Databases', '*.db'), ('All files', '*')]
-        options['initialdir'] = CONF.session_db_dir
+        options['initialdir'] = CONF.session_db.dir()
         options['title'] = 'Select Database to Use'
         fl = tkFileDialog.Open(**options)
         fl = fl.show()
         print(fl)
         if fl != '':
             db.set_path(fl)
-            CONF.session_db = fl
-            CONF.session_db_dir = dirname(fl)
+            CONF.session_db.change(fl)
 
     @staticmethod
     def import_json_db():
@@ -376,7 +375,7 @@ class Calipso(object):
         options = dict()
         options['defaultextension'] = '.zip'
         options['filetypes'] = [('CALIPSO Data Archive', '*.zip'), ('All files', '*')]
-        options['initialdir'] = CONF.session_db_dir
+        options['initialdir'] = CONF.session_db.dir()
         fl = tkFileDialog.askopenfilename(**options)
         if fl != '':
             log_fname = fl.rpartition('/')[2]
@@ -404,7 +403,7 @@ class Calipso(object):
             options = dict()
             options['defaultextension'] = '.zip'
             options['filetypes'] = [('ZIP Files', '*.zip'), ('All files', '*')]
-            options['initialdir'] = CONF.session_db_dir
+            options['initialdir'] = CONF.session_db.dir()
             fl = tkFileDialog.asksaveasfilename(**options)
             if fl != '':
                 log_fname = fl.rpartition('/')[2]
@@ -817,6 +816,20 @@ class Calipso(object):
         else:
             logger.warning('Found existing import window, canceling')
 
+    def settings_dialog(self):
+        """
+        Opens the settings window allowing the user to manually change the settings in the config
+        file
+        """
+
+        logger.info('Opening settings window')
+        if (not SettingsDialog.singleton):
+            SettingsDialog(self.__root, self). \
+                wm_iconbitmap(ICO)
+        else:
+            logger.warning('Found existing settings window, canceling')
+
+
     # end dialog functions
     ############################################################
 
@@ -869,7 +882,7 @@ class Calipso(object):
         program. Also saves the session settings to the config.json file
         """
         logger.info('Writing session settings')
-        CONF.opened = True
+        CONF.opened.change(True)
         CONF.write_config()
         if not self.__shapemanager.is_all_saved():
             logger.warning('Unsaved shapes found')
