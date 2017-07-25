@@ -48,7 +48,6 @@ class ConfigFileSetting(object):
     def get_type():
         return 'file'
 
-
 class ConfigBooleanSetting(object):
     """
     Simple class to store and change booleans in the config file
