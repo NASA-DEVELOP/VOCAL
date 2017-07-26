@@ -11,17 +11,20 @@ import os
 import matplotlib as mpl
 from log.log import logger
 
-def find_between( s, first, last ):
+
+def find_between(s, first, last):
     try:
-        start = s.index( first ) + len( first )
-        end = s.index( last, start )
+        start = s.index(first) + len(first)
+        end = s.index(last, start)
         return s[start:end]
     except ValueError:
         return ""
 
+
 def get_sec(s):
     l = s.split(':')
     return int(l[0]) * 3600 + int(l[1]) * 60 + int(l[2])
+
 
 def center(toplevel, size):
     """
@@ -135,8 +138,8 @@ def interpolation_search(sorted_list, to_find, variance):
     high = len(sorted_list) - 1
 
     while sorted_list[low] <= to_find <= sorted_list[high]:
-        mid = (low + ((to_find - sorted_list[low]) * (high - low))
-               / (sorted_list[high] - sorted_list[low]))
+        mid = int(low + ((to_find - sorted_list[low]) * (high - low))
+                  / (sorted_list[high] - sorted_list[low]))
 
         if sorted_list[mid] < to_find:
             low = mid + 1
@@ -175,6 +178,7 @@ class Observer(object):
     as Observer doesn't actually contain any data, just the tools for
     notifying.
     """
+
     def __init__(self):
         self._observers = []
 
@@ -213,6 +217,7 @@ class Catcher:
     A Tkinter overloaded class for forwarding the exception output
     directly to the log
     """
+
     def __init__(self, func, subst, widget):
         self.func = func
         self.subst = subst
