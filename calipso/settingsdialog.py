@@ -148,9 +148,9 @@ class SettingsDialog(Toplevel):
         self.__var_dict[key]['lock_setting'] = new_val.get()
         logger.info(key + ' manual/auto lock changed to ' + str(new_val.get()))
 
-    def change_bool_setting(self, key, new_value):
+    def change_bool_setting(self, key, new_val):
         """ Change a boolean config setting """
-        self.__var_dict[key]['value'] = new_value.get()
+        self.__var_dict[key]['value'] = new_val.get()
         logger.info(key + ' bool setting changed to ' + str(new_val.get()))
 
     def change_dir_setting(self, key, dialog_box):

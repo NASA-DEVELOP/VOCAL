@@ -4,18 +4,15 @@
 #    @author: Nathan Qian
 #    @author: Grant Mercer
 ######################################
-from Tkconstants import TOP, X, BOTH, RIGHT, FLAT
 import constants
 import matplotlib as mpl
 import tkMessageBox
 
-from constants import DATEFORMAT
-from Tkinter import Toplevel, Label, SOLID, TclError, LEFT, Frame, Button
+from constants import DATEFORMAT, Plot, CONF
 from datetime import datetime
 from polygon.reader import ShapeReader
 from polygon.shape import Shape
 from propertiesdialog import PropertyDialog
-from constants import Plot, CONF
 from db import db
 from log.log import logger
 
@@ -325,12 +322,12 @@ class ShapeManager(object):
         for key in constants.plot_type_enum:
             lst = self.__shape_list[constants.plot_type_enum[key]]
             self.__shapereader.pack_shape(lst, key, self.__canvas, read_from_str,)
-            if self.__current_plot == constants.plot_type_enum[key]:
+            # The "or CONF.persistent_shapes" allows shapes that don't match the plot to be shown
+            if self.__current_plot == constants.plot_type_enum[key] or CONF.persistent_shapes:
                 for shape in lst:
                     if not shape.is_empty():
                         logger.info('Shape found in \'%s\', drawing' % key)
                         shape.redraw(self.__figure, ShapeManager.outline_toggle)
-
             self.__canvas.show()
 
     def reset(self, all_=False):
@@ -385,7 +382,7 @@ class ShapeManager(object):
             return False
         today = datetime.utcnow().replace(microsecond=0)
         if(only_selected):
-            db.commit_to_db( self.__selected_shapes, today, self.__hdf)
+            db.commit_to_db(self.__selected_shapes, today, self.__hdf)
         else:
             # Must account for dummy object at end of current list
             db.commit_to_db(self.__current_list[:-1], today, self.__hdf)
