@@ -24,16 +24,11 @@ Features
    .. image:: _static/programShapesActive.png
       :scale: 20%
 
-
-.. note::
-   VOCAL is currently in it's early phase, and requires additional work
-   till it can be released to the community.
-
 The Visualization tool currently contains a number of great features:
 
 * Load standard Calipso data and display a backscattered and depolarized plot
 * Manipulate the image with ``zoom``, ``move``, ``reload`` and many more
-* Draw object which are overlayed upon the plot , free draw or rect mode
+* Draw object which are overlaid upon the plot , free draw or rect mode
 * Save dawn shapes and properties to a database and export to share with other researchers
 
 Data from the ``HDF`` file is loaded and parsed in order to display the plot inside of the application. Objects can be

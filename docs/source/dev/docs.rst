@@ -4,7 +4,7 @@ Building and Writing Docs
 
 One of the most important aspects of writing *good* software is clarity and readability.
 We hope as other developers find themselves tasked with improving this tool, documentation
-is also held to as high a standard as Nathan and I do.
+is also held to as high a standard as we do.
 
 .. rubric:: Building the docs
 

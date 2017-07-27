@@ -20,23 +20,23 @@ branch, and the website will always be on the *gh-pages* branch.
 
 1. First, go ahead and clone two repositories into the workplace of your choice.::
    
-   > mkdir vocal
-   > cd vocal
+   > mkdir dev
+   > cd dev
    > git clone https://github.com/NASA-DEVELOP/VOCAL.git .
    > cd ..
    > mkdir docs
    > cd docs
    > git clone https://github.com/NASA-DEVELOP/VOCAL.git .
 
-2. Now, we have two folders, your development folder ``vocal`` and your documentation site
+2. Now, we have two folders, your development folder ``dev`` and your documentation site
    ``docs``. You'll need to switch the docs repository to *gh-pages*.::
    
-   > cd docs
+   > cd docs/VOCAL
    > git checkout gh-pages
 
 3. So you can now go on and write code, develop and create additional docs in your
-   ``vocal`` workspace. When you're finally ready to rebuild the site , this will require you
-   to clear your ``docs`` branch and populate it with your new generated docs.
+   ``dev/VOCAL`` workspace. When you're finally ready to rebuild the site , this will require you
+   to clear your ``docs/VOCAL`` branch and populate it with your new generated docs.
 
    .. warning::
 
@@ -44,17 +44,17 @@ branch, and the website will always be on the *gh-pages* branch.
 
    .. code-block:: none
 
-      > rm -rf docs/* 
+      > rm -rf docs/VOCAL/*
       > cd vocal
 
 4. Simply build the sphinx docs now with your build directory as docs!::
 
-   > cd vocal/calipso
-   > sphinx-build -b html ../docs/source ../../docs
+   > cd dev/VOCAL/calipso
+   > sphinx-build -b html ../docs/source ../../../docs/VOCAL
 
 5. Head inside your docs folder, force commit the changes and the site should be live. All done
 
-   > cd docs
+   > cd docs/VOCAL
    > git push --force
 
 .. _graphiz: http://graphviz.org/
