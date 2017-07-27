@@ -8,45 +8,7 @@ is also held to as high a standard as we do.
 
 .. rubric:: Building the docs
 
-1. Install `sphinx`_ and `graphviz`_ [#f1]_. We use sphinx as our documentation generator,
-   and graphviz is a visualization tool for class diagrams.
-
-2. Once you have these items installed, ensure you have the command ``sphinx-build`` available
-   in your command prompt, if not you'll need to make an addition to your ``PATH``.
-
-3. ``cd`` to the home directory of the repository
-
-4. Docs can be built with ``sphinx-build -b html <source-dir> <build-dir>``:: 
-
-   > sphinx-build -b html docs/source docs/build
-
-5. Finished! Open up index.html to view the docs
-   
-.. note::
- 
-   Make sure you don't commit the built docs into the repository! The last thing a project needs
-   is bloat, the gitignore by default will not commit the docs/build folder. If you'd like to
-   develop docs please use that folder path
-
-6. ``cd`` out of your repository , and create a new folder. Inside that folder clone the
-   repository to the current directory by specifying ``.`` at the end::
-
-   > cd ..
-   > dir
-   > <DIR> CALIPSO_Visualization_tool
-   > mkdir docpage
-   > dir
-   > <DIR> CALIPSO_Visualization_tool
-   > <DIR> docpage
-   > cd docpage
-   > git clone <repo> .
-
-7. Switch to the gh-pages branch inside that repo ``git checkout gh-pages``
-
-8. Head back to the master branch repo, and build the docs specifying the build directory at
-   the gh-pages folder. ``sphinx-build -b html docs/source ../docspage``
-
-9. Commit and push the gh-pages branch
+See :doc:`Updating the Site <site>' for a guide on building docs for the website
 
 .. rubric:: Contributing to the Docs
 
