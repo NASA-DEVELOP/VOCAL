@@ -16,8 +16,8 @@ window is the main screen for displaying data from *.HDF* files, this will be wh
 
 The top most menu bar contains four directories: *file* , *edit*, *polygon*, *views*, and *help*.
 
-* *file* allows a user to import an HDF (same as |browse|), save all objects from all plots to a JSON file, save
-  only *visible* objects on the screen to a JSON file, or exit the application.
+* *file* allows a user to import an HDF (same as |browse|), save all objects from all plots to a JSON file,
+   change configuration settings, or exit the application.
 * *edit* offers tools for shape or plot manipulation
 * *polygon* relates to the database use, see :ref:`database` for more information.
 * *views* allows a user to select the data product to be rendered
@@ -28,7 +28,9 @@ created by the application, and draw it to the plot.
 
 .. note::
 
-   It is recommended that you use the tools provided in the polygon folder for saving drawn shapes.
+   It is recommended that you use the tools provided in the polygon folder and the database for saving
+   drawn shapes. Using JSON files can get messy and may not work properly.
+
    When loading JSON objects using this feature: the file the shape was created in **must** match the file you
    currently have loaded, otherwise you'll get an error! We do not allow users to load shapes from JSON files
    which are from other files than what the user is currently on.
@@ -50,10 +52,10 @@ Off to the right is the tools window, this window is dedicated to the manipulati
   as backscattered
 * |depo| Selection option used when visualizing, having this option checked will display the data as
   depolarized.
-* |step| Specify the range of time to plot to, from *x* to *y*. Default is *x* + 1000 if no *y*, and
-  0 - 1000 if neither *x* nor *y*
+* |step| Specify the range of profiles (vertical columns of data) to plot to, from *x* to *y*.
+         Default is 0 to 5000.
 * |salt| Specify the range of altitude to plot to, from *x* to *y*. Default is 0 to 20
-* |fren| Visualize the data given the conditions entered into **step** and **backscattered/depolarized**
+* |fren| Visualize the data given the conditions entered into **step** and *Views* tab
        
 -----------
 Starting Up
@@ -138,13 +140,7 @@ of shapes to a JSON file.
   Only the outline of the shapes will be drawn, pressing this one more reverts the change
 * |hide| Hide: Similar to Focus, but pressing this button will **completely** hide all shapes,
   they still exist; however they simply won't be drawn to the screen.
-* |save| Save: Save selected objects in the **current** plot to a JSON formatted file.
-  These objects can be loaded back into the screen with |load| and can be shared
-  between researchers that wish to personally hand over shapes to another user for loading. If
-  you wish to save all shapes from **every** plot into one fill, these is a *save_all* option
-  in the file menu for this.
-* |load| Load: Given a valid *.JSON* file, load all polygon objects present in the file and
-  display them to the plot.
+* |csel| Select: Use the cursor to select shapes
 
 
 .. _database:
@@ -176,8 +172,9 @@ in the *polygon* menu will utilize this database. This can be useful if you woul
 database on a shared folder.
 
 .. note::
-   If you would like to work out of the non-default database, you must select it every time you open VOCAL.
-   If you do not select your new database every time, VOCAL will save your polygons to the default.
+   If you would like to work out of the non-default database, you must select it every time you open
+   VOCAL, or you may change the default database in the settings dialog. If you do not select your
+   new database every time or switch the default, VOCAL will save your polygons to the internal database.
 
 Exporting Shapes
 ################
@@ -328,6 +325,29 @@ And here's what we get!
 That's all there is to it. Notice we left everything blank that we didn't care about, if you don't touch it that
 field won't be checked!
 
+---------------------
+Changing the Settings
+---------------------
+.. note::
+   Be careful when changing the settings as they may have undesired affects. If at anytime they are
+   causing you issues, simply delete config.json in the dat folder to return to defaults.
+
+|setm|
+
+Finally, lets take a look at some of the options available to you to customize your VOCAL experience.
+In the file menu, you will find an option for settings. Selecting this will open up a new dialog
+listing all of the settings available for you to change.
+
+.. image:: _static/settings.png
+   :scale: 70%
+
+Each setting has its own row with a label for the setting, the current value of the setting, and a
+check box for locking the setting. For directory or file path setting, you will see a dialog box
+followed by a button allowing you to browse to a new file path or directory. For boolean settings
+(true or false) you will see a checkbox where checked represents true and unchecked represents false.
+Finally, the lock option ensures that the setting won't change unless you change it in the dialog.
+
+You should now be ready to use VOCAL!
 
 .. |browse| image:: _static/browse_button.png
 .. |move| image:: _static/move_button.png
@@ -363,6 +383,7 @@ field won't be checked!
 .. |imar| image:: _static/importing_archive_menu.png
 .. |exar| image:: _static/exporting_archive_menu.png
 .. |sele| image:: _static/select_menu.png
+.. |setm| image:: _static/settings_menu.png
 
 .. |dbwi| image:: _static/db_window.png
 .. |dbse| image:: _static/db_search.png

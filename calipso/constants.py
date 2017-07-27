@@ -7,79 +7,11 @@
 ######################################
 
 import os
+from os.path import expanduser
 from sys import platform as _platform
-from os.path import expanduser, dirname
-import json
 
+from calipso.tools.config import Config
 
-class Config(object):
-    """
-    Class holds constants from config.json. These variables are set and held from one vocal session
-    to another to make the ux a little smoother. Use CONF below to access the class.
-    """
-    def __init__(self, fl):
-        self.__data = dict()
-        self.__file = fl
-
-        # The databse that vocal opens with. This won't change unless its changed in this script
-        self.default_db = './../db/CALIPSOdb.db'
-        self.default_db_dir = None
-        # Changes whenever the user selects or creates a new database
-        self.session_db = './../db/CALIPSOdb.db'
-        self.session_db_dir = None
-        # Changes whenever a user opens a new hdf
-        self.session_hdf = '.'
-        self.session_hdf_dir = None
-        # Changes to true after opening VOCAL 1st time
-        self.opened = False
-        # True: shapes persist from one plot to the next, false: shapes appear on respective plots
-        self.persistent_shapes = True
-
-        self.get_config()
-        self.get_variables()
-
-    ####################
-    #  __init__ commands
-    ####################
-    def get_config(self):
-        """ Loads the config file and sets it as a dictionary """
-        try:
-            with open(self.__file) as json_data_file:
-                data = json.load(json_data_file)
-                self.__data = dict(data)
-        except IOError:
-            # Create the config with defaults if there isn't one
-            self.write_config()
-
-    def get_variables(self):
-        """ Turn all of the entries in the dictionary into variables """
-        self.default_db = self.__data['default_database']
-        self.default_db_dir = dirname(self.default_db)
-        self.session_db = self.__data['last_used_database']
-        self.session_db_dir = dirname(self.session_db)
-        self.session_hdf = self.__data['last_used_hdf']
-        self.session_hdf_dir = dirname(self.session_hdf)
-        self.opened = self.__data['has_opened_before']
-        self.persistent_shapes = self.__data['use_persistent_shapes']
-
-    #####
-    # External Commands
-    #####
-    def write_config(self):
-        """
-        Write all of the changes to variables to the dictionary, save the dictionary as a json
-        :return: 
-        """
-
-        self.__data['default_database'] = self.default_db
-        self.__data['last_used_database'] = self.session_db
-        self.__data['last_used_hdf'] = self.session_hdf
-        self.__data['has_opened_before'] = self.opened
-        self.__data['use_persistent_shapes'] = self.persistent_shapes
-
-
-        with open(self.__file, 'w') as outfile:
-            json.dump(self.__data, outfile)
 
 class Plot(object):
     baseplot = 0

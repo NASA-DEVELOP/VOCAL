@@ -32,6 +32,7 @@ class Shape(object):
         self.__color = color
         self.__item_handler = None
         self.__plot = Plot.baseplot
+        self.__hdf = None
         self.__attributes = []
         self.__note = ''
         self.__id = None
@@ -85,12 +86,13 @@ class Shape(object):
             line.remove()
         self.__coordinates = []
 
-    def draw(self, fig, plot=Plot.baseplot, fill=False):
+    def draw(self, fig, fl, plot=Plot.baseplot, fill=False):
         """
         Draw the shape to the canvas, onto the passed figure. Only fill the
         object if the *fill* parameter is set to ``True``
 
         :param fig: A ``SubplotAxes`` object from the matplotlib backend
+        :param: fl: A string representing the HDF path
         :param plot: ``constants.Plot`` enum specifying which plot the object belongs to
         :param bool fill: ``False`` for fill, ``True`` for outline
         """
@@ -102,13 +104,14 @@ class Shape(object):
 
         self.__color = clr
         self.__plot = plot
+        self.__hdf = fl
         self.__item_handler = \
             Polygon(self.__coordinates, facecolor=clr, fill=fill, picker=5)
         if self.__selected:
             self.set_highlight(True)
         fig.add_patch(self.__item_handler)
 
-    def fill_rectangle(self, event, plot, fig, fill=False):
+    def fill_rectangle(self, event, plot, fl, fig, fill=False):
         """
         Draws the rectangle and stores the coordinates of the rectangle internally. Used
         in 'Draw Rect' button. Forwards argument parameters to ``draw``
@@ -130,7 +133,7 @@ class Shape(object):
             self.__coordinates.append((event.xdata, event.ydata))
             self.__coordinates.append((beg[0], event.ydata))
 
-            self.draw(fig, plot, fill)
+            self.draw(fig, fl, plot, fill)
         else:
             self.__coordinates = []
 
@@ -219,6 +222,14 @@ class Shape(object):
         """
         return self.__plot
 
+    def get_hdf(self):
+        """
+        Return the file used
+
+        :rtype: :py:class:`str`
+        """
+        return self.__hdf
+
     def get_saved(self):
         """
         Returns if the shape has been saved or not
@@ -302,13 +313,15 @@ class Shape(object):
         self.set_color(color)
         self.__saved = False
 
-    def plot_point(self, event, plot, fig, fill=False):
+    def plot_point(self, event, plot, fl, fig, fill=False):
         """
         Plot a single point to the shape, connect any previous existing
         points and fill to a shape if the current coordinate intersects
         the beginning point.
 
         :param event: A ``matplotlib.backend_bases.MouseEvent`` passed object
+        :param plot: an integer indicating which plot it was draw on
+        :param fl: A string representing the HDF it was drawn on
         :param fig: The figure to be drawing the canvas to
         :param bool fill: Whether the shape will have a solid fill or not
         """
@@ -342,16 +355,18 @@ class Shape(object):
                 self.__lines = []
                 self.draw(fig, plot, fill)
                 self.__plot = plot
+                self.__hdf = fl
                 return True
         self.__prev_x = event.xdata
         self.__prev_y = event.ydata
 
-    def redraw(self, fig, fill):
+    def redraw(self, fig, fl, fill):
         """
         Function to draw the shape in the event the shape *may* or *may not* already
         be drawn. Checks if the image already exists, if not draws the image
 
         :param fig: A ``SubplotAxes`` object to add the patch to
+        :param fl: A string representing the HDF file
         :param bool fill: Boolean value whether to have the shape filled in when drawn or not
         """
         if self.__item_handler is not None and self.__item_handler.is_figure_set():
@@ -360,6 +375,7 @@ class Shape(object):
             Polygon(self.__coordinates, facecolor=self.__color, fill=fill, picker=5)
         if self.__selected:
             self.set_highlight(True)
+        self.__hdf = fl
         fig.add_patch(self.__item_handler)
 
     def remove(self):
@@ -434,8 +450,7 @@ class Shape(object):
 
     def set_coordinates(self, coordinates):
         """
-        Pass a list of coordinates to set to the shape to. *just because it exists
-        does not mean you should use it* -me
+        Pass a list of coordinates to set to the shape to.
 
         :param list coordinates:
         """
@@ -482,6 +497,14 @@ class Shape(object):
         :param constants.Plot plot: Plot value
         """
         self.__plot = plot
+
+    def set_hdf(self, fl):
+        """
+        Manually set the value of the internal file variable
+
+        :param fl: HDF file path
+        """
+        self.__hdf = fl
 
     def set_tag(self, tag):
         """
