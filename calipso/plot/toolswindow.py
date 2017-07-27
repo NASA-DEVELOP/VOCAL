@@ -322,7 +322,7 @@ class ToolsWindow(Toplevel):
             tkMessageBox.showerror('toolswindow', 'No plot type specified')
             return
 
-        if not self.__parent.get_file():
+        if not self.__parent.get_hdf():
             logger.error('No file entered')
             tkMessageBox.showerror('toolswindow', 'No file loaded')
             return

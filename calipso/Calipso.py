@@ -140,7 +140,7 @@ class Calipso(object):
         menu_file = Menu(menu_bar, tearoff=0)
         menu_file.add_command(label='Import file', command=self.import_file)
         menu_file.add_command(label='Save all shapes', command=lambda: self.save_as_json(save_all=True))
-        menu_file.add_command(label='Settings...', command=self.settings_dialog)
+        menu_file.add_command(label='Settings', command=self.settings_dialog)
         menu_file.add_separator()
         menu_file.add_command(label='Exit', command=self.close)
         menu_bar.add_cascade(label='File', menu=menu_file)

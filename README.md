@@ -6,21 +6,17 @@ http://nasa-develop.github.io/VOCAL/
 :---:|:---:
 ![img](http://i.imgur.com/4c4nCaW.png?1) | ![img](http://i.imgur.com/BFJVzBw.png?1)
 
+## Getting Started:
+
+See the website above for installation instructions and a user guide
+
 ## Contributing:
 
-See the issue tracker for a number of on-going tickets that detail needed enhancements and bug fixes vocal could benefit from. Learn more at the website above.
+See the issue tracker for a number of on-going tickets that detail needed enhancements and bug fixes VOCAL could benefit from. Learn more at the website above.
 
-## Big Ideas:
+Developers can check out the documentation on the site for an intro to working with VOCAL's code
 
-* [ ] Draw shape of object on sidebar when clicking on selection for db
-* [ ] Move database to MySQL and get away from sqlite
-* [ ] Start integrating testing?
-* [ ] Radial Shapes
-* [ ] Dynamic page loading for a smoother transition with panning data
-* [ ] Centralized database support
 
 ## Notes: 
 
-Database finite limit could be extended with pagination, splitting the database into 'pages' that the user would need to go through. But this also introduces the fact that searching would need to pull all pages for an ample search
-
-Py2exe can be used for building an executable, but research will need to be done into developing a setup file.
+See changelog for changes in the most recent version

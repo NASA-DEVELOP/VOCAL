@@ -68,7 +68,7 @@ Windows [#f1]_
 Linux [#f3]_
 ************
 
-.. note::
+.. warning::
    At this time, Linux and OS X have not been tested with the current version of VOCAL. Installation
    may not work
 

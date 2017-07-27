@@ -5,6 +5,7 @@
 #
 #############################
 
+import tkMessageBox
 import tkFileDialog
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, SUNKEN, Label, LEFT, BOTTOM, TOP, X, \
     Checkbutton, StringVar, BooleanVar, W, Grid, NORMAL
@@ -13,6 +14,7 @@ from bokeh.colors import white
 from Tkconstants import END
 from constants import CONF
 from log.log import logger
+from os.path import dirname
 
 
 class SettingsDialog(Toplevel):
@@ -33,7 +35,7 @@ class SettingsDialog(Toplevel):
 
         self.protocol('WM_DELETE_WINDOW', self.free)  # Custom exit protocol
 
-        self.__root = root  # Declare the inputs
+        self.__root = root  # Declare the inputs, root is the Tk root, master is Calipso
         self.__master = master
 
         self.__var_dict = None              # A formatted copy of config.json to hold changes
@@ -91,9 +93,10 @@ class SettingsDialog(Toplevel):
                                                      justify=LEFT, textvariable=var_text,
                                                      readonlybackground=white, relief=SUNKEN))
                 # Create a browse button to change the path
+                dialog_box = self.__settings_entries[-1]
                 self.__browse_buttons.append(
-                    Button(self.__top_frame, text='Change', width=10, command=lambda key=key, n=n:
-                           self.change_dir_setting(key, self.__settings_entries[n])))
+                    Button(self.__top_frame, text='Change', width=10, command=lambda key=key, dialog_box=dialog_box:
+                           self.change_dir_setting(key, dialog_box)))
             elif setting_type == 'bool':
                 # Create a checkbutton to switch bool values
                 self.__bool_buttons.append(
@@ -120,7 +123,7 @@ class SettingsDialog(Toplevel):
                 self.__browse_buttons[-1].grid(row=(1 + n), column=2, pady=5, padx=5)
             elif setting_type == 'bool':
                 self.__bool_buttons[-1].grid(row=(1 + n), column=1, padx=5, pady=5)
-            self.__lock_setting_buttons[n].grid(row=(1 + n), column=3, pady=5, padx=5)
+            self.__lock_setting_buttons[n].grid(row=(1 + n), column=3, padx=5, pady=5)
             n += 1
 
         # Give the entry boxes, bool checkboxes in column 1 the ability to move with the window
@@ -155,13 +158,19 @@ class SettingsDialog(Toplevel):
 
     def change_dir_setting(self, key, dialog_box):
         """ Change a directory config setting """
-        directory = tkFileDialog.askdirectory()
+        options = dict()
+        if 'database' in key.lower():
+            options['filetypes'] = [('CALIPSO Database', '*.db'), ('All files', '*')]
+        elif 'hdf' in key.lower():
+            options['filetypes'] = [('CALIPSO Data File', '*.hdf'), ('All files', '*')]
+        options['initialdir'] = dirname(dialog_box.get())
+        directory = tkFileDialog.askopenfilename(**options)
         if directory != '':     # if dir is not empty
             dialog_box.config(state=NORMAL)
             dialog_box.delete(0, END)
             dialog_box.insert(END, directory)
             self.__var_dict[key]['value'] = directory
-        logger.info(key + ' bool setting changed to ' + directory)
+        logger.info(key + ' file setting changed to ' + directory)
 
     def get_variable_dict(self):
         """ Load the dictionary of  variables from config.py through CONF in constants """
@@ -188,12 +197,23 @@ class SettingsDialog(Toplevel):
     def save(self):
         """ Write all of the settings from the self.__var_dict to config.json and close"""
         writing_dict = CONF.get_variable_dict()     # get the variable dict
-        for key, variable in self.__var_dict.iteritems():   # Iterate through and write changes
+        for key, value in self.__var_dict.iteritems():   # Iterate through and write changes
+            proceed = True
             key = key.replace(' ', '_')
             key = key.lower()
+            # We want to warn users if they change the default db
+            if key == 'default_database' and writing_dict[key].value() != value['value']:
+                print writing_dict[key].value()
+                print value['value']
+                message = 'You are attempting to change the default database, are you sure sure ' \
+                          'you would like to change it to %s?\n\nSelecting cancel will skip this ' \
+                          'change and finish the save.' %value['value']
+                proceed = tkMessageBox.askokcancel('Proceed?', message)
+            if not proceed:
+                continue
             # Locked values that are changed in the diaglog will still be written
-            writing_dict[key].force_change(variable['value'])
-            writing_dict[key].change_manual(variable['lock_setting'])
+            writing_dict[key].force_change(value['value'])
+            writing_dict[key].change_manual(value['lock_setting'])
         logger.info('Settings saved')
         # Close the window
         self.free()

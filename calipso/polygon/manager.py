@@ -311,16 +311,20 @@ class ShapeManager(object):
             logger.info('Reading JSON from file')
             self.__shapereader.set_filename(filename)
             read_data = self.__shapereader.read_from_file_json()
-
-        if self.__hdf.rpartition('/')[2] != read_data['hdffile']:    # Do HDF files match?
-            tkMessageBox.showerror('file',
-            'Shape-associated HDF file \n and current HDF do not match')
+        # The index [-25:-4] is used so that we only check the time/space of the files, not type
+        if self.__hdf.rpartition('/')[2][-25:-4] != read_data['hdffile'][-25:-4]:    # Do HDF files match?
+            tkMessageBox.showerror(
+                'file', 'Shape-associated HDF file \n and current HDF do not match')
             logger.error('Shape-associated HDF file and current HDF do not match')
             return
 
         for key in constants.plot_type_enum:
-            lst = self.__shape_list[constants.plot_type_enum[key]]
-            self.__shapereader.pack_shape(lst, key, self.__canvas, read_from_str,)
+            # If persistent shapes are used, we want to only load them into backscattered
+            if CONF.persistent_shapes:
+                lst = self.__shape_list[constants.plot_type_enum['backscattered']]
+            else:
+                lst = self.__shape_list[constants.plot_type_enum[key]]
+            self.__shapereader.pack_shape(lst, key, self.__canvas, read_from_str)
             # The "or CONF.persistent_shapes" allows shapes that don't match the plot to be shown
             if self.__current_plot == constants.plot_type_enum[key] or CONF.persistent_shapes:
                 for shape in lst:
@@ -382,7 +386,7 @@ class ShapeManager(object):
             return False
         today = datetime.utcnow().replace(microsecond=0)
         if(only_selected):
-            db.commit_to_db(self.__selected_shapes, today, self.__hdf)
+            db.commit_to_db(self.__selected_shapes, today)
         else:
             # Must account for dummy object at end of current list
             db.commit_to_db(self.__current_list[:-1], today)

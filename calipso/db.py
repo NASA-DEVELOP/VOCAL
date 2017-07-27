@@ -106,7 +106,9 @@ class DatabaseManager(object):
         Echo all commands, create Session and table
         """
         logger.info('Instantiating DatabaseManager')
-        path = constants.PATH + '/../db/CALIPSOdb.db'
+        #path = constants.PATH + '/../db/CALIPSOdb.db'
+        path = constants.CONF.default_db.file()
+        print path
         self.__dbEngine = create_engine('sqlite:///' + path, echo=False)
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)
@@ -177,7 +179,7 @@ class DatabaseManager(object):
                 time_cords = [mpl.dates.num2date(x[0]) for x in cords]
                 altitude_cords = [x[1] for x in cords]
 
-                f = polygon.get_file()
+                f = polygon.get_hdf()
                 blat = polygon.get_min_lat()
                 elat = polygon.get_max_lat()
                 btime = min(time_cords)
@@ -211,7 +213,7 @@ class DatabaseManager(object):
                     logger.critical('This should never happen, why did it happen?')
                     continue
                 poly.time_ = time
-                f = polygon.get_file()
+                f = polygon.get_hdf()
                 poly.hdf = f.rpartition('/')[2]
                 poly.plot = PLOTS[polygon.get_plot()]
                 poly.color = unicode(polygon.get_color())

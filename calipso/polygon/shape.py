@@ -222,7 +222,7 @@ class Shape(object):
         """
         return self.__plot
 
-    def get_file(self):
+    def get_hdf(self):
         """
         Return the file used
 
@@ -450,8 +450,7 @@ class Shape(object):
 
     def set_coordinates(self, coordinates):
         """
-        Pass a list of coordinates to set to the shape to. *just because it exists
-        does not mean you should use it* -me
+        Pass a list of coordinates to set to the shape to.
 
         :param list coordinates:
         """
@@ -499,7 +498,7 @@ class Shape(object):
         """
         self.__plot = plot
 
-    def set_file(self, fl):
+    def set_hdf(self, fl):
         """
         Manually set the value of the internal file variable
 

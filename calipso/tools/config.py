@@ -90,10 +90,11 @@ class Config(object):
         self.__data = dict()
         self.__file = fl
 
-        # The database that vocal opens with. This won't change unless its changed in this script
-        self.default_db = ConfigFileSetting('./../../db/CALIPSOdb.db')
+        # The database that vocal opens with. This is used in db.__init__ and can only be changed
+        # manually in the settings
+        self.default_db = ConfigFileSetting('./../db/CALIPSOdb.db')
         # Changes whenever the user selects or creates a new database
-        self.session_db = ConfigFileSetting('./../../db/CALIPSOdb.db')
+        self.session_db = ConfigFileSetting('./../db/CALIPSOdb.db')
         # Changes whenever a user opens a new hdf
         self.session_hdf = ConfigFileSetting('./..')
         # Changes to true after opening VOCAL 1st time
@@ -145,7 +146,7 @@ class Config(object):
         Returns a dictionary of keys corresponding to keys in the config file and variables
         corresponding to the keys' respective values. To add an entry to the config, you must add an
         entry here and create the initial variable value in the __init__. Make sure to use
-        descriptive keys
+        descriptive keys.
         """
         var_dict = {
             'default_database': self.default_db,
