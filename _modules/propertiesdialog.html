@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>propertiesdialog &#8212; VOCAL 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          VOCAL</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Index <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Program Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supporteddata.html">Supported Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/startdev.html">Getting Started Developing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc/modules.html">Code Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/contact.html">Contact</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for propertiesdialog</h1><div class="highlight"><pre>
+<span></span><span class="c1">###################################</span>
+<span class="c1">#    Created on Aug 9, 2015</span>
+<span class="c1">#</span>
+<span class="c1">#    @author: Grant Mercer</span>
+<span class="c1">#</span>
+<span class="c1">###################################</span>
+<span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="k">import</span> <span class="n">FLAT</span><span class="p">,</span> <span class="n">RIGHT</span><span class="p">,</span> <span class="n">LEFT</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">tkFileDialog</span>
+<span class="kn">import</span> <span class="nn">tkMessageBox</span>
+<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="k">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Entry</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> \
+    <span class="n">Label</span><span class="p">,</span> <span class="n">BOTTOM</span><span class="p">,</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">RIDGE</span><span class="p">,</span> <span class="n">Checkbutton</span><span class="p">,</span> <span class="n">IntVar</span><span class="p">,</span> <span class="n">StringVar</span><span class="p">,</span> <span class="n">TclError</span>
+
+<span class="kn">import</span> <span class="nn">constants</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="k">import</span> <span class="n">CSV</span><span class="p">,</span> <span class="n">TXT</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">or_</span>
+<span class="kn">from</span> <span class="nn">db</span> <span class="k">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">DatabasePolygon</span>
+<span class="kn">from</span> <span class="nn">tools.tools</span> <span class="k">import</span> <span class="n">center</span><span class="p">,</span> <span class="n">get_shape_ranges</span>
+<span class="kn">from</span> <span class="nn">tools.treelistbox</span> <span class="k">import</span> <span class="n">TreeListBox</span>
+<span class="kn">from</span> <span class="nn">tools.tooltip</span> <span class="k">import</span> <span class="n">create_tool_tip</span>
+<span class="kn">from</span> <span class="nn">log.log</span> <span class="k">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">advancedsearchdialog</span> <span class="k">import</span> <span class="n">AdvancedSearchDialog</span>
+<span class="kn">from</span> <span class="nn">extractcolumnsdialog</span> <span class="k">import</span> <span class="n">ExtractColumnsDialog</span>
+
+<div class="viewcode-block" id="PropertyDialog"><a class="viewcode-back" href="../doc/general/properties.html#propertiesdialog.PropertyDialog">[docs]</a><span class="k">class</span> <span class="nc">PropertyDialog</span><span class="p">(</span><span class="n">Toplevel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Displays the porperties of the shape in a window</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dialogs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Instantiating PropertyDialog&#39;</span><span class="p">)</span>
+        <span class="n">Toplevel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">(</span><span class="s1">&#39;WM_DELETE_WINDOW&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wm_overrideredirect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span>\
+            <span class="n">geometry</span><span class="p">(</span><span class="s1">&#39;+</span><span class="si">%d</span><span class="s1">+</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span>
+                     <span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">winfo_pointerx</span><span class="p">()</span> <span class="o">-</span> <span class="mi">60</span><span class="p">,</span>
+                      <span class="n">root</span><span class="o">.</span><span class="n">winfo_pointery</span><span class="p">()))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tk</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;::Tk::unsupported::MacWindowStyle&#39;</span><span class="p">,</span>
+                                         <span class="s1">&#39;style&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_w</span><span class="p">,</span>
+                                         <span class="s1">&#39;help&#39;</span><span class="p">,</span> <span class="s1">&#39;noActivates&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">TclError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="n">window_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">window_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">exit_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">window_frame</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="s1">&#39;#ffffe0&#39;</span><span class="p">)</span>
+        <span class="n">exit_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="n">exit_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">,</span>
+               <span class="n">background</span><span class="o">=</span><span class="s1">&#39;#ffffe0&#39;</span><span class="p">,</span> <span class="n">highlightthickness</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">FLAT</span><span class="p">)</span>
+        <span class="n">button</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">)</span>
+        <span class="n">text_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">window_frame</span><span class="p">)</span>
+        <span class="n">text_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">text_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">shape</span><span class="p">),</span> <span class="n">justify</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span>
+                      <span class="n">background</span><span class="o">=</span><span class="s1">&#39;#ffffe0&#39;</span><span class="p">,</span>
+                      <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;tahoma&#39;</span><span class="p">,</span> <span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">))</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">ipadx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">PropertyDialog</span><span class="o">.</span><span class="n">dialogs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attributes</span><span class="p">(</span><span class="s2">&quot;-topmost&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">val</span><span class="p">,</span> <span class="n">widget</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">PropertyDialog</span><span class="o">.</span><span class="n">dialogs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">widget</span> <span class="ow">is</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="n">PropertyDialog</span><span class="o">.</span><span class="n">dialogs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">PropertyDialog</span><span class="o">.</span><span class="n">dialogs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">widget</span> <span class="ow">in</span> <span class="n">PropertyDialog</span><span class="o">.</span><span class="n">dialogs</span><span class="p">:</span>
+                <span class="n">widget</span><span class="o">.</span><span class="n">lift</span><span class="p">(</span><span class="n">aboveThis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span></div>
+
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

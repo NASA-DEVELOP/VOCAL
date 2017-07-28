@@ -1,0 +1,9 @@
+<map id="inheritance0792b71117" name="inheritance0792b71117">
+<area shape="rect" id="node1" title="Internal class." alt="" coords="190,91,309,113"/>
+<area shape="rect" id="node3" title="Toplevel widget, e.g. for dialogs." alt="" coords="373,70,470,92"/>
+<area shape="rect" id="node2" title="Internal class." alt="" coords="24,91,106,113"/>
+<area shape="rect" id="node5" href="#advancedsearchdialog.AdvancedSearchDialog" target="_top" title="A dialog for advanced searching, notifying `ImportDialog` when search parameters have" alt="" coords="512,70,763,92"/>
+<area shape="rect" id="node4" title="Provides functions for the communication with the window manager." alt="" coords="210,48,288,70"/>
+<area shape="rect" id="node6" href="#advancedsearchdialog.Query" target="_top" title="Observer object that holds a *ranges* dictionary which can be used" alt="" coords="167,5,331,27"/>
+<area shape="rect" id="node7" title="Observer pattern class for notifying remote partners of changes" alt="" coords="5,5,125,27"/>
+</map>

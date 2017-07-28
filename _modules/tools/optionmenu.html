@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tools.optionmenu &#8212; VOCAL 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          VOCAL</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Index <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../supporteddata.html">Supported Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/startdev.html">Getting Started Developing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Code Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for tools.optionmenu</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="k">import</span> <span class="n">RAISED</span>
+<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="k">import</span> <span class="n">Menubutton</span><span class="p">,</span> <span class="n">TclError</span><span class="p">,</span> <span class="n">Widget</span><span class="p">,</span> <span class="n">Menu</span>
+
+
+<span class="k">class</span> <span class="nc">_SetIt</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Internal class for wrapping command into widget OptionMenu</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__var</span> <span class="o">=</span> <span class="n">var</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__callback</span> <span class="o">=</span> <span class="n">callback</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__var</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__callback</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__callback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__value</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ShapeOptionMenu"><a class="viewcode-back" href="../../doc/tools/optionmenu.html#tools.optionmenu.ShapeOptionMenu">[docs]</a><span class="k">class</span> <span class="nc">ShapeOptionMenu</span><span class="p">(</span><span class="n">Menubutton</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Custom OptionMenu which allows the user to select a value from</span>
+<span class="sd">    a menu and update upon button click.</span>
+
+<span class="sd">    :param master: The widget to draw to</span>
+<span class="sd">    :param variable: A ``StringVar()`` object for displaying options</span>
+<span class="sd">    :param str value: The default value of the menu</span>
+<span class="sd">    :param **kwargs: Tkinter dict args *note:* **only** supports `-command`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">master</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">kw</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;borderwidth&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;textvariable&#39;</span><span class="p">:</span> <span class="n">variable</span><span class="p">,</span>
+              <span class="s1">&#39;indicatoron&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;relief&#39;</span><span class="p">:</span> <span class="n">RAISED</span><span class="p">,</span> <span class="s1">&#39;anchor&#39;</span><span class="p">:</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;highlightthickness&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+        <span class="n">Widget</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">master</span><span class="p">,</span> <span class="s1">&#39;menubutton&#39;</span><span class="p">,</span> <span class="n">kw</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">widget_name</span> <span class="o">=</span> <span class="s1">&#39;tk_optionmenu&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__menu</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;menu&#39;</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__menu</span><span class="o">.</span><span class="n">_w</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;command&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;command&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;command&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">TclError</span><span class="p">(</span><span class="s1">&#39;unknown option -&#39;</span> <span class="o">+</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__menu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+                                <span class="n">command</span><span class="o">=</span><span class="n">_SetIt</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">))</span>
+        <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;menu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__menu</span>
+
+<div class="viewcode-block" id="ShapeOptionMenu.set_menu"><a class="viewcode-back" href="../../doc/tools/optionmenu.html#tools.optionmenu.ShapeOptionMenu.set_menu">[docs]</a>    <span class="k">def</span> <span class="nf">set_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the internal menu, this allows the program to dynamically</span>
+<span class="sd">        create menus on the fly when a user clicks.</span>
+
+<span class="sd">        :param list options: A list of :py:class:`str` objects which is the new menu</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">__menu</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__menu</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;menu&#39;</span><span class="p">,</span> <span class="n">tearoff</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__menu</span><span class="o">.</span><span class="n">add_command</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">op</span><span class="p">,</span>
+                                    <span class="n">command</span><span class="o">=</span><span class="n">_SetIt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var</span><span class="p">,</span> <span class="n">op</span><span class="p">,</span>
+                                                   <span class="bp">self</span><span class="o">.</span><span class="n">callback</span><span class="p">))</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

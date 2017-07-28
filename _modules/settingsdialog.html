@@ -152,7 +152,7 @@
 <span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">dirname</span>
 
 
-<div class="viewcode-block" id="SettingsDialog"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog">[docs]</a><span class="k">class</span> <span class="nc">SettingsDialog</span><span class="p">(</span><span class="n">Toplevel</span><span class="p">):</span>
+<div class="viewcode-block" id="SettingsDialog"><a class="viewcode-back" href="../doc/general/settings.html#settingsdialog.SettingsDialog">[docs]</a><span class="k">class</span> <span class="nc">SettingsDialog</span><span class="p">(</span><span class="n">Toplevel</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dialog Window that allows the user to manually change the settings in config.json</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -189,7 +189,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">create_top_frame</span><span class="p">()</span>  <span class="c1"># Make the top and bottom frames</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">create_bottom_frame</span><span class="p">()</span>
 
-<div class="viewcode-block" id="SettingsDialog.create_top_frame"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.create_top_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_top_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SettingsDialog.create_top_frame"><a class="viewcode-back" href="../doc/general/settings.html#settingsdialog.SettingsDialog.create_top_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_top_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; The top frame holds all of the widgets for displaying and changing settings &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__container</span><span class="p">)</span>  <span class="c1"># Create and place the frame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -264,7 +264,7 @@
         <span class="c1"># Give the entry boxes, bool checkboxes in column 1 the ability to move with the window</span>
         <span class="n">Grid</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SettingsDialog.create_bottom_frame"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.create_bottom_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_bottom_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SettingsDialog.create_bottom_frame"><a class="viewcode-back" href="../doc/general/settings.html#settingsdialog.SettingsDialog.create_bottom_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_bottom_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; The bottom frame which holds the save and revert buttons &quot;&quot;&quot;</span>
         <span class="c1"># TODO add a default button to reset config.json to defaults</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__bottom_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__container</span><span class="p">)</span>
@@ -281,17 +281,17 @@
         <span class="n">Grid</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__bottom_frame</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">Grid</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__bottom_frame</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SettingsDialog.change_lock_setting"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.change_lock_setting">[docs]</a>    <span class="k">def</span> <span class="nf">change_lock_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">):</span>
+<div class="viewcode-block" id="SettingsDialog.change_lock_setting"><a class="viewcode-back" href="../doc/general/settings.html#settingsdialog.SettingsDialog.change_lock_setting">[docs]</a>    <span class="k">def</span> <span class="nf">change_lock_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Change the manual/auto lock setting &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;lock_setting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_val</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s1">&#39; manual/auto lock changed to &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_val</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span></div>
 
-<div class="viewcode-block" id="SettingsDialog.change_bool_setting"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.change_bool_setting">[docs]</a>    <span class="k">def</span> <span class="nf">change_bool_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">):</span>
+<div class="viewcode-block" id="SettingsDialog.change_bool_setting"><a class="viewcode-back" href="../doc/general/settings.html#settingsdialog.SettingsDialog.change_bool_setting">[docs]</a>    <span class="k">def</span> <span class="nf">change_bool_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Change a boolean config setting &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_val</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s1">&#39; bool setting changed to &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_val</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span></div>
 
-<div class="viewcode-block" id="SettingsDialog.change_dir_setting"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.change_dir_setting">[docs]</a>    <span class="k">def</span> <span class="nf">change_dir_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">dialog_box</span><span class="p">):</span>
+<div class="viewcode-block" id="SettingsDialog.change_dir_setting"><a class="viewcode-back" href="../doc/general/settings.html#settingsdialog.SettingsDialog.change_dir_setting">[docs]</a>    <span class="k">def</span> <span class="nf">change_dir_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">dialog_box</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Change a directory config setting &quot;&quot;&quot;</span>
         <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
         <span class="k">if</span> <span class="s1">&#39;database&#39;</span> <span class="ow">in</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
@@ -307,7 +307,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">directory</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s1">&#39; file setting changed to &#39;</span> <span class="o">+</span> <span class="n">directory</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="SettingsDialog.get_variable_dict"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.get_variable_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_variable_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SettingsDialog.get_variable_dict"><a class="viewcode-back" href="../doc/general/settings.html#settingsdialog.SettingsDialog.get_variable_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_variable_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Load the dictionary of  variables from config.py through CONF in constants &quot;&quot;&quot;</span>
         <span class="c1"># The dict must be copied this way so that we can make changes without referencing the</span>
         <span class="c1"># actual variables named in the CONF dictionary</span>
@@ -323,13 +323,13 @@
             <span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span> <span class="o">=</span> <span class="n">new_dict</span></div>
 
-<div class="viewcode-block" id="SettingsDialog.free"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SettingsDialog.free"><a class="viewcode-back" href="../doc/general/settings.html#settingsdialog.SettingsDialog.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Destroy the window and ensure the session is closed correctly &quot;&quot;&quot;</span>
         <span class="n">SettingsDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="kc">False</span>    <span class="c1"># Singleton no longer exists, so set it to false</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Closing SettingsDialog&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="SettingsDialog.save"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SettingsDialog.save"><a class="viewcode-back" href="../doc/general/settings.html#settingsdialog.SettingsDialog.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Write all of the settings from the self.__var_dict to config.json and close&quot;&quot;&quot;</span>
         <span class="n">writing_dict</span> <span class="o">=</span> <span class="n">CONF</span><span class="o">.</span><span class="n">get_variable_dict</span><span class="p">()</span>     <span class="c1"># get the variable dict</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>   <span class="c1"># Iterate through and write changes</span>
@@ -353,7 +353,7 @@
         <span class="c1"># Close the window</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="SettingsDialog.revert"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.revert">[docs]</a>    <span class="k">def</span> <span class="nf">revert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="SettingsDialog.revert"><a class="viewcode-back" href="../doc/general/settings.html#settingsdialog.SettingsDialog.revert">[docs]</a>    <span class="k">def</span> <span class="nf">revert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Reverts any unsaved changes back to the initial values &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_variable_dict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>

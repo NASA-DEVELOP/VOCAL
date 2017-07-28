@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tools.vocalDataBlock &#8212; VOCAL 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          VOCAL</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Index <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../supporteddata.html">Supported Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/startdev.html">Getting Started Developing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Code Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for tools.vocalDataBlock</h1><div class="highlight"><pre>
+<span></span><span class="c1">###################################</span>
+<span class="c1">#   Created Summer 2016</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1">#   @author: Joseph Driscol</span>
+<span class="c1">###################################</span>
+
+<span class="c1">####################################################################################################</span>
+<span class="c1">#</span>
+<span class="c1">#                                            NOTE!!!!</span>
+<span class="c1">#</span>
+<span class="c1"># This files was an attempt by a previous term to set up tabs in Tkinter to simultaneously load</span>
+<span class="c1"># multiple levels of data. After spending a lot of time trying to fix all of the problems with this</span>
+<span class="c1"># method, I realized I couldn&#39;t get any further and ended up replacing the tabs with a view menu,</span>
+<span class="c1"># which is a lot simpler and works much better. All of the fixes I made can be found in the</span>
+<span class="c1"># DataBlock branch on GitHub. I would NOT recommend retrying this method, however. I believe there</span>
+<span class="c1"># are some limitations from Tkinter and matplotlib/tkinter that would require vocal to be completely</span>
+<span class="c1"># restructured for simultaneous tabs to work.</span>
+<span class="c1">#</span>
+<span class="c1"># Currently, this file simply serves to load both L1 and L2 files, although it may be prudent to</span>
+<span class="c1"># extract the method from VocalDataBlock.get_file_name(), place it in a seperate file, and delete</span>
+<span class="c1"># this one</span>
+<span class="c1">#</span>
+<span class="c1"># Collin Pampalone @CPampalone</span>
+<span class="c1"># 7/19/17</span>
+<span class="c1">#</span>
+<span class="c1">####################################################################################################</span>
+
+<span class="kn">from</span> <span class="nn">ccplot.hdf</span> <span class="k">import</span> <span class="n">HDF</span>
+<span class="kn">import</span> <span class="nn">ccplot.utils</span>
+<span class="kn">import</span> <span class="nn">constants</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">log.log</span> <span class="k">import</span> <span class="n">logger</span><span class="p">,</span> <span class="n">error_check</span>
+
+
+<div class="viewcode-block" id="MetaData"><a class="viewcode-back" href="../../doc/tools/vocaldatablock.html#tools.vocalDataBlock.MetaData">[docs]</a><span class="k">class</span> <span class="nc">MetaData</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    DECREPIT - See comments in source</span>
+
+<span class="sd">    MetaData objects allow the transfer of rendering range and type info to and from Calipso and</span>
+<span class="sd">    VocalDataBlock. The functions allow the code to call or set the current variables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_type</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">in_x_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">in_x_max</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">in_y_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">in_y_max</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">in_wavelength</span><span class="o">=</span><span class="mi">532</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__type</span> <span class="o">=</span> <span class="n">in_type</span>                 <span class="c1"># Type of plot (0 = backscatter, 1 = depolarization...)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__x</span> <span class="o">=</span> <span class="p">[</span><span class="n">in_x_min</span><span class="p">,</span> <span class="n">in_x_max</span><span class="p">]</span>        <span class="c1"># The x axis range (nominal units)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__y</span> <span class="o">=</span> <span class="p">[</span><span class="n">in_y_min</span><span class="p">,</span> <span class="n">in_y_max</span><span class="p">]</span>        <span class="c1"># The y axis range (in altitude)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__wavelength</span> <span class="o">=</span> <span class="n">in_wavelength</span>    <span class="c1"># The wavelength the user wants (532 or 1064)</span>
+
+    <span class="k">def</span> <span class="nf">set_meta_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">in_type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">in_type</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__type</span> <span class="o">=</span> <span class="n">in_type</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Setting data type to &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">in_type</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">get_meta_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__type</span>
+
+    <span class="k">def</span> <span class="nf">set_meta_wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">in_wavelength</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">in_wavelength</span> <span class="o">==</span> <span class="mi">532</span> <span class="ow">or</span> <span class="n">in_wavelength</span> <span class="o">==</span> <span class="mi">1064</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__wavelength</span> <span class="o">=</span> <span class="n">in_wavelength</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__wavelength</span> <span class="o">=</span> <span class="mi">532</span>
+
+    <span class="k">def</span> <span class="nf">get_meta_wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__wavelength</span>
+
+    <span class="k">def</span> <span class="nf">set_meta_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">in_x</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">15000</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">in_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">in_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">%</span><span class="mi">5</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">5</span> <span class="o">-</span> <span class="p">(</span><span class="n">in_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;meta x is out of range&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_meta_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_y</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">in_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">in_y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">in_y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">in_y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">5</span> <span class="ow">and</span> <span class="n">in_y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__y</span> <span class="o">=</span> <span class="n">in_y</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;meta y is out of range&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_meta_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">it</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__x</span><span class="p">[</span><span class="n">it</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__x</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_meta_y</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">it</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__y</span><span class="p">[</span><span class="n">it</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">it</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__y</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataSet"><a class="viewcode-back" href="../../doc/tools/vocaldatablock.html#tools.vocalDataBlock.DataSet">[docs]</a><span class="k">class</span> <span class="nc">DataSet</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class of objects that contain data loaded from HDF files</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_type</span><span class="p">,</span> <span class="n">in_data_set</span><span class="p">,</span> <span class="n">in_x_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">5000</span><span class="p">],</span> <span class="n">in_y_range</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">],</span> <span class="n">in_wavelength</span><span class="o">=</span><span class="mi">532</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">in_type</span><span class="p">)</span>            <span class="c1"># Type of data (1 = backscatter, 2 = depolarization, etc.)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds_wavelength</span> <span class="o">=</span> <span class="n">in_wavelength</span>    <span class="c1"># Wavelength of the data (532 or 1064)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds_data_set</span> <span class="o">=</span> <span class="n">in_data_set</span>         <span class="c1"># The 2d block of data, i.e. the collection of profiles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ds_xrange</span> <span class="o">=</span> <span class="n">in_x_range</span>        <span class="c1"># The horizontal range we load in profiles, or vertical columns            </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds_yrange</span> <span class="o">=</span> <span class="n">in_y_range</span>            <span class="c1"># The vertical range we load in altitude</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds_x_label</span> <span class="o">=</span> <span class="s1">&#39;Latitude&#39;</span>        <span class="c1"># Lables for the plots</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds_x_label2</span> <span class="o">=</span> <span class="s1">&#39;Time&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds_y_label</span> <span class="o">=</span> <span class="s1">&#39;Altitude (km)&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds_cbar_label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ds_title</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_title</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DataSet.ds_set_x"><a class="viewcode-back" href="../../doc/tools/vocaldatablock.html#tools.vocalDataBlock.DataSet.ds_set_x">[docs]</a>    <span class="k">def</span> <span class="nf">ds_set_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_xrange</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Verify that a correct x rangee was put in, and prepare it for use later</span>
+<span class="sd">        Not sure why it has to be a multiple of 5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">in_xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">in_xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">15000</span> <span class="ow">and</span> <span class="n">in_xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">5</span> <span class="o">&lt;=</span> <span class="n">in_xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">in_xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ds_xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">in_xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">in_xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">%</span> <span class="mi">5</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">in_xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__ds_xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">in_xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">in_xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">%</span> <span class="mi">5</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;xrange is not in the correct format for dataset, setting to 0-5000&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__ds_xrange</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_data_set</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">constants</span><span class="o">.</span><span class="n">debug_switch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Data Set x range Translated from &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">in_xrange</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; to &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ds_xrange</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="DataSet.ds_get_x"><a class="viewcode-back" href="../../doc/tools/vocaldatablock.html#tools.vocalDataBlock.DataSet.ds_get_x">[docs]</a>    <span class="k">def</span> <span class="nf">ds_get_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">in_it</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return either the start, end, or full x range </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">in_it</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ds_xrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">in_it</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ds_xrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">in_it</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ds_xrange</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Incorrect iterator received by in_it&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataSet.set_title"><a class="viewcode-back" href="../../doc/tools/vocaldatablock.html#tools.vocalDataBlock.DataSet.set_title">[docs]</a>    <span class="k">def</span> <span class="nf">set_title</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the title and colorbar lables</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_title</span> <span class="o">=</span> <span class="s1">&#39;Averaged &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds_wavelength</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;nm Total Attenuated Backscatter&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_cbar_label</span> <span class="o">=</span> <span class="s1">&#39;Total Attenuated Backscatter &#39;</span> \
+                                  <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds_wavelength</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; nm (km$^{-1}$ sr$^{-1}$)&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_title</span> <span class="o">=</span> <span class="s1">&#39;Averaged &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds_wavelength</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;nm Depolarized Ratio&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_cbar_label</span> <span class="o">=</span> <span class="s1">&#39;Depolarized Ratio  &#39;</span> \
+                                  <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ds_wavelength</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; nm (km$^{-1}$ sr$^{-1}$)&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_title</span> <span class="o">=</span> <span class="s1">&#39;Vertical Feature Mask&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_cbar_label</span> <span class="o">=</span> <span class="s1">&#39;Vertical Feature Mask Flags&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_title</span> <span class="o">=</span> <span class="s1">&#39;Ice Water Phase&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_cbar_label</span> <span class="o">=</span> <span class="s1">&#39;Ice Water Phase Flags&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_title</span> <span class="o">=</span> <span class="s1">&#39;Horizontal Averaging&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_cbar_label</span> <span class="o">=</span> <span class="s1">&#39;Horizontal Averaging Flags&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_title</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_cbar_label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_title</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_cbar_label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_title</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_cbar_label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_title</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_cbar_label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_title</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ds_cbar_label</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span></div>
+
+<div class="viewcode-block" id="DataSet.get_ds_type"><a class="viewcode-back" href="../../doc/tools/vocaldatablock.html#tools.vocalDataBlock.DataSet.get_ds_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_ds_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the type of data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ds_type</span></div></div>
+
+<div class="viewcode-block" id="VocalDataBlock"><a class="viewcode-back" href="../../doc/tools/vocaldatablock.html#tools.vocalDataBlock.VocalDataBlock">[docs]</a><span class="k">class</span> <span class="nc">VocalDataBlock</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Loads the HDF files and replaces old functions for plotting each data type. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Intializing File: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span> <span class="o">=</span> <span class="n">MetaData</span><span class="p">()</span>
+        
+        <span class="c1"># Create an empty list to hold DataSet objects corresponding to indices</span>
+        <span class="c1"># (0 = Backscatter,  1 = Depolarization, 2 = VFM, 3 = IWP, 4 = blend, 5 = Horz Avging). See </span>
+        <span class="c1"># DataSet Class for more information</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s1">&#39;Empty&#39;</span> <span class="ow">or</span> <span class="n">filename</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;File not found or not useful...&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Check version</span>
+        <span class="k">if</span> <span class="s2">&quot;V4&quot;</span> <span class="ow">in</span> <span class="n">filename</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__version</span> <span class="o">=</span> <span class="s2">&quot;4&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__version</span> <span class="o">=</span> <span class="s2">&quot;3&quot;</span>
+
+        <span class="c1"># Find L1 and L2 data files? come back and edit comment. This command might be redundent</span>
+        <span class="c1"># Also the logger is reporting that no files are found when both are</span>
+        <span class="c1"># Ensure the file is useful </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">find_my_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL2</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data_level</span> <span class="o">=</span> <span class="s2">&quot;2&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL2</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data_level</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data_level</span> <span class="o">=</span> <span class="s2">&quot;0&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;File not found or not useful...&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Loads some necessary parts of the data held in the L1 HDF </span>
+        <span class="k">with</span> <span class="n">HDF</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span><span class="p">)</span> <span class="k">as</span> <span class="n">product</span><span class="p">:</span>
+            <span class="c1"># 1D array of tmes for each profile in yymmdd.ffffffff</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__x_time</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="s1">&#39;Profile_UTC_Time&#39;</span><span class="p">][::,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__x_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">ccplot</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">calipso_time2dt</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__x_time</span><span class="p">])</span>
+
+            <span class="c1"># Number of profiles</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__record_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__x_time</span><span class="p">)</span>
+
+            <span class="c1"># 1D array of sample altitudes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__y_altitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">product</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">][</span><span class="s1">&#39;Lidar_Data_Altitudes&#39;</span><span class="p">][::])</span>
+
+            <span class="c1"># 1D array of profile longitudes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__Longitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">product</span><span class="p">[</span><span class="s1">&#39;Longitude&#39;</span><span class="p">][::,</span> <span class="mi">0</span><span class="p">]])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__Longitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__Longitude</span><span class="p">[</span><span class="mi">0</span><span class="p">][::])</span>
+
+            <span class="c1"># 1D array of profile latitudes</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__Latitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">product</span><span class="p">[</span><span class="s1">&#39;Latitude&#39;</span><span class="p">][::,</span> <span class="mi">0</span><span class="p">]])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__Latitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__Latitude</span><span class="p">[</span><span class="mi">0</span><span class="p">][::])</span>
+
+            <span class="c1"># A 2D, 2 row array that lists longitude on top of the corresponding latitude</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__x_coordinates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">__Longitude</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Latitude</span><span class="p">])</span>
+
+            <span class="c1"># 1D array that lists either day or night</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__day_night_flag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">product</span><span class="p">[</span><span class="s1">&#39;Day_Night_Flag&#39;</span><span class="p">][::])</span>
+
+
+
+    <span class="sd">&quot;&quot;&quot;Following is simple setters/getters associated with VocalDataBlock Class&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Returns Shapes of time Array&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">get_time_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__x_time</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;Returns Shapes of latitude Array&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">get_latitude_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__Latitude</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;Returns Shapes of altitude Array&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">get_altitude_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__y_altitude</span><span class="p">)</span>
+
+    <span class="sd">&#39;&#39;&#39;***Getters for y (Alititude***&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;Get the altitude at iterator &quot;in_y&quot;&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">get_altitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_y</span><span class="p">):</span>
+        <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">in_y</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__y_altitude</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__y_altitude</span><span class="p">[</span><span class="n">in_y</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">in_x</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__record_count</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__x_time</span><span class="p">[</span><span class="n">in_x</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span>
+
+    <span class="c1"># return the value at the iterator (in_x) from the coordinates list -- returns Coordinate pair [long, lat]</span>
+    <span class="k">def</span> <span class="nf">get_coordinates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">in_x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__record_count</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_longitude</span><span class="p">(</span><span class="n">in_x</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">get_latitude</span><span class="p">(</span><span class="n">in_x</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span>
+
+    <span class="c1"># return the value at the iterator (in_x) from the coordinates list -- returns Coordinate pair [long, lat]</span>
+    <span class="k">def</span> <span class="nf">get_latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">in_x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__record_count</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Latitude</span><span class="p">[</span><span class="n">in_x</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span>
+
+    <span class="c1"># return the value at the iterator (in_x) from the coordinates list -- returns Coordinate pair [long, lat]</span>
+    <span class="k">def</span> <span class="nf">get_longitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">in_x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">__record_count</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Longitude</span><span class="p">[</span><span class="n">in_x</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_y_min</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">,</span> <span class="n">in_type</span><span class="o">=</span><span class="s1">&#39;iterator&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">in_type</span> <span class="o">==</span> <span class="s1">&#39;iterator&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_yrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">in_type</span> <span class="o">==</span> <span class="s1">&#39;altitude&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__y_altitude</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_yrange</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">get_y_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">,</span> <span class="n">in_type</span><span class="o">=</span><span class="s1">&#39;iterator&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">in_type</span> <span class="o">==</span> <span class="s1">&#39;iterator&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_yrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">in_type</span> <span class="o">==</span> <span class="s1">&#39;altitude&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__y_altitude</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_yrange</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="VocalDataBlock.get_x_min"><a class="viewcode-back" href="../../doc/tools/vocaldatablock.html#tools.vocalDataBlock.VocalDataBlock.get_x_min">[docs]</a>    <span class="k">def</span> <span class="nf">get_x_min</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">,</span> <span class="n">in_type</span><span class="o">=</span><span class="s1">&#39;iterator&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the minimum x value for a given data type (iter, lat, lon, time, %)</span>
+<span class="sd">        for a given iterator in __data_sets</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">in_type</span> <span class="o">==</span> <span class="s1">&#39;iterator&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_get_x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">in_type</span> <span class="o">==</span> <span class="s1">&#39;latitude&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Latitude</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_get_x</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="n">in_type</span> <span class="o">==</span> <span class="s1">&#39;longitude&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Longitude</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_get_x</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="n">in_type</span> <span class="o">==</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__x_time</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_get_x</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span></div>
+
+    <span class="k">def</span> <span class="nf">get_x_max</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">,</span> <span class="n">it_type</span><span class="o">=</span><span class="s1">&#39;iterator&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">it_type</span> <span class="o">==</span> <span class="s1">&#39;iterator&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_get_x</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">it_type</span> <span class="o">==</span> <span class="s1">&#39;latitude&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Latitude</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_get_x</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="n">it_type</span> <span class="o">==</span> <span class="s1">&#39;longitude&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Longitude</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_get_x</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="n">it_type</span> <span class="o">==</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__x_time</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_get_x</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">get_data_set_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">get_ds_type</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_data_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">,</span> <span class="n">transpose</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">transpose</span> <span class="o">==</span> <span class="s1">&#39;transpose&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_data_set</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_data_set</span>
+
+    <span class="k">def</span> <span class="nf">get_data_set_x_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_x_label</span>
+
+    <span class="k">def</span> <span class="nf">get_data_set_x_label2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_x_label2</span>
+
+    <span class="k">def</span> <span class="nf">get_data_set_y_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_y_label</span>
+
+    <span class="k">def</span> <span class="nf">get_data_set_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_title</span>
+
+    <span class="k">def</span> <span class="nf">get_data_set_cbar_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_cbar_label</span>
+
+    <span class="k">def</span> <span class="nf">get_alt_latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_i</span><span class="p">):</span>
+        <span class="n">latitude1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Latitude</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_min</span><span class="p">(</span><span class="n">in_i</span><span class="p">):</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_max</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span>
+        <span class="n">latitude2</span> <span class="o">=</span> <span class="n">latitude1</span><span class="p">[::</span><span class="mi">15</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">latitude2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">latitude2</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="k">def</span> <span class="nf">get_file_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">levelToGet</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">levelToGet</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span>
+        <span class="k">elif</span> <span class="n">levelToGet</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Out of range, Suppports Level 1 and 2 data files.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="c1"># sets the working type as an integer - refer to constants.py for dictionary</span>
+    <span class="k">def</span> <span class="nf">set_working_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">in_type</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">in_type</span> <span class="o">&lt;</span> <span class="mi">11</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">set_meta_type</span><span class="p">(</span><span class="n">in_type</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Accepts a 2-element list of integers for the x range of profiles</span>
+    <span class="k">def</span> <span class="nf">set_working_x</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="ow">and</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">in_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">15000</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">set_meta_x</span><span class="p">(</span><span class="n">in_x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span>
+
+    <span class="c1"># This allows the setting of the wavelength as some data_sets have 532 and 1064 wavelengths.</span>
+    <span class="c1">#   The default is always 532</span>
+    <span class="k">def</span> <span class="nf">set_working_wavelength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_wavelength</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">in_wavelength</span> <span class="o">==</span> <span class="s1">&#39;1064&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">set_meta_wavelength</span><span class="p">(</span><span class="mi">1064</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">set_meta_wavelength</span><span class="p">(</span><span class="mi">532</span><span class="p">)</span>
+
+    <span class="c1"># accepts a 2-element list of integers - This is the y range (altitude) for a new data_set based off the working data_set</span>
+    <span class="k">def</span> <span class="nf">set_working_altitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_altitude</span><span class="p">):</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">in_altitude</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">in_altitude</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">in_altitude</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">in_altitude</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__y_altitude</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">set_meta_y</span><span class="p">(</span><span class="n">in_altitude</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Index Error&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_working_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_meta_data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_working_type</span><span class="p">(</span><span class="n">in_meta_data</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_working_x</span><span class="p">(</span><span class="n">in_meta_data</span><span class="o">.</span><span class="n">get_meta_x</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_working_altitude</span><span class="p">(</span><span class="n">in_meta_data</span><span class="o">.</span><span class="n">get_meta_y</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_working_wavelength</span><span class="p">(</span><span class="n">in_meta_data</span><span class="o">.</span><span class="n">get_meta_wavelength</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">find_my_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_filename</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">in_filename</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;We do not have a useful file, looking for both types&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;This is what we got: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">in_filename</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span> <span class="o">=</span> <span class="n">in_filename</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_my_file</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL2</span> <span class="o">=</span> <span class="n">in_filename</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL2</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Both files are loaded...&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">search_for</span> <span class="o">=</span> <span class="s2">&quot;L1&quot;</span>
+            <span class="n">good_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">search_for</span> <span class="o">=</span> <span class="s2">&quot;L2&quot;</span>
+            <span class="n">good_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span>
+
+        <span class="n">search_sub_name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">good_file</span><span class="p">[</span><span class="o">-</span><span class="mi">25</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">good_file</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">my_str</span> <span class="o">=</span> <span class="n">good_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="n">slash</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">my_str</span> <span class="o">=</span> <span class="n">good_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">slash</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span>
+
+        <span class="n">search_path</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">vfm</span> <span class="o">=</span> <span class="s2">&quot;VFM&quot;</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">my_str</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">search_path</span> <span class="o">=</span> <span class="n">search_path</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">my_str</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">slash</span><span class="p">)</span>
+
+        <span class="n">search_extension</span> <span class="o">=</span> <span class="s2">&quot;hdf&quot;</span>
+        <span class="k">if</span> <span class="n">constants</span><span class="o">.</span><span class="n">debug_switch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Searching for </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">search_for</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;version of </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">search_sub_name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;in path: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">search_path</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">root</span><span class="p">,</span> <span class="n">dirs_list</span><span class="p">,</span> <span class="n">files_list</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">search_path</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">files_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">search_sub_name</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span>  <span class="c1"># Must have same name as the file we know</span>
+                            <span class="n">file_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">search_extension</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">and</span>  <span class="c1"># must be an hdf file</span>
+                            <span class="n">file_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">search_for</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span> <span class="c1"># Must be the level of file</span>
+                    <span class="k">if</span> <span class="n">constants</span><span class="o">.</span><span class="n">debug_switch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;This file looks promising: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">search_for</span> <span class="o">==</span> <span class="s1">&#39;L1&#39;</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">search_path</span> <span class="o">+</span> <span class="n">file_name</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Found missing L1 file </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span>
+                        <span class="k">if</span> <span class="n">constants</span><span class="o">.</span><span class="n">debug_switch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Path = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">search_path</span><span class="p">)</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;File = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">file_name</span><span class="p">)</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;fileNameV1 = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_file_name</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+                        <span class="k">return</span> <span class="mi">1</span>
+                    <span class="k">elif</span> <span class="n">search_for</span> <span class="o">==</span> <span class="s1">&#39;L2&#39;</span> <span class="ow">and</span> <span class="n">file_name</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">vfm</span><span class="p">)</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL2</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">search_path</span> <span class="o">+</span> <span class="n">file_name</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Found missing L2 file </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span>
+                        <span class="k">if</span> <span class="n">constants</span><span class="o">.</span><span class="n">debug_switch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Path = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">search_path</span><span class="p">)</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;File = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">file_name</span><span class="p">)</span>
+
+                            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;fileNameV2 = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_file_name</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+
+                        <span class="k">return</span> <span class="mi">2</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">constants</span><span class="o">.</span><span class="n">debug_switch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;What were we looking for?&#39;</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Could not find matching </span><span class="si">%s</span><span class="s1"> in same dir...All features may not be available&#39;</span> <span class="o">%</span> <span class="n">good_file</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">print_working_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;*********************************************&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;***************BEGIN META DATA***************&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Working MetaData:&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Level 1 Filename: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Level 2 Filename: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__filenameL2</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_level</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Level 1 and Level 2 data available...&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_level</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;ONLY Level 2 data available...&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_level</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;ONLY Level 1 data available...&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;No data available...or at least it will be tempermental&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;*********SHAPE OF META DATA***********&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;X Time Shape: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__x_time</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;X Latitude Shape: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__Latitude</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;X Longitude Shape: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__Latitude</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Y Shape: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__y_altitude</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;*********WORKING META DATA***********&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Type = </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;X-Working Min/Max in %: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_x</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_x</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Y-Working Min/Max in km: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_y</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_y</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;*********MIN/MAX VALUES of DATA SET***********&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;X-range Time will be, Min: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_time</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; Max: &quot;</span> <span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_time</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;X-range Coords will be, Min: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; Max: &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_coordinates</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Y-range Altitude will be, Min: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_altitude</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; Max: &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_altitude</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;***************END META DATA*****************&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;*********************************************&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">print_data_set_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_iterator</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;*********************************************&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;***************BEGIN DATA SET****************&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Type: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_data_set_type</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Iterator: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Data Shape: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">in_iterator</span><span class="p">]</span><span class="o">.</span><span class="n">ds_data_set</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;********************&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Real Iterators for x1, x2, y1, y2: (&quot;</span> <span class="o">+</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_min</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;profile&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_max</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;profile&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_y_min</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;profile&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_y_max</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;profile&#39;</span><span class="p">))</span> <span class="o">+</span>
+        <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;********************&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Data Set Iterators for x1, x2, y1, y2: (&quot;</span> <span class="o">+</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_min</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;iterator&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_max</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;iterator&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_y_min</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;iterator&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+            <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_y_max</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;iterator&#39;</span><span class="p">))</span> <span class="o">+</span>
+        <span class="s2">&quot;)&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;********************&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Time Values: &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_min</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_max</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;time&#39;</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Latitude Values: &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_min</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_max</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Longitude Values: &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_min</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_x_max</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Altitude Values: &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_y_min</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;altitude&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;, &quot;</span> <span class="o">+</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_y_max</span><span class="p">(</span><span class="n">in_iterator</span><span class="p">,</span> <span class="s1">&#39;altitude&#39;</span><span class="p">)))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;***************END DATA SET******************&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;*********************************************&quot;</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This will find the iterator for the working data_set within the data_set.  It can also be used </span>
+<span class="sd">    to check to see if the working data_set has already been created or if the list is empty return</span>
+<span class="sd">    codes (&#39;empty&#39; == empty, &quot;False&quot; == does not exist in data_set, positive integer is a positive</span>
+<span class="sd">    match and returns the iterator needed to access the data_set and negative interger is an </span>
+<span class="sd">    iterator pointing to a data_set that the working data_set exists within</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">find_data_set_iterator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">in_type</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">in_wavelength</span><span class="o">=</span><span class="mi">532</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">in_type</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">in_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">in_wavelength</span> <span class="o">!=</span> <span class="mi">1064</span><span class="p">:</span>
+            <span class="n">in_wavelength</span> <span class="o">=</span> <span class="mi">532</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;DATA SET IS EMPTY&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;Empty&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ds_type</span> <span class="o">==</span> <span class="n">in_type</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">ds_wavelength</span> <span class="o">==</span> <span class="n">in_wavelength</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;DATA SET FOUND: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                    <span class="k">return</span> <span class="n">i</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;DATA SET NOT FOUND&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;False&quot;</span>
+
+
+    <span class="k">def</span> <span class="nf">load_data_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_data_set_to_get</span><span class="p">,</span> <span class="n">in_return_type</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">in_return_type</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span><span class="p">:</span>
+            <span class="n">data_set_iterator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_data_set_iterator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data_set_iterator</span> <span class="o">=</span> <span class="s2">&quot;False&quot;</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">data_set_iterator</span> <span class="o">==</span> <span class="s2">&quot;False&quot;</span> <span class="ow">or</span> <span class="n">data_set_iterator</span> <span class="o">==</span> <span class="s2">&quot;Empty&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL2</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__filenameL1</span>
+
+            <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Data file not available&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mi">99</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">constants</span><span class="o">.</span><span class="n">debug_switch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Attempting to open data set: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">in_data_set_to_get</span><span class="p">))</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;From File: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+
+                <span class="k">with</span> <span class="n">HDF</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">product</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">constants</span><span class="o">.</span><span class="n">debug_switch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Loading data set: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">in_data_set_to_get</span><span class="p">))</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;From: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+                    <span class="n">temp_data</span> <span class="o">=</span> <span class="n">product</span><span class="p">[</span><span class="n">in_data_set_to_get</span><span class="p">][::]</span>
+
+            <span class="k">if</span> <span class="n">in_return_type</span> <span class="o">==</span> <span class="s1">&#39;data only&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">temp_data</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">append_data_sets</span><span class="p">(</span><span class="n">temp_data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">in_return_type</span> <span class="o">==</span> <span class="s1">&#39;data only&#39;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_data_set</span><span class="p">(</span><span class="n">data_set_iterator</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">data_set_iterator</span>
+
+<div class="viewcode-block" id="VocalDataBlock.append_data_sets"><a class="viewcode-back" href="../../doc/tools/vocaldatablock.html#tools.vocalDataBlock.VocalDataBlock.append_data_sets">[docs]</a>    <span class="k">def</span> <span class="nf">append_data_sets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_data_set</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Appends a DataSet to the end of __data_sets</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">DataSet</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">(),</span> <span class="n">in_data_set</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_x</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_y</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_wavelength</span><span class="p">()</span>
+        <span class="p">))</span>
+        <span class="k">if</span> <span class="n">constants</span><span class="o">.</span><span class="n">debug_switch</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;*****************Loaded data set****************&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_working_metadata</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">print_data_set_info</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data_sets</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span></div>
+
+    <span class="k">def</span> <span class="nf">remove_data_sets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_data_set_iterator</span><span class="p">):</span>
+        <span class="c1"># Need to manage the iterators if I am going to allow deletes</span>
+        <span class="c1"># del self.__data_sets[in_data_set_iterator]</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">get_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_meta_data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_working_meta</span><span class="p">(</span><span class="n">in_meta_data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">back_scatter</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">depolarization</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vfm</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iwp</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">99</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">99</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">99</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">99</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">99</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">()</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">99</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">99</span>
+
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="o">-</span><span class="mi">99</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Data Set Failed to load: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__working_meta</span><span class="o">.</span><span class="n">get_meta_type</span><span class="p">))</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">99</span>
+            <span class="c1"># For types not yet implemented#</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">i</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

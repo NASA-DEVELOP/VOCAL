@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Vocal Data Block &#8212; VOCAL 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Logger" href="../log/log.html" />
+    <link rel="prev" title="TreeListBox" href="treelistbox.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          VOCAL</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Index <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../supporteddata.html">Supported Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dev/startdev.html">Getting Started Developing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Code Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Vocal Data Block</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="treelistbox.html" title="Previous Chapter: TreeListBox"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; TreeListBox</span>
+    </a>
+  </li>
+  <li>
+    <a href="../log/log.html" title="Next Chapter: Logger"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Logger &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../../_sources/doc/tools/vocaldatablock.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="vocal-data-block">
+<h1>Vocal Data Block<a class="headerlink" href="#vocal-data-block" title="Permalink to this headline">¶</a></h1>
+<img src="../../_images/inheritance-086add063596a231b0db69bc82fc3a9002cefa55.png" alt="Inheritance diagram of tools.vocalDataBlock" usemap="#inheritance1654ba6825" class="inheritance"/>
+<map id="inheritance1654ba6825" name="inheritance1654ba6825">
+<area shape="rect" id="node1" href="#tools.vocalDataBlock.DataSet" target="_top" title="Class of objects that contain data loaded from HDF files" alt="" coords="28,104,223,129"/>
+<area shape="rect" id="node2" href="#tools.vocalDataBlock.MetaData" target="_top" title="DECREPIT &#45; See comments in source" alt="" coords="24,55,227,80"/>
+<area shape="rect" id="node3" href="#tools.vocalDataBlock.VocalDataBlock" target="_top" title="Loads the HDF files and replaces old functions for plotting each data type." alt="" coords="5,5,245,31"/>
+</map>
+<p>This file was an attempt by a previous term to set up tabs in Tkinter to simultaneously load
+multiple levels of data. After spending a lot of time trying to fix all of the problems with this
+method, I realized I couldn&#8217;t get any further and ended up replacing the tabs with a view menu,
+which is a lot simpler and works much better. All of the fixes I made can be found in the
+DataBlock branch on GitHub. I would NOT recommend retrying this method, however. I believe there
+are some limitations from Tkinter and matplotlib/tkinter that would require vocal to be completely
+restructured for simultaneous tabs to work.</p>
+<p>Currently, this file simply serves to load both L1 and L2 files, although it may be prudent to
+extract the method from VocalDataBlock.get_file_name(), place it in a separate file, and delete
+this one</p>
+<span class="target" id="module-tools.vocalDataBlock"></span><dl class="class">
+<dt id="tools.vocalDataBlock.DataSet">
+<em class="property">class </em><code class="descname">DataSet</code><span class="sig-paren">(</span><em>in_type, in_data_set, in_x_range=[0, 5000], in_y_range=[0, 20], in_wavelength=532</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/vocalDataBlock.html#DataSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.vocalDataBlock.DataSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class of objects that contain data loaded from HDF files</p>
+<dl class="method">
+<dt id="tools.vocalDataBlock.DataSet.ds_get_x">
+<code class="descname">ds_get_x</code><span class="sig-paren">(</span><em>in_it</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/vocalDataBlock.html#DataSet.ds_get_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.vocalDataBlock.DataSet.ds_get_x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return either the start, end, or full x range</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tools.vocalDataBlock.DataSet.ds_set_x">
+<code class="descname">ds_set_x</code><span class="sig-paren">(</span><em>in_xrange</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/vocalDataBlock.html#DataSet.ds_set_x"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.vocalDataBlock.DataSet.ds_set_x" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that a correct x rangee was put in, and prepare it for use later
+Not sure why it has to be a multiple of 5</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tools.vocalDataBlock.DataSet.get_ds_type">
+<code class="descname">get_ds_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/vocalDataBlock.html#DataSet.get_ds_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.vocalDataBlock.DataSet.get_ds_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the type of data</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tools.vocalDataBlock.DataSet.set_title">
+<code class="descname">set_title</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/vocalDataBlock.html#DataSet.set_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.vocalDataBlock.DataSet.set_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the title and colorbar lables</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tools.vocalDataBlock.MetaData">
+<em class="property">class </em><code class="descname">MetaData</code><span class="sig-paren">(</span><em>in_type=0</em>, <em>in_x_min=0</em>, <em>in_x_max=0</em>, <em>in_y_min=0</em>, <em>in_y_max=0</em>, <em>in_wavelength=532</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/vocalDataBlock.html#MetaData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.vocalDataBlock.MetaData" title="Permalink to this definition">¶</a></dt>
+<dd><p>DECREPIT - See comments in source</p>
+<p>MetaData objects allow the transfer of rendering range and type info to and from Calipso and
+VocalDataBlock. The functions allow the code to call or set the current variables</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="tools.vocalDataBlock.VocalDataBlock">
+<em class="property">class </em><code class="descname">VocalDataBlock</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/vocalDataBlock.html#VocalDataBlock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.vocalDataBlock.VocalDataBlock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the HDF files and replaces old functions for plotting each data type.</p>
+<dl class="method">
+<dt id="tools.vocalDataBlock.VocalDataBlock.append_data_sets">
+<code class="descname">append_data_sets</code><span class="sig-paren">(</span><em>in_data_set</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/vocalDataBlock.html#VocalDataBlock.append_data_sets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.vocalDataBlock.VocalDataBlock.append_data_sets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Appends a DataSet to the end of __data_sets</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tools.vocalDataBlock.VocalDataBlock.get_x_min">
+<code class="descname">get_x_min</code><span class="sig-paren">(</span><em>in_iterator</em>, <em>in_type='iterator'</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/vocalDataBlock.html#VocalDataBlock.get_x_min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.vocalDataBlock.VocalDataBlock.get_x_min" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the minimum x value for a given data type (iter, lat, lon, time, %)
+for a given iterator in __data_sets</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

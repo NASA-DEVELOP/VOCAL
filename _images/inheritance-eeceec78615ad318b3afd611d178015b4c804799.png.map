@@ -1,0 +1,10 @@
+<map id="inheritancead23574d4f" name="inheritancead23574d4f">
+<area shape="rect" id="node1" title="Internal class." alt="" coords="125,130,240,152"/>
+<area shape="rect" id="node5" title="Internal class." alt="" coords="281,68,372,89"/>
+<area shape="rect" id="node2" title="Internal class." alt="" coords="5,130,84,152"/>
+<area shape="rect" id="node3" title="Geometry manager Grid." alt="" coords="144,5,220,26"/>
+<area shape="rect" id="node4" title="Menubutton widget, obsolete since Tk8.0." alt="" coords="412,68,526,89"/>
+<area shape="rect" id="node8" href="#tools.optionmenu.ShapeOptionMenu" target="_top" title="Custom OptionMenu which allows the user to select a value from" alt="" coords="566,68,763,89"/>
+<area shape="rect" id="node6" title="Geometry manager Pack." alt="" coords="142,46,223,68"/>
+<area shape="rect" id="node7" title="Geometry manager Place." alt="" coords="140,88,224,110"/>
+</map>

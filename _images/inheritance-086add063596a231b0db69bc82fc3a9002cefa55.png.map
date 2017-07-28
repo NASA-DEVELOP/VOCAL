@@ -1,0 +1,5 @@
+<map id="inheritance1654ba6825" name="inheritance1654ba6825">
+<area shape="rect" id="node1" href="#tools.vocalDataBlock.DataSet" target="_top" title="Class of objects that contain data loaded from HDF files" alt="" coords="28,104,223,129"/>
+<area shape="rect" id="node2" href="#tools.vocalDataBlock.MetaData" target="_top" title="DECREPIT &#45; See comments in source" alt="" coords="24,55,227,80"/>
+<area shape="rect" id="node3" href="#tools.vocalDataBlock.VocalDataBlock" target="_top" title="Loads the HDF files and replaces old functions for plotting each data type." alt="" coords="5,5,245,31"/>
+</map>

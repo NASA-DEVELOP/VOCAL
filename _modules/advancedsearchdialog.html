@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>advancedsearchdialog &#8212; VOCAL 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          VOCAL</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Index <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Program Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supporteddata.html">Supported Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/startdev.html">Getting Started Developing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc/modules.html">Code Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/contact.html">Contact</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for advancedsearchdialog</h1><div class="highlight"><pre>
+<span></span><span class="c1">###################################</span>
+<span class="c1">#    Created on Jul 29, 2015</span>
+<span class="c1">#</span>
+<span class="c1">#    @author: Grant Mercer</span>
+<span class="c1">#</span>
+<span class="c1">###################################</span>
+
+<span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="k">import</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">END</span><span class="p">,</span> <span class="n">RIGHT</span>
+<span class="kn">import</span> <span class="nn">tkMessageBox</span>
+<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="k">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Entry</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> \
+    <span class="n">Label</span><span class="p">,</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">OptionMenu</span><span class="p">,</span> <span class="n">StringVar</span>
+
+<span class="kn">import</span> <span class="nn">constants</span>
+<span class="kn">from</span> <span class="nn">tools.tools</span> <span class="k">import</span> <span class="n">center</span><span class="p">,</span> <span class="n">Observer</span>
+<span class="kn">from</span> <span class="nn">log.log</span> <span class="k">import</span> <span class="n">logger</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+
+<div class="viewcode-block" id="Query"><a class="viewcode-back" href="../doc/general/advancedsearch.html#advancedsearchdialog.Query">[docs]</a><span class="k">class</span> <span class="nc">Query</span><span class="p">(</span><span class="n">Observer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Observer object that holds a *ranges* dictionary which can be used</span>
+<span class="sd">    to query the database once updated. Notifies it&#39;s parent upon ranges</span>
+<span class="sd">    being changed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Observer</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ranges</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ranges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ranges</span>
+
+    <span class="nd">@ranges</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ranges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_ranges</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ranges</span> <span class="o">=</span> <span class="n">n_ranges</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">notify</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">modifier</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">observer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">modifier</span> <span class="o">!=</span> <span class="n">observer</span><span class="p">:</span>
+                <span class="n">observer</span><span class="o">.</span><span class="n">receive_advanced_search</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AdvancedSearchDialog"><a class="viewcode-back" href="../doc/general/advancedsearch.html#advancedsearchdialog.AdvancedSearchDialog">[docs]</a><span class="k">class</span> <span class="nc">AdvancedSearchDialog</span><span class="p">(</span><span class="n">Toplevel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A dialog for advanced searching, notifying `ImportDialog` when search parameters have</span>
+<span class="sd">    been chosen and entered. Uses the observer design pattern to notify ``ImportDialog``</span>
+<span class="sd">    when the ranges have been changed from an invalid state to valid.</span>
+
+<span class="sd">    :param parent: The class to attach the observer to</span>
+<span class="sd">    :param root: The base widget for ``Toplevel``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># This dialog should be a singleton, so the caller will ensure</span>
+    <span class="c1"># no other windows are open by checking this variable</span>
+    <span class="n">singleton</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="n">AdvancedSearchDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="kc">True</span>           <span class="c1"># pseudo singleton now active</span>
+        <span class="n">Toplevel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Advanced search&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transient</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shared_data</span> <span class="o">=</span> <span class="n">Query</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shared_data</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">(</span><span class="s1">&#39;WM_DELETE_WINDOW&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">)</span>
+
+        <span class="n">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">IMADVWIDTH</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">IMADVHEIGHT</span><span class="p">))</span>
+
+        <span class="n">window_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">window_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">top_window_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">window_frame</span><span class="p">)</span>
+        <span class="n">top_window_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">Label</span><span class="p">(</span><span class="n">top_window_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Filter by: &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">Label</span><span class="p">(</span><span class="n">top_window_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Leave fields untouched that you do not wish to search by&#39;</span><span class="p">,</span>
+              <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;Helvetica&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">RIGHT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">bottom_window_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">window_frame</span><span class="p">)</span>
+        <span class="n">bottom_window_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">bottom_window_frame</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">highlightthickness</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">bottom_window_frame</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">highlightbackground</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+        <span class="n">Label</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Plot &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">Label</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Date(YYYY-MM-DD) &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">Label</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Time Range &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">Label</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Latitude Range &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">Label</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Altitude Range &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="n">Label</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;File &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">plots</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">am_pm</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_entry</span> <span class="o">=</span> <span class="n">OptionMenu</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">plots</span><span class="p">,</span> <span class="s1">&#39;backscattered&#39;</span><span class="p">,</span> <span class="s1">&#39;depolarized&#39;</span><span class="p">,</span> <span class="s1">&#39;vfm&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">columnspan</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">date_entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">columnspan</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="s1">&#39;0000-00-00&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_time_entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_time_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_time_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="s1">&#39;00:00:00&#39;</span><span class="p">)</span>
+        <span class="n">Label</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;to&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e_time_entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e_time_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e_time_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="s1">&#39;00:00:00&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">am_pm_menu</span> <span class="o">=</span> <span class="n">OptionMenu</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">am_pm</span><span class="p">,</span> <span class="s1">&#39;am&#39;</span><span class="p">,</span> <span class="s1">&#39;pm&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">am_pm_menu</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_lat_entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_lat_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_lat_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="s1">&#39;0.0&#39;</span><span class="p">)</span>
+        <span class="n">Label</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;to&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e_lat_entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e_lat_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e_lat_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="s1">&#39;0.0&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_alt_entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_alt_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b_alt_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="s1">&#39;0.0&#39;</span><span class="p">)</span>
+        <span class="n">Label</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;to&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e_alt_entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e_alt_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e_alt_entry</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="s1">&#39;0.0&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_entry</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="n">bottom_window_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_entry</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">columnspan</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="n">bottom_button_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="n">window_frame</span><span class="p">)</span>
+        <span class="n">bottom_button_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">Button</span><span class="p">(</span><span class="n">bottom_button_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Search&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse_ranges</span><span class="p">)</span><span class="o">.</span>\
+            <span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AdvancedSearchDialog.parse_ranges"><a class="viewcode-back" href="../doc/general/advancedsearch.html#advancedsearchdialog.AdvancedSearchDialog.parse_ranges">[docs]</a>    <span class="k">def</span> <span class="nf">parse_ranges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Command for the search button, upon the user clicking the search button this function</span>
+<span class="sd">        will perform a number of regex parsing to ensure all fields contain valid numbers, then</span>
+<span class="sd">        sets the observers range dictionary to the valid fields and destroys AdvancedSearchDialog.</span>
+<span class="sd">        If any fields are invalid, an error will be displayed and the function will return, keeping</span>
+<span class="sd">        the window open and allowing the user to fix their error.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">r_date</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[0-9]</span><span class="si">{4}</span><span class="s1">-[0-9]</span><span class="si">{2}</span><span class="s1">-[0-9]</span><span class="si">{2}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">valid_entries</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">r_date</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">date</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Invalid date entered </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">date</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s1">&#39;Invalid field&#39;</span><span class="p">,</span> <span class="s1">&#39;Invalid date </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1"> entered,&#39;</span> <span class="o">%</span> <span class="n">date</span> <span class="o">+</span>
+                                   <span class="s1">&#39; must match year-mo-day format&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">date</span> <span class="o">==</span> <span class="s1">&#39;0000-00-00&#39;</span><span class="p">:</span>
+            <span class="n">date</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">valid_entries</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
+
+        <span class="n">beg_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_time_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">r_time</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[0-6]</span><span class="si">{2}</span><span class="s1">:[0-6]</span><span class="si">{2}</span><span class="s1">:[0-6]</span><span class="si">{2}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">r_time</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">beg_time</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Invalid beginning time range entered </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">beg_time</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s1">&#39;Invalid field&#39;</span><span class="p">,</span> <span class="s1">&#39;Invalid beginning time range&#39;</span> <span class="o">+</span>
+                                   <span class="s1">&#39; </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">, must match hr:mn:sc format&#39;</span> <span class="o">%</span> <span class="n">beg_time</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="n">end_time</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_time_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">r_time</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">end_time</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Invalid ending time range entered </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">end_time</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s1">&#39;Invalid fieldy&#39;</span><span class="p">,</span> <span class="s1">&#39;Invalid ending time range&#39;</span> <span class="o">+</span>
+                                   <span class="s1">&#39; </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">, must match hr:mn:sc format&#39;</span> <span class="o">%</span> <span class="n">end_time</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">am_pm</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="ow">and</span> <span class="p">(</span><span class="n">beg_time</span> <span class="o">!=</span> <span class="s1">&#39;00:00:00&#39;</span> <span class="ow">or</span> <span class="n">end_time</span> <span class="o">!=</span> <span class="s1">&#39;00:00:00&#39;</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;am/pm not specified but time given&#39;</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s1">&#39;Invalid field&#39;</span><span class="p">,</span> <span class="s1">&#39;Time entered but no am/pm specified,&#39;</span> <span class="o">+</span>
+                                   <span class="s1">&#39;specify whether the time is am/pm&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">end_time</span> <span class="o">==</span> <span class="s1">&#39;00:00:00&#39;</span><span class="p">:</span>
+            <span class="n">end_time</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">beg_time</span> <span class="o">==</span> <span class="s1">&#39;00:00:00&#39;</span><span class="p">:</span>
+            <span class="n">beg_time</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">valid_entries</span><span class="p">[</span><span class="s1">&#39;etime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_time</span>
+        <span class="n">valid_entries</span><span class="p">[</span><span class="s1">&#39;btime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">beg_time</span>
+
+        <span class="n">beg_lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_lat_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">r_lat</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;[+-]?(\d+(\.\d*)?|\.\d+)([eE][+-]?\d+)?&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">r_lat</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">beg_lat</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Invalid beginning lat range entered </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">beg_lat</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s1">&#39;Invalid field&#39;</span><span class="p">,</span> <span class="s1">&#39;Invalid beginning latitude range&#39;</span> <span class="o">+</span>
+                                   <span class="s1">&#39; </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">, must be a valid number(e.g. -2.3 , 4, 0.0)&#39;</span>
+                                   <span class="o">%</span> <span class="n">beg_lat</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">beg_lat</span> <span class="o">==</span> <span class="s1">&#39;0.0&#39;</span><span class="p">:</span>
+            <span class="n">beg_lat</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">valid_entries</span><span class="p">[</span><span class="s1">&#39;blat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">beg_lat</span>
+
+        <span class="n">end_lat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_lat_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">r_lat</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">end_lat</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Invalid ending lat range entered </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">end_lat</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s1">&#39;Invalid field&#39;</span><span class="p">,</span> <span class="s1">&#39;Invalid ending latitude range&#39;</span> <span class="o">+</span>
+                                   <span class="s1">&#39; </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">, must be valid number(e.g. -2.3, 4, 0.0&#39;</span>
+                                   <span class="o">%</span> <span class="n">end_lat</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">end_lat</span> <span class="o">==</span> <span class="s1">&#39;0.0&#39;</span><span class="p">:</span>
+            <span class="n">end_lat</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">valid_entries</span><span class="p">[</span><span class="s1">&#39;elat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_lat</span>
+
+        <span class="n">beg_alt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_alt_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="c1"># r_lat is actually the same regex so we can just use that</span>
+        <span class="k">if</span> <span class="n">r_lat</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">beg_alt</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Invalid beginning alt range entered </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">beg_alt</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s1">&#39;Invalid field&#39;</span><span class="p">,</span> <span class="s1">&#39;Invalid beginning altitude range&#39;</span> <span class="o">+</span>
+                                   <span class="s1">&#39; </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">, must be a valid number(e.g. -2.3, 4, 0.0&#39;</span>
+                                   <span class="o">%</span> <span class="n">beg_alt</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">beg_alt</span> <span class="o">==</span> <span class="s1">&#39;0.0&#39;</span><span class="p">:</span>
+            <span class="n">beg_alt</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">valid_entries</span><span class="p">[</span><span class="s1">&#39;balt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">beg_alt</span>
+
+        <span class="n">end_alt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">e_alt_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">r_lat</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">end_alt</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Invalid ending alt range entered </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">end_alt</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s1">&#39;Invalid field&#39;</span><span class="p">,</span> <span class="s1">&#39;Invalid beginning altitude range&#39;</span> <span class="o">+</span>
+                                   <span class="s1">&#39; </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">, must be a valid number(e.g. -2.3, 4, 0.0&#39;</span>
+                                   <span class="o">%</span> <span class="n">end_alt</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">end_alt</span> <span class="o">==</span> <span class="s1">&#39;0.0&#39;</span><span class="p">:</span>
+            <span class="n">end_alt</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">valid_entries</span><span class="p">[</span><span class="s1">&#39;ealt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_alt</span>
+
+        <span class="n">file_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_entry</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">file_</span> <span class="ow">and</span> <span class="n">file_</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;.hdf&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;No extension found in file entry, appending .hdf&#39;</span><span class="p">)</span>
+            <span class="n">file_</span> <span class="o">+=</span> <span class="s1">&#39;.hdf&#39;</span>
+        <span class="n">valid_entries</span><span class="p">[</span><span class="s1">&#39;plot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">valid_entries</span><span class="p">[</span><span class="s1">&#39;ampm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">am_pm</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">valid_entries</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file_</span>
+
+        <span class="c1"># update ranges dictionary which will call ImportDialog receive()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shared_data</span><span class="o">.</span><span class="n">ranges</span> <span class="o">=</span> <span class="n">valid_entries</span>
+        <span class="n">AdvancedSearchDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="AdvancedSearchDialog.free"><a class="viewcode-back" href="../doc/general/advancedsearch.html#advancedsearchdialog.AdvancedSearchDialog.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Notify base class window has been destroyed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Closing AdvancedSearchDialog&#39;</span><span class="p">)</span>
+        <span class="n">AdvancedSearchDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
