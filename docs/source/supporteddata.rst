@@ -8,7 +8,7 @@ in what ccplot supports.
 | Spacecraft | Instrument | Product                                       | Includes          | Supported |
 +============+============+===============================================+===================+===========+
 | CALIPSO    | CALIOP     | Lidar L1B Profiles                            | * Backscatter     | Yes       |
-|            |            |                                               | * Depolarization  |
+|            |            |                                               | * Depolarization  |           |
 +------------+------------+-----------------------------------------------+-------------------+-----------+
 |            |            | Lidar L2 Vertical Feature Mask                | * VFM             | Yes       |
 |            |            |                                               | * Ice/Water Phase |           |

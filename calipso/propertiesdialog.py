@@ -23,7 +23,9 @@ from advancedsearchdialog import AdvancedSearchDialog
 from extractcolumnsdialog import ExtractColumnsDialog
 
 class PropertyDialog(Toplevel):
-
+    """
+    Displays the porperties of the shape in a window
+    """
     dialogs = []
 
     def __init__(self, root, shape):

@@ -10,7 +10,7 @@ import os
 from os.path import expanduser
 from sys import platform as _platform
 
-from calipso.tools.config import Config
+from tools.config import Config
 
 
 class Plot(object):

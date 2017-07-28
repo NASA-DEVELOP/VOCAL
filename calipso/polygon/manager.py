@@ -280,8 +280,8 @@ class ShapeManager(object):
     # noinspection PyProtectedMember
     def properties(self, event):
         """
-        Return the properties of the shape clicked on by the user and create a small
-        tooltip which displays these properties
+        Return the properties.rst of the shape clicked on by the user and create a small
+        tooltip which displays these properties.rst
 
         :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
         """

@@ -7,7 +7,6 @@ import logging.config
 import re
 import shutil
 import sys
-import os
 import traceback
 from time import strftime as time
 

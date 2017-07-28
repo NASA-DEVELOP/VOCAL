@@ -169,7 +169,7 @@ class ToolsWindow(Toplevel):
         home_button.grid(row=1, column=1, padx=2, pady=5)
         create_tool_tip(home_button, 'Home')
 
-        # Retrieve shape properties
+        # Retrieve shape properties.rst
         properties_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.prop_img, width=30, height=30)
         properties_button.latch(target=self.__canvas, key='pick_event',

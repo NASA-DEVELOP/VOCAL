@@ -8,7 +8,7 @@ is also held to as high a standard as we do.
 
 .. rubric:: Building the docs
 
-See :doc:`Updating the Site <site>' for a guide on building docs for the website
+See :doc:`Updating the Site <site>` for a guide on building docs for the website
 
 .. rubric:: Contributing to the Docs
 
