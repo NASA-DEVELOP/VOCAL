@@ -5,32 +5,32 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Getting Started &mdash; VOCAL 0.15.2 documentation</title>
+    <title>Getting Started &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="index.html" />
-    <link rel="next" title="Coding Conventions" href="dev/conventions.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started Developing" href="dev/startdev.html" />
     <link rel="prev" title="Supported Data Types" href="supporteddata.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -72,10 +72,11 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="supporteddata.html">Supported Data Types</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="dev/startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/conventions.html">Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/enviroment.html">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/docs.html">Building and Writing Docs</a></li>
@@ -108,6 +109,8 @@
 <li><a class="reference internal" href="#drawing-shapes">Drawing Shapes</a></li>
 <li><a class="reference internal" href="#hiding-and-sharing-specific-shapes">Hiding and Sharing Specific Shapes</a></li>
 <li><a class="reference internal" href="#using-the-database">Using the Database</a><ul>
+<li><a class="reference internal" href="#creating-a-database">Creating a Database</a></li>
+<li><a class="reference internal" href="#selecting-a-database">Selecting a Database</a></li>
 <li><a class="reference internal" href="#exporting-shapes">Exporting Shapes</a></li>
 <li><a class="reference internal" href="#importing-shapes">Importing Shapes</a></li>
 </ul>
@@ -119,6 +122,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#advanced-querying">Advanced Querying</a></li>
+<li><a class="reference internal" href="#changing-the-settings">Changing the Settings</a></li>
 </ul>
 </li>
 </ul>
@@ -130,11 +134,11 @@
               
                 
   <li>
-    <a href="supporteddata.html" title="Previous Chapter: Supported Data Types"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Supported Dat...</span>
+    <a href="supporteddata.html" title="Previous Chapter: Supported Data Types"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Supported Data Types</span>
     </a>
   </li>
   <li>
-    <a href="dev/conventions.html" title="Next Chapter: Coding Conventions"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Coding Conven... &raquo;</span>
+    <a href="dev/startdev.html" title="Next Chapter: Getting Started Developing"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Getting Start... &raquo;</span>
     </a>
   </li>
               
@@ -144,7 +148,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="_sources/tutorial.txt"
+  <a href="_sources/tutorial.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -176,19 +180,25 @@ Tool program.</p>
 <h2>Interface Layout<a class="headerlink" href="#interface-layout" title="Permalink to this headline">¶</a></h2>
 <p>Upon first starting VOCAL, you&#8217;ll be greeted with the initial view of the application. The large center most
 window is the main screen for displaying data from <em>.HDF</em> files, this will be where you <strong>see</strong> the data.</p>
-<a class="reference internal image-reference" href="_images/startup.png"><img alt="_images/startup.png" src="_images/startup.png" style="width: 613.2px; height: 290.8px;" /></a>
-<p>The top most menu bar contains four directories: <em>file</em> , <em>edit</em>, <em>polygon</em> and <em>help</em>.</p>
+<a class="reference internal image-reference" href="_images/startup.png"><img alt="_images/startup.png" src="_images/startup.png" style="width: 590.8px; height: 286.0px;" /></a>
+<p>The top most menu bar contains four directories: <em>file</em> , <em>edit</em>, <em>polygon</em>, <em>views</em>, and <em>help</em>.</p>
 <ul class="simple">
-<li><em>file</em> allows a user to import an HDF (same as <img alt="browse" src="_images/browse_button.png" />), save all objects from all plots to a JSON file, save
-only <em>visible</em> objects on the screen to a JSON file, or exit the application.</li>
+<li><dl class="first docutils">
+<dt><em>file</em> allows a user to import an HDF (same as <img alt="browse" src="_images/browse_button.png" />), save all objects from all plots to a JSON file,</dt>
+<dd>change configuration settings, or exit the application.</dd>
+</dl>
+</li>
 <li><em>edit</em> offers tools for shape or plot manipulation</li>
-<li><em>polygon</em> relates to the database use, see <a class="reference internal" href="#database"><span>Using the Database</span></a> for more information.</li>
+<li><em>polygon</em> relates to the database use, see <a class="reference internal" href="#database"><span class="std std-ref">Using the Database</span></a> for more information.</li>
+<li><em>views</em> allows a user to select the data product to be rendered</li>
 <li><em>help</em> shows information on the project, and links to this website</li>
 </ul>
 <p>Located near the menu and off to the top right you&#8217;ll find three buttons. <img alt="load" src="_images/load_button.png" /> will load a JSON file previously
 created by the application, and draw it to the plot.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
+<p>It is recommended that you use the tools provided in the polygon folder and the database for saving
+drawn shapes. Using JSON files can get messy and may not work properly.</p>
 <p class="last">When loading JSON objects using this feature: the file the shape was created in <strong>must</strong> match the file you
 currently have loaded, otherwise you&#8217;ll get an error! We do not allow users to load shapes from JSON files
 which are from other files than what the user is currently on.</p>
@@ -208,10 +218,13 @@ render</li>
 as backscattered</li>
 <li><img alt="depo" src="_images/depolarized_button.png" /> Selection option used when visualizing, having this option checked will display the data as
 depolarized.</li>
-<li><img alt="step" src="_images/step_entry.png" /> Specify the range of time to plot to, from <em>x</em> to <em>y</em>. Default is <em>x</em> + 1000 if no <em>y</em>, and
-0 - 1000 if neither <em>x</em> nor <em>y</em></li>
+<li><dl class="first docutils">
+<dt><img alt="step" src="_images/step_entry.png" /> Specify the range of profiles (vertical columns of data) to plot to, from <em>x</em> to <em>y</em>.</dt>
+<dd>Default is 0 to 5000.</dd>
+</dl>
+</li>
 <li><img alt="salt" src="_images/alt.png" /> Specify the range of altitude to plot to, from <em>x</em> to <em>y</em>. Default is 0 to 20</li>
-<li><img alt="fren" src="_images/render_button.png" /> Visualize the data given the conditions entered into <strong>step</strong> and <strong>backscattered/depolarized</strong></li>
+<li><img alt="fren" src="_images/render_button.png" /> Visualize the data given the conditions entered into <strong>step</strong> and <em>Views</em> tab</li>
 </ul>
 </div>
 <div class="section" id="starting-up">
@@ -219,10 +232,10 @@ depolarized.</li>
 <p>To load a CALIPSO hdf file from the local file directory, click the <img alt="browse" src="_images/browse_button.png" /> button at the
 top of the screen. Navigate to the .HDF file of your choice and select <strong>open</strong> The file text box will now update and
 display the name of the imported hdf file. The main screen will appear blank at first. To display a plot,
-Select the type of plot you would like with either <img alt="back" src="_images/backscattered_button.png" /> or <img alt="depo" src="_images/depolarized_button.png" /> to render and an optional step
-<img alt="step" src="_images/step_entry.png" /> (<em>the default is from 0 to 1000</em>).
+Select the type of plot you would like from the <em>views</em> menu to render and an optional step
+<img alt="step" src="_images/step_entry.png" /> (<em>the default is from 0 to 5000</em>).
 Hit <a class="reference internal" href="_images/render_button.png"><img alt="rend" src="_images/render_button.png" style="width: 47.0px; height: 35.5px;" /></a> to visualize the data to the screen.</p>
-<a class="reference internal image-reference" href="_images/load_hdf.png"><img alt="_images/load_hdf.png" src="_images/load_hdf.png" style="width: 921.0px; height: 429.6px;" /></a>
+<a class="reference internal image-reference" href="_images/load_hdf.png"><img alt="_images/load_hdf.png" src="_images/load_hdf.png" style="width: 890.4px; height: 428.4px;" /></a>
 </div>
 <div class="section" id="navigating-the-plot">
 <h2>Navigating the Plot<a class="headerlink" href="#navigating-the-plot" title="Permalink to this headline">¶</a></h2>
@@ -239,6 +252,10 @@ out based upon the scale difference of the area you highlighted.</li>
 <li><img alt="redo" src="_images/redo_button.png" /> Redo: jump forward to the next magnification zoom frame</li>
 <li><img alt="home" src="_images/home_button.png" /> Home: reset the view to the original render</li>
 </ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Magnification currently does not work</p>
+</div>
 </div>
 <div class="section" id="viewing-properties-of-shapes">
 <h2>Viewing Properties of Shapes<a class="headerlink" href="#viewing-properties-of-shapes" title="Permalink to this headline">¶</a></h2>
@@ -265,7 +282,7 @@ shapes drawn to the plot.</p>
 <li><img alt="rect" src="_images/rect_button.png" /> Rectangle: Dragging the cursor in the plot will create an outline of a rectangle,
 upon release of the cursor the shape will be created in place of the outline.</li>
 <li><img alt="fred" src="_images/freedraw_button.png" /> Free Draw: Clicking on the plot will create a <em>vertex</em>, multiple clicks will
-bind vertices together and create lines. If a new line is found interesting an
+bind vertices together and create lines. If a new line intersects an
 existing line a shape will be formed at the intersection being the enclosing vertex.</li>
 <li><img alt="eras" src="_images/erase_button.png" /> Erase: Selecting this button and clicking a shape will remove it from the plot. <em>note: *
 this will **not*</em> delete the object in a database or JSON file if it is loaded, that is a
@@ -284,24 +301,40 @@ of shapes to a JSON file.</p>
 Only the outline of the shapes will be drawn, pressing this one more reverts the change</li>
 <li><img alt="hide" src="_images/hide_button.png" /> Hide: Similar to Focus, but pressing this button will <strong>completely</strong> hide all shapes,
 they still exist; however they simply won&#8217;t be drawn to the screen.</li>
-<li><img alt="save" src="_images/save_button.png" /> Save: Save all existing objects in the <strong>current</strong> plot to a JSON formatted file.
-These objects can be loaded back into the screen with <img alt="load" src="_images/load_button.png" /> and can be shared
-between researchers that wish to personally hand over shapes to another user for loading. If
-you wish to save all shapes from <strong>every</strong> plot into one fill, these is a <em>save_all</em> option
-in the file menu for this.</li>
-<li><img alt="load" src="_images/load_button.png" /> Load: Given a valid <em>.JSON</em> file, load all polygon objects present in the file and
-display them to the plot.</li>
+<li><img alt="csel" src="_images/selection_button.png" /> Select: Use the cursor to select shapes</li>
 </ul>
 </div>
 <div class="section" id="using-the-database">
 <span id="database"></span><h2>Using the Database<a class="headerlink" href="#using-the-database" title="Permalink to this headline">¶</a></h2>
-<p>One of the defining features of VOCAL is the ability to import and export shapes to a database, this can
-help researchers share information about aerosols and their trajectory. The database can be accessed under
-the <em>polygon</em> menu, offering to either <em>import from database</em> or <em>export to database</em> . Let&#8217;s start with exporting.</p>
+<p>One of the defining features of VOCAL is the ability to import and export shapes to a database, this
+can help researchers share information about aerosols and their trajectory. The database can be
+accessed under the <em>polygon</em> menu, offering to either <em>import from database</em>, <em>export to
+database</em>, <em>create database</em> and <em>select database</em>. Let&#8217;s start with creating and selecting a database.</p>
+<div class="section" id="creating-a-database">
+<h3>Creating a Database<a class="headerlink" href="#creating-a-database" title="Permalink to this headline">¶</a></h3>
+<p>By default, VOCAL uses the database file <em>CALIPSOdb.db</em> located in the <em>VOCAL/db</em> folder. However,
+you are free to create your own database elsewhere. Simply go to the <em>polygon</em> menu and select <em>create
+database</em>. You may name it whatever you like, and VOCAL will create it. When you create a new
+database, VOCAL will automatically switch to it. However, if you already have a CALIPSO database you
+would like to use, then you can simply select it.</p>
+</div>
+<div class="section" id="selecting-a-database">
+<h3>Selecting a Database<a class="headerlink" href="#selecting-a-database" title="Permalink to this headline">¶</a></h3>
+<p>To select a database created by VOCAL, simply go to the <em>polygon</em> menu and select <em>select database</em>.
+The tool will then prompt you to select your desired CALIPSO database. Once selected, all operations
+in the <em>polygon</em> menu will utilize this database. This can be useful if you would like to use a
+database on a shared folder.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you would like to work out of the non-default database, you must select it every time you open
+VOCAL, or you may change the default database in the settings dialog. If you do not select your
+new database every time or switch the default, VOCAL will save your polygons to the internal database.</p>
+</div>
+</div>
 <div class="section" id="exporting-shapes">
 <h3>Exporting Shapes<a class="headerlink" href="#exporting-shapes" title="Permalink to this headline">¶</a></h3>
 <p>Say you have a number of shapes you&#8217;ve labeled with attributes and want to share with other researchers</p>
-<a class="reference internal image-reference" href="_images/to_be_exported.png"><img alt="_images/to_be_exported.png" src="_images/to_be_exported.png" style="width: 633.5px; height: 348.5px;" /></a>
+<a class="reference internal image-reference" href="_images/to_be_exported.png"><img alt="_images/to_be_exported.png" src="_images/to_be_exported.png" style="width: 605.5px; height: 295.0px;" /></a>
 <p>Exporting these shapes is as easy as going to the <em>polygon</em> menu and hitting <em>export to database</em></p>
 <p><img alt="expo" src="_images/exporting_menu.png" /></p>
 <p>All objects have now been exported to the database! All done!</p>
@@ -407,6 +440,25 @@ want anything higher than <em>13km</em>. Here&#8217;s what it would look like wi
 <p>That&#8217;s all there is to it. Notice we left everything blank that we didn&#8217;t care about, if you don&#8217;t touch it that
 field won&#8217;t be checked!</p>
 </div>
+<div class="section" id="changing-the-settings">
+<h2>Changing the Settings<a class="headerlink" href="#changing-the-settings" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Be careful when changing the settings as they may have undesired affects. If at anytime they are
+causing you issues, simply delete config.json in the dat folder to return to defaults.</p>
+</div>
+<p><img alt="setm" src="_images/settings_menu.png" /></p>
+<p>Finally, lets take a look at some of the options available to you to customize your VOCAL experience.
+In the file menu, you will find an option for settings. Selecting this will open up a new dialog
+listing all of the settings available for you to change.</p>
+<a class="reference internal image-reference" href="_images/settings.png"><img alt="_images/settings.png" src="_images/settings.png" style="width: 1036.0px; height: 505.4px;" /></a>
+<p>Each setting has its own row with a label for the setting, the current value of the setting, and a
+check box for locking the setting. For directory or file path setting, you will see a dialog box
+followed by a button allowing you to browse to a new file path or directory. For boolean settings
+(true or false) you will see a checkbox where checked represents true and unchecked represents false.
+Finally, the lock option ensures that the setting won&#8217;t change unless you change it in the dialog.</p>
+<p>You should now be ready to use VOCAL!</p>
+</div>
 </div>
 
 
@@ -422,7 +474,7 @@ field won&#8217;t be checked!</p>
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

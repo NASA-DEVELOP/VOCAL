@@ -5,31 +5,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Development Enviroment &mdash; VOCAL 0.15.2 documentation</title>
+    <title>Development Enviroment &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Building and Writing Docs" href="docs.html" />
     <link rel="prev" title="Coding Conventions" href="conventions.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -76,8 +76,9 @@
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Coding Conventions</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Development Enviroment</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docs.html">Building and Writing Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="site.html">Updating The Site</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../doc/modules.html">Code Documentation</a></li>
@@ -110,7 +111,7 @@
               
                 
   <li>
-    <a href="conventions.html" title="Previous Chapter: Coding Conventions"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Coding Conven...</span>
+    <a href="conventions.html" title="Previous Chapter: Coding Conventions"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Coding Conventions</span>
     </a>
   </li>
   <li>
@@ -124,7 +125,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="../_sources/dev/enviroment.txt"
+  <a href="../_sources/dev/enviroment.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -153,15 +154,15 @@
 <p>VOCAL hosts support for a couple different IDE&#8217;s, but there is really no <em>mandatory</em> development enviroment required. Here are a couple recommendations based on your platform 32-bit is a <strong>must</strong> for now, as much as we wish 64-bit would work out there are some dependencies we just can&#8217;t get rid of.</p>
 <p class="rubric">Window</p>
 <ul>
-<li><p class="first">Eclipse</p>
-<p>Eclipse is great IDE that offers some powerful tools, the VOCAL repository comes with a project
-file that allows for developers to easily load the project. See
-<a class="reference internal" href="../installation.html"><em>The Installation Page</em></a> for steps on setting up Eclipse with VOCAL.</p>
-</li>
 <li><p class="first">PyCharm</p>
 <p>PyCharm is also a super powerful IDE for developing, and the plus here is it offers
 tools that ensure you follow the correct programming practices as outlined in the Coding
 Conventions.</p>
+</li>
+<li><p class="first">Eclipse</p>
+<p>Eclipse is great IDE that offers some powerful tools, the VOCAL repository comes with a project
+file that allows for developers to easily load the project. See
+<a class="reference internal" href="../installation.html"><span class="doc">The Installation Page</span></a> for steps on setting up Eclipse with VOCAL.</p>
 </li>
 </ul>
 <p class="rubric">Linux</p>
@@ -188,7 +189,7 @@ Conventions.</p>
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

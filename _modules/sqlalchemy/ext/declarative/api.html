@@ -5,32 +5,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>sqlalchemy.ext.declarative.api &mdash; VOCAL 0.15.2 documentation</title>
+    <title>sqlalchemy.ext.declarative.api &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="../../../../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../../../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../../../../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="../../../../index.html" />
-    <link rel="up" title="Module code" href="../../../index.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -50,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="../../../../index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -75,6 +74,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../dev/startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../dev/conventions.html">Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../dev/enviroment.html">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../dev/docs.html">Building and Writing Docs</a></li>
@@ -133,68 +133,77 @@
     <div class="col-md-12 content">
       
   <h1>Source code for sqlalchemy.ext.declarative.api</h1><div class="highlight"><pre>
-<span class="c"># ext/declarative/api.py</span>
-<span class="c"># Copyright (C) 2005-2015 the SQLAlchemy authors and contributors</span>
-<span class="c"># &lt;see AUTHORS file&gt;</span>
-<span class="c">#</span>
-<span class="c"># This module is part of SQLAlchemy and is released under</span>
-<span class="c"># the MIT License: http://www.opensource.org/licenses/mit-license.php</span>
+<span></span><span class="c1"># ext/declarative/api.py</span>
+<span class="c1"># Copyright (C) 2005-2017 the SQLAlchemy authors and contributors</span>
+<span class="c1"># &lt;see AUTHORS file&gt;</span>
+<span class="c1">#</span>
+<span class="c1"># This module is part of SQLAlchemy and is released under</span>
+<span class="c1"># the MIT License: http://www.opensource.org/licenses/mit-license.php</span>
 <span class="sd">&quot;&quot;&quot;Public API functions and helpers for declarative.&quot;&quot;&quot;</span>
 
 
-<span class="kn">from</span> <span class="nn">...schema</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MetaData</span><span class="p">,</span> <span class="n">Column</span>
-<span class="kn">from</span> <span class="nn">...orm</span> <span class="kn">import</span> <span class="n">synonym</span> <span class="k">as</span> <span class="n">_orm_synonym</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">...schema</span> <span class="k">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">MetaData</span><span class="p">,</span> <span class="n">Column</span>
+<span class="kn">from</span> <span class="nn">...orm</span> <span class="k">import</span> <span class="n">synonym</span> <span class="k">as</span> <span class="n">_orm_synonym</span><span class="p">,</span> \
     <span class="n">comparable_property</span><span class="p">,</span>\
     <span class="n">interfaces</span><span class="p">,</span> <span class="n">properties</span><span class="p">,</span> <span class="n">attributes</span>
-<span class="kn">from</span> <span class="nn">...orm.util</span> <span class="kn">import</span> <span class="n">polymorphic_union</span>
-<span class="kn">from</span> <span class="nn">...orm.base</span> <span class="kn">import</span> <span class="n">_mapper_or_none</span>
-<span class="kn">from</span> <span class="nn">...util</span> <span class="kn">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">hybridmethod</span><span class="p">,</span> <span class="n">hybridproperty</span>
-<span class="kn">from</span> <span class="nn">...</span> <span class="kn">import</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">...</span> <span class="kn">import</span> <span class="n">exc</span>
+<span class="kn">from</span> <span class="nn">...orm.util</span> <span class="k">import</span> <span class="n">polymorphic_union</span>
+<span class="kn">from</span> <span class="nn">...orm.base</span> <span class="k">import</span> <span class="n">_mapper_or_none</span>
+<span class="kn">from</span> <span class="nn">...util</span> <span class="k">import</span> <span class="n">OrderedDict</span><span class="p">,</span> <span class="n">hybridmethod</span><span class="p">,</span> <span class="n">hybridproperty</span>
+<span class="kn">from</span> <span class="nn">...</span> <span class="k">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">...</span> <span class="k">import</span> <span class="n">exc</span>
 <span class="kn">import</span> <span class="nn">weakref</span>
 
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">_as_declarative</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="n">_as_declarative</span><span class="p">,</span> \
     <span class="n">_declarative_constructor</span><span class="p">,</span>\
     <span class="n">_DeferredMapperConfig</span><span class="p">,</span> <span class="n">_add_attribute</span>
-<span class="kn">from</span> <span class="nn">.clsregistry</span> <span class="kn">import</span> <span class="n">_class_resolver</span>
+<span class="kn">from</span> <span class="nn">.clsregistry</span> <span class="k">import</span> <span class="n">_class_resolver</span>
 
 
-<span class="k">def</span> <span class="nf">instrument_declarative</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">registry</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">instrument_declarative</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">registry</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Given a class, configure the class declaratively,</span>
 <span class="sd">    using the given registry, which can be any dictionary, and</span>
 <span class="sd">    MetaData object.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="s">&#39;_decl_class_registry&#39;</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;_decl_class_registry&#39;</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">exc</span><span class="o">.</span><span class="n">InvalidRequestError</span><span class="p">(</span>
-            <span class="s">&quot;Class </span><span class="si">%r</span><span class="s"> already has been &quot;</span>
-            <span class="s">&quot;instrumented declaratively&quot;</span> <span class="o">%</span> <span class="n">cls</span><span class="p">)</span>
-    <span class="n">cls</span><span class="o">.</span><span class="n">_decl_class_registry</span> <span class="o">=</span> <span class="n">registry</span>
-    <span class="n">cls</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
-    <span class="n">_as_declarative</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+            <span class="s2">&quot;Class </span><span class="si">%r</span><span class="s2"> already has been &quot;</span>
+            <span class="s2">&quot;instrumented declaratively&quot;</span> <span class="o">%</span> <span class="bp">cls</span><span class="p">)</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">_decl_class_registry</span> <span class="o">=</span> <span class="n">registry</span>
+    <span class="bp">cls</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">metadata</span>
+    <span class="n">_as_declarative</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">has_inherited_table</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">has_inherited_table</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Given a class, return True if any of the classes it inherits from has a</span>
 <span class="sd">    mapped table, otherwise return False.</span>
+
+<span class="sd">    This is used in declarative mixins to build attributes that behave</span>
+<span class="sd">    differently for the base class vs. a subclass in an inheritance</span>
+<span class="sd">    hierarchy.</span>
+
+<span class="sd">    .. seealso::</span>
+
+<span class="sd">        :ref:`decl_mixin_inheritance`</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">class_</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__mro__</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">class_</span><span class="p">,</span> <span class="s">&#39;__table__&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">True</span>
-    <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">for</span> <span class="n">class_</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">class_</span><span class="p">,</span> <span class="s1">&#39;__table__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
 
 
 <span class="k">class</span> <span class="nc">DeclarativeMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dict_</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s">&#39;_decl_class_registry&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">:</span>
-            <span class="n">_as_declarative</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
-        <span class="nb">type</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dict_</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dict_</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;_decl_class_registry&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+            <span class="n">_as_declarative</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+        <span class="nb">type</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">dict_</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="n">_add_attribute</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">_add_attribute</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">synonym_for</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">map_column</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">synonym_for</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">map_column</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Decorator, make a Python @property a query synonym for a column.</span>
 
 <span class="sd">    A decorator version of :func:`~sqlalchemy.orm.synonym`. The function being</span>
@@ -292,36 +301,33 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fget</span><span class="p">,</span> <span class="n">cascading</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">declared_attr</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">fget</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span> <span class="n">fget</span><span class="o">.</span><span class="n">__doc__</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fget</span><span class="p">,</span> <span class="n">cascading</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">declared_attr</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">fget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">fget</span><span class="o">.</span><span class="vm">__doc__</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cascading</span> <span class="o">=</span> <span class="n">cascading</span>
 
-    <span class="k">def</span> <span class="nf">__get__</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">cls</span><span class="p">):</span>
-        <span class="n">reg</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;_sa_declared_attr_reg&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">reg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">manager</span> <span class="o">=</span> <span class="n">attributes</span><span class="o">.</span><span class="n">manager_of_class</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">manager</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__get__</span><span class="p">(</span><span class="n">desc</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+        <span class="n">reg</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;_sa_declared_attr_reg&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">reg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">manager</span> <span class="o">=</span> <span class="n">attributes</span><span class="o">.</span><span class="n">manager_of_class</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">manager</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">util</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                    <span class="s">&quot;Unmanaged access of declarative attribute </span><span class="si">%s</span><span class="s"> from &quot;</span>
-                    <span class="s">&quot;non-mapped class </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span>
-                    <span class="p">(</span><span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">cls</span><span class="o">.</span><span class="n">__name__</span><span class="p">))</span>
-            <span class="k">return</span> <span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">reg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+                    <span class="s2">&quot;Unmanaged access of declarative attribute </span><span class="si">%s</span><span class="s2"> from &quot;</span>
+                    <span class="s2">&quot;non-mapped class </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">desc</span> <span class="ow">in</span> <span class="n">reg</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">reg</span><span class="p">[</span><span class="n">desc</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">reg</span><span class="p">[</span><span class="n">desc</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+            <span class="n">reg</span><span class="p">[</span><span class="n">desc</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">desc</span><span class="o">.</span><span class="n">fget</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">obj</span>
 
     <span class="nd">@hybridmethod</span>
-    <span class="k">def</span> <span class="nf">_stateful</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_stateful</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">_stateful_declared_attr</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
     <span class="nd">@hybridproperty</span>
-    <span class="k">def</span> <span class="nf">cascading</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">cascading</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Mark a :class:`.declared_attr` as cascading.</span>
 
 <span class="sd">        This is a special-use modifier which indicates that a column</span>
@@ -331,19 +337,16 @@
 <span class="sd">        Below, both MyClass as well as MySubClass will have a distinct</span>
 <span class="sd">        ``id`` Column object established::</span>
 
-<span class="sd">            class HasSomeAttribute(object):</span>
+<span class="sd">            class HasIdMixin(object):</span>
 <span class="sd">                @declared_attr.cascading</span>
-<span class="sd">                def some_id(cls):</span>
+<span class="sd">                def id(cls):</span>
 <span class="sd">                    if has_inherited_table(cls):</span>
-<span class="sd">                        return Column(</span>
-<span class="sd">                            ForeignKey(&#39;myclass.id&#39;), primary_key=True)</span>
+<span class="sd">                        return Column(ForeignKey(&#39;myclass.id&#39;), primary_key=True)</span>
 <span class="sd">                    else:</span>
 <span class="sd">                        return Column(Integer, primary_key=True)</span>
 
-<span class="sd">                    return Column(&#39;id&#39;, Integer, primary_key=True)</span>
-
-<span class="sd">            class MyClass(HasSomeAttribute, Base):</span>
-<span class="sd">                &quot;&quot;</span>
+<span class="sd">            class MyClass(HasIdMixin, Base):</span>
+<span class="sd">                __tablename__ = &#39;myclass&#39;</span>
 <span class="sd">                # ...</span>
 
 <span class="sd">            class MySubClass(MyClass):</span>
@@ -362,7 +365,7 @@
 
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">_stateful</span><span class="p">(</span><span class="n">cascading</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_stateful</span><span class="p">(</span><span class="n">cascading</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
 <span class="k">class</span> <span class="nc">_stateful_declared_attr</span><span class="p">(</span><span class="n">declared_attr</span><span class="p">):</span>
@@ -378,11 +381,11 @@
         <span class="k">return</span> <span class="n">declared_attr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kw</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">declarative_base</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mapper</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">cls</span><span class="o">=</span><span class="nb">object</span><span class="p">,</span>
-                     <span class="n">name</span><span class="o">=</span><span class="s">&#39;Base&#39;</span><span class="p">,</span> <span class="n">constructor</span><span class="o">=</span><span class="n">_declarative_constructor</span><span class="p">,</span>
-                     <span class="n">class_registry</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">declarative_base</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mapper</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="nb">object</span><span class="p">,</span>
+                     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Base&#39;</span><span class="p">,</span> <span class="n">constructor</span><span class="o">=</span><span class="n">_declarative_constructor</span><span class="p">,</span>
+                     <span class="n">class_registry</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">metaclass</span><span class="o">=</span><span class="n">DeclarativeMeta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Construct a base class for declarative class definitions.</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Construct a base class for declarative class definitions.</span>
 
 <span class="sd">    The new base class will be given a metaclass that produces</span>
 <span class="sd">    appropriate :class:`~sqlalchemy.schema.Table` objects and makes</span>
@@ -418,7 +421,7 @@
 
 <span class="sd">    :param constructor:</span>
 <span class="sd">      Defaults to</span>
-<span class="sd">      :func:`~sqlalchemy.ext.declarative._declarative_constructor`, an</span>
+<span class="sd">      :func:`~sqlalchemy.ext.declarative.base._declarative_constructor`, an</span>
 <span class="sd">      __init__ implementation that assigns \**kwargs for declared</span>
 <span class="sd">      fields and relationships to an instance.  If ``None`` is supplied,</span>
 <span class="sd">      no __init__ will be provided and construction will fall back to</span>
@@ -436,6 +439,9 @@
 <span class="sd">      compatible callable to use as the meta type of the generated</span>
 <span class="sd">      declarative base class.</span>
 
+<span class="sd">    .. versionchanged:: 1.1 if :paramref:`.declarative_base.cls` is a single class (rather</span>
+<span class="sd">         than a tuple), the constructed base class will inherit its docstring.</span>
+
 <span class="sd">    .. seealso::</span>
 
 <span class="sd">        :func:`.as_declarative`</span>
@@ -445,17 +451,20 @@
     <span class="k">if</span> <span class="n">bind</span><span class="p">:</span>
         <span class="n">lcl_metadata</span><span class="o">.</span><span class="n">bind</span> <span class="o">=</span> <span class="n">bind</span>
 
-    <span class="k">if</span> <span class="n">class_registry</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">class_registry</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">class_registry</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">WeakValueDictionary</span><span class="p">()</span>
 
-    <span class="n">bases</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">cls</span><span class="p">,)</span> <span class="ow">or</span> <span class="n">cls</span>
+    <span class="n">bases</span> <span class="o">=</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">cls</span><span class="p">,)</span> <span class="ow">or</span> <span class="bp">cls</span>
     <span class="n">class_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">_decl_class_registry</span><span class="o">=</span><span class="n">class_registry</span><span class="p">,</span>
                       <span class="n">metadata</span><span class="o">=</span><span class="n">lcl_metadata</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="n">class_dict</span><span class="p">[</span><span class="s1">&#39;__doc__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__doc__</span>
+
     <span class="k">if</span> <span class="n">constructor</span><span class="p">:</span>
-        <span class="n">class_dict</span><span class="p">[</span><span class="s">&#39;__init__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">constructor</span>
+        <span class="n">class_dict</span><span class="p">[</span><span class="s1">&#39;__init__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">constructor</span>
     <span class="k">if</span> <span class="n">mapper</span><span class="p">:</span>
-        <span class="n">class_dict</span><span class="p">[</span><span class="s">&#39;__mapper_cls__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapper</span>
+        <span class="n">class_dict</span><span class="p">[</span><span class="s1">&#39;__mapper_cls__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mapper</span>
 
     <span class="k">return</span> <span class="n">metaclass</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">class_dict</span><span class="p">)</span>
 
@@ -490,9 +499,9 @@
 <span class="sd">        :func:`.declarative_base`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
-        <span class="n">kw</span><span class="p">[</span><span class="s">&#39;cls&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cls</span>
-        <span class="n">kw</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__name__</span>
+    <span class="k">def</span> <span class="nf">decorate</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">kw</span><span class="p">[</span><span class="s1">&#39;cls&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span>
+        <span class="n">kw</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="k">return</span> <span class="n">declarative_base</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">decorate</span>
@@ -532,24 +541,33 @@
 <span class="sd">                            &#39;polymorphic_identity&#39;:&#39;manager&#39;,</span>
 <span class="sd">                            &#39;concrete&#39;:True}</span>
 
+<span class="sd">    .. seealso::</span>
+
+<span class="sd">        :class:`.AbstractConcreteBase`</span>
+
+<span class="sd">        :ref:`concrete_inheritance`</span>
+
+<span class="sd">        :ref:`inheritance_concrete_helpers`</span>
+
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_create_polymorphic_union</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">mappers</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_create_polymorphic_union</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mappers</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">polymorphic_union</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span>
             <span class="p">(</span><span class="n">mp</span><span class="o">.</span><span class="n">polymorphic_identity</span><span class="p">,</span> <span class="n">mp</span><span class="o">.</span><span class="n">local_table</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">mp</span> <span class="ow">in</span> <span class="n">mappers</span>
-        <span class="p">),</span> <span class="s">&#39;type&#39;</span><span class="p">,</span> <span class="s">&#39;pjoin&#39;</span><span class="p">)</span>
+        <span class="p">),</span> <span class="s1">&#39;type&#39;</span><span class="p">,</span> <span class="s1">&#39;pjoin&#39;</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">__declare_first__</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">__mapper__</span>
+    <span class="k">def</span> <span class="nf">__declare_first__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__mapper__</span>
         <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">with_polymorphic</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="n">mappers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">self_and_descendants</span><span class="p">)</span>
-        <span class="n">pjoin</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_create_polymorphic_union</span><span class="p">(</span><span class="n">mappers</span><span class="p">)</span>
-        <span class="n">m</span><span class="o">.</span><span class="n">_set_with_polymorphic</span><span class="p">((</span><span class="s">&quot;*&quot;</span><span class="p">,</span> <span class="n">pjoin</span><span class="p">))</span>
+        <span class="n">pjoin</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_create_polymorphic_union</span><span class="p">(</span><span class="n">mappers</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">_set_with_polymorphic</span><span class="p">((</span><span class="s2">&quot;*&quot;</span><span class="p">,</span> <span class="n">pjoin</span><span class="p">))</span>
         <span class="n">m</span><span class="o">.</span><span class="n">_set_polymorphic_on</span><span class="p">(</span><span class="n">pjoin</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
 
 
@@ -630,42 +648,49 @@
 <span class="sd">       have been reworked to support relationships established directly</span>
 <span class="sd">       on the abstract base, without any special configurational steps.</span>
 
+<span class="sd">    .. seealso::</span>
+
+<span class="sd">        :class:`.ConcreteBase`</span>
+
+<span class="sd">        :ref:`concrete_inheritance`</span>
+
+<span class="sd">        :ref:`inheritance_concrete_helpers`</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">__no_table__</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">__no_table__</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">__declare_first__</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
-        <span class="n">cls</span><span class="o">.</span><span class="n">_sa_decl_prepare_nocascade</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__declare_first__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_sa_decl_prepare_nocascade</span><span class="p">()</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_sa_decl_prepare_nocascade</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="s">&#39;__mapper__&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_sa_decl_prepare_nocascade</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s1">&#39;__mapper__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="k">return</span>
 
-        <span class="n">to_map</span> <span class="o">=</span> <span class="n">_DeferredMapperConfig</span><span class="o">.</span><span class="n">config_for_cls</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+        <span class="n">to_map</span> <span class="o">=</span> <span class="n">_DeferredMapperConfig</span><span class="o">.</span><span class="n">config_for_cls</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
 
-        <span class="c"># can&#39;t rely on &#39;self_and_descendants&#39; here</span>
-        <span class="c"># since technically an immediate subclass</span>
-        <span class="c"># might not be mapped, but a subclass</span>
-        <span class="c"># may be.</span>
+        <span class="c1"># can&#39;t rely on &#39;self_and_descendants&#39; here</span>
+        <span class="c1"># since technically an immediate subclass</span>
+        <span class="c1"># might not be mapped, but a subclass</span>
+        <span class="c1"># may be.</span>
         <span class="n">mappers</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">stack</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">())</span>
+        <span class="n">stack</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">())</span>
         <span class="k">while</span> <span class="n">stack</span><span class="p">:</span>
             <span class="n">klass</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
             <span class="n">stack</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">klass</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">())</span>
             <span class="n">mn</span> <span class="o">=</span> <span class="n">_mapper_or_none</span><span class="p">(</span><span class="n">klass</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">mn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">mn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">mappers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mn</span><span class="p">)</span>
-        <span class="n">pjoin</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">_create_polymorphic_union</span><span class="p">(</span><span class="n">mappers</span><span class="p">)</span>
+        <span class="n">pjoin</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_create_polymorphic_union</span><span class="p">(</span><span class="n">mappers</span><span class="p">)</span>
 
-        <span class="c"># For columns that were declared on the class, these</span>
-        <span class="c"># are normally ignored with the &quot;__no_table__&quot; mapping,</span>
-        <span class="c"># unless they have a different attribute key vs. col name</span>
-        <span class="c"># and are in the properties argument.</span>
-        <span class="c"># In that case, ensure we update the properties entry</span>
-        <span class="c"># to the correct column from the pjoin target table.</span>
+        <span class="c1"># For columns that were declared on the class, these</span>
+        <span class="c1"># are normally ignored with the &quot;__no_table__&quot; mapping,</span>
+        <span class="c1"># unless they have a different attribute key vs. col name</span>
+        <span class="c1"># and are in the properties argument.</span>
+        <span class="c1"># In that case, ensure we update the properties entry</span>
+        <span class="c1"># to the correct column from the pjoin target table.</span>
         <span class="n">declared_cols</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">to_map</span><span class="o">.</span><span class="n">declared_columns</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">to_map</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">declared_cols</span><span class="p">:</span>
@@ -677,15 +702,15 @@
 
         <span class="k">def</span> <span class="nf">mapper_args</span><span class="p">():</span>
             <span class="n">args</span> <span class="o">=</span> <span class="n">m_args</span><span class="p">()</span>
-            <span class="n">args</span><span class="p">[</span><span class="s">&#39;polymorphic_on&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pjoin</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">type</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;polymorphic_on&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pjoin</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">type</span>
             <span class="k">return</span> <span class="n">args</span>
         <span class="n">to_map</span><span class="o">.</span><span class="n">mapper_args_fn</span> <span class="o">=</span> <span class="n">mapper_args</span>
 
         <span class="n">m</span> <span class="o">=</span> <span class="n">to_map</span><span class="o">.</span><span class="n">map</span><span class="p">()</span>
 
-        <span class="k">for</span> <span class="n">scls</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">scls</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__subclasses__</span><span class="p">():</span>
             <span class="n">sm</span> <span class="o">=</span> <span class="n">_mapper_or_none</span><span class="p">(</span><span class="n">scls</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">sm</span> <span class="ow">and</span> <span class="n">sm</span><span class="o">.</span><span class="n">concrete</span> <span class="ow">and</span> <span class="n">cls</span> <span class="ow">in</span> <span class="n">scls</span><span class="o">.</span><span class="n">__bases__</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sm</span> <span class="ow">and</span> <span class="n">sm</span><span class="o">.</span><span class="n">concrete</span> <span class="ow">and</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">scls</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">:</span>
                 <span class="n">sm</span><span class="o">.</span><span class="n">_set_concrete_base</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
 
 
@@ -758,50 +783,50 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">prepare</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Reflect all :class:`.Table` objects for all current</span>
 <span class="sd">        :class:`.DeferredReflection` subclasses&quot;&quot;&quot;</span>
 
-        <span class="n">to_map</span> <span class="o">=</span> <span class="n">_DeferredMapperConfig</span><span class="o">.</span><span class="n">classes_for_base</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+        <span class="n">to_map</span> <span class="o">=</span> <span class="n">_DeferredMapperConfig</span><span class="o">.</span><span class="n">classes_for_base</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">thingy</span> <span class="ow">in</span> <span class="n">to_map</span><span class="p">:</span>
-            <span class="n">cls</span><span class="o">.</span><span class="n">_sa_decl_prepare</span><span class="p">(</span><span class="n">thingy</span><span class="o">.</span><span class="n">local_table</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_sa_decl_prepare</span><span class="p">(</span><span class="n">thingy</span><span class="o">.</span><span class="n">local_table</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
             <span class="n">thingy</span><span class="o">.</span><span class="n">map</span><span class="p">()</span>
             <span class="n">mapper</span> <span class="o">=</span> <span class="n">thingy</span><span class="o">.</span><span class="n">cls</span><span class="o">.</span><span class="n">__mapper__</span>
             <span class="n">metadata</span> <span class="o">=</span> <span class="n">mapper</span><span class="o">.</span><span class="n">class_</span><span class="o">.</span><span class="n">metadata</span>
             <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">mapper</span><span class="o">.</span><span class="n">_props</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rel</span><span class="p">,</span> <span class="n">properties</span><span class="o">.</span><span class="n">RelationshipProperty</span><span class="p">)</span> <span class="ow">and</span> \
-                        <span class="n">rel</span><span class="o">.</span><span class="n">secondary</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">rel</span><span class="o">.</span><span class="n">secondary</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">secondary</span><span class="p">,</span> <span class="n">Table</span><span class="p">):</span>
-                        <span class="n">cls</span><span class="o">.</span><span class="n">_reflect_table</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">secondary</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+                        <span class="bp">cls</span><span class="o">.</span><span class="n">_reflect_table</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">secondary</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
                     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rel</span><span class="o">.</span><span class="n">secondary</span><span class="p">,</span> <span class="n">_class_resolver</span><span class="p">):</span>
                         <span class="n">rel</span><span class="o">.</span><span class="n">secondary</span><span class="o">.</span><span class="n">_resolvers</span> <span class="o">+=</span> <span class="p">(</span>
-                            <span class="n">cls</span><span class="o">.</span><span class="n">_sa_deferred_table_resolver</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">metadata</span><span class="p">),</span>
+                            <span class="bp">cls</span><span class="o">.</span><span class="n">_sa_deferred_table_resolver</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">metadata</span><span class="p">),</span>
                         <span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_sa_deferred_table_resolver</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_sa_deferred_table_resolver</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">_resolve</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="n">t1</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
-            <span class="n">cls</span><span class="o">.</span><span class="n">_reflect_table</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_reflect_table</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">t1</span>
         <span class="k">return</span> <span class="n">_resolve</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_sa_decl_prepare</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">local_table</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
-        <span class="c"># autoload Table, which is already</span>
-        <span class="c"># present in the metadata.  This</span>
-        <span class="c"># will fill in db-loaded columns</span>
-        <span class="c"># into the existing Table object.</span>
-        <span class="k">if</span> <span class="n">local_table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">cls</span><span class="o">.</span><span class="n">_reflect_table</span><span class="p">(</span><span class="n">local_table</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_sa_decl_prepare</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">local_table</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+        <span class="c1"># autoload Table, which is already</span>
+        <span class="c1"># present in the metadata.  This</span>
+        <span class="c1"># will fill in db-loaded columns</span>
+        <span class="c1"># into the existing Table object.</span>
+        <span class="k">if</span> <span class="n">local_table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_reflect_table</span><span class="p">(</span><span class="n">local_table</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">_reflect_table</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_reflect_table</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">engine</span><span class="p">):</span>
         <span class="n">Table</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
               <span class="n">table</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
-              <span class="n">extend_existing</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-              <span class="n">autoload_replace</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-              <span class="n">autoload</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+              <span class="n">extend_existing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+              <span class="n">autoload_replace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+              <span class="n">autoload</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
               <span class="n">autoload_with</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
               <span class="n">schema</span><span class="o">=</span><span class="n">table</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
 </pre></div>
@@ -818,7 +843,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

@@ -1,0 +1,5 @@
+<map id="inheritanceb118f32eb9" name="inheritanceb118f32eb9">
+<area shape="rect" id="node1" href="#tools.config.Config" target="_top" title="Class holds constants from config.json. These variables are set and held from one vocal session" alt="" coords="49,104,177,129"/>
+<area shape="rect" id="node2" href="#tools.config.ConfigBooleanSetting" target="_top" title="Simple class to store and change booleans in the config file" alt="" coords="5,55,221,80"/>
+<area shape="rect" id="node3" href="#tools.config.ConfigFileSetting" target="_top" title="Simple class to make it easier to get file names and locations from the config file" alt="" coords="18,5,209,31"/>
+</map>

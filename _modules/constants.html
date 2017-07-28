@@ -5,32 +5,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>constants &mdash; VOCAL 0.15.2 documentation</title>
+    <title>constants &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="../index.html" />
-    <link rel="up" title="Module code" href="index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -50,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -75,6 +74,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/conventions.html">Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/enviroment.html">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/docs.html">Building and Writing Docs</a></li>
@@ -133,16 +133,19 @@
     <div class="col-md-12 content">
       
   <h1>Source code for constants</h1><div class="highlight"><pre>
-<span class="c">######################################</span>
-<span class="c">#    Created on Jun 11, 2015</span>
-<span class="c">#</span>
-<span class="c">#    @author: nqian</span>
-<span class="c">#</span>
-<span class="c">#    Module for all constants</span>
-<span class="c">######################################</span>
+<span></span><span class="c1">######################################</span>
+<span class="c1">#    Created on Jun 11, 2015</span>
+<span class="c1">#</span>
+<span class="c1">#    @author: nqian</span>
+<span class="c1">#</span>
+<span class="c1">#    Module for all constants</span>
+<span class="c1">######################################</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">platform</span> <span class="k">as</span> <span class="n">_platform</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">expanduser</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="k">import</span> <span class="n">platform</span> <span class="k">as</span> <span class="n">_platform</span>
+
+<span class="kn">from</span> <span class="nn">tools.config</span> <span class="k">import</span> <span class="n">Config</span>
 
 
 <div class="viewcode-block" id="Plot"><a class="viewcode-back" href="../doc/general/consts.html#constants.Plot">[docs]</a><span class="k">class</span> <span class="nc">Plot</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -150,18 +153,36 @@
     <span class="n">backscattered</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">depolarized</span> <span class="o">=</span> <span class="mi">2</span>
     <span class="n">vfm</span> <span class="o">=</span> <span class="mi">3</span>
-</div>
-<span class="n">plot_type_enum</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;base_plot&#39;</span><span class="p">:</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">,</span>
-                  <span class="s">&#39;backscattered&#39;</span><span class="p">:</span> <span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span><span class="p">,</span>
-                  <span class="s">&#39;depolarized&#39;</span><span class="p">:</span> <span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span><span class="p">,</span>
-                  <span class="s">&#39;vfm&#39;</span><span class="p">:</span> <span class="n">Plot</span><span class="o">.</span><span class="n">vfm</span><span class="p">}</span>
+    <span class="n">iwp</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">horiz_avg</span> <span class="o">=</span> <span class="mi">5</span>
+    <span class="n">aerosol_subtype</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">colorratio</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">parallel</span> <span class="o">=</span> <span class="mi">9</span>
+    <span class="n">not_available</span> <span class="o">=</span> <span class="mi">10</span></div>
 
-<span class="n">PLOTS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;base_plot&#39;</span><span class="p">,</span> <span class="s">&#39;backscattered&#39;</span><span class="p">,</span> <span class="s">&#39;depolarized&#39;</span><span class="p">,</span> <span class="s">&#39;vfm&#39;</span><span class="p">]</span>
+<span class="c1"># DEBUG Switch Values</span>
+<span class="c1"># Debug will eventually control the verboseness of the logger.info:</span>
+<span class="c1">#   however, during integration testing it is very verbose</span>
+<span class="c1"># 99 = Old versions of everything + vfm and iwp</span>
+<span class="c1"># 0 = New datablock</span>
+<span class="c1"># 1 = verbose logging</span>
+<span class="c1">#10 = Runs the stress_test() functino as opposed to UI</span>
+<span class="n">debug_switch</span> <span class="o">=</span> <span class="mi">1</span>
 
-<span class="n">EFFECT_ON</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;relief&#39;</span><span class="p">:</span> <span class="s">&#39;sunken&#39;</span><span class="p">}</span>
-<span class="n">EFFECT_OFF</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;relief&#39;</span><span class="p">:</span> <span class="s">&#39;raised&#39;</span><span class="p">}</span>
+<span class="n">plot_type_enum</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;base_plot&#39;</span><span class="p">:</span> <span class="n">Plot</span><span class="o">.</span><span class="n">baseplot</span><span class="p">,</span>
+                  <span class="s1">&#39;backscattered&#39;</span><span class="p">:</span> <span class="n">Plot</span><span class="o">.</span><span class="n">backscattered</span><span class="p">,</span>
+                  <span class="s1">&#39;depolarized&#39;</span><span class="p">:</span> <span class="n">Plot</span><span class="o">.</span><span class="n">depolarized</span><span class="p">,</span>
+                  <span class="s1">&#39;vfm&#39;</span><span class="p">:</span> <span class="n">Plot</span><span class="o">.</span><span class="n">vfm</span><span class="p">,</span>
+                  <span class="s1">&#39;iwp&#39;</span><span class="p">:</span> <span class="n">Plot</span><span class="o">.</span><span class="n">iwp</span><span class="p">,</span>
+                  <span class="s1">&#39;horiz_avg&#39;</span><span class="p">:</span> <span class="n">Plot</span><span class="o">.</span><span class="n">horiz_avg</span><span class="p">,</span>
+                  <span class="s1">&#39;aerosol_subtype&#39;</span><span class="p">:</span><span class="n">Plot</span><span class="o">.</span><span class="n">aerosol_subtype</span><span class="p">}</span>
 
-<span class="n">DATEFORMAT</span> <span class="o">=</span> <span class="s">&#39;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&#39;</span>
+<span class="n">PLOTS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;base_plot&#39;</span><span class="p">,</span> <span class="s1">&#39;backscattered&#39;</span><span class="p">,</span> <span class="s1">&#39;depolarized&#39;</span><span class="p">,</span> <span class="s1">&#39;vfm&#39;</span><span class="p">,</span><span class="s1">&#39;iwp&#39;</span><span class="p">,</span><span class="s1">&#39;horiz_avg&#39;</span><span class="p">,</span><span class="s1">&#39;parrallel]&#39;</span><span class="p">]</span>
+
+<span class="n">EFFECT_ON</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;relief&#39;</span><span class="p">:</span> <span class="s1">&#39;sunken&#39;</span><span class="p">}</span>
+<span class="n">EFFECT_OFF</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;relief&#39;</span><span class="p">:</span> <span class="s1">&#39;raised&#39;</span><span class="p">}</span>
+
+<span class="n">DATEFORMAT</span> <span class="o">=</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span>
 
 <span class="n">HEIGHT</span> <span class="o">=</span> <span class="mi">665</span>
 <span class="n">WIDTH</span> <span class="o">=</span> <span class="mi">1265</span>
@@ -175,33 +196,35 @@
 <span class="n">TXT</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">CSV</span> <span class="o">=</span> <span class="mi">1</span>
 
-<span class="c"># READ ONLY</span>
-<span class="n">TAGS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;aerosol&#39;</span><span class="p">,</span> <span class="s">&#39;aerosol LC&#39;</span><span class="p">,</span> <span class="s">&#39;clean continental&#39;</span><span class="p">,</span> <span class="s">&#39;clean marine&#39;</span><span class="p">,</span> <span class="s">&#39;cloud&#39;</span><span class="p">,</span> <span class="s">&#39;cloud LC&#39;</span><span class="p">,</span>
-        <span class="s">&#39;dust&#39;</span><span class="p">,</span> <span class="s">&#39;polluted continental&#39;</span><span class="p">,</span> <span class="s">&#39;polluted continental dust&#39;</span><span class="p">,</span> <span class="s">&#39;polluted dust&#39;</span><span class="p">,</span>
-        <span class="s">&#39;polluted marine&#39;</span><span class="p">,</span> <span class="s">&#39;smoke&#39;</span><span class="p">,</span> <span class="s">&#39;stratospheric layer&#39;</span><span class="p">,</span> <span class="s">&#39;volcanic plume&#39;</span><span class="p">,</span>
-        <span class="s">&#39;polar stratospheric cloud&#39;</span><span class="p">]</span>
+<span class="c1"># READ ONLY</span>
+<span class="n">TAGS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;aerosol&#39;</span><span class="p">,</span> <span class="s1">&#39;aerosol LC&#39;</span><span class="p">,</span> <span class="s1">&#39;clean continental&#39;</span><span class="p">,</span> <span class="s1">&#39;clean marine&#39;</span><span class="p">,</span> <span class="s1">&#39;cloud&#39;</span><span class="p">,</span> <span class="s1">&#39;cloud LC&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;dust&#39;</span><span class="p">,</span> <span class="s1">&#39;polluted continental&#39;</span><span class="p">,</span> <span class="s1">&#39;polluted continental dust&#39;</span><span class="p">,</span> <span class="s1">&#39;polluted dust&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;polluted marine&#39;</span><span class="p">,</span> <span class="s1">&#39;smoke&#39;</span><span class="p">,</span> <span class="s1">&#39;stratospheric layer&#39;</span><span class="p">,</span> <span class="s1">&#39;volcanic plume&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;polar stratospheric cloud&#39;</span><span class="p">]</span>
 
-<span class="n">LOG_FILENAME</span> <span class="o">=</span> <span class="s">&#39;log/CALIPSO_debug.log&#39;</span>
-<span class="n">HELP_PAGE</span> <span class="o">=</span> <span class="s">&#39;http://syntaf.github.io/vocal/&#39;</span>
+<span class="n">LOG_FILENAME</span> <span class="o">=</span> <span class="s1">&#39;log/CALIPSO_debug.log&#39;</span>
+<span class="n">HELP_PAGE</span> <span class="o">=</span> <span class="s1">&#39;http://nasa-develop.github.io/VOCAL/developer_index.html&#39;</span>
 
 <span class="n">TIME_VARIANCE</span> <span class="o">=</span> <span class="mf">0.001</span>
 <span class="n">ALTITUDE_VARIANCE</span> <span class="o">=</span> <span class="mf">0.3</span>
-<span class="n">PATH</span> <span class="o">=</span> <span class="s">&#39;.&#39;</span>
-<span class="c">#PATH = os.path.dirname(os.path.realpath(__file__))</span>
+<span class="n">PATH</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+<span class="n">HOMEPATH</span> <span class="o">=</span> <span class="n">expanduser</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
 
-<span class="n">ICO</span> <span class="o">=</span> <span class="n">PATH</span> <span class="o">+</span> <span class="s">&#39;/ico/broadcasting.ico&#39;</span>
-<span class="k">if</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s">&#39;linux&#39;</span> <span class="ow">or</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s">&#39;linux2&#39;</span><span class="p">:</span>
-    <span class="n">ICO</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+<span class="c1"># Makes a single persistent instance of the config for VOCAL to grab</span>
+<span class="n">CONF</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span><span class="n">PATH</span> <span class="o">+</span> <span class="s1">&#39;/dat/config.json&#39;</span><span class="p">)</span>
 
-<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s">&#39;posix&#39;</span><span class="p">:</span>
-    <span class="n">EFFECT_ON</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;highlightbackground&#39;</span><span class="p">:</span> <span class="s">&#39;red&#39;</span><span class="p">}</span>
-    <span class="n">EFFECT_OFF</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;highlightbackground&#39;</span><span class="p">:</span> <span class="s">&#39;white&#39;</span><span class="p">}</span>
+<span class="n">ICO</span> <span class="o">=</span> <span class="n">PATH</span> <span class="o">+</span> <span class="s1">&#39;/ico/broadcasting.ico&#39;</span>
+<span class="k">if</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s1">&#39;linux&#39;</span> <span class="ow">or</span> <span class="n">_platform</span> <span class="o">==</span> <span class="s1">&#39;linux2&#39;</span><span class="p">:</span>
+    <span class="n">ICO</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;posix&#39;</span><span class="p">:</span>
+    <span class="n">EFFECT_ON</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;highlightbackground&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">}</span>
+    <span class="n">EFFECT_OFF</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;highlightbackground&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">}</span>
+
+<span class="c1"># Update every term</span>
 <span class="n">ABOUT</span> <span class="o">=</span> \
-     <span class="s">&quot;VOCAL v0.15.2.a</span><span class="se">\n</span><span class="s">Internal development build</span><span class="se">\n\n</span><span class="s">&quot;</span> \
-     <span class="s">&quot; LaRC Spring 2015 Term</span><span class="se">\n</span><span class="s">  Project Lead: Jordan Vaa</span><span class="se">\n</span><span class="s">  Courtney Duquette</span><span class="se">\n</span><span class="s">&quot;</span> \
-     <span class="s">&quot;  Ashna Aggarwal</span><span class="se">\n\n</span><span class="s"> LaRC Summer 2015 Term</span><span class="se">\n</span><span class="s">  Project Lead: Grant Mercer</span><span class="se">\n</span><span class="s">&quot;</span> \
-     <span class="s">&quot;  Nathan Qian</span><span class="se">\n\n</span><span class="s"> Fall &amp; Spring EPSCOR 2015-2016:</span><span class="se">\n</span><span class="s">  Grant Mercer&quot;</span>
+     <span class="s2">&quot;VOCAL v1.17.7</span><span class="se">\n</span><span class="s2">Beta build</span><span class="se">\n\n</span><span class="s2">&quot;</span> \
+     <span class="s2">&quot; LaRC Summer 2017 Term</span><span class="se">\n</span><span class="s2">  Project Lead: Collin Pampalone&quot;</span>
 </pre></div>
 
     </div>
@@ -216,7 +239,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

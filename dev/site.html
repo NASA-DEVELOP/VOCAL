@@ -5,31 +5,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Updating The Site &mdash; VOCAL 0.15.2 documentation</title>
+    <title>Updating The Site &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Code Documentation" href="../doc/modules.html" />
     <link rel="prev" title="Building and Writing Docs" href="docs.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -76,10 +76,11 @@
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="enviroment.html">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docs.html">Building and Writing Docs</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Updating The Site</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../doc/modules.html">Code Documentation</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Support</span></p>
@@ -114,7 +115,7 @@
     </a>
   </li>
   <li>
-    <a href="../doc/modules.html" title="Next Chapter: Code Documentation"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Code Document... &raquo;</span>
+    <a href="../doc/modules.html" title="Next Chapter: Code Documentation"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Code Documentation &raquo;</span>
     </a>
   </li>
               
@@ -124,7 +125,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="../_sources/dev/site.txt"
+  <a href="../_sources/dev/site.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -161,7 +162,7 @@
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This site is generated with <code class="docutils literal"><span class="pre">sphinx</span></code> . <strong>do not</strong> attempt to modify the html files of this
-site, instead refer to the <a class="reference internal" href="docs.html"><em>Building and Writing Docs</em></a> page</p>
+site, instead refer to the <a class="reference internal" href="docs.html"><span class="doc">Building and Writing Docs</span></a> page</p>
 </div>
 <p>The easiest way to built the site would be keeping two repositories of VOCAL active, and keep
 one for developing, the other for docs. For this example the development is done on the <em>master</em>
@@ -169,43 +170,43 @@ branch, and the website will always be on the <em>gh-pages</em> branch.</p>
 <p class="rubric">Cloning the Repositories</p>
 <ol class="arabic">
 <li><p class="first">First, go ahead and clone two repositories into the workplace of your choice.:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; mkdir vocal
-&gt; cd vocal
-&gt; git clone https://Github.com/Syntaf/vocal .
-&gt; cd ..
-&gt; mkdir docs
-&gt; cd docs
-&gt; git clone https://Github.com/Syntaf/vocal .
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">mkdir</span> <span class="n">dev</span>
+<span class="o">&gt;</span> <span class="n">cd</span> <span class="n">dev</span>
+<span class="o">&gt;</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">NASA</span><span class="o">-</span><span class="n">DEVELOP</span><span class="o">/</span><span class="n">VOCAL</span><span class="o">.</span><span class="n">git</span> <span class="o">.</span>
+<span class="o">&gt;</span> <span class="n">cd</span> <span class="o">..</span>
+<span class="o">&gt;</span> <span class="n">mkdir</span> <span class="n">docs</span>
+<span class="o">&gt;</span> <span class="n">cd</span> <span class="n">docs</span>
+<span class="o">&gt;</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">NASA</span><span class="o">-</span><span class="n">DEVELOP</span><span class="o">/</span><span class="n">VOCAL</span><span class="o">.</span><span class="n">git</span> <span class="o">.</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Now, we have two folders, your development folder <code class="docutils literal"><span class="pre">vocal</span></code> and your documentation site
+<li><p class="first">Now, we have two folders, your development folder <code class="docutils literal"><span class="pre">dev</span></code> and your documentation site
 <code class="docutils literal"><span class="pre">docs</span></code>. You&#8217;ll need to switch the docs repository to <em>gh-pages</em>.:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; cd docs
-&gt; git checkout gh-pages
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">cd</span> <span class="n">docs</span><span class="o">/</span><span class="n">VOCAL</span>
+<span class="o">&gt;</span> <span class="n">git</span> <span class="n">checkout</span> <span class="n">gh</span><span class="o">-</span><span class="n">pages</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">So you can now go on and write code, develop and create additional docs in your
-<code class="docutils literal"><span class="pre">vocal</span></code> workspace. When you&#8217;re finally ready to rebuild the site , this will require you
-to clear your <code class="docutils literal"><span class="pre">docs</span></code> branch and populate it with your new generated docs.</p>
+<code class="docutils literal"><span class="pre">dev/VOCAL</span></code> workspace. When you&#8217;re finally ready to rebuild the site , this will require you
+to clear your <code class="docutils literal"><span class="pre">docs/VOCAL</span></code> branch and populate it with your new generated docs.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">It is <strong>very</strong> important you specify a directory when using the <code class="docutils literal"><span class="pre">rm</span></code> command. <em>trust me</em></p>
 </div>
-<div class="highlight-none"><div class="highlight"><pre>&gt; rm -rf docs/*
+<div class="highlight-none"><div class="highlight"><pre><span></span>&gt; rm -rf docs/VOCAL/*
 &gt; cd vocal
 </pre></div>
 </div>
 </li>
 <li><p class="first">Simply build the sphinx docs now with your build directory as docs!:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; cd vocal/calipso
-&gt; sphinx-build -b html ../docs/source ../../docs
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">cd</span> <span class="n">dev</span><span class="o">/</span><span class="n">VOCAL</span><span class="o">/</span><span class="n">calipso</span>
+<span class="o">&gt;</span> <span class="n">sphinx</span><span class="o">-</span><span class="n">build</span> <span class="o">-</span><span class="n">b</span> <span class="n">html</span> <span class="o">../</span><span class="n">docs</span><span class="o">/</span><span class="n">source</span> <span class="o">../../../</span><span class="n">docs</span><span class="o">/</span><span class="n">VOCAL</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Head inside your docs folder, force commit the changes and the site should be live. All done</p>
-<p>&gt; cd docs
+<li><p class="first">Head inside your docs folder, force commit the changes and the site should be live</p>
+<p>&gt; cd docs/VOCAL
 &gt; git push &#8211;force</p>
 </li>
 </ol>
@@ -224,7 +225,7 @@ to clear your <code class="docutils literal"><span class="pre">docs</span></code
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

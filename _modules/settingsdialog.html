@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>settingsdialog &#8212; VOCAL 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          VOCAL</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Index <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Program Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supporteddata.html">Supported Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/startdev.html">Getting Started Developing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc/modules.html">Code Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/contact.html">Contact</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for settingsdialog</h1><div class="highlight"><pre>
+<span></span><span class="c1">#############################</span>
+<span class="c1">#    Created July 21, 2017</span>
+<span class="c1">#</span>
+<span class="c1">#    @author Collin Pampalone</span>
+<span class="c1">#</span>
+<span class="c1">#############################</span>
+
+<span class="kn">import</span> <span class="nn">tkMessageBox</span>
+<span class="kn">import</span> <span class="nn">tkFileDialog</span>
+<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="k">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Entry</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">SUNKEN</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">BOTTOM</span><span class="p">,</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> \
+    <span class="n">Checkbutton</span><span class="p">,</span> <span class="n">StringVar</span><span class="p">,</span> <span class="n">BooleanVar</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">Grid</span><span class="p">,</span> <span class="n">NORMAL</span>
+
+<span class="kn">from</span> <span class="nn">bokeh.colors</span> <span class="k">import</span> <span class="n">white</span>
+<span class="kn">from</span> <span class="nn">Tkconstants</span> <span class="k">import</span> <span class="n">END</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="k">import</span> <span class="n">CONF</span>
+<span class="kn">from</span> <span class="nn">log.log</span> <span class="k">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">dirname</span>
+
+
+<div class="viewcode-block" id="SettingsDialog"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog">[docs]</a><span class="k">class</span> <span class="nc">SettingsDialog</span><span class="p">(</span><span class="n">Toplevel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dialog Window that allows the user to manually change the settings in config.json</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># This dialog should be a singleton, so the caller will ensure no other</span>
+    <span class="c1"># windows are open by checking this variable</span>
+    <span class="n">singleton</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">master</span><span class="p">):</span>
+        <span class="n">SettingsDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Creation of a pseudo singleton</span>
+
+        <span class="c1"># Set up the window as transient, i.e. it is a subset the main window</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Instantiating SettingsDialog&#39;</span><span class="p">)</span>
+        <span class="n">Toplevel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transient</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">(</span><span class="s1">&#39;WM_DELETE_WINDOW&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">)</span>  <span class="c1"># Custom exit protocol</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__root</span> <span class="o">=</span> <span class="n">root</span>  <span class="c1"># Declare the inputs, root is the Tk root, master is Calipso</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__master</span> <span class="o">=</span> <span class="n">master</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span> <span class="o">=</span> <span class="kc">None</span>              <span class="c1"># A formatted copy of config.json to hold changes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__settings_entries</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>    <span class="c1"># The text boxes for files settings, holds Entry objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__browse_buttons</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>      <span class="c1"># Holds the browse buttons</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__bool_buttons</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>        <span class="c1"># Holds the boolean setting checkboxes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__lock_setting_buttons</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>     <span class="c1"># Holds the lock setting checkboxes</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__bottom_frame</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__container</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>  <span class="c1"># Main frame to hold top and bottom</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__container</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Place the frame</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_variable_dict</span><span class="p">()</span>  <span class="c1"># Grab config file settings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_top_frame</span><span class="p">()</span>  <span class="c1"># Make the top and bottom frames</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_bottom_frame</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SettingsDialog.create_top_frame"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.create_top_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_top_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The top frame holds all of the widgets for displaying and changing settings &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__container</span><span class="p">)</span>  <span class="c1"># Create and place the frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Create the title bar to explain the contents of each column</span>
+        <span class="n">title_bar</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">title_bar_text</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Config Setting&#39;</span><span class="p">,</span> <span class="s1">&#39;Value&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;Lock&#39;</span><span class="p">]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">title_bar_text</span><span class="p">:</span>
+            <span class="c1"># Iterate through the column titles, create labels, and place them on the grid</span>
+            <span class="n">title_bar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">))</span>
+            <span class="n">title_bar</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="n">W</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Create a row for each setting with the necessary widgets for changing it</span>
+        <span class="n">label_settings</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="c1"># By iterating through, we can change the number and types of settings in config.py and</span>
+            <span class="c1"># we don&#39;t have to make any changes to the settings dialog as long as it is a bool or</span>
+            <span class="c1"># file directory</span>
+            <span class="n">var_text</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>  <span class="c1"># Temporary holds a string of the current directory</span>
+            <span class="n">var_text</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]))</span>
+            <span class="n">label_name</span> <span class="o">=</span> <span class="n">key</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span>  <span class="c1"># Temporarily holds the label of the setting</span>
+            <span class="n">lock_val</span> <span class="o">=</span> <span class="n">BooleanVar</span><span class="p">()</span>  <span class="c1"># Temporarily holds the value of lock_setting</span>
+            <span class="n">bool_value</span> <span class="o">=</span> <span class="n">BooleanVar</span><span class="p">()</span>  <span class="c1"># Temporarily holds the value of a bool setting</span>
+
+            <span class="c1"># Create the setting label</span>
+            <span class="n">label_settings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">label_name</span><span class="p">))</span>
+
+            <span class="c1"># Figure out if we are making a file-type or bool-type setting</span>
+            <span class="n">setting_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">setting_type</span> <span class="o">==</span> <span class="s1">&#39;file&#39;</span><span class="p">:</span>
+                <span class="c1"># Create a readonly entry to display the string of the directory path</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__settings_entries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="p">,</span> <span class="n">state</span><span class="o">=</span><span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+                                                     <span class="n">justify</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span> <span class="n">textvariable</span><span class="o">=</span><span class="n">var_text</span><span class="p">,</span>
+                                                     <span class="n">readonlybackground</span><span class="o">=</span><span class="n">white</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">SUNKEN</span><span class="p">))</span>
+                <span class="c1"># Create a browse button to change the path</span>
+                <span class="n">dialog_box</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__settings_entries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__browse_buttons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Change&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">dialog_box</span><span class="o">=</span><span class="n">dialog_box</span><span class="p">:</span>
+                           <span class="bp">self</span><span class="o">.</span><span class="n">change_dir_setting</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">dialog_box</span><span class="p">)))</span>
+            <span class="k">elif</span> <span class="n">setting_type</span> <span class="o">==</span> <span class="s1">&#39;bool&#39;</span><span class="p">:</span>
+                <span class="c1"># Create a checkbutton to switch bool values</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__bool_buttons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">Checkbutton</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">bool_value</span><span class="p">,</span> <span class="n">onvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">offvalue</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                <span class="n">command</span><span class="o">=</span><span class="k">lambda</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">bool_value</span><span class="o">=</span><span class="n">bool_value</span><span class="p">:</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">change_bool_setting</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">bool_value</span><span class="p">)))</span>
+                <span class="c1"># Set the checkbox to show the current config value</span>
+                <span class="n">bool_value</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+
+            <span class="c1"># Create checkbutton to switch the value between</span>
+            <span class="c1"># locked (true, set to manual) or not (false, auto)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__lock_setting_buttons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">Checkbutton</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="p">,</span> <span class="n">variable</span><span class="o">=</span><span class="n">lock_val</span><span class="p">,</span> <span class="n">onvalue</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">offvalue</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">command</span><span class="o">=</span><span class="k">lambda</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">check_val</span><span class="o">=</span><span class="n">lock_val</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">change_lock_setting</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">check_val</span><span class="p">)))</span>
+            <span class="c1"># Set the checkbox to show the current config value</span>
+            <span class="n">lock_val</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;lock_setting&#39;</span><span class="p">])</span>
+
+            <span class="c1"># Place all of the widgets on the grid</span>
+            <span class="n">label_settings</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">n</span><span class="p">),</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">sticky</span><span class="o">=</span><span class="n">W</span><span class="p">)</span>
+            <span class="c1"># Make sure we only place the correct widget</span>
+            <span class="k">if</span> <span class="n">setting_type</span> <span class="o">==</span> <span class="s1">&#39;file&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__settings_entries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">n</span><span class="p">),</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__browse_buttons</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">n</span><span class="p">),</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">setting_type</span> <span class="o">==</span> <span class="s1">&#39;bool&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__bool_buttons</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">n</span><span class="p">),</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__lock_setting_buttons</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">n</span><span class="p">),</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Give the entry boxes, bool checkboxes in column 1 the ability to move with the window</span>
+        <span class="n">Grid</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SettingsDialog.create_bottom_frame"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.create_bottom_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_bottom_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; The bottom frame which holds the save and revert buttons &quot;&quot;&quot;</span>
+        <span class="c1"># TODO add a default button to reset config.json to defaults</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__bottom_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__container</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__bottom_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Create a save and close button to save config</span>
+        <span class="n">save_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__bottom_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Save Settings&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">())</span>
+        <span class="c1"># Create a revert button to scrap the changes and go back to the initial settings</span>
+        <span class="n">revert_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__bottom_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Revert Settings&#39;</span><span class="p">,</span>
+                               <span class="n">command</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">revert</span><span class="p">())</span>
+        <span class="c1"># Place all of the buttons and ability to move</span>
+        <span class="n">save_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">revert_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">Grid</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__bottom_frame</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">Grid</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__bottom_frame</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SettingsDialog.change_lock_setting"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.change_lock_setting">[docs]</a>    <span class="k">def</span> <span class="nf">change_lock_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Change the manual/auto lock setting &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;lock_setting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_val</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s1">&#39; manual/auto lock changed to &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_val</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span></div>
+
+<div class="viewcode-block" id="SettingsDialog.change_bool_setting"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.change_bool_setting">[docs]</a>    <span class="k">def</span> <span class="nf">change_bool_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">new_val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Change a boolean config setting &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_val</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s1">&#39; bool setting changed to &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">new_val</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span></div>
+
+<div class="viewcode-block" id="SettingsDialog.change_dir_setting"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.change_dir_setting">[docs]</a>    <span class="k">def</span> <span class="nf">change_dir_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">dialog_box</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Change a directory config setting &quot;&quot;&quot;</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;database&#39;</span> <span class="ow">in</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">options</span><span class="p">[</span><span class="s1">&#39;filetypes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;CALIPSO Database&#39;</span><span class="p">,</span> <span class="s1">&#39;*.db&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;All files&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)]</span>
+        <span class="k">elif</span> <span class="s1">&#39;hdf&#39;</span> <span class="ow">in</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+            <span class="n">options</span><span class="p">[</span><span class="s1">&#39;filetypes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;CALIPSO Data File&#39;</span><span class="p">,</span> <span class="s1">&#39;*.hdf&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;All files&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)]</span>
+        <span class="n">options</span><span class="p">[</span><span class="s1">&#39;initialdir&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">dialog_box</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="n">directory</span> <span class="o">=</span> <span class="n">tkFileDialog</span><span class="o">.</span><span class="n">askopenfilename</span><span class="p">(</span><span class="o">**</span><span class="n">options</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">directory</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>     <span class="c1"># if dir is not empty</span>
+            <span class="n">dialog_box</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">state</span><span class="o">=</span><span class="n">NORMAL</span><span class="p">)</span>
+            <span class="n">dialog_box</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">END</span><span class="p">)</span>
+            <span class="n">dialog_box</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">END</span><span class="p">,</span> <span class="n">directory</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">directory</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s1">&#39; file setting changed to &#39;</span> <span class="o">+</span> <span class="n">directory</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="SettingsDialog.get_variable_dict"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.get_variable_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_variable_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Load the dictionary of  variables from config.py through CONF in constants &quot;&quot;&quot;</span>
+        <span class="c1"># The dict must be copied this way so that we can make changes without referencing the</span>
+        <span class="c1"># actual variables named in the CONF dictionary</span>
+        <span class="n">var_dict</span> <span class="o">=</span> <span class="n">CONF</span><span class="o">.</span><span class="n">get_variable_dict</span><span class="p">()</span>
+        <span class="n">new_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">var_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>  <span class="c1"># Iterate through the dict to copy it</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+            <span class="n">new_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">variable</span><span class="o">.</span><span class="n">value</span><span class="p">(),</span>
+                <span class="s1">&#39;lock_setting&#39;</span><span class="p">:</span> <span class="n">variable</span><span class="o">.</span><span class="n">manual_setting</span><span class="p">(),</span>
+                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="n">variable</span><span class="o">.</span><span class="n">get_type</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span> <span class="o">=</span> <span class="n">new_dict</span></div>
+
+<div class="viewcode-block" id="SettingsDialog.free"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Destroy the window and ensure the session is closed correctly &quot;&quot;&quot;</span>
+        <span class="n">SettingsDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="kc">False</span>    <span class="c1"># Singleton no longer exists, so set it to false</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Closing SettingsDialog&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SettingsDialog.save"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Write all of the settings from the self.__var_dict to config.json and close&quot;&quot;&quot;</span>
+        <span class="n">writing_dict</span> <span class="o">=</span> <span class="n">CONF</span><span class="o">.</span><span class="n">get_variable_dict</span><span class="p">()</span>     <span class="c1"># get the variable dict</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__var_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>   <span class="c1"># Iterate through and write changes</span>
+            <span class="n">proceed</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="c1"># We want to warn users if they change the default db</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;default_database&#39;</span> <span class="ow">and</span> <span class="n">writing_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">!=</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]:</span>
+                <span class="nb">print</span> <span class="n">writing_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+                <span class="nb">print</span> <span class="n">value</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+                <span class="n">message</span> <span class="o">=</span> <span class="s1">&#39;You are attempting to change the default database, are you sure sure &#39;</span> \
+                          <span class="s1">&#39;you would like to change it to </span><span class="si">%s</span><span class="s1">?</span><span class="se">\n\n</span><span class="s1">Selecting cancel will skip this &#39;</span> \
+                          <span class="s1">&#39;change and finish the save.&#39;</span> <span class="o">%</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+                <span class="n">proceed</span> <span class="o">=</span> <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">askokcancel</span><span class="p">(</span><span class="s1">&#39;Proceed?&#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">proceed</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># Locked values that are changed in the diaglog will still be written</span>
+            <span class="n">writing_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">force_change</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+            <span class="n">writing_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">change_manual</span><span class="p">(</span><span class="n">value</span><span class="p">[</span><span class="s1">&#39;lock_setting&#39;</span><span class="p">])</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Settings saved&#39;</span><span class="p">)</span>
+        <span class="c1"># Close the window</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="SettingsDialog.revert"><a class="viewcode-back" href="../doc/general/settingsdialog.html#settingsdialog.SettingsDialog.revert">[docs]</a>    <span class="k">def</span> <span class="nf">revert</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Reverts any unsaved changes back to the initial values &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_variable_dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__settings_entries</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__browse_buttons</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__lock_setting_buttons</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__top_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_top_frame</span><span class="p">()</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

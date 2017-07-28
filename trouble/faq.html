@@ -5,31 +5,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Troubleshoot &mdash; VOCAL 0.15.2 documentation</title>
+    <title>Troubleshoot &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Submit Bugs or Issues" href="issuetracker.html" />
     <link rel="prev" title="TreeListBox" href="../doc/tools/treelistbox.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -76,6 +76,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/conventions.html">Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/enviroment.html">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/docs.html">Building and Writing Docs</a></li>
@@ -84,7 +85,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Support</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Troubleshoot</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Troubleshoot</a></li>
 <li class="toctree-l1"><a class="reference internal" href="issuetracker.html">Submit Bugs or Issues</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
 </ul>
@@ -114,7 +115,7 @@
     </a>
   </li>
   <li>
-    <a href="issuetracker.html" title="Next Chapter: Submit Bugs or Issues"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Submit Bugs o... &raquo;</span>
+    <a href="issuetracker.html" title="Next Chapter: Submit Bugs or Issues"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Submit Bugs or Issues &raquo;</span>
     </a>
   </li>
               
@@ -124,7 +125,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="../_sources/trouble/faq.txt"
+  <a href="../_sources/trouble/faq.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -150,13 +151,13 @@
       
   <div class="section" id="troubleshoot">
 <h1>Troubleshoot<a class="headerlink" href="#troubleshoot" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-python"><div class="highlight"><pre>&gt; how do I actually run this project?
+<div class="highlight-default"><div class="highlight"><pre><span></span>&gt; how do I actually run this project?
 </pre></div>
 </div>
 <blockquote>
 <div>The main is included in <code class="docutils literal"><span class="pre">Calipso.py</span></code>, once you&#8217;ve followed the installation instructions run it through either eclipse or <code class="docutils literal"><span class="pre">python</span> <span class="pre">Calipso.py</span></code></div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre>&gt; when I try to run the project I get the error:
-&gt; ImportError:  cannot import name _imagingtk
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">when</span> <span class="n">I</span> <span class="k">try</span> <span class="n">to</span> <span class="n">run</span> <span class="n">the</span> <span class="n">project</span> <span class="n">I</span> <span class="n">get</span> <span class="n">the</span> <span class="n">error</span><span class="p">:</span>
+<span class="o">&gt;</span> <span class="ne">ImportError</span><span class="p">:</span>  <span class="n">cannot</span> <span class="kn">import</span> <span class="nn">name</span> <span class="n">_imagingtk</span>
 </pre></div>
 </div>
 <blockquote>
@@ -167,24 +168,24 @@
 <li>Install <code class="docutils literal"><span class="pre">PIL</span></code> from <a class="reference external" href="http://www.pythonware.com/products/pil/">here</a> , <code class="docutils literal"><span class="pre">PIL-1.1.7.win32-py2.7.exe</span></code>. Ensure you install to <cite>Lib/site-packages</cite></li>
 </ul>
 </div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre>&gt; ccplot&#39;s setup.py build cannot find HdfEosDef.h
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">ccplot</span><span class="s1">&#39;s setup.py build cannot find HdfEosDef.h</span>
 </pre></div>
 </div>
 <blockquote>
-<div>This is an error due to the setup.py script not being comprehensive, the solution is covered in the <a class="reference internal" href="../installation.html"><em>Installation</em></a> instructions for Linux. You can also read about why you get this issue on the github bug tracker for ccplot <a class="reference external" href="https://github.com/peterkuma/ccplot/issues/1">here[1]</a></div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre>&gt; running &#39;port selfupdate&#39; gives me error about the connection being refused
+<div>This is an error due to the setup.py script not being comprehensive, the solution is covered in the <a class="reference internal" href="../installation.html"><span class="doc">Installation</span></a> instructions for Linux. You can also read about why you get this issue on the github bug tracker for ccplot <a class="reference external" href="https://github.com/peterkuma/ccplot/issues/1">here[1]</a></div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">running</span> <span class="s1">&#39;port selfupdate&#39;</span> <span class="n">gives</span> <span class="n">me</span> <span class="n">error</span> <span class="n">about</span> <span class="n">the</span> <span class="n">connection</span> <span class="n">being</span> <span class="n">refused</span>
 </pre></div>
 </div>
 <blockquote>
-<div>Your firewall is likely blocked, see the <a class="reference internal" href="../installation.html"><em>OS X installations instructions</em></a> for further information</div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre>&gt; ccplot can&#39;t seem to find the package basemap, but I already installed it
+<div>Your firewall is likely blocked, see the <a class="reference internal" href="../installation.html"><span class="doc">OS X installations instructions</span></a> for further information</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">ccplot</span> <span class="n">can</span><span class="s1">&#39;t seem to find the package basemap, but I already installed it</span>
 </pre></div>
 </div>
 <blockquote>
 <div>The problem is that your python path is probably set to the default python supplied by OS X,
-but you want to use the python supplied by macports. To do this see the <a class="reference internal" href="../installation.html"><em>OS X installations instructions</em></a></div></blockquote>
-<div class="highlight-python"><div class="highlight"><pre>&gt; while importing PIL on windows, Eclipse tells me Image
-&gt; and ImageTk are unresolved
+but you want to use the python supplied by macports. To do this see the <a class="reference internal" href="../installation.html"><span class="doc">OS X installations instructions</span></a></div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="k">while</span> <span class="n">importing</span> <span class="n">PIL</span> <span class="n">on</span> <span class="n">windows</span><span class="p">,</span> <span class="n">Eclipse</span> <span class="n">tells</span> <span class="n">me</span> <span class="n">Image</span>
+<span class="o">&gt;</span> <span class="ow">and</span> <span class="n">ImageTk</span> <span class="n">are</span> <span class="n">unresolved</span>
 </pre></div>
 </div>
 <blockquote>
@@ -204,7 +205,7 @@ but you want to use the python supplied by macports. To do this see the <a class
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

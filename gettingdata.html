@@ -5,31 +5,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Getting the Data &mdash; VOCAL 0.15.2 documentation</title>
+    <title>Getting the Data &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Supported Data Types" href="supporteddata.html" />
     <link rel="prev" title="Required Packages" href="packages.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -70,12 +70,13 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Program Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Getting the Data</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="supporteddata.html">Supported Data Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Getting Started</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="dev/startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/conventions.html">Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/enviroment.html">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/docs.html">Building and Writing Docs</a></li>
@@ -110,11 +111,11 @@
               
                 
   <li>
-    <a href="packages.html" title="Previous Chapter: Required Packages"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Required Pack...</span>
+    <a href="packages.html" title="Previous Chapter: Required Packages"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Required Packages</span>
     </a>
   </li>
   <li>
-    <a href="supporteddata.html" title="Next Chapter: Supported Data Types"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Supported Dat... &raquo;</span>
+    <a href="supporteddata.html" title="Next Chapter: Supported Data Types"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Supported Data Types &raquo;</span>
     </a>
   </li>
               
@@ -124,7 +125,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="_sources/gettingdata.txt"
+  <a href="_sources/gettingdata.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -151,14 +152,25 @@
   <div class="section" id="getting-the-data">
 <h1>Getting the Data<a class="headerlink" href="#getting-the-data" title="Permalink to this headline">¶</a></h1>
 <p>Data collected by the CALIPSO satellite is free to the public, all it takes is going through a couple
-of steps to order the data. <strong>eosweb</strong> is the primary distributor for the satellite, you can find their
-webpage <a class="reference external" href="https://eosweb.larc.nasa.gov/">here</a> and order data from <a class="reference external" href="https://eosweb.larc.nasa.gov/order-data">here</a></p>
-<p>Once at the order page, you can be redirected to the reverb search tool for grabbing data from the specific
-data you want. The most common data you can visualize with vocal would be Standard Level 1 datafile, those
-can be queried by entered &#8220;CAL_LID_L1-Standard&#8221; in the <em>search terms</em> window and selecting a date range of
-your choice. Once ordered processing can take up to a couple days, so be patient!</p>
-<p>Another option is to grab example data from ccplot&#8217;s sourceforge page, which a simple CALIPSO data file you
-can easily download and load into VOCAL right off the bat:</p>
+of steps to order the data. <strong>Eosweb</strong> is the primary distributor for the satellite, you can find their
+webpage <a class="reference external" href="https://eosweb.larc.nasa.gov/">here</a> and order data from <a class="reference external" href="https://eosweb.larc.nasa.gov/order-data">here</a>.</p>
+<p>Once at the order page, you can use either <strong>EarthData Search</strong> or the <strong>ASDC Ordering Tool</strong>. Each
+has advantages and disadvantages, so test each to see which works best for you. Once you&#8217;ve decided
+on the time and place you would like data, download it. The tool works with both Level One and Level
+Two data, which come as HDF files entitled &#8220;CAL_LID_L1-Standard&#8221; and &#8220;CAL_LID-VFM_Standard&#8221; followed
+by the version number, date, and time. Version 4.10 data is recommended, however other less verified
+versions may work.</p>
+<p>In order to view L1 and L2 data simultaneously, you will have to download L1 and L2 files with the
+exact same date and time. In the <strong>ASDC HTML Order Tool</strong>, this is easily done by <em>ctrl + clicking</em>
+on both the &#8220;CAL_LID_L1-Standard-V4-10&#8221; and &#8220;CAL_LID_VFM-Standard-V4-10&#8221; options under <em>Data Sets</em>.
+<strong>EarthData Search</strong> provides a visual tool for selecting data. See the tour on their <a class="reference external" href="https://search.earthdata.nasa.gov/search/project">website</a>
+for more details on its use. You will still want to download both L1 and L2 data.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Even it you only wish to view L2 data, you must have the corresponding L1 file</p>
+</div>
+<p>Another option is to grab example data from ccplot&#8217;s sourceforge page, which a simple CALIPSO data
+file you can easily download and load into VOCAL right off the bat:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://sourceforge.net/projects/ccplot/files/products/CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN.hdf">CAL_LID_L1-ValStage1-V3-01.2007-06-12T03-42-18ZN.hdf</a></li>
 </ul>
@@ -177,7 +189,7 @@ can easily download and load into VOCAL right off the bat:</p>
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

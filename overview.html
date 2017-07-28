@@ -5,31 +5,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Program Overview &mdash; VOCAL 0.15.2 documentation</title>
+    <title>Program Overview &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="installation.html" />
     <link rel="prev" title="Visualization of Calipso" href="index.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -68,7 +68,7 @@
       role="menu"
       aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">User Documentation</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="">Program Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Program Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gettingdata.html">Getting the Data</a></li>
 <li class="toctree-l1"><a class="reference internal" href="supporteddata.html">Supported Data Types</a></li>
@@ -76,6 +76,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="dev/startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/conventions.html">Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/enviroment.html">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/docs.html">Building and Writing Docs</a></li>
@@ -102,7 +103,7 @@
       aria-labelledby="dLabelLocalToc"><ul>
 <li><a class="reference internal" href="#">Program Overview</a><ul>
 <li><a class="reference internal" href="#features">Features</a></li>
-<li><a class="reference internal" href="#additional-information">Additional Information</a></li>
+<li><a class="reference internal" href="#getting-started">Getting Started</a></li>
 </ul>
 </li>
 </ul>
@@ -128,7 +129,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="_sources/overview.txt"
+  <a href="_sources/overview.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -154,7 +155,7 @@
       
   <div class="section" id="program-overview">
 <h1>Program Overview<a class="headerlink" href="#program-overview" title="Permalink to this headline">¶</a></h1>
-<p>The CALIPSO: Global Health &amp; Air Quality project at NASA DEVELOP aims at creating a tool with the ability to classify
+<p>The CALIPSO: Cross-Cutting project at NASA DEVELOP aims at creating a tool with the ability to classify
 aerosols within CALIPSO Data to help improve future research and decision making. The tool is open source and built
 around community involvement.</p>
 <p class="rubric">Key reason for VOCAL:</p>
@@ -168,20 +169,16 @@ tool, making it very difficult to build upon.</li>
 <dl class="class">
 <dt>
 <code class="descname">left: blank program, right: shapes form around selected areas of the plot</code></dt>
-<dd><a class="reference internal image-reference" href="_images/program.png"><img alt="_images/program.png" src="_images/program.png" style="width: 331.98px; height: 156.86px;" /></a>
-<a class="reference internal image-reference" href="_images/programShapesActive.png"><img alt="_images/programShapesActive.png" src="_images/programShapesActive.png" style="width: 351.4px; height: 178.0px;" /></a>
+<dd><a class="reference internal image-reference" href="_images/program.png"><img alt="_images/program.png" src="_images/program.png" style="width: 324.28px; height: 157.96px;" /></a>
+<a class="reference internal image-reference" href="_images/programShapesActive.png"><img alt="_images/programShapesActive.png" src="_images/programShapesActive.png" style="width: 336.0px; height: 175.4px;" /></a>
 </dd></dl>
 
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">VOCAL is currently in it&#8217;s early <em>beta</em> phase, and requires additional work
-till it can be released to the community.</p>
-</div>
 <p>The Visualization tool currently contains a number of great features:</p>
 <ul class="simple">
 <li>Load standard Calipso data and display a backscattered and depolarized plot</li>
 <li>Manipulate the image with <code class="docutils literal"><span class="pre">zoom</span></code>, <code class="docutils literal"><span class="pre">move</span></code>, <code class="docutils literal"><span class="pre">reload</span></code> and many more</li>
-<li>Draw object which are overlayed upon the plot , free draw or rect mode</li>
+<li>Draw object which are overlaid upon the plot , free draw or rect mode</li>
+<li>Save dawn shapes and properties to a database and export to share with other researchers</li>
 </ul>
 <p>Data from the <code class="docutils literal"><span class="pre">HDF</span></code> file is loaded and parsed in order to display the plot inside of the application. Objects can be
 drawn on top and manipulated to select key parts of the map, these object will later be able to be saved</p>
@@ -211,22 +208,10 @@ drawn on top and manipulated to select key parts of the map, these object will l
 </ul>
 <p>Additional features are still to come!</p>
 </div>
-<div class="section" id="additional-information">
-<h2>Additional Information<a class="headerlink" href="#additional-information" title="Permalink to this headline">¶</a></h2>
-<ul>
-<li><dl class="first docutils">
-<dt><strong>Study Area:</strong></dt>
-<dd><p class="first last">Global</p>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt><strong>Earth Observations &amp; Parameters:</strong></dt>
-<dd><p class="first last">CALIPSO, CALIOP - Vertial Profile of Aerosolsl</p>
-</dd>
-</dl>
-</li>
-</ul>
+<div class="section" id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>Check out the next pages for guides on installation, downloading CALIPSO data, and a tutorial on
+using VOCAL.</p>
 </div>
 </div>
 
@@ -243,7 +228,7 @@ drawn on top and manipulated to select key parts of the map, these object will l
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

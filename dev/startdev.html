@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started Developing &#8212; VOCAL 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Coding Conventions" href="conventions.html" />
+    <link rel="prev" title="Getting Started" href="../tutorial.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          VOCAL</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Index <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Program Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../supporteddata.html">Supported Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started Developing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../doc/modules.html">Code Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../trouble/contact.html">Contact</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Getting Started Developing</a><ul>
+<li><a class="reference internal" href="#learn-the-code">Learn the Code</a></li>
+<li><a class="reference internal" href="#get-in-touch">Get in Touch</a></li>
+<li><a class="reference internal" href="#use-git">Use Git</a><ul>
+<li><a class="reference internal" href="#software-for-developing">Software for Developing</a></li>
+<li><a class="reference internal" href="#clone-the-repository">Clone the Repository</a></li>
+<li><a class="reference internal" href="#start-developing">Start Developing</a></li>
+<li><a class="reference internal" href="#merging-a-branch">Merging a Branch</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#closing-out">Closing Out</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="../tutorial.html" title="Previous Chapter: Getting Started"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Getting Started</span>
+    </a>
+  </li>
+  <li>
+    <a href="conventions.html" title="Next Chapter: Coding Conventions"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Coding Conventions &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/dev/startdev.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="getting-started-developing">
+<h1>Getting Started Developing<a class="headerlink" href="#getting-started-developing" title="Permalink to this headline">¶</a></h1>
+<p>Before writing your first line of code in VOCAL, give the user and developer documentation a read
+through!</p>
+<div class="section" id="learn-the-code">
+<h2>Learn the Code<a class="headerlink" href="#learn-the-code" title="Permalink to this headline">¶</a></h2>
+<p>Make sure your python skills are up to date. Check out the <a class="reference external" href="https://www.codecademy.com/">Code Academy</a> website for an interactive
+python tutorial. Refer to the <a class="reference external" href="https://docs.python.org/2/">python 2.7 documentation</a> for help with specific commands. VOCAL is
+based heavily on Tk/Tkinter. Documetaion and examples can be found on a multitude of sites, but
+<a class="reference external" href="http://effbot.org/tkinterbook/">Effbot</a> has some good examples and explanations. Finally, check out the GitHub to see VOCAL&#8217;s
+<a class="reference external" href="https://github.com/NASA-DEVELOP/VOCAL">repository</a>. Try looking through the code to get a feeling for the flow and organization of the
+program before you start making additions.</p>
+</div>
+<div class="section" id="get-in-touch">
+<h2>Get in Touch<a class="headerlink" href="#get-in-touch" title="Permalink to this headline">¶</a></h2>
+<p>Many DEVELOPers have put their hands on VOCAL&#8217;s code and can provide you with some great insight into
+how the program is structured and what challenges they faced. Join the Slack or just send an email
+to one of the previous project leads.</p>
+</div>
+<div class="section" id="use-git">
+<h2>Use Git<a class="headerlink" href="#use-git" title="Permalink to this headline">¶</a></h2>
+<p>Before you start making changes, learn how to use Git for version control. GitHub provides an
+<a class="reference external" href="https://try.github.io/levels/1/challenges/1">interactive tutorial</a> on using Git, but there a resources all over the web. For VOCAL, we stick
+to several best practices in order to streamline development. If you plan on developing VOCAL, you
+<strong>must</strong> use Git.</p>
+<div class="section" id="software-for-developing">
+<h3>Software for Developing<a class="headerlink" href="#software-for-developing" title="Permalink to this headline">¶</a></h3>
+<p>The IDE, Debugger, or text editor you use are all up to you , as long as you use Git. Pycharm is a
+great IDE with debugging, syntax highlighting, formatting suggestions, and Git capabilities. You can
+grab the free community version from their website <a class="reference external" href="https://www.jetbrains.com/pycharm/">here</a>. If you prefer a more basic environment,
+you can always use your favorite text editor (<a class="reference external" href="https://www.sublimetext.com/">Sublime Text</a> is a great option) along with
+<a class="reference external" href="https://git-scm.com/downloads">Gitbash</a> to interact with the GitHub repository.</p>
+</div>
+<div class="section" id="clone-the-repository">
+<h3>Clone the Repository<a class="headerlink" href="#clone-the-repository" title="Permalink to this headline">¶</a></h3>
+<p>If you plan on using an IDE or debugging software, then simply follow the directions provided by
+their documentation to clone from GitHub. Make sure you select the Anaconda python 2.7 version as
+your compiler.</p>
+<p>Otherwise, you can use Git Bash to clone the repository.</p>
+<ol class="arabic simple">
+<li>First, open Git Bash<ul>
+<li>Use <code class="docutils literal"><span class="pre">cd</span></code> to reach the folder where you would like to develop VOCAL</li>
+</ul>
+</li>
+<li>Then use <code class="docutils literal"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/NASA-DEVELOP/VOCAL.git</span></code><ul>
+<li><code class="docutils literal"><span class="pre">git</span> <span class="pre">fetch</span></code> to make sure the branches are up to date</li>
+</ul>
+</li>
+<li>To start VOCAL, use <code class="docutils literal"><span class="pre">python</span> <span class="pre">VOCAL/calipso/Calipso.py</span></code></li>
+</ol>
+</div>
+<div class="section" id="start-developing">
+<h3>Start Developing<a class="headerlink" href="#start-developing" title="Permalink to this headline">¶</a></h3>
+<p>To begin developing, you will need a new branch.</p>
+<blockquote>
+<div><div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><strong>never</strong> update the master branch directly unless you are making small changes or it is
+absolutly necessary.</p>
+</div>
+</div></blockquote>
+<ol class="arabic simple">
+<li>Use <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">-b</span> <span class="pre">newbranch</span></code> to create a branch called <em>newbranch</em><ul>
+<li>You should choose a more relevant name, such as the number of the issue you are fixing or
+the name of the feature you are adding</li>
+<li>If you are using an IDE, use their tools to create a new local repository. In Pycharm, you can
+right-click the project folder and use Git &gt; Repository &gt; Branches &gt; New Branch</li>
+</ul>
+</li>
+<li>You are now free to develop the python files within VOCAL. Before you start, make sure you read
+the rest of the user and developer documentation, <strong>especially</strong> the
+<span class="xref doc">coding conventions</span>. Write lots of comments, keep track of the changes
+you make in the changelog, and be ready to explain any code to future developers</li>
+<li>When you have made some progress on your branch, you should save and commit the changes.<ul>
+<li>If you created new files, use <code class="docutils literal"><span class="pre">git</span> <span class="pre">add</span> <span class="pre">newfile</span></code> to add the file <em>newfile</em>. Similarly, use
+<code class="docutils literal"><span class="pre">git</span> <span class="pre">rm</span> <span class="pre">oldfile</span></code> to remove a file called <em>oldfile</em></li>
+<li>Otherwise, use <code class="docutils literal"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">-m</span>&#160; <span class="pre">&quot;Your</span> <span class="pre">commit</span> <span class="pre">message</span> <span class="pre">here&quot;</span></code> to commit changes to your
+branch with a short message<ul>
+<li>To make commits on Pycharm, right-click the project folder and select Git &gt; Commit Directory</li>
+</ul>
+</li>
+<li>Git will keep track of your changes from one commit to another and allows you to revert if you
+mess something up. Checkout tutorials online for a more in depth guide on using Git and all of the features it offers.</li>
+</ul>
+</li>
+<li>When you make big commits or after a few small ones, you should upload your commits to the GitHub<ul>
+<li>Use <code class="docutils literal"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">newbranch</span></code> (replace <em>newbranch</em> with the name of your branch)</li>
+</ul>
+</li>
+</ol>
+<p>After you work on your branch for a while and find that your changes have not cause any further
+errors, you can merge it back into the master</p>
+</div>
+<div class="section" id="merging-a-branch">
+<h3>Merging a Branch<a class="headerlink" href="#merging-a-branch" title="Permalink to this headline">¶</a></h3>
+<p>After you have made updates or fixed bugs on your own branch, you can merge it back into the master.
+make sure your files are saved and you latest commit is up to date.</p>
+<ol class="arabic simple">
+<li>Head over to the GitHub page on your web browser and select your branch from the list. Then click <em>New Pull Request</em></li>
+<li>You will be prompted to write a message to accompany the request. Write in your changes and any
+other relevant information such as known bugs. Then submit the request.</li>
+<li>There may be conflicts with the two branches, so resolve those on the GitHub gui before you merge</li>
+<li>Once you&#8217;ve had another person look over your pull request and it looks good, confirm the merge.</li>
+</ol>
+<p>VOCAL&#8217;s master branch is now up to date with yours. Once some more people have tested the new master
+branch, go ahead and delete the <em>newbranch</em> that you created earlier. All of the changes you made are
+on the master branch now, so you won&#8217;t need it anymore</p>
+</div>
+</div>
+<div class="section" id="closing-out">
+<h2>Closing Out<a class="headerlink" href="#closing-out" title="Permalink to this headline">¶</a></h2>
+<p>At the end of your session, you should do a few things to make development easier for the next team.</p>
+<ol class="arabic simple">
+<li>Make sure all of your changes have been uploaded to the GitHub with good comments. Someone new
+should be able to come along and figure out what the code is supposed to do pretty easily.</li>
+<li>Update the documentation considering the updates you made. If you added or removed features, note
+them in the changelog and make sure the docs explain the feature accurately. Update the contact info
+in the documentation and the about in the constants.py file.</li>
+<li>If you leave behind any unfinished features or code, leave detailed guides on what you attempted
+and the goal of the code so the next team can either finish it or scrap it quickly.</li>
+</ol>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

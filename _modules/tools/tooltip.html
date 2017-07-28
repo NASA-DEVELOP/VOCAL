@@ -5,32 +5,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>tools.tooltip &mdash; VOCAL 0.15.2 documentation</title>
+    <title>tools.tooltip &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -50,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -75,6 +74,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
@@ -133,12 +133,12 @@
     <div class="col-md-12 content">
       
   <h1>Source code for tools.tooltip</h1><div class="highlight"><pre>
-<span class="c">######################################</span>
-<span class="c">#    tooltip.py</span>
-<span class="c">#    @author: Grant Mercer</span>
-<span class="c">#    6/24/2015</span>
-<span class="c">######################################</span>
-<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">TclError</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">SOLID</span>
+<span></span><span class="c1">######################################</span>
+<span class="c1">#    tooltip.py</span>
+<span class="c1">#    @author: Grant Mercer</span>
+<span class="c1">#    6/24/2015</span>
+<span class="c1">######################################</span>
+<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="k">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">TclError</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">,</span> <span class="n">SOLID</span>
 
 
 <div class="viewcode-block" id="ToolTip"><a class="viewcode-back" href="../../doc/tools/tooltip.html#tools.tooltip.ToolTip">[docs]</a><span class="k">class</span> <span class="nc">ToolTip</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -149,11 +149,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">widget</span> <span class="o">=</span> <span class="n">widget</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
-    <span class="c"># noinspection PyProtectedMember</span>
+    <span class="c1"># noinspection PyProtectedMember</span>
 <div class="viewcode-block" id="ToolTip.show_tip"><a class="viewcode-back" href="../../doc/tools/tooltip.html#tools.tooltip.ToolTip.show_tip">[docs]</a>    <span class="k">def</span> <span class="nf">show_tip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create and pack the tooltip, bound to the ``&#39;&lt;Enter&gt;&#39;`` event when</span>
@@ -164,8 +164,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">:</span>
             <span class="k">return</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">bbox</span><span class="p">(</span><span class="s">&#39;insert&#39;</span><span class="p">)</span>  <span class="c"># @UnusedVariable</span>
-        <span class="c"># Larger button should have the tip placed lower</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">bbox</span><span class="p">(</span><span class="s1">&#39;insert&#39;</span><span class="p">)</span>  <span class="c1"># @UnusedVariable</span>
+        <span class="c1"># Larger button should have the tip placed lower</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">winfo_height</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">70</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">winfo_rootx</span><span class="p">()</span> <span class="o">+</span> <span class="mi">50</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">cy</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">winfo_rooty</span><span class="p">()</span> <span class="o">+</span> <span class="mi">50</span>
@@ -174,30 +174,30 @@
             <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">cy</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="o">.</span><span class="n">winfo_rooty</span><span class="p">()</span> <span class="o">+</span> <span class="mi">27</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span> <span class="o">=</span> <span class="n">tw</span> <span class="o">=</span> <span class="n">Toplevel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">widget</span><span class="p">)</span>
         <span class="n">tw</span><span class="o">.</span><span class="n">wm_overrideredirect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">tw</span><span class="o">.</span><span class="n">wm_geometry</span><span class="p">(</span><span class="s">&#39;+</span><span class="si">%d</span><span class="s">+</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="n">tw</span><span class="o">.</span><span class="n">wm_geometry</span><span class="p">(</span><span class="s1">&#39;+</span><span class="si">%d</span><span class="s1">+</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="c"># For Mac OS</span>
-            <span class="n">tw</span><span class="o">.</span><span class="n">tk</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s">&#39;::Tk::unsupported::MacWindowStyle&#39;</span><span class="p">,</span>
-                       <span class="s">&#39;style&#39;</span><span class="p">,</span> <span class="n">tw</span><span class="o">.</span><span class="n">_w</span><span class="p">,</span>
-                       <span class="s">&#39;help&#39;</span><span class="p">,</span> <span class="s">&#39;noActivates&#39;</span><span class="p">)</span>
+            <span class="c1"># For Mac OS</span>
+            <span class="n">tw</span><span class="o">.</span><span class="n">tk</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="s1">&#39;::Tk::unsupported::MacWindowStyle&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;style&#39;</span><span class="p">,</span> <span class="n">tw</span><span class="o">.</span><span class="n">_w</span><span class="p">,</span>
+                       <span class="s1">&#39;help&#39;</span><span class="p">,</span> <span class="s1">&#39;noActivates&#39;</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">TclError</span><span class="p">:</span>
             <span class="k">pass</span>
         <span class="n">label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="n">tw</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">justify</span><span class="o">=</span><span class="n">LEFT</span><span class="p">,</span>
-                      <span class="n">background</span><span class="o">=</span><span class="s">&#39;#ffffe0&#39;</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">SOLID</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                      <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s">&#39;tahoma&#39;</span><span class="p">,</span> <span class="s">&#39;8&#39;</span><span class="p">,</span> <span class="s">&#39;normal&#39;</span><span class="p">))</span>
-        <span class="n">label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">ipadx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</div>
+                      <span class="n">background</span><span class="o">=</span><span class="s1">&#39;#ffffe0&#39;</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">SOLID</span><span class="p">,</span> <span class="n">borderwidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                      <span class="n">font</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;tahoma&#39;</span><span class="p">,</span> <span class="s1">&#39;8&#39;</span><span class="p">,</span> <span class="s1">&#39;normal&#39;</span><span class="p">))</span>
+        <span class="n">label</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">ipadx</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ToolTip.hide_tip"><a class="viewcode-back" href="../../doc/tools/tooltip.html#tools.tooltip.ToolTip.hide_tip">[docs]</a>    <span class="k">def</span> <span class="nf">hide_tip</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Hide or destroy the tool tip label when the mouse leaves widget.</span>
 <span class="sd">        Bound to the ``&#39;&lt;Leave&gt;&#39;`` event when :py:func:`createToolTip` is called</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tw</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tipWindow</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">tw</span><span class="p">:</span>
-            <span class="n">tw</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+            <span class="n">tw</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div></div>
 
-</div></div>
+
 <div class="viewcode-block" id="create_tool_tip"><a class="viewcode-back" href="../../doc/tools/tooltip.html#tools.tooltip.create_tool_tip">[docs]</a><span class="k">def</span> <span class="nf">create_tool_tip</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create an instance of :py:class:`ToolTip` and bind the ``&#39;&lt;Enter&gt;&#39;`` and</span>
@@ -208,16 +208,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tool_tip</span> <span class="o">=</span> <span class="n">ToolTip</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
 
-    <span class="c"># noinspection PyUnusedLocal</span>
+    <span class="c1"># noinspection PyUnusedLocal</span>
     <span class="k">def</span> <span class="nf">enter</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
         <span class="n">tool_tip</span><span class="o">.</span><span class="n">show_tip</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
-    <span class="c"># noinspection PyUnusedLocal</span>
+    <span class="c1"># noinspection PyUnusedLocal</span>
     <span class="k">def</span> <span class="nf">leave</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
         <span class="n">tool_tip</span><span class="o">.</span><span class="n">hide_tip</span><span class="p">()</span>
 
-    <span class="n">widget</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&#39;&lt;Enter&gt;&#39;</span><span class="p">,</span> <span class="n">enter</span><span class="p">)</span>
-    <span class="n">widget</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&#39;&lt;Leave&gt;&#39;</span><span class="p">,</span> <span class="n">leave</span><span class="p">)</span></div>
+    <span class="n">widget</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Enter&gt;&#39;</span><span class="p">,</span> <span class="n">enter</span><span class="p">)</span>
+    <span class="n">widget</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Leave&gt;&#39;</span><span class="p">,</span> <span class="n">leave</span><span class="p">)</span></div>
 </pre></div>
 
     </div>
@@ -232,7 +232,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

@@ -5,32 +5,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>importdialog &mdash; VOCAL 0.15.2 documentation</title>
+    <title>importdialog &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="../index.html" />
-    <link rel="up" title="Module code" href="index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -50,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -75,6 +74,7 @@
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev/startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/conventions.html">Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/enviroment.html">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dev/docs.html">Building and Writing Docs</a></li>
@@ -133,29 +133,29 @@
     <div class="col-md-12 content">
       
   <h1>Source code for importdialog</h1><div class="highlight"><pre>
-<span class="c">###################################</span>
-<span class="c">#    Created on Jun 15, 2015</span>
-<span class="c">#</span>
-<span class="c">#    @author: Grant Mercer</span>
-<span class="c">#</span>
-<span class="c">###################################</span>
+<span></span><span class="c1">###################################</span>
+<span class="c1">#    Created on Jun 15, 2015</span>
+<span class="c1">#</span>
+<span class="c1">#    @author: Grant Mercer</span>
+<span class="c1">#</span>
+<span class="c1">###################################</span>
 <span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">tkFileDialog</span>
 <span class="kn">import</span> <span class="nn">tkMessageBox</span>
-<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="kn">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Entry</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> \
+<span class="kn">from</span> <span class="nn">Tkinter</span> <span class="k">import</span> <span class="n">Toplevel</span><span class="p">,</span> <span class="n">Entry</span><span class="p">,</span> <span class="n">Button</span><span class="p">,</span> <span class="n">BOTH</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> \
     <span class="n">Label</span><span class="p">,</span> <span class="n">BOTTOM</span><span class="p">,</span> <span class="n">TOP</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">RIDGE</span><span class="p">,</span> <span class="n">Checkbutton</span><span class="p">,</span> <span class="n">IntVar</span><span class="p">,</span> <span class="n">StringVar</span>
 
 <span class="kn">import</span> <span class="nn">constants</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">time</span>
-<span class="kn">from</span> <span class="nn">constants</span> <span class="kn">import</span> <span class="n">CSV</span><span class="p">,</span> <span class="n">TXT</span><span class="p">,</span> <span class="n">DATEFORMAT</span>
-<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">or_</span><span class="p">,</span> <span class="n">Time</span><span class="p">,</span> <span class="n">cast</span>
-<span class="kn">from</span> <span class="nn">db</span> <span class="kn">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">DatabasePolygon</span>
-<span class="kn">from</span> <span class="nn">tools.tools</span> <span class="kn">import</span> <span class="n">center</span><span class="p">,</span> <span class="n">get_shape_ranges</span><span class="p">,</span> <span class="n">find_between</span><span class="p">,</span> <span class="n">get_sec</span>
-<span class="kn">from</span> <span class="nn">tools.treelistbox</span> <span class="kn">import</span> <span class="n">TreeListBox</span>
-<span class="kn">from</span> <span class="nn">tools.tooltip</span> <span class="kn">import</span> <span class="n">create_tool_tip</span>
-<span class="kn">from</span> <span class="nn">log.log</span> <span class="kn">import</span> <span class="n">logger</span>
-<span class="kn">from</span> <span class="nn">advancedsearchdialog</span> <span class="kn">import</span> <span class="n">AdvancedSearchDialog</span>
-<span class="kn">from</span> <span class="nn">extractcolumnsdialog</span> <span class="kn">import</span> <span class="n">ExtractColumnsDialog</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">time</span>
+<span class="kn">from</span> <span class="nn">constants</span> <span class="k">import</span> <span class="n">CSV</span><span class="p">,</span> <span class="n">TXT</span><span class="p">,</span> <span class="n">DATEFORMAT</span><span class="p">,</span> <span class="n">ICO</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="k">import</span> <span class="n">or_</span><span class="p">,</span> <span class="n">Time</span><span class="p">,</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">db</span> <span class="k">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">DatabasePolygon</span>
+<span class="kn">from</span> <span class="nn">tools.tools</span> <span class="k">import</span> <span class="n">center</span><span class="p">,</span> <span class="n">get_shape_ranges</span><span class="p">,</span> <span class="n">find_between</span><span class="p">,</span> <span class="n">get_sec</span>
+<span class="kn">from</span> <span class="nn">tools.treelistbox</span> <span class="k">import</span> <span class="n">TreeListBox</span>
+<span class="kn">from</span> <span class="nn">tools.tooltip</span> <span class="k">import</span> <span class="n">create_tool_tip</span>
+<span class="kn">from</span> <span class="nn">log.log</span> <span class="k">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">advancedsearchdialog</span> <span class="k">import</span> <span class="n">AdvancedSearchDialog</span>
+<span class="kn">from</span> <span class="nn">extractcolumnsdialog</span> <span class="k">import</span> <span class="n">ExtractColumnsDialog</span>
 
 
 <div class="viewcode-block" id="ImportDialog"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog">[docs]</a><span class="k">class</span> <span class="nc">ImportDialog</span><span class="p">(</span><span class="n">Toplevel</span><span class="p">):</span>
@@ -167,54 +167,54 @@
 <span class="sd">    :param: master: the main window, for access of polygonList</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c"># This dialog should be a singleton, so the caller will ensure no other</span>
-    <span class="c"># windows are open by checking this variable</span>
-    <span class="n">singleton</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="c1"># This dialog should be a singleton, so the caller will ensure no other</span>
+    <span class="c1"># windows are open by checking this variable</span>
+    <span class="n">singleton</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">master</span><span class="p">):</span>
-        <span class="n">ImportDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="bp">True</span>                   <span class="c"># creation of a pseudo singleton</span>
+        <span class="n">ImportDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="kc">True</span>                   <span class="c1"># creation of a pseudo singleton</span>
 
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Instantiating ImportDialog&#39;</span><span class="p">)</span>
-        <span class="n">Toplevel</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Instantiating ImportDialog&#39;</span><span class="p">)</span>
+        <span class="n">Toplevel</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transient</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">(</span><span class="s">&#39;WM_DELETE_WINDOW&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>                 <span class="c"># import window holds a session</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>                   <span class="c"># internal list of db objs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>     <span class="c"># stack for searching</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>                       <span class="c"># search string</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__master</span> <span class="o">=</span> <span class="n">master</span>                          <span class="c"># CALIPSO class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">protocol</span><span class="p">(</span><span class="s1">&#39;WM_DELETE_WINDOW&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">get_session</span><span class="p">()</span>                 <span class="c1"># import window holds a session</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>                   <span class="c1"># internal list of db objs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">deque</span><span class="p">(</span><span class="n">maxlen</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>     <span class="c1"># stack for searching</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>                       <span class="c1"># search string</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__master</span> <span class="o">=</span> <span class="n">master</span>                          <span class="c1"># CALIPSO class</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__root</span> <span class="o">=</span> <span class="n">root</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s">&#39;Import from existing database&#39;</span><span class="p">)</span>     <span class="c"># window title</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="bp">None</span>                                <span class="c"># tree viewing class</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="bp">None</span>                                   <span class="c"># entry box for searching</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span> <span class="o">=</span> <span class="bp">None</span>                           <span class="c"># top Tkinter frame</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span> <span class="o">=</span> <span class="bp">None</span>                        <span class="c"># bottom Tkinter frame</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span> <span class="o">=</span> <span class="bp">None</span>                 <span class="c"># bottom BUTTON Tkinter frame</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="bp">None</span>                           <span class="c"># separator line</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">filter_file</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">()</span>                     <span class="c"># int_var for filtering by file</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">advance_dialog</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">extract_dialog</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">column_titles</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;plot&#39;</span><span class="p">,</span> <span class="s">&#39;time range&#39;</span><span class="p">,</span> <span class="s">&#39;latitude range&#39;</span><span class="p">,</span>
-                              <span class="s">&#39;altitude range&#39;</span><span class="p">,</span> <span class="s">&#39;attributes&#39;</span><span class="p">,</span> <span class="s">&#39;notes&#39;</span><span class="p">,</span> <span class="s">&#39;last edited&#39;</span><span class="p">,</span>
-                              <span class="s">&#39;file&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Import from existing database&#39;</span><span class="p">)</span>     <span class="c1"># window title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="kc">None</span>                                <span class="c1"># tree viewing class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="kc">None</span>                                   <span class="c1"># entry box for searching</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span> <span class="o">=</span> <span class="kc">None</span>                           <span class="c1"># top Tkinter frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span> <span class="o">=</span> <span class="kc">None</span>                        <span class="c1"># bottom Tkinter frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span> <span class="o">=</span> <span class="kc">None</span>                 <span class="c1"># bottom BUTTON Tkinter frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="kc">None</span>                           <span class="c1"># separator line</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filter_file</span> <span class="o">=</span> <span class="n">IntVar</span><span class="p">()</span>                     <span class="c1"># int_var for filtering by file</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">advance_dialog</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extract_dialog</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column_titles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;plot&#39;</span><span class="p">,</span> <span class="s1">&#39;time range&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude range&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;altitude range&#39;</span><span class="p">,</span> <span class="s1">&#39;attributes&#39;</span><span class="p">,</span> <span class="s1">&#39;notes&#39;</span><span class="p">,</span> <span class="s1">&#39;last edited&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;file&#39;</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">plot_type</span> <span class="o">=</span> <span class="n">StringVar</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">beg_time</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">beg_lat</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end_lat</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">beg_alt</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end_alt</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beg_time</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_time</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beg_lat</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_lat</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beg_alt</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_alt</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">center</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">IMPORTWIDTH</span><span class="p">,</span> <span class="n">constants</span><span class="o">.</span><span class="n">IMPORTHEIGH</span><span class="p">))</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">container</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>    <span class="c"># create center frame,</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  <span class="c"># place</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">container</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>    <span class="c1"># create center frame,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># place</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">create_top_frame</span><span class="p">()</span>         <span class="c"># create the top frame and pack buttons / etc. on it</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">create_bottom_frame</span><span class="p">()</span>      <span class="c"># create the bottom frame and pack</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_top_frame</span><span class="p">()</span>         <span class="c1"># create the top frame and pack buttons / etc. on it</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_bottom_frame</span><span class="p">()</span>      <span class="c1"># create the bottom frame and pack</span>
 
 <div class="viewcode-block" id="ImportDialog.create_top_frame"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.create_top_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_top_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -223,27 +223,27 @@
 <span class="sd">        it, which calls ``refine_search`` upon a user releasing a key after pressing.</span>
 <span class="sd">        Then binds the *delete* button to ``data_from_db``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Creating top frame&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Creating top frame&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-        <span class="n">label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Search &#39;</span><span class="p">)</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Search &#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">e</span> <span class="o">=</span> <span class="n">Entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">)</span>
-        <span class="n">create_tool_tip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="s">&#39;Search in Name, Attributes, Notes&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s">&#39;&lt;KeyRelease&gt;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">refine_search</span><span class="p">)</span>
+        <span class="n">create_tool_tip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="p">,</span> <span class="s1">&#39;Search in Name, Attributes, Notes&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;KeyRelease&gt;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">refine_search</span><span class="p">)</span>
         <span class="n">label</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-        <span class="n">check_button</span> <span class="o">=</span> <span class="n">Checkbutton</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Filter for this file&#39;</span><span class="p">,</span>
+        <span class="n">check_button</span> <span class="o">=</span> <span class="n">Checkbutton</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Filter for this file&#39;</span><span class="p">,</span>
                                    <span class="n">variable</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_file</span><span class="p">,</span>
                                    <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filter_by_current_file</span><span class="p">)</span>
         <span class="n">check_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-        <span class="n">advanced_filter</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Advanced&#39;</span><span class="p">,</span>
+        <span class="n">advanced_filter</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Advanced&#39;</span><span class="p">,</span>
                                  <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">advanced_prompt</span><span class="p">)</span>
         <span class="n">advanced_filter</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-        <span class="n">reset</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Reset&#39;</span><span class="p">,</span>
+        <span class="n">reset</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Reset&#39;</span><span class="p">,</span>
                        <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reset</span><span class="p">)</span>
         <span class="n">reset</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
@@ -253,39 +253,39 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="o">.</span><span class="n">columnconfigure</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 
-        <span class="n">delete_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Delete&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delete_from_db</span><span class="p">,</span>
+        <span class="n">delete_button</span> <span class="o">=</span> <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Delete&#39;</span><span class="p">,</span> <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">delete_from_db</span><span class="p">,</span>
                                <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-        <span class="n">delete_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-</div>
+        <span class="n">delete_button</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ImportDialog.create_bottom_frame"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.create_bottom_frame">[docs]</a>    <span class="k">def</span> <span class="nf">create_bottom_frame</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create and display database in listbox, also add lower button frame for import</span>
 <span class="sd">        button</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Creating bottom frame&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>  <span class="c"># create bottom frame</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Creating bottom frame&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">container</span><span class="p">)</span>  <span class="c1"># create bottom frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">BOTH</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">separator</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="p">,</span> <span class="n">relief</span><span class="o">=</span><span class="n">RIDGE</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                               <span class="n">bg</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">)</span>  <span class="c"># tiny separator splitting the top and bottom frame</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">separator</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="p">)</span>  <span class="c"># bottom frame for import button</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                               <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>  <span class="c1"># tiny separator splitting the top and bottom frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">separator</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">TOP</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span> <span class="o">=</span> <span class="n">Frame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="p">)</span>  <span class="c1"># bottom frame for import button</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">side</span><span class="o">=</span><span class="n">BOTTOM</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">TreeListBox</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_frame</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_titles</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c"># insert JSON obj representation into internal list</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># insert JSON obj representation into internal list</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">__display_all</span><span class="p">()</span>
 
         <span class="n">Label</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">35</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-        <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Import&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+        <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Import&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
                <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">import_selection</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-        <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s">&#39;Extract Column Contents&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
-               <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extract_columns_dialog</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-</div>
+        <span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bottom_button_frame</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="s1">&#39;Extract Column Contents&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+               <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extract_columns_dialog</span><span class="p">)</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padx</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">pady</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ImportDialog.filter_by_current_file"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.filter_by_current_file">[docs]</a>    <span class="k">def</span> <span class="nf">filter_by_current_file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Command function for the check button located beside the entry box in Import Dialog.</span>
@@ -293,19 +293,19 @@
 <span class="sd">        all entries.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_file</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
-            <span class="n">fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_file</span><span class="p">()</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_file</span><span class="p">()</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
             <span class="n">lst</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_file_shapes</span><span class="p">()</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Displaying </span><span class="si">%d</span><span class="s"> shapes contained in </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">),</span> <span class="n">fn</span><span class="p">))</span>
-            <span class="c"># Only return list of objects in the current view, otherwise we would</span>
-            <span class="c"># just append lst</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Displaying </span><span class="si">%d</span><span class="s1"> shapes contained in </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lst</span><span class="p">),</span> <span class="n">fn</span><span class="p">))</span>
+            <span class="c1"># Only return list of objects in the current view, otherwise we would</span>
+            <span class="c1"># just append lst</span>
             <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lst</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">lst</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-</div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
 <div class="viewcode-block" id="ImportDialog.get_current_file_shapes"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.get_current_file_shapes">[docs]</a>    <span class="k">def</span> <span class="nf">get_current_file_shapes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a list of all shapes contained in the current file, queries the</span>
@@ -314,21 +314,21 @@
 
 <span class="sd">        :rtype: list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_file</span><span class="p">()</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_file</span><span class="p">()</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">lst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">filter_by</span><span class="p">(</span>
             <span class="n">hdf</span><span class="o">=</span><span class="n">fn</span>
         <span class="p">):</span>
-            <span class="n">time_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
-            <span class="n">altitude_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
-            <span class="n">lat_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
+            <span class="n">time_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> - </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
+            <span class="n">altitude_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1"> - </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
+            <span class="n">lat_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1"> - </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
             <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                 <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">lat_range</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                  <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lst</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Query returned None, no shapes found&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">lst</span>
-</div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Query returned None, no shapes found&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">lst</span></div>
+
 <div class="viewcode-block" id="ImportDialog.refine_search"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.refine_search">[docs]</a>    <span class="k">def</span> <span class="nf">refine_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Function to dynamically narrow the results of a search while the</span>
@@ -339,36 +339,36 @@
 <span class="sd">        and reloaded.</span>
 <span class="sd">        :param event: search box events</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># append to search string</span>
-        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span>
-        <span class="c"># if the entry box is NOT empty</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
-            <span class="c"># but If a backspace is entered that means we want to pop the stack</span>
-            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
-                <span class="c"># remove one letter from search string and pop stack</span>
+        <span class="c1"># append to search string</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">+=</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span>
+        <span class="c1"># if the entry box is NOT empty</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">e</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="c1"># but If a backspace is entered that means we want to pop the stack</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">keysym</span> <span class="o">==</span> <span class="s1">&#39;BackSpace&#39;</span><span class="p">:</span>
+                <span class="c1"># remove one letter from search string and pop stack</span>
+                <span class="c1">#new code should go here</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-            <span class="c"># else if the character is alphanumeric</span>
+            <span class="c1"># else if the character is alphanumeric</span>
             <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">isalnum</span><span class="p">():</span>
-                <span class="c"># temporary variable to create new list</span>
+                <span class="c1"># temporary variable to create new list</span>
                 <span class="n">lst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-                <span class="c"># for all objects in the database</span>
+                <span class="c1"># for all objects in the database</span>
                 <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                        <span class="n">or_</span><span class="p">(</span>  <span class="c"># query the database for if search_string is contained in</span>
-                              <span class="c"># self.__search_string.strip() to remove leading and ending spaces</span>
-                              <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()),</span>
-                              <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()),</span>
-                              <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">notes</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()))):</span>
-                    <span class="n">time_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
-                    <span class="n">altitude_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
-                    <span class="n">lat_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
-                    <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>  <span class="c"># append any objects that were returned by the query</span>
-                                 <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">lat_range</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
-                                  <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
-                <span class="c"># push new query onto the stack and set display to list</span>
+                        <span class="n">or_</span><span class="p">(</span>  <span class="c1"># query the database for if search_string is contained in</span>
+                                <span class="c1"># self.__search_string.strip() to remove leading and ending spaces</span>
+                                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()),</span>
+                                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">attributes</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()),</span>
+                                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">notes</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()))):</span>
+                    <span class="n">time_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> - </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
+                    <span class="n">altitude_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1"> - </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
+                    <span class="n">lat_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1"> - </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
+                    <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>  <span class="c1"># append any objects that were returned by the query</span>
+                                    <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">lat_range</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                                    <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
+                <span class="c1"># push new query onto the stack and set display to list</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_file</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
                     <span class="n">sub_list</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_current_file_shapes</span><span class="p">())</span>
                     <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lst</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">sub_list</span><span class="p">]</span>
@@ -378,68 +378,69 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filter_file</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
                 <span class="n">sub_list</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_current_file_shapes</span><span class="p">())</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">sub_list</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__search_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__display_all</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Displaying refined search&#39;</span><span class="p">)</span>
-</div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Displaying refined search&#39;</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="ImportDialog.import_selection"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.import_selection">[docs]</a>    <span class="k">def</span> <span class="nf">import_selection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Import selected objects from internal_list into program</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Parsing selection&#39;</span><span class="p">)</span>
-        <span class="c"># For all selected items in window</span>
-        <span class="n">skip</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Parsing selection&#39;</span><span class="p">)</span>
+        <span class="c1"># For all selected items in window</span>
+        <span class="n">skip</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-            <span class="c"># Find those items in internal list and import them</span>
-            <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="s">&#39;values&#39;</span><span class="p">)</span>
+            <span class="c1"># Find those items in internal list and import them</span>
+            <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="s1">&#39;values&#39;</span><span class="p">)</span>
             <span class="n">fname</span> <span class="o">=</span> <span class="n">tag</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">cfname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_file</span><span class="p">()</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">fname</span> <span class="o">!=</span> <span class="n">cfname</span><span class="p">:</span>
+            <span class="n">cfname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_file</span><span class="p">()</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">fname</span><span class="p">[</span><span class="o">-</span><span class="mi">25</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">!=</span> <span class="n">cfname</span><span class="p">[</span><span class="o">-</span><span class="mi">25</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">]:</span>
                 <span class="n">skip</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">tkMessageBox</span><span class="o">.</span>\
-                    <span class="n">askyesno</span><span class="p">(</span><span class="s">&#39;Unmatched files&#39;</span><span class="p">,</span>
-                             <span class="s">&#39;</span><span class="si">%s</span><span class="s"> is from a different file than currently&#39;</span>
+                    <span class="n">askyesno</span><span class="p">(</span><span class="s1">&#39;Unmatched files&#39;</span><span class="p">,</span>
+                             <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> is from a different file than currently&#39;</span>
                              <span class="o">%</span> <span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span>
-                             <span class="s">&#39; loaded, proceed anyways? </span><span class="se">\n</span><span class="s">current:</span><span class="si">%s</span><span class="s"> </span><span class="se">\n</span><span class="s">loaded:</span><span class="si">%s</span><span class="s">&#39;</span>
+                             <span class="s1">&#39; loaded, proceed anyways? </span><span class="se">\n</span><span class="s1">current:</span><span class="si">%s</span><span class="s1"> </span><span class="se">\n</span><span class="s1">loaded:</span><span class="si">%s</span><span class="s1">&#39;</span>
                              <span class="o">%</span> <span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">cfname</span><span class="p">))</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">skip</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Encoding </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s"> to JSON&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Encoding </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1"> to JSON&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
                 <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">tag</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">]</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Forwarding JSON to be read&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Forwarding JSON to be read&#39;</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__master</span><span class="o">.</span><span class="n">get_shapemanager</span><span class="p">()</span><span class="o">.</span><span class="n">read_plot</span><span class="p">(</span>
                     <span class="n">read_from_str</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">[</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])]))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;skipping loading for </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">()</span>
-</div>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;skipping loading for </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">free</span><span class="p">()</span></div>
+
 <div class="viewcode-block" id="ImportDialog.delete_from_db"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.delete_from_db">[docs]</a>    <span class="k">def</span> <span class="nf">delete_from_db</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Delete selected objects from database</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">askyesno</span><span class="p">(</span><span class="s">&#39;Delete?&#39;</span><span class="p">,</span> <span class="s">&#39;Really delete these items?&#39;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">askyesno</span><span class="p">(</span><span class="s1">&#39;Delete?&#39;</span><span class="p">,</span> <span class="s1">&#39;Really delete these items?&#39;</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
-                <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="s">&#39;values&#39;</span><span class="p">)</span>
+                <span class="n">tag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="s1">&#39;values&#39;</span><span class="p">)</span>
                 <span class="n">idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">[[</span><span class="n">x</span><span class="o">.</span><span class="n">tag</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__internal_list</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span><span class="o">.</span><span class="n">id</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Notifying db of deletion for </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s"> from selection&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Notifying db of deletion for </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1"> from selection&#39;</span> <span class="o">%</span> <span class="n">tag</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
                 <span class="n">db</span><span class="o">.</span><span class="n">delete_item</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__display_all</span><span class="p">()</span>
-</div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__display_all</span><span class="p">()</span></div>
+
     <span class="k">def</span> <span class="nf">advanced_prompt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Opening advanced search window&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Opening advanced search window&#39;</span><span class="p">)</span>
         <span class="k">if</span><span class="p">(</span><span class="ow">not</span> <span class="n">AdvancedSearchDialog</span><span class="o">.</span><span class="n">singleton</span><span class="p">):</span>
-            <span class="n">AdvancedSearchDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">)</span>
+            <span class="n">AdvancedSearchDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">)</span><span class="o">.</span> \
+                <span class="n">wm_iconbitmap</span><span class="p">(</span><span class="n">ICO</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s">&#39;Found existing advanced search window, canceling&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Found existing advanced search window, canceling&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">extract_columns_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_dialog</span><span class="p">:</span>
             <span class="n">ExtractColumnsDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__root</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">extract_dialog</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extract_dialog</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">pass</span>
 
@@ -447,16 +448,16 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Helper function to simply display all objects in the database</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Refreshing dialog view&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Refreshing dialog view&#39;</span><span class="p">)</span>
         <span class="n">lst</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-        <span class="c"># Push previous display to stack</span>
+        <span class="c1"># Push previous display to stack</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="n">time_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
-            <span class="n">altitude_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
-            <span class="n">lat_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
-            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>  <span class="c"># user see&#39;s this list</span>
+            <span class="n">time_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> - </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
+            <span class="n">altitude_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1"> - </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
+            <span class="n">lat_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1"> - </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
+            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>  <span class="c1"># user see&#39;s this list</span>
                          <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">tag</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">plot</span><span class="p">,</span> <span class="n">time_range</span><span class="p">,</span> <span class="n">lat_range</span><span class="p">,</span> <span class="n">altitude_range</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">attributes</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                           <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
 
@@ -467,10 +468,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Reset the view of the tree within the import window, clears the stack as well</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Resetting tree view &amp; stack&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Resetting tree view &amp; stack&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__display_all</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__stack</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
 <div class="viewcode-block" id="ImportDialog.receive_advanced_search"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.receive_advanced_search">[docs]</a>    <span class="k">def</span> <span class="nf">receive_advanced_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observer</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Receiving method called internally by an observer. When AdvancedSearchDialog is</span>
@@ -492,62 +493,62 @@
 
 <span class="sd">        :param observer: An ``advancedsearchdialog.Query`` object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s">&#39;free&#39;</span> <span class="ow">in</span> <span class="n">observer</span><span class="o">.</span><span class="n">ranges</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">advance_dialog</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="s1">&#39;free&#39;</span> <span class="ow">in</span> <span class="n">observer</span><span class="o">.</span><span class="n">ranges</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">advance_dialog</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">return</span>
 
         <span class="n">rng</span> <span class="o">=</span> <span class="n">observer</span><span class="o">.</span><span class="n">ranges</span>
 
-        <span class="c"># TODO: Fix this implementation</span>
+        <span class="c1"># TODO: Fix this implementation</span>
 
         <span class="n">query_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">DatabasePolygon</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;plot&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;plot&#39;</span><span class="p">]:</span>
             <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s">&#39;plot&#39;</span><span class="p">])</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s1">&#39;plot&#39;</span><span class="p">])</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">]:</span>
             <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">hdf</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s">&#39;file&#39;</span><span class="p">])</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">hdf</span><span class="o">.</span><span class="n">is_</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">])</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;blat&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;blat&#39;</span><span class="p">]:</span>
             <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">begin_lat</span> <span class="o">&gt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;blat&#39;</span><span class="p">]</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">begin_lat</span> <span class="o">&gt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;blat&#39;</span><span class="p">]</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;elat&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;elat&#39;</span><span class="p">]:</span>
             <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">end_lat</span> <span class="o">&lt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;elat&#39;</span><span class="p">]</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">end_lat</span> <span class="o">&lt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;elat&#39;</span><span class="p">]</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;balt&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;balt&#39;</span><span class="p">]:</span>
             <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">begin_alt</span> <span class="o">&gt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;balt&#39;</span><span class="p">]</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">begin_alt</span> <span class="o">&gt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;balt&#39;</span><span class="p">]</span>
             <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;ealt&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;ealt&#39;</span><span class="p">]:</span>
             <span class="n">query_result</span> <span class="o">=</span> <span class="n">query_result</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
-                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">end_alt</span> <span class="o">&lt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;ealt&#39;</span><span class="p">]</span>
+                <span class="n">DatabasePolygon</span><span class="o">.</span><span class="n">end_alt</span> <span class="o">&lt;=</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;ealt&#39;</span><span class="p">]</span>
             <span class="p">)</span>
 
         <span class="n">lazy_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">query_result</span><span class="p">:</span>
-            <span class="n">time_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s"> - </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
-            <span class="n">altitude_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
-            <span class="n">lat_range</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%.3f</span><span class="s"> - </span><span class="si">%.3f</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
-            <span class="c"># If we&#39;re parsing a date, we can&#39;t just filter as we must transform</span>
-            <span class="c"># coordinates into time_range first, so we need to manually check and</span>
-            <span class="c"># skip which is PROBABLY not the best solution.</span>
-            <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;date&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">time_range</span><span class="p">:</span>
+            <span class="n">time_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> - </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">))</span>
+            <span class="n">altitude_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1"> - </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_alt</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_alt</span><span class="p">)</span>
+            <span class="n">lat_range</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1"> - </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">begin_lat</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_lat</span><span class="p">)</span>
+            <span class="c1"># If we&#39;re parsing a date, we can&#39;t just filter as we must transform</span>
+            <span class="c1"># coordinates into time_range first, so we need to manually check and</span>
+            <span class="c1"># skip which is PROBABLY not the best solution.</span>
+            <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">time_range</span><span class="p">:</span>
                 <span class="k">continue</span>
 
-            <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;btime&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s">&#39;btime&#39;</span><span class="p">],</span> <span class="s">&#39;%H:%M:%S&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;btime&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">begin_time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s1">&#39;btime&#39;</span><span class="p">],</span> <span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="p">():</span>
                 <span class="k">continue</span>
 
-            <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s">&#39;etime&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s">&#39;etime&#39;</span><span class="p">],</span> <span class="s">&#39;%H:%M:%S&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">rng</span><span class="p">[</span><span class="s1">&#39;etime&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">end_time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">rng</span><span class="p">[</span><span class="s1">&#39;etime&#39;</span><span class="p">],</span> <span class="s1">&#39;%H:%M:%S&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">time</span><span class="p">():</span>
                 <span class="k">continue</span>
 
             <span class="n">lazy_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -555,8 +556,8 @@
                  <span class="n">obj</span><span class="o">.</span><span class="n">notes</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">time_</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">DATEFORMAT</span><span class="p">),</span> <span class="n">obj</span><span class="o">.</span><span class="n">hdf</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">lazy_list</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-</div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
 <div class="viewcode-block" id="ImportDialog.receive_extract_columns"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.receive_extract_columns">[docs]</a>    <span class="k">def</span> <span class="nf">receive_extract_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">observer</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Receiving method called internally by an observer bound to an ``ExtractColumnsDialog``</span>
@@ -566,66 +567,66 @@
 
 <span class="sd">        :param observer: An ``extractcolumnsdialog.ExtractionList`` object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s">&#39;free&#39;</span> <span class="ow">in</span> <span class="n">observer</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">extract_dialog</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="s1">&#39;free&#39;</span> <span class="ow">in</span> <span class="n">observer</span><span class="o">.</span><span class="n">data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extract_dialog</span> <span class="o">=</span> <span class="kc">False</span>
             <span class="k">return</span>
 
         <span class="n">columns_to_extract</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">observer</span><span class="o">.</span><span class="n">data</span> <span class="k">if</span> <span class="n">observer</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span>
                               <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_titles</span><span class="p">]</span>
-        <span class="n">filetype</span> <span class="o">=</span> <span class="n">observer</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s">&#39;filetype&#39;</span><span class="p">]</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">get_children</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">)]</span>
+        <span class="n">filetype</span> <span class="o">=</span> <span class="n">observer</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;filetype&#39;</span><span class="p">]</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">get_children</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)]</span>
                    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">columns_to_extract</span><span class="p">]</span>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">columns_to_extract</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s">&#39;No columns selected for extraction&#39;</span><span class="p">)</span>
-            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s">&#39;Extract Columns&#39;</span><span class="p">,</span> <span class="s">&#39;No columns selected for extraction&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;No columns selected for extraction&#39;</span><span class="p">)</span>
+            <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showerror</span><span class="p">(</span><span class="s1">&#39;Extract Columns&#39;</span><span class="p">,</span> <span class="s1">&#39;No columns selected for extraction&#39;</span><span class="p">)</span>
             <span class="k">return</span>
 
         <span class="k">if</span> <span class="n">filetype</span> <span class="o">==</span> <span class="n">TXT</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="n">tkFileDialog</span><span class="o">.</span>\
-                <span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">defaultextension</span><span class="o">=</span><span class="s">&#39;.txt&#39;</span><span class="p">,</span>
-                                  <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s">&#39;text files&#39;</span><span class="p">,</span> <span class="s">&#39;*.txt&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;All files&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">)])</span>
-            <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;canceling export column data as txt&#39;</span><span class="p">)</span>
+                <span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">defaultextension</span><span class="o">=</span><span class="s1">&#39;.txt&#39;</span><span class="p">,</span>
+                                  <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;text files&#39;</span><span class="p">,</span> <span class="s1">&#39;*.txt&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;All files&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)])</span>
+            <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;canceling export column data as txt&#39;</span><span class="p">)</span>
                 <span class="k">return</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
-                <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">columns_to_extract</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+                <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">columns_to_extract</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
                     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)):</span>
-                        <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39; &#39;</span><span class="p">)</span>
-                    <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                        <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+                    <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">filetype</span> <span class="o">==</span> <span class="n">CSV</span><span class="p">:</span>
             <span class="n">f</span> <span class="o">=</span> <span class="n">tkFileDialog</span><span class="o">.</span>\
-                <span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">defaultextension</span><span class="o">=</span><span class="s">&#39;.csv&#39;</span><span class="p">,</span>
-                                  <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s">&#39;csv files&#39;</span><span class="p">,</span> <span class="s">&#39;*.csv&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;All files&#39;</span><span class="p">,</span> <span class="s">&#39;*&#39;</span><span class="p">)])</span>
-            <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;canceling export column data as csv&#39;</span><span class="p">)</span>
+                <span class="n">asksaveasfilename</span><span class="p">(</span><span class="n">defaultextension</span><span class="o">=</span><span class="s1">&#39;.csv&#39;</span><span class="p">,</span>
+                                  <span class="n">filetypes</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;csv files&#39;</span><span class="p">,</span> <span class="s1">&#39;*.csv&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;All files&#39;</span><span class="p">,</span> <span class="s1">&#39;*&#39;</span><span class="p">)])</span>
+            <span class="k">if</span> <span class="n">f</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;canceling export column data as csv&#39;</span><span class="p">)</span>
                 <span class="k">return</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Writing to .csv&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Writing to .csv&#39;</span><span class="p">)</span>
             <span class="n">dataset</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">columns_to_extract</span><span class="p">)</span>
-            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
                     <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                         <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]))</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;,&#39;</span><span class="p">)</span>
-                <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+                        <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
                     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)):</span>
                         <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                             <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">]))</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;,&#39;</span><span class="p">)</span>
-                    <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
-                </div>
+                            <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="p">)</span>
+                    <span class="n">outfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+                
 <div class="viewcode-block" id="ImportDialog.free"><a class="viewcode-back" href="../doc/general/import.html#importdialog.ImportDialog.free">[docs]</a>    <span class="k">def</span> <span class="nf">free</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Commit the session, destroy the window and ensure the session is</span>
 <span class="sd">        closed correctly</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c"># Singleton no longer exists, so set it to false</span>
-        <span class="n">ImportDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="bp">False</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;Closing ImportDialog&#39;</span><span class="p">)</span>
+        <span class="c1"># Singleton no longer exists, so set it to false</span>
+        <span class="n">ImportDialog</span><span class="o">.</span><span class="n">singleton</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Closing ImportDialog&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span></div></div>
@@ -643,7 +644,7 @@
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

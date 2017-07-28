@@ -5,31 +5,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Building and Writing Docs &mdash; VOCAL 0.15.2 documentation</title>
+    <title>Building and Writing Docs &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="../_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="../_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Updating The Site" href="site.html" />
     <link rel="prev" title="Development Enviroment" href="enviroment.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="../index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -76,9 +76,10 @@
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conventions.html">Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="enviroment.html">Development Enviroment</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Building and Writing Docs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Building and Writing Docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="site.html">Updating The Site</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../doc/modules.html">Code Documentation</a></li>
 </ul>
@@ -114,7 +115,7 @@
     </a>
   </li>
   <li>
-    <a href="site.html" title="Next Chapter: Updating The Site"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Updating The ... &raquo;</span>
+    <a href="site.html" title="Next Chapter: Updating The Site"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">Updating The Site &raquo;</span>
     </a>
   </li>
               
@@ -124,7 +125,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="../_sources/dev/docs.txt"
+  <a href="../_sources/dev/docs.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -152,54 +153,9 @@
 <h1>Building and Writing Docs<a class="headerlink" href="#building-and-writing-docs" title="Permalink to this headline">¶</a></h1>
 <p>One of the most important aspects of writing <em>good</em> software is clarity and readability.
 We hope as other developers find themselves tasked with improving this tool, documentation
-is also held to as high a standard as Nathan and I do.</p>
+is also held to as high a standard as we do.</p>
 <p class="rubric">Building the docs</p>
-<ol class="arabic">
-<li><p class="first">Install <a class="reference external" href="http://sphinx-doc.org/">sphinx</a> and <a class="reference external" href="http://www.graphviz.org/">graphviz</a> <a class="footnote-reference" href="#f1" id="id1">[1]</a>. We use sphinx as our documentation generator,
-and graphviz is a visualization tool for class diagrams.</p>
-</li>
-<li><p class="first">Once you have these items installed, ensure you have the command <code class="docutils literal"><span class="pre">sphinx-build</span></code> available
-in your command prompt, if not you&#8217;ll need to make an addition to your <code class="docutils literal"><span class="pre">PATH</span></code>.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">cd</span></code> to the home directory of the repository</p>
-</li>
-<li><p class="first">Docs can be built with <code class="docutils literal"><span class="pre">sphinx-build</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">&lt;source-dir&gt;</span> <span class="pre">&lt;build-dir&gt;</span></code>:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; sphinx-build -b html docs/source docs/build
-</pre></div>
-</div>
-</li>
-<li><p class="first">Finished! Open up index.html to view the docs</p>
-</li>
-</ol>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Make sure you don&#8217;t commit the built docs into the repository! The last thing a project needs
-is bloat, the gitignore by default will not commit the docs/build folder. If you&#8217;d like to
-develop docs please use that folder path</p>
-</div>
-<ol class="arabic" start="6">
-<li><p class="first"><code class="docutils literal"><span class="pre">cd</span></code> out of your repository , and create a new folder. Inside that folder clone the
-repository to the current directory by specifying <code class="docutils literal"><span class="pre">.</span></code> at the end:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; cd ..
-&gt; dir
-&gt; &lt;DIR&gt; CALIPSO_Visualization_tool
-&gt; mkdir docpage
-&gt; dir
-&gt; &lt;DIR&gt; CALIPSO_Visualization_tool
-&gt; &lt;DIR&gt; docpage
-&gt; cd docpage
-&gt; git clone &lt;repo&gt; .
-</pre></div>
-</div>
-</li>
-<li><p class="first">Switch to the gh-pages branch inside that repo <code class="docutils literal"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">gh-pages</span></code></p>
-</li>
-<li><p class="first">Head back to the master branch repo, and build the docs specifying the build directory at
-the gh-pages folder. <code class="docutils literal"><span class="pre">sphinx-build</span> <span class="pre">-b</span> <span class="pre">html</span> <span class="pre">docs/source</span> <span class="pre">../docspage</span></code></p>
-</li>
-<li><p class="first">Commit and push the gh-pages branch</p>
-</li>
-</ol>
+<p>See <a class="reference internal" href="site.html"><span class="doc">Updating the Site</span></a> for a guide on building docs for the website</p>
 <p class="rubric">Contributing to the Docs</p>
 <p>The CALIPSO docs page uses the <code class="docutils literal"><span class="pre">sphinx.ext.autodoc</span></code> extensions to pull reStructuredText
 docstrings from source and create doc pages from them. inside the <code class="docutils literal"><span class="pre">doc</span></code> folder is the
@@ -211,11 +167,11 @@ the corresponding package folder.</p>
 It&#8217;s recommended you don&#8217;t procrastinate adding your new modules to the docs to avoid rushing.
 Here&#8217;s an example of what your file may look like, <em>note</em> the docstrings and the reStruct
 markdown used</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c">########################</span>
-<span class="c">#    foobar.py</span>
-<span class="c">#    04/07/2015</span>
-<span class="c">#    @author: me</span>
-<span class="c">########################</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="c1">########################</span>
+<span class="c1">#    foobar.py</span>
+<span class="c1">#    04/07/2015</span>
+<span class="c1">#    @author: me</span>
+<span class="c1">########################</span>
 
 <span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -225,7 +181,7 @@ markdown used</p>
 <span class="sd">:param root: Root of application</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">root</span> <span class="o">=</span> <span class="n">root</span>
 
@@ -243,12 +199,12 @@ markdown used</p>
 
 <span class="sd"> :param Foo foobar: A Foo object</span>
 <span class="sd"> &quot;&quot;&quot;</span>
-     <span class="c"># .....</span>
+     <span class="c1"># .....</span>
 </pre></div>
 </div>
 <p>Now when adding <code class="docutils literal"><span class="pre">foobar.py</span></code>, you&#8217;ll reference the package it is located in
 (<code class="docutils literal"><span class="pre">tools</span></code> in this case) and place a <code class="docutils literal"><span class="pre">.rst</span></code> file in the correct location.:</p>
-<div class="highlight-python"><div class="highlight"><pre>&gt; cd vocal
+<div class="highlight-default"><div class="highlight"><pre><span></span>&gt; cd vocal
 &gt; cd docs
 &gt; cd doc
 &gt; tree
@@ -278,14 +234,14 @@ markdown used</p>
 </pre></div>
 </div>
 <p>Inside <code class="docutils literal"><span class="pre">foobar.rst</span></code> simply specify the title and a couple auto doc lines.:</p>
-<div class="highlight-python"><div class="highlight"><pre>==============
-Foo
-==============
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">==============</span>
+<span class="n">Foo</span>
+<span class="o">==============</span>
 
-.. inheritance-diagram:: tools.foobar
+<span class="o">..</span> <span class="n">inheritance</span><span class="o">-</span><span class="n">diagram</span><span class="p">::</span> <span class="n">tools</span><span class="o">.</span><span class="n">foobar</span>
 
-.. automodule:: tools.foobar
-   :members:
+<span class="o">..</span> <span class="n">automodule</span><span class="p">::</span> <span class="n">tools</span><span class="o">.</span><span class="n">foobar</span>
+   <span class="p">:</span><span class="n">members</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal"><span class="pre">:members:</span></code> specifier tells autodoc to also include the class methods, which we also want
@@ -293,13 +249,13 @@ to display.</p>
 <p>And thats all! The documentation tool will create an inheritance diagram of all classes using
 graphiz, then run through the module specified and document any classes or functions available.
 Ensure you are using <strong>docstrings</strong> and are following the
-<a class="reference internal" href="conventions.html"><em>coding conventions</em></a>. If you ever run into problems not knowing how to
+<a class="reference internal" href="conventions.html"><span class="doc">coding conventions</span></a>. If you ever run into problems not knowing how to
 use sphinx, every doc page has a <em>view source</em> option you can refer to for help, and feel free
-to contact us on the <a class="reference internal" href="../trouble/contact.html"><em>contact page</em></a>.</p>
+to contact us on the <a class="reference internal" href="../trouble/contact.html"><span class="doc">contact page</span></a>.</p>
 <table class="docutils footnote" frame="void" id="f1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>You will likely need to add graphviz to your <code class="docutils literal"><span class="pre">PATH</span></code> once installed</td></tr>
+<tr><td class="label">[1]</td><td>You will likely need to add graphviz to your <code class="docutils literal"><span class="pre">PATH</span></code> once installed</td></tr>
 </tbody>
 </table>
 </div>
@@ -317,7 +273,7 @@ to contact us on the <a class="reference internal" href="../trouble/contact.html
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

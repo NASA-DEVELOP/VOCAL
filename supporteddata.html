@@ -5,31 +5,31 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Supported Data Types &mdash; VOCAL 0.15.2 documentation</title>
+    <title>Supported Data Types &#8212; VOCAL 1.0.0 documentation</title>
     
-    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bootswatch-3.3.4/readable/bootstrap.min.css" type="text/css" />
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.15.2',
+        VERSION:     '1.0.0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
-    <script type="text/javascript" src="_static/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
-    <link rel="top" title="VOCAL 0.15.2 documentation" href="index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Getting Started" href="tutorial.html" />
     <link rel="prev" title="Getting the Data" href="gettingdata.html" />
 <meta charset='utf-8'>
@@ -51,7 +51,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.15.2</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -71,11 +71,12 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Program Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gettingdata.html">Getting the Data</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Supported Data Types</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Supported Data Types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Getting Started</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Developer Documentation</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="dev/startdev.html">Getting Started Developing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/conventions.html">Coding Conventions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/enviroment.html">Development Enviroment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev/docs.html">Building and Writing Docs</a></li>
@@ -124,7 +125,7 @@
             
               <li class="hidden-sm">
 <div id="sourcelink">
-  <a href="_sources/supporteddata.txt"
+  <a href="_sources/supporteddata.rst.txt"
      rel="nofollow">Source</a>
 </div></li>
             
@@ -154,15 +155,17 @@
 in what ccplot supports.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="14%" />
-<col width="14%" />
-<col width="58%" />
-<col width="13%" />
+<col width="12%" />
+<col width="12%" />
+<col width="47%" />
+<col width="19%" />
+<col width="11%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Spacecraft</th>
 <th class="head">Instrument</th>
 <th class="head">Product</th>
+<th class="head">Includes</th>
 <th class="head">Supported</th>
 </tr>
 </thead>
@@ -170,18 +173,38 @@ in what ccplot supports.</p>
 <tr class="row-even"><td>CALIPSO</td>
 <td>CALIOP</td>
 <td>Lidar L1B Profiles</td>
+<td><ul class="first last simple">
+<li>Backscatter</li>
+<li>Depolarization</li>
+</ul>
+</td>
 <td>Yes</td>
 </tr>
-<tr class="row-odd"><td>&nbsp;</td>
-<td>&nbsp;</td>
-<td>Lidar L2 Cloud Layer Products(333m, 1km, 5km)</td>
-<td>Unknown</td>
+<tr class="row-odd"><td>&#160;</td>
+<td>&#160;</td>
+<td>Lidar L2 Vertical Feature Mask</td>
+<td><ul class="first last simple">
+<li>VFM</li>
+<li>Ice/Water Phase</li>
+<li>Aerosol Subtype</li>
+</ul>
+</td>
+<td>Yes</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Testing and support is planned for Lidar L2 Cloud Layer Products in the future</p>
+<dl class="docutils">
+<dt>Several other features are included in the L2 Vertical Feature Mask files such as:</dt>
+<dd><ul class="first last simple">
+<li>Cloud Subtype</li>
+<li>Polar Stratospheric Cloud Subtype</li>
+<li>Quality Assurance on all data products</li>
+</ul>
+</dd>
+</dl>
+<p class="last">Which may be implemented later.</p>
 </div>
 </div>
 
@@ -198,7 +221,7 @@ in what ccplot supports.</p>
     </p>
     <p>
         &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
     </p>
   </div>
 </footer>

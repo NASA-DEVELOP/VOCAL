@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tools.config &#8212; VOCAL 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          VOCAL</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Index <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../supporteddata.html">Supported Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/startdev.html">Getting Started Developing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc/modules.html">Code Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for tools.config</h1><div class="highlight"><pre>
+<span></span><span class="c1">#############################</span>
+<span class="c1">#    Created July 21, 2017</span>
+<span class="c1">#</span>
+<span class="c1">#    @author Collin Pampalone</span>
+<span class="c1">#</span>
+<span class="c1">#############################</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">os.path</span> <span class="k">import</span> <span class="n">dirname</span>
+
+<div class="viewcode-block" id="ConfigFileSetting"><a class="viewcode-back" href="../../doc/tools/config.html#tools.config.ConfigFileSetting">[docs]</a><span class="k">class</span> <span class="nc">ConfigFileSetting</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simple class to make it easier to get file names and locations from the config file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">setting</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__file</span> <span class="o">=</span> <span class="n">setting</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dir</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">setting</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manual_setting</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span>
+
+    <span class="k">def</span> <span class="nf">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dir</span>
+
+<div class="viewcode-block" id="ConfigFileSetting.value"><a class="viewcode-back" href="../../doc/tools/config.html#tools.config.ConfigFileSetting.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Makes it easier to iterate through a combination of config files and booleans &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span></div>
+
+    <span class="k">def</span> <span class="nf">manual_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__manual_setting</span>
+
+    <span class="k">def</span> <span class="nf">change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fl</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__manual_setting</span><span class="p">:</span>   <span class="c1"># Does nothing if manual is set</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__file</span> <span class="o">=</span> <span class="n">fl</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dir</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">fl</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">force_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fl</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__file</span> <span class="o">=</span> <span class="n">fl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dir</span> <span class="o">=</span> <span class="n">dirname</span><span class="p">(</span><span class="n">fl</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">change_manual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bl</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manual_setting</span> <span class="o">=</span> <span class="n">bl</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_type</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s1">&#39;file&#39;</span></div>
+
+<div class="viewcode-block" id="ConfigBooleanSetting"><a class="viewcode-back" href="../../doc/tools/config.html#tools.config.ConfigBooleanSetting">[docs]</a><span class="k">class</span> <span class="nc">ConfigBooleanSetting</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simple class to store and change booleans in the config file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bl</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__truefalse</span> <span class="o">=</span> <span class="n">bl</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manual_setting</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">tf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__truefalse</span>
+
+<div class="viewcode-block" id="ConfigBooleanSetting.value"><a class="viewcode-back" href="../../doc/tools/config.html#tools.config.ConfigBooleanSetting.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Makes it easier to iterate through a combination of config files and booleans &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__truefalse</span></div>
+
+    <span class="k">def</span> <span class="nf">manual_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__manual_setting</span>
+
+    <span class="k">def</span> <span class="nf">change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bl</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__manual_setting</span><span class="p">:</span>  <span class="c1"># Does nothing if manual is set</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__truefalse</span> <span class="o">=</span> <span class="n">bl</span>
+
+    <span class="k">def</span> <span class="nf">force_change</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bl</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__truefalse</span> <span class="o">=</span> <span class="n">bl</span>
+
+    <span class="k">def</span> <span class="nf">change_manual</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bl</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__manual_setting</span> <span class="o">=</span> <span class="n">bl</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_type</span><span class="p">():</span>
+        <span class="k">return</span> <span class="s1">&#39;bool&#39;</span></div>
+
+<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../doc/tools/config.html#tools.config.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class holds constants from config.json. These variables are set and held from one vocal session</span>
+<span class="sd">    to another to make the ux a little smoother. Use CONF in constants.py to access the class. See</span>
+<span class="sd">    self.get_variable_dict for adding config entries</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fl</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__file</span> <span class="o">=</span> <span class="n">fl</span>
+
+        <span class="c1"># The database that vocal opens with. This is used in db.__init__ and can only be changed</span>
+        <span class="c1"># manually in the settings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_db</span> <span class="o">=</span> <span class="n">ConfigFileSetting</span><span class="p">(</span><span class="s1">&#39;./../db/CALIPSOdb.db&#39;</span><span class="p">)</span>
+        <span class="c1"># Changes whenever the user selects or creates a new database</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session_db</span> <span class="o">=</span> <span class="n">ConfigFileSetting</span><span class="p">(</span><span class="s1">&#39;./../db/CALIPSOdb.db&#39;</span><span class="p">)</span>
+        <span class="c1"># Changes whenever a user opens a new hdf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">session_hdf</span> <span class="o">=</span> <span class="n">ConfigFileSetting</span><span class="p">(</span><span class="s1">&#39;./..&#39;</span><span class="p">)</span>
+        <span class="c1"># Changes to true after opening VOCAL 1st time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">opened</span> <span class="o">=</span> <span class="n">ConfigBooleanSetting</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># True: shapes persist from one plot to the next, false: shapes appear on respective plots</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">persistent_shapes</span> <span class="o">=</span> <span class="n">ConfigBooleanSetting</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_config</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_variables</span><span class="p">()</span>
+
+    <span class="c1">####################</span>
+    <span class="c1">#  __init__ commands</span>
+    <span class="c1">####################</span>
+<div class="viewcode-block" id="Config.get_config"><a class="viewcode-back" href="../../doc/tools/config.html#tools.config.Config.get_config">[docs]</a>    <span class="k">def</span> <span class="nf">get_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Loads the config file and sets it as a dictionary &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_data_file</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_data_file</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
+            <span class="c1"># Create the config with defaults if there isn&#39;t one</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_config</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Config.get_variables"><a class="viewcode-back" href="../../doc/tools/config.html#tools.config.Config.get_variables">[docs]</a>    <span class="k">def</span> <span class="nf">get_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Turn all of the entries in the dictionary into variables &quot;&quot;&quot;</span>
+        <span class="n">var_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_variable_dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">var_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">value</span><span class="o">.</span><span class="n">change</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;var_value&#39;</span><span class="p">])</span>
+            <span class="n">value</span><span class="o">.</span><span class="n">change_manual</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;manual_setting&#39;</span><span class="p">])</span></div>
+
+    <span class="c1">#####</span>
+    <span class="c1"># External Commands</span>
+    <span class="c1">#####</span>
+<div class="viewcode-block" id="Config.write_config"><a class="viewcode-back" href="../../doc/tools/config.html#tools.config.Config.write_config">[docs]</a>    <span class="k">def</span> <span class="nf">write_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write all of the changes to variables to the dictionary, save the dictionary as a json</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">var_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_variable_dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">var_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;var_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s1">&#39;manual_setting&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">manual_setting</span><span class="p">()</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">outfile</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">,</span> <span class="n">outfile</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Config.get_variable_dict"><a class="viewcode-back" href="../../doc/tools/config.html#tools.config.Config.get_variable_dict">[docs]</a>    <span class="k">def</span> <span class="nf">get_variable_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a dictionary of keys corresponding to keys in the config file and variables</span>
+<span class="sd">        corresponding to the keys&#39; respective values. To add an entry to the config, you must add an</span>
+<span class="sd">        entry here and create the initial variable value in the __init__. Make sure to use</span>
+<span class="sd">        descriptive keys.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">var_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;default_database&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_db</span><span class="p">,</span>
+            <span class="s1">&#39;last_used_database&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_db</span><span class="p">,</span>
+            <span class="s1">&#39;last_used_hdf&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">session_hdf</span><span class="p">,</span>
+            <span class="s1">&#39;has_opened_before&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">opened</span><span class="p">,</span>
+            <span class="s1">&#39;use_persistent_shapes&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">persistent_shapes</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">var_dict</span></div></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

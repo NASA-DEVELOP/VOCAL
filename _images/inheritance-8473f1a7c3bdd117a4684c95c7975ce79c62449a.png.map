@@ -1,0 +1,7 @@
+<map id="inheritanceb0179f7f5e" name="inheritanceb0179f7f5e">
+<area shape="rect" id="node1" title="Internal class." alt="" coords="147,55,283,80"/>
+<area shape="rect" id="node3" title="Toplevel widget, e.g. for dialogs." alt="" coords="331,31,441,56"/>
+<area shape="rect" id="node2" title="Internal class." alt="" coords="5,55,99,80"/>
+<area shape="rect" id="node5" href="#toolswindow.ToolsWindow" target="_top" title="Other main portion of the program, the tools window is in charge of managing all" alt="" coords="489,31,663,56"/>
+<area shape="rect" id="node4" title="Provides functions for the communication with the window manager." alt="" coords="170,5,259,31"/>
+</map>

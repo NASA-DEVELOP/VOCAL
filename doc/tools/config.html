@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Configuration &#8212; VOCAL 1.0.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="NavigationToolbar2Calipso" href="navigationtoolbar2calipso.html" />
+    <link rel="prev" title="Tools" href="tools.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          VOCAL</a>
+        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Index <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><p class="caption"><span class="caption-text">User Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Program Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../gettingdata.html">Getting the Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../supporteddata.html">Supported Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Getting Started</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Developer Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../dev/startdev.html">Getting Started Developing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/conventions.html">Coding Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/enviroment.html">Development Enviroment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/docs.html">Building and Writing Docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev/site.html">Updating The Site</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Code Documentation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Support</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/faq.html">Troubleshoot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/issuetracker.html">Submit Bugs or Issues</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../trouble/contact.html">Contact</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Configuration</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="tools.html" title="Previous Chapter: Tools"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Tools</span>
+    </a>
+  </li>
+  <li>
+    <a href="navigationtoolbar2calipso.html" title="Next Chapter: NavigationToolbar2Calipso"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">NavigationToo... &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../../_sources/doc/tools/config.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<img src="../../_images/inheritance-6ff98c7ed89b7bdbfef63d013a68981de5d6f691.png" alt="Inheritance diagram of tools.config" usemap="#inheritanceb118f32eb9" class="inheritance"/>
+<map id="inheritanceb118f32eb9" name="inheritanceb118f32eb9">
+<area shape="rect" id="node1" href="#tools.config.Config" target="_top" title="Class holds constants from config.json. These variables are set and held from one vocal session" alt="" coords="49,104,177,129"/>
+<area shape="rect" id="node2" href="#tools.config.ConfigBooleanSetting" target="_top" title="Simple class to store and change booleans in the config file" alt="" coords="5,55,221,80"/>
+<area shape="rect" id="node3" href="#tools.config.ConfigFileSetting" target="_top" title="Simple class to make it easier to get file names and locations from the config file" alt="" coords="18,5,209,31"/>
+</map>
+<span class="target" id="module-tools.config"></span><dl class="class">
+<dt id="tools.config.Config">
+<em class="property">class </em><code class="descname">Config</code><span class="sig-paren">(</span><em>fl</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/config.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.config.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class holds constants from config.json. These variables are set and held from one vocal session
+to another to make the ux a little smoother. Use CONF in constants.py to access the class. See
+self.get_variable_dict for adding config entries</p>
+<dl class="method">
+<dt id="tools.config.Config.get_config">
+<code class="descname">get_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/config.html#Config.get_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.config.Config.get_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads the config file and sets it as a dictionary</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tools.config.Config.get_variable_dict">
+<code class="descname">get_variable_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/config.html#Config.get_variable_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.config.Config.get_variable_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary of keys corresponding to keys in the config file and variables
+corresponding to the keys&#8217; respective values. To add an entry to the config, you must add an
+entry here and create the initial variable value in the __init__. Make sure to use
+descriptive keys.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tools.config.Config.get_variables">
+<code class="descname">get_variables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/config.html#Config.get_variables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.config.Config.get_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn all of the entries in the dictionary into variables</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="tools.config.Config.write_config">
+<code class="descname">write_config</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/config.html#Config.write_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.config.Config.write_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write all of the changes to variables to the dictionary, save the dictionary as a json</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tools.config.ConfigBooleanSetting">
+<em class="property">class </em><code class="descname">ConfigBooleanSetting</code><span class="sig-paren">(</span><em>bl</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/config.html#ConfigBooleanSetting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.config.ConfigBooleanSetting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple class to store and change booleans in the config file</p>
+<dl class="method">
+<dt id="tools.config.ConfigBooleanSetting.value">
+<code class="descname">value</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/config.html#ConfigBooleanSetting.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.config.ConfigBooleanSetting.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes it easier to iterate through a combination of config files and booleans</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="tools.config.ConfigFileSetting">
+<em class="property">class </em><code class="descname">ConfigFileSetting</code><span class="sig-paren">(</span><em>setting</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/config.html#ConfigFileSetting"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.config.ConfigFileSetting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple class to make it easier to get file names and locations from the config file</p>
+<dl class="method">
+<dt id="tools.config.ConfigFileSetting.value">
+<code class="descname">value</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tools/config.html#ConfigFileSetting.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tools.config.ConfigFileSetting.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes it easier to iterate through a combination of config files and booleans</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2015, Grant Mercer, Nathan Qian.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.6.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
