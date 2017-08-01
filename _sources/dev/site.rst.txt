@@ -62,6 +62,7 @@ branch, and the website will always be on the *gh-pages* branch.
 7. Head inside your docs folder, force commit the changes and the site should be live::
 
    > cd docs/VOCAL
+   > git add *
    > git commit -m "Put a brief message here"
    > git push --force
 
