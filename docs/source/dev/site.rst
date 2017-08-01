@@ -52,12 +52,11 @@ branch, and the website will always be on the *gh-pages* branch.
    > cd dev/VOCAL/calipso
    > sphinx-build -b html ../docs/source ../../../docs/VOCAL
 
-5. Head inside your docs folder, force commit the changes and the site should be live
+5. Head inside your docs folder, force commit the changes and the site should be live::
 
    > cd docs/VOCAL
+   > git commit -m "Put a brief message here"
    > git push --force
-
-
 
 .. _graphiz: http://graphviz.org/
 .. _sphinx-bootstrap-theme: https://ryan-roemer.github.io/sphinx-bootstrap-theme/
