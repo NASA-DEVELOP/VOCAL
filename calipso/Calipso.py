@@ -345,7 +345,7 @@ class Calipso(object):
     @staticmethod
     def select_db():
         """
-        Opens a file browser to select a database if one is not already chosen
+        Opens a file browser to select a database if one is not already chosen.
 
         :param iscommand: Make True if we are executing from the menu command
         :return: Return 0 if no file was selected
