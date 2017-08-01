@@ -137,6 +137,13 @@ At the end of your session, you should do a few things to make development easie
 3. If you leave behind any unfinished features or code, leave detailed guides on what you attempted
    and the goal of the code so the next team can either finish it or scrap it quickly.
 
+Versioning
+##########
+
+If you believe that the changes you have made to VOCAL constitute a new version, it should be named *1.YY.MM* where *YY* is the year of the release and *MM* is the month. VOCAL 2 will be deployed as a web app.
+
+
+
 
 .. __: https://www.codecademy.com/
 .. __: https://docs.python.org/2/
