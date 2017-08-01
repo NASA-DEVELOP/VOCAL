@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>polygon.manager &#8212; VOCAL 1.0.0 documentation</title>
+    <title>polygon.manager &#8212; VOCAL 1.17.8 documentation</title>
     
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -13,7 +13,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '1.0.0',
+        VERSION:     '1.17.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -49,7 +49,7 @@
         </button>
         <a class="navbar-brand" href="../../index.html">
           VOCAL</a>
-        <span class="navbar-text navbar-version pull-left"><b>1.0.0</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>1.17.8</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -184,6 +184,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="p">{}</span>                    <span class="c1"># data to hold JSON data for exporting</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Querying database for unique tag&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__selected_shapes</span> <span class="o">=</span> <span class="p">[]</span>         <span class="c1"># shapes that are currently selected</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__drawing</span> <span class="o">=</span> <span class="kc">False</span>              <span class="c1"># is a free draw shape being drawn now?</span>
 
 <div class="viewcode-block" id="ShapeManager.anchor_rectangle"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.anchor_rectangle">[docs]</a>    <span class="k">def</span> <span class="nf">anchor_rectangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -405,12 +406,20 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Plotting point at </span><span class="si">%.5f</span><span class="s1">, </span><span class="si">%.5f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">xdata</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">ydata</span><span class="p">))</span>
             <span class="n">check</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot_point</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_plot</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__hdf</span><span class="p">,</span>
                                                        <span class="bp">self</span><span class="o">.</span><span class="n">__figure</span><span class="p">,</span> <span class="n">ShapeManager</span><span class="o">.</span><span class="n">outline_toggle</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__drawing</span> <span class="o">=</span> <span class="kc">True</span>
+
             <span class="k">if</span> <span class="n">check</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generate_tag</span><span class="p">())</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__drawing</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__canvas</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Point to plot is out or range, skipping&quot;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">sketch_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__drawing</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__current_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sketch_line</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__figure</span><span class="p">)</span>
 
     <span class="c1"># noinspection PyProtectedMember</span>
 <div class="viewcode-block" id="ShapeManager.properties"><a class="viewcode-back" href="../../doc/polygon/manager.html#polygon.manager.ShapeManager.properties">[docs]</a>    <span class="k">def</span> <span class="nf">properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
