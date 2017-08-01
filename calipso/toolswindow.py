@@ -214,6 +214,9 @@ class ToolsWindow(Toplevel):
         free_draw_button.latch(target=self.__canvas, key='button_press_event',
                                command=self.__parent.get_shapemanager().plot_point, cursor='tcross',
                                destructor=self.__parent.get_shapemanager().clear_lines)
+        free_draw_button.latch(target=self.__canvas, key='motion_notify_event',
+                               command=self.__parent.get_shapemanager().sketch_line, cursor='tcross',
+                               destructor=self.__parent.get_shapemanager().clear_lines)
         free_draw_button.grid(row=2, column=2, padx=2, pady=5)
         create_tool_tip(free_draw_button, 'Free Draw')
 
