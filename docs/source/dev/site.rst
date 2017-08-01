@@ -3,9 +3,9 @@ Updating The Site
 
 To build the docs, you'll need a couple of packages:
 
-   * `graphiz`_
-   * sphinx (installed with anaconda)
-   * `sphinx-bootstrap-theme`_
+  * `graphiz`_
+  * sphinx (installed with anaconda)
+  * `sphinx-bootstrap-theme`_
 
 .. note::
 

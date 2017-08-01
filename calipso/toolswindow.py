@@ -169,7 +169,7 @@ class ToolsWindow(Toplevel):
         home_button.grid(row=1, column=1, padx=2, pady=5)
         create_tool_tip(home_button, 'Home')
 
-        # Retrieve shape properties
+        # Retrieve shape properties.rst
         properties_button = \
             ToggleableButton(self.__root, self.lower_button_frame, image=self.prop_img, width=30, height=30)
         properties_button.latch(target=self.__canvas, key='pick_event',
@@ -213,6 +213,9 @@ class ToolsWindow(Toplevel):
             ToggleableButton(self.__root, self.lower_button_frame, image=self.free_draw_img, width=30, height=30)
         free_draw_button.latch(target=self.__canvas, key='button_press_event',
                                command=self.__parent.get_shapemanager().plot_point, cursor='tcross',
+                               destructor=self.__parent.get_shapemanager().clear_lines)
+        free_draw_button.latch(target=self.__canvas, key='motion_notify_event',
+                               command=self.__parent.get_shapemanager().sketch_line, cursor='tcross',
                                destructor=self.__parent.get_shapemanager().clear_lines)
         free_draw_button.grid(row=2, column=2, padx=2, pady=5)
         create_tool_tip(free_draw_button, 'Free Draw')

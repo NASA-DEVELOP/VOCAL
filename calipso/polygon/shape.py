@@ -41,6 +41,7 @@ class Shape(object):
         self.__lines = []
         self.__saved = False
         self.__selected = False
+        self.__drawing_line = None  # temporary line for free draw
 
     def add_attribute(self, attr):
         """
@@ -92,7 +93,7 @@ class Shape(object):
         object if the *fill* parameter is set to ``True``
 
         :param fig: A ``SubplotAxes`` object from the matplotlib backend
-        :param: fl: A string representing the HDF path
+        :param fl: A string representing the HDF path
         :param plot: ``constants.Plot`` enum specifying which plot the object belongs to
         :param bool fill: ``False`` for fill, ``True`` for outline
         """
@@ -336,6 +337,7 @@ class Shape(object):
                               color='#000000'))
             fig.add_artist(self.__lines[-1])
             self.__canvas.show()
+
         if len(self.__coordinates) > 3:
             index = self.__can_draw()
             if index > -1:
@@ -352,13 +354,53 @@ class Shape(object):
                 self.__coordinates.pop()
                 for line in self.__lines:
                     line.remove()
+                self.__drawing_line.remove()
+                self.__drawing_line = None
+                self.__lines = []
+                self.draw(fig, fl, plot=plot, fill=fill)
+                self.__plot = plot
+                self.__hdf = fl
+                return True
+
+        self.__prev_x = event.xdata
+        self.__prev_y = event.ydata
+
+    def sketch_line(self, event, fig):
+        if self.__drawing_line:
+            self.__drawing_line.remove()
+        self.__drawing_line = \
+            mlines.Line2D((self.__prev_x, event.xdata), (self.__prev_y, event.ydata), linewidth=2.0,
+                          color='#000000')
+        fig.add_artist(self.__drawing_line)
+        self.__canvas.show()
+        return
+
+    def close_polygon(self, event, plot, fl, fig, fill=False):
+        if len(self.__coordinates) > 3:
+            index = self.__can_draw()
+            if index > -1:
+                logger.debug("Creating polygon from points")
+                a1 = tuple_to_nparray(self.__coordinates[index])
+                a2 = tuple_to_nparray(self.__coordinates[index + 1])
+                b1 = tuple_to_nparray(self.__coordinates[-1])
+                b2 = tuple_to_nparray(self.__coordinates[-2])
+                x = get_intersection(a1, a2, b1, b2)
+                pair = nparray_to_tuple(x)
+                self.__coordinates[index] = pair
+
+                del self.__coordinates[:index]
+                self.__coordinates.pop()
+                for line in self.__lines:
+                    line.remove()
+                self.__drawing_line.remove()
+                self.__drawing_line = None
                 self.__lines = []
                 self.draw(fig, plot, fill)
                 self.__plot = plot
                 self.__hdf = fl
                 return True
-        self.__prev_x = event.xdata
-        self.__prev_y = event.ydata
+        else:
+            logger.warning('Not enough points')
 
     def redraw(self, fig, fl, fill):
         """

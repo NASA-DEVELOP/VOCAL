@@ -49,6 +49,7 @@ class ShapeManager(object):
         self.__data = {}                    # data to hold JSON data for exporting
         logger.info("Querying database for unique tag")
         self.__selected_shapes = []         # shapes that are currently selected
+        self.__drawing = False              # is a free draw shape being drawn now?
 
     def anchor_rectangle(self, event):
         """
@@ -270,18 +271,26 @@ class ShapeManager(object):
             logger.info('Plotting point at %.5f, %.5f' % (event.xdata, event.ydata))
             check = self.__current_list[-1].plot_point(event, self.__current_plot, self.__hdf,
                                                        self.__figure, ShapeManager.outline_toggle)
+            self.__drawing = True
+
             if check:
                 self.__current_list[-1].set_tag(self.generate_tag())
                 self.__current_list.append(Shape(self.__canvas))
+                self.__drawing = False
                 self.__canvas.show()
+
         else:
             logger.error("Point to plot is out or range, skipping")
+
+    def sketch_line(self, event):
+        if self.__drawing:
+            self.__current_list[-1].sketch_line(event, self.__figure)
 
     # noinspection PyProtectedMember
     def properties(self, event):
         """
-        Return the properties of the shape clicked on by the user and create a small
-        tooltip which displays these properties
+        Return the properties.rst of the shape clicked on by the user and create a small
+        tooltip which displays these properties.rst
 
         :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
         """

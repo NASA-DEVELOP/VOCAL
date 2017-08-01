@@ -33,7 +33,7 @@ from attributesdialog import AttributesDialog
 from bokeh.colors import white
 from constants import Plot, PATH, ICO, CONF
 import constants
-from exctractdialog import ExtractDialog
+from extractdialog import ExtractDialog
 from importdialog import ImportDialog
 from settingsdialog import SettingsDialog
 from log.log import logger, error_check
@@ -447,7 +447,7 @@ class Calipso(object):
         .. py:attribute:: VFM
         .. py:attribute:: IWP
         .. py:attribute:: HORIZ_AVG
-        .. py.attribute:: AEROSOL_SUBTYPE
+        .. py:attribute:: AEROSOL_SUBTYPE
 
         :param int plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM, IWP, HORIZ_AVG
         :param list xrange\_: accepts a range of time to plot

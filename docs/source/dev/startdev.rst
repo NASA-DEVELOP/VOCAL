@@ -52,23 +52,24 @@ Otherwise, you can use Git Bash to clone the repository.
 
 1. First, open Git Bash
 
-   * Use :bash:`cd` to reach the folder where you would like to develop VOCAL
+   * Use ``cd`` to reach the folder where you would like to develop VOCAL
 
-2. Then use :bash:`git clone https://github.com/NASA-DEVELOP/VOCAL.git`
-   * :bash:`git fetch` to make sure the branches are up to date
+2. Then use ``git clone https://github.com/NASA-DEVELOP/VOCAL.git``
 
-3. To start VOCAL, use :bash:`python VOCAL/calipso/Calipso.py`
+   * ``git fetch`` to make sure the branches are up to date
+
+3. To start VOCAL, use ``python VOCAL/calipso/Calipso.py``
 
 Start Developing
 ################
 
 To begin developing, you will need a new branch.
 
-   .. warning::
-      **never** update the master branch directly unless you are making small changes or it is
-      absolutly necessary.
+  .. warning::
+     **never** update the master branch directly unless you are making small changes or it is
+     absolutly necessary.
 
-1. Use :bash:`git checkout -b newbranch` to create a branch called *newbranch*
+1. Use ``git checkout -b newbranch`` to create a branch called *newbranch*
 
    * You should choose a more relevant name, such as the number of the issue you are fixing or
      the name of the feature you are adding
@@ -83,21 +84,20 @@ To begin developing, you will need a new branch.
 
 3. When you have made some progress on your branch, you should save and commit the changes.
 
-   * If you created new files, use :bash:`git add newfile` to add the file *newfile*. Similarly, use
-     :bash:`git rm oldfile` to remove a file called *oldfile*
+   * If you created new files, use ``git add newfile`` to add the file *newfile*. Similarly, use
+     ``git rm oldfile`` to remove a file called *oldfile*
 
-   * Otherwise, use :bash:`git commit -m  "Your commit message here"` to commit changes to your
+   * Otherwise, use ``git commit -m  "Your commit message here"`` to commit changes to your
      branch with a short message
 
-      * To make commits on Pycharm, right-click the project folder and select Git > Commit Directory
+     * To make commits on Pycharm, right-click the project folder and select Git > Commit Directory
 
    * Git will keep track of your changes from one commit to another and allows you to revert if you
-     mess something up. Checkout tutorials online for a more in depth guide on using Git and all of
-    the features it offers.
+     mess something up. Checkout tutorials online for a more in depth guide on using Git and all of the features it offers.
 
 4. When you make big commits or after a few small ones, you should upload your commits to the GitHub
 
-   * Use :bash:`git push origin newbranch` (replace *newbranch* with the name of your branch)
+   * Use ``git push origin newbranch`` (replace *newbranch* with the name of your branch)
 
 After you work on your branch for a while and find that your changes have not cause any further
 errors, you can merge it back into the master
@@ -136,6 +136,13 @@ At the end of your session, you should do a few things to make development easie
 
 3. If you leave behind any unfinished features or code, leave detailed guides on what you attempted
    and the goal of the code so the next team can either finish it or scrap it quickly.
+
+Versioning
+##########
+
+If you believe that the changes you have made to VOCAL constitute a new version, it should be named *1.YY.MM* where *YY* is the year of the release and *MM* is the month. VOCAL 2 will be deployed as a web app.
+
+
 
 
 .. __: https://www.codecademy.com/
