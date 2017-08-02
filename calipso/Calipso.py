@@ -12,8 +12,10 @@
 #   @Author: Grant Mercer
 #   @Author: Nathan Qian
 ##########################
+
 from tools.vocalDataBlock import VocalDataBlock
 
+import runtime
 import matplotlib
 
 matplotlib.use('tkAgg')
@@ -55,6 +57,9 @@ from db import db
 from PIL import ImageTk
 from tools.tooltip import create_tool_tip
 import matplotlib.image as mpimg
+
+import os
+
 
 class Calipso(object):
     """
@@ -270,6 +275,31 @@ class Calipso(object):
         self.__child.setup_toolbar_buttons()
         logger.info('Setting initial plot')
         self.set_plot(Plot.baseplot, 0)
+
+        # if runtime.py detected a mismatched version between our runtime files in %appdata% and the current program,
+        # ask the user to upgrade the runtime files. This happens if the user installs a new version of VOCAL, which
+        # does not update the runtime files. The actual copying will not happen until the program is opened again
+        if constants.MISMATCHED_VERSION:
+            answer = tkMessageBox. \
+                askyesnocancel('Out of date files', 'The software has detected you have upgraded your version, however '
+                                'certain files are currently out of date. The program will now upgrade '
+                                'these files and close. Would you like to retain your current database '
+                                'during the upgrade? WARNING: database rollover is not always supported,'
+                                'see the version release notes to find out whether your database can be '
+                                'moved over. Press cancel to ignore and not update (not recommended).')
+            if answer is False:
+                logger.info('Copying over all files')
+                with open(PATH + r'.\..\TRIGGERS.txt', 'w+') as f:
+                    f.write(constants.COPY_ALL)
+                self.__root.destroy()
+            if answer is True:
+                logger.info('Preserving database in update')
+                with open(PATH + r'.\..\TRIGGERS.txt', 'w+') as f:
+                    f.write(constants.COPY_NO_DB)
+                self.__root.destroy()
+            if answer is None:
+                logger.warning('Continuing with possibly out of date runtime files')
+                pass
 
     #   end Initialization functions
     ############################################################
