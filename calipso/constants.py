@@ -12,11 +12,6 @@ from sys import platform as _platform
 
 from tools.config import Config
 
-VERSION = "1.17.8"          # this constant is matched up against the version within VERSION.txt in appdata
-MISMATCHED_VERSION = False  # if the above constant does not match, set this to true
-COPY_ALL = "c"              # flag to copy all files again for TRIGGER.txt
-COPY_NO_DB = "n"            # flag to copy all files but database for TRIGGER.txt
-COPY_PASS = "p"             # flag to do nothing for TRIGGER.txt
 
 class Plot(object):
     baseplot = 0
@@ -77,14 +72,11 @@ HELP_PAGE = 'http://nasa-develop.github.io/VOCAL/developer_index.html'
 
 TIME_VARIANCE = 0.001
 ALTITUDE_VARIANCE = 0.3
+PATH = '.'
+HOMEPATH = expanduser('~')
 
 # Makes a single persistent instance of the config for VOCAL to grab
 CONF = Config(PATH + '/dat/config.json')
-
-PATH = os.getenv('APPDATA') + '/vocal/fakedir'
-#PATH = os.getenv('APPDATA') + '/../local/vocal/fakedir'
-#PATH = os.path.dirname(os.path.realpath(__file__))
-
 
 ICO = PATH + '/ico/broadcasting.ico'
 if _platform == 'linux' or _platform == 'linux2':

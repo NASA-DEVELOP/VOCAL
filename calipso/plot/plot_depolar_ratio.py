@@ -6,6 +6,7 @@
 #
 
 from ccplot.hdf import HDF
+import ccplot.utils
 
 import matplotlib as mpl
 import numpy as np
@@ -18,9 +19,10 @@ def render_depolarized(filename, x_range, y_range, fig, pfig):
     x2 = x_range[1]
     h1 = y_range[0]
     h2 = y_range[1]
+    colormap = 'dat/calipso-depolar.cmap'
     averaging_width = 5
 
-    colormap = constants.PATH + '/dat/calipso-depolar.cmap'
+    print('xrange: ' + str(x_range) + ', yrange: ' + str(y_range))
 
     with HDF(filename) as product:
         time = product['Profile_UTC_Time'][x1:x2, 0]
