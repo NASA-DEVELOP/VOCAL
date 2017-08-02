@@ -4,16 +4,24 @@ Supported Data Types
 VOCAL uses a backend library called `ccplot`_ to pull data from inside the ``.hdf`` files, and thus are limited
 in what ccplot supports.
 
-+------------+------------+------------------------------------------------+-----------+
-| Spacecraft | Instrument | Product                                        | Supported |
-+============+============+================================================+===========+
-| CALIPSO    | CALIOP     | Lidar L1B Profiles                             | Yes       |
-+------------+------------+------------------------------------------------+-----------+
-|            |            | Lidar L2 Cloud Layer Products(333m, 1km, 5km)  | Unknown   |
-+------------+------------+------------------------------------------------+-----------+
++------------+------------+-----------------------------------------------+-------------------+-----------+
+| Spacecraft | Instrument | Product                                       | Includes          | Supported |
++============+============+===============================================+===================+===========+
+| CALIPSO    | CALIOP     | Lidar L1B Profiles                            | * Backscatter     | Yes       |
+|            |            |                                               | * Depolarization  |           |
++------------+------------+-----------------------------------------------+-------------------+-----------+
+|            |            | Lidar L2 Vertical Feature Mask                | * VFM             | Yes       |
+|            |            |                                               | * Ice/Water Phase |           |
+|            |            |                                               | * Aerosol Subtype |           |
++------------+------------+-----------------------------------------------+-------------------+-----------+
 
 .. note::
 
-   Testing and support is planned for Lidar L2 Cloud Layer Products in the future
+   Several other features are included in the L2 Vertical Feature Mask files such as:
+      * Cloud Subtype
+      * Polar Stratospheric Cloud Subtype
+      * Quality Assurance on all data products
+
+   Which may be implemented later.
 
 .. _ccplot: http://ccplot.org/

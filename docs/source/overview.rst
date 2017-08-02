@@ -1,8 +1,8 @@
-=====================
+================
 Program Overview
-=====================
+================
 
-The CALIPSO: Global Health & Air Quality project at NASA DEVELOP aims at creating a tool with the ability to classify
+The CALIPSO: Cross-Cutting project at NASA DEVELOP aims at creating a tool with the ability to classify
 aerosols within CALIPSO Data to help improve future research and decision making. The tool is open source and built
 around community involvement.
 
@@ -12,9 +12,9 @@ around community involvement.
   features and hinders open source updates. It also has very little documentation as to the development process of the
   tool, making it very difficult to build upon.
 
-----------------------------------------
+--------
 Features
-----------------------------------------
+--------
 
 .. class:: left: blank program, right: shapes form around selected areas of the plot
 
@@ -24,16 +24,12 @@ Features
    .. image:: _static/programShapesActive.png
       :scale: 20%
 
-
-.. note::
-   VOCAL is currently in it's early *beta* phase, and requires additional work
-   till it can be released to the community.
-
 The Visualization tool currently contains a number of great features:
 
 * Load standard Calipso data and display a backscattered and depolarized plot
 * Manipulate the image with ``zoom``, ``move``, ``reload`` and many more
-* Draw object which are overlayed upon the plot , free draw or rect mode
+* Draw object which are overlaid upon the plot , free draw or rect mode
+* Save dawn shapes and properties to a database and export to share with other researchers
 
 Data from the ``HDF`` file is loaded and parsed in order to display the plot inside of the application. Objects can be
 drawn on top and manipulated to select key parts of the map, these object will later be able to be saved
@@ -64,13 +60,8 @@ Once a plot is displayed, the user can select from a range of features in the *t
 
 Additional features are still to come!
 
-----------------------------------------
-Additional Information
-----------------------------------------
-
-* **Study Area:**
-     Global
-
-* **Earth Observations & Parameters:**
-     CALIPSO, CALIOP - Vertial Profile of Aerosolsl
-
+---------------
+Getting Started
+---------------
+Check out the next pages for guides on installation, downloading CALIPSO data, and a tutorial on
+using VOCAL.

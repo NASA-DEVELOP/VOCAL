@@ -47,7 +47,7 @@ class ToggleableButton(Button):
         active once the button is in a toggled state. latch can be called **multiple**
         times and keeps an internal bindmap.
 
-        :param str key: A valid Tkinter key string
+        :param str key: A valid Tkinter key string (matplotlib key event string)
         :param command: Function to be bound to key
         :param str cursor: A valid Tkinter cursor string
         :param destructor: A function called when untoggled

@@ -264,7 +264,7 @@ class ImportDialog(Toplevel):
             tag = self.tree.tree.item(tag, option='values')
             fname = tag[-1]
             cfname = self.__master.get_file().rpartition('/')[2]
-            if fname != cfname:
+            if fname[-25:-4] != cfname[-25:-4]:
                 skip = not tkMessageBox.\
                     askyesno('Unmatched files',
                              '%s is from a different file than currently'

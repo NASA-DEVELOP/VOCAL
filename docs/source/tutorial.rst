@@ -1,4 +1,3 @@
-===============
 Getting Started
 ===============
 
@@ -15,18 +14,22 @@ window is the main screen for displaying data from *.HDF* files, this will be wh
 .. image:: _static/startup.png
    :scale: 40%
 
-The top most menu bar contains four directories: *file* , *edit*, *polygon* and *help*.
+The top most menu bar contains four directories: *file* , *edit*, *polygon*, *views*, and *help*.
 
-* *file* allows a user to import an HDF (same as |browse|), save all objects from all plots to a JSON file, save
-  only *visible* objects on the screen to a JSON file, or exit the application.
+* *file* allows a user to import an HDF (same as |browse|), save all objects from all plots to a JSON file,
+   change configuration settings, or exit the application.
 * *edit* offers tools for shape or plot manipulation
 * *polygon* relates to the database use, see :ref:`database` for more information.
+* *views* allows a user to select the data product to be rendered
 * *help* shows information on the project, and links to this website
 
 Located near the menu and off to the top right you'll find three buttons. |load| will load a JSON file previously
 created by the application, and draw it to the plot.
 
 .. note::
+
+   It is recommended that you use the tools provided in the polygon folder and the database for saving
+   drawn shapes. Using JSON files can get messy and may not work properly.
 
    When loading JSON objects using this feature: the file the shape was created in **must** match the file you
    currently have loaded, otherwise you'll get an error! We do not allow users to load shapes from JSON files
@@ -49,10 +52,10 @@ Off to the right is the tools window, this window is dedicated to the manipulati
   as backscattered
 * |depo| Selection option used when visualizing, having this option checked will display the data as
   depolarized.
-* |step| Specify the range of time to plot to, from *x* to *y*. Default is *x* + 1000 if no *y*, and
-  0 - 1000 if neither *x* nor *y*
+* |step| Specify the range of profiles (vertical columns of data) to plot to, from *x* to *y*.
+         Default is 0 to 5000.
 * |salt| Specify the range of altitude to plot to, from *x* to *y*. Default is 0 to 20
-* |fren| Visualize the data given the conditions entered into **step** and **backscattered/depolarized**
+* |fren| Visualize the data given the conditions entered into **step** and *Views* tab
        
 -----------
 Starting Up
@@ -61,8 +64,8 @@ Starting Up
 To load a CALIPSO hdf file from the local file directory, click the |browse| button at the
 top of the screen. Navigate to the .HDF file of your choice and select **open** The file text box will now update and
 display the name of the imported hdf file. The main screen will appear blank at first. To display a plot,
-Select the type of plot you would like with either |back| or |depo| to render and an optional step
-|step| (*the default is from 0 to 1000*).
+Select the type of plot you would like from the *views* menu to render and an optional step
+|step| (*the default is from 0 to 5000*).
 Hit |rend| to visualize the data to the screen.
  
 .. image:: _static/load_hdf.png
@@ -84,6 +87,10 @@ The first row of toolbar buttons allows you to manipulate the plot for the purpo
 * |undo| Undo: jump to the previous magnification zoom frame
 * |redo| Redo: jump forward to the next magnification zoom frame
 * |home| Home: reset the view to the original render
+
+.. note::
+
+   Magnification currently does not work
 
 ----------------------------
 Viewing Properties of Shapes
@@ -113,7 +120,7 @@ shapes drawn to the plot.
 * |rect| Rectangle: Dragging the cursor in the plot will create an outline of a rectangle,
   upon release of the cursor the shape will be created in place of the outline.
 * |fred| Free Draw: Clicking on the plot will create a *vertex*, multiple clicks will
-  bind vertices together and create lines. If a new line is found interesting an
+  bind vertices together and create lines. If a new line intersects an
   existing line a shape will be formed at the intersection being the enclosing vertex.
 * |eras| Erase: Selecting this button and clicking a shape will remove it from the plot. *note: *
   this will **not** delete the object in a database or JSON file if it is loaded, that is a
@@ -133,13 +140,7 @@ of shapes to a JSON file.
   Only the outline of the shapes will be drawn, pressing this one more reverts the change
 * |hide| Hide: Similar to Focus, but pressing this button will **completely** hide all shapes,
   they still exist; however they simply won't be drawn to the screen.
-* |save| Save: Save all existing objects in the **current** plot to a JSON formatted file.
-  These objects can be loaded back into the screen with |load| and can be shared
-  between researchers that wish to personally hand over shapes to another user for loading. If
-  you wish to save all shapes from **every** plot into one fill, these is a *save_all* option
-  in the file menu for this.
-* |load| Load: Given a valid *.JSON* file, load all polygon objects present in the file and
-  display them to the plot.
+* |csel| Select: Use the cursor to select shapes
 
 
 .. _database:
@@ -148,9 +149,32 @@ of shapes to a JSON file.
 Using the Database
 ------------------
 
-One of the defining features of VOCAL is the ability to import and export shapes to a database, this can
-help researchers share information about aerosols and their trajectory. The database can be accessed under
-the *polygon* menu, offering to either *import from database* or *export to database* . Let's start with exporting.
+One of the defining features of VOCAL is the ability to import and export shapes to a database, this
+can help researchers share information about aerosols and their trajectory. The database can be
+accessed under the *polygon* menu, offering to either *import from database*, *export to
+database*, *create database* and *select database*. Let's start with creating and selecting a database.
+
+Creating a Database
+###################
+
+By default, VOCAL uses the database file *CALIPSOdb.db* located in the *VOCAL/db* folder. However,
+you are free to create your own database elsewhere. Simply go to the *polygon* menu and select *create
+database*. You may name it whatever you like, and VOCAL will create it. When you create a new
+database, VOCAL will automatically switch to it. However, if you already have a CALIPSO database you
+would like to use, then you can simply select it.
+
+Selecting a Database
+####################
+
+To select a database created by VOCAL, simply go to the *polygon* menu and select *select database*.
+The tool will then prompt you to select your desired CALIPSO database. Once selected, all operations
+in the *polygon* menu will utilize this database. This can be useful if you would like to use a
+database on a shared folder.
+
+.. note::
+   If you would like to work out of the non-default database, you must select it every time you open
+   VOCAL, or you may change the default database in the settings dialog. If you do not select your
+   new database every time or switch the default, VOCAL will save your polygons to the internal database.
 
 Exporting Shapes
 ################
@@ -301,6 +325,29 @@ And here's what we get!
 That's all there is to it. Notice we left everything blank that we didn't care about, if you don't touch it that
 field won't be checked!
 
+---------------------
+Changing the Settings
+---------------------
+.. note::
+   Be careful when changing the settings as they may have undesired affects. If at anytime they are
+   causing you issues, simply delete config.json in the dat folder to return to defaults.
+
+|setm|
+
+Finally, lets take a look at some of the options available to you to customize your VOCAL experience.
+In the file menu, you will find an option for settings. Selecting this will open up a new dialog
+listing all of the settings available for you to change.
+
+.. image:: _static/settings.png
+   :scale: 70%
+
+Each setting has its own row with a label for the setting, the current value of the setting, and a
+check box for locking the setting. For directory or file path setting, you will see a dialog box
+followed by a button allowing you to browse to a new file path or directory. For boolean settings
+(true or false) you will see a checkbox where checked represents true and unchecked represents false.
+Finally, the lock option ensures that the setting won't change unless you change it in the dialog.
+
+You should now be ready to use VOCAL!
 
 .. |browse| image:: _static/browse_button.png
 .. |move| image:: _static/move_button.png
@@ -336,6 +383,7 @@ field won't be checked!
 .. |imar| image:: _static/importing_archive_menu.png
 .. |exar| image:: _static/exporting_archive_menu.png
 .. |sele| image:: _static/select_menu.png
+.. |setm| image:: _static/settings_menu.png
 
 .. |dbwi| image:: _static/db_window.png
 .. |dbse| image:: _static/db_search.png

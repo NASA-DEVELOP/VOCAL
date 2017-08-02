@@ -4,18 +4,15 @@
 #    @author: Nathan Qian
 #    @author: Grant Mercer
 ######################################
-from Tkconstants import TOP, X, BOTH, RIGHT, FLAT
 import constants
 import matplotlib as mpl
 import tkMessageBox
 
-from constants import DATEFORMAT
-from Tkinter import Toplevel, Label, SOLID, TclError, LEFT, Frame, Button
+from constants import DATEFORMAT, Plot, CONF
 from datetime import datetime
 from polygon.reader import ShapeReader
 from polygon.shape import Shape
 from propertiesdialog import PropertyDialog
-from constants import Plot
 from db import db
 from log.log import logger
 
@@ -39,7 +36,11 @@ class ShapeManager(object):
         self.__shape_list = [[Shape(canvas)],           # baseplot
                              [Shape(canvas)],           # backscattered
                              [Shape(canvas)],           # depolarized
-                             [Shape(canvas)]]           # vfm
+                             [Shape(canvas)],			# vfm
+                             [Shape(canvas)],			# iwp
+                             [Shape(canvas)],           # horiz_avg
+                             [Shape(canvas)]]           # aerosol_subtype
+
         logger.info("Instantiating Exporting Reader")
         self.__current_list = None          # aliases shape_list's current plot
         self.__current_file = ''            # current JSON file, NOT .hdf file!
@@ -48,6 +49,7 @@ class ShapeManager(object):
         self.__data = {}                    # data to hold JSON data for exporting
         logger.info("Querying database for unique tag")
         self.__selected_shapes = []         # shapes that are currently selected
+        self.__drawing = False              # is a free draw shape being drawn now?
 
     def anchor_rectangle(self, event):
         """
@@ -78,9 +80,7 @@ class ShapeManager(object):
         """
         Clear all references to the current figure, this is called
         in the ``Calipso`` class when a plot is to be set as to ensure
-        no dangling references are left. If we we're writing this in
-        Rust we wouldn't need to worry about this because Rust has better
-        ownership semantics ;)
+        no dangling references are left
         """
         for shape in self.__current_list[:-1]:
             ih = shape.get_itemhandler()
@@ -120,7 +120,7 @@ class ShapeManager(object):
                 return
             logger.debug('Filling: %d, %d' % (event.xdata, event.ydata))
             logger.info('Creating rectangle')
-            self.__current_list[-1].fill_rectangle(event, self.__current_plot,
+            self.__current_list[-1].fill_rectangle(event, self.__current_plot, self.__hdf,
                                                    self.__figure, ShapeManager.outline_toggle)
             self.__current_list[-1].set_tag(self.generate_tag())
             self.__current_list.append(Shape(self.__canvas))
@@ -161,7 +161,8 @@ class ShapeManager(object):
         :rtype: :py:class:`int`
         """
         return len(self.__shape_list[0]) + len(self.__shape_list[1]) + \
-            len(self.__shape_list[2]) + len(self.__shape_list[3]) - 4
+               len(self.__shape_list[2]) + len(self.__shape_list[3]) + len(self.__shape_list[4]) + \
+               len(self.__shape_list[5]) + len(self.__shape_list[6]) - 7
 
     def get_current_list(self):
         """
@@ -177,12 +178,11 @@ class ShapeManager(object):
 
     def get_hdf(self):
         """
-        Return the hdf string that objects are currently drawn to
+        Return the hdf string that is currently being used
 
         :rtype: :py:class:`str`
         """
         return self.__hdf
-
 
     def get_filename(self):
         """
@@ -269,20 +269,28 @@ class ShapeManager(object):
             return
         if event.xdata and event.ydata:
             logger.info('Plotting point at %.5f, %.5f' % (event.xdata, event.ydata))
-            check = self.__current_list[-1].plot_point(event, self.__current_plot,
+            check = self.__current_list[-1].plot_point(event, self.__current_plot, self.__hdf,
                                                        self.__figure, ShapeManager.outline_toggle)
+            self.__drawing = True
+
             if check:
                 self.__current_list[-1].set_tag(self.generate_tag())
                 self.__current_list.append(Shape(self.__canvas))
+                self.__drawing = False
                 self.__canvas.show()
+
         else:
             logger.error("Point to plot is out or range, skipping")
+
+    def sketch_line(self, event):
+        if self.__drawing:
+            self.__current_list[-1].sketch_line(event, self.__figure)
 
     # noinspection PyProtectedMember
     def properties(self, event):
         """
-        Return the properties of the shape clicked on by the user and create a small
-        tooltip which displays these properties
+        Return the properties.rst of the shape clicked on by the user and create a small
+        tooltip which displays these properties.rst
 
         :param event: A passed ``matplotlib.backend_bases.PickEvent`` object
         """
@@ -312,23 +320,27 @@ class ShapeManager(object):
             logger.info('Reading JSON from file')
             self.__shapereader.set_filename(filename)
             read_data = self.__shapereader.read_from_file_json()
-
-        if self.__hdf.rpartition('/')[2] != read_data['hdffile']:    # Do HDF files match?
-            tkMessageBox.showerror('file',
-            'Shape-associated HDF file \n and current HDF do not match')
+        # The index [-25:-4] is used so that we only check the time/space of the files, not type
+        if self.__hdf.rpartition('/')[2][-25:-4] != read_data['hdffile'][-25:-4]:    # Do HDF files match?
+            tkMessageBox.showerror(
+                'file', 'Shape-associated HDF file \n and current HDF do not match')
             logger.error('Shape-associated HDF file and current HDF do not match')
             return
 
         for key in constants.plot_type_enum:
-            lst = self.__shape_list[constants.plot_type_enum[key]]
-            self.__shapereader.pack_shape(lst, key, self.__canvas, read_from_str,)
-            if self.__current_plot == constants.plot_type_enum[key]:
+            # If persistent shapes are used, we want to only load them into backscattered
+            if CONF.persistent_shapes:
+                lst = self.__shape_list[constants.plot_type_enum['backscattered']]
+            else:
+                lst = self.__shape_list[constants.plot_type_enum[key]]
+            self.__shapereader.pack_shape(lst, key, self.__canvas, read_from_str)
+            # The "or CONF.persistent_shapes" allows shapes that don't match the plot to be shown
+            if self.__current_plot == constants.plot_type_enum[key] or CONF.persistent_shapes:
                 for shape in lst:
                     if not shape.is_empty():
-                        logger.info('Shape found in \'%s\', drawing' %
-                                    key)
-                        shape.redraw(self.__figure, ShapeManager.outline_toggle)
-
+                        logger.info('Shape found in \'%s\', drawing' % key)
+                        shape.redraw(self.__figure, read_data['hdffile'],
+                                     ShapeManager.outline_toggle)
             self.__canvas.show()
 
     def reset(self, all_=False):
@@ -340,7 +352,10 @@ class ShapeManager(object):
             self.__shape_list = [[Shape(self.__canvas)],           # baseplot
                                  [Shape(self.__canvas)],           # backscattered
                                  [Shape(self.__canvas)],           # depolarized
-                                 [Shape(self.__canvas)]]           # vfm
+                                 [Shape(self.__canvas)],           # vfm
+                                 [Shape(self.__canvas)],           # iwp
+                                 [Shape(self.__canvas)],           # horiz_avg
+                                 [Shape(self.__canvas)]]           # aerosol_subtype
         else:
             logger.info('Resetting ShapeManager')
             for shape in self.__current_list:
@@ -380,10 +395,10 @@ class ShapeManager(object):
             return False
         today = datetime.utcnow().replace(microsecond=0)
         if(only_selected):
-            db.commit_to_db( self.__selected_shapes, today, self.__hdf)
+            db.commit_to_db(self.__selected_shapes, today)
         else:
             # Must account for dummy object at end of current list
-            db.commit_to_db(self.__current_list[:-1], today, self.__hdf)
+            db.commit_to_db(self.__current_list[:-1], today)
         return True
 
     def save_json(self, filename=''):
@@ -547,6 +562,9 @@ class ShapeManager(object):
         logger.debug('Settings plot to %s' % plot)
         self.__figure = fig
         self.set_plot(plot)
+        # Check if persistent shapes, use backscatter as the shapes list if so
+        if CONF.persistent_shapes:
+            self.__current_list = self.__shape_list[Plot.backscattered]
         if len(self.__current_list) > 1:
             logger.info('Redrawing shapes')
             for shape in self.__current_list[:-1]:
@@ -581,11 +599,19 @@ class ShapeManager(object):
             logger.info('set_plot to DEPOLARIZED')
             self.__current_list = self.__shape_list[Plot.depolarized]
             self.__current_plot = Plot.depolarized
-
-        
-
-
-
-
-
-
+        elif plot == Plot.vfm:
+            logger.info('set_plot to VFM')
+            self.__current_list = self.__shape_list[Plot.vfm]
+            self.__current_plot = Plot.vfm
+        elif plot == Plot.iwp:
+            logger.info('set_plot to IWP')
+            self.__current_list = self.__shape_list[Plot.iwp]
+            self.__current_plot = Plot.iwp
+        elif plot == Plot.horiz_avg:
+            logger.info('set_plot to HORIZ_AVG')
+            self.__current_list = self.__shape_list[Plot.horiz_avg]
+            self.__current_plot = Plot.horiz_avg
+        elif plot == Plot.horiz_avg:
+            logger.info('set_plot to AEROSOL SUBTYPE')
+            self.__current_list = self.__shape_list[Plot.aerosol_subtype]
+            self.__current_plot = Plot.aerosol_subtype

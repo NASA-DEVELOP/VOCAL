@@ -7,10 +7,9 @@ import logging.config
 import re
 import shutil
 import sys
-import os
 import traceback
 from time import strftime as time
-import constants
+
 from constants import PATH
 
 config = {
@@ -73,9 +72,6 @@ sys.excepthook = uncaught_exception
 logger = logging.getLogger('VOCAL')
 
 logging.config.dictConfig(config)
-
-if constants.MISMATCHED_VERSION:
-    logger.warning('out of date runtime files detected, attempting to open')
 
 if __name__ == '__main__':
     pass

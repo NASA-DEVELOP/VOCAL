@@ -12,14 +12,15 @@
 #   @Author: Grant Mercer
 #   @Author: Nathan Qian
 ##########################
-import runtime
+from tools.vocalDataBlock import VocalDataBlock
+
 import matplotlib
 
 matplotlib.use('tkAgg')
 from Tkconstants import RIGHT, END, DISABLED
 from Tkinter import Tk, Label, Toplevel, Menu, PanedWindow, \
     Frame, Button, HORIZONTAL, BOTH, VERTICAL, TOP, LEFT, \
-    SUNKEN, StringVar, Text
+    SUNKEN, StringVar, Text, IntVar
 import logging
 from sys import platform as _platform
 from tkColorChooser import askcolor
@@ -27,17 +28,23 @@ import tkFileDialog
 import tkMessageBox
 import webbrowser
 
+from os.path import dirname
 from attributesdialog import AttributesDialog
 from bokeh.colors import white
-from constants import Plot, PATH, ICO
+from constants import Plot, PATH, ICO, CONF
 import constants
-from exctractdialog import ExtractDialog
+from extractdialog import ExtractDialog
 from importdialog import ImportDialog
+from settingsdialog import SettingsDialog
 from log.log import logger, error_check
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from plot.plot_depolar_ratio import render_depolarized
 from plot.plot_backscattered import render_backscattered
+from plot.plot_vfm import render_vfm
+from plot.plot_iwp import render_iwp
+from plot.plot_horiz_avg import render_horiz_avg
+from plot.plot_aerosol_subtype import render_aerosol_subtype
 from polygon.manager import ShapeManager
 from tools.linearalgebra import distance
 from tools.navigationtoolbar import NavigationToolbar2CALIPSO
@@ -48,7 +55,6 @@ from db import db
 from PIL import ImageTk
 from tools.tooltip import create_tool_tip
 import matplotlib.image as mpimg
-import os
 
 class Calipso(object):
     """
@@ -71,14 +77,15 @@ class Calipso(object):
         self.new_file_flag = False
         self.option_menu = None
         self.shape_var = StringVar()
+        self.__data_block = VocalDataBlock('Empty')
+        self.plot_type = IntVar()
+
 
         self.width = self.__root.winfo_screenwidth()
         self.height = self.__root.winfo_screenheight()
 
         logger.info('Screen resolution: ' + str(self.width) + 'x' + str(self.height))
 
-        # TODO: Add icon for window an task bar
-        # Create three paned windows, two which split the screen vertically upon a single pane
         base_pane = PanedWindow()
         base_pane.pack(fill=BOTH, expand=1)
         sectioned_pane = PanedWindow(orient=VERTICAL)
@@ -133,6 +140,7 @@ class Calipso(object):
         menu_file = Menu(menu_bar, tearoff=0)
         menu_file.add_command(label='Import file', command=self.import_file)
         menu_file.add_command(label='Save all shapes', command=lambda: self.save_as_json(save_all=True))
+        menu_file.add_command(label='Settings', command=self.settings_dialog)
         menu_file.add_separator()
         menu_file.add_command(label='Exit', command=self.close)
         menu_bar.add_cascade(label='File', menu=menu_file)
@@ -145,15 +153,38 @@ class Calipso(object):
 
         # Polygon Menu
         menu_polygon = Menu(menu_bar, tearoff=0)
-        menu_polygon.add_command(label='Import from Database', command=self.import_dialog)
-        menu_polygon.add_command(label='Export all to Database', command=self.export_db)
-        menu_polygon.add_command(label='Export selected to Database', command=lambda: self.export_db(only_selected=True))
+        menu_polygon.add_command(label='Import/Manage Database', command=self.import_dialog)
+        menu_polygon.add_command(label='Export All to Database', command=self.export_db)
+        menu_polygon.add_command(label='Export Selected to Database',
+                                 command=lambda: self.export_db(only_selected=True))
         menu_polygon.add_separator()
-        menu_polygon.add_command(label='Import archive to database',
+        menu_polygon.add_command(label='Create New Database', command=lambda: Calipso.create_db())
+        menu_polygon.add_command(label='Select Database',
+                                 command=lambda: Calipso.select_db())
+        menu_polygon.add_separator()
+        menu_polygon.add_command(label='Import Archive to Database',
                                  command=Calipso.import_json_db)
-        menu_polygon.add_command(label='Export database to archive',
+        menu_polygon.add_command(label='Export Database to Archive',
                                  command=Calipso.export_json_db)
         menu_bar.add_cascade(label='Polygon', menu=menu_polygon)
+
+        # View Menu
+        menu_views = Menu(menu_bar,tearoff=0)
+        menu_views.add_radiobutton(label='Backscatter 532', variable=self.plot_type,
+                                  value=Plot.backscattered)
+        menu_views.add_radiobutton(label='Depolarization', variable=self.plot_type,
+                                  value=Plot.depolarized)
+        menu_views.add_radiobutton(label='Vertical Feature Mask', variable=self.plot_type,
+                                  value=Plot.vfm)
+        menu_views.add_radiobutton(label='Ice Water Phase', variable=self.plot_type,
+                                  value=Plot.iwp)
+        menu_views.add_radiobutton(label='Horizontal Averaging', variable=self.plot_type,
+                                  value=Plot.horiz_avg)
+        menu_views.add_radiobutton(label='Aerosol Subtype', variable=self.plot_type,
+                                   value=Plot.aerosol_subtype)
+        menu_bar.add_cascade(label='Views', menu=menu_views)
+        self.plot_type.set(1)       # Set initial value to backscatter
+
 
         # Help Menu
         menu_help = Menu(menu_bar, tearoff=0)
@@ -238,32 +269,7 @@ class Calipso(object):
         label_shapes.pack(side=RIGHT)
         self.__child.setup_toolbar_buttons()
         logger.info('Setting initial plot')
-        self.set_plot(Plot.baseplot)
-
-        # if runtime.py detected a mismatched version between our runtime files in %appdata% and the current program,
-        # ask the user to upgrade the runtime files. This happens if the user installs a new version of VOCAL, which
-        # does not update the runtime files. The actual copying will not happen until the program is opened again
-        if constants.MISMATCHED_VERSION:
-            answer = tkMessageBox. \
-                askyesnocancel('Out of date files', 'The software has detected you have upgraded your version, however '
-                                'certain files are currently out of date. The program will now upgrade '
-                                'these files and close. Would you like to retain your current database '
-                                'during the upgrade? WARNING: database rollover is not always supported,'
-                                'see the version release notes to find out whether your database can be '
-                                'moved over. Press cancel to ignore and not update (not recommended).')
-            if answer is False:
-                logger.info('Copying over all files')
-                with open(PATH + r'.\..\TRIGGERS.txt', 'w+') as f:
-                    f.write(constants.COPY_ALL)
-                self.__root.destroy()
-            if answer is True:
-                logger.info('Preserving database in update')
-                with open(PATH + r'.\..\TRIGGERS.txt', 'w+') as f:
-                    f.write(constants.COPY_NO_DB)
-                self.__root.destroy()
-            if answer is None:
-                logger.warning('Continuing with possibly out of date runtime files')
-                pass
+        self.set_plot(Plot.baseplot, 0)
 
     #   end Initialization functions
     ############################################################
@@ -292,21 +298,24 @@ class Calipso(object):
         logger.info('Importing HDF file')
         # function to import HDF file used my open and browse
         file_types = [('CALIPSO Data files', '*.hdf'), ('All files', '*')]
-        dlg = tkFileDialog.Open(filetypes=file_types)
+        dlg = tkFileDialog.Open(filetypes=file_types, initialdir=CONF.session_hdf.dir())
         fl = dlg.show()
         if fl != '':
             if self.__file is not None and fl is not self.__file:
                 self.new_file_flag = True
             self.__file = fl
+            self.__data_block = VocalDataBlock(fl)
             segments = self.__file.rpartition('/')
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
                                             text=segments[2])
+            CONF.session_hdf.change(fl)
 
     def export_db(self, only_selected=False):
         """
         Notify the database that a save is taking place, the
         db will then save all polygons present on the screen
         """
+
         logger.info('Notifying database to save with select flag %s' % (str(only_selected)))
         success = self.__shapemanager.save_db(only_selected)
         if success:
@@ -317,6 +326,44 @@ class Calipso(object):
             tkMessageBox.showerror('database', 'No objects to be saved')
 
     @staticmethod
+    def create_db():
+        """
+        Opens a file browser to create a database file for polygons
+        :return:
+        """
+        options = dict()
+        options['defaultextension'] = '.db'
+        options['filetypes'] = [('CALIPSO Databases', '*.db'), ('All files', '*')]
+        options['initialdir'] = CONF.session_db.dir()
+        options['title'] = 'Select Database to Use'
+        options['initialfile'] = 'CALIPSOdb.db'
+        fl = tkFileDialog.asksaveasfilename(**options)
+        if fl != '':
+            db.set_path(fl)
+            CONF.session_db.change(fl)
+
+    @staticmethod
+    def select_db():
+        """
+        Opens a file browser to select a database if one is not already chosen
+
+        :param iscommand: Make True if we are executing from the menu command
+        :return: Return 0 if no file was selected
+        """
+
+        options = dict()
+        options['defaultextension'] = '.db'
+        options['filetypes'] = [('CALIPSO Databases', '*.db'), ('All files', '*')]
+        options['initialdir'] = CONF.session_db.dir()
+        options['title'] = 'Select Database to Use'
+        fl = tkFileDialog.Open(**options)
+        fl = fl.show()
+        print(fl)
+        if fl != '':
+            db.set_path(fl)
+            CONF.session_db.change(fl)
+
+    @staticmethod
     def import_json_db():
         """
         Import the contents of a JSON file to the database, works hand in hand
@@ -324,9 +371,11 @@ class Calipso(object):
         their database without needing to manually move their db file.
         :return:
         """
+
         options = dict()
         options['defaultextension'] = '.zip'
         options['filetypes'] = [('CALIPSO Data Archive', '*.zip'), ('All files', '*')]
+        options['initialdir'] = CONF.session_db.dir()
         fl = tkFileDialog.askopenfilename(**options)
         if fl != '':
             log_fname = fl.rpartition('/')[2]
@@ -346,6 +395,7 @@ class Calipso(object):
         Export the contents of the database to an archive containing JSON, which can then be
         loaded into other databases and have all shapes imported
         """
+
         if tkMessageBox.askyesno('Export database',
                                  'Database will be exported to a specified' +
                                          ' archive (this operation is a copy, not a move)' +
@@ -353,6 +403,7 @@ class Calipso(object):
             options = dict()
             options['defaultextension'] = '.zip'
             options['filetypes'] = [('ZIP Files', '*.zip'), ('All files', '*')]
+            options['initialdir'] = CONF.session_db.dir()
             fl = tkFileDialog.asksaveasfilename(**options)
             if fl != '':
                 log_fname = fl.rpartition('/')[2]
@@ -370,17 +421,35 @@ class Calipso(object):
     # End menu bar functions
     ############################################################
 
+    def plot_baseplot(self, in_i):
+        self.__metadata_text = "Metadata\nMetadata\nMetadata\nMetadata\nMetadata\nMetadata\nMetadata\nMetadata"
+        self.__metadata_label = Label(self.__baseplot_frame, text=self.__metadata_text,
+                                      width=constants.WIDTH, height=constants.HEIGHT,
+                                      bg='LightYellow')
+        self.__metadata_label.pack()
+
+    def plot_not_available(self, in_i, in_type):
+        self.__shapemanagers[in_i].set_plot(Plot.not_available)
+        im = mpimg.imread(PATH + '/dat/grey.jpg')
+        self.__figs[in_i].get_yaxis().set_visible(False)
+        self.__figs[in_i].set_title("Plot currently not available")
+        self.__figs[in_i].get_xaxis().set_visible(False)
+        self.__figs[in_i].imshow(im)
+
     def set_plot(self, plot_type, xrange_=(0, 1000), yrange=(0, 20)):
         """
         Draws to the canvas according to the *plot_type* specified in the arguments. Accepts one of
         the attributes below
 
         .. py:attribute:: BASE_PLOT
-        .. py:attribute:: BACKSCATTE RED
+        .. py:attribute:: BACKSCATTERED
         .. py:attribute:: DEPOLARIZED
         .. py:attribute:: VFM
+        .. py:attribute:: IWP
+        .. py:attribute:: HORIZ_AVG
+        .. py:attribute:: AEROSOL_SUBTYPE
 
-        :param int plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM``
+        :param int plot_type: accepts ``BASE_PLOT, BACKSCATTERED, DEPOLARIZED, VFM, IWP, HORIZ_AVG
         :param list xrange\_: accepts a range of time to plot
         :param list yrange: accepts a range of altitude to plot
         """
@@ -389,7 +458,7 @@ class Calipso(object):
         if plot_type == Plot.baseplot:
             # Hide the axis and print an image
             self.__shapemanager.set_plot(Plot.baseplot)
-            
+
             im = mpimg.imread(PATH + '/dat/CALIPSO.jpg')
             self.__fig.get_yaxis().set_visible(False)
             self.__fig.get_xaxis().set_visible(False)
@@ -400,8 +469,11 @@ class Calipso(object):
                 # and render the backscattered plot to it
                 logger.info('Setting plot to backscattered xrange: ' +
                             str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(1)
+                logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
@@ -418,21 +490,25 @@ class Calipso(object):
                 tkMessageBox.showerror('File Not Found', 'No File Exists')
             except IndexError:
                 tkMessageBox.showerror('Backscattered Plot', 'Index out of bounds')
-        # TODO: Reimplement with new plotting technique (like backscatter)
+
         elif plot_type == Plot.depolarized:
             try:
                 # Clear any references to the current figure, construct a new figure
                 # and render the depolarized plot to it
-                logger.error('Needs to be reimplemented')
+                logger.info('Setting plot to depolarized xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(1)
+                logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
                 if self.__shapemanager.get_hdf() != '' and \
-                                self.__file != self.__shapemanager.get_hdf():
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
                     self.__shapemanager.reset(all_=True)
                 else:
                     self.__shapemanager.clear_refs()
                 self.__shapemanager.set_hdf(self.__file)
                 self.__parent_fig.clear()
                 self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
-                render_depolarized(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__fig = render_depolarized(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
                 self.__shapemanager.set_current(Plot.depolarized, self.__fig)
                 self.__drawplot_canvas.show()
                 self.__toolbar.update()
@@ -440,9 +516,113 @@ class Calipso(object):
             except IOError:
                 logger.error('IOError, no file exists')
                 tkMessageBox.showerror('File Not Found', "No File Exists")
+
         elif plot_type == Plot.vfm:
-            logger.error('Accessing unimplemented VFM plot')
-            tkMessageBox.showerror('TODO', 'Sorry, this plot is currently not implemented')
+            try:
+                # Clear any references to the current figure, construct a new figure
+                # and render the depolarized plot to it
+                logger.info('Setting plot to vfm xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(2)
+                logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
+                if self.__shapemanager.get_hdf() != '' and \
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
+                    self.__shapemanager.reset(all_=True)
+                else:
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                self.__fig = render_vfm(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.vfm, self.__fig)
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
+                self.plot = Plot.vfm
+            except IOError:
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', "No File Exists")
+
+        elif plot_type == Plot.iwp:
+            try:
+                # Clear any references to the current figure, construct a new figure
+                # and render the depolarized plot to it
+                logger.info('Setting plot to iwp xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(2)
+                logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
+                if self.__shapemanager.get_hdf() != '' and \
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
+                    self.__shapemanager.reset(all_=True)
+                else:
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                self.__fig = render_iwp(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.iwp, self.__fig)
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
+                self.plot = Plot.iwp
+            except IOError:
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', "No File Exists")
+
+        elif plot_type == Plot.horiz_avg:
+            try:
+                # Clear any references to the current figure, construct a new figure
+                # and render the depolarized plot to it
+                logger.info('Setting plot to horiz_avg xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(2)
+                logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
+                if self.__shapemanager.get_hdf() != '' and \
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
+                    self.__shapemanager.reset(all_=True)
+                else:
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                self.__fig = render_horiz_avg(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.horiz_avg, self.__fig)
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
+                self.plot = Plot.horiz_avg
+            except IOError:
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', "No File Exists")
+
+        elif plot_type == Plot.aerosol_subtype:
+            try:
+                # Clear any references to the current figure, construct a new figure
+                # and render the depolarized plot to it
+                logger.info('Setting plot to aerosol_subtype xrange: ' +
+                            str(xrange_) + ' yrange: ' + str(yrange))
+                self.__file = self.__data_block.get_file_name(2)
+                logger.info('Using file ' + self.__file)
+                # Reset if the file is not empty AND we are using granules from different time/place
+                if self.__shapemanager.get_hdf() != '' and \
+                                self.__file[-25:-4] != self.__shapemanager.get_hdf()[-25:-4]:
+                    self.__shapemanager.reset(all_=True)
+                else:
+                    self.__shapemanager.clear_refs()
+                self.__shapemanager.set_hdf(self.__file)
+                self.__parent_fig.clear()
+                self.__fig = self.__parent_fig.add_subplot(1, 1, 1)
+                self.__fig = render_aerosol_subtype(self.__file, xrange_, yrange, self.__fig, self.__parent_fig)
+                self.__shapemanager.set_current(Plot.aerosol_subtype, self.__fig)
+                self.__drawplot_canvas.show()
+                self.__toolbar.update()
+                self.plot = Plot.aerosol_subtype
+            except IOError:
+                logger.error('IOError, no file exists')
+                tkMessageBox.showerror('File Not Found', "No File Exists")
+
+        else:
+            logger.warning('Plot Type not yet supported')
 
     def pan(self, event):
         """
@@ -615,7 +795,7 @@ class Calipso(object):
     def extract_dialog(self, event):
         """
         Opens a subwindow that displays the data bounded by the shape
-        
+
         :param event: A Tkinter passed event object
         """
         shape = self.__shapemanager.find_shape(event)
@@ -628,12 +808,27 @@ class Calipso(object):
         Open the database import window allowing the user to import and
         delete entries.
         """
+
         logger.info('Opening database import window')
         if (not ImportDialog.singleton):
             ImportDialog(self.__root, self). \
                 wm_iconbitmap(ICO)
         else:
             logger.warning('Found existing import window, canceling')
+
+    def settings_dialog(self):
+        """
+        Opens the settings window allowing the user to manually change the settings in the config
+        file
+        """
+
+        logger.info('Opening settings window')
+        if (not SettingsDialog.singleton):
+            SettingsDialog(self.__root, self). \
+                wm_iconbitmap(ICO)
+        else:
+            logger.warning('Found existing settings window, canceling')
+
 
     # end dialog functions
     ############################################################
@@ -683,9 +878,12 @@ class Calipso(object):
     def close(self):
         """
         Checks if the all the shapes are saved. If a shape is unsaved, the
-        program will ask the user whether save or not, and then close the 
-        program
+        program will ask the user whether save or not, and then close the
+        program. Also saves the session settings to the config.json file
         """
+        logger.info('Writing session settings')
+        CONF.opened.change(True)
+        CONF.write_config()
         if not self.__shapemanager.is_all_saved():
             logger.warning('Unsaved shapes found')
             answer = tkMessageBox. \
@@ -709,8 +907,14 @@ class Calipso(object):
             error_check()
             self.__root.destroy()
 
+    ############################################################
+    # New functions
+    ############################################################
+    def goToMain(self):
+        self.__drawplot_notebook.select(self.__backscattered532_frame)
 
 def main():
+    logger.info("Debug Level = %s" % str(constants.debug_switch))
 
     # Create Tkinter root and initialize Calipso
     logging.info('Starting CALIPSO program')
@@ -730,7 +934,6 @@ def main():
     # Begin program
     rt.mainloop()
     logging.info('Terminated CALIPSO program')
-
 
 if __name__ == '__main__':
     main()
