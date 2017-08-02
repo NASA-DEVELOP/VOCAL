@@ -16,61 +16,49 @@ from the :doc:`support page <trouble/contact>` and describe your issue to us.
 
 .. note:: 
 
-   Please read our :doc:`developer documentation <dev/startdev>` before developing yourself!
+   Please read our :doc:`coding conventions <dev/conventions>` before developing yourself!
 
 ****************
 Windows [#f1]_
 ****************
 
-1. Download Python Anaconda 2.7
+1. download Python Anaconda 2.7
 
-2. Open a terminal, navigate to the Anaconda installation directory and type
+2. open a terminal, navigate to the Anaconda installation directory and type
    ``conda install numpy`` , ``y``
 
-3. Grab the *basemap* package ``conda install basemap``, ``y``
+3. grab the *basemap* package ``conda install basemap``, ``y``
 
 4. install pillow ``conda install pillow``, ``y``
 
    * Ensure you have pillow, rather than PIL. Pillow is a newer and updated
      version of PIL
 
-5. To install CCPLOT:
+5. to install CCPLOT:
 
    * get `ccplot-1.5-rc7.win32-py2.7.exe`_
    * run ``ccplot-1.5-rc7.win32-py2.7.exe``
    * browse to the Anaconda install directory and install in ``\Anaconda\Lib\site-packages\``
    * more information is at http://ccplot.org/
 
-6. Optional:
+6. if using Eclipse [#f2]_ :, then once Eclipse is installed and running
 
-   * If using Eclipse [#f2]_:
+   * within Eclipse, go to *help* --> *Install New Software*
 
-     * within Eclipse, go to *help* --> *Install New Software*
+     * input PyDev Website (http://pydev.org/updates)
 
-       * input PyDev Website (http://pydev.org/updates)
+   * under *Windows* --> *Preferences* --> *PyDev* --> *Interpreters* --> *Python*
 
-     * under *Windows* --> *Preferences* --> *PyDev* --> *Interpreters* --> *Python*
+     * "Advanced Auto Config" or manually find Anaconda
 
-       * "Advanced Auto Config" or manually find Anaconda
+   * import the existing "CALIPSO_Visualizer" package under the ``file`` menu
 
-     * import the existing "CALIPSO_Visualizer" package under the ``file`` menu
-
-   * If using PyCharm: Simply set the python interpreter to the one supplied by anaconda.
-
-7. Download the zip from the GitHub or use Git (see `cloning the repository <dev/startdev#Clone-the-Repository>`)
-
-8. Using command prompt or bash, ``cd`` into the *VOCAL/calipso* folder and use ``python Calipso.py``
-
-   * If using Eclipse or Pycharm, use their built-in tools to clone the repository from GitHub
+7. if using PyCharm : Simply set the python interpreter to the one supplied by anaconda.
 
 
 ************
 Linux [#f3]_
 ************
-
-.. warning::
-   At this time, Linux and OS X have not been tested with the current version of VOCAL. Installation
-   may not work
 
 1. start off by grabbing the SciPy Stack
   
@@ -119,27 +107,27 @@ OS X [#f4]_
 
    * if *port* command not found in terminal, edit paths by
 
-     * ``sudo vi /etc/paths``
-     * add the following lines:
+      * ``sudo vi /etc/paths``
+      * add the following lines:
 
-       * ``/opt/local/bin``
-       * ``/opt/local/sbin``
+         * ``/opt/local/bin``
+         * ``/opt/local/sbin``
 
-     * restart terminal
+      * restart terminal
 
    * do ``port selfupdate``
 
-     * if you receive the error *'rsync: failed to connect to <address> : connection
+      * if you receive the error *'rsync: failed to connect to <address> : connection
         refused (61) ...'*
 
-       * it is likely your firewall is preventing access to the address `ref`__
-       * navigate to */opt/local/etc/macports* in your terminal
-       * open *sources.config* with admin access ``sudo vim sources.conf``
-       * comment out the **last** line, replace it with
-         ``https://distfiles.macports.org/ports.tar.gz [default]`` `ref`__
-       * run ``port -v -d sync``
-       * run ``port search hdf4``
-       * you should have queries show up, meaning ports it working!
+         * it is likely your firewall is preventing access to the address `ref`__
+         * navigate to */opt/local/etc/macports* in your terminal
+         * open *sources.config* with admin access ``sudo vim sources.conf``
+         * comment out the **last** line, replace it with
+           ``https://distfiles.macports.org/ports.tar.gz [default]`` `ref`__
+         * run ``port -v -d sync``
+         * run ``port search hdf4``
+         * you should have queries show up, meaning ports it working!
 3. run ``sudo port install hdf4 hdfeos py27-cython py27-numpy py27-matplotlib
    py27-matplotlib-basemap``
 
@@ -179,7 +167,7 @@ OS X [#f4]_
 .. rubric:: Footnotes
 
 .. [#f1] x86 (32bit) is currently the only supported architecture for windows
-.. [#f2] Eclipse and Pycharm are not mandatory, but a development environment is recommended. Both are good options
+.. [#f2] Eclipse is not mandatory, and not recommended over PyCharm, but can be used to develop
 .. [#f3] The packages specified in the instructions may not be comprehensive, if additional packages are required please inform the team so they can correctly add them to the docs
 .. [#f4] Tested on OS X 9.5
 

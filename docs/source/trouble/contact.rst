@@ -4,11 +4,6 @@ Contact
 
 .. rubric:: User Issues
 
-* Collin Pampalone
-
-  - cppampalone@email.wm.edu
-  - `github.com/cpampalone`_
-
 * Grant Mercer
 
   - gmercer015@gmail.com 
@@ -20,11 +15,6 @@ Contact
   - `github.com/stapleCamel`_
 
 .. rubric:: VOCAL Development Help/Questions
-
-* Collin Pampalone
-
-  - cppampalone@email.wm.edu
-  - `github.com/cpampalone`_
 
 * Grant Mercer
 
@@ -39,11 +29,6 @@ Contact
 
 .. rubric:: Documentation/Website Questions
 
-* Collin Pampalone
-
-  - cppampalone@email.wm.edu
-  - `github.com/cpampalone`_
-
 * Grant Mercer
 
   - gmercer015@gmail.com
@@ -51,4 +36,3 @@ Contact
 
 .. _github.com/Syntaf: https://github.com/Syntaf
 .. _github.com/stapleCamel: https://github.com/stapleCamel
-.. _github.com/cpampalone: https://github.com/cpampalone

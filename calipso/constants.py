@@ -7,42 +7,26 @@
 ######################################
 
 import os
-from os.path import expanduser
 from sys import platform as _platform
 
-from tools.config import Config
-
+VERSION = "0.15.2c"         # this constant is matched up against the version within VERSION.txt in appdata
+MISMATCHED_VERSION = False  # if the above constant does not match, set this to true
+COPY_ALL = "c"              # flag to copy all files again for TRIGGER.txt
+COPY_NO_DB = "n"            # flag to copy all files but database for TRIGGER.txt
+COPY_PASS = "p"             # flag to do nothing for TRIGGER.txt
 
 class Plot(object):
     baseplot = 0
     backscattered = 1
     depolarized = 2
     vfm = 3
-    iwp = 4
-    horiz_avg = 5
-    aerosol_subtype = 6
-    colorratio = 8
-    parallel = 9
-    not_available = 10
-
-# DEBUG Switch Values
-# Debug will eventually control the verboseness of the logger.info:
-#   however, during integration testing it is very verbose
-# 99 = Old versions of everything + vfm and iwp
-# 0 = New datablock
-# 1 = verbose logging
-#10 = Runs the stress_test() functino as opposed to UI
-debug_switch = 1
 
 plot_type_enum = {'base_plot': Plot.baseplot,
                   'backscattered': Plot.backscattered,
                   'depolarized': Plot.depolarized,
-                  'vfm': Plot.vfm,
-                  'iwp': Plot.iwp,
-                  'horiz_avg': Plot.horiz_avg,
-                  'aerosol_subtype':Plot.aerosol_subtype}
+                  'vfm': Plot.vfm}
 
-PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm','iwp','horiz_avg','parrallel]']
+PLOTS = ['base_plot', 'backscattered', 'depolarized', 'vfm']
 
 EFFECT_ON = {'relief': 'sunken'}
 EFFECT_OFF = {'relief': 'raised'}
@@ -68,15 +52,13 @@ TAGS = ['aerosol', 'aerosol LC', 'clean continental', 'clean marine', 'cloud', '
         'polar stratospheric cloud']
 
 LOG_FILENAME = 'log/CALIPSO_debug.log'
-HELP_PAGE = 'http://nasa-develop.github.io/VOCAL/developer_index.html'
+HELP_PAGE = 'http://syntaf.github.io/vocal/'
 
 TIME_VARIANCE = 0.001
 ALTITUDE_VARIANCE = 0.3
-PATH = '.'
-HOMEPATH = expanduser('~')
-
-# Makes a single persistent instance of the config for VOCAL to grab
-CONF = Config(PATH + '/dat/config.json')
+PATH = os.getenv('APPDATA') + '/vocal/fakedir'
+#PATH = os.getenv('APPDATA') + '/../local/vocal/fakedir'
+#PATH = os.path.dirname(os.path.realpath(__file__))
 
 ICO = PATH + '/ico/broadcasting.ico'
 if _platform == 'linux' or _platform == 'linux2':
@@ -86,7 +68,8 @@ if os.name == 'posix':
     EFFECT_ON = {'highlightbackground': 'red'}
     EFFECT_OFF = {'highlightbackground': 'white'}
 
-# Update every term
 ABOUT = \
-     "VOCAL v1.17.7\nBeta build\n\n" \
-     " LaRC Summer 2017 Term\n  Project Lead: Collin Pampalone"
+     "VOCAL v0.15.2.a\nInternal development build\n\n" \
+     " LaRC Spring 2015 Term\n  Project Lead: Jordan Vaa\n  Courtney Duquette\n" \
+     "  Ashna Aggarwal\n\n LaRC Summer 2015 Term\n  Project Lead: Grant Mercer\n" \
+     "  Nathan Qian\n\n Fall & Spring EPSCOR 2015-2016:\n  Grant Mercer"

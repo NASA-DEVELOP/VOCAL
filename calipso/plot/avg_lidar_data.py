@@ -24,12 +24,12 @@ def avg_horz_data(data, N):
         out - the averaged data array.
 
     """
-    nAlts = data.shape[0]
+    nAlts     = data.shape[0]
     nProfiles = data.shape[1]                                                  
 
 
-    nOutProfiles = np.floor(nProfiles/N)
-    out = np.zeros((int(nAlts), int(nOutProfiles)))
+    nOutProfiles = np.floor(nProfiles/N) 
+    out = np.zeros((nAlts, nOutProfiles))
   
     for i in range(0, int(nOutProfiles) - 1): 
         out[:, i] = ma.mean(data[:, i*N:(i+1)*N - 1], axis=1)  

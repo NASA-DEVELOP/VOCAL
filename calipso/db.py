@@ -4,6 +4,7 @@
 #   @author: Grant Mercer
 ###################################
 
+# import antigravity
 import json
 import os
 import re
@@ -106,9 +107,7 @@ class DatabaseManager(object):
         Echo all commands, create Session and table
         """
         logger.info('Instantiating DatabaseManager')
-        #path = constants.PATH + '/../db/CALIPSOdb.db'
-        path = constants.CONF.default_db.file()
-        print path
+        path = constants.PATH + '/../db/CALIPSOdb.db'
         self.__dbEngine = create_engine('sqlite:///' + path, echo=False)
         self.__Session = sessionmaker(bind=self.__dbEngine)
         dbBase.metadata.create_all(self.__dbEngine)
@@ -160,13 +159,14 @@ class DatabaseManager(object):
         logger.info('Getting session')
         return self.__Session()
 
-    def commit_to_db(self, poly_list, time):
+    def commit_to_db(self, poly_list, time, f):
         """
         Takes a list of polygons and commits them into the database,
         used in polygonList to commit all visible polygons
 
         :param poly_list: the current polygonList corresponding to the active plot
         :param time: time of the JSON's creation
+        :param f: file name
         """
         logger.info('Committing to database')
         session = self.__Session()
@@ -179,7 +179,6 @@ class DatabaseManager(object):
                 time_cords = [mpl.dates.num2date(x[0]) for x in cords]
                 altitude_cords = [x[1] for x in cords]
 
-                f = polygon.get_hdf()
                 blat = polygon.get_min_lat()
                 elat = polygon.get_max_lat()
                 btime = min(time_cords)
@@ -213,7 +212,6 @@ class DatabaseManager(object):
                     logger.critical('This should never happen, why did it happen?')
                     continue
                 poly.time_ = time
-                f = polygon.get_hdf()
                 poly.hdf = f.rpartition('/')[2]
                 poly.plot = PLOTS[polygon.get_plot()]
                 poly.color = unicode(polygon.get_color())
@@ -259,7 +257,6 @@ class DatabaseManager(object):
         session = self.__Session()
         # tmp should not previously exist because we don't want files we didn't
         # add ourselves
-        print(PATH)
         if os.path.exists(PATH + '/../tmp'):
             logger.error('Tmp directory should not exist, will not zip')
             return False
@@ -310,7 +307,7 @@ class DatabaseManager(object):
                         fshape = data[key][shape]
                         tag = 'shape' + str(new)
                         time = datetime.strptime(data['time'], DATEFORMAT)
-                        hdf = data['hdffile']
+                        hdf = data['hdfFile']
                         color = fshape['color']
                         coordinates = fshape['coordinates']
                         attributes = fshape['attributes']
@@ -343,12 +340,6 @@ class DatabaseManager(object):
         session.commit()
         shutil.rmtree(PATH + '/../tmp')
         return True
-
-    def set_path(self, new_path):
-        logger.info('Setting new path')
-        self.__dbEngine = create_engine('sqlite:///' + new_path, echo=False)
-        self.__Session = sessionmaker(bind=self.__dbEngine)
-        dbBase.metadata.create_all(self.__dbEngine)
 
     @staticmethod
     def encode(filename, data):

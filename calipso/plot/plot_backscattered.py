@@ -6,16 +6,14 @@
 # Brian Magill
 # 8/11/2014
 #
-
-from ccplot.hdf import HDF
+import constants
 import ccplot.utils
+from ccplot.algorithms import interp2d_12
+from ccplot.hdf import HDF
 
 import matplotlib as mpl
 import numpy as np
 
-from plot.avg_lidar_data import avg_horz_data
-from plot.uniform_alt_2 import uniform_alt_2
-from plot.regrid_lidar import regrid_lidar
 
 # from gui.CALIPSO_Visualization_Tool import filename
 # noinspection PyUnresolvedReferences
@@ -24,17 +22,8 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
     x2 = x_range[1]
     h1 = y_range[0]
     h2 = y_range[1]
-    # averaging_width = 15
-    # Adjust the averaging with so its uniform per range
-    averaging_width = int((x2-x1)/1000)
-    if averaging_width < 5:
-        averaging_width = 5
-    if averaging_width > 15:
-        averaging_width = 15
-
-    colormap = 'dat/calipso-backscatter.cmap'
-
-    print('xrange: ' + str(x_range) + ', yrange: ' + str(y_range))
+    nz = 500
+    colormap = constants.PATH + '/dat/calipso-backscatter.cmap'
 
     with HDF(filename) as product:
         time = product['Profile_UTC_Time'][x1:x2, 0]
@@ -46,27 +35,22 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
             raise IndexError
         if time[0] < minimum:
             raise IndexError
-
-        alt = product['metadata']['Lidar_Data_Altitudes']
-        dataset = product['Total_Attenuated_Backscatter_532'][x1:x2].T
+        height = product['metadata']['Lidar_Data_Altitudes']
+        dataset = product['Total_Attenuated_Backscatter_532'][x1:x2]
         latitude = product['Latitude'][x1:x2, 0]
-        latitude = latitude[::averaging_width]
-
-
-        print(np.shape(time))
 
         time = np.array([ccplot.utils.calipso_time2dt(t) for t in time])
         dataset = np.ma.masked_equal(dataset, -9999)
-
-        # The following method has been translated from MatLab code written by R. Kuehn 7/10/07
-        # Translated by Collin Pampalone 7/19/17
-        avg_dataset = avg_horz_data(dataset, averaging_width)
-        # Put altitudes above 8.2 km on same spacing as lower ones
-        MAX_ALT = 20
-        unif_alt = uniform_alt_2(MAX_ALT, alt)
-        regrid_dataset = regrid_lidar(alt, avg_dataset, unif_alt)
-        data = regrid_dataset
-        # End method
+        
+        _x = np.arange(x1, x2, dtype=np.float32)
+        _y, null = np.meshgrid(height, _x)
+        data = interp2d_12(
+            dataset[::],
+            _x.astype(np.float32),
+            _y.astype(np.float32),
+            x1, x2, x2 - x1,
+            h2, h1, nz,
+        )
         
         cmap = ccplot.utils.cmap(colormap)
         cm = mpl.colors.ListedColormap(cmap['colors']/255.0)
@@ -76,16 +60,18 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         norm = mpl.colors.BoundaryNorm(cmap['bounds'], cm.N)
         
         im = fig.imshow(
-            #data.T,
-            data,
+            data.T,
+#             extent=(mpl.dates.date2num(time[0]), mpl.dates.date2num(time[-1]), h1, h2),
             extent=(latitude[0], latitude[-1], h1, h2),
             cmap=cm,
             aspect='auto',
             norm=norm,
             interpolation='nearest',
         )
-
+       
         fig.set_ylabel('Altitude (km)')
+#         fig.set_xlabel('Time')   
+#         fig.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))
         fig.set_xlabel('Latitude')
         fig.set_title("Averaged 532 nm Total Attenuated Backscatter")
        
@@ -94,6 +80,8 @@ def render_backscattered(filename, x_range, y_range, fig, pfig):
         cbar.set_label(cbar_label)
 
         ax = fig.twiny()
+#         ax.set_xlabel('Latitude')
+#         ax.set_xlim(latitude[0], latitude[-1])
         ax.set_xlabel('Time')
         ax.set_xlim(time[0], time[-1])
         ax.get_xaxis().set_major_formatter(mpl.dates.DateFormatter('%H:%M:%S'))

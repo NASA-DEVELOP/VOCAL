@@ -87,7 +87,6 @@ class ShapeReader(object):
                 logger.info('Found data in %s, packing polygon with JSON data'
                         % PLOTS[enum_plot_type])
                 color = self.__data[plot_type][shape]['color']
-                #fl = self.__data['hdffile']
                 coordinates = self.__data[plot_type][shape]['coordinates']
                 attributes = self.__data[plot_type][shape]['attributes']
                 notes = self.__data[plot_type][shape]['notes']
@@ -103,7 +102,6 @@ class ShapeReader(object):
                 shape_list[-1].set_id(_id)
                 shape_list[-1].set_color(color)
                 shape_list[-1].set_plot(enum_plot_type)
-                #shape_list[-1].set_hdf(fl)
                 shape_list[-1].set_attributes(attributes)
                 shape_list[-1].set_coordinates(coordinates)
                 shape_list[-1].set_notes(notes)

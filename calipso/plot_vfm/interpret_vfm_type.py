@@ -119,28 +119,6 @@ def extract_type_confidence(vfm_array):
     shifted = np.right_shift(vfm_array, 12)
     return np.bitwise_and(mask_1bit, shifted)
 
-def extract_aerosol_subtype(vfm_array):
-    """
-    Extracts the aerosol sub type using extract_type and extract_sub_type
-
-        0 = not determined
-        1 = clean marine
-        2 = dust
-        3 = polluted continental
-        4 = clean continental
-        5 = polluted dust
-        6 = smoke
-        7 = other
-    """
-    feature_type = extract_type(vfm_array)
-    aerosol_sub_type = extract_sub_type(vfm_array)
-
-    # Iterate through both arrays and mask sub type values where the feature type is not 3
-    for i,j in np.nditer([feature_type, aerosol_sub_type], op_flags=['readwrite']):
-        if i != 3:
-            j[...] = 0
-    return aerosol_sub_type
-
 def extract_horiz_avg(vfm_array):
     """
     Extracts the identifier for the ammount of horizontal averaging:
@@ -156,10 +134,9 @@ def extract_horiz_avg(vfm_array):
     shifted = np.right_shift(vfm_array, 13)
     return np.bitwise_and(mask_3bits, shifted)
 
-#low/no confidence needs to be accounted for, not sure how to do this, bitwise numbers need to be reclassified
 Feature_Type = dict(fieldDescription = 'Feature Type',
-              byteText =['Invalid','Clear Air','Cloud','Aerosol','Stratospheric Layer',
-                        'Surface','Subsurface','Totally Attenuated'])
+              byteText =['Invalid','Clear Air','Cloud','Aerosol','Strat Feature',
+                        'Surface','Subsurface','No Signal'])    
 
 Feature_Type_QA = dict(fieldDescription ='Feature Type QA',
                       byteText = ['Clear Air','No','Low','Medium','High'])

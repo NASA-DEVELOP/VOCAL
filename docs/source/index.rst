@@ -47,7 +47,6 @@ Contents
    :maxdepth: 2
    :caption: Developer Documentation
 
-   dev/startdev
    dev/conventions
    dev/enviroment
    dev/docs

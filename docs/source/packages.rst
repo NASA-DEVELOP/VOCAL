@@ -9,7 +9,7 @@ Windows x86 (32 bit)
 
 * `anaconda`_
 * `numpy`_ via ``conda``
-* `Pillow`_
+* `PIL`_
 * `basemap`__
 * `ccplot`_
 * `eclipse`_ [#f1]_
@@ -33,7 +33,7 @@ Linux
 .. _anaconda: http://continuum.io/downloads
 
 .. _numpy: http://www.numpy.org/
-.. _Pillow: https://pypi.python.org/pypi/Pillow/2.7.0
+.. _PIL: http://www.lfd.uci.edu/%7Egohlke/pythonlibs/#pil
 .. __: https://code.google.com/p/pythonxy/wiki/AdditionalPlugins
 .. _ccplot: http://ccplot.org/download/
 .. _eclipse: https://www.eclipse.org/downloads/
