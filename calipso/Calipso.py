@@ -12,7 +12,7 @@
 #   @Author: Grant Mercer
 #   @Author: Nathan Qian
 ##########################
-from tools.vocalDataBlock import VocalDataBlock
+from tools.loaddata import LoadData
 
 import matplotlib
 
@@ -77,7 +77,7 @@ class Calipso(object):
         self.new_file_flag = False
         self.option_menu = None
         self.shape_var = StringVar()
-        self.__data_block = VocalDataBlock('Empty')
+        self.__data_block = LoadData('Empty')
         self.plot_type = IntVar()
 
 
@@ -304,7 +304,7 @@ class Calipso(object):
             if self.__file is not None and fl is not self.__file:
                 self.new_file_flag = True
             self.__file = fl
-            self.__data_block = VocalDataBlock(fl)
+            self.__data_block = LoadData(fl)
             segments = self.__file.rpartition('/')
             self.__label_file_dialog.config(width=50, bg=white, relief=SUNKEN, justify=LEFT,
                                             text=segments[2])
