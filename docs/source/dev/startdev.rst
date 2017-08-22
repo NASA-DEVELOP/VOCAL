@@ -9,7 +9,7 @@ Learn the Code
 --------------
 
 Make sure your python skills are up to date. Check out the `Code Academy`__ website for an interactive
-python tutorial. Refer to the `python 2.7 documentation`__ for help with specific commands. VOCAL is
+python tutorial. Refer to the `python 2.7 documentation`__ for help with specific commands. We also recommend `introductory programming lessons`__ on the Command Line, Git, and Python developed by Software Carpentry. VOCAL is
 based heavily on Tk/Tkinter. Documetaion and examples can be found on a multitude of sites, but
 `Effbot`__ has some good examples and explanations. Finally, check out the GitHub to see VOCAL's
 `repository`__. Try looking through the code to get a feeling for the flow and organization of the
@@ -28,7 +28,7 @@ Use Git
 -------
 
 Before you start making changes, learn how to use Git for version control. GitHub provides an
-`interactive tutorial`__ on using Git, but there a resources all over the web. For VOCAL, we stick
+`interactive tutorial`__ on using Git, but there a resources all over the web. We really recommend this Software Carpentry tutorial, `Version Control with Git`__. For VOCAL, we stick
 to several best practices in order to streamline development. If you plan on developing VOCAL, you
 **must** use Git.
 
@@ -144,12 +144,13 @@ If you believe that the changes you have made to VOCAL constitute a new version,
 
 
 
-
 .. __: https://www.codecademy.com/
 .. __: https://docs.python.org/2/
+.. __: https://software-carpentry.org/lessons/
 .. __: http://effbot.org/tkinterbook/
 .. __: https://github.com/NASA-DEVELOP/VOCAL
 .. __: https://try.github.io/levels/1/challenges/1
+.. __: swcarpentry.github.io/git-novice/
 .. __: https://www.jetbrains.com/pycharm/
 .. __: https://www.sublimetext.com/
 .. __: https://git-scm.com/downloads
