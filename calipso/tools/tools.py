@@ -9,6 +9,7 @@ import ast
 from datetime import datetime
 import os
 import matplotlib as mpl
+import numpy as np
 from log.log import logger
 
 
@@ -58,6 +59,49 @@ def format_coord(axes, x, y, z):
         zs = z
     return 'x=%s y=%s lat=%s' % (xs, ys, zs)
 
+def coord_tuple_list(uni_str):
+    """
+    Takes as input Unicode string that ought to be list of tuples
+    and returns an actual list of tuples (used in coordinate formatting)
+
+    :param str inp: Unicode string to be converted
+    """
+    coords = uni_str.strip("[")
+    coords = coords.strip("]")
+    coords = coords.split(",")
+    temp_list = [b.replace("(",'') for b in coords]
+    temp_list2 = [b.replace(")",'') for b in temp_list]
+    
+    convert_list = list()
+    for c in temp_list2:
+        temp = c.replace("[","")
+	temp = temp.replace("]","")
+        temp2 = np.float64(temp)
+	convert_list.append(temp2)
+    temp_iter = iter(convert_list)
+    tup_coords = zip(temp_iter, temp_iter)
+
+    time_list = [mpl.dates.num2date(x[0]).strftime('%H:%M:%S') for x in tup_coords]
+    for i, (a, b) in enumerate(tup_coords):
+        tup_coords[i] = (time_list[i], b)
+    final_coord_list = ['(%s, %.3f)' % (a, b) for a, b in tup_coords]
+    return final_coord_list
+
+def coord_string(coord_list):
+    """
+    Takes as input a list of coordinates, converts to string, 
+    removes extraneous remaining list notation, and finally 
+    encapsulates the string with extra "" for output to CSV 
+    so that programs such as Excel will ignore the list's commas.
+
+    :param str inp: List of coordinate tuples
+    """
+    final_coord_list = str(coord_list)
+    final_coord_list = final_coord_list.replace('\'', '')
+    final_coord_list = final_coord_list.replace('[', '')
+    final_coord_list = final_coord_list.replace(']', '')
+    final_coord_list = "\"" + final_coord_list + "\""
+    return final_coord_list
 
 def byteify(inp):
     """
