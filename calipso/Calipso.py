@@ -30,7 +30,7 @@ import webbrowser
 
 from os.path import dirname
 from attributesdialog import AttributesDialog
-from bokeh.colors import white
+# from bokeh.colors import white
 from constants import Plot, PATH, ICO, CONF
 import constants
 from extractdialog import ExtractDialog
@@ -242,7 +242,7 @@ class Calipso(object):
         # Create label , entry box and browse button
         label_file = Label(self.__dialog_frame, text="File:")
         self.__label_file_dialog = Label(self.__dialog_frame, width=50, justify=LEFT,
-                                         bg=white, relief=SUNKEN)
+                                         bg='white', relief=SUNKEN)
         browse_button = Button(self.__dialog_frame, text='Browse', width=10,
                                command=self.import_file)
         label_file.grid(row=1, column=0)

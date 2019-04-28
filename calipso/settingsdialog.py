@@ -10,7 +10,7 @@ import tkFileDialog
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, SUNKEN, Label, LEFT, BOTTOM, TOP, X, \
     Checkbutton, StringVar, BooleanVar, W, Grid, NORMAL
 
-from bokeh.colors import white
+# from bokeh.colors import white
 from Tkconstants import END
 from constants import CONF
 from log.log import logger
@@ -91,7 +91,7 @@ class SettingsDialog(Toplevel):
                 # Create a readonly entry to display the string of the directory path
                 self.__settings_entries.append(Entry(self.__top_frame, state='readonly', width=30,
                                                      justify=LEFT, textvariable=var_text,
-                                                     readonlybackground=white, relief=SUNKEN))
+                                                     readonlybackground='white', relief=SUNKEN))
                 # Create a browse button to change the path
                 dialog_box = self.__settings_entries[-1]
                 self.__browse_buttons.append(
