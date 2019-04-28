@@ -30,7 +30,6 @@ import webbrowser
 
 from os.path import dirname
 from attributesdialog import AttributesDialog
-# from bokeh.colors import white
 from constants import Plot, PATH, ICO, CONF
 import constants
 from extractdialog import ExtractDialog

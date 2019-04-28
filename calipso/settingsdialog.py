@@ -10,7 +10,6 @@ import tkFileDialog
 from Tkinter import Toplevel, Entry, Button, BOTH, Frame, SUNKEN, Label, LEFT, BOTTOM, TOP, X, \
     Checkbutton, StringVar, BooleanVar, W, Grid, NORMAL
 
-# from bokeh.colors import white
 from Tkconstants import END
 from constants import CONF
 from log.log import logger
