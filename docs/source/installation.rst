@@ -70,7 +70,7 @@ Linux [#f3]_
 
 .. warning::
    At this time, Linux and OS X have not been tested with the current version of VOCAL. Installation
-   may not work
+   may not work.
 
 1. start off by grabbing the SciPy Stack
   
@@ -84,7 +84,7 @@ Linux [#f3]_
 
    * CCPLOT has quite a bit of dependencies, so run
 
-     * ``sudo apt-get install --no-intall-recommends cython libhdf4-dev libhdfeos-dev python-imaging ttf-bitstream-vera``
+     * ``sudo apt-get install --no-install-recommends cython libhdf4-dev libhdfeos-dev python-imaging ttf-bitstream-vera``
 
    * now CCPLOT needs to be built on Linux, so grab the `source`_
    * extract the source anywhere you'd like, the directory does not matter
@@ -101,11 +101,7 @@ Linux [#f3]_
    * run ``python setup.py install`` , ``sudo`` may be required as well
    * CCPLOT should be installed
 
-4. install bokeh.color
-
-   * ``sudo pip install bokeh``
-
-5. run the application with ``python CALIPSO_Visualization_Tool.py``
+4. run the application with ``python Calipso.py``
 
 ***********
 OS X [#f4]_
