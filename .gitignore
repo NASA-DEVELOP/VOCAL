@@ -17,3 +17,4 @@ docs/source/.idea
 docs/source/analytics
 docs/build/
 /calipso/dat/config.json
+venv
