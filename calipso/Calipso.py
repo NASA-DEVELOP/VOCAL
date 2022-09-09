@@ -727,7 +727,7 @@ class Calipso(object):
         options['defaultextension'] = '.json'
         options['filetypes'] = [('CALIPSO Data files', '*.json'), ('All files', '*')]
         f = tkFileDialog.askopenfilename(**options)
-        if f is '':
+        if f == '':
             return
         self.__shapemanager.read_plot(f)
 
