@@ -72,11 +72,11 @@ HELP_PAGE = 'http://nasa-develop.github.io/VOCAL/developer_index.html'
 
 TIME_VARIANCE = 0.001
 ALTITUDE_VARIANCE = 0.3
-PATH = '.'
+PATH = os.path.dirname(os.path.realpath(__file__))
 HOMEPATH = expanduser('~')
 
 # Makes a single persistent instance of the config for VOCAL to grab
-CONF = Config(PATH + '/dat/config.json')
+CONF = Config(os.path.join(PATH, 'config.json'))
 
 ICO = PATH + '/ico/broadcasting.ico'
 if _platform == 'linux' or _platform == 'linux2':
